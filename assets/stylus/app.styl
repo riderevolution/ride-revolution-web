@@ -1,0 +1,205 @@
+@import 'fonts'
+
+$green = #33B09D
+$green_alt = #6ED1C2
+$green_alt2 = #E2FDF9
+$blue = #00B1FF
+$blue_alt = #7AD1F7
+$blue_alt2 = #E3F7FF
+$orange = #FFA069
+$red = #FC565F
+$red_alt = #FFE5E6
+$white = #FFF
+$black = #383D40
+$black_alt = #777
+$black_alt2 = #5f6466
+$gray = #91939B
+$gray_alt = #ABADB9
+$border = #DEDEDE
+$border_alt = #EDEEF0
+$border_alt2 = #9C9EAA
+
+image_default =
+    height: auto
+    vertical-align: middle
+    object-fit: cover
+
+*,
+*:before,
+*:after
+    user-select: none
+    box-sizing: border-box
+    margin: 0
+
+body
+    overflow-x: hidden
+    &.no_click
+        pointer-events: none
+    &.no_scroll
+        overflow-y: hidden
+
+input,
+input:before,
+input:after,
+textarea,
+textarea:before,
+textarea:after,
+select,
+select:before,
+select:after
+    user-select: initial
+
+h1,
+h2,
+h3,
+h4,
+h5
+    font-weight: normal
+
+table
+    width: 100%
+    border-collapse: collapse
+
+img
+    {image_default}
+    transition: .3s ease-in-out
+
+#main_container
+    position: relative
+
+/**
+ * Default Loader **/
+.loader_wrapper
+    position: fixed
+    z-index: 999
+    .background
+        position: fixed
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        z-index: 2
+        background-color: rgba(0, 0, 0, 0.5)
+    .wrapper
+        display: flex
+        align-items: center
+        position: fixed
+        top: 50%
+        left: 50%
+        z-index: 3
+        text-align: center
+        background-image: linear-gradient(to right, $red, $orange)
+        box-shadow: 0px 10px 25px rgba(0,0,0,0.15)
+        padding: 0 40px
+        border-radius: 5px
+        transform: translate(-50%, -50%)
+        .loader
+            display: inline-block
+            position: relative
+            width: 64px
+            height: 64px
+            div
+                display: inline-block
+                position: absolute
+                left: 6px
+                width: 13px
+                background-color: $white
+                animation: loader 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite
+                &:nth-child(1)
+                    left: 6px
+                    animation-delay: -0.20s
+                &:nth-child(2)
+                    left: 26px
+                    animation-delay: -0.10s
+                &:nth-child(3)
+                    left: 45px
+                    animation-delay: 0
+        .loader_text
+            sf_pro_regular(18px)
+            color: $white
+            margin-left: 10px
+/**
+ * Animation */
+.fade-enter-active,
+.fade-leave-active
+    transition: all .3s ease-in-out
+
+.fade-enter,
+.fade-leave-to
+    opacity: 0
+
+.page-enter-active,
+.page-leave-active
+    transition: all .3s ease-in-out
+
+.page-enter,
+.page-leave-to
+    transform: translateY(100px)
+    opacity: 0
+
+.slide-enter-active,
+.slide-leave-active
+    transition: all .3s ease-in-out
+
+.slide-enter,
+.slide-leave-to
+    opacity: 0
+    transform: translateY(-20px)
+
+.fade_in
+    animation: fade_in .3s
+
+.fade_out
+    animation: fade_out .3s
+
+.slide_in
+    animation: slide_in .3s
+
+.slide_up
+    animation: slide_up .3s
+
+@keyframes fade_in
+	from {
+		opacity: 0
+    }
+	to {
+		opacity: 1
+    }
+
+@keyframes fade_out
+	from {
+		opacity: 1
+    }
+	to {
+		opacity: 0
+    }
+
+@keyframes slide_in
+	from {
+		opacity: 0
+        transform: translateX(100px)
+    }
+	to {
+		opacity: 1
+        transform: translateX(0px)
+    }
+
+@keyframes slide_up
+	from {
+		opacity: 0
+        transform: translateY(-100px)
+    }
+	to {
+		opacity: 1
+        transform: translateY(0px)
+    }
+
+@keyframes loader
+    0% {
+        top: 6px
+        height: 51px
+    }
+    50%, 100% {
+        top: 19px
+        height: 26px
+    }
