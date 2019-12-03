@@ -178,6 +178,24 @@ a
                                 transition: .3s ease-in-out .3s
         .nav_burger
             flex: 1 0 auto
+            margin: 0 22px
+            position: relative
+            cursor: pointer
+            .bar
+                width: 100%
+                background-color: $white
+                height: 2px
+                margin-bottom: 7.5px
+                &.bottom_line
+                    width: calc(100% - 20px)
+                    margin-bottom: 0
+            .excess_line
+                position: absolute
+                bottom: 0
+                right: 0
+                width: 10px
+                height: 2px
+                background-color: $white
 
 /**
  * Default Loader **/

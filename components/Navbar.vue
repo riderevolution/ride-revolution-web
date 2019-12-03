@@ -21,9 +21,9 @@
             </ul>
         </div>
         <div class="nav_burger">
-            <div class="top_line"></div>
-            <div class="middle_line"></div>
-            <div class="bottom_line"></div>
+            <div class="bar top_line"></div>
+            <div class="bar middle_line"></div>
+            <div class="bar bottom_line"></div>
             <div class="excess_line"></div>
         </div>
     </div>
