@@ -1,6 +1,8 @@
 <template>
     <div class="home">
-        aside
+        <section id="banner">
+            <img src="/home-banner.png" alt="ride-revolution" />
+        </section>
     </div>
 </template>
 

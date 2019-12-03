@@ -1,7 +1,7 @@
 @import 'fonts'
 
-$green = #33B09D
-$green_alt = #6ED1C2
+$green = #26A48B
+$green_alt = #78F7DE
 $green_alt2 = #E2FDF9
 $blue = #00B1FF
 $blue_alt = #7AD1F7
@@ -18,6 +18,7 @@ $gray_alt = #ABADB9
 $border = #DEDEDE
 $border_alt = #EDEEF0
 $border_alt2 = #9C9EAA
+$border_alt3 = #A0A0A0
 
 image_default =
     height: auto
@@ -61,11 +62,122 @@ table
     border-collapse: collapse
 
 img
+    width: 100%
     {image_default}
     transition: .3s ease-in-out
 
+a
+    text-decoration: none
+
+/**
+ * Default Buttons */
+.default_btn
+    width: auto
+    brandon_bold(16px)
+    color: $white
+    text-transform: uppercase
+    letter-spacing: .5px
+    padding: 15px 45px
+    background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+    box-shadow: 0px 0px 30px transparent
+    transition: .3s ease-in-out
+    &:hover
+        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+        transition: .3s ease-in-out
+
 #main_container
     position: relative
+    /**
+     * Navbar Side */
+    .navbar_container
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        position: fixed
+        z-index: 3
+        width: 100%
+        background-color: transparent
+        border-bottom: 0.5px solid $border_alt3
+        transition: .3s ease-in-out
+        .navbar
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-between
+            flex: 0 0 95%
+            border-right: 0.5px solid $border_alt3
+            padding: 10px 30px
+            .logo
+                text-decoration: none
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: flex-start
+                transition: .3s ease-in-out
+                img
+                    width: 45px
+                    {image_default}
+                    transition: .3s ease-in-out
+                .logo_title
+                    neutra_bold(22px)
+                    line-height: 1.25
+                    color: $white
+                    letter-spacing: 5px
+                    padding-left: 20px
+                    text-transform: uppercase
+                    transition: .3s ease-in-out
+            .nav_list
+                list-style: none
+                padding: 0
+                margin: 0
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                li
+                    margin: 0 30px
+                    .nav_item
+                        position: relative
+                        brandon_bold(16px)
+                        color: $white
+                        text-transform: uppercase
+                        letter-spacing: .5px
+                        transition: .3s ease-in-out
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 100%
+                            left: 0
+                            width: 0
+                            height: 3px
+                            z-index: 1
+                            background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                            opacity: 0
+                            transition: .3s ease-in-out .3s
+                        &::after
+                            content: ''
+                            position: absolute
+                            top: 100%
+                            left: calc(100% - 20px)
+                            width: 0
+                            height: 3px
+                            z-index: 1
+                            background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                            opacity: 0
+                            transition: .3s ease-in-out .05s
+                        &:hover
+                            color: $green_alt
+                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
+                            &::before
+                                width: calc(100% - 30px)
+                                opacity: 1
+                                transition: .3s ease-in-out .05s
+                            &::after
+                                width: 20px
+                                opacity: 1
+                                transition: .3s ease-in-out .3s
+        .nav_burger
+            flex: 1 0 auto
 
 /**
  * Default Loader **/
