@@ -6,12 +6,13 @@ $green_alt2 = #E2FDF9
 $blue = #00B1FF
 $blue_alt = #7AD1F7
 $blue_alt2 = #E3F7FF
-$orange = #FFA069
+$pink = #9E558B
+$pink_alt = #FD649C
 $red = #FC565F
 $red_alt = #FFE5E6
 $white = #FFF
-$black = #383D40
-$black_alt = #777
+$black = #171717
+$black_alt = #4E4E4E
 $black_alt2 = #5f6466
 $gray = #91939B
 $gray_alt = #ABADB9
@@ -24,6 +25,10 @@ image_default =
     height: auto
     vertical-align: middle
     object-fit: cover
+    -webkit-user-drag: none
+
+html
+    -webkit-text-size-adjust: none
 
 *,
 *:before,
@@ -89,7 +94,7 @@ a
     position: relative
     /**
      * Navbar Side */
-    .navbar_container
+    #header
         display: flex
         flex-flow: row wrap
         align-items: center
@@ -98,7 +103,55 @@ a
         width: 100%
         background-color: transparent
         border-bottom: 0.5px solid $border_alt3
-        transition: .3s ease-in-out
+        transition: .2s linear
+        &.sticky
+            background-color: $white
+            .navbar
+                padding: 10px 30px
+                transition: .2s linear
+                .logo
+                    .logo_title
+                        color: $black
+                        transition: .3s ease-in-out
+                .nav_list
+                    li
+                        .nav_item
+                            color: $black_alt
+                            transition: .3s ease-in-out
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 100%
+                                left: 0
+                                width: 0
+                                height: 3px
+                                z-index: 1
+                                background-image: linear-gradient(25deg, $pink 0%, $pink_alt 100%)
+                                opacity: 0
+                                transition: .3s ease-in-out .3s
+                            &::after
+                                content: ''
+                                position: absolute
+                                top: 100%
+                                left: calc(100% - 20px)
+                                width: 0
+                                height: 3px
+                                z-index: 1
+                                background-image: linear-gradient(25deg, $pink 0%, $pink_alt 100%)
+                                opacity: 0
+                                transition: .3s ease-in-out .05s
+                            &:hover
+                                color: $pink_alt
+                                text-shadow: 0px 0px 30px rgba(253, 100, 156, 0.75)
+                                transition: .3s ease-in-out .3s
+                                &::before
+                                    width: calc(100% - 30px)
+                                    opacity: 1
+                                    transition: .3s ease-in-out .05s
+                                &::after
+                                    width: 20px
+                                    opacity: 1
+                                    transition: .3s ease-in-out .3s
         .navbar
             display: flex
             flex-flow: row wrap
@@ -106,7 +159,8 @@ a
             justify-content: space-between
             flex: 0 0 95%
             border-right: 0.5px solid $border_alt3
-            padding: 10px 30px
+            padding: 15px 30px
+            transition: .2s linear
             .logo
                 text-decoration: none
                 display: flex
@@ -117,7 +171,6 @@ a
                 img
                     width: 45px
                     {image_default}
-                    transition: .3s ease-in-out
                 .logo_title
                     neutra_bold(22px)
                     line-height: 1.25
@@ -167,7 +220,7 @@ a
                         &:hover
                             color: $green_alt
                             text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
-                            transition: .3s ease-in-out
+                            transition: .3s ease-in-out .3s
                             &::before
                                 width: calc(100% - 30px)
                                 opacity: 1

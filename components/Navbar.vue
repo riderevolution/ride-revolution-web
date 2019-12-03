@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar_container">
+    <div id="header">
         <div class="navbar">
             <nuxt-link to="/" class="logo">
                 <img src="/logo.svg" />
@@ -36,6 +36,31 @@
             }
         },
         methods: {
+            windowScroll() {
+                let height = window.pageYOffset | document.body.scrollTop,
+                    element = document.querySelector('#header')
+                if (element.classList.contains('not_front')) {
+                    if (height > 100) {
+                        element.classList.add('sticky')
+                    } else {
+                        element.classList.remove('sticky')
+                    }
+                } else {
+                    if (height >= 100) {
+                        element.classList.add('sticky')
+                    } else {
+                        element.classList.remove('sticky')
+                    }
+                }
+            },
+        },
+        beforeMount () {
+            window.addEventListener('scroll', this.windowScroll)
+            window.addEventListener('resize', this.windowScroll)
+        },
+        beforeDestroy () {
+            window.removeEventListener('scroll', this.windowScroll)
+            window.removeEventListener('resize', this.windowScroll)
         }
     }
 </script>
