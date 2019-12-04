@@ -275,19 +275,22 @@ a
         z-index: 1
         .overlay_image
             width: 920px
-            animation: slide_from_left 2s
+            animation: slide_from_left 1.5s
         .overlay_child
             position: absolute
             top: 50%
             right: calc(50% - 25%)
             text-align: center
-            transform: translateY(-50%)
+            transform: translateY(-50%) translateX(0px)
             cursor: pointer
+            animation: slide_from_rightY 1.5s
             /**
              * SVG */
             #play_icon
                 transform: scale(1)
                 transition: .3s ease-in-out
+                .rect
+                    fill: none
                 .play
                     fill: $green_alt
                     transition: .3s ease-in-out
@@ -296,7 +299,7 @@ a
                     stroke: $white
                     stroke-miterlimit: 10
                     stroke-dasharray: 500
-                    animation: dash 3s linear
+                    animation: dash 5s linear
                     transition: .3s ease-in-out
             .label
                 brandon_medium(18px)
@@ -315,6 +318,24 @@ a
                     color: $green_alt
                     text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                     transition: .3s ease-in-out
+    .overlay_bottom
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: flex-start
+        position: absolute
+        bottom: calc(0% + 125px)
+        left: calc(0% + 175px)
+        z-index: 1
+        animation: slide_from_left 1.5s
+        p
+            flex: 0 0 65%
+            brandon_regular(20px)
+            color: $white
+            line-height: 1.5
+            margin-right: 60px
+        .default_btn
+            flex: 0 0 auto
     &::before
         content: ''
         position: absolute
@@ -447,6 +468,26 @@ a
 	from {
 		opacity: 0
         transform: translateX(100px)
+    }
+	to {
+		opacity: 1
+        transform: translateX(0px)
+    }
+
+@keyframes slide_from_rightY
+	from {
+		opacity: 0
+        transform: translateY(-50%) translateX(100px)
+    }
+	to {
+		opacity: 1
+        transform: translateY(-50%) translateX(0px)
+    }
+
+@keyframes slide_from_bottom
+	from {
+		opacity: 0
+        transform: translateY(100px)
     }
 	to {
 		opacity: 1
