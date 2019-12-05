@@ -27,7 +27,7 @@
         <section id="promos">
             <no-ssr>
                 <div @mouseenter="$refs.swiper.swiper.autoplay.stop()" @mouseleave="$refs.swiper.swiper.autoplay.start()">
-                    <swiper :options="swiperOption" ref="swiper">
+                    <swiper :options="promoOptions" ref="swiper">
                         <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
                             <img :src="data.path" alt="" />
                             <div class="overlay">
@@ -67,6 +67,27 @@
                 </a>
             </div>
         </section>
+        <section id="reviews">
+            <div class="header">
+                <img src="/reviews.svg" alt="ride-revolution-reviews" />
+                <div class="description">
+                    <p><strong>We’ve heard things like…</strong></p>
+                </div>
+            </div>
+            <div class="content">
+                <no-ssr>
+                    <swiper :options="reviewOptions">
+                        <swiper-slide class="review_slide" v-for="(data, key) in reviews" :key="key">
+                            <div class="description" v-html="data.description"></div>
+                            <img :src="data.path" alt="" />
+                            <h2 class="title">{{ data.title }}</h2>
+                        </swiper-slide>
+                        <div class="swiper-button-prev" slot="button-prev"></div>
+                        <div class="swiper-button-next" slot="button-next"></div>
+                    </swiper>
+                </no-ssr>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -74,7 +95,7 @@
     export default {
         data () {
             return {
-                swiperOption: {
+                promoOptions: {
                     slidesPerView: 1,
                     spaceBetween: 30,
                     effect: 'fade',
@@ -87,6 +108,16 @@
                         el: '.swiper-pagination',
                         clickable: true
                     },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    }
+                },
+                reviewOptions: {
+                    slidesPerView: 3,
+                    spaceBetween: 60,
+                    centeredSlides: true,
+                    loop: true,
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
@@ -169,6 +200,23 @@
                         has_promo: true,
                         expire: 'Expires in 1 Year'
                     },
+                ],
+                reviews: [
+                    {
+                        description: '<p>My instructors know my capabilities and push me to my limit every single class.</p>',
+                        title: 'Barney Stinson',
+                        path: '/default/review/sample-review.png'
+                    },
+                    {
+                        description: '<p>I love taking classes with my friends. Being able to track my progress is amazing!”</p>',
+                        title: 'Edi Huang',
+                        path: '/default/review/sample-review.png'
+                    },
+                    {
+                        description: '<p>I’ve posted the same thing 3 times since starting Ride Rev, but I hit a new PR tonight!</p>',
+                        title: 'Phil Dunphy',
+                        path: '/default/review/sample-review.png'
+                    }
                 ]
             }
         },
