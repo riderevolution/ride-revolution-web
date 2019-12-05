@@ -2,20 +2,28 @@
 
 $green = #26A48B
 $green_alt = #78F7DE
-$green_alt2 = #E2FDF9
+$green_alt2 = #82BCB1
+
 $blue = #00B1FF
 $blue_alt = #7AD1F7
 $blue_alt2 = #E3F7FF
+
 $pink = #9E558B
 $pink_alt = #FD649C
-$red = #FC565F
+
+$red = #F13747
 $red_alt = #FFE5E6
+
 $white = #FFF
+$white_alt = #FCFCFC
+
 $black = #171717
 $black_alt = #4E4E4E
-$black_alt2 = #5f6466
-$gray = #91939B
+$black_alt2 = #53565C
+
+$gray = #A8A8A8
 $gray_alt = #ABADB9
+
 $border = #DEDEDE
 $border_alt = #EDEEF0
 $border_alt2 = #9C9EAA
@@ -74,6 +82,9 @@ img
 a
     text-decoration: none
 
+svg
+    font-family: Brandon-Bold
+
 /**
  * Default Buttons */
 .default_btn
@@ -83,12 +94,49 @@ a
     text-transform: uppercase
     letter-spacing: .5px
     padding: 15px 45px
+    background-color: transparent
+    border: none
+    outline: none
     background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
     box-shadow: 0px 0px 30px transparent
     transition: .3s ease-in-out
     &:hover
         box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
         transition: .3s ease-in-out
+
+.default_btn_wht
+    display: inline-block
+    position: relative
+    brandon_bold(16px)
+    color: $green
+    text-transform: uppercase
+    letter-spacing: .5px
+    outline: none
+    padding: 15px 45px
+    background-color: transparent
+    border: 1px solid $green_alt2
+    transition: .3s ease-in-out
+    span
+        position: inherit
+    &::before
+        content: ''
+        position: absolute
+        z-index: 0
+        top: 0
+        left: 0
+        right: 0
+        height: 100%
+        opacity: 0
+        background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+        transition: .3s ease-in-out
+    &:hover
+        color: $white
+        border: 1px solid transparent
+        transition: .3s ease-in-out
+        &::before
+            opacity: 1
+            transition: .3s ease-in-out
 
 #main_container
     position: relative
@@ -118,31 +166,9 @@ a
                         .nav_item
                             color: $black_alt
                             transition: .3s ease-in-out
-                            &::before
-                                content: ''
-                                position: absolute
-                                top: 100%
-                                left: 0
-                                width: 0
-                                height: 3px
-                                z-index: 1
-                                background-image: linear-gradient(25deg, $pink 0%, $pink_alt 100%)
-                                opacity: 0
-                                transition: .3s ease-in-out .3s
-                            &::after
-                                content: ''
-                                position: absolute
-                                top: 100%
-                                left: calc(100% - 20px)
-                                width: 0
-                                height: 3px
-                                z-index: 1
-                                background-image: linear-gradient(25deg, $pink 0%, $pink_alt 100%)
-                                opacity: 0
-                                transition: .3s ease-in-out .05s
                             &:hover
-                                color: $pink_alt
-                                text-shadow: 0px 0px 30px rgba(253, 100, 156, 0.75)
+                                color: $green
+                                text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                                 transition: .3s ease-in-out
                                 &::before
                                     width: calc(100% - 30px)
@@ -217,7 +243,7 @@ a
                             content: ''
                             position: absolute
                             top: 100%
-                            left: calc(100% - 20px)
+                            left: calc(100% - 25px)
                             width: 0
                             height: 3px
                             z-index: 1
@@ -233,7 +259,7 @@ a
                                 opacity: 1
                                 transition: .3s ease-in-out .05s
                             &::after
-                                width: 20px
+                                width: 25px
                                 opacity: 1
                                 transition: .3s ease-in-out .3s
         .nav_burger
@@ -258,7 +284,268 @@ a
                 height: 2px
                 background-color: $white
                 transition: .3s ease-in-out
-
+/**
+ * Front */
+.home
+    /**
+     * Promos */
+    #promos
+        .promo_slide
+            position: relative
+            &.swiper-slide-active,
+            &.swiper-slide-diplicate-active
+                .overlay
+                    animation: slide_from_rightY 1s
+            .overlay
+                position: absolute
+                top: 50%
+                left: calc(0% + 15%)
+                width: 100%
+                max-width: 450px
+                z-index: 1
+                text-align: center
+                padding: 30px
+                background-color: $white
+                transform: translateY(-50%)
+                box-shadow: 0px 0px 30px transparent
+                transition: .3s ease-in-out
+                .header_title
+                    brandon_bold(14px)
+                    color: $black_alt2
+                    text-transform: uppercase
+                    letter-spacing: 1.5px
+                .title
+                    brandon_bold(30px)
+                    color: $black
+                    margin: 20px 0 15px
+                .description
+                    brandon_regular(16px)
+                    color: $black_alt2
+                    line-height: 1.5
+                .code
+                    brandon_bold(30px)
+                    color: $green
+                    margin: 20px 0
+                    text-transform: uppercase
+                    background-color: transparent
+                    text-align: center
+                    border: none
+                    outline: none
+                    box-shadow: none
+                &:hover
+                    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
+                    transition: .3s ease-in-out
+        .swiper-button-prev,
+        .swiper-button-next
+            width: 51px
+            height: 51px
+            background-size: contain
+        .swiper-button-prev
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
+                opacity: 1
+                background-image: url('/icons/promo-prev.svg')
+                transition: .3s ease-in-out
+            &::after
+                content: ''
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
+                opacity: 0
+                background-image: url('/icons/promo-prev-active.svg')
+                transition: .3s ease-in-out
+            &:hover
+                &::before
+                    opacity: 0
+                    transition: .3s ease-in-out
+                &::after
+                    opacity: 1
+                    transition: .3s ease-in-out
+        .swiper-button-next
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                right: 0
+                width: 100%
+                height: 100%
+                opacity: 1
+                background-image: url('/icons/promo-next.svg')
+                transition: .3s ease-in-out
+            &::after
+                content: ''
+                position: absolute
+                top: 0
+                right: 0
+                width: 100%
+                height: 100%
+                opacity: 0
+                background-image: url('/icons/promo-next-active.svg')
+                transition: .3s ease-in-out
+            &:hover
+                &::before
+                    opacity: 0
+                    transition: .3s ease-in-out
+                &::after
+                    opacity: 1
+                    transition: .3s ease-in-out
+        .swiper-button-prev,
+        .swiper-container-rtl .swiper-button-next
+            background-image: none
+            left: calc(0% + 25px)
+        .swiper-button-next,
+        .swiper-container-rtl .swiper-button-prev
+            background-image: none
+            right: calc(0% + 25px)
+        .swiper-pagination
+            bottom: calc(0% + 25px)
+            .swiper-pagination-bullet
+                background: rgba(255, 255, 255, 0.45)
+                opacity: 1
+                transition: .3s ease-in-out
+                &.swiper-pagination-bullet-active
+                    background: $white
+                    transition: .3s ease-in-out
+    /**
+     * Packages */
+    #packages
+        background-color: $white_alt
+        .header
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-between
+            margin: 50px 0
+            img
+                flex: 0 0 50%
+            .description
+                flex: 0 0 40%
+                margin-right: 50px
+                text-align: right
+                p
+                    brandon_regular(20px)
+                    letter-spacing: 0.5px
+                    color: $black
+                    text-align: left
+                    margin-bottom: 40px
+                    .red
+                        color: $red
+                .link
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    justify-content: flex-end
+                    brandon_bold(20px)
+                    letter-spacing: 0.5px
+                    color: $green
+                    transition: .3s ease-in-out
+                    span
+                        padding-right: 20px
+                    div
+                        margin-right: 4px
+                        border-top: 5px solid transparent
+                        border-left: 7px solid $green
+                        border-bottom: 5px solid transparent
+                        animation: blink 1s cubic-bezier(0, 0.5, 0.5, 1) infinite
+                        &:nth-child(2)
+                            animation-delay: -0.40s
+                        &:nth-child(3)
+                            animation-delay: -0.20s
+                        &:nth-child(4)
+                            margin-right: 0px
+                            animation-delay: 0
+                    &:hover
+                        text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
+        .content
+            display: flex
+            flex-flow: row wrap
+            justify-content: center
+            width: 100%
+            max-width: calc(80% + 30px)
+            margin: 0 auto 50px
+            .package_wrapper
+                position: relative
+                display: flex
+                flex-flow: column
+                flex: 0 0 calc(33.33% - 30px)
+                margin: 15px
+                text-align: center
+                background-color: $white
+                padding: 50px 20px 20px
+                box-shadow: 0px 10px 15px transparent
+                overflow: hidden
+                transition: .3s ease-in-out
+                .package_header
+                    display: flex
+                    flex-flow: row wrap
+                    flex: auto
+                    .title
+                        flex: 0 0 100%
+                        brandon_bold(36px)
+                        color: $black
+                        line-height: 1
+                    .description
+                        flex: 0 0 100%
+                        margin: 30px 0 80px
+                        brandon_medium(16px)
+                        color: $black
+                        text-transform: uppercase
+                        line-height: 1.75
+                .discounted_price
+                    flex: 0 0 auto
+                    brandon_regular(14px)
+                    color: $black
+                    text-decoration: line-through
+                    margin-bottom: 5px
+                .price
+                    brandon_bold(20px)
+                    color: $green
+                    flex: 0 0 auto
+                .expires
+                    brandon_medium(14px)
+                    color: $gray
+                    text-transform: uppercase
+                    flex: 0 0 auto
+                    margin: 10px 0 20px
+                .default_btn_wht
+                    flex: 0 0 auto
+                    width: 100%
+                &.promo
+                    .ribbon
+                        position: absolute
+                        top: calc(0% + 30px)
+                        left: calc(0% - 60px)
+                        width: 200px
+                        brandon_bold(16px)
+                        text-transform: uppercase
+                        color: $white
+                        background-color: $pink
+                        transform: rotate(-45deg)
+                        transition: .3s ease-in-out
+                    .price
+                        color: $pink
+                &:hover
+                    box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
+                    transition: .3s ease-in-out
+                    &.promo
+                        .ribbon
+                            background-color: $pink_alt
+                            transition: .3s ease-in-out
+                    .default_btn_wht
+                        color: $white
+                        border: 1px solid transparent
+                        transition: .3s ease-in-out
+                        &::before
+                            opacity: 1
+                            transition: .3s ease-in-out
 /**
  * Default Banner */
 #banner
@@ -325,15 +612,19 @@ a
         justify-content: flex-start
         position: absolute
         bottom: calc(0% + 125px)
-        left: calc(0% + 175px)
+        left: 0
+        right: 0
+        width: 100%
+        max-width: 75%
+        margin: 0 auto
         z-index: 1
         animation: slide_from_left 1.5s
         p
-            flex: 0 0 65%
+            flex: 0 0 55%
             brandon_regular(20px)
             color: $white
             line-height: 1.5
-            margin-right: 60px
+            margin-right: 80px
         .default_btn
             flex: 0 0 auto
     &::before
@@ -502,6 +793,14 @@ a
     50%, 100% {
         top: 19px
         height: 26px
+    }
+
+@keyframes blink
+    0% {
+        opacity: 1
+    }
+    50%, 100% {
+        opacity: 0.3
     }
 
 @keyframes dash
