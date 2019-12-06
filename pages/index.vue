@@ -27,7 +27,7 @@
         <section id="promos">
             <no-ssr>
                 <div @mouseenter="$refs.swiper.swiper.autoplay.stop()" @mouseleave="$refs.swiper.swiper.autoplay.start()">
-                    <swiper :options="promoOptions" ref="swiper">
+                    <swiper :options="promoOptions" ref="swiper" class="default">
                         <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
                             <img :src="data.path" alt="" />
                             <div class="overlay">
@@ -47,7 +47,7 @@
         </section>
         <section id="packages">
             <div class="header">
-                <img src="/packages.svg" alt="ride-revolution-packages" />
+                <h2 class="image_bg">packages</h2>
                 <div class="description">
                     <p>Start your revolution! Purchase a class before you book a bike. You have <span class="red">30 days</span> to activate your class package.</p>
                     <a class="link" href="javscript:void(0)"><span>See All Class Packages</span> <div></div><div></div><div></div></a>
@@ -69,14 +69,14 @@
         </section>
         <section id="reviews">
             <div class="header">
-                <img src="/reviews.svg" alt="ride-revolution-reviews" />
+                <h2 class="image_bg">reviews</h2>
                 <div class="description">
                     <p><strong>We’ve heard things like…</strong></p>
                 </div>
             </div>
             <div class="content">
                 <no-ssr>
-                    <swiper :options="reviewOptions">
+                    <swiper :options="reviewOptions" class="default alt">
                         <swiper-slide class="review_slide" v-for="(data, key) in reviews" :key="key">
                             <div class="description" v-html="data.description"></div>
                             <img :src="data.path" alt="" />
@@ -88,6 +88,76 @@
                 </no-ssr>
             </div>
         </section>
+        <section id="instructors">
+            <img src="/instructor-bg.jpg" alt="ride-revolution-instructor" />
+            <div class="overlay">
+                <div class="image">
+                    <img src="/instructors-cover.png" alt="ride-revolution-instructor" />
+                </div>
+                <div class="info">
+                    <h2 class="title">Train With The Best</h2>
+                    <div class="description">We have the most exciting instructors to allow you to lose <br> yourself, let's go and have fun.</div>
+                    <a href="javascript:void(0)" class="default_btn">Meet our Instructors</a>
+                </div>
+            </div>
+        </section>
+        <section id="studios">
+            <div class="header">
+                <h2 class="image_bg">studios</h2>
+                <div class="description">
+                    <p><strong>Explore Our Studios</strong></p>
+                    <a href="javascript:void(0)" class="default_btn">See All</a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="studio_content">
+                    <div class="wrapper">
+                        <div class="right">
+                            <div class="overlay">
+                                <div class="content_select">
+                                    <div class="input">
+                                        <label>Branch: </label>
+                                        <select class="select" name="studio_id" @change="getStudio($event)">
+                                            <option :value="data.id" v-for="(data, key) in studios" :key="key">{{ data.name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="content_flex">
+                                    <h2 class="title">{{ studio.name }}</h2>
+                                    <div class="description">
+                                        <label>Opening Hours</label>
+                                        <div class="opening" v-html="studio.opening"></div>
+                                    </div>
+                                </div>
+                                <div class="content_flex">
+                                    <div class="description">
+                                        <label>Contact Details</label>
+                                        <a class="email" href="javascript:void(0)"><img src="/icons/email-icon.svg" />{{ studio.mail }}</a>
+                                        <a href="javascript:void(0)"><img src="/icons/phone-icon.svg" />{{ studio.contact }}</a>
+                                    </div>
+                                    <a href="javascript:void(0)" class="default_btn">Explore</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="left">
+                            <no-ssr>
+                                <swiper :options="studioOptions" class="default">
+                                    <swiper-slide class="studio_slide" v-for="(studio, key) in studio.images" :key="key">
+                                        <img :src="studio.path" alt="" />
+                                        <div class="overlay">
+                                            <h2 class="title">{{ studio.title }}</h2>
+                                        </div>
+                                    </swiper-slide>
+                                    <div class="swiper-pagination" slot="pagination"></div>
+                                    <div class="swiper-button-prev" slot="button-prev"></div>
+                                    <div class="swiper-button-next" slot="button-next"></div>
+                                </swiper>
+                            </no-ssr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -95,6 +165,7 @@
     export default {
         data () {
             return {
+                studio: [],
                 promoOptions: {
                     slidesPerView: 1,
                     spaceBetween: 30,
@@ -104,6 +175,20 @@
                         delay: 4000,
                         disableOnInteraction: false
                     },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    }
+                },
+                studioOptions: {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    effect: 'fade',
+                    loop: true,
                     pagination: {
                         el: '.swiper-pagination',
                         clickable: true
@@ -217,10 +302,107 @@
                         title: 'Phil Dunphy',
                         path: '/default/review/sample-review.png'
                     }
+                ],
+                studios: [
+                    {
+                        id: 1,
+                        name: 'Greenbelt',
+                        opening: '<p>Monday to Friday: 7AM - 9:30PM</p><p>Weekends & Holidays: 8AM - 5PM</p>',
+                        mail: 'shang@riderevolution.com',
+                        contact: '0977 827 7433',
+                        images: [
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio1'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio2'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio3'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio4'
+                            }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        name: 'Shangri-la Plaza',
+                        opening: '<p>Monday to Friday: 7AM - 9:30PM</p><p>Weekends & Holidays: 8AM - 5PM</p>',
+                        mail: 'shang@riderevolution.com',
+                        contact: '0977 827 7433',
+                        images: [
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio1'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio2'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio3'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio4'
+                            }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        name: 'Kenny Sports BGC',
+                        opening: '<p>Monday to Friday: 7AM - 9:30PM</p><p>Weekends & Holidays: 8AM - 5PM</p>',
+                        mail: 'shang@riderevolution.com',
+                        contact: '0977 827 7433',
+                        images: [
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio1'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio2'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio3'
+                            },
+                            {
+                                path: '/default/studio/sample-studio.jpg',
+                                title: 'Cycling Studio4'
+                            }
+                        ]
+                    }
                 ]
             }
         },
         methods: {
+            getStudio (event) {
+                const me = this
+                me.studios.forEach((data, index) => {
+                    if (data.id == event.target.value) {
+                        me.studio = data
+                    }
+                })
+            },
             codeClipboard (key) {
                 const me = this
                 let element = document.getElementById(`code_${key}`)
@@ -232,6 +414,10 @@
                     element.nextElementSibling.innerHTML = 'Copy Code'
                 }, 1000)
             }
+        },
+        mounted () {
+            const me = this
+            me.studio = me.studios[0]
         }
     }
 </script>
