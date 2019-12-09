@@ -460,6 +460,8 @@ svg
         height: 100%
         background-color: $white
         &.sticky
+            .close_icon
+                top: calc(0% + 20px)
             .logo
                 padding: 10px 30px
                 transition: .2s linear
@@ -489,6 +491,7 @@ svg
             padding: 115px 95px 40px
             .left
                 flex: 0 0 45%
+                animation: slide_from_left 1.5s
                 .expanded_main_list
                     list-style: none
                     margin: 0
@@ -503,6 +506,9 @@ svg
                                     fill: transparent
                                     stroke: $black
                                     transition: .3s ease-in-out
+                                    for num in (1...15)
+                                        &:nth-child({num})
+                                            transition-delay: num * 50ms
                             &::before
                                 content: ''
                                 position: absolute
@@ -522,13 +528,14 @@ svg
                                         fill: $green
                                         stroke: $white
                                         transition: .3s ease-in-out
-                                        for num in (1...12)
+                                        for num in (1...15)
                                             &:nth-child({num})
                                                 transition-delay: num * 50ms
                         &:last-child
                             margin-bottom: 0px
             .right
                 flex: 0 0 45%
+                animation: slide_from_right 1.5s
                 .expanded_nav_list
                     list-style: none
                     margin: 0
@@ -1414,7 +1421,7 @@ svg
         content: ''
         position: absolute
         top: 0
-        right: calc(0% + 8px)
+        right: calc(0% + 13px)
         width: 2px
         height: 30px
         background-color: $black
@@ -1423,7 +1430,7 @@ svg
         content: ''
         position: absolute
         top: 0
-        right: calc(0% + 8px)
+        right: calc(0% + 13px)
         width: 2px
         height: 30px
         background-color: $black
