@@ -881,7 +881,79 @@ svg
                                     color: $white
                                     transform: translateY(-50px)
                                     transition: .3s ease-in-out
-
+    /**
+     * Let's Ride */
+    #lets_ride
+        .header
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-between
+            padding: 40px 0 30px
+            .image_bg
+                font-size: 0
+                flex: 0 0 50%
+                background-image: url(/lets-ride.svg)
+                padding: 7% 0
+                background-repeat: no-repeat
+                background-position: left center
+                background-size: contain
+            .description
+                flex: 0 0 40%
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                img
+                    margin-right: 10px
+                span
+                    brandon_bold(30px, false)
+                    color: $black
+                    letter-spacing: 0.75px
+                    padding-bottom: 5px
+        .content
+            .image_wrapper
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                .image
+                    position: relative
+                    flex: 0 0 20%
+                    &::before
+                        content: ''
+                        position: absolute
+                        top: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        z-index: 1
+                        background-color: rgba(0, 0, 0, 0.6)
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                    &:after
+                        content: ''
+                        position: absolute
+                        top: 50%
+                        width: 40px
+                        height: 40px
+                        left: 50%
+                        z-index: 2
+                        background-image: url('/icons/ig-white-icon.svg')
+                        background-position: center
+                        background-repeat: no-repeat
+                        background-size: contain
+                        transform: translateX(-50%) translateY(-50%)
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                    &:hover
+                        &::before,
+                        &::after
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
 /**
  * Default Slider */
 .default

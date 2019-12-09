@@ -164,11 +164,26 @@
                 </div>
             </div>
         </section>
+        <section id="lets_ride">
+            <div class="header">
+                <h2 class="image_bg">studios</h2>
+                <div class="description">
+                    <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
+                </div>
+            </div>
+            <div class="content">
+                <instagram />
+            </div>
+        </section>
     </div>
 </template>
 
 <script>
+    import Instagram from '../components/Instagram'
     export default {
+        components: {
+            Instagram
+        },
         data () {
             return {
                 studio: [],
