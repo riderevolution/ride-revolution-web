@@ -22,7 +22,7 @@
                 <li><a href="javascript:void(0)" class="footer_item">News</a></li>
                 <li><a href="javascript:void(0)" class="footer_item">Shop</a></li>
                 <li><a href="javascript:void(0)" class="footer_item">Privacy Policy</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Terms &amp; Conditions0</a></li>
+                <li><a href="javascript:void(0)" class="footer_item">Terms &amp; Conditions</a></li>
             </ul>
         </div>
         <div class="footer_link alt">
@@ -35,13 +35,19 @@
             <p>Email an expert at <a href="javascript:void(0)">hello@riderev.com</a></p>
             <p>or call/text us at <a href="javascript:void(0)">(02) 798-7447</a></p>
         </div>
-        <div class="back_to_top">
-            <img src="/icons/back-to-top-icon.svg" /> Back to Top
+        <div class="back_to_top" @click="backToTop()">
+            <img src="/icons/back-to-top-icon.svg" />
+            <span>Back to Top</span>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        methods: {
+            backToTop () {
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
+        }
     }
 </script>

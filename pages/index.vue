@@ -132,8 +132,14 @@
                                 <div class="content_flex">
                                     <div class="description">
                                         <label>Contact Details</label>
-                                        <a class="email" href="javascript:void(0)"><img src="/icons/email-icon.svg" />{{ studio.mail }}</a>
-                                        <a href="javascript:void(0)"><img src="/icons/phone-icon.svg" />{{ studio.contact }}</a>
+                                        <div class="link">
+                                            <img src="/icons/email-icon.svg" />
+                                            <a href="javascript:void(0)" class="email">{{ studio.mail }}</a>
+                                        </div>
+                                        <div class="link">
+                                            <img src="/icons/phone-icon.svg" />
+                                            <a href="javascript:void(0)">{{ studio.contact }}</a>
+                                        </div>
                                     </div>
                                     <a href="javascript:void(0)" class="default_btn">Explore</a>
                                 </div>
