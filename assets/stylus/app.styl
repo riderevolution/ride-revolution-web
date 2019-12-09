@@ -341,9 +341,13 @@ svg
                     brandon_regular(16px, false)
                     color: $black
                     a
-                        brandon_regular(16px, false)
-                        color: $green
+                        brandon_bold(16px, false)
+                        color: $black
                         transition: .3s ease-in-out
+                        &:hover
+                            color: $green
+                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
             .social_links
                 display: flex
                 flex-flow: row wrap
@@ -447,6 +451,237 @@ svg
                     color: $green
                     text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                     transition: .3s ease-in-out
+    #navbar_expanded
+        position: fixed
+        top: 0
+        left: 0
+        z-index: 999
+        width: 100%
+        height: 100%
+        background-color: $white
+        &.sticky
+            .logo
+                padding: 10px 30px
+                transition: .2s linear
+        .logo
+            padding: 15px 30px
+            text-decoration: none
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: flex-start
+            transition: .2s linear
+            img
+                width: 45px
+                {image_default}
+            .logo_title
+                neutra_bold(22px, true)
+                line-height: 1.25
+                color: $black
+                letter-spacing: 5px
+                padding-left: 20px
+                transition: .3s ease-in-out
+        .content
+            display: flex
+            flex-flow: row wrap
+            align-items: flex-start
+            justify-content: space-between
+            padding: 115px 95px 40px
+            .left
+                flex: 0 0 45%
+                .expanded_main_list
+                    list-style: none
+                    margin: 0
+                    padding: 0
+                    li
+                        margin-bottom: 80px
+                        .main_item
+                            display: inline-block
+                            position: relative
+                            #menu
+                                .letter
+                                    fill: transparent
+                                    stroke: $black
+                                    transition: .3s ease-in-out
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: calc(0% - 20px)
+                                right: calc(0% - 65px)
+                                width: 40px
+                                height: 82px
+                                background-color: $white
+                                transform: rotate(-25deg)
+                                transition: .3s ease-in-out
+                            &:hover
+                                &::before
+                                    right: calc(0% - 25px)
+                                    transition: .3s ease-in-out
+                                #menu
+                                    .letter
+                                        fill: $green
+                                        stroke: $white
+                                        transition: .3s ease-in-out
+                                        for num in (1...12)
+                                            &:nth-child({num})
+                                                transition-delay: num * 50ms
+                        &:last-child
+                            margin-bottom: 0px
+            .right
+                flex: 0 0 45%
+                .expanded_nav_list
+                    list-style: none
+                    margin: 0
+                    padding: 0
+                    li
+                        margin-bottom: 40px
+                        .nav_item
+                            position: relative
+                            brandon_bold(18px, true)
+                            color: $black
+                            transition: .3s ease-in-out
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 100%
+                                left: 0
+                                width: 0
+                                height: 3px
+                                z-index: 1
+                                background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                                opacity: 0
+                                transition: .3s ease-in-out .3s
+                            &::after
+                                content: ''
+                                position: absolute
+                                top: 100%
+                                left: calc(100% - 25%)
+                                width: 0
+                                height: 3px
+                                z-index: 1
+                                background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                                opacity: 0
+                                transition: .3s ease-in-out .05s
+                            &:hover
+                                color: $green
+                                text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                                transition: .3s ease-in-out
+                                &::before
+                                    width: calc(100% - 30%)
+                                    opacity: 1
+                                    transition: .3s ease-in-out .05s
+                                &::after
+                                    width: calc(0% + 25%)
+                                    opacity: 1
+                                    transition: .3s ease-in-out .3s
+                .expanded_nav_description
+                    padding-top: 40px
+                    .link
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        margin-bottom: 30px
+                        p
+                            brandon_regular(16px, false)
+                            color: $black
+                            margin-right: 10px
+                        span
+                            brandon_bold(16px, false)
+                            padding-left: 5px
+                            color: #2AB758
+                    p
+                        brandon_regular(16px, false)
+                        color: $black
+                        a
+                            brandon_bold(16px, false)
+                            color: $black
+                            transition: .3s ease-in-out
+                            &:hover
+                                color: $green
+                                text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                                transition: .3s ease-in-out
+                    .social_links
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        margin-top: 30px
+                        h4
+                            brandon_regular(16px, false)
+                            color: $black
+                        a
+                            position: relative
+                            font-size: 0
+                            width: 25px
+                            height: 25px
+                            margin: 0 15px
+                        .fb
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 0
+                                left: 0
+                                width: 100%
+                                height: 100%
+                                opacity: 1
+                                background-image: url('/icons/fb-icon.svg')
+                                background-repeat: no-repeat
+                                background-size: contain
+                                background-position: center
+                                transition: .3s ease-in-out
+                            &::after
+                                content: ''
+                                position: absolute
+                                top: 0
+                                left: 0
+                                width: 100%
+                                height: 100%
+                                opacity: 0
+                                background-image: url('/icons/fb-icon-active.svg')
+                                background-repeat: no-repeat
+                                background-size: contain
+                                background-position: center
+                                transition: .3s ease-in-out
+                            &:hover
+                                &::before
+                                    opacity: 0
+                                    transition: .3s ease-in-out
+                                &::after
+                                    opacity: 1
+                                    transition: .3s ease-in-out
+                        .ig
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 0
+                                left: 0
+                                width: 100%
+                                height: 100%
+                                opacity: 1
+                                background-image: url('/icons/ig-icon.svg')
+                                background-repeat: no-repeat
+                                background-size: contain
+                                background-position: center
+                                transition: .3s ease-in-out
+                            &::after
+                                content: ''
+                                position: absolute
+                                top: 0
+                                left: 0
+                                width: 100%
+                                height: 100%
+                                opacity: 0
+                                background-image: url('/icons/ig-icon-active.svg')
+                                background-repeat: no-repeat
+                                background-size: contain
+                                background-position: center
+                                transition: .3s ease-in-out
+                            &:hover
+                                &::before
+                                    opacity: 0
+                                    transition: .3s ease-in-out
+                                &::after
+                                    opacity: 1
+                                    transition: .3s ease-in-out
 /**
  * Front */
 .home
@@ -494,6 +729,7 @@ svg
                     border: none
                     outline: none
                     box-shadow: none
+                    pointer-events: none
                 &:hover
                     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
                     transition: .3s ease-in-out
@@ -1165,6 +1401,33 @@ svg
         width: 100%
         height: 100%
         background-color: rgba(0, 0, 0, 0.4)
+
+/**
+ * Close Icon **/
+.close_icon
+    position: absolute
+    width: 30px
+    height: 30px
+    top: calc(0% + 30px)
+    right: calc(0% + 40px)
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        right: calc(0% + 8px)
+        width: 2px
+        height: 30px
+        background-color: $black
+        transform: rotate(45deg)
+    &::after
+        content: ''
+        position: absolute
+        top: 0
+        right: calc(0% + 8px)
+        width: 2px
+        height: 30px
+        background-color: $black
+        transform: rotate(-45deg)
 
 /**
  * Default Loader **/

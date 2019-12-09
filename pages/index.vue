@@ -34,7 +34,7 @@
                                 <h2 class="header_title">Ride Rev Sale</h2>
                                 <h3 class="title">{{ data.title }}</h3>
                                 <div class="description" v-line-clamp="4" v-html="data.description"></div>
-                                <input :id="`code_${key}`" class="code" :value="data.code" disabled />
+                                <input :id="`code_${key}`" class="code" :value="data.code" />
                                 <button type="button" class="default_btn" @click="codeClipboard(key)">Copy Code</button>
                             </div>
                         </swiper-slide>
