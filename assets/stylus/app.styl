@@ -111,6 +111,24 @@ svg
 
 .default_btn_wht
     display: inline-block
+    width: auto
+    brandon_bold(16px, true)
+    color: $green
+    letter-spacing: .5px
+    padding: 15px 45px
+    background-color: $white
+    border: none
+    outline: none
+    box-shadow: 0px 0px 30px transparent
+    transition: .3s ease-in-out
+    &.mb
+        margin-bottom: 15px
+    &:hover
+        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+        transition: .3s ease-in-out
+
+.default_btn_out_wht
+    display: inline-block
     position: relative
     brandon_bold(16px, true)
     color: $green
@@ -153,7 +171,7 @@ svg
         position: fixed
         top: 0
         left: 0
-        z-index: 3
+        z-index: 6
         width: 100%
         background-color: transparent
         border-bottom: 0.5px solid $border_alt3
@@ -288,6 +306,7 @@ svg
         flex-flow: row wrap
         align-items: flex-start
         padding: 60px 120px
+        border-top: 1px solid #EFEFEF
         .logo
             flex: 0 0 15%
         .footer_link
@@ -1213,12 +1232,12 @@ svg
 .instructors
     position: relative
     margin-top: 81px
-    .instructors_nav
-        position: absolute
-        top: 0
+    #instructors_nav
+        position: fixed
+        top: calc(0% + 80px)
         left: 0
         width: 100%
-        z-index: 1
+        z-index: 3
         display: flex
         flex-flow: row wrap
         background-color: $white
@@ -1364,6 +1383,191 @@ svg
                     width: 20px
                     height: 20px
                     transform: translateY(-50%)
+    #instructors_content
+        .header
+            padding: 60px 0
+            text-align: center
+            h1
+                brandon_bold(60px, true)
+                color: $black
+            .subheader
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                h2
+                    flex: 0 0 auto
+                    brandon_regular(20px, false)
+                    color: $black
+                .select
+                    flex: 0 0 auto
+                    position: relative
+                    select
+                        -webkit-appearance: none
+                        background-color: transparent
+                        outline: none
+                        border: none
+                        border-bottom: 1px solid $green
+                        padding: 0 20px 0 10px
+                        margin-left: 10px
+                        brandon_regular(20px, false)
+                        color: $green
+                    &::before
+                        content: ''
+                        position: absolute
+                        top: 50%
+                        right: calc(0%)
+                        border-top: 7px solid $green
+                        border-left: 5px solid transparent
+                        border-right: 5px solid transparent
+                        transform: rotate(0deg) translateY(-50%)
+                        transition: .3s ease-in-out
+        .content
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: center
+            padding: 0 30px
+            margin-bottom: 60px
+            transition: .3s ease-in-out
+            .load
+                margin-top: 50px
+                opacity: 1
+                visibility: visible
+                transition: .3s ease-in-out
+                &.loaded
+                    opacity: 0
+                    visibility: hidden
+                    transition: .3s ease-in-out
+            .wrapper
+                position: relative
+                flex: 0 0 calc(25% - 20px)
+                margin: 10px
+                background-image: url('/instructor-bg.svg')
+                background-position: center
+                background-repeat: no-repeat
+                background-size: cover
+                padding: 15% 0
+                animation: fade_in 1s
+                &::before
+                    content: ''
+                    position: absolute
+                    z-index: 2
+                    top: 0
+                    left: 0
+                    width: 100%
+                    height: 100%
+                    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.64) 100%)
+                    opacity: 1
+                    visibility: visible
+                    transition: .3s ease-in-out
+                &::after
+                    content: ''
+                    position: absolute
+                    z-index: 1
+                    bottom: 0
+                    left: 0
+                    width: 100%
+                    height: 100%
+                    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.64) 0%)
+                    opacity: 0
+                    visibility: hidden
+                    transition: .3s ease-in-out
+                .follow
+                    position: absolute
+                    top: calc(0% - 50px)
+                    right: calc(0% - 10px)
+                    z-index: 4
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    brandon_medium(12px, true)
+                    color: $white
+                    transform: rotate(90deg)
+                    opacity: 0
+                    visibility: hidden
+                    transition: .3s ease-in-out
+                    img
+                        width: 17px
+                        height: 17px
+                    span
+                        margin-left: 7.5px
+                .main
+                    position: absolute
+                    top: 0
+                    left: 0
+                    right: 0
+                    width: auto
+                    height: 100%
+                    z-index: 1
+                    display: block
+                    margin: 0 auto
+                /**
+                 * SVG */
+                #stripe
+                    position: absolute
+                    top: 0
+                    left: 0
+                    z-index: 4
+                    opacity: 0
+                    visibility: hidden
+                    transition: .3s ease-in-out
+                    .border
+                        fill: none
+                        stroke: $white
+                        stroke-linecap: round
+                        stroke-width: 0.75px
+                        stroke-miterlimit: 10
+                        stroke-dashoffset: 500
+                        stroke-dasharray: 500
+                        transition: 2s ease-in-out
+                .overlay
+                    position: absolute
+                    bottom: 0
+                    left: 0
+                    width: 100%
+                    z-index: 2
+                    padding: 20px
+                    h2
+                        brandon_bold(20px, true)
+                        color: $white
+                    .action
+                        margin-top: 0
+                        opacity: 0
+                        visibility: hidden
+                        height: 0
+                        overflow: hidden
+                        transition: .3s ease-in-out
+                        a
+                            width: 100%
+                            text-align: center
+                &:hover
+                    &::before
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                    &::after
+                        opacity: 1
+                        visibility: visible
+                        transition: .3s ease-in-out
+                    .follow
+                        top: calc(0% + 50px)
+                        opacity: 1
+                        visibility: visible
+                        transition: .3s ease-in-out
+                    #stripe
+                        opacity: 1
+                        visibility: visible
+                        transition: .3s ease-in-out
+                        .border
+                            stroke-dashoffset: 0
+                            transition: 2s ease-in-out
+                    .overlay
+                        .action
+                            margin-top: 15px
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
 /**
  * Breadcrumb */
 #breadcrumb
@@ -1517,6 +1721,8 @@ svg
 #banner
     position: relative
     overflow: hidden
+    h1
+        font-size: 0
     .main_image
         width: 100%
         height: 100vh

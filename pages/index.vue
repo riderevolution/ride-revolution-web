@@ -1,6 +1,7 @@
 <template>
     <div class="home">
         <section id="banner">
+            <h1>Ride Revolution</h1>
             <img class="main_image" src="/home-banner.jpg" alt="ride-revolution" />
             <div class="overlay_top">
                 <img class="overlay_image" src="/stronger-together.svg" alt="ride-revolution" />
@@ -63,7 +64,7 @@
                     <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
                     <div class="price">Php {{ totalItems(data.price) }}</div>
                     <div class="expires">{{ data.expire }}</div>
-                    <div class="default_btn_wht"><span>Buy Now</span></div>
+                    <div class="default_btn_out_wht"><span>Buy Now</span></div>
                 </a>
             </div>
         </section>
