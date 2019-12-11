@@ -23,11 +23,13 @@ $black_alt2 = #53565C
 
 $gray = #A8A8A8
 $gray_alt = #ABADB9
+$gray_alt2 = #808080
 
 $border = #DEDEDE
 $border_alt = #EDEEF0
 $border_alt2 = #9C9EAA
 $border_alt3 = #A0A0A0
+$border_alt4 = #CECECE
 
 image_default =
     height: auto
@@ -149,13 +151,17 @@ svg
         flex-flow: row wrap
         align-items: center
         position: fixed
+        top: 0
+        left: 0
         z-index: 3
         width: 100%
         background-color: transparent
         border-bottom: 0.5px solid $border_alt3
         transition: .2s linear
-        &.sticky
+        &.sticky,
+        &.not_front
             background-color: $white
+            transition: .2s linear
             .navbar
                 padding: 10px 30px
                 transition: .2s linear
@@ -459,6 +465,9 @@ svg
         width: 100%
         height: 100%
         background-color: $white
+        display: flex
+        flex-flow: row wrap
+        align-items: flex-start
         &.sticky
             .close_icon
                 top: calc(0% + 20px)
@@ -484,11 +493,12 @@ svg
                 padding-left: 20px
                 transition: .3s ease-in-out
         .content
+            flex: 0 0 100%
             display: flex
             flex-flow: row wrap
             align-items: flex-start
             justify-content: space-between
-            padding: 115px 95px 40px
+            padding: 0 95px 40px
             .left
                 flex: 0 0 45%
                 animation: slide_from_left 1.5s
@@ -1197,6 +1207,190 @@ svg
                             opacity: 1
                             visibility: visible
                             transition: .3s ease-in-out
+
+/**
+ * Instructors */
+.instructors
+    position: relative
+    margin-top: 81px
+    .instructors_nav
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        z-index: 1
+        display: flex
+        flex-flow: row wrap
+        background-color: $white
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1)
+        .left,
+        .right
+            flex: 0 0 50%
+            padding: 20px
+            text-align: center
+        .left
+            position: relative
+            border-right: 1px solid $border_alt3
+            &.active
+                .select
+                    .custom_select
+                        top: 100%
+                        opacity: 1
+                        visibility: visible
+                        transition: .3s ease-in-out
+            &::before
+                content: ''
+                position: absolute
+                top: 50%
+                right: calc(0% + 30px)
+                border-top: 7px solid $black
+                border-left: 5px solid transparent
+                border-right: 5px solid transparent
+                transform: translateY(-50%)
+            .select
+                .label
+                    position: relative
+                    brandon_bold(20px, false)
+                    color: $black
+                    .count
+                        brandon_medium(20px, false)
+                        color: $white
+                        text-align: center
+                        position: absolute
+                        top: 50%
+                        right: calc(0% - 40px)
+                        width: 30px
+                        height: 30px
+                        background-color: $green
+                        border-radius: 50%
+                        transform: translateY(-50%)
+                        span
+                            position: absolute
+                            top: 50%
+                            left: 0
+                            right: 0
+                            transform: translateY(-50%)
+                .custom_select
+                    position: absolute
+                    width: 100%
+                    height: 100%
+                    top: calc(100% + 50px)
+                    left: 0
+                    text-align: left
+                    opacity: 0
+                    visibility: hidden
+                    border-top: 1px solid $border_alt2
+                    transition: .3s ease-in-out
+                    .check
+                        position: relative
+                        background-color: $white
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        border-bottom: 1px solid $border_alt4
+                        &.active
+                            label
+                                &::before
+                                    width: 100%
+                                    transition: .5s ease-in-out
+                        &:last-child
+                            border-bottom: 1px solid transparent
+                        label
+                            position: relative
+                            z-index: 1
+                            width: 100%
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: centerw
+                            padding: 30px 40px
+                            brandon_medium(20px, true)
+                            color: $black
+                            &.label
+                                padding: 25px 40px
+                            span
+                                padding-left: 30px
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 0
+                                left: 0
+                                z-index: -1
+                                background-color: rgba(0, 0, 0, 0.05)
+                                width: 0
+                                height: 100%
+                                transition: .5s ease-in-out
+                            &:hover
+                                &::before
+                                    width: 100%
+                                    transition: .5s ease-in-out
+                        input
+                            position: absolute
+                            right: calc(0% + 40px)
+                            z-index: 1
+                            -webkit-appearance: none
+                            outline: none
+                            flex: 0 0 21px
+                            width: 21px
+                            height: 21px
+                            background-image: url('/icons/uncheck-icon.svg')
+                            background-position: center
+                            background-repeat: no-repeat
+                            background-size: cover
+                            transition: .3s ease-in-out
+                            &:checked
+                                background-image: url('/icons/check-icon.svg')
+                                transition: .3s ease-in-out
+        .right
+            .input
+                position: relative
+                display: inline-block
+                input
+                    width: 225px
+                    brandon_regular(20px, false)
+                    color: $gray_alt2
+                    box-shadow: none
+                    outline: none
+                    border: none
+                    padding-right: 25px
+                &::before
+                    content: ''
+                    position: absolute
+                    top: 50%
+                    right: 0
+                    background-image: url('/icons/search-icon.svg')
+                    background-position: center
+                    background-repeat: no-repeat
+                    background-size: contain
+                    width: 20px
+                    height: 20px
+                    transform: translateY(-50%)
+/**
+ * Breadcrumb */
+#breadcrumb
+    padding-top: 0
+    border-bottom: 1px solid $border_alt
+    &.has_padding
+        padding-top: 70px
+    ul
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: flex-start
+        list-style: none
+        padding: 10px 30px
+        margin: 0
+        li
+            .home,
+            .slash
+                brandon_regular(14px, false)
+                color: $black_alt2
+            .crumb
+                brandon_regular(14px, false)
+                color: $gray
+                text-transform: capitalize
+            .slash
+                margin-right: 3px
+
 /**
  * Default Slider */
 .default

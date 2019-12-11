@@ -83,7 +83,7 @@
             const me = this
             let element = document.querySelector('#header')
             let expanded = document.querySelector('#navbar_expanded')
-            if (element.classList.contains('sticky')) {
+            if (element.classList.contains('sticky') || element.classList.contains('not_front')) {
                 expanded.classList.add('sticky')
             } else {
                 expanded.classList.remove('sticky')

@@ -97,7 +97,7 @@
                 <div class="info">
                     <h2 class="title">Train With The Best</h2>
                     <div class="description">We have the most exciting instructors to allow you to lose <br> yourself, let's go and have fun.</div>
-                    <a href="javascript:void(0)" class="default_btn">Meet our Instructors</a>
+                    <nuxt-link to="/instructors" class="default_btn">Meet our Instructors</nuxt-link>
                 </div>
             </div>
         </section>

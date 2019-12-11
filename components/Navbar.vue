@@ -1,5 +1,5 @@
 <template>
-    <div id="header">
+    <div id="header" :class="`${($route.fullPath == '/') ? 'front' : 'not_front'}`">
         <div class="navbar">
             <nuxt-link to="/" class="logo">
                 <img src="/logo.svg" />
