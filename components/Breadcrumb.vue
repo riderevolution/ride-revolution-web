@@ -1,9 +1,9 @@
 <template>
-	<div id="breadcrumb" :class="`${(hasPadding) ? 'has_padding' : ''}`">
+	<div id="breadcrumb" :class="`${(hasPadding) ? 'has_padding' : (overlay ? 'overlay' : '')}`">
 		<ul>
 			<li v-for="(crumb, key) in crumbs" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
 				<nuxt-link itemprop="url" :to="crumb.url">
-					<span v-if="crumb.url == '/'" class="home">Homepage</span>
+					<span v-if="crumb.url == '/'" class="front">Homepage</span>
 					<span v-else class="crumb">{{ crumb.NAME }}</span>
 				</nuxt-link>
 				<span class="slash">
@@ -19,6 +19,10 @@
 	export default {
 		props: {
 			hasPadding: {
+				type: Boolean,
+				default: false
+			},
+			overlay: {
 				type: Boolean,
 				default: false
 			}

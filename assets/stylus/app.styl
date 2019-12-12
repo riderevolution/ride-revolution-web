@@ -84,6 +84,10 @@ img
     {image_default}
     transition: .3s ease-in-out
 
+p
+    .green
+        color: $green
+
 a
     text-decoration: none
 
@@ -579,7 +583,8 @@ svg
                                 background-color: $white
                                 transform: rotate(-25deg)
                                 transition: .3s ease-in-out
-                            &:hover
+                            &:hover,
+                            &.nuxt-link-exact-active
                                 &::before
                                     right: calc(0% - 25px)
                                     transition: .3s ease-in-out
@@ -753,190 +758,6 @@ svg
  * Front */
 .home
     background-color: $white_alt
-    /**
-     * Promos */
-    #promos
-        .promo_slide
-            position: relative
-            &.swiper-slide-active,
-            &.swiper-slide-duplicate-active
-                .overlay
-                    animation: slide_from_rightY 1s
-            .overlay
-                position: absolute
-                top: 50%
-                left: calc(0% + 15%)
-                width: 100%
-                max-width: 450px
-                z-index: 1
-                text-align: center
-                padding: 30px
-                background-color: $white
-                transform: translateY(-50%)
-                box-shadow: 0px 0px 30px transparent
-                transition: .3s ease-in-out
-                .header_title
-                    brandon_bold(14px, true)
-                    color: $black_alt2
-                    letter-spacing: 1.5px
-                .title
-                    brandon_bold(30px, false)
-                    color: $black
-                    margin: 20px 0 15px
-                .description
-                    brandon_regular(16px, false)
-                    color: $black_alt2
-                    line-height: 1.5
-                .code
-                    brandon_bold(30px, true)
-                    color: $green
-                    margin: 20px 0
-                    background-color: transparent
-                    text-align: center
-                    border: none
-                    outline: none
-                    box-shadow: none
-                    pointer-events: none
-                &:hover
-                    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
-                    transition: .3s ease-in-out
-    /**
-     * Packages */
-    #packages
-        .header
-            display: flex
-            flex-flow: row wrap
-            align-items: center
-            justify-content: space-between
-            margin: 50px 0
-            .image_bg
-                font-size: 0
-                flex: 0 0 50%
-                background-image: url(/packages.svg)
-                padding: 7% 0
-                background-repeat: no-repeat
-                background-position: left center
-                background-size: contain
-            .description
-                flex: 0 0 40%
-                margin-right: 50px
-                text-align: right
-                p
-                    brandon_regular(20px, false)
-                    letter-spacing: 0.5px
-                    color: $black
-                    text-align: left
-                    margin-bottom: 40px
-                    .red
-                        color: $red
-                .link
-                    display: flex
-                    flex-flow: row wrap
-                    align-items: center
-                    justify-content: flex-end
-                    brandon_bold(20px, false)
-                    letter-spacing: 0.5px
-                    color: $green
-                    transition: .3s ease-in-out
-                    span
-                        padding-right: 20px
-                    div
-                        margin-right: 4px
-                        border-top: 5px solid transparent
-                        border-left: 7px solid $green
-                        border-bottom: 5px solid transparent
-                        animation: blink 1s cubic-bezier(0, 0.5, 0.5, 1) infinite
-                        &:nth-child(2)
-                            animation-delay: -0.40s
-                        &:nth-child(3)
-                            animation-delay: -0.20s
-                        &:nth-child(4)
-                            margin-right: 0px
-                            animation-delay: 0
-                    &:hover
-                        text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
-                        transition: .3s ease-in-out
-        .content
-            display: flex
-            flex-flow: row wrap
-            justify-content: center
-            width: 100%
-            max-width: calc(80% + 30px)
-            margin: 0 auto 50px
-            .package_wrapper
-                position: relative
-                display: flex
-                flex-flow: column
-                flex: 0 0 calc(33.33% - 30px)
-                margin: 15px
-                text-align: center
-                background-color: $white
-                padding: 50px 20px 20px
-                box-shadow: 0px 10px 15px transparent
-                overflow: hidden
-                transform: perspective(1px) scale(1)
-                transition: .3s ease-in-out
-                .package_header
-                    display: flex
-                    flex-flow: row wrap
-                    flex: auto
-                    .title
-                        flex: 0 0 100%
-                        brandon_bold(36px, false)
-                        color: $black
-                        line-height: 1
-                    .description
-                        flex: 0 0 100%
-                        margin: 30px 0 80px
-                        brandon_medium(16px, true)
-                        color: $black
-                        line-height: 1.75
-                .discounted_price
-                    flex: 0 0 auto
-                    brandon_regular(14px, false)
-                    color: $black
-                    text-decoration: line-through
-                    margin-bottom: 5px
-                .price
-                    brandon_bold(20px, false)
-                    color: $green
-                    flex: 0 0 auto
-                .expires
-                    brandon_medium(14px, true)
-                    color: $gray
-                    flex: 0 0 auto
-                    margin: 10px 0 20px
-                .default_btn_wht
-                    flex: 0 0 auto
-                    width: 100%
-                &.promo
-                    .ribbon
-                        position: absolute
-                        top: calc(0% + 30px)
-                        left: calc(0% - 60px)
-                        width: 200px
-                        brandon_bold(16px, true)
-                        color: $white
-                        background-color: $pink
-                        transform: rotate(-45deg)
-                        transition: .3s ease-in-out
-                    .price
-                        color: $pink
-                &:hover
-                    box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
-                    transform: perspective(1px) scale(1.02)
-                    transition: .3s ease-in-out
-                    &.promo
-                        .ribbon
-                            background-color: $pink_alt
-                            transition: .3s ease-in-out
-                    .default_btn_wht
-                        color: $white
-                        border: 1px solid transparent
-                        transition: .3s ease-in-out
-                        &::before
-                            opacity: 1
-                            transition: .3s ease-in-out
     /**
      * Reviews */
     #reviews
@@ -1620,8 +1441,6 @@ svg
                     color: $black
                     line-height: 2
                     letter-spacing: 0.8px
-                    .green
-                        color: $green
         .right
             animation: slide_from_right 1.5s
             flex: 0 0 40%
@@ -1752,6 +1571,370 @@ svg
                     color: $black
                     letter-spacing: 0.75px
                     padding-bottom: 5px
+/**
+ * Buy Rides */
+.buy_rides
+    #banner
+        margin-top: 81px
+    #digital
+        position: relative
+        &::before
+            content: ''
+            position: absolute
+            top: 0
+            left: 0
+            z-index: 0
+            width: 100%
+            height: 100%
+            background-color: rgba(0, 0, 0, 0.4)
+        .overlay
+            position: absolute
+            z-index: 1
+            top: 50%
+            left: 0
+            right: 0
+            text-align: center
+            transform: translateY(-50%)
+            h2
+                brandon_bold(50px, false)
+                color: $white
+            h3
+                brandon_regular(20px, false)
+                color: $white
+                margin: 20px 0 40px
+/**
+ * Riders Guide */
+.riders_guide
+    #banner
+        margin-top: 81px
+    #teaser
+        padding: 120px
+        h2
+            brandon_bold(60px, true)
+            color: $black
+            letter-spacing: 3px
+            margin-bottom: 10px
+        p
+            brandon_regular(20px, false)
+            letter-spacing: 0.5px
+            color: $black
+            line-height: 2
+/**
+ * Studios */
+.studios
+    #banner
+        margin-top: 81px
+    #teaser
+        padding: 60px 0
+        width: 100%
+        max-width: 65%
+        margin: 0 auto
+        p
+            brandon_regular(18px, false)
+            letter-spacing: 0.9px
+            color: $black
+            line-height: 1.5
+    #visit
+        background-color: $black
+        padding: 80px 0
+        h2
+            text-align: center
+            brandon_bold(50px, true)
+            color: $white
+            letter-spacing: 2.5px
+            margin-bottom: 25px
+        .content
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: center
+            width: 100%
+            max-width: 75%
+            margin: 0 auto
+            .wrapper
+                flex: 0 0 calc(33.33% - 20px)
+                margin: 0 10px
+                h2
+                    brandon_bold(22px, true)
+                    color: $white
+                    margin-top: 20px
+                    transition: .3s ease-in-out
+                .image
+                    position: relative
+                    /**
+                     * SVG */
+                    #stripe
+                        position: absolute
+                        top: 0
+                        left: 0
+                        z-index: 2
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                        .border
+                            fill: none
+                            stroke: $white
+                            stroke-linecap: round
+                            stroke-width: 0.75px
+                            stroke-miterlimit: 10
+                            stroke-dashoffset: 500
+                            stroke-dasharray: 500
+                            transition: 1s ease-in-out
+                    .overlay
+                        position: absolute
+                        z-index: 2
+                        bottom: 0
+                        left: 0
+                        width: 100%
+                        padding: 0 20px 20px
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                        .default_btn
+                            width: 100%
+                            text-align: center
+                    &::before
+                        content: ''
+                        position: absolute
+                        top: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        background-color: rgba(0, 0, 0, 0.6)
+                        z-index: 1
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                &:hover
+                    h2
+                        color: $green_alt
+                        transition: .3s ease-in-out
+                    .image
+                        &::before
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
+                        #stripe
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
+                            .border
+                                stroke-dashoffset: 0
+                                transition: 3s ease-in-out
+                        .overlay
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
+                            .default_btn
+                                box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                                transition: .3s ease-in-out
+
+/**
+ * Promos */
+#promos
+    .promo_slide
+        position: relative
+        &.swiper-slide-active,
+        &.swiper-slide-duplicate-active
+            .overlay
+                animation: slide_from_rightY 1s
+        .overlay
+            position: absolute
+            top: 50%
+            left: calc(0% + 15%)
+            width: 100%
+            max-width: 450px
+            z-index: 1
+            text-align: center
+            padding: 30px
+            background-color: $white
+            transform: translateY(-50%)
+            box-shadow: 0px 0px 30px transparent
+            transition: .3s ease-in-out
+            .header_title
+                brandon_bold(14px, true)
+                color: $black_alt2
+                letter-spacing: 1.5px
+            .title
+                brandon_bold(30px, false)
+                color: $black
+                margin: 20px 0 15px
+            .description
+                brandon_regular(16px, false)
+                color: $black_alt2
+                line-height: 1.5
+            .code
+                brandon_bold(30px, true)
+                color: $green
+                margin: 20px 0
+                background-color: transparent
+                text-align: center
+                border: none
+                outline: none
+                box-shadow: none
+                pointer-events: none
+            &:hover
+                box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
+                transition: .3s ease-in-out
+/**
+ * Packages */
+#packages
+    &.alt
+        .header
+            display: block
+            text-align: center
+            h2
+                brandon_bold(30px, false)
+                color: $black
+                letter-spacing: 0.75px
+                margin-bottom: 10px
+            .description
+                margin-right: 0
+                p
+                    brandon_regular(22px, false)
+                    letter-spacing: 0.5px
+                    color: $black
+                    text-align: center
+    .header
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: space-between
+        margin: 50px 0
+        .image_bg
+            font-size: 0
+            flex: 0 0 50%
+            background-image: url(/packages.svg)
+            padding: 7% 0
+            background-repeat: no-repeat
+            background-position: left center
+            background-size: contain
+        .description
+            flex: 0 0 40%
+            margin-right: 50px
+            text-align: right
+            p
+                brandon_regular(20px, false)
+                letter-spacing: 0.5px
+                color: $black
+                text-align: left
+                margin-bottom: 40px
+                .red
+                    color: $red
+            .link
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: flex-end
+                brandon_bold(20px, false)
+                letter-spacing: 0.5px
+                color: $green
+                transition: .3s ease-in-out
+                span
+                    padding-right: 20px
+                div
+                    margin-right: 4px
+                    border-top: 5px solid transparent
+                    border-left: 7px solid $green
+                    border-bottom: 5px solid transparent
+                    animation: blink 1s cubic-bezier(0, 0.5, 0.5, 1) infinite
+                    &:nth-child(2)
+                        animation-delay: -0.40s
+                    &:nth-child(3)
+                        animation-delay: -0.20s
+                    &:nth-child(4)
+                        margin-right: 0px
+                        animation-delay: 0
+                &:hover
+                    text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                    transition: .3s ease-in-out
+    .content
+        display: flex
+        flex-flow: row wrap
+        justify-content: center
+        width: 100%
+        max-width: calc(80% + 30px)
+        margin: 0 auto
+        padding-bottom: 50px
+        .package_wrapper
+            position: relative
+            display: flex
+            flex-flow: column
+            flex: 0 0 calc(33.33% - 30px)
+            margin: 15px
+            text-align: center
+            background-color: $white
+            padding: 50px 20px 20px
+            box-shadow: 0px 10px 15px transparent
+            overflow: hidden
+            transform: perspective(1px) scale(1)
+            transition: .3s ease-in-out
+            .package_header
+                display: flex
+                flex-flow: row wrap
+                flex: auto
+                &.alt
+                    margin-bottom: 40px
+                .title
+                    flex: 0 0 100%
+                    brandon_bold(36px, false)
+                    color: $black
+                    line-height: 1
+                .description
+                    flex: 0 0 100%
+                    margin: 30px 0 80px
+                    brandon_medium(16px, true)
+                    color: $black
+                    line-height: 1.75
+            .discounted_price
+                flex: 0 0 auto
+                brandon_regular(14px, false)
+                color: $black
+                text-decoration: line-through
+                margin-bottom: 5px
+            .price
+                brandon_bold(20px, false)
+                color: $green
+                flex: 0 0 auto
+            .expires
+                brandon_medium(14px, true)
+                color: $gray
+                flex: 0 0 auto
+                margin: 10px 0 20px
+            .default_btn_wht
+                flex: 0 0 auto
+                width: 100%
+            &.promo
+                .ribbon
+                    position: absolute
+                    top: calc(0% + 30px)
+                    left: calc(0% - 60px)
+                    width: 200px
+                    brandon_bold(16px, true)
+                    color: $white
+                    background-color: $pink
+                    transform: rotate(-45deg)
+                    transition: .3s ease-in-out
+                .price
+                    color: $pink
+            &:hover
+                box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
+                transform: perspective(1px) scale(1.02)
+                transition: .3s ease-in-out
+                &.promo
+                    .ribbon
+                        background-color: $pink_alt
+                        transition: .3s ease-in-out
+                .default_btn_wht
+                    color: $white
+                    border: 1px solid transparent
+                    transition: .3s ease-in-out
+                    &::before
+                        opacity: 1
+                        transition: .3s ease-in-out
+
+/**
+ * Instagram */
 #instagram
     .image_wrapper
         display: flex
@@ -1801,8 +1984,19 @@ svg
 /**
  * Breadcrumb */
 #breadcrumb
+    position: relative
     padding-top: 81px
     border-bottom: 1px solid $border_alt
+    &.overlay
+        position: absolute
+        top: 0
+        padding-top: 0
+        border-bottom: 1px solid transparent
+        ul
+            .front,
+            .slash,
+            .crumb
+                color: rgba(255, 255, 255, 0.7)
     &.has_padding
         padding-top: 70px
     ul
@@ -1814,7 +2008,7 @@ svg
         padding: 10px 30px
         margin: 0
         li
-            .home,
+            .front,
             .slash
                 brandon_regular(14px, false)
                 color: $black_alt2
@@ -1957,6 +2151,20 @@ svg
         width: 100%
         height: 100vh
         object-position: top
+    .overlay_mid
+        position: absolute
+        top: 50%
+        left: 0
+        right: 0
+        text-align: center
+        z-index: 1
+        transform: translateY(-50%)
+        h1
+            brandon_bold(60px, true)
+            color: $white
+        h2
+            brandon_bold(22px, false)
+            color: $white
     .overlay_top
         position: absolute
         top: 0

@@ -10,7 +10,7 @@
             </nuxt-link>
             <ul class="nav_list">
                 <li>
-                    <nuxt-link to="/" class="nav_item">Buy Rides</nuxt-link>
+                    <nuxt-link to="/buy-rides" class="nav_item">Buy Rides</nuxt-link>
                 </li>
                 <li>
                     <nuxt-link to="/" class="nav_item">Book a Ride</nuxt-link>
