@@ -64,7 +64,7 @@
                     <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
                     <div class="price">Php {{ totalItems(data.price) }}</div>
                     <div class="expires">{{ data.expire }}</div>
-                    <div class="default_btn_out_wht"><span>Buy Now</span></div>
+                    <div class="default_btn_out"><span>Buy Now</span></div>
                 </a>
             </div>
         </section>

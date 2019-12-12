@@ -97,7 +97,7 @@ svg
     width: auto
     brandon_bold(16px, true)
     color: $white
-    letter-spacing: .5px
+    letter-spacing: .7px
     padding: 15px 45px
     background-color: transparent
     border: none
@@ -114,7 +114,7 @@ svg
     width: auto
     brandon_bold(16px, true)
     color: $green
-    letter-spacing: .5px
+    letter-spacing: .7px
     padding: 15px 45px
     background-color: $white
     border: none
@@ -127,12 +127,12 @@ svg
         box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
         transition: .3s ease-in-out
 
-.default_btn_out_wht
+.default_btn_out
     display: inline-block
     position: relative
     brandon_bold(16px, true)
     color: $green
-    letter-spacing: .5px
+    letter-spacing: .7px
     outline: none
     padding: 15px 45px
     background-color: transparent
@@ -174,10 +174,41 @@ svg
         z-index: 6
         width: 100%
         background-color: transparent
+        box-shadow: 0 3px 6px transparent
         border-bottom: 0.5px solid $border_alt3
         transition: .2s linear
+        &.instructor
+            background-color: $white
+            box-shadow: 0 3px 6px transparent
+            border-bottom: 0.5px solid $border_alt3
+            transition: .2s linear
+            .navbar
+                padding: 10px 30px
+                transition: .2s linear
+                .logo
+                    .logo_title
+                        color: $black
+                        transition: .3s ease-in-out
+                .nav_list
+                    li
+                        .nav_item
+                            color: $black_alt
+                            transition: .3s ease-in-out
+                            &:hover
+                                color: $green
+                                text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                                transition: .3s ease-in-out
+            .nav_burger
+                .bar
+                    background-color: $black_alt
+                    transition: .3s ease-in-out
+                .excess_line
+                    background-color: $black_alt
+                    transition: .3s ease-in-out
         &.sticky,
         &.not_front
+            border-bottom: 0.5px solid transparent
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1)
             background-color: $white
             transition: .2s linear
             .navbar
@@ -1183,49 +1214,6 @@ svg
                     color: $black
                     letter-spacing: 0.75px
                     padding-bottom: 5px
-        .content
-            .image_wrapper
-                display: flex
-                flex-flow: row wrap
-                align-items: center
-                justify-content: center
-                .image
-                    position: relative
-                    flex: 0 0 20%
-                    &::before
-                        content: ''
-                        position: absolute
-                        top: 0
-                        left: 0
-                        width: 100%
-                        height: 100%
-                        z-index: 1
-                        background-color: rgba(0, 0, 0, 0.6)
-                        opacity: 0
-                        visibility: hidden
-                        transition: .3s ease-in-out
-                    &:after
-                        content: ''
-                        position: absolute
-                        top: 50%
-                        width: 40px
-                        height: 40px
-                        left: 50%
-                        z-index: 2
-                        background-image: url('/icons/ig-white-icon.svg')
-                        background-position: center
-                        background-repeat: no-repeat
-                        background-size: contain
-                        transform: translateX(-50%) translateY(-50%)
-                        opacity: 0
-                        visibility: hidden
-                        transition: .3s ease-in-out
-                    &:hover
-                        &::before,
-                        &::after
-                            opacity: 1
-                            visibility: visible
-                            transition: .3s ease-in-out
 
 /**
  * Instructors */
@@ -1242,6 +1230,7 @@ svg
         flex-flow: row wrap
         background-color: $white
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1)
+        transition: .3s ease-in-out
         .left,
         .right
             flex: 0 0 50%
@@ -1271,6 +1260,7 @@ svg
                     position: relative
                     brandon_bold(20px, false)
                     color: $black
+                    letter-spacing: 1px
                     .count
                         brandon_medium(20px, false)
                         color: $white
@@ -1345,7 +1335,7 @@ svg
                         input
                             position: absolute
                             right: calc(0% + 40px)
-                            z-index: 1
+                            z-index: 0
                             -webkit-appearance: none
                             outline: none
                             flex: 0 0 21px
@@ -1364,9 +1354,10 @@ svg
                 position: relative
                 display: inline-block
                 input
-                    width: 225px
+                    width: 250px
                     brandon_regular(20px, false)
                     color: $gray_alt2
+                    letter-spacing: 1px
                     box-shadow: none
                     outline: none
                     border: none
@@ -1475,13 +1466,14 @@ svg
                     transition: .3s ease-in-out
                 .follow
                     position: absolute
-                    top: calc(0% - 50px)
+                    top: calc(0% - 10px)
                     right: calc(0% - 10px)
                     z-index: 4
                     display: flex
                     flex-flow: row wrap
                     align-items: center
                     brandon_medium(12px, true)
+                    letter-spacing: 0.6px
                     color: $white
                     transform: rotate(90deg)
                     opacity: 0
@@ -1520,7 +1512,7 @@ svg
                         stroke-miterlimit: 10
                         stroke-dashoffset: 500
                         stroke-dasharray: 500
-                        transition: 2s ease-in-out
+                        transition: 1s ease-in-out
                 .overlay
                     position: absolute
                     bottom: 0
@@ -1531,6 +1523,7 @@ svg
                     h2
                         brandon_bold(20px, true)
                         color: $white
+                        letter-spacing: 1px
                     .action
                         margin-top: 0
                         opacity: 0
@@ -1561,17 +1554,254 @@ svg
                         transition: .3s ease-in-out
                         .border
                             stroke-dashoffset: 0
-                            transition: 2s ease-in-out
+                            transition: 3s ease-in-out
                     .overlay
                         .action
                             margin-top: 15px
                             opacity: 1
                             visibility: visible
                             transition: .3s ease-in-out
+.instructor_inner
+    #info
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        .left
+            flex: 0 0 60%
+            padding: 0 50px 0 100px
+            animation: slide_from_left 1.5s
+            h1
+                brandon_bold(60px, true)
+                color: $black
+            .specializations
+                display: flex
+                flex-flow: row wrap
+                align-items: flex-start
+                margin: 50px 0
+                .wrapper
+                    flex: 0 0 100px
+                    text-align: center
+                    margin-right: 20px
+                    img
+                        width: 50px
+                    h3
+                        display: inline-block
+                        brandon_medium(14px, true)
+                        color: $black
+                        margin-top: 10px
+                    &:last-child
+                        margin-right: 0
+            .description
+                margin-bottom: 50px
+                h2
+                    brandon_bold(32px, false)
+                    color: $black
+                    margin-bottom: 40px
+                    letter-spacing: 1.6px
+                p
+                    brandon_regular(16px, false)
+                    color: $black
+                    line-height: 2
+                    letter-spacing: 0.4px
+            .talents
+                margin-bottom: 50px
+                p
+                    brandon_regular(20px, false)
+                    color: $black
+                    letter-spacing: 0.5px
+            .quote
+                padding: 40px 0 0 40px
+                background-image: url('/icons/quote-icon.svg')
+                background-repeat: no-repeat
+                background-position: top left
+                background-size: contain
+                p
+                    brandon_regular(16px, false)
+                    color: $black
+                    line-height: 2
+                    letter-spacing: 0.8px
+                    .green
+                        color: $green
+        .right
+            animation: slide_from_right 1.5s
+            flex: 0 0 40%
+            padding: 22.5% 0
+            background-repeat: no-repeat
+            background-position: center
+            background-size: contain
+    /**
+     * Classes */
+    #classes
+        background-image: url(/dotted-bg.png)
+        .header
+            padding: 80px 0 30px
+            text-align: center
+            h2
+                brandon_bold(60px, true)
+                color: $green
+                letter-spacing: 3px
+                span
+                    color: $black
+            h3
+                brandon_regular(26px, false)
+                color: $black
+                letter-spacing: 0.65px
+        .content
+            width: 100%
+            max-width: 65%
+            margin: 20px auto 100px
+            background-color: $white
+            .wrapper
+                position: relative
+                z-index: 1
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                padding: 30px 40px
+                border-bottom: 1px solid #EFEFEF
+                box-shadow: 0px 0 30px transparent
+                transition: .3s ease-in-out
+                .start
+                    flex: 0 0 auto
+                    .date
+                        brandon_bold(20px, false)
+                        color: $green
+                    .time
+                        brandon_bold(20px, false)
+                        color: rgba(23, 23, 23, 0.55)
+                .info
+                    flex: 1 0 30%
+                    padding-left: 40px
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    .main
+                        width: 60px
+                        border-radius: 50%
+                    .description
+                        padding-left: 30px
+                        h2
+                            brandon_bold(20px, false)
+                            color: $black
+                            margin-bottom: 10px
+                        .limit
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            span
+                                brandon_regular(16px, false)
+                                color: $black
+                                margin-right: 5px
+                            img
+                                filter: brightness(0)
+                                cursor: pointer
+                        p
+                            brandon_regular(16px, false)
+                            color: $black
+                .default_btn_out
+                    flex: 0 0 200px
+                    text-align: center
+                &:last-child
+                    border-bottom: 1px solid transparent
+                &:hover
+                    box-shadow: 0px 0 30px rgba(226, 226, 226, 1)
+                    transition: .3s ease-in-out
+    /**
+     * Spotify */
+    #spotify
+        display: flex
+        flex-flow: row wrap
+        background-color: $black
+        .left
+            position: relative
+            flex: 0 0 70%
+            padding: 100px 0 0 100px
+            h2
+                brandon_bold(32px, true)
+                letter-spacing: 1.6px
+                line-height: 1.5
+                color: $white
+                margin: 30px 0 40px
+            p
+                brandon_regular(16px, false)
+                letter-spacing: 0.4px
+                color: $white
+                line-height: 2
+        .right
+            flex: 0 0 30%
+    /**
+     * Ride With */
+    #ride_with
+        .header
+            padding: 40px 0 30px
+            text-align: center
+            h2
+                brandon_bold(60px, true)
+                color: $black
+                letter-spacing: 3px
+            .description
+                flex: 0 0 40%
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                img
+                    margin-right: 10px
+                span
+                    brandon_bold(30px, false)
+                    color: $black
+                    letter-spacing: 0.75px
+                    padding-bottom: 5px
+#instagram
+    .image_wrapper
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: center
+        &.less_one
+            .image
+                flex: 0 0 25%
+        .image
+            position: relative
+            flex: 0 0 20%
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
+                z-index: 1
+                background-color: rgba(0, 0, 0, 0.6)
+                opacity: 0
+                visibility: hidden
+                transition: .3s ease-in-out
+            &:after
+                content: ''
+                position: absolute
+                top: 50%
+                width: 40px
+                height: 40px
+                left: 50%
+                z-index: 2
+                background-image: url('/icons/ig-white-icon.svg')
+                background-position: center
+                background-repeat: no-repeat
+                background-size: contain
+                transform: translateX(-50%) translateY(-50%)
+                opacity: 0
+                visibility: hidden
+                transition: .3s ease-in-out
+            &:hover
+                &::before,
+                &::after
+                    opacity: 1
+                    visibility: visible
+                    transition: .3s ease-in-out
 /**
  * Breadcrumb */
 #breadcrumb
-    padding-top: 0
+    padding-top: 81px
     border-bottom: 1px solid $border_alt
     &.has_padding
         padding-top: 70px
@@ -1904,7 +2134,6 @@ svg
 
 .page-enter,
 .page-leave-to
-    transform: translateY(100px)
     opacity: 0
 
 .slide-enter-active,

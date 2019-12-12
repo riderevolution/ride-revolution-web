@@ -1,8 +1,8 @@
 <template>
     <div class="instructors">
         <section id="instructors_nav">
-            <div :class="`left ${(toggled) ? 'active' : ''}`" @click="toggleSpecialization()">
-                <div class="select" v-click-outside="outsideSpecialization">
+            <div :class="`left ${(toggled) ? 'active' : ''}`" @click="toggleSpecialization()" v-click-outside="outsideSpecialization">
+                <div class="select">
                     <label class="label">
                         Specialization
                         <div class="count">
@@ -48,7 +48,7 @@
                     <div class="overlay">
                         <h2>{{ data.name }}</h2>
                         <div class="action">
-                            <nuxt-link to="/" class="default_btn_wht mb">See Profile</nuxt-link>
+                            <nuxt-link to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
                             <nuxt-link to="/" class="default_btn">Book A Ride</nuxt-link>
                         </div>
                     </div>
