@@ -2,9 +2,9 @@
     <div class="home">
         <section id="banner">
             <h1>Ride Revolution</h1>
-            <img class="main_image" src="/home-banner.jpg" alt="ride-revolution" />
+            <img class="main_image" src="default/home/home-banner.jpg" alt="ride-revolution" />
             <div class="overlay_top">
-                <img class="overlay_image" src="/stronger-together.svg" alt="ride-revolution" />
+                <img class="overlay_image" src="default/home/stronger-together.svg" alt="ride-revolution" />
                 <div class="overlay_child">
                     <svg id="play_icon" xmlns="http://www.w3.org/2000/svg" width="94" height="93" viewBox="0 0 94 93">
                         <g transform="translate(-864 -325)">
@@ -35,7 +35,7 @@
                                 <h2 class="header_title">Ride Rev Sale</h2>
                                 <h3 class="title">{{ data.title }}</h3>
                                 <div class="description" v-line-clamp="4" v-html="data.description"></div>
-                                <input :id="`code_${key}`" class="code" :value="data.code" />
+                                <input class="code" :value="data.code" />
                                 <button type="button" class="default_btn" @click="codeClipboard(key)">Copy Code</button>
                             </div>
                         </swiper-slide>
@@ -90,10 +90,10 @@
             </div>
         </section>
         <section id="instructors">
-            <img src="/instructor-bg.jpg" alt="ride-revolution-instructor" />
+            <img src="/default/home/instructor-bg.jpg" alt="ride-revolution-instructor" />
             <div class="overlay">
                 <div class="image">
-                    <img src="/instructors-cover.png" alt="ride-revolution-instructor" />
+                    <img src="/default/home/instructors-cover.png" alt="ride-revolution-instructor" />
                 </div>
                 <div class="info">
                     <h2 class="title">Train With The Best</h2>

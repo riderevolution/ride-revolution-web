@@ -1,7 +1,7 @@
 <template>
     <div class="buy_rides">
         <section id="banner">
-            <img src="/buy-rides.jpg" />
+            <img src="/default/buy-rides/buy-rides.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Class Packages and Credits</h1>
@@ -70,7 +70,7 @@
             </div>
         </section>
         <section id="digital">
-            <img src="/send-digital-bg.jpg" />
+            <img src="/default/buy-rides/send-digital-bg.jpg" />
             <div class="overlay">
                 <h2>Share this experience with your loved ones!</h2>
                 <h3>For anyone who wants to be their best.</h3>

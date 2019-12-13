@@ -770,7 +770,7 @@ svg
             .image_bg
                 font-size: 0
                 flex: 0 0 50%
-                background-image: url(/reviews.svg)
+                background-image: url('/default/home/reviews.svg')
                 padding: 7% 0
                 background-repeat: no-repeat
                 background-position: left center
@@ -849,7 +849,7 @@ svg
                     top: calc(0% - 280px)
                     left: 0
                     right: 0
-                    background-image: url('/instructors.svg')
+                    background-image: url('/default/home/instructors.svg')
                     background-size: cover
                     background-repeat: no-repeat
                     background-position: center
@@ -880,7 +880,7 @@ svg
             .image_bg
                 font-size: 0
                 flex: 0 0 50%
-                background-image: url(/studios.svg)
+                background-image: url('/default/home/studios.svg')
                 padding: 7% 0
                 background-repeat: no-repeat
                 background-position: left center
@@ -969,9 +969,14 @@ svg
                                     a
                                         brandon_regular(18px, false)
                                         color: $black
+                                        transition: .3s ease-in-out
                                         &.email
                                             color: $green
                                             text-decoration: underline
+                                        &:hover
+                                            color: $green
+                                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                                            transition: .3s ease-in-out
                                     .link
                                         display: flex
                                         flex-flow: row wrap
@@ -1017,7 +1022,7 @@ svg
             .image_bg
                 font-size: 0
                 flex: 0 0 50%
-                background-image: url(/lets-ride.svg)
+                background-image: url('/default/home/lets-ride.svg')
                 padding: 7% 0
                 background-repeat: no-repeat
                 background-position: left center
@@ -1255,7 +1260,7 @@ svg
                 position: relative
                 flex: 0 0 calc(25% - 20px)
                 margin: 10px
-                background-image: url('/instructor-bg.svg')
+                background-image: url('/default/instructor/instructor-bg.svg')
                 background-position: center
                 background-repeat: no-repeat
                 background-size: cover
@@ -1624,6 +1629,9 @@ svg
 .studios
     #banner
         margin-top: 81px
+        &.alt
+            margin-top: 0px
+            animation: none
     #teaser
         padding: 60px 0
         width: 100%
@@ -1728,7 +1736,115 @@ svg
                             .default_btn
                                 box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                                 transition: .3s ease-in-out
-
+    #studio_ig
+        .header
+            padding: 40px 0 30px
+            .description
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                img
+                    margin-right: 10px
+                span
+                    brandon_bold(30px, false)
+                    color: $black
+                    letter-spacing: 0.75px
+                    padding-bottom: 5px
+.studio_inner
+    #teaser
+        padding: 80px 60px 60px
+        text-align: center
+        .header
+            h1
+                brandon_bold(50px, true)
+                color: $black
+                letter-spacing: 2.5px
+            h2
+                brandon_regular(16px, false)
+                color: $black
+                letter-spacing: 0.4px
+        .info
+            margin: 50px 0
+            p
+                brandon_regular(16px, false)
+                color: $black
+                letter-spacing: 0.4px
+        .opening
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: center
+            .left,
+            .right
+                text-align: left
+                h3
+                    brandon_regular(14px, true)
+                    color: $black_alt2
+                    margin-bottom: 5px
+            .left
+                padding-right: 60px
+                p
+                    brandon_regular(20px, false)
+                    color: $black
+            .right
+                a
+                    brandon_regular(18px, false)
+                    color: $black
+                    transition: .3s ease-in-out
+                    &.email
+                        color: $green
+                        text-decoration: underline
+                    &:hover
+                        color: $green
+                        text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
+                .link
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    img
+                        margin-right: 15px
+    #images
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        width: 100%
+        max-width: 80%
+        margin: 0 auto 50px
+        .wrapper
+            position: relative
+            flex: 0 0 calc(33.33% - 20px)
+            margin: 0 10px 20px
+            cursor: pointer
+            .overlay
+                position: absolute
+                top: calc(50% - 2.5%)
+                left: 0
+                width: 100%
+                text-align: center
+                z-index: 1
+                opacity: 0
+                transition: .3s ease-in-out
+                brandon_bold(22px, true)
+                color: $white
+                letter-spacing: 1.1px
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
+                background-color: rgba(0, 0, 0, 0.5)
+                z-index: 0
+                opacity: 0
+                transition: .3s ease-in-out
+            &:hover
+                .overlay,
+                &::before
+                    opacity: 1
+                    transition: .3s ease-in-out
 /**
  * Promos */
 #promos
@@ -1804,7 +1920,7 @@ svg
         .image_bg
             font-size: 0
             flex: 0 0 50%
-            background-image: url(/packages.svg)
+            background-image: url('/default/home/packages.svg')
             padding: 7% 0
             background-repeat: no-repeat
             background-position: left center
@@ -2020,6 +2136,316 @@ svg
                 margin-right: 3px
 
 /**
+ * Default Banner */
+#banner
+    position: relative
+    overflow: hidden
+    &.alt
+        .overlay_mid
+            h2
+                brandon_bold(50px, false)
+            .default_btn
+                margin-top: 40px
+    h1
+        font-size: 0
+    .main_image
+        width: 100%
+        height: 100vh
+        object-position: top
+    .overlay_mid
+        position: absolute
+        top: 50%
+        left: 0
+        right: 0
+        text-align: center
+        z-index: 1
+        transform: translateY(-50%)
+        animation: slide_from_top 1.5s
+        h1
+            brandon_bold(60px, true)
+            color: $white
+        h2
+            brandon_bold(22px, false)
+            color: $white
+    .overlay_top
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        z-index: 1
+        .overlay_image
+            width: 920px
+            animation: slide_from_left 1.5s
+        .overlay_child
+            position: absolute
+            top: 50%
+            right: calc(50% - 25%)
+            text-align: center
+            transform: translateY(-50%) translateX(0px)
+            cursor: pointer
+            animation: slide_from_rightY 1.5s
+            /**
+             * SVG */
+            #play_icon
+                transform: scale(1)
+                transition: .3s ease-in-out
+                .rect
+                    fill: none
+                .play
+                    fill: $green_alt
+                    transition: .3s ease-in-out
+                .border
+                    fill: none
+                    stroke: $white
+                    stroke-miterlimit: 10
+                    stroke-dasharray: 500
+                    animation: dash 5s linear
+                    transition: .3s ease-in-out
+            .label
+                brandon_medium(18px, true)
+                color: $white
+                margin-top: 10px
+                transition: .3s ease-in-out
+            &:hover
+                #play_icon
+                    transform: scale(1.1)
+                    transition: .3s ease-in-out
+                    .border
+                        stroke: $green_alt
+                        transition: .3s ease-in-out
+                .label
+                    color: $green_alt
+                    text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                    transition: .3s ease-in-out
+    .overlay_bottom
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: flex-start
+        position: absolute
+        bottom: calc(0% + 125px)
+        left: 0
+        right: 0
+        width: 100%
+        max-width: 75%
+        margin: 0 auto
+        z-index: 1
+        animation: slide_from_left 1.5s
+        p
+            flex: 0 0 55%
+            brandon_regular(20px, false)
+            color: $white
+            line-height: 1.5
+            margin-right: 80px
+        .default_btn
+            flex: 0 0 auto
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 0
+        width: 100%
+        height: 100%
+        background-color: rgba(0, 0, 0, 0.6)
+/**
+ * Gallery */
+.gallery_modal
+    position: fixed
+    top: 0%
+    width: 100%
+    height: 100vh
+    z-index: -1
+    display: flex
+    flex-flow: row wrap
+    background-color: rgba(0, 0, 0, 0.85)
+    opacity: 0
+    visibility: hidden
+    transition: all .3s ease-in-out
+    &.opened
+        z-index: 9
+        opacity: 1
+        visibility: visible
+        transition: all .3s ease-in-out
+        .main
+            left: 0
+            transition: .3s ease-in-out
+        .thumb
+            right: 0
+            transition: all .3s ease-in-out
+    &.toggled
+        align-items: center
+        .main
+            flex: 0 0 100%
+            height: 100%
+            transition: .3s ease-in-out
+            .overlay
+                .main_image
+                    padding: 100px 80px
+                    transition: .3s ease-in-out
+        .thumb
+            right: -20%
+            opacity: 0
+            visibility: hidden
+            transition: all .3s ease-in-out
+    .main
+        position: relative
+        flex: 0 0 80%
+        left: -100px
+        transition: .3s ease-in-out
+        .overlay
+            &.mobile
+                justify-content: center
+                .swiper-container
+                    .swiper-pagination
+                        bottom: calc(0px + 65px)
+                        .swiper-pagination-bullet
+                            background-color: rgba(255, 255 ,255, 0.5) !important
+                            border: 1px solid rgba(255, 255 ,255, 0.5) !important
+                        .swiper-pagination-bullet-active
+                            background-color: #fff !important
+                            border: 1px solid #fff !important
+                .main_image
+                    flex: 0 0 100%
+                    text-align: center
+                    position: relative
+            position: absolute
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-between
+            width: 100%
+            top: 50%
+            transform: translateY(-50%)
+            transition: .3s ease-in-out
+            .left_arrow
+                width: 38px
+                height: 38px
+                margin-left: 20px
+                background-image: url('/icons/left-arrow.svg')
+                background-position: center
+                background-repeat: no-repeat
+                background-color: #171717
+                border: none
+                outline: none
+                opacity: .75
+                transition: .3s ease-in-out
+                &:hover,
+                &:focus
+                    opacity: 1
+                    transition: .3s ease-in-out
+            .main_image
+                text-align: center
+                flex: 0 0 75%
+                padding: 40px
+                transition: .3s ease-in-out
+                .image_title
+                    brandon_regular(16px, false)
+                    color: $white
+                    margin-top: 30px
+            .right_arrow
+                width: 38px
+                height: 38px
+                margin-right: 20px
+                background-image: url('/icons/right-arrow.svg')
+                background-position: center
+                background-repeat: no-repeat
+                background-color: #171717
+                border: none
+                outline: none
+                opacity: .75
+                transition: .3s ease-in-out
+                &:hover,
+                &:focus
+                    opacity: 1
+                    transition: .3s ease-in-out
+        .controls
+            flex: 0 0 100%
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-around
+            position: absolute
+            top: 0
+            right: 10px
+            width: 100px
+            height: 40px
+            background-color: rgba(20, 20, 20, 0.65)
+            padding: 0 10px
+            .control_toggle
+                width: 15px
+                height: 15px
+                background-image: url('/icons/toggle.svg')
+                background-position: center
+                background-repeat: no-repeat
+                background-size: contain
+                cursor: pointer
+                margin-bottom: 5px
+                background-color: transparent
+                border: none
+                outline: none
+            .control_close
+                position: relative
+                width: 22px
+                height: 20px
+                cursor: pointer
+                margin-bottom: 5px
+                background-color: transparent
+                border: none
+                outline: none
+                &::before
+                    content: ''
+                    position: absolute
+                    top: 9px
+                    left: 0
+                    width: 22px
+                    height: 2px
+                    background-color: #fff
+                    transform: rotate(45deg)
+                &::after
+                    content: ''
+                    position: absolute
+                    top: 9px
+                    left: 0
+                    width: 22px
+                    height: 2px
+                    background-color: #fff
+                    transform: rotate(-45deg)
+    .thumb
+        position: absolute
+        width: 20%
+        height: 100%
+        right: -100px
+        background-color: #171717
+        user-select: none
+        opacity: 1
+        visibility: visible
+        transition: all .3s ease-in-out
+        .wrapper
+            display: flex
+            flex-flow: row wrap
+            justify-content: space-between
+            padding: 7px
+            .thumb_image
+                flex: 0 0 49.3%
+                margin-top: 5px
+                img
+                    width: 100%
+                    height: 150px
+                    border: 3px solid #fff
+                    opacity: .5
+                    transition: .3s ease-in-out
+                &.active
+                &:hover,
+                &:focus
+                    img
+                        opacity: 1
+                        border: 3px solid #FFCE00
+                        transition: .3s ease-in-out
+                &:nth-child(-n+2)
+                    margin-top: 0
+
+/**
  * Default Slider */
 .default
     .swiper-button-prev,
@@ -2139,113 +2565,6 @@ svg
             height: 100%
             z-index: 2
             background-color: $white_alt
-
-/**
- * Default Banner */
-#banner
-    position: relative
-    overflow: hidden
-    h1
-        font-size: 0
-    .main_image
-        width: 100%
-        height: 100vh
-        object-position: top
-    .overlay_mid
-        position: absolute
-        top: 50%
-        left: 0
-        right: 0
-        text-align: center
-        z-index: 1
-        transform: translateY(-50%)
-        h1
-            brandon_bold(60px, true)
-            color: $white
-        h2
-            brandon_bold(22px, false)
-            color: $white
-    .overlay_top
-        position: absolute
-        top: 0
-        left: 0
-        width: 100%
-        z-index: 1
-        .overlay_image
-            width: 920px
-            animation: slide_from_left 1.5s
-        .overlay_child
-            position: absolute
-            top: 50%
-            right: calc(50% - 25%)
-            text-align: center
-            transform: translateY(-50%) translateX(0px)
-            cursor: pointer
-            animation: slide_from_rightY 1.5s
-            /**
-             * SVG */
-            #play_icon
-                transform: scale(1)
-                transition: .3s ease-in-out
-                .rect
-                    fill: none
-                .play
-                    fill: $green_alt
-                    transition: .3s ease-in-out
-                .border
-                    fill: none
-                    stroke: $white
-                    stroke-miterlimit: 10
-                    stroke-dasharray: 500
-                    animation: dash 5s linear
-                    transition: .3s ease-in-out
-            .label
-                brandon_medium(18px, true)
-                color: $white
-                margin-top: 10px
-                transition: .3s ease-in-out
-            &:hover
-                #play_icon
-                    transform: scale(1.1)
-                    transition: .3s ease-in-out
-                    .border
-                        stroke: $green_alt
-                        transition: .3s ease-in-out
-                .label
-                    color: $green_alt
-                    text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
-                    transition: .3s ease-in-out
-    .overlay_bottom
-        display: flex
-        flex-flow: row wrap
-        align-items: center
-        justify-content: flex-start
-        position: absolute
-        bottom: calc(0% + 125px)
-        left: 0
-        right: 0
-        width: 100%
-        max-width: 75%
-        margin: 0 auto
-        z-index: 1
-        animation: slide_from_left 1.5s
-        p
-            flex: 0 0 55%
-            brandon_regular(20px, false)
-            color: $white
-            line-height: 1.5
-            margin-right: 80px
-        .default_btn
-            flex: 0 0 auto
-    &::before
-        content: ''
-        position: absolute
-        top: 0
-        left: 0
-        z-index: 0
-        width: 100%
-        height: 100%
-        background-color: rgba(0, 0, 0, 0.4)
 
 /**
  * Close Icon **/
@@ -2415,6 +2734,16 @@ svg
 	from {
 		opacity: 0
         transform: translateY(100px)
+    }
+	to {
+		opacity: 1
+        transform: translateX(0px)
+    }
+
+@keyframes slide_from_top
+	from {
+		opacity: 0
+        transform: translateY(-100px)
     }
 	to {
 		opacity: 1
