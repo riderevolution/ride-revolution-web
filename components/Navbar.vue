@@ -13,7 +13,10 @@
                     <nuxt-link to="/buy-rides" class="nav_item">Buy Rides</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link to="/" class="nav_item">Book a Ride</nuxt-link>
+                    <nuxt-link to="/" class="nav_item">Book a Bike</nuxt-link>
+                </li>
+                <li>
+                    <nuxt-link to="/" class="nav_item">What's New</nuxt-link>
                 </li>
                 <li>
                     <a href="javascript:void(0)" class="default_btn">Login / Sign up</a>

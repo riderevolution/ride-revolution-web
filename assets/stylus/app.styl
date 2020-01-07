@@ -507,7 +507,8 @@ svg
                 color: $black
                 padding-left: 40px
                 transition: .3s ease-in-out
-                &:hover
+            &:hover
+                span
                     color: $green
                     text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                     transition: .3s ease-in-out
@@ -1624,6 +1625,350 @@ svg
             letter-spacing: 0.5px
             color: $black
             line-height: 2
+    #ready
+        background-color: $black
+        padding: 60px
+        .header
+            text-align: center
+            h2
+                brandon_bold(60px, true)
+                color: $white
+                letter-spacing: 3px
+                margin-bottom: 10px
+            h3
+                brandon_regular(20px, false)
+                letter-spacing: 0.5px
+                color: $white
+                line-height: 2
+                width: 100%
+                max-width: 700px
+                margin: 0 auto
+        .content
+            width: 100%
+            max-width: calc(90% - 60px)
+            margin: 60px auto
+            display: flex
+            flex-flow: row wrap
+            align-items: flex-start
+            text-align: center
+            .wrapper
+                flex: 0 0 calc(33.33% - 60px)
+                margin: 0 30px
+                #ready_icon
+                    margin-bottom: 30px
+                    svg
+                        .icon_2
+                            fill: none
+                            stroke: $white
+                            stroke-miterlimit:10
+                        .icon_1
+                            fill: none
+                            stroke: $white
+                            stroke-miterlimit:10
+                            stroke-width:1.2px
+                            stroke-dasharray: 500
+                            animation: dash 5s linear
+                            transition: .3s ease-in-out
+                        .icon_3
+                            opacity: 0.847
+                        .icon_4
+                            fill: $white
+                h2
+                    brandon_medium(22px, true)
+                    letter-spacing: 0.55px
+                    color: $white
+                    margin-bottom: 14px
+                p
+                    brandon_light(18px, false)
+                    color: $white
+                    letter-spacing: 0.9px
+                    line-height: 1.5
+        .instructors
+            .instructor_header
+                padding: 30px 0 60px
+                text-align: center
+                h2
+                    brandon_bold(24px, true)
+                    color: $white
+                    letter-spacing: 3px
+                    margin-bottom: 10px
+                h3
+                    brandon_regular(16px, false)
+                    letter-spacing: 0.5px
+                    color: $white
+                    line-height: 2
+                    width: 100%
+                    max-width: 700px
+                    margin: 0 auto
+            .instructor_content
+                position: relative
+                .wrapper
+                    position: relative
+                    background-image: url('/default/instructor/instructor-bg.svg')
+                    background-position: center
+                    background-repeat: no-repeat
+                    background-size: cover
+                    padding: 15% 0
+                    animation: fade_in 1s
+                    &::before
+                        content: ''
+                        position: absolute
+                        z-index: 2
+                        top: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.64) 100%)
+                        opacity: 1
+                        visibility: visible
+                        transition: .3s ease-in-out
+                    &::after
+                        content: ''
+                        position: absolute
+                        z-index: 1
+                        bottom: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.64) 0%)
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                    .trigger
+                        position: absolute
+                        top: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        z-index: 3
+                    .follow
+                        position: absolute
+                        top: calc(0% - 10px)
+                        right: calc(0% - 10px)
+                        z-index: 4
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        brandon_medium(12px, true)
+                        letter-spacing: 0.6px
+                        color: $white
+                        transform: rotate(90deg)
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                        img
+                            width: 17px
+                            height: 17px
+                        span
+                            margin-left: 7.5px
+                    .main
+                        position: absolute
+                        top: 0
+                        left: 0
+                        right: 0
+                        width: auto
+                        height: 100%
+                        z-index: 1
+                        display: block
+                        margin: 0 auto
+                    /**
+                     * SVG */
+                    #stripe
+                        position: absolute
+                        top: 0
+                        left: 0
+                        z-index: 4
+                        opacity: 0
+                        visibility: hidden
+                        transition: .3s ease-in-out
+                        .border
+                            fill: none
+                            stroke: $white
+                            stroke-linecap: round
+                            stroke-width: 0.75px
+                            stroke-miterlimit: 10
+                            stroke-dashoffset: 500
+                            stroke-dasharray: 500
+                            transition: 1s ease-in-out
+                    .overlay
+                        position: absolute
+                        bottom: 0
+                        left: 0
+                        width: 100%
+                        z-index: 2
+                        padding: 20px
+                        h2
+                            brandon_bold(20px, true)
+                            color: $white
+                            letter-spacing: 1px
+                        .action
+                            margin-top: 0
+                            opacity: 0
+                            visibility: hidden
+                            height: 0
+                            overflow: hidden
+                            transition: .3s ease-in-out
+                            a
+                                width: 100%
+                                text-align: center
+                    &:hover
+                        &::before
+                            opacity: 0
+                            visibility: hidden
+                            transition: .3s ease-in-out
+                        &::after
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
+                        .follow
+                            top: calc(0% + 50px)
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
+                        #stripe
+                            opacity: 1
+                            visibility: visible
+                            transition: .3s ease-in-out
+                            .border
+                                stroke-dashoffset: 0
+                                transition: 3s ease-in-out
+                        .overlay
+                            .action
+                                margin-top: 15px
+                                opacity: 1
+                                visibility: visible
+                                transition: .3s ease-in-out
+                .view_all
+                    position: absolute
+                    right: 0
+                    bottom: 0
+                    display: inline-block
+                    margin: 0
+                    z-index: 2
+                    span
+                        brandon_bold(18px, true)
+                        letter-spacing: 0.9px
+                        color: $green
+                        margin-left: 15px
+                        vertical-align: middle
+                        transition: .3s ease-in-out
+                    &:hover
+                        img
+                            box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
+                        span
+                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
+    #getset
+        background-image: url('/dotted-bg.png')
+        .header
+            padding: 80px 0 60px
+            text-align: center
+            h2
+                brandon_bold(50px, true)
+                color: $black
+                letter-spacing: 2.5px
+                margin-bottom: 10px
+            p
+                brandon_regular(24px, false)
+                letter-spacing: 0.6px
+                color: $black
+                line-height: 1.5
+                width: 100%
+                max-width: 700px
+                margin: 0 auto
+        .content
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: center
+            width: 100%
+            max-width: 60%
+            margin: 0 auto
+            padding-bottom: 80px
+            .bike_wrapper
+                flex: 0 0 60%
+                #bike
+                    .color_1
+                        fill: #939498
+                    .color_2
+                        fill: #d1d2d4
+                    .color_3
+                        fill: #3d3c42
+                    .color_4
+                        fill: #a7a8ac
+                    .color_5
+                        fill: #231f20
+                    .color_6
+                        fill: #515056
+                    .color_7
+                        fill: #f7fcfd
+                    .color_8
+                        fill: #f7fbfd
+                    .color_9
+                        fill: #b9c1c3
+                    .color_10
+                        fill: #2b2522
+                    .color_11
+                        fill: #342c2a
+                        stroke: rgba(0,0,0,0)
+                        stroke-width: 1
+                    .color_12
+                        fill: #d1d2d3
+                    .color_13
+                        fill: #48403d
+                    .color_14
+                        fill: #636466
+                    .color_15
+                        fill: #47403d
+            .steps
+                flex: 0 0 40%
+                border: 1px solid #D8D8D8
+                .wrapper
+                    padding: 15px 20px
+                    background-color: transparent
+                    border-bottom: 1px solid #D8D8D8
+                    cursor: pointer
+                    transition: .3s ease-in-out
+                    h2
+                        brandon_regular(22px, false)
+                        letter-spacing: 0.55px
+                        color: $black
+                        line-height: 1.5
+                        transition: .3s ease-in-out
+                        b
+                            brandon_bold(22px, false)
+                            color: $black
+                            transition: .3s ease-in-out
+                    p
+                        brandon_light(16px, false)
+                        letter-spacing: 0.4px
+                        line-height: 1.5
+                        color: $white
+                        opacity: 0
+                        visibility: hidden
+                        height: 0px
+                        overflow: hidden
+                        margin: 0
+                        transition: .3s ease-in-out
+                    &:last-child
+                        border-bottom: 1px solid transparent
+                    &.toggled
+                        p
+                            opacity: 1
+                            visibility: visible
+                            margin: 10px 0 0
+                            transition: .3s ease-in-out
+                    &:hover,
+                    &.toggled
+                        background-color: $green
+                        transition: .3s ease-in-out
+                        h2
+                            color: $white
+                            transition: .3s ease-in-out
+                            b
+                                color: $white
+                                transition: .3s ease-in-out
 /**
  * Studios */
 .studios
@@ -2017,7 +2362,7 @@ svg
                 color: $gray
                 flex: 0 0 auto
                 margin: 10px 0 20px
-            .default_btn_wht
+            .default_btn_out
                 flex: 0 0 auto
                 width: 100%
             &.promo
@@ -2041,7 +2386,7 @@ svg
                     .ribbon
                         background-color: $pink_alt
                         transition: .3s ease-in-out
-                .default_btn_wht
+                .default_btn_out
                     color: $white
                     border: 1px solid transparent
                     transition: .3s ease-in-out
@@ -2140,6 +2485,8 @@ svg
 #banner
     position: relative
     overflow: hidden
+    .full
+        width: 100%
     &.alt
         .overlay_mid
             h2
@@ -2325,7 +2672,7 @@ svg
                 background-image: url('/icons/left-arrow.svg')
                 background-position: center
                 background-repeat: no-repeat
-                background-color: #171717
+                background-color: $black
                 border: none
                 outline: none
                 opacity: .75
@@ -2350,7 +2697,7 @@ svg
                 background-image: url('/icons/right-arrow.svg')
                 background-position: center
                 background-repeat: no-repeat
-                background-color: #171717
+                background-color: $black
                 border: none
                 outline: none
                 opacity: .75
@@ -2416,7 +2763,7 @@ svg
         width: 20%
         height: 100%
         right: -100px
-        background-color: #171717
+        background-color: $black
         user-select: none
         opacity: 1
         visibility: visible
@@ -2565,6 +2912,21 @@ svg
             height: 100%
             z-index: 2
             background-color: $white_alt
+    &.alt2
+        padding-bottom: 80px
+        .swiper-button-prev,
+        .swiper-container-rtl .swiper-button-next,
+        .swiper-button-next,
+        .swiper-container-rtl .swiper-button-prev
+            top: unset
+            bottom: 0
+        .swiper-button-prev,
+        .swiper-container-rtl .swiper-button-next
+            left: calc(0%)
+        .swiper-button-next,
+        .swiper-container-rtl .swiper-button-prev
+            right: 0
+            left: calc(0% + 65px)
 
 /**
  * Close Icon **/
