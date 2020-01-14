@@ -1970,6 +1970,189 @@ svg
                                 color: $white
                                 transition: .3s ease-in-out
 /**
+ * Book a Bike */
+.book_a_bike
+    background-color: $white_alt
+    #banner
+        margin-top: 81px
+    #content
+        display: flex
+        flex-flow: row wrap
+        align-items: flex-start
+        justify-content: flex-start
+        width: 100%
+        max-width: calc(80% + 30px)
+        margin: 0 auto
+        padding: 40px 0
+        .main_left,
+        .main_right
+            background-color: $white
+        .main_left
+            flex: 0 0 25%
+            .header
+                text-align: center
+                padding: 20px
+                border-bottom: 1px solid $border_alt
+                h2
+                    brandon_bold(26px, true)
+                    color: $black
+            .content
+                ul
+                    list-style: none
+                    margin: 0
+                    padding: 0
+                    padding: 30px 20px
+                    text-align: center
+                    li
+                        margin-bottom: 10px
+                        brandon_regular(16px, false)
+                        color: $black
+                        letter-spacing: .24px
+                        &:last-child
+                            margin-bottom: 0
+        .main_right
+            flex: 0 0 calc(75% - 30px)
+            margin-left: 30px
+            .header
+                padding: 20px
+                border-bottom: 1px solid $border_alt
+                .back
+                    brandon_medium(16px, true)
+                    color: $black
+                    padding-left: 20px
+            .content
+                padding: 30px 0
+                .seat_wrapper
+                    position: relative
+                    width: 100%
+                    height: 600px
+                    margin: 10px 0 20px
+                    .overlay_seat
+                        position: absolute
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        .seat
+                            position: relative
+                            border-radius: 4px
+                            text-align: center
+                            cursor: pointer
+                            margin: 7.5px
+                            padding: 40px 12px
+                            background-color: $white
+                            border: 1px solid $black
+                            transition: 0.3s ease-in-out
+                            .seat_number
+                                position: absolute
+                                bottom: calc(0%)
+                                left: 0
+                                right: 0
+                                text-align: center
+                                transform: translateY(-50%)
+                                brandon_bold(16px, false)
+                                color: $black
+                                transition: .3s ease-in-out
+                        &.layout_1
+                            &.bottom
+                                bottom: calc(0% + 230px)
+                            &.bottom_alt
+                                bottom: calc(0% + 125px)
+                                .seat
+                                    left: calc(0% - 40px)
+                            &.bottom_alt_2
+                                bottom: calc(0% + 20px)
+                        &.layout_2
+                            &.left,
+                            &.right
+                                top: calc(0% + 40px)
+                            &.bottom
+                                bottom: calc(0% + 190px)
+                            &.bottom_alt
+                                bottom: calc(0% + 80px)
+                                .seat
+                                    left: calc(0% - 40px)
+                        &.layout_3
+                            &.bottom
+                                bottom: calc(60%)
+                            &.bottom_alt
+                                bottom: calc(60% - 105px)
+                                .seat
+                                    left: calc(0% - 40px)
+                            &.bottom_alt_2
+                                bottom: calc(60% - 210px)
+                                justify-content: center
+                        &.left
+                            align-items: flex-start
+                            top: 0
+                            left: calc(0% + 103px)
+                            .seat
+                                flex: 0 0 calc(50% - 19px)
+                                &:nth-child(2)
+                                    top: calc(0px + 60px)
+                                &:last-child
+                                    top: calc(0px + 60px)
+                        &.right
+                            align-items: flex-start
+                            top: 0
+                            right: calc(0% + 138px)
+                            .seat
+                                flex: 0 0 calc(50% - 19px)
+                                &:first-child
+                                    top: calc(0px + 60px)
+                                &:nth-child(3)
+                                    top: calc(0px + 60px)
+                        &.bottom,
+                        &.bottom_alt,
+                        &.bottom_alt_2
+                            justify-content: center
+                            width: 100%
+                            .seat
+                                flex: 0 0 calc(10% - 50.55px)
+                                margin: 12px
+                .footer
+                    .legends
+                        ul
+                            list-style: none
+                            margin: 0
+                            padding: 0
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: center
+                            li
+                                position: relative
+                                margin: 0 20px
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                brandon_medium(12px, true)
+                                letter-spacing: 0.18px
+                                color: $black_alt2
+                                &.unavailable
+                                    span
+                                        background-color: #EDEDED
+                                        border: 1px solid transparent
+                                &.guest
+                                    span
+                                        background-color: $pink
+                                        border: 1px solid transparent
+                                        transition: .3s ease-in-out
+                                &.you
+                                    span
+                                        background-color: $green
+                                        border: 1px solid transparent
+                                span
+                                    display: inline-block
+                                    width: 20px
+                                    height: 20px
+                                    border-radius: 4px
+                                    margin-right: 20px
+                                    border: 1px solid $gray
+                                    transition: .3s ease-in-out
+                    .actions
+                        text-align: right
+                        padding: 30px 60px
+/**
  * Studios */
 .studios
     #banner
