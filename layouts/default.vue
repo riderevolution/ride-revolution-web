@@ -3,7 +3,7 @@
         <navbar />
         <nuxt />
         <transition name="fade">
-            <loading v-if="$store.state.isLoading" />
+            <loader v-if="$store.state.isLoading" />
         </transition>
         <foot />
         <transition name="fade">
@@ -15,13 +15,13 @@
     import NavbarExpanded from '../components/NavbarExpanded'
     import Navbar from '../components/Navbar'
     import Foot from '../components/Foot'
-    import Loading from '../components/modals/Loading'
+    import Loader from '../components/modals/Loader'
     export default {
         components: {
             NavbarExpanded,
             Navbar,
             Foot,
-            Loading
+            Loader
         }
     }
 </script>

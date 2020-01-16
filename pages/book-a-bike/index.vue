@@ -9,9 +9,9 @@
                 </div>
                 <div class="content">
                     <ul>
-                        <li>50-Minute Ride</li>
-                        <li>Billie Capistrano</li>
-                        <li>Shangri-La Plaza</li>
+                        <li><span><img class="icon" src="/icons/ride-icon.svg" />50-Minute Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                        <li><span><img class="icon" src="/icons/instructor-icon.svg" />Billie Capistrano</span></li>
+                        <li><span><img class="icon" src="/icons/location-icon.svg" />Shangri-La Plaza</span></li>
                     </ul>
                 </div>
             </div>
@@ -20,14 +20,20 @@
                     <div class="back">Back</div>
                 </div>
                 <div class="content">
-                    <!-- <div class="overlay_header">
-                        <h3>Please choose your bike/s</h3>
-                        <h4>Note: You can book up to 5 bikes.</h4>
-                        <img src="/default/studio/studio1.jpg" />
-                    </div> -->
                     <div class="seat_wrapper">
+                        <div class="overlay_header">
+                            <h3>Please choose your bike/s</h3>
+                            <h4>Note: You can book up to 5 bikes.</h4>
+                            <img src="/sample-image-booker.png" />
+                        </div>
                         <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in seats" :key="key" v-if="seat.data.length > 0">
-                            <div class="seat" v-for="(data, key) in seat.data" :key="key">
+                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? 'reserved' : (data.status == 'blocked') ? 'blocked' : (data.status == 'guest') ? 'guest' : ''}`" v-for="(data, key) in seat.data" :key="key">
+                                <transition name="slide">
+                                    <img class="seat_image" src="/sample-image-booker.png" v-if="data.status == 'reserved'" />
+                                </transition>
+                                <transition name="slide">
+                                    <img class="seat_image" src="/sample-image-booker.png" v-if="data.status == 'guest'" />
+                                </transition>
                                 <div class="seat_number">
                                     {{ data.number }}
                                 </div>
@@ -44,35 +50,93 @@
                             </ul>
                         </div>
                         <div class="actions">
-                            <a href="javascript:void()" class="default_btn">Buy Rides</a>
+                            <a href="javascript:void()" class="default_btn" v-if="!checkPackage">Buy Rides</a>
+                            <transition name="fade">
+                                <div class="next_wrapper" v-if="checkPackage">
+                                    <div class="left">
+                                        <div class="flex package">
+                                            <p>Class Package:</p>
+                                            <div class="picker" @click="choosePackage()">10 Class Package</div>
+                                        </div>
+                                        <div class="flex package_detail">
+                                            <p>Total Rides Left: 9</p>
+                                            <p class="bold">Total Rides Used: 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <a href="javascript:void()" class="default_btn">Next</a>
+                                    </div>
+                                </div>
+                            </transition>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <transition name="fade">
+            <booker-assign v-if="$store.state.bookerAssignStatus" />
+        </transition>
+        <transition name="fade">
+            <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" />
+        </transition>
+        <transition name="fade">
+            <booker-assign-member-prompt :customer="customer" v-if="$store.state.bookerAssignMemberPromptStatus" />
+        </transition>
+        <transition name="fade">
+            <booker-assign-member-error v-if="$store.state.bookerAssignMemberErrorStatus" />
+        </transition>
+        <transition name="fade">
+            <booker-assign-non-member :email="nonMemberEmail" v-if="$store.state.bookerAssignNonMemberStatus" />
+        </transition>
+        <transition name="fade">
+            <booker-assign-success :message="message" v-if="$store.state.bookerAssignSuccessStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
+    import BookerAssign from '../../components/modals/BookerAssign'
+    import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
+    import BookerAssignMemberPrompt from '../../components/modals/BookerAssignMemberPrompt'
+    import BookerAssignMemberError from '../../components/modals/BookerAssignMemberError'
+    import BookerAssignNonMember from '../../components/modals/BookerAssignNonMember'
+    import BookerAssignSuccess from '../../components/modals/BookerAssignSuccess'
     export default {
+        components: {
+            BookerAssign,
+            BookerChoosePackage,
+            BookerAssignMemberPrompt,
+            BookerAssignMemberError,
+            BookerAssignNonMember,
+            BookerAssignSuccess
+        },
         data () {
             return {
+                customer: {
+                    path: '/sample-image-booker.png',
+                    name: 'A. Hepburn',
+                    member_id: 'MEMBER ID: RR-12345'
+                },
                 seats: {
                     left: {
                         position: 'left',
                         layout: 'layout_1',
                         data: [
                             {
-                                number: '18'
+                                number: '18',
+                                status: 'blocked'
                             },
                             {
-                                number: '16'
+                                number: '16',
+                                status: 'blocked'
                             },
                             {
-                                number: '17'
+                                number: '17',
+                                status: 'blocked'
                             },
                             {
-                                number: '15'
+                                number: '15',
+                                status: 'blocked'
                             }
                         ]
                     },
@@ -81,16 +145,20 @@
                         layout: 'layout_1',
                         data: [
                             {
-                                number: '12'
+                                number: '12',
+                                status: 'open'
                             },
                             {
-                                number: '14'
+                                number: '14',
+                                status: 'open'
                             },
                             {
-                                number: '11'
+                                number: '11',
+                                status: 'open'
                             },
                             {
-                                number: '13'
+                                number: '13',
+                                status: 'open'
                             }
                         ]
                     },
@@ -99,34 +167,44 @@
                         layout: 'layout_1',
                         data: [
                             {
-                                number: '10'
+                                number: '10',
+                                status: 'open'
                             },
                             {
-                                number: '9'
+                                number: '9',
+                                status: 'open'
                             },
                             {
-                                number: '8'
+                                number: '8',
+                                status: 'open'
                             },
                             {
-                                number: '7'
+                                number: '7',
+                                status: 'open'
                             },
                             {
-                                number: '6'
+                                number: '6',
+                                status: 'open'
                             },
                             {
-                                number: '5'
+                                number: '5',
+                                status: 'open'
                             },
                             {
-                                number: '4'
+                                number: '4',
+                                status: 'open'
                             },
                             {
-                                number: '3'
+                                number: '3',
+                                status: 'open'
                             },
                             {
-                                number: '2'
+                                number: '2',
+                                status: 'open'
                             },
                             {
-                                number: '1'
+                                number: '1',
+                                status: 'open'
                             }
                         ]
                     },
@@ -135,34 +213,44 @@
                         layout: 'layout_1',
                         data: [
                             {
-                                number: '28'
+                                number: '28',
+                                status: 'open'
                             },
                             {
-                                number: '27'
+                                number: '27',
+                                status: 'open'
                             },
                             {
-                                number: '26'
+                                number: '26',
+                                status: 'open'
                             },
                             {
-                                number: '25'
+                                number: '25',
+                                status: 'open'
                             },
                             {
-                                number: '24'
+                                number: '24',
+                                status: 'open'
                             },
                             {
-                                number: '23'
+                                number: '23',
+                                status: 'open'
                             },
                             {
-                                number: '22'
+                                number: '22',
+                                status: 'open'
                             },
                             {
-                                number: '21'
+                                number: '21',
+                                status: 'open'
                             },
                             {
-                                number: '20'
+                                number: '20',
+                                status: 'open'
                             },
                             {
-                                number: '19'
+                                number: '19',
+                                status: 'open'
                             }
                         ]
                     },
@@ -171,37 +259,78 @@
                         layout: 'layout_1',
                         data: [
                             {
-                                number: '28'
+                                number: '28',
+                                status: 'open'
                             },
                             {
-                                number: '27'
+                                number: '27',
+                                status: 'open'
                             },
                             {
-                                number: '26'
+                                number: '26',
+                                status: 'open'
                             },
                             {
-                                number: '25'
+                                number: '25',
+                                status: 'open'
                             },
                             {
-                                number: '24'
+                                number: '24',
+                                status: 'open'
                             },
                             {
-                                number: '23'
+                                number: '23',
+                                status: 'open'
                             },
                             {
-                                number: '22'
+                                number: '22',
+                                status: 'open'
                             },
                             {
-                                number: '21'
+                                number: '21',
+                                status: 'open'
                             },
                             {
-                                number: '20'
+                                number: '20',
+                                status: 'open'
                             },
                             {
-                                number: '19'
+                                number: '19',
+                                status: 'open'
                             }
                         ]
-                    },
+                    }
+                },
+                checkPackage: 0,
+                nonMemberEmail: null,
+                currentSeat: [],
+                message: 'Cheers! Successfully added a Guest.'
+            }
+        },
+        methods: {
+            choosePackage () {
+                const me = this
+                me.$store.state.bookerChoosePackageStatus = true
+                document.body.classList.add('no_scroll')
+            },
+            signIn (data) {
+                const me = this
+                me.currentSeat = data
+                if (me.checkPackage == 0) {
+                    me.loader(true)
+                    document.body.classList.add('no_scroll')
+                    setTimeout( () => {
+                        me.checkPackage = 1
+                        data.status = 'reserved'
+                        document.body.classList.remove('no_scroll')
+                        me.loader(false)
+                    }, 500)
+                } else {
+                    if (me.checkPackage == 1) {
+                        me.$store.state.bookerAssignStatus = true
+                        document.body.classList.add('no_scroll')
+                        me.checkPackage = 1
+                    }
                 }
             }
         }

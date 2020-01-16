@@ -3,6 +3,12 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            bookerAssignSuccessStatus: false,
+            bookerAssignNonMemberStatus: false,
+            bookerAssignMemberErrorStatus: false,
+            bookerAssignMemberPromptStatus: false,
+            bookerChoosePackageStatus: false,
+            bookerAssignStatus: false,
             isExpanded: false,
             errorStatus: false,
             errorList: [],
