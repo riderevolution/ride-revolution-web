@@ -7,6 +7,7 @@ const createStore = () => {
             bookerAssignNonMemberStatus: false,
             bookerAssignMemberErrorStatus: false,
             bookerAssignMemberPromptStatus: false,
+            bookerChooseSeatStatus: false,
             bookerChoosePackageStatus: false,
             bookerAssignStatus: false,
             isExpanded: false,

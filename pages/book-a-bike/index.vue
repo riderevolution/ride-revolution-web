@@ -55,8 +55,14 @@
                                 <div class="next_wrapper" v-if="checkPackage">
                                     <div class="left">
                                         <div class="flex package">
-                                            <p>Class Package:</p>
-                                            <div class="picker" @click="choosePackage()">10 Class Package</div>
+                                            <div class="toggler">
+                                                <p>Class Package:</p>
+                                                <div class="picker" @click="choosePackage()">10 Class Package</div>
+                                            </div>
+                                            <div class="toggler" v-if="hasGuest">
+                                                <p>Switch seat for:</p>
+                                                <div class="picker" @click="chooseSeat()">Bike No. 8</div>
+                                            </div>
                                         </div>
                                         <div class="flex package_detail">
                                             <p>Total Rides Left: 9</p>
@@ -80,6 +86,9 @@
             <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" />
         </transition>
         <transition name="fade">
+            <booker-choose-seat v-if="$store.state.bookerChooseSeatStatus" />
+        </transition>
+        <transition name="fade">
             <booker-assign-member-prompt :customer="customer" v-if="$store.state.bookerAssignMemberPromptStatus" />
         </transition>
         <transition name="fade">
@@ -97,6 +106,7 @@
 <script>
     import BookerAssign from '../../components/modals/BookerAssign'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
+    import BookerChooseSeat from '../../components/modals/BookerChooseSeat'
     import BookerAssignMemberPrompt from '../../components/modals/BookerAssignMemberPrompt'
     import BookerAssignMemberError from '../../components/modals/BookerAssignMemberError'
     import BookerAssignNonMember from '../../components/modals/BookerAssignNonMember'
@@ -105,6 +115,7 @@
         components: {
             BookerAssign,
             BookerChoosePackage,
+            BookerChooseSeat,
             BookerAssignMemberPrompt,
             BookerAssignMemberError,
             BookerAssignNonMember,
@@ -304,14 +315,28 @@
                 checkPackage: 0,
                 nonMemberEmail: null,
                 currentSeat: [],
-                message: 'Cheers! Successfully added a Guest.'
+                message: 'Cheers! Successfully added a Guest.',
+                hasGuest: false
             }
         },
         methods: {
+            chooseSeat () {
+                const me = this
+                me.loader(true)
+                setTimeout( () => {
+                    me.$store.state.bookerChooseSeatStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.loader(false)
+                }, 500)
+            },
             choosePackage () {
                 const me = this
-                me.$store.state.bookerChoosePackageStatus = true
-                document.body.classList.add('no_scroll')
+                me.loader(true)
+                setTimeout( () => {
+                    me.$store.state.bookerChoosePackageStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.loader(false)
+                }, 500)
             },
             signIn (data) {
                 const me = this

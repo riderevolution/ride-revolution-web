@@ -35,6 +35,7 @@
                         me.loader(true)
                         setTimeout( () => {
                             me.$parent.currentSeat.status = 'guest'
+                            me.$parent.hasGuest = true
                             me.$store.state.bookerAssignMemberPromptStatus = false
                             me.$store.state.bookerAssignSuccessStatus = true
                             me.loader(false)
