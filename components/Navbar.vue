@@ -8,7 +8,7 @@
                     Revolution
                 </div>
             </nuxt-link>
-            <ul class="nav_list">
+            <ul class="nav_list" v-if="!$store.state.isMobile">
                 <li>
                     <nuxt-link to="/buy-rides" class="nav_item">Buy Rides</nuxt-link>
                 </li>
@@ -18,10 +18,23 @@
                 <li>
                     <nuxt-link to="/" class="nav_item">What's New</nuxt-link>
                 </li>
-                <li>
-                    <a href="javascript:void(0)" class="default_btn">Login / Sign up</a>
+                <li v-if="!$store.state.isAuth">
+                    <div class="default_btn" @click="loginUser()">Login / Sign up</div>
+                </li>
+                <li v-else>
+                    <div class="user_dropdown">
+                        <img src="/sample-image-booker.png" />
+                        <h3>Mark Ruffalo</h3>
+                    </div>
                 </li>
             </ul>
+            <div class="nav_login" @click="loginUser()" v-if="$store.state.isMobile && !$store.state.isAuth">
+                <img src="/icons/login-icon.svg" />
+                <div class="background"></div>
+            </div>
+            <div class="user_dropdown" v-if="$store.state.isMobile && $store.state.isAuth">
+                <img src="/sample-image-booker.png" />
+            </div>
         </div>
         <div class="nav_burger" @click="toggleNavbarExpanded()">
             <div class="bar top_line"></div>
@@ -39,6 +52,10 @@
             }
         },
         methods: {
+            loginUser () {
+                const me = this
+                me.$store.state.isAuth = true
+            },
             toggleNavbarExpanded () {
                 const me = this
                 me.$store.state.isExpanded = true

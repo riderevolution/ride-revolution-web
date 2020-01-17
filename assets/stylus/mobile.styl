@@ -1,0 +1,207 @@
+@import 'fonts'
+
+@media (max-width: 767px) and (min-width: 320px)
+
+    .default_btn
+        width: 100%
+
+    #main_container
+        #header
+            &.not_front
+                .navbar
+                    padding: 10px
+            .navbar
+                flex: 1 0 70%
+                .logo
+                    img
+                        width: 30px
+                    .logo_title
+                        neutra_bold(14px, true)
+                        padding-left: 10px
+            .nav_burger
+                flex: 0 0 10%
+                margin: 0 10px
+        #pro_tip
+            top: calc(0% + 61px)
+            padding: 5px 15px
+            .tip
+                brandon_regular_italic(14px, false)
+
+    .book_a_bike
+        #banner
+            margin-top: 61px
+        #content
+            padding: 60px 0 40px
+            max-width: calc(100% - 20px)
+            &.dismiss
+                padding: 0 0 40px
+            .main_left
+                .header
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    justify-content: center
+                    padding: 20px 0 0
+                    border-bottom: 1px solid transparent
+                    h2
+                        brandon_bold(20px, false)
+                        &:first-child
+                            padding-right: 10px
+                .content
+                    ul
+                        padding: 20px 0
+                        li
+                            brandon_regular(12px, false)
+            .main_right
+                margin-left: 0
+                .content
+                    .seat_wrapper
+                        height: 350px
+                        max-width: 350px
+                        margin: 10px auto
+                        transition: .3s ease-in-out
+                        .overlay_header
+                            top: calc(0% - 30px)
+                            left: calc(50%)
+                            width: 100%
+                            h3
+                                brandon_regular(18px, false)
+                            h4
+                                brandon_regular_italic(12px, false)
+                                margin: 0 0 20px
+                            img
+                                width: 70px
+                        .overlay_seat
+                            &.left
+                                justify-content: flex-start
+                                top: calc(0% + 20px)
+                                left: 0
+                                .seat
+                                    flex: 0 0 calc(50% - 15px)
+                                    &:last-child,
+                                    &:nth-child(2)
+                                        top: calc(0px + 30px)
+                            &.right
+                                justify-content: flex-end
+                                top: calc(0% + 20px)
+                                right: 0
+                                .seat
+                                    flex: 0 0 calc(50% - 15px)
+                                    &:first-child,
+                                    &:nth-child(3)
+                                        top: calc(0px + 30px)
+                            &.layout_1
+                                &.bottom
+                                    bottom: calc(0% + 140px)
+                                &.bottom_alt
+                                    bottom: calc(0% + 85px)
+                                    .seat
+                                        left: 0
+                                &.bottom_alt_2
+                                    bottom: calc(0% + 30px)
+                            &.bottom,
+                            &.bottom_alt,
+                            &.bottom_alt_2
+                                .seat
+                                    padding: 20px 11.5px
+                                    margin: 2.5px
+                            .seat
+                                margin: 3px
+                                padding: 18px 6px
+                                .seat_number
+                                    brandon_bold(12px, true)
+                                    bottom: 50%
+                                    transform: translateY(50%)
+                    .footer
+                        .legends
+                            ul
+                                li
+                                    brandon_medium(10px, true)
+                                    margin: 0 10px 0 0
+                                    &:last-child
+                                        margin: 0
+                                    span
+                                        width: 15px
+                                        height: 15px
+                                        margin-right: 5px
+                        .actions
+                            padding: 10px 20px
+                            margin-top: 20px
+                            .next_wrapper
+                                .left,
+                                .right
+                                    flex: 0 0 100%
+                                .left
+                                    .flex
+                                        flex: 0 0 100%
+                                        &.package
+                                            margin-bottom: 15px
+                                .right
+                                    text-align: center
+                                    margin-top: 30px
+            .main_left,
+            .main_right
+                flex: 0 0 100%
+
+@media (max-width: 767px) and (min-width: 425px)
+
+    .default_btn
+        width: auto
+
+    #main_container
+        .book_a_bike
+            #content
+                .main_right
+                    .content
+                        .seat_wrapper
+                            max-width: 465px
+                            transition: .3s ease-in-out
+                            .overlay_seat
+                                &.layout_1
+                                    &.bottom
+                                        bottom: calc(0% + 150px)
+                                    &.bottom_alt
+                                        bottom: calc(0% + 95px)
+                                        .seat
+                                            left: 0
+                                    &.bottom_alt_2
+                                        bottom: calc(0% + 40px)
+                                &.bottom,
+                                &.bottom_alt,
+                                &.bottom_alt_2
+                                    .seat
+                                        padding: 20px 11.5px
+                                        margin: 5.5px
+
+@media (max-width: 767px) and (min-width: 465px)
+
+    .default_btn
+        width: auto
+
+    #main_container
+        .book_a_bike
+            #content
+                .main_right
+                    .content
+                        .seat_wrapper
+                            max-width: 465px
+                            transition: .3s ease-in-out
+                            .overlay_seat
+                                &.layout_1
+                                    &.bottom
+                                        bottom: calc(0% + 135px)
+                                    &.bottom_alt
+                                        bottom: calc(0% + 75px)
+                                        .seat
+                                            left: 0
+                                    &.bottom_alt_2
+                                        bottom: calc(0% + 15px)
+                                &.bottom,
+                                &.bottom_alt,
+                                &.bottom_alt_2
+                                    .seat
+                                        padding: 22px 13.5px
+                                        margin: 7.5px
+                                .seat
+                                    margin: 3px
+                                    padding: 20px 7px

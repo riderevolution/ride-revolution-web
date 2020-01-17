@@ -1,9 +1,6 @@
 <template>
     <div class="book_a_bike">
         <section id="banner"></section>
-        <transition name="slide">
-            <pro-tip v-if="$store.state.proTipStatus" />
-        </transition>
         <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
             <div class="main_left">
                 <div class="header">
@@ -107,7 +104,6 @@
 </template>
 
 <script>
-import ProTip from '../../components/ProTip'
     import BookerAssign from '../../components/modals/BookerAssign'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import BookerChooseSeat from '../../components/modals/BookerChooseSeat'
@@ -116,8 +112,8 @@ import ProTip from '../../components/ProTip'
     import BookerAssignNonMember from '../../components/modals/BookerAssignNonMember'
     import BookerAssignSuccess from '../../components/modals/BookerAssignSuccess'
     export default {
+        layout: 'fish',
         components: {
-            ProTip,
             BookerAssign,
             BookerChoosePackage,
             BookerChooseSeat,
