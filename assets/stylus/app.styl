@@ -2307,7 +2307,8 @@ svg
                                 align-items: flex-start
                                 .flex
                                     flex: 0 0 50%
-                                    &.package
+                                    &.package,
+                                    &.package_details
                                         .toggler
                                             display: flex
                                             flex-flow: row wrap
@@ -2317,6 +2318,8 @@ svg
                                                 margin-bottom: 0
                                             p
                                                 margin-bottom: 0
+                                                &.margin
+                                                    margin-left: 20px
                                             .picker
                                                 position: relative
                                                 brandon_bold(16px, false)
@@ -3494,12 +3497,14 @@ input::placeholder
             display: flex
             flex-flow: row wrap
             align-items: center
-            justify-content: space-between
+            justify-content: flex-start
             p
                 brandon_medium(14px, true)
                 color: $gray_alt2
                 letter-spacing: 0.35px
                 transition: .3s ease-in-out
+                &:first-child
+                    margin-right: 10px
 
 /**
  * Default Modal **/
@@ -3536,7 +3541,6 @@ input::placeholder
             position: relative
             background-color: $white
             box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.05)
-            border-radius: 5px
             .form_title
                 position: relative
                 brandon_bold(26px, false)
@@ -3636,6 +3640,7 @@ input::placeholder
             .flex
                 flex: 0 0 47%
             &.alt
+                flex: 0 0 auto
                 justify-content: center
 
 /**

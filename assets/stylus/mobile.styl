@@ -2,8 +2,79 @@
 
 @media (max-width: 767px) and (min-width: 320px)
 
-    .default_btn
+    .default_btn,
+    .default_btn_out
         width: 100%
+        brandon_bold(14px, true)
+        padding: 12px 10px
+
+    .form_group
+        margin-bottom: 20px
+        .validation_errors
+            brandon_medium(14px, false)
+
+    .form_flex
+        .form_group
+            flex: 0 0 100%
+            margin-bottom: 20px
+
+    .form_radio
+        label
+            brandon_regular(16px, false)
+            margin-left: 10px
+
+    .input_text
+        brandon_regular(16px, false)
+        &.alt
+            brandon_regular(16px, true)
+
+    .form_disclaimer
+        brandon_regular(14px, false)
+
+    .default_modal
+        #default_form
+            &.overlay
+                &.alt,
+                &.alt_2
+                    max-width: calc(100% - 30px)
+            .modal_wrapper
+                .form_title
+                    brandon_bold(22px, false)
+                    padding: 40px 20px 30px
+                .modal_main_group
+                    padding: 0 20px 20px
+                    .form_custom_checkbox
+                        .custom_checkbox
+                            padding: 20px 40px 20px 20px
+                            label
+                                brandon_bold(18px, false)
+                            .info
+                                p
+                                    brandon_medium(12px, false)
+                            #check
+                                right: calc(0% + 10px)
+                    .form_toggler
+                        .form_flex
+                            margin-bottom: 0
+        .confirmation_wrapper
+            max-width: calc(100% - 30px)
+            padding: 40px 20px 30px
+            .confirmation_highlight
+                brandon_bold(22px, false)
+                margin-top: 20px
+            .confirmation_text
+                brandon_regular(16px, false)
+            .member_info
+                margin-top: 20px
+                h2
+                    brandon_bold(25px, false)
+            .button_group
+                margin-top: 30px
+                &.alt
+                    .flex
+                        flex: 0 0 100%
+                .flex
+                    flex: 0 0 48.33%
 
     #main_container
         #header
@@ -19,7 +90,7 @@
                         neutra_bold(14px, true)
                         padding-left: 10px
             .nav_burger
-                flex: 0 0 10%
+                flex: 0 0 50px
                 margin: 0 10px
         #pro_tip
             top: calc(0% + 61px)
@@ -31,8 +102,14 @@
         #banner
             margin-top: 61px
         #content
-            padding: 60px 0 40px
+            padding: 60px 0 0
             max-width: calc(100% - 20px)
+            &.fish
+                padding: 0
+                margin: 30px auto
+                .main_right
+                    .content
+                        padding: 30px 0 20px
             &.dismiss
                 padding: 0 0 40px
             .main_left
@@ -55,6 +132,7 @@
             .main_right
                 margin-left: 0
                 .content
+                    padding: 30px 0 60px
                     .seat_wrapper
                         height: 350px
                         max-width: 350px
@@ -117,7 +195,7 @@
                             ul
                                 li
                                     brandon_medium(10px, true)
-                                    margin: 0 10px 0 0
+                                    margin: 0 15px 0 0
                                     &:last-child
                                         margin: 0
                                     span
@@ -125,28 +203,35 @@
                                         height: 15px
                                         margin-right: 5px
                         .actions
-                            padding: 10px 20px
+                            padding: 10px 0
                             margin-top: 20px
                             .next_wrapper
                                 .left,
                                 .right
                                     flex: 0 0 100%
                                 .left
+                                    padding: 10px 20px
+                                    justify-content: center
                                     .flex
                                         flex: 0 0 100%
-                                        &.package
+                                        &.package,
+                                        &.package_details
                                             margin-bottom: 15px
+                                            .toggler
+                                                justify-content: center
                                 .right
                                     text-align: center
-                                    margin-top: 30px
+                                    margin-top: 0
             .main_left,
             .main_right
                 flex: 0 0 100%
 
 @media (max-width: 767px) and (min-width: 425px)
 
-    .default_btn
+    .default_btn,
+    .default_btn_out
         width: auto
+        padding: 12px 45px
 
     #main_container
         .book_a_bike
@@ -172,11 +257,30 @@
                                     .seat
                                         padding: 20px 11.5px
                                         margin: 5.5px
+                        .footer
+                            .actions
+                                text-align: center
+                                .next_wrapper
+                                    .left
+                                        padding: 10px 0
+                                        .flex
+                                            flex: 0 0 auto
+                                            &.package,
+                                            &.package_details
+                                                .toggler
+                                                    justify-content: space-between
+                                            &.package
+                                                flex: 1 0 60%
+                                                padding-right: 10px
+                                            &.package_details
+                                                flex: 1 0 auto
 
 @media (max-width: 767px) and (min-width: 465px)
 
-    .default_btn
+    .default_btn,
+    .default_btn_out
         width: auto
+        padding: 12px 45px
 
     #main_container
         .book_a_bike
@@ -205,3 +309,126 @@
                                 .seat
                                     margin: 3px
                                     padding: 20px 7px
+                        .footer
+                            .actions
+                                text-align: center
+                                .next_wrapper
+                                    .left
+                                        padding: 10px 0
+                                        .flex
+                                            flex: 1 0 auto
+                                            &.package,
+                                            &.package_details
+                                                .toggler
+                                                    justify-content: center
+                                            &.package
+                                                flex: 1 0 50%
+                                            &.package_details
+                                                flex: 1 0 30%
+
+@media (max-width: 767px) and (min-width: 600px)
+
+    .default_btn,
+    .default_btn_out
+        width: auto
+        padding: 12px 45px
+
+    .form_flex
+        .form_group
+            flex: 0 0 48.33%
+            margin-bottom: 30px
+
+    .default_modal
+        #default_form
+            .modal_wrapper
+                .form_title
+                    brandon_bold(24px, false)
+                .modal_main_group
+                    .form_custom_checkbox
+                        .custom_checkbox
+                            label
+                            .info
+                                p
+                                    brandon_medium(14px, false)
+                            #check
+                                right: calc(0% + 20px)
+        .confirmation_wrapper
+            .confirmation_highlight
+                brandon_bold(24px, false)
+            .confirmation_text
+                brandon_regular(18px, false)
+            .member_info
+                h2
+                    brandon_bold(28px, false)
+            .button_group
+                &.alt
+                    .flex
+                        flex: 0 0 auto
+                .flex
+                    flex: 0 0 48.33%
+
+    #main_container
+        .book_a_bike
+            #content
+                padding: 30px 0 0
+                &.fish
+                    padding: 0
+                .main_left
+                    .header
+                        h2
+                            brandon_bold(24px, flase)
+                    .content
+                        ul
+                            brandon_regular(14px, false)
+                .main_right
+                    .content
+                        .seat_wrapper
+                            max-width: 600px
+                            height: 380px
+                            margin: 20px auto 30px
+                            transition: .3s ease-in-out
+                            .overlay_header
+                                h3
+                                    brandon_regular(22px, false)
+                                h4
+                                    brandon_regular(14px, false)
+                                img
+                                    width: 100px
+                            .overlay_seat
+                                &.layout_1
+                                    &.bottom
+                                        bottom: calc(0% + 135px)
+                                    &.bottom_alt
+                                        bottom: calc(0% + 70px)
+                                        .seat
+                                            left: 0
+                                    &.bottom_alt_2
+                                        bottom: calc(0% + 5px)
+                                &.left,
+                                &.right
+                                    top: calc(0% + 15px)
+                                &.bottom,
+                                &.bottom_alt,
+                                &.bottom_alt_2
+                                    .seat
+                                        padding: 25px 19.5px
+                                        margin: 7.5px
+                                .seat
+                                    margin: 3.5px
+                                    padding: 25px 10px
+                        .footer
+                            .actions
+                                text-align: center
+                                .next_wrapper
+                                    .left
+                                        padding: 10px 0
+                                        .flex
+                                            flex: 1 0 auto
+                                            &.package,
+                                            &.package_details
+                                                .toggler
+                                                    justify-content: center
+                                            &.package
+                                                flex: 1 0 50%
+                                            &.package_details
+                                                flex: 1 0 30%

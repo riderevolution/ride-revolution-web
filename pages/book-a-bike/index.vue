@@ -67,9 +67,15 @@
                                                 <div class="picker" @click="chooseSeat()">Bike No. 8</div>
                                             </div>
                                         </div>
-                                        <div class="flex package_detail">
-                                            <p>Total Rides Left: 9</p>
-                                            <p class="bold">Total Rides Used: 1</p>
+                                        <div class="flex package_details">
+                                            <div class="toggler">
+                                                <p>Total Rides Left:</p>
+                                                <p class="margin">9</p>
+                                            </div>
+                                            <div class="toggler">
+                                                <p class="bold">Total Rides Used:</p>
+                                                <p class="bold margin">1</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="right">

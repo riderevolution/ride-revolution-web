@@ -1,7 +1,6 @@
 <template>
     <div class="book_a_bike">
-        <section id="banner"></section>
-        <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
+        <section id="content" :class="` fish${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
             <div class="main_left">
                 <div class="header">
                     <h2 class="date">May 15, 2019</h2>
@@ -64,9 +63,15 @@
                                                 <div class="picker" @click="chooseSeat()">Bike No. 8</div>
                                             </div>
                                         </div>
-                                        <div class="flex package_detail">
-                                            <p>Total Rides Left: 9</p>
-                                            <p class="bold">Total Rides Used: 1</p>
+                                        <div class="flex package_details">
+                                            <div class="toggler">
+                                                <p>Total Rides Left:</p>
+                                                <p class="margin">9</p>
+                                            </div>
+                                            <div class="toggler">
+                                                <p class="bold">Total Rides Used:</p>
+                                                <p class="bold margin">1</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="right">
@@ -104,6 +109,7 @@
 </template>
 
 <script>
+import ProTip from '../../components/ProTip'
     import BookerAssign from '../../components/modals/BookerAssign'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import BookerChooseSeat from '../../components/modals/BookerChooseSeat'
@@ -114,6 +120,7 @@
     export default {
         layout: 'fish',
         components: {
+            ProTip,
             BookerAssign,
             BookerChoosePackage,
             BookerChooseSeat,
