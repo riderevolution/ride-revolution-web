@@ -25,24 +25,29 @@
                 <a href="javascript:void(0)" class="default_btn">Let's Begin</a>
             </div>
         </section>
-        <section id="promos">
+        <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
             <no-ssr>
                 <div @mouseenter="$refs.swiper.swiper.autoplay.stop()" @mouseleave="$refs.swiper.swiper.autoplay.start()">
                     <swiper :options="promoOptions" ref="swiper" class="default">
                         <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
                             <img :src="data.path" alt="" />
                             <div class="overlay">
-                                <h2 class="header_title">Ride Rev Sale</h2>
+                                <h2 class="header_title" v-line-clamp="3">Ride Rev Promo</h2>
                                 <h3 class="title">{{ data.title }}</h3>
                                 <div class="description" v-line-clamp="4" v-html="data.description"></div>
-                                <input class="code" :value="data.code" />
-                                <button type="button" class="default_btn" @click="codeClipboard(key)">Copy Code</button>
+                                <div class="copy_wrapper" v-if="data.hasCode">
+                                    <input class="code" :id="`code_${key}`" :value="data.code" />
+                                    <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
+                                </div>
                             </div>
                         </swiper-slide>
                         <div class="swiper-pagination" slot="pagination"></div>
                         <div class="swiper-button-prev" slot="button-prev"></div>
                         <div class="swiper-button-next" slot="button-next"></div>
                     </swiper>
+                    <transition name="slideX">
+                        <div class="overlay_btn default_btn" v-if="showAllPromos">See All Promos</div>
+                    </transition>
                 </div>
             </no-ssr>
         </section>
@@ -187,6 +192,7 @@
         },
         data () {
             return {
+                showAllPromos: false,
                 studio: [],
                 promoOptions: {
                     slidesPerView: 1,
@@ -233,32 +239,35 @@
                 res: [
                     {
                         path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        code: 'JHSHAI23'
+                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
+                        hasCode: false
                     },
                     {
                         path: '/default/promo/sample-image.jpg',
                         title: 'Get 1,500 Pesos Discount on your Ride!*',
                         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
+                        hasCode: true,
                         code: 'ASD1231'
                     },
                     {
                         path: '/default/promo/sample-image.jpg',
                         title: 'Get 1,500 Pesos Discount on your Ride!*',
                         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
+                        hasCode: true,
                         code: 'HGJ23A'
                     },
                     {
                         path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        code: 'JHSHAI23'
+                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
+                        hasCode: false
                     },
                     {
                         path: '/default/promo/sample-image.jpg',
                         title: 'Get 1,500 Pesos Discount on your Ride!*',
                         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
+                        hasCode: true,
                         code: 'JHSHAI23'
                     }
                 ],
@@ -425,16 +434,18 @@
                     }
                 })
             },
-            codeClipboard (key) {
+            codeClipboard (data, key) {
                 const me = this
-                let element = document.getElementById(`code_${key}`)
-                element.select()
-                element.setSelectionRange(0, 99999)
-                document.execCommand("copy")
-                element.nextElementSibling.innerHTML = 'Copied!'
-                setTimeout( () => {
-                    element.nextElementSibling.innerHTML = 'Copy Code'
-                }, 1000)
+                if (data.hasCode) {
+                    let element = document.getElementById(`code_${key}`)
+                    element.select()
+                    element.setSelectionRange(0, 99999)
+                    document.execCommand("copy")
+                    element.nextElementSibling.innerHTML = 'Copied!'
+                    setTimeout( () => {
+                        element.nextElementSibling.innerHTML = 'Copy Code'
+                    }, 1000)
+                }
             }
         },
         mounted () {
