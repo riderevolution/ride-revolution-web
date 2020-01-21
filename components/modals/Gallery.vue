@@ -1,7 +1,7 @@
 <template>
     <div :class="`gallery_modal ${(opened) ? 'opened' : ''} ${(toggled) ? 'toggled' : ''}`">
         <div class="main">
-            <div class="overlay" v-if="$store.state.hiddenMobile">
+            <div class="overlay" v-if="!$store.state.isMobile">
                 <button type="button" class="left_arrow" @click="prev()"></button>
                 <div class="main_image" v-for="(data, key) in images" :key="key" v-if="key == activeThumb">
                     <img id="main_image" class="image_responsive" :src="data.path" />
@@ -10,7 +10,7 @@
                 <button type="button" class="right_arrow" @click="next()"></button>
             </div>
             <div class="overlay mobile" v-else>
-                <no-ssr v-if="!$store.state.hiddenMobile">
+                <no-ssr v-if="$store.state.isMobile">
                     <swiper :options="newsOptions">
                         <div class="swiper-pagination" slot="pagination"></div>
                         <swiper-slide class="slide" v-for="(data, key) in images" :key="key" >
@@ -23,11 +23,11 @@
                 </no-ssr>
             </div>
             <div class="controls">
-                <button type="button" class="control_toggle" @click="toggler()" v-if="$store.state.hiddenMobile"></button>
+                <button type="button" class="control_toggle" @click="toggler()" v-if="!$store.state.isMobile"></button>
                 <button type="button" class="control_close" @click="close()"></button>
             </div>
         </div>
-        <div class="thumb" v-if="$store.state.hiddenMobile">
+        <div class="thumb" v-if="!$store.state.isMobile">
             <div class="wrapper">
                 <div :class="`thumb_image ${(key == 0) ? 'active' : ''}`" v-for="(data, key) in images" :key="key">
                     <img :src="data.path" @click="getThumb(key)" />

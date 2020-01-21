@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import ProTip from '../../components/ProTip'
+    import ProTip from '../../components/ProTip'
     import BookerAssign from '../../components/modals/BookerAssign'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import BookerChooseSeat from '../../components/modals/BookerChooseSeat'

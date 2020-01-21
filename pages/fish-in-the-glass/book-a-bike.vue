@@ -49,7 +49,6 @@
                             </ul>
                         </div>
                         <div class="actions">
-                            <a href="javascript:void()" class="default_btn" v-if="!checkPackage">Buy Rides</a>
                             <transition name="fade">
                                 <div class="next_wrapper" v-if="checkPackage">
                                     <div class="left">

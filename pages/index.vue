@@ -451,6 +451,11 @@
         mounted () {
             const me = this
             me.studio = me.studios[0]
+        },
+        head () {
+            return {
+                title: 'Home | Ride Revolution',
+            }
         }
     }
 </script>

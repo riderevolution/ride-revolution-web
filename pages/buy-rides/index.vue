@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="content">
-                <a href="javascript:void(0)" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
+                <nuxt-link :to="data.link" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
                     <div class="ribbon" v-if="data.has_promo">Promo</div>
                     <div class="package_header">
                         <h2 class="title">{{ data.title }}</h2>
@@ -25,7 +25,7 @@
                     <div class="price">Php {{ totalItems(data.price) }}</div>
                     <div class="expires">{{ data.expire }}</div>
                     <div class="default_btn_out"><span>Buy Now</span></div>
-                </a>
+                </nuxt-link>
             </div>
         </section>
         <section id="promos">
@@ -144,28 +144,36 @@
                         description: '<p>1 class included<br /> First Timers Only</p>',
                         price: '500',
                         has_promo: false,
-                        expire: 'Expires in 30 Days'
+                        expire: 'Expires in 30 Days',
+                        type: 'package',
+                        link: '/buy-rides/sample'
                     },
                     {
                         title: 'First Timer Package',
                         description: '<p>UNLIMITED RIDES VALID<br /> FOR ONLY 2 WEEKS</p>',
                         price: '1800',
                         has_promo: false,
-                        expire: 'Expires in 30 Days'
+                        expire: 'Expires in 30 Days',
+                        type: 'package',
+                        link: '/buy-rides/sample'
                     },
                     {
                         title: 'Single Class',
                         description: '<p>1 CLASS INCLUDED</p>',
                         price: '5000',
                         has_promo: false,
-                        expire: 'Expires in 45 Days'
+                        expire: 'Expires in 45 Days',
+                        type: 'package',
+                        link: '/buy-rides/sample'
                     },
                     {
                         title: '10 Class Package',
                         description: '<p>10 CLASSES INCLUDED<br /> + 1 BARE MANILA CLASS</p>',
                         price: '500',
                         has_promo: false,
-                        expire: 'Expires in 30 Days'
+                        expire: 'Expires in 30 Days',
+                        type: 'package',
+                        link: '/buy-rides/sample'
                     },
                     {
                         title: '20 Class Package',
@@ -173,7 +181,9 @@
                         discounted_price: '17000',
                         price: '15000',
                         has_promo: true,
-                        expire: 'Expires in 6 Months'
+                        expire: 'Expires in 6 Months',
+                        type: 'package',
+                        link: '/buy-rides/sample'
                     },
                     {
                         title: 'Monthly Unlimited Class Package',
@@ -181,7 +191,9 @@
                         discounted_price: '22500',
                         price: '20000',
                         has_promo: true,
-                        expire: 'Expires in 1 Year'
+                        expire: 'Expires in 1 Year',
+                        type: 'package',
+                        link: '/buy-rides/sample'
                     },
                 ],
                 credits: [
@@ -190,19 +202,22 @@
                         discounted_price: '500',
                         price: '400',
                         has_promo: true,
-                        expire: 'No Expiry'
+                        expire: 'No Expiry',
+                        type: 'store-credit'
                     },
                     {
                         title: '1k Store Credits',
                         price: '1000',
                         has_promo: false,
-                        expire: 'No Expiry'
+                        expire: 'No Expiry',
+                        type: 'store-credit'
                     },
                     {
-                        title: '5l Store Credits',
+                        title: '5k Store Credits',
                         price: '5000',
                         has_promo: false,
-                        expire: 'No Expiry'
+                        expire: 'No Expiry',
+                        type: 'store-credit'
                     }
                 ],
             }

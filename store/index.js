@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            buyRidesPromptStatus: false,
             bookerAssignSuccessStatus: false,
             bookerAssignNonMemberStatus: false,
             bookerAssignMemberErrorStatus: false,
