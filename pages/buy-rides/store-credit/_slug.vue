@@ -5,19 +5,19 @@
             <pro-tip v-if="$store.state.proTipStatus" />
         </transition>
         <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
-            <h1 class="header_title">Buy Class Package</h1>
+            <h1 class="header_title">Buy Store Credits</h1>
             <div class="wrapper">
                 <div class="left">
                     <div class="header">
-                        <h2>10 Class Package</h2>
-                        <h2>Php 9,500.00</h2>
+                        <h2>{{ replacer($route.params.slug) }}</h2>
+                        <h2>Php 1,000.00</h2>
                     </div>
                     <div class="content">
                         <ul>
-                            <li>You’ll have <strong>10 ride credits</strong> that can be booked in any of our studios in metro manila.</li>
-                            <li>Inclusive of one <strong>(1) free Bare Manila Class</strong>. Just show the e-receipt at Bare Manila to claim your free class.</li>
-                            <li>Transferable or sharable to other Ride Revolution members.</li>
-                            <li>This package is valid for 3 months upon activation. (A package is activated when a first class is booked.) You’ll have 30 days to activate this package.</li>
+                            <li>1,000 worth of store credits that can be used to purchase class packages and Ride Revolution merchandise.</li>
+                            <li>This can’t be used to purchase more store credits.</li>
+                            <li>This is not transferrable or sharable to other Ride Rev members.</li>
+                            <li>This is not convertible to cash.</li>
                         </ul>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="breakdown_list">
                         <div class="item">
                             <p>Subtotal</p>
-                            <p>Php 9,500.00</p>
+                            <p>Php 1,000.00</p>
                         </div>
                         <div class="item">
                             <p>Discount</p>
@@ -44,18 +44,17 @@
                         </div>
                         <div class="total">
                             <p>You Pay</p>
-                            <p>Php 9,500.00</p>
+                            <p>Php 1,000.00</p>
                         </div>
                     </div>
                     <div class="breakdown_actions">
-                        <div class="default_btn">Use Store Credits</div>
+                        <nuxt-link to="/buy-rides" class="default_btn_blk">Back</nuxt-link>
                         <div class="default_btn_img">
                             <div class="btn_wrapper">
                                 <span class="img"><img src="/icons/paypal-icon.png" /></span><span>Pay Now</span>
                             </div>
                         </div>
                     </div>
-                    <nuxt-link to="/buy-rides" class="default_btn_blk">Back</nuxt-link>
                 </div>
             </div>
         </section>
@@ -86,7 +85,7 @@
         methods: {
             applyPromo () {
                 const me = this
-                me.message = 'Please Enter a promo code'
+                me.message = 'You’ve entered an invalid promo code.'
                 me.$store.state.buyRidesPromptStatus = true
             }
         },

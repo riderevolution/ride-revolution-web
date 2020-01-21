@@ -325,7 +325,9 @@ svg
                         .nav_item
                             color: $black_alt
                             transition: .3s ease-in-out
-                            &:hover
+                            &:hover,
+                            &.nuxt-link-exact-active,
+                            &.nuxt-link-active
                                 color: $green
                                 text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                                 transition: .3s ease-in-out
@@ -399,7 +401,9 @@ svg
                             background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
                             opacity: 0
                             transition: .3s ease-in-out .05s
-                        &:hover
+                        &:hover,
+                        &.nuxt-link-exact-active,
+                        &.nuxt-link-active
                             color: $green_alt
                             text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                             transition: .3s ease-in-out
@@ -1729,50 +1733,69 @@ svg
             &.dismiss
                 padding: 60px 0 80px
                 transition: .3s ease-in-out
-            h1
-                brandon_bold(26px, false)
-                color: $black
-                margin-bottom: 40px
-            .wrapper
-                display: flex
-                flex-flow: row wrap
-                .left,
-                .right
-                    flex: 0 0 50%
-                .left
-                    padding-right: 60px
-                    .header
-                        display: flex
-                        flex-flow: row wrap
-                        align-items: center
-                        justify-content: space-between
-                        h2
-                            brandon_regular(20px, false)
-                            color: $black
-                    .content
-                        margin: 20px 0
-                        ul
-                            padding: 0 0 0 20px
-                            margin: 0
-                            color: $gray_alt2
-                            li
-                                brandon_regular(16px, false)
-                                margin-bottom: 10px
-                                strong
-                                    color: $black
-                .right
-                    padding-left: 60px
-                    border-left: 1px solid #D0D0D0
-                    .breakdown_list
+            .step
+                position: relative
+                z-index: 2
+                &#step_1,
+                &#step_2,
+                &#step_3
+                    &.overlay
+                        position: absolute
+                        z-index: -1
+                .header_title
+                    brandon_bold(26px, false)
+                    color: $black
+                    margin-bottom: 40px
+                .preview_payment
+                    width: 100%
+                    max-width: 50%
+                    margin: 0 auto
+                    .preview
                         .item
                             display: flex
                             flex-flow: row wrap
                             align-items: center
                             justify-content: space-between
-                            margin-bottom: 10px
-                            p
-                                brandon_regular(16px, false)
-                                color: $gray_alt2
+                            padding: 15px 0
+                            border-bottom: 1px solid $border_alt4
+                            p,
+                            h3
+                                brandon_regular(20px, false)
+                                color: $black
+                            h3
+                                text-transform: capitalize
+                        .available
+                            .available_item
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                justify-content: space-between
+                                padding: 15px 0
+                                border-bottom: 1px solid $border_alt4
+                                &.insufficient
+                                    p
+                                        color: $red
+                                h3
+                                    brandon_regular(20px, false)
+                                    color: $black
+                                    text-transform: capitalize
+                                p
+                                    brandon_medium(20px, false)
+                                    color: $black
+                                .unavailable
+                                    flex: 0 0 100%
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    justify-content: space-between
+                                    margin-top: 10px
+                                    a
+                                        brandon_medium(16px, true)
+                                        letter-spacing: 0.8px
+                                        color: $green
+                                    label
+                                        brandon_regular_italic(14px, false)
+                                        color: $red
                         .total
                             display: flex
                             flex-flow: row wrap
@@ -1782,12 +1805,62 @@ svg
                             p
                                 brandon_bold(20px, false)
                                 color: $black
-                    .breakdown_actions
-                        display: flex
-                        flex-flow: row wrap
-                        align-items: center
-                        justify-content: space-between
-                        margin: 40px 0 20px
+                .wrapper
+                    display: flex
+                    flex-flow: row wrap
+                    .left,
+                    .right
+                        flex: 0 0 50%
+                    .left
+                        padding-right: 60px
+                        .header
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: space-between
+                            h2
+                                brandon_regular(20px, false)
+                                color: $black
+                                text-transform: capitalize
+                        .content
+                            margin: 20px 0
+                            ul
+                                padding: 0 0 0 20px
+                                margin: 0
+                                color: $gray_alt2
+                                li
+                                    brandon_regular(16px, false)
+                                    margin-bottom: 10px
+                                    strong
+                                        color: $black
+                    .right
+                        padding-left: 60px
+                        border-left: 1px solid #D0D0D0
+                        .breakdown_list
+                            .item
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                justify-content: space-between
+                                margin-bottom: 10px
+                                p
+                                    brandon_regular(16px, false)
+                                    color: $gray_alt2
+                            .total
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                justify-content: space-between
+                                margin: 40px 0 0
+                                p
+                                    brandon_bold(20px, false)
+                                    color: $black
+                        .breakdown_actions
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: space-between
+                            margin: 40px 0 20px
     #banner
         margin-top: 81px
     #digital

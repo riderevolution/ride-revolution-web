@@ -16,7 +16,7 @@
                     <nuxt-link to="/book-a-bike" class="nav_item">Book a Bike</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link to="/" class="nav_item">What's New</nuxt-link>
+                    <nuxt-link to="/whats-new" class="nav_item">What's New</nuxt-link>
                 </li>
                 <li v-if="!$store.state.isAuth">
                     <div class="default_btn" @click="loginUser()">Login / Sign up</div>

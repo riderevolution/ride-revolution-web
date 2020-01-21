@@ -23,6 +23,12 @@
             Foot,
             Loader
         },
+        watch:{
+            $route (to, from){
+                const me = this
+                me.$store.state.buyRidesPromptStatus = false
+            }
+        },
         methods: {
             onResize() {
                 const me = this
