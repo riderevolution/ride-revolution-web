@@ -136,6 +136,76 @@ svg
         box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
         transition: .3s ease-in-out
 
+.default_btn_wht_alt
+    cursor: pointer
+    box-shadow: 0px 0px 30px transparent
+    transition: .3s ease-in-out
+    .text
+        position: relative
+        display: inline-block
+        text-align: center
+        width: auto
+        brandon_bold(16px, true)
+        color: $white
+        letter-spacing: 1.3px
+        padding: 15px 45px
+        background-color: transparent
+        border: 1px solid $white
+        outline: none
+        transition: .3s ease-in-out
+        .border_top
+            position: absolute
+            top: calc(0% - 2px)
+            left: calc(0% - 2px)
+            transition: .5s ease-in-out
+            &.left
+                width: 20px
+                border-top: 3px solid $white
+                &.alt
+                    opacity: 1
+                    width: 15px
+                    left: calc(5% + 10px)
+            &.right
+                height: 20px
+                border-left: 3px solid $white
+        .border_bottom
+            position: absolute
+            bottom: calc(0% - 2px)
+            right: calc(0% - 2px)
+            transition: .5s ease-in-out
+            &.left
+                width: 20px
+                border-bottom: 3px solid $white
+            &.right
+                height: 20px
+                border-right: 3px solid $white
+    &:hover
+        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+        transition: .5s ease-in-out
+        .text
+            border: 1px solid $green
+            background-color: rgba(255, 255, 255, 0.1)
+            transition: .5s ease-in-out
+            .border_top,
+            .border_bottom
+                transition: .5s ease-in-out
+                &.left
+                    width: calc(100% + 4px)
+                    &.alt
+                        opacity: 0
+                &.right
+                    height: calc(100% + 4px)
+            .border_top
+                &.left
+                    border-top: 3px solid $green
+                &.right
+                    border-left: 3px solid $green
+            .border_bottom
+                &.left
+                    border-bottom: 3px solid $green
+                &.right
+                    border-right: 3px solid $green
+
 .default_btn_blk
     display: inline-block
     text-align: center
@@ -2494,9 +2564,63 @@ svg
                             stroke: $green_alt
                             transition: .3s ease-in-out
         .amenities
-            background-color: $black
-            padding: 60px
+            position: relative
+            background-image: url('/default/riders-guide/amenities-banner.jpg')
+            background-size: cover
+            background-position: center
+            background-repeat: no-repeat
+            padding: 10em 100px 8em
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: 0
+                right: 0
+                bottom: 0
+                z-index: 0
+                background-color: rgba(0, 0, 0, 0.6)
+            h2
+                position: relative
+                text-align: center
+                brandon_bold(42px, false)
+                color: $white
+                margin-bottom: 40px
             .content
+                position: relative
+                .wrapper
+                    position: relative
+                    cursor: pointer
+                    .field_image
+                        position: relative
+                        .overlay
+                            position: absolute
+                            top: calc(50% - 2.5%)
+                            left: 0
+                            width: 100%
+                            text-align: center
+                            z-index: 1
+                            opacity: 0
+                            transition: .3s ease-in-out
+                            brandon_bold(22px, true)
+                            color: $white
+                            letter-spacing: 1.1px
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 0
+                            left: 0
+                            width: 100%
+                            height: 100%
+                            background-color: rgba(0, 0, 0, 0.5)
+                            z-index: 0
+                            opacity: 0
+                            transition: .3s ease-in-out
+                    &:hover
+                        .field_image
+                            .overlay,
+                            &::before
+                                opacity: 1
+                                transition: .3s ease-in-out
                 .view_all
                     position: absolute
                     right: 0
@@ -2504,20 +2628,71 @@ svg
                     display: inline-block
                     margin: 0
                     z-index: 2
-                    span
-                        brandon_bold(18px, true)
-                        letter-spacing: 0.9px
-                        color: $green
-                        margin-left: 15px
-                        vertical-align: middle
-                        transition: .3s ease-in-out
-                    &:hover
-                        img
-                            box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
-                            transition: .3s ease-in-out
-                        span
-                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
-                            transition: .3s ease-in-out
+    #ride_info
+        background-image: url('/dotted-bg.png')
+        .header
+            padding: 80px 0 0
+            text-align: center
+            h2
+                brandon_bold(50px, true)
+                color: $black
+                letter-spacing: 2.5px
+                margin-bottom: 10px
+        .content
+            display: flex
+            flex-flow: row wrap
+            width: 100%
+            max-width: calc(50% + 60px)
+            margin: 0 auto
+            padding-bottom: 80px
+            .wrapper
+                flex: 0 0 calc(50% - 60px)
+                margin: 30px
+                border: 1px solid #A5A5A5
+                padding: 30px
+                h2
+                    brandon_medium(16px, true)
+                    color: $black
+                    letter-spacing: 0.77px
+                .info
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: flex-start
+                    padding-bottom: 10px
+                    .count
+                        brandon_bold(100px, false)
+                        color: $black
+                        line-height: 1
+                    .text
+                        brandon_light(32px, true)
+                        color: $black
+                p
+                    brandon_regular(16px, false)
+                    color: $black_alt2
+    #cool_letgo
+        position: relative
+        &::before
+            content: ''
+            position: absolute
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            background-color: rgba(0, 0, 0, 0.3)
+        .overlay
+            position: absolute
+            top: 50%
+            left: 0
+            right: 0
+            margin: 0 auto
+            text-align: center
+            transform: translateY(-50%)
+            h2
+                position: relative
+                text-align: center
+                brandon_bold(42px, false)
+                color: $white
+                margin-bottom: 40px
 /**
  * Book a Bike */
 .book_a_bike

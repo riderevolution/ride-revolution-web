@@ -100,7 +100,7 @@
                     <no-ssr>
                         <swiper :options="amenitiesOptions" class="default alt2">
                             <swiper-slide class="wrapper" :id="`studio_${key}`" v-for="(data, key) in studioImages" :key="key">
-                                <div class="field_image">
+                                <div class="field_image" @click="openGallery(key)">
                                     <img class="image_responsive" :src="data.images[0].path" />
                                     <h2 class="overlay">
                                         {{ data.name }}
@@ -110,25 +110,60 @@
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
-                        <nuxt-link to="/instructors" class="view_all">
-                            <img src="/icons/view-all-instructors.svg" />
-                            <span>View All Instructors</span>
+                        <nuxt-link to="/instructors" class="view_all default_btn_wht_alt">
+                            <div class="text">
+                                <div class="border_top left"></div>
+                                <div class="border_top left alt"></div>
+                                <div class="border_top right"></div>
+                                Explore Our Studio Amenities
+                                <div class="border_bottom left"></div>
+                                <div class="border_bottom right"></div>
+                            </div>
                         </nuxt-link>
                     </no-ssr>
                 </div>
             </div>
         </section>
+        <section id="ride_info">
+            <div class="header">
+                <h2>Ride</h2>
+            </div>
+            <div class="content">
+                <div class="wrapper" v-for="(data, key) in rideInfos" :key="key">
+                    <h2>{{ data.title }}</h2>
+                    <div class="info">
+                        <h3 class="count">{{ data.info_count }}</h3>
+                        <h3 class="text">{{ data.info_text }}</h3>
+                    </div>
+                    <p>{{ data.description }}</p>
+                </div>
+            </div>
+        </section>
+        <section id="cool_letgo">
+            <img src="/default/riders-guide/cool-lets-go.jpg" />
+            <div class="overlay">
+                <h2>Cool! Let's go.</h2>
+                <nuxt-link to="/sign-up" class="default_btn">Create An Account</nuxt-link>
+            </div>
+        </section>
+        <transition name="fade">
+            <gallery ref="gallery" :images="imagesToSend" v-if="showGallery" />
+        </transition>
     </div>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import Gallery from '../../components/modals/Gallery'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            Gallery
         },
         data () {
             return {
+                showGallery: false,
+                imagesToSend: null,
                 toggled: false,
                 instructorOptions: {
                     slidesPerView: 4,
@@ -184,6 +219,32 @@
                         }
                     }
                 },
+                rideInfos: [
+                    {
+                        title: 'Sweat For',
+                        info_count: '50',
+                        info_text: 'Minutes',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                    },
+                    {
+                        title: 'Ride At',
+                        info_count: '3',
+                        info_text: 'Locations',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                    },
+                    {
+                        title: 'Burn up to',
+                        info_count: '800',
+                        info_text: 'Calories',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                    },
+                    {
+                        title: 'Choose From',
+                        info_count: '40',
+                        info_text: 'Instructors',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                    }
+                ],
                 studioImages: [
                     {
                         name: 'Spinning Studio',
@@ -416,6 +477,16 @@
             }
         },
         methods: {
+            openGallery(key) {
+                const me = this
+                // me.imagesToSend = me.parser(me.studioImages[key].images)
+                me.imagesToSend = me.studioImages[key].images
+                me.showGallery = true
+                setTimeout( () => {
+                    me.$refs.gallery.opened = true
+                }, 200)
+                document.body.classList.add('no_scroll')
+            },
             toggleStep (key, data) {
                 const me = this
                 me.currentStep = `step_${key + 1}`
