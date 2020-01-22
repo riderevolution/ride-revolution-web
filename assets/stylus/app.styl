@@ -1721,9 +1721,9 @@ svg
                     &:hover
                         box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                         transition: .3s ease-in-out
-                        .btn_2
-                            fill: $green_alt
-                            transition: .3s ease-in-out
+                        .btn_1
+                            opacity: 1
+                            fill: $green
                         .btn_3
                             stroke: $green_alt
                             transition: .3s ease-in-out
@@ -2317,42 +2317,97 @@ svg
             margin: 0 auto
             padding-bottom: 80px
             .bike_wrapper
-                flex: 0 0 60%
+                position: relative
+                flex: 0 0 auto
+                .bike_arrow
+                    position: absolute
+                    transition: .3s ease-in-out
+                    &.step_1
+                        top: calc(50% - 20px)
+                        left: 0
+                    &.step_2
+                        top: calc(25% + 30px)
+                        left: calc(0% - 65px)
+                    &.step_3
+                        top: calc(5% - 10px)
+                        left: calc(50% - 10px)
+                    &.step_4
+                        top: calc(100% - 40px)
+                        left: calc(20% - 20px)
+                    &.step_5
+                        top: calc(25% + 0px)
+                        left: calc(50% - 10px)
+                &.step_1
+                    .step_1
+                        fill: $green !important
+                        transition: .3s ease-in-out
+                &.step_2
+                    .step_2
+                        fill: $green !important
+                        transition: .3s ease-in-out
+                &.step_3
+                    .step_3
+                        fill: $green !important
+                        transition: .3s ease-in-out
+                &.step_4
+                    .step_4
+                        fill: $green !important
+                        transition: .3s ease-in-out
+                &.step_5
+                    .step_5
+                        fill: $green !important
+                        transition: .3s ease-in-out
                 #bike
                     .color_1
                         fill: #939498
+                        transition: .3s ease-in-out
                     .color_2
                         fill: #d1d2d4
+                        transition: .3s ease-in-out
                     .color_3
                         fill: #3d3c42
+                        transition: .3s ease-in-out
                     .color_4
                         fill: #a7a8ac
+                        transition: .3s ease-in-out
                     .color_5
                         fill: #231f20
+                        transition: .3s ease-in-out
                     .color_6
                         fill: #515056
+                        transition: .3s ease-in-out
                     .color_7
                         fill: #f7fcfd
+                        transition: .3s ease-in-out
                     .color_8
                         fill: #f7fbfd
+                        transition: .3s ease-in-out
                     .color_9
                         fill: #b9c1c3
+                        transition: .3s ease-in-out
                     .color_10
                         fill: #2b2522
+                        transition: .3s ease-in-out
                     .color_11
                         fill: #342c2a
                         stroke: rgba(0,0,0,0)
                         stroke-width: 1
+                        transition: .3s ease-in-out
                     .color_12
                         fill: #d1d2d3
+                        transition: .3s ease-in-out
                     .color_13
                         fill: #48403d
+                        transition: .3s ease-in-out
                     .color_14
                         fill: #636466
+                        transition: .3s ease-in-out
                     .color_15
                         fill: #47403d
+                        transition: .3s ease-in-out
             .steps
                 flex: 0 0 40%
+                margin-left: 10em
                 border: 1px solid #D8D8D8
                 .wrapper
                     padding: 15px 20px
@@ -2399,6 +2454,70 @@ svg
                             b
                                 color: $white
                                 transition: .3s ease-in-out
+    #amenities
+        .riders_guide_video
+            position: relative
+            .overlay
+                position: absolute
+                top: 50%
+                left: 0
+                right: 0
+                margin: 0 auto
+                text-align: center
+                transform: translateY(-50%)
+                #play_button
+                    box-shadow: 0px 0px 30px transparent
+                    border-radius: 50px
+                    transition: .3s ease-in-out
+                    .btn_1
+                        fill: $white
+                        opacity: 0.279
+                        transition: .3s ease-in-out
+                    .btn_2
+                        fill: $white
+                        transition: .3s ease-in-out
+                    .btn_3
+                        fill: transparent
+                        stroke: $white
+                        transition: .3s ease-in-out
+                    .btn_4
+                        stroke: transparent
+                    .btn_5
+                        fill: transparent
+                    &:hover
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
+                        .btn_1
+                            opacity: 1
+                            fill: $green
+                        .btn_3
+                            stroke: $green_alt
+                            transition: .3s ease-in-out
+        .amenities
+            background-color: $black
+            padding: 60px
+            .content
+                .view_all
+                    position: absolute
+                    right: 0
+                    bottom: 0
+                    display: inline-block
+                    margin: 0
+                    z-index: 2
+                    span
+                        brandon_bold(18px, true)
+                        letter-spacing: 0.9px
+                        color: $green
+                        margin-left: 15px
+                        vertical-align: middle
+                        transition: .3s ease-in-out
+                    &:hover
+                        img
+                            box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
+                        span
+                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
 /**
  * Book a Bike */
 .book_a_bike
