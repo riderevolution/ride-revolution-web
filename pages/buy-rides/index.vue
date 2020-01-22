@@ -61,7 +61,7 @@
                     <p>Use your store credits to purchase class packages and products.</p>
                 </div>
             </div>
-            <div class="content">
+            <div class="content" id="store-credits">
                 <nuxt-link :to="`/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in credits" :key="key">
                     <div class="ribbon" v-if="data.has_promo">Promo</div>
                     <div class="package_header alt">
@@ -232,6 +232,14 @@
                         element.nextElementSibling.innerHTML = 'Copy Code'
                     }, 1000)
                 }
+            }
+        },
+        mounted() {
+            const me = this
+            if (me.$route.hash != '') {
+                me.$scrollTo(`${me.$route.hash}`, {
+                    offset: 300
+                })
             }
         }
     }

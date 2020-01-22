@@ -26,6 +26,7 @@ $black_alt2 = #53565C
 $gray = #A8A8A8
 $gray_alt = #ABADB9
 $gray_alt2 = #808080
+$gray_alt3 = #F7F7F7
 
 $border = #DEDEDE
 $border_alt = #EDEEF0
@@ -272,6 +273,18 @@ svg
     background-color: $blue_alt3
     border: 1px solid $blue_alt4
     transition: .3s ease-in-out
+    &.insufficient
+        cursor: not-allowed
+        pointer-events: none
+        background-color: $gray_alt3
+        color: $gray
+        border: 1px solid $gray_alt3
+        transition: .3s ease-in-out
+        .btn_wrapper
+            span
+                &.img
+                    border-right: 1px solid $gray
+                    filter: grayscale(1)
     .btn_wrapper
         position: inherit
         display: flex
@@ -1960,6 +1973,10 @@ svg
                 &#step_3
                     &.overlay
                         position: absolute
+                        left: 0
+                        right: 0
+                        margin: 0 auto
+                        text-align: center
                         bottom: 0
                 .header_title
                     brandon_bold(26px, false)
@@ -2020,10 +2037,15 @@ svg
                             flex-flow: row wrap
                             align-items: center
                             justify-content: space-between
-                            margin: 40px 0 0
+                            margin: 40px 0
                             p
                                 brandon_bold(20px, false)
                                 color: $black
+                        .preview_actions
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: space-between
                 .wrapper
                     display: flex
                     flex-flow: row wrap

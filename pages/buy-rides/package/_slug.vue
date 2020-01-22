@@ -99,7 +99,7 @@
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()">Back</div>
-                                <div class="default_btn_img">
+                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`">
                                     <div class="btn_wrapper">
                                         <span class="img"><img src="/icons/paypal-icon.png" /></span><span>Pay Now</span>
                                     </div>
