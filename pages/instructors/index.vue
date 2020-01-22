@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="javascript:void(0)" :class="`default_btn load ${(checkInstructors) ? 'loaded' : ''}`" @click="loadMoreInstructors()">Load More</a>
+                <div v-if="!checkInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
             </div>
         </section>
     </div>

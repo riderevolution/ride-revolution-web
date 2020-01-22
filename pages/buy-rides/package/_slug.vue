@@ -64,7 +64,7 @@
                     </div>
                 </transition>
             </div>
-            <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`" v-if="step == 2">
+            <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div v-if="step == 2" class="preview_payment">
                         <h2 class="header_title">Let’s make sure we got this right.</h2>
@@ -96,6 +96,14 @@
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>Php 9,000.00</p>
+                            </div>
+                            <div class="preview_actions">
+                                <div class="default_btn_blk" @click="stepBack()">Back</div>
+                                <div class="default_btn_img">
+                                    <div class="btn_wrapper">
+                                        <span class="img"><img src="/icons/paypal-icon.png" /></span><span>Pay Now</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -129,6 +137,14 @@
             }
         },
         methods: {
+            stepBack () {
+                const me = this
+                if (me.step == 2) {
+                    me.step = 1
+                } else if (me.step == 3) {
+                    me.step = 2
+                }
+            },
             proceedToPayment (type) {
                 const me = this
                 switch (type) {

@@ -728,7 +728,8 @@ svg
                                 transform: rotate(-25deg)
                                 transition: .3s ease-in-out
                             &:hover,
-                            &.nuxt-link-exact-active
+                            &.nuxt-link-exact-active,
+                            &.nuxt-link-active
                                 &::before
                                     right: calc(0% - 25px)
                                     transition: .3s ease-in-out
@@ -1409,7 +1410,7 @@ svg
                 background-repeat: no-repeat
                 background-size: cover
                 padding: 15% 0
-                animation: fade_in 1s
+                animation: slide_from_bottom 1s
                 &::before
                     content: ''
                     position: absolute
@@ -1674,6 +1675,155 @@ svg
                 &:hover
                     box-shadow: 0px 0 30px rgba(226, 226, 226, 1)
                     transition: .3s ease-in-out
+        .preview
+            position: relative
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: 0
+                right: 0
+                bottom: 0
+                background-color: rgba(0,0,0,0.6)
+            .overlay
+                position: absolute
+                top: 50%
+                left: 0
+                right: 0
+                text-align: center
+                margin: 0 auto
+                z-index: 2
+                transform: translateY(-50%)
+                h2
+                    brandon_bold(42px, true)
+                    color: $white
+                    letter-spacing: 1.6px
+                    margin-bottom: 40px
+                #play_button
+                    box-shadow: 0px 0px 30px transparent
+                    border-radius: 50px
+                    transition: .3s ease-in-out
+                    .btn_1
+                        fill: $white
+                        opacity: 0.279
+                        transition: .3s ease-in-out
+                    .btn_2
+                        fill: $white
+                        transition: .3s ease-in-out
+                    .btn_3
+                        fill: transparent
+                        stroke: $white
+                        transition: .3s ease-in-out
+                    .btn_4
+                        stroke: transparent
+                    .btn_5
+                        fill: transparent
+                    &:hover
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
+                        .btn_2
+                            fill: $green_alt
+                            transition: .3s ease-in-out
+                        .btn_3
+                            stroke: $green_alt
+                            transition: .3s ease-in-out
+    /**
+     * Comment */
+    #comments
+        width: 100%
+        max-width: 65%
+        margin: 80px auto
+        .header
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-between
+            margin-bottom: 20px
+            h2
+                flex: 0 0 50%
+                brandon_bold(26px, true)
+                letter-spacing: 1.3px
+                color: $black
+        .content
+            .comment
+                padding: 40px 0
+                border-bottom: 1px solid $border_alt4
+                display: flex
+                flex-flow: row wrap
+                align-items: flex-start
+                animation: slide_from_bottom 1s
+                &:last-child
+                    padding: 40px 0 0
+                    border-bottom: 1px solid transparent
+                .comment_img
+                    width: 60px
+                    border-radius: 50%
+                .comment_img_initials
+                    position: relative
+                    .background
+                        width: 60px
+                        height: 60px
+                        background-color: $black_alt2
+                        border-radius: 50%
+                    .initials
+                        position: absolute
+                        top: 50%
+                        left: 0
+                        right: 0
+                        margin: 0 auto
+                        text-align: center
+                        z-index: 1
+                        brandon_medium(22px, true)
+                        color: $white
+                        letter-spacing: 0.55px
+                        transform: translateY(-50%)
+                .comment_info
+                    margin-left: 30px
+                    flex: 0 0 calc(100% - 90px)
+                    .comment_header
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: space-between
+                        .stats
+                            flex: 1 0 auto
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            padding-right: 30px
+                            .stars
+                                flex: 1 0 auto
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                padding-left: 10px
+                                img
+                                    width: 20px
+                        h3
+                            brandon_regular(16px, false)
+                            color: $black_alt2
+                            letter-spacing: 0.4px
+                        h4
+                            brandon_regular(16px, false)
+                            color: $gray_alt2
+                            letter-spacing: 0.4px
+                    h2
+                        brandon_bold(22px, false)
+                        color: $black
+                        letter-spacing: 0.55px
+                        margin: 10px 0
+                    p
+                        brandon_regular(16px, false)
+                        color: $black
+                        letter-spacing: 0.8px
+                        line-height: 1.75
+        .load_more
+            text-align: center
+            .load
+                margin: 50px auto 0
+                opacity: 1
+                visibility: visible
+                transition: .3s ease-in-out
     /**
      * Spotify */
     #spotify
@@ -1725,23 +1875,22 @@ svg
 .buy_rides
     &.inner
         #payments
+            position: relative
             width: 100%
             max-width: calc(80% - 30px)
-            margin: 0 auto
-            padding: 120px 0 80px
+            margin: 0 auto 80px
+            padding: 120px 0 0
             transition: .3s ease-in-out
             &.dismiss
                 padding: 60px 0 80px
                 transition: .3s ease-in-out
             .step
-                position: relative
-                z-index: 2
                 &#step_1,
                 &#step_2,
                 &#step_3
                     &.overlay
                         position: absolute
-                        z-index: -1
+                        bottom: 0
                 .header_title
                     brandon_bold(26px, false)
                     color: $black
@@ -4006,7 +4155,7 @@ input::placeholder
 .slideX-enter,
 .slideX-leave-to
     opacity: 0
-    transform: translateX(-20px)
+    transform: translateX(-10px)
 
 .fade_in
     animation: fade_in .3s
