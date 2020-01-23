@@ -4,7 +4,7 @@
         <transition name="slide">
             <pro-tip v-if="$store.state.proTipStatus" />
         </transition>
-        <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
+        <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismissed' : 'dismiss'} ${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div v-if="step == 1">
@@ -54,7 +54,7 @@
                                     <div class="default_btn" @click="proceedToPayment('store-credit')">Use Store Credits</div>
                                     <div class="default_btn_img" @click="proceedToPayment('credit')">
                                         <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-icon.png" /></span><span>Pay Now</span>
+                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                 </transition>
             </div>
             <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`">
-                <transition name="slideX">
+                <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
                     <div v-if="step == 2" class="preview_payment">
                         <h2 class="header_title">Let’s make sure we got this right.</h2>
                         <div class="preview">
@@ -81,7 +81,7 @@
                                 <h3>Discount</h3>
                                 <p>Php 500.00</p>
                             </div>
-                            <div class="available">
+                            <div class="available" v-if="!paypal">
                                 <div :class="`available_item ${(storeCredits <= 50) ? 'insufficient' : ''}`">
                                     <h3>Available Store Credits</h3>
                                     <p class="store_credits">65</p>
@@ -99,10 +99,19 @@
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()">Back</div>
-                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`">
+                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-if="type == 'credit'" @click="paymentSuccess()">
                                     <div class="btn_wrapper">
-                                        <span class="img"><img src="/icons/paypal-icon.png" /></span><span>Pay Now</span>
+                                        <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                     </div>
+                                </div>
+                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-else @click="paymentSuccess()">Pay Now</div>
+                            </div>
+                            <div class="paypal_disclaimer" v-if="type == 'credit'">
+                                <p>Note: Paypal account not needed</p>
+                                <div class="wrapper">
+                                    <img src="/icons/paypal.svg" />
+                                    <img src="/icons/visa.svg" />
+                                    <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
                         </div>
@@ -113,21 +122,28 @@
         <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" />
         </transition>
+        <transition name="fade">
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
     import ProTip from '../../../components/ProTip'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
+    import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
-            BuyRidesPrompt
+            BuyRidesPrompt,
+            BuyRidesSuccess
         },
         data () {
             return {
-                storeCredits: 50,
+                type: '',
+                storeCredits: 55,
                 step: 1,
+                paypal: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
@@ -137,22 +153,28 @@
             }
         },
         methods: {
+            paymentSuccess () {
+                const me = this
+                me.step = 0
+                me.$store.state.buyRidesSuccessStatus = true
+            },
             stepBack () {
                 const me = this
                 if (me.step == 2) {
                     me.step = 1
-                } else if (me.step == 3) {
-                    me.step = 2
+                    me.paypal = false
                 }
             },
             proceedToPayment (type) {
                 const me = this
+                me.type = type
                 switch (type) {
                     case 'store-credit':
                         me.step = 2
                         break
                     case 'credit':
-                        me.step = 3
+                        me.step = 2
+                        me.paypal = true
                         break
                 }
             },

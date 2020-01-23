@@ -26,7 +26,16 @@
                             </div>
                             <div class="right">
                                 <form id="default_form">
-                                    <div class="form_flex with_btn">
+                                    <div class="form_flex with_btn alt">
+                                        <div class="form_group qty">
+                                            <label>Qty</label>
+                                            <div :class="`form_qty ${(errors.has('quantity')) ? 'disabled' : ''}`">
+                                                <input type="text" name="quantity" id="quantity" class="input_text number" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'numeric|min_value:1'">
+                                                <div class="up" @click="addCount()"></div>
+                                                <div class="down" @click="subtractCount()"></div>
+                                                <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">The qty field is required</span></transition>
+                                            </div>
+                                        </div>
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
                                             <input type="text" id="promo_code" name="promo_code" class="input_text" autocomplete="off" placeholder="Enter a Promo Code" v-model="form.promo">
@@ -51,14 +60,13 @@
                                     </div>
                                 </div>
                                 <div class="breakdown_actions">
-                                    <div class="default_btn" @click="proceedToPayment('store-credit')">Use Store Credits</div>
+                                    <nuxt-link to="/buy-rides" class="default_btn_blk">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('credit')">
                                         <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-icon.png" /></span><span>Pay Now</span>
+                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
                                     </div>
                                 </div>
-                                <nuxt-link to="/buy-rides" class="default_btn_blk">Back</nuxt-link>
                             </div>
                         </div>
                     </div>
@@ -81,28 +89,25 @@
                                 <h3>Discount</h3>
                                 <p>Php 500.00</p>
                             </div>
-                            <div class="available">
-                                <div :class="`available_item ${(storeCredits <= 50) ? 'insufficient' : ''}`">
-                                    <h3>Available Store Credits</h3>
-                                    <p class="store_credits">65</p>
-                                    <transition name="slide">
-                                        <div class="unavailable" v-if="storeCredits <= 50">
-                                            <nuxt-link to="/buy-rides#store-credits">Buy Rides</nuxt-link>
-                                            <label>*Your store credits are insufficient.</label>
-                                        </div>
-                                    </transition>
-                                </div>
-                            </div>
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>Php 9,000.00</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()">Back</div>
-                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`">
+                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-if="type == 'credit'">
                                     <div class="btn_wrapper">
-                                        <span class="img"><img src="/icons/paypal-icon.png" /></span><span>Pay Now</span>
+                                        <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                     </div>
+                                </div>
+                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-else>Pay Now</div>
+                            </div>
+                            <div class="paypal_disclaimer" v-if="type == 'credit'">
+                                <p>Note: Paypal account not needed</p>
+                                <div class="wrapper">
+                                    <img src="/icons/paypal.svg" />
+                                    <img src="/icons/visa.svg" />
+                                    <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
                         </div>
@@ -128,11 +133,13 @@
             return {
                 storeCredits: 50,
                 step: 1,
+                paypal: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
                 form: {
-                    promo: ''
+                    promo: '',
+                    quantity: 1
                 }
             }
         },
@@ -141,20 +148,45 @@
                 const me = this
                 if (me.step == 2) {
                     me.step = 1
-                } else if (me.step == 3) {
-                    me.step = 2
+                    me.paypal = false
                 }
+            },
+            addCount () {
+                const me = this
+                let data
+                data = parseInt(me.form.quantity)
+                if (data != 99) {
+                    data != 0 && (me.form.quantity = 0)
+                    me.form.quantity = (data += 1)
+                }
+            },
+            subtractCount () {
+                const me = this
+                let data
+                data = parseInt(me.form.quantity)
+                data > 1 && (me.form.quantity = (data -= 1))
+
             },
             proceedToPayment (type) {
                 const me = this
-                switch (type) {
-                    case 'store-credit':
-                        me.step = 2
-                        break
-                    case 'credit':
-                        me.step = 3
-                        break
-                }
+                me.$validator.validateAll().then(valid => {
+                    if (valid) {
+                        switch (type) {
+                            case 'store-credit':
+                            me.step = 2
+                            break
+                            case 'credit':
+                            me.paypal = true
+                            me.step = 2
+                            break
+                        }
+                    } else {
+                        me.$scrollTo('.validation_errors', {
+                            container: '#default_form',
+                            offset: -250
+                        })
+                    }
+                })
             },
             applyPromo () {
                 const me = this

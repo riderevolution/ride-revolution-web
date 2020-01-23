@@ -26,6 +26,7 @@
         watch:{
             $route (to, from){
                 const me = this
+                me.$store.state.buyRidesSuccessStatus = false
                 me.$store.state.buyRidesPromptStatus = false
             }
         },
