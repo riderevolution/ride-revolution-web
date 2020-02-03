@@ -57,7 +57,7 @@
                 const me = this
                 if (me.selectedPackage) {
                     me.$store.state.bookerChoosePackageStatus = false
-                    document.body.classList.remove('no_scroll')                
+                    document.body.classList.remove('no_scroll')
                 }
             },
             togglePackage (data, unique) {

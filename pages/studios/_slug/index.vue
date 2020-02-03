@@ -1,6 +1,6 @@
 <template>
     <div class="studio_inner">
-        <breadcrumb :hassPadding="true" />
+        <breadcrumb />
         <section id="teaser">
             <div class="header">
                 <h1>{{ replacer($route.params.slug) }}, Makati</h1>
@@ -245,7 +245,7 @@
             openGallery(key) {
                 const me = this
                 // me.imagesToSend = me.parser(me.studioImages[key].images)
-                 me.imagesToSend = me.studioImages[key].images
+                me.imagesToSend = me.studioImages[key].images
                 me.showGallery = true
                 setTimeout( () => {
                     me.$refs.gallery.opened = true
