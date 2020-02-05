@@ -10,7 +10,7 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">The email field is required</span></transition>
                     </div>
                     <div class="form_button">
-                        <button type="button" class="default_btn">Send Referral Link</button>
+                        <button type="button" class="default_btn"><span>Send Referral Link</span></button>
                     </div>
                 </div>
             </form>

@@ -1,10 +1,10 @@
 <template>
     <div class="buy_rides inner">
-        <section id="banner"></section>
+        <breadcrumb :overlay="false" />
         <transition name="slide">
             <pro-tip v-if="$store.state.proTipStatus" />
         </transition>
-        <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
+        <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismissed' : 'dismiss'} ${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div v-if="step == 1">
@@ -95,12 +95,12 @@
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()">Back</div>
-                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-if="type == 'credit'">
+                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-if="type == 'credit'" @click="paymentSuccess()">
                                     <div class="btn_wrapper">
                                         <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                     </div>
                                 </div>
-                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-else>Pay Now</div>
+                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-else @click="paymentSuccess()">Pay Now</div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'credit'">
                                 <p>Note: Paypal account not needed</p>
@@ -118,19 +118,27 @@
         <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" />
         </transition>
+        <transition name="fade">
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
     import ProTip from '../../../components/ProTip'
+    import Breadcrumb from '../../../components/Breadcrumb'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
+    import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
-            BuyRidesPrompt
+            Breadcrumb,
+            BuyRidesPrompt,
+            BuyRidesSuccess
         },
         data () {
             return {
+                type: '',
                 storeCredits: 50,
                 step: 1,
                 paypal: false,
@@ -144,6 +152,11 @@
             }
         },
         methods: {
+            paymentSuccess () {
+                const me = this
+                me.step = 0
+                me.$store.state.buyRidesSuccessStatus = true
+            },
             stepBack () {
                 const me = this
                 if (me.step == 2) {

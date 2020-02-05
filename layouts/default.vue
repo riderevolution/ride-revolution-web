@@ -28,6 +28,9 @@
                 const me = this
                 me.$store.state.buyRidesSuccessStatus = false
                 me.$store.state.buyRidesPromptStatus = false
+                if (to.path == '/buy-rides/package' || to.path == '/buy-rides/store-credit') {
+                    me.$router.push('/buy-rides')
+                }
             }
         },
         methods: {

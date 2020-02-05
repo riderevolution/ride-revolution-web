@@ -30,7 +30,7 @@
         </section>
         <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
             <no-ssr>
-                <div @mouseenter="swiperAutoPlay(false)" @mouseleave="swiperAutoPlay(true)">
+                <div @mouseenter="swiperEvent('stop')" @mouseleave="swiperEvent('start')">
                     <swiper :options="promoOptions" ref="swiper" class="default">
                         <swiper-slide class="promo_slide" v-for="(data, key) in promos" :key="key">
                             <img :src="data.path" alt="" />
@@ -220,16 +220,19 @@
             }
         },
         methods: {
-            swiperAutoPlay (status) {
+            swiperEvent (type) {
                 const me = this
-                if (status) {
-                    setTimeout( () => {
-                        me.$refs.swiper.swiper.autoplay.start()
-                    }, 250)
-                } else {
-                    setTimeout( () => {
-                        $refs.swiper.swiper.autoplay.stop()
-                    }, 250)
+                switch (type) {
+                    case 'stop':
+                        setTimeout( () =>  {
+                            me.$refs.swiper.swiper.autoplay.stop()
+                        }, 10)
+                        break
+                    case 'start':
+                        setTimeout( () => {
+                            me.$refs.swiper.swiper.autoplay.start()
+                        }, 10)
+                        break
                 }
             },
             codeClipboard (data, key) {

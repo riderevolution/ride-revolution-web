@@ -27,7 +27,7 @@
         </section>
         <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
             <no-ssr>
-                <div @mouseenter="$refs.swiper.swiper.autoplay.stop()" @mouseleave="$refs.swiper.swiper.autoplay.start()">
+                <div @mouseenter="swiperEvent('stop')" @mouseleave="swiperEvent('start')">
                     <swiper :options="promoOptions" ref="swiper" class="default">
                         <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
                             <img :src="data.path" alt="" />
@@ -426,6 +426,21 @@
             }
         },
         methods: {
+            swiperEvent (type) {
+                const me = this
+                switch (type) {
+                    case 'stop':
+                        setTimeout( () =>  {
+                            me.$refs.swiper.swiper.autoplay.stop()
+                        }, 10)
+                        break
+                    case 'start':
+                        setTimeout( () => {
+                            me.$refs.swiper.swiper.autoplay.start()
+                        }, 10)
+                        break
+                }
+            },
             getStudio (event) {
                 const me = this
                 me.studios.forEach((data, index) => {

@@ -17,7 +17,7 @@ $red = #F13747
 $red_alt = #FFE5E6
 
 $white = #FFF
-$white_alt = #FCFCFC
+$white_alt = #F7F7F7
 
 $black = #171717
 $black_alt = #4E4E4E
@@ -1980,21 +1980,21 @@ svg
             position: relative
             width: 100%
             max-width: calc(80% - 30px)
-            margin: 0 auto 80px
+            margin: 0 auto 0
             transition: .3s ease-in-out
             &.success
                 max-width: 100%
                 margin: 0
                 transition: .3s ease-in-out
             &.dismissed
-                padding: 60px 0 0
+                padding: 60px 0 80px
                 transition: .3s ease-in-out
                 &.success
                     padding: 0
             &.dismiss
-                padding: 120px 0 0
+                padding: 120px 0 80px
                 &.success
-                    padding: 47px 0 0
+                    padding: 0
             .step
                 transition: .3s ease-in-out
                 &#step_1,
@@ -2148,6 +2148,8 @@ svg
                             margin: 40px 0 20px
     #banner
         margin-top: 81px
+    #packages
+        background-color: $white_alt
     #digital
         position: relative
         &::before
@@ -3375,7 +3377,7 @@ svg
         flex-flow: row wrap
         align-items: center
         justify-content: space-between
-        margin: 50px 0
+        padding: 50px 0
         .image_bg
             font-size: 0
             flex: 0 0 50%
@@ -3562,6 +3564,7 @@ svg
     position: relative
     padding-top: 81px
     border-bottom: 1px solid $border_alt
+    transition: .3s ease-in-out
     &.overlay
         position: absolute
         top: 0
@@ -3572,8 +3575,14 @@ svg
             .slash,
             .crumb
                 color: rgba(255, 255, 255, 0.7)
+        &.dismiss
+            padding-top: 0
+            transition: .3s ease-in-out
     &.has_padding
         padding-top: 70px
+    &.dismiss
+        padding-top: 128px
+        transition: .3s ease-in-out
     ul
         display: flex
         flex-flow: row wrap

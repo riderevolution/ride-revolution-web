@@ -1,6 +1,6 @@
 <template>
     <div class="buy_rides inner">
-        <section id="banner"></section>
+        <breadcrumb :overlay="false" />
         <transition name="slide">
             <pro-tip v-if="$store.state.proTipStatus" />
         </transition>
@@ -130,11 +130,13 @@
 
 <script>
     import ProTip from '../../../components/ProTip'
+    import Breadcrumb from '../../../components/Breadcrumb'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
+            Breadcrumb,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
