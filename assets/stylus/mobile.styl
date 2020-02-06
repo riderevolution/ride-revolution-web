@@ -99,132 +99,133 @@
                 brandon_regular_italic(14px, false)
 
     .book_a_bike
-        #banner
-            margin-top: 61px
-        #content
-            padding: 60px 0 0
-            max-width: calc(100% - 20px)
-            &.fish
-                padding: 0
-                margin: 30px auto
-                .main_right
+        &.inner
+            #banner
+                margin-top: 61px
+            #content
+                padding: 60px 0 0
+                max-width: calc(100% - 20px)
+                &.fish
+                    padding: 0
+                    margin: 30px auto
+                    .main_right
+                        .content
+                            padding: 30px 0 20px
+                &.dismiss
+                    padding: 0 0 40px
+                .main_left
+                    .header
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: center
+                        padding: 20px 0 0
+                        border-bottom: 1px solid transparent
+                        h2
+                            brandon_bold(20px, false)
+                            &:first-child
+                                padding-right: 10px
                     .content
-                        padding: 30px 0 20px
-            &.dismiss
-                padding: 0 0 40px
-            .main_left
-                .header
-                    display: flex
-                    flex-flow: row wrap
-                    align-items: center
-                    justify-content: center
-                    padding: 20px 0 0
-                    border-bottom: 1px solid transparent
-                    h2
-                        brandon_bold(20px, false)
-                        &:first-child
-                            padding-right: 10px
-                .content
-                    ul
-                        padding: 20px 0
-                        li
-                            brandon_regular(12px, false)
-            .main_right
-                margin-left: 0
-                .content
-                    padding: 30px 0 60px
-                    .seat_wrapper
-                        height: 350px
-                        max-width: 350px
-                        margin: 10px auto
-                        transition: .3s ease-in-out
-                        .overlay_header
-                            top: calc(0% - 30px)
-                            left: calc(50%)
-                            width: 100%
-                            h3
-                                brandon_regular(18px, false)
-                            h4
-                                brandon_regular_italic(12px, false)
-                                margin: 0 0 20px
-                            img
-                                width: 70px
-                        .overlay_seat
-                            &.left
-                                justify-content: flex-start
-                                top: calc(0% + 20px)
-                                left: 0
-                                .seat
-                                    flex: 0 0 calc(50% - 15px)
-                                    &:last-child,
-                                    &:nth-child(2)
-                                        top: calc(0px + 30px)
-                            &.right
-                                justify-content: flex-end
-                                top: calc(0% + 20px)
-                                right: 0
-                                .seat
-                                    flex: 0 0 calc(50% - 15px)
-                                    &:first-child,
-                                    &:nth-child(3)
-                                        top: calc(0px + 30px)
-                            &.layout_1
-                                &.bottom
-                                    bottom: calc(0% + 140px)
-                                &.bottom_alt
-                                    bottom: calc(0% + 85px)
+                        ul
+                            padding: 20px 0
+                            li
+                                brandon_regular(12px, false)
+                .main_right
+                    margin-left: 0
+                    .content
+                        padding: 30px 0 60px
+                        .seat_wrapper
+                            height: 350px
+                            max-width: 350px
+                            margin: 10px auto
+                            transition: .3s ease-in-out
+                            .overlay_header
+                                top: calc(0% - 30px)
+                                left: calc(50%)
+                                width: 100%
+                                h3
+                                    brandon_regular(18px, false)
+                                h4
+                                    brandon_regular_italic(12px, false)
+                                    margin: 0 0 20px
+                                img
+                                    width: 70px
+                            .overlay_seat
+                                &.left
+                                    justify-content: flex-start
+                                    top: calc(0% + 20px)
+                                    left: 0
                                     .seat
-                                        left: 0
+                                        flex: 0 0 calc(50% - 15px)
+                                        &:last-child,
+                                        &:nth-child(2)
+                                            top: calc(0px + 30px)
+                                &.right
+                                    justify-content: flex-end
+                                    top: calc(0% + 20px)
+                                    right: 0
+                                    .seat
+                                        flex: 0 0 calc(50% - 15px)
+                                        &:first-child,
+                                        &:nth-child(3)
+                                            top: calc(0px + 30px)
+                                &.layout_1
+                                    &.bottom
+                                        bottom: calc(0% + 140px)
+                                    &.bottom_alt
+                                        bottom: calc(0% + 85px)
+                                        .seat
+                                            left: 0
+                                    &.bottom_alt_2
+                                        bottom: calc(0% + 30px)
+                                &.bottom,
+                                &.bottom_alt,
                                 &.bottom_alt_2
-                                    bottom: calc(0% + 30px)
-                            &.bottom,
-                            &.bottom_alt,
-                            &.bottom_alt_2
+                                    .seat
+                                        padding: 20px 11.5px
+                                        margin: 2.5px
                                 .seat
-                                    padding: 20px 11.5px
-                                    margin: 2.5px
-                            .seat
-                                margin: 3px
-                                padding: 18px 6px
-                                .seat_number
-                                    brandon_bold(12px, true)
-                                    bottom: 50%
-                                    transform: translateY(50%)
-                    .footer
-                        .legends
-                            ul
-                                li
-                                    brandon_medium(10px, true)
-                                    margin: 0 15px 0 0
-                                    &:last-child
-                                        margin: 0
-                                    span
-                                        width: 15px
-                                        height: 15px
-                                        margin-right: 5px
-                        .actions
-                            padding: 10px 0
-                            margin-top: 20px
-                            .next_wrapper
-                                .left,
-                                .right
-                                    flex: 0 0 100%
-                                .left
-                                    padding: 10px 20px
-                                    justify-content: center
-                                    .flex
+                                    margin: 3px
+                                    padding: 18px 6px
+                                    .seat_number
+                                        brandon_bold(12px, true)
+                                        bottom: 50%
+                                        transform: translateY(50%)
+                        .footer
+                            .legends
+                                ul
+                                    li
+                                        brandon_medium(10px, true)
+                                        margin: 0 15px 0 0
+                                        &:last-child
+                                            margin: 0
+                                        span
+                                            width: 15px
+                                            height: 15px
+                                            margin-right: 5px
+                            .actions
+                                padding: 10px 0
+                                margin-top: 20px
+                                .next_wrapper
+                                    .left,
+                                    .right
                                         flex: 0 0 100%
-                                        &.package,
-                                        &.package_details
-                                            margin-bottom: 15px
-                                            .toggler
-                                                justify-content: center
-                                .right
-                                    text-align: center
-                                    margin-top: 0
-            .main_left,
-            .main_right
-                flex: 0 0 100%
+                                    .left
+                                        padding: 10px 20px
+                                        justify-content: center
+                                        .flex
+                                            flex: 0 0 100%
+                                            &.package,
+                                            &.package_details
+                                                margin-bottom: 15px
+                                                .toggler
+                                                    justify-content: center
+                                    .right
+                                        text-align: center
+                                        margin-top: 0
+                .main_left,
+                .main_right
+                    flex: 0 0 100%
 
 @media (max-width: 767px) and (min-width: 425px)
 
@@ -235,45 +236,46 @@
 
     #main_container
         .book_a_bike
-            #content
-                .main_right
-                    .content
-                        .seat_wrapper
-                            max-width: 465px
-                            transition: .3s ease-in-out
-                            .overlay_seat
-                                &.layout_1
-                                    &.bottom
-                                        bottom: calc(0% + 150px)
-                                    &.bottom_alt
-                                        bottom: calc(0% + 95px)
-                                        .seat
-                                            left: 0
+            &.inner
+                #content
+                    .main_right
+                        .content
+                            .seat_wrapper
+                                max-width: 465px
+                                transition: .3s ease-in-out
+                                .overlay_seat
+                                    &.layout_1
+                                        &.bottom
+                                            bottom: calc(0% + 150px)
+                                        &.bottom_alt
+                                            bottom: calc(0% + 95px)
+                                            .seat
+                                                left: 0
+                                        &.bottom_alt_2
+                                            bottom: calc(0% + 40px)
+                                    &.bottom,
+                                    &.bottom_alt,
                                     &.bottom_alt_2
-                                        bottom: calc(0% + 40px)
-                                &.bottom,
-                                &.bottom_alt,
-                                &.bottom_alt_2
-                                    .seat
-                                        padding: 20px 11.5px
-                                        margin: 5.5px
-                        .footer
-                            .actions
-                                text-align: center
-                                .next_wrapper
-                                    .left
-                                        padding: 10px 0
-                                        .flex
-                                            flex: 0 0 auto
-                                            &.package,
-                                            &.package_details
-                                                .toggler
-                                                    justify-content: space-between
-                                            &.package
-                                                flex: 1 0 60%
-                                                padding-right: 10px
-                                            &.package_details
-                                                flex: 1 0 auto
+                                        .seat
+                                            padding: 20px 11.5px
+                                            margin: 5.5px
+                            .footer
+                                .actions
+                                    text-align: center
+                                    .next_wrapper
+                                        .left
+                                            padding: 10px 0
+                                            .flex
+                                                flex: 0 0 auto
+                                                &.package,
+                                                &.package_details
+                                                    .toggler
+                                                        justify-content: space-between
+                                                &.package
+                                                    flex: 1 0 60%
+                                                    padding-right: 10px
+                                                &.package_details
+                                                    flex: 1 0 auto
 
 @media (max-width: 767px) and (min-width: 465px)
 
@@ -284,47 +286,48 @@
 
     #main_container
         .book_a_bike
-            #content
-                .main_right
-                    .content
-                        .seat_wrapper
-                            max-width: 465px
-                            transition: .3s ease-in-out
-                            .overlay_seat
-                                &.layout_1
-                                    &.bottom
-                                        bottom: calc(0% + 135px)
-                                    &.bottom_alt
-                                        bottom: calc(0% + 75px)
-                                        .seat
-                                            left: 0
+            &.inner
+                #content
+                    .main_right
+                        .content
+                            .seat_wrapper
+                                max-width: 465px
+                                transition: .3s ease-in-out
+                                .overlay_seat
+                                    &.layout_1
+                                        &.bottom
+                                            bottom: calc(0% + 135px)
+                                        &.bottom_alt
+                                            bottom: calc(0% + 75px)
+                                            .seat
+                                                left: 0
+                                        &.bottom_alt_2
+                                            bottom: calc(0% + 15px)
+                                    &.bottom,
+                                    &.bottom_alt,
                                     &.bottom_alt_2
-                                        bottom: calc(0% + 15px)
-                                &.bottom,
-                                &.bottom_alt,
-                                &.bottom_alt_2
+                                        .seat
+                                            padding: 22px 13.5px
+                                            margin: 7.5px
                                     .seat
-                                        padding: 22px 13.5px
-                                        margin: 7.5px
-                                .seat
-                                    margin: 3px
-                                    padding: 20px 7px
-                        .footer
-                            .actions
-                                text-align: center
-                                .next_wrapper
-                                    .left
-                                        padding: 10px 0
-                                        .flex
-                                            flex: 1 0 auto
-                                            &.package,
-                                            &.package_details
-                                                .toggler
-                                                    justify-content: center
-                                            &.package
-                                                flex: 1 0 50%
-                                            &.package_details
-                                                flex: 1 0 30%
+                                        margin: 3px
+                                        padding: 20px 7px
+                            .footer
+                                .actions
+                                    text-align: center
+                                    .next_wrapper
+                                        .left
+                                            padding: 10px 0
+                                            .flex
+                                                flex: 1 0 auto
+                                                &.package,
+                                                &.package_details
+                                                    .toggler
+                                                        justify-content: center
+                                                &.package
+                                                    flex: 1 0 50%
+                                                &.package_details
+                                                    flex: 1 0 30%
 
 @media (max-width: 767px) and (min-width: 600px)
 
@@ -369,66 +372,67 @@
 
     #main_container
         .book_a_bike
-            #content
-                padding: 30px 0 0
-                &.fish
-                    padding: 0
-                .main_left
-                    .header
-                        h2
-                            brandon_bold(24px, flase)
-                    .content
-                        ul
-                            brandon_regular(14px, false)
-                .main_right
-                    .content
-                        .seat_wrapper
-                            max-width: 600px
-                            height: 380px
-                            margin: 20px auto 30px
-                            transition: .3s ease-in-out
-                            .overlay_header
-                                h3
-                                    brandon_regular(22px, false)
-                                h4
-                                    brandon_regular(14px, false)
-                                img
-                                    width: 100px
-                            .overlay_seat
-                                &.layout_1
-                                    &.bottom
-                                        bottom: calc(0% + 135px)
-                                    &.bottom_alt
-                                        bottom: calc(0% + 70px)
-                                        .seat
-                                            left: 0
+            &.inner
+                #content
+                    padding: 30px 0 0
+                    &.fish
+                        padding: 0
+                    .main_left
+                        .header
+                            h2
+                                brandon_bold(24px, flase)
+                        .content
+                            ul
+                                brandon_regular(14px, false)
+                    .main_right
+                        .content
+                            .seat_wrapper
+                                max-width: 600px
+                                height: 380px
+                                margin: 20px auto 30px
+                                transition: .3s ease-in-out
+                                .overlay_header
+                                    h3
+                                        brandon_regular(22px, false)
+                                    h4
+                                        brandon_regular(14px, false)
+                                    img
+                                        width: 100px
+                                .overlay_seat
+                                    &.layout_1
+                                        &.bottom
+                                            bottom: calc(0% + 135px)
+                                        &.bottom_alt
+                                            bottom: calc(0% + 70px)
+                                            .seat
+                                                left: 0
+                                        &.bottom_alt_2
+                                            bottom: calc(0% + 5px)
+                                    &.left,
+                                    &.right
+                                        top: calc(0% + 15px)
+                                    &.bottom,
+                                    &.bottom_alt,
                                     &.bottom_alt_2
-                                        bottom: calc(0% + 5px)
-                                &.left,
-                                &.right
-                                    top: calc(0% + 15px)
-                                &.bottom,
-                                &.bottom_alt,
-                                &.bottom_alt_2
+                                        .seat
+                                            padding: 25px 19.5px
+                                            margin: 7.5px
                                     .seat
-                                        padding: 25px 19.5px
-                                        margin: 7.5px
-                                .seat
-                                    margin: 3.5px
-                                    padding: 25px 10px
-                        .footer
-                            .actions
-                                text-align: center
-                                .next_wrapper
-                                    .left
-                                        padding: 10px 0
-                                        .flex
-                                            flex: 1 0 auto
-                                            &.package,
-                                            &.package_details
-                                                .toggler
-                                                    justify-content: center
-                                            &.package
-                                                flex: 1 0 50%
-                                            &.package_details
-                                                flex: 1 0 30%
+                                        margin: 3.5px
+                                        padding: 25px 10px
+                            .footer
+                                .actions
+                                    text-align: center
+                                    .next_wrapper
+                                        .left
+                                            padding: 10px 0
+                                            .flex
+                                                flex: 1 0 auto
+                                                &.package,
+                                                &.package_details
+                                                    .toggler
+                                                        justify-content: center
+                                                &.package
+                                                    flex: 1 0 50%
+                                                &.package_details
+                                                    flex: 1 0 30%
