@@ -2763,8 +2763,10 @@ svg
                 color: $white
                 margin-bottom: 40px
 /**
- * Book a Ride */
-.book_a_ride
+ * Book a Bike */
+.book_a_bike
+    #banner
+        margin-top: 81px
     &.inner
         background-color: $white_alt
         #content
@@ -3068,92 +3070,246 @@ svg
                                                 brandon_bold(16px, false)
                                 .right
                                     flex: 1 0 auto
-    #banner
-        margin-top: 81px
-    #content
-        display: flex
-        flex-flow: row wrap
-        .left
-            flex: 0 0 25%
-            background-color: $black
-        .right
-            flex: 0 0 75%
-            padding: 20px 60px
-            .date_navigator
-                position: relative
-                display: flex
-                flex-flow: row wrap
-                align-items: center
-                border: 1px solid #E5E5E5
-                .date
+    &.landing
+        #content
+            display: flex
+            flex-flow: row wrap
+            .left
+                flex: 0 0 25%
+                background-color: $black
+                padding: 60px 30px 30em
+                .filter
+                    .wrapper
+                        h3
+                            brandon_regular(18px, true)
+                            letter-spacing: 0.21px
+                            color: rgba(255, 255, 255, 0.7)
+                            margin-bottom: 30px
+                        &.studio_filter
+                            .group
+                                margin-bottom: 15px
+                                &.select_all
+                                    brandon_regular(18px, false)
+                                    letter-spacing: 0.21px
+                                    color: rgba(255, 255, 255, 0.7)
+                                    transition: .3s ease-in-out
+                                    .custom_check
+                                        &:hover
+                                            color: $white
+                                            transition: .3s ease-in-out
+                                        &.checked
+                                            color: $white
+                                            transition: .3s ease-in-out
+                                            &::before
+                                                background-color: $white
+                                                transition: .3s ease-in-out
+                                label
+                                    position: relative
+                                    brandon_medium(18px, false)
+                                    letter-spacing: 0.21px
+                                    color: rgba(255, 255, 255, 0.7)
+                                    padding-left: 25px
+                                    transition: .3s ease-in-out
+                                    &::before
+                                        content: ''
+                                        position: absolute
+                                        top: 50%
+                                        left: 0
+                                        width: 10px
+                                        height: 10px
+                                        background-color: #4D4D4D
+                                        transform: translateY(-50%)
+                                        transition: .3s ease-in-out
+                                .check
+                                    -webkit-appearance: none
+                                    position: absolute
+                                    &:hover
+                                        ~ label
+                                            color: $white
+                                            transition: .3s ease-in-out
+                                    &:checked
+                                        ~ label
+                                            color: $white
+                                            transition: .3s ease-in-out
+                                            &::before
+                                                background-color: $white
+                                                transition: .3s ease-in-out
+                        &.instructor_filter
+                            margin-top: 60px
+                            h3
+                                margin-bottom: 15px
+                            .autocomplete
+                                position: relative
+                                &.toggled
+                                    .text
+                                        border: 1px solid rgba(255, 255, 255, 0.7)
+                                        transition: .3s ease-in-out
+                                    &::before
+                                        transform: rotate(180deg)
+                                        transition: .3s ease-in-out
+                                .text
+                                    width: 100%
+                                    background-color: #4D4D4D
+                                    brandon_regular(18px, false)
+                                    color: rgba(255, 255, 255, 0.7)
+                                    border: 1px solid transparent
+                                    outline: none
+                                    box-shadow: none
+                                    padding: 12px 30px 12px 35px
+                                    background-image: url('/icons/search-icon-alt.svg')
+                                    background-position: calc(0% + 9px) center
+                                    background-repeat: no-repeat
+                                    background-size: 20px
+                                    transition: .3s ease-in-out
+                                    &:hover,
+                                    &:focus
+                                        border: 1px solid rgba(255, 255, 255, 0.7)
+                                        transition: .3s ease-in-out
+                                .autocomplete_dropdown
+                                    position: absolute
+                                    top: 100%
+                                    left: 0
+                                    right: 0
+                                    height: 100%
+                                    min-height: 425px
+                                    overflow-x: hidden
+                                    overflow-y: auto
+                                    transition: .3s ease-in-out
+                                    &::-webkit-scrollbar
+                                        width: 20px
+                                        background-color: #363636
+                                    &::-webkit-scrollbar-track
+                                        box-shadow: none
+                                    &::-webkit-scrollbar-thumb
+                                        background-color: $black
+                                        border: 5px solid rgba(0, 0, 0, 0)
+                                        background-clip: padding-box
+                                        border-radius: 50px
+                                    .list
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
+                                        padding: 10px 20px
+                                        background-color: #363636
+                                        border-right: 1px solid rgba(112, 112, 112, 0.25)
+                                        border-bottom: 1px solid rgba(112, 112, 112, 0.25)
+                                        transition: .3s ease-in-out
+                                        &:last-child
+                                            border-bottom: 1px solid transparent
+                                            transition: .3s ease-in-out
+                                        img
+                                            width: 50px
+                                            {image_default}
+                                        p
+                                            padding-left: 20px
+                                            brandon_regular(20px, false)
+                                            color: $white
+                                            letter-spacing: 0.24px
+                                        &:hover
+                                            background-color: $green
+                                            transition: .3s ease-in-out
+                                &::before
+                                    content: ''
+                                    position: absolute
+                                    top: calc(0% + (52px /  2))
+                                    right: calc(0% + 20px)
+                                    border-left: 5px solid transparent
+                                    border-right: 5px solid transparent
+                                    border-top: 5px solid rgba(255, 255, 255, 0.6)
+                                    transform: rotate(0deg)
+                                    transition: .3s ease-in-out
+            .right
+                flex: 0 0 75%
+                padding: 30px 60px
+                background-color: $white_alt
+                .date_navigator
                     position: relative
-                    flex: 0 0 calc(100% / 7)
-                    border-right: 1px solid #E5E5E5
-                    text-align: center
-                    padding: 40px 20px
-                    border-radius: 4px
-                    .abbr
-                        brandon_bold(24px, false)
-                        color: $black_alt2
-                        margin-bottom: 30px
-                        transition: .3s ease-in-out
-                    .month
-                        brandon_black(16px, true)
-                        letter-spacing: 0.7px
-                        color: $black_alt2
-                        transition: .3s ease-in-out
-                    .day
-                        brandon_black(60px, false)
-                        color: $black
-                        line-height: 1
-                        transition: .3s ease-in-out
-                    &.active
-                        .abbr,
-                        .month,
-                        .day
-                            color: $white
-                            transition: .3s ease-in-out
-                        &::before
-                            opacity: 1
-                            transition: .3s ease-in-out
-                    &::before
-                        content: ''
-                        position: absolute
-                        top: 0
-                        left: 0
-                        right: 0
-                        bottom: 0
-                        opacity: 0
-                        z-index: -1
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    border: 1px solid #E5E5E5
+                    .date
+                        position: relative
+                        flex: 0 0 calc(100% / 7)
+                        border-right: 1px solid #E5E5E5
+                        text-align: center
+                        padding: 40px 20px
                         border-radius: 4px
-                        background-image: linear-gradient(147deg, $green, $blue)
-                        transition: .3s ease-in-out
-                    &:last-child
-                        border-right: 1px solid transparent
-                .date_controls
-                    flex: 0 0 100%
-                    .prev,
-                    .next
-                        position: absolute
-                        top: 50%
-                        width: 40px
-                        height: 40px
-                        z-index: 2
-                        opacity: 0.75
-                        background-position: center
-                        background-repeat: no-repeat
-                        background-size: contain
-                        transform: translateY(-50%)
-                        transition: .3s ease-in-out
-                        &:hover
-                            opacity: 1
+                        .overlay
+                            position: relative
+                            z-index: 1
+                            .abbr
+                                brandon_bold(24px, false)
+                                color: $black_alt2
+                                margin-bottom: 30px
+                                transition: .3s ease-in-out
+                            .month
+                                brandon_black(16px, true)
+                                letter-spacing: 0.7px
+                                color: $black_alt2
+                                transition: .3s ease-in-out
+                            .day
+                                brandon_black(60px, false)
+                                color: $black
+                                line-height: 1
+                                transition: .3s ease-in-out
+                        &.active
+                            .abbr,
+                            .month,
+                            .day
+                                color: $white
+                                transition: .3s ease-in-out
+                            &::before
+                                opacity: 1
+                                transition: .3s ease-in-out
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 0
+                            left: 0
+                            right: 0
+                            bottom: 0
+                            opacity: 0
+                            z-index: 0
+                            border-radius: 4px
+                            background-image: linear-gradient(147deg, $green, $blue)
                             transition: .3s ease-in-out
-                    .prev
-                        left: calc(0% - 20px)
-                        background-image: url('/default/book-a-bike/date-prev.svg')
-                    .next
-                        right: calc(0% - 20px)
-                        background-image: url('/default/book-a-bike/date-next.svg')
+                        &:last-child
+                            border-right: 1px solid transparent
+                    .date_controls
+                        flex: 0 0 100%
+                        .prev,
+                        .next
+                            position: absolute
+                            top: 50%
+                            width: 40px
+                            height: 40px
+                            z-index: 2
+                            opacity: 0.75
+                            background-position: center
+                            background-repeat: no-repeat
+                            background-size: contain
+                            transform: translateY(-50%)
+                            transition: .3s ease-in-out
+                            &:hover
+                                opacity: 1
+                                transition: .3s ease-in-out
+                        .prev
+                            left: calc(0% - 20px)
+                            background-image: url('/default/book-a-bike/date-prev.svg')
+                        .next
+                            right: calc(0% - 20px)
+                            background-image: url('/default/book-a-bike/date-next.svg')
+                .schedule_list
+                    .header
+                        margin: 30px 0
+                        span
+                            brandon_regular(26px, false)
+                            letter-spacing: 0.39px
+                            color: $gray
+                            &.label
+                                brandon_regular_italic(26px, false)
+                                color: $black
 /**
  * Studios */
 .studios
@@ -4698,6 +4854,16 @@ input::placeholder
 .slide-leave-to
     opacity: 0
     transform: translateY(-20px)
+
+.slideAlt-enter-active,
+.slideAlt-leave-active
+    transition: all .2s ease-in-out
+
+.slideAlt-enter,
+.slideAlt-leave-to
+    opacity: 0
+    visibility: hidden
+    transform: translateY(50px)
 
 .slideX-enter-active,
 .slideX-leave-active

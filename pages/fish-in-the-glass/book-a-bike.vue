@@ -1,5 +1,5 @@
 <template>
-    <div class="book_a_bike">
+    <div class="book_a_bike inner">
         <section id="content" :class="` fish${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
             <div class="main_left">
                 <div class="header">
