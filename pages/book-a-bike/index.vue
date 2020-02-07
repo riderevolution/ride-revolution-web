@@ -17,17 +17,17 @@
                             <label :class="`custom_check ${(checkStudio) ? 'checked' : ''}`" @click="toggleAllStudio($event)">All Studio</label>
                         </div>
                         <div class="group" v-for="(studio, key) in studios" :key="key">
-                            <input type="checkbox" class="check" name="studios" :id="`studio_${key}`" v-model="studio.checked" @change="toggleStudio()">
+                            <input type="checkbox" class="check" name="studios" :id="`studio_${key}`" v-model="studio.checked" @change="toggleStudio(studio)">
                             <label :for="`studio_${key}`">{{ studio.name }}</label>
                         </div>
                     </div>
                     <div class="wrapper instructor_filter">
                         <h3>Instructors</h3>
                         <div :class="`autocomplete ${(toggledAutocomplete) ? 'toggled' : ''}`" v-click-outside="toggleAutoCompleteOutside">
-                            <input type="text" name="instructor" class="text" placeholder="Search for an instructor" @click="toggleAutoComplete()">
+                            <input type="text" name="instructor" class="text" placeholder="Search for an instructor" v-model="searchedInstructor" @click="toggleAutoComplete()">
                             <transition name="slideAlt">
                                 <div class="autocomplete_dropdown" v-if="toggledAutocomplete">
-                                    <div class="list" v-for="(n, key) in 8" :key="key">
+                                    <div class="list" v-for="(n, key) in 8" :key="key" @click="selectIntructor('Billie Capistrano')">
                                         <img src="/default/book-a-bike/autodd-sample.png" />
                                         <p>Billie Capistrano</p>
                                     </div>
@@ -54,9 +54,9 @@
                 <div class="schedule_list">
                     <div class="header">
                         <span>Showing rides in </span>
-                        <span class="label">all studios</span>
+                        <span :class="`label ${(hasStudioFilter) ? 'active' : ''}`">{{ checkToggledStudio }}<img v-if="hasStudioFilter" @click="resetFilter('studio')" src="/icons/filter-close.svg" /></span>
                         <span>with</span>
-                        <span class="label">all instructors</span>
+                        <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                     </div>
                     <div class="content">
 
@@ -86,22 +86,69 @@
                     {
                         id: 1,
                         name: 'Shangri-La Plaza',
-                        checked: false
+                        checked: true
                     },
                     {
                         id: 2,
                         name: 'Greenbelt',
-                        checked: false
+                        checked: true
                     },
                     {
                         id: 3,
                         name: 'Bonifacio Global City',
-                        checked: false
+                        checked: true
                     }
-                ]
+                ],
+                studioFilter: [],
+                hasStudioFilter: false,
+                searchedInstructor: '',
+                hasSearchedInstructor: false
             }
         },
         computed: {
+            checkSearchedInstructor () {
+                const me = this
+                let result = ''
+                if (me.searchedInstructor != '') {
+                    result = `${me.searchedInstructor}`
+                    me.hasSearchedInstructor = true
+                } else {
+                    result = 'all instructors '
+                }
+                return result
+            },
+            checkToggledStudio () {
+                const me = this
+                let ctr = 0
+                let ctrFilter = 0
+                let result = ''
+                me.studios.forEach((studio, index) => {
+                    if (studio.checked) {
+                        ctr++
+                    }
+                })
+                if (me.studios.length == ctr) {
+                    result = 'all studios'
+                    me.hasStudioFilter = false
+                } else {
+                    if (me.studioFilter.length > 0) {
+                        me.studioFilter.forEach((name, index) => {
+                            ctrFilter++
+                            if (ctrFilter == 1) {
+                                result += name
+                            } else if (ctrFilter > 1) {
+                                result += `, ${name}`
+                            } else if (ctrFilter == me.studioFilter.length) {
+                                result += name
+                            }
+                            me.hasStudioFilter = true
+                        })
+                    } else {
+                        result = 'select a studio'
+                    }
+                }
+                return result
+            },
             checkStudio () {
                 const me = this
                 let ctr = 0
@@ -120,6 +167,38 @@
             }
         },
         methods: {
+            resetFilter (type) {
+                const me = this
+                switch (type) {
+                    case 'studio':
+                        me.hasStudioFilter = false
+                        break
+                    case 'instructor':
+                        me.hasSearchedInstructor = false
+                        break
+                }
+                me.studios.forEach((studio, index) => {
+                    studio.checked = false
+                })
+                me.studioFilter = []
+                me.searchedInstructor = ''
+            },
+            selectIntructor (data) {
+                const me = this
+                me.searchedInstructor = data
+                me.toggledAutocomplete = false
+            },
+            toggleStudio (data) {
+                const me = this
+                if (data.checked) {
+                    me.studioFilter.push(data.name)
+                } else {
+                    let toFind = me.studioFilter.indexOf(data.name)
+                    if (toFind > -1) {
+                        me.studioFilter.splice(toFind, 1)
+                    }
+                }
+            },
             toggleAutoComplete () {
                 const me = this
                 me.toggledAutocomplete ^= true
@@ -133,10 +212,18 @@
                 if (me.checkStudio) {
                     me.studios.forEach((data, index) => {
                         data.checked = false
+                        let toFind = me.studioFilter.indexOf(data.name)
+                        if (toFind > -1) {
+                            me.studioFilter.splice(toFind, 1)
+                        }
                     })
                 } else {
                     me.studios.forEach((data, index) => {
                         data.checked = true
+                        let toFind = me.studioFilter.indexOf(data.name)
+                        if (toFind == -1) {
+                            me.studioFilter.push(data.name)
+                        }
                     })
                 }
                 if (event.target.classList.contains('checked')) {
@@ -289,9 +376,14 @@
                 }, 500)
             }
         },
-        mounted() {
+        mounted () {
             const me = this
             me.populateClasses()
+            me.studios.forEach((studio, index) => {
+                if (studio.checked) {
+                    me.studioFilter.push(studio.name)
+                }
+            })
         }
     }
 </script>
