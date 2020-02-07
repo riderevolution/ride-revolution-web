@@ -59,7 +59,70 @@
                         <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                     </div>
                     <div class="content">
-
+                        <div class="schedule">
+                            <div class="time">10:30 AM</div>
+                            <div class="class">
+                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                                <div class="info">
+                                    <h2>Billie Capistrano</h2>
+                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                    <h3>Greenbelt</h3>
+                                </div>
+                            </div>
+                            <div class="action">
+                                <div class="btn default_btn_out">
+                                    <span>Book Now</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule">
+                            <div class="time">10:30 AM</div>
+                            <div class="class">
+                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                                <div class="info">
+                                    <h2>Billie Capistrano</h2>
+                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                    <h3>Greenbelt</h3>
+                                </div>
+                            </div>
+                            <div class="action">
+                                <div class="btn default_btn_out">
+                                    <span>Waitlist</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule">
+                            <div class="time">10:30 AM</div>
+                            <div class="class">
+                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                                <div class="info">
+                                    <h2>Billie Capistrano</h2>
+                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                    <h3>Greenbelt</h3>
+                                </div>
+                            </div>
+                            <div class="action">
+                                <div class="btn default_btn_out disabled">
+                                    <span>Waitlisted</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule">
+                            <div class="time">10:30 AM</div>
+                            <div class="class">
+                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                                <div class="info">
+                                    <h2>Billie Capistrano</h2>
+                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                    <h3>Greenbelt</h3>
+                                </div>
+                            </div>
+                            <div class="action">
+                                <div class="btn default_btn_out disabled">
+                                    <span>Waitlisted</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
