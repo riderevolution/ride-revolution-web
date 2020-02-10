@@ -13,12 +13,13 @@
                 <div class="filter">
                     <div class="wrapper studio_filter">
                         <h3>Studios</h3>
-                        <div class="group select_all">
-                            <label :class="`custom_check ${(checkStudio) ? 'checked' : ''}`" @click="toggleAllStudio($event)">All Studio</label>
+                        <div class="group">
+                            <input type="radio" class="radio" name="studios" id="studio_0" value="0" checked @change="toggleStudio(studio, 'static')">
+                            <label for="studio_0">All Studios</label>
                         </div>
                         <div class="group" v-for="(studio, key) in studios" :key="key">
-                            <input type="checkbox" class="check" name="studios" :id="`studio_${key}`" v-model="studio.checked" @change="toggleStudio(studio)">
-                            <label :for="`studio_${key}`">{{ studio.name }}</label>
+                            <input type="radio" class="radio" name="studios" :id="`studio_${key + 1}`" v-model="studio.id" @change="toggleStudio(studio, 'dynamic')">
+                            <label :for="`studio_${key + 1}`">{{ studio.name }}</label>
                         </div>
                     </div>
                     <div class="wrapper instructor_filter">
@@ -39,26 +40,30 @@
             </div>
             <div class="right">
                 <div class="date_navigator">
-                    <div :id="`date_${key}`" :class="`date ${($moment().format('D') == result.day) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(key)">
+                    <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(key)">
                         <div class="overlay">
                             <div class="abbr">{{ result.abbr }}</div>
                             <div class="month">{{ result.month }}</div>
                             <div class="day">{{ result.day }}</div>
                         </div>
                     </div>
-                    <div class="date_controls">
+                    <div class="date_controls" v-if="!$parent.$parent.isMobile">
                         <div class="prev" @click="generatePrevClasses()"></div>
                         <div class="next" @click="generateNextClasses()"></div>
                     </div>
                 </div>
+                <div class="date_controls_mobile" v-if="$parent.$parent.isMobile">
+                    <div class="prev" @click="generatePrevClasses()"></div>
+                    <div class="next" @click="generateNextClasses()"></div>
+                </div>
                 <div class="schedule_list">
                     <div class="header">
                         <span>Showing rides in </span>
-                        <span :class="`label ${(hasStudioFilter) ? 'active' : ''}`">{{ checkToggledStudio }}<img v-if="hasStudioFilter" @click="resetFilter('studio')" src="/icons/filter-close.svg" /></span>
+                        <span :class="`label ${(hasStudioFilter) ? 'active' : ''}`">{{ studioFilter }}<img v-if="hasStudioFilter" @click="resetFilter('studio')" src="/icons/filter-close.svg" /></span>
                         <span>with</span>
                         <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                     </div>
-                    <div class="content">
+                    <div class="content" v-if="!$parent.$parent.isMobile">
                         <div class="schedule">
                             <div class="time">10:30 AM</div>
                             <div class="class">
@@ -70,9 +75,9 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <div class="btn default_btn_out">
+                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
                                     <span>Book Now</span>
-                                </div>
+                                </nuxt-link>
                             </div>
                         </div>
                         <div class="schedule">
@@ -86,9 +91,9 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <div class="btn default_btn_out">
+                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
                                     <span>Waitlist</span>
-                                </div>
+                                </nuxt-link>
                             </div>
                         </div>
                         <div class="schedule">
@@ -107,22 +112,50 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="schedule">
-                            <div class="time">10:30 AM</div>
-                            <div class="class">
-                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                                <div class="info">
-                                    <h2>Billie Capistrano</h2>
-                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                    <h3>Greenbelt</h3>
-                                </div>
+                    </div>
+                    <div class="content_mobile" v-else>
+                        <a class="schedule">
+                            <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                            <div class="info">
+                                <div class="time">10:30 AM</div>
+                                <h2>Billie Capistrano</h2>
+                                <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                <h3>Greenbelt</h3>
+                            </div>
+                            <div class="action">
+                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                    <span>Book Now</span>
+                                </nuxt-link>
+                            </div>
+                        </a>
+                        <a class="schedule">
+                            <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                            <div class="info">
+                                <div class="time">10:30 AM</div>
+                                <h2>Billie Capistrano</h2>
+                                <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                <h3>Greenbelt</h3>
+                            </div>
+                            <div class="action">
+                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                    <span>Waitlist</span>
+                                </nuxt-link>
+                            </div>
+                        </a>
+                        <a class="schedule">
+                            <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                            <div class="info">
+                                <div class="time">10:30 AM</div>
+                                <h2>Billie Capistrano</h2>
+                                <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                <h3>Greenbelt</h3>
                             </div>
                             <div class="action">
                                 <div class="btn default_btn_out disabled">
                                     <span>Waitlisted</span>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -148,21 +181,18 @@
                 studios: [
                     {
                         id: 1,
-                        name: 'Shangri-La Plaza',
-                        checked: true
+                        name: 'Shangri-La Plaza'
                     },
                     {
                         id: 2,
-                        name: 'Greenbelt',
-                        checked: true
+                        name: 'Greenbelt'
                     },
                     {
                         id: 3,
-                        name: 'Bonifacio Global City',
-                        checked: true
+                        name: 'Bonifacio Global City'
                     }
                 ],
-                studioFilter: [],
+                studioFilter: 'all studios',
                 hasStudioFilter: false,
                 searchedInstructor: '',
                 hasSearchedInstructor: false
@@ -179,59 +209,12 @@
                     result = 'all instructors '
                 }
                 return result
-            },
-            checkToggledStudio () {
-                const me = this
-                let ctr = 0
-                let ctrFilter = 0
-                let result = ''
-                me.studios.forEach((studio, index) => {
-                    if (studio.checked) {
-                        ctr++
-                    }
-                })
-                if (me.studios.length == ctr) {
-                    result = 'all studios'
-                    me.hasStudioFilter = false
-                } else {
-                    if (me.studioFilter.length > 0) {
-                        me.studioFilter.forEach((name, index) => {
-                            ctrFilter++
-                            if (ctrFilter == 1) {
-                                result += name
-                            } else if (ctrFilter > 1) {
-                                result += `, ${name}`
-                            } else if (ctrFilter == me.studioFilter.length) {
-                                result += name
-                            }
-                            me.hasStudioFilter = true
-                        })
-                    } else {
-                        result = 'select a studio'
-                    }
-                }
-                return result
-            },
-            checkStudio () {
-                const me = this
-                let ctr = 0
-                let result = false
-                me.studios.forEach((studio, index) => {
-                    if (studio.checked) {
-                        ctr++
-                    }
-                })
-                if (ctr == me.studios.length) {
-                    result = true
-                } else {
-                    result = false
-                }
-                return result
             }
         },
         methods: {
             resetFilter (type) {
                 const me = this
+                let elements = document.querySelectorAll('.studio_filter .group')
                 switch (type) {
                     case 'studio':
                         me.hasStudioFilter = false
@@ -240,10 +223,10 @@
                         me.hasSearchedInstructor = false
                         break
                 }
-                me.studios.forEach((studio, index) => {
-                    studio.checked = false
+                elements.forEach((element, index) => {
+                    element.querySelector('.radio').checked = false
                 })
-                me.studioFilter = []
+                me.studioFilter = 'select a studio'
                 me.searchedInstructor = ''
             },
             selectIntructor (data) {
@@ -251,15 +234,16 @@
                 me.searchedInstructor = data
                 me.toggledAutocomplete = false
             },
-            toggleStudio (data) {
+            toggleStudio (data, type) {
                 const me = this
-                if (data.checked) {
-                    me.studioFilter.push(data.name)
-                } else {
-                    let toFind = me.studioFilter.indexOf(data.name)
-                    if (toFind > -1) {
-                        me.studioFilter.splice(toFind, 1)
-                    }
+                switch (type) {
+                    case 'static':
+                        me.studioFilter = 'all studios'
+                        break
+                    case 'dynamic':
+                        me.studioFilter = data.name
+                        me.hasStudioFilter = true
+                        break
                 }
             },
             toggleAutoComplete () {
@@ -269,31 +253,6 @@
             toggleAutoCompleteOutside () {
                 const me = this
                 me.toggledAutocomplete = false
-            },
-            toggleAllStudio ($event) {
-                const me = this
-                if (me.checkStudio) {
-                    me.studios.forEach((data, index) => {
-                        data.checked = false
-                        let toFind = me.studioFilter.indexOf(data.name)
-                        if (toFind > -1) {
-                            me.studioFilter.splice(toFind, 1)
-                        }
-                    })
-                } else {
-                    me.studios.forEach((data, index) => {
-                        data.checked = true
-                        let toFind = me.studioFilter.indexOf(data.name)
-                        if (toFind == -1) {
-                            me.studioFilter.push(data.name)
-                        }
-                    })
-                }
-                if (event.target.classList.contains('checked')) {
-                    event.target.classList.remove('checked')
-                } else {
-                    event.target.classList.add('checked')
-                }
             },
             removeActive () {
                 const me = this
@@ -316,10 +275,10 @@
                 const me = this
                 if (me.isPrev) {
                     me.isPrev = false
-                    me.current = me.current + 8
+                    me.current = me.current + (!me.$parent.$parent.isMobile ? 8 : 6)
                 }
                 me.results = []
-                for (let i = 0; i < 7; i++) {
+                for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
                     if (me.current > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
                         me.current = me.current - me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()
                         me.currentMonth = me.currentMonth + 1
@@ -339,10 +298,10 @@
                 const me = this
                 if (!me.isPrev) {
                     me.isPrev = true
-                    me.current = me.current - 8
+                    me.current = me.current - (!me.$parent.$parent.isMobile ? 8 : 6)
                 }
                 me.results = []
-                for (let i = 0; i < 7; i++) {
+                for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
                     if (me.current <= 0) {
                         me.currentMonth = me.currentMonth - 1
                         if (me.currentMonth == 0) {
@@ -375,7 +334,7 @@
                     }
                     me.populateResults(me.current, 'prev')
                     me.current--
-                    if (i == 6) {
+                    if (i == (!me.$parent.$parent.isMobile ? 6 : 4)) {
                         me.last = me.current
                     }
                 }
@@ -415,25 +374,25 @@
                 me.last = currentDate
                 me.currentMonth = parseInt(me.$moment().format('M'))
                 me.currentYear = parseInt(me.$moment().format('YYYY'))
-                for (let i = 0; i < 7; i++) {
-                    if (currentDate > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
-                        currentDate = 1
-                        me.currentMonth = me.currentMonth + 1
-                        if (me.currentMonth == 13) {
-                            me.currentMonth = 1
-                            me.currentYear = me.currentYear + 1
+                    for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
+                        if (currentDate > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
+                            currentDate = 1
+                            me.currentMonth = me.currentMonth + 1
+                            if (me.currentMonth == 13) {
+                                me.currentMonth = 1
+                                me.currentYear = me.currentYear + 1
+                            }
                         }
+                        me.results.push({
+                            abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('ddd'),
+                            month: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('MMM'),
+                            day: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('D'),
+                            value: currentDate
+                        })
+                        currentDate++
+                        me.current = currentDate
+                        me.isPrev = false
                     }
-                    me.results.push({
-                        abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('ddd'),
-                        month: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('MMM'),
-                        day: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('D'),
-                        value: currentDate
-                    })
-                    currentDate++
-                    me.current = currentDate
-                    me.isPrev = false
-                }
                 setTimeout( () => {
                     me.loader(false)
                 }, 500)
@@ -441,12 +400,9 @@
         },
         mounted () {
             const me = this
-            me.populateClasses()
-            me.studios.forEach((studio, index) => {
-                if (studio.checked) {
-                    me.studioFilter.push(studio.name)
-                }
-            })
+            setTimeout( () => {
+                me.populateClasses()
+            }, 10)
         }
     }
 </script>

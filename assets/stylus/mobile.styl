@@ -99,9 +99,44 @@
                 brandon_regular_italic(14px, false)
 
     .book_a_bike
+        #banner
+            margin-top: 61px
+        &.landing
+            #content
+                .right
+                    flex: 0 0 100%
+                    padding: 0
+                    .date_navigator
+                        background-image: url('/dotted-bg.png')
+                        .date
+                            flex: 0 0 calc(100% / 5)
+                            padding: 10px 15px
+                            .overlay
+                                .abbr
+                                    brandon_bold(14px, false)
+                                    margin-bottom: 0px
+                                .month
+                                    letter-spacing: 0.14px
+                                    brandon_bold(14px, true)
+                                    margin-bottom: 5px
+                                .day
+                                    brandon_bold(28px, false)
+                            &::before
+                                border-radius: 0px
+                            &.active,
+                            &.hover
+                                transform: scale(1)
+                                border-radius: 0px
+                                transition: .3s ease-in-out
+                    .schedule_list
+                        .header
+                            margin: 10px 5px
+                            text-align: center
+                            span
+                                brandon_regular(16px, false)
+                                &.label
+                                    brandon_regular_italic(16px, false)
         &.inner
-            #banner
-                margin-top: 61px
             #content
                 padding: 60px 0 0
                 max-width: calc(100% - 20px)
@@ -232,7 +267,7 @@
     .default_btn,
     .default_btn_out
         width: auto
-        padding: 12px 45px
+        padding: 12px 15px
 
     #main_container
         .book_a_bike

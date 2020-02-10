@@ -1,5 +1,5 @@
 <template>
-    <div class="book_a_ride inner">
+    <div class="book_a_bike inner">
         <section id="banner"></section>
         <transition name="slide">
             <pro-tip v-if="$store.state.proTipStatus" />
@@ -19,8 +19,8 @@
                 </div>
             </div>
             <div class="main_right">
-                <div class="header" v-if="!$store.state.isMobile">
-                    <div class="back">Back</div>
+                <div class="header" v-if="!$parent.$parent.isMobile">
+                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
                 </div>
                 <div class="content">
                     <div class="seat_wrapper">
@@ -32,10 +32,10 @@
                         <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in seats" :key="key" v-if="seat.data.length > 0">
                             <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? 'reserved' : (data.status == 'blocked') ? 'blocked' : (data.status == 'guest') ? 'guest' : ''}`" v-for="(data, key) in seat.data" :key="key">
                                 <transition name="slide">
-                                    <img class="seat_image" src="/sample-image-booker.png" v-if="!$store.state.isMobile && data.status == 'reserved'" />
+                                    <img class="seat_image" src="/sample-image-booker.png" v-if="!$parent.$parent.isMobile && data.status == 'reserved'" />
                                 </transition>
                                 <transition name="slide">
-                                    <img class="seat_image" src="/sample-image-booker.png" v-if="!$store.state.isMobile && data.status == 'guest'" />
+                                    <img class="seat_image" src="/sample-image-booker.png" v-if="!$parent.$parent.isMobile && data.status == 'guest'" />
                                 </transition>
                                 <div class="seat_number">
                                     {{ data.number }}

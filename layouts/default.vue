@@ -23,6 +23,11 @@
             Foot,
             Loader
         },
+        data () {
+            return {
+                isMobile: false
+            }
+        },
         watch:{
             $route (to, from){
                 const me = this
@@ -38,12 +43,16 @@
                 const me = this
                 if (document.documentElement && document.documentElement.clientWidth) {
                     if (document.documentElement.clientWidth < 1025) {
-                        me.$store.state.isMobile = true
+                        me.isMobile = true
                     } else {
-                        me.$store.state.isMobile = false
+                        me.isMobile = false
                     }
                 }
             }
+        },
+        mounted () {
+            const me = this
+            me.onResize()
         },
         beforeMount () {
             window.addEventListener('load', this.onResize)

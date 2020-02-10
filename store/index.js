@@ -16,7 +16,6 @@ const createStore = () => {
             isExpanded: false,
             errorStatus: false,
             errorList: [],
-            isMobile: false,
             isAuth: false,
             isNotify: false,
             notificationMessage: '',
