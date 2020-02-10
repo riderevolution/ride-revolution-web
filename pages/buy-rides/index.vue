@@ -24,8 +24,8 @@
                     </div>
                 </transition>
             </div>
-            <div class="content">
-                <nuxt-link :to="`/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
+            <div class="content" id="package">
+                <nuxt-link :to="`/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                     <div class="ribbon" v-if="data.has_promo">Promo</div>
                     <div class="package_header">
                         <h2 class="title">{{ data.title }}</h2>
@@ -46,6 +46,7 @@
                         </div>
                     </div>
                 </nuxt-link>
+                <div v-if="!checkPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
             </div>
         </section>
         <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
@@ -90,8 +91,8 @@
                     </div>
                 </transition>
             </div>
-            <div class="content" id="store-credits">
-                <nuxt-link :to="`/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in credits" :key="key">
+            <div class="content" id="store_credits">
+                <nuxt-link :to="`/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populateStoreCredits" :key="key">
                     <div class="ribbon" v-if="data.has_promo">Promo</div>
                     <div class="package_header alt">
                         <h2 class="title">{{ data.title }}</h2>
@@ -111,6 +112,7 @@
                         </div>
                     </div>
                 </nuxt-link>
+                <div v-if="!checkStoreCredits" class="default_btn load" @click="loadMoreContent('store-credits')">Load More</div>
             </div>
         </section>
         <section id="digital">
@@ -133,6 +135,8 @@
         },
         data () {
             return {
+                toShowPackages: 3,
+                toShowStoreCredits: 3,
                 showInfoPackages: false,
                 showInfoStoreCredits: false,
                 showAllPromos: false,
@@ -202,6 +206,7 @@
                         price: '500',
                         has_promo: false,
                         expire: 'Expires in 30 Days',
+                        checked: false
                     },
                     {
                         title: 'First Timer Package',
@@ -209,6 +214,7 @@
                         price: '1800',
                         has_promo: false,
                         expire: 'Expires in 30 Days',
+                        checked: false
                     },
                     {
                         title: 'Single Class',
@@ -216,6 +222,7 @@
                         price: '5000',
                         has_promo: false,
                         expire: 'Expires in 45 Days',
+                        checked: false
                     },
                     {
                         title: '10 Class Package',
@@ -223,6 +230,7 @@
                         price: '500',
                         has_promo: false,
                         expire: 'Expires in 30 Days',
+                        checked: false
                     },
                     {
                         title: '20 Class Package',
@@ -231,6 +239,7 @@
                         price: '15000',
                         has_promo: true,
                         expire: 'Expires in 6 Months',
+                        checked: false
                     },
                     {
                         title: 'Monthly Unlimited Class Package',
@@ -239,6 +248,7 @@
                         price: '20000',
                         has_promo: true,
                         expire: 'Expires in 1 Year',
+                        checked: false
                     },
                 ],
                 credits: [
@@ -248,26 +258,104 @@
                         price: '400',
                         has_promo: true,
                         expire: 'No Expiry',
-                        type: 'store-credit'
+                        type: 'store-credit',
+                        checked: false
                     },
                     {
                         title: '1k Store Credits',
                         price: '1000',
                         has_promo: false,
                         expire: 'No Expiry',
-                        type: 'store-credit'
+                        type: 'store-credit',
+                        checked: false
                     },
                     {
                         title: '5k Store Credits',
                         price: '5000',
                         has_promo: false,
                         expire: 'No Expiry',
-                        type: 'store-credit'
+                        type: 'store-credit',
+                        checked: false
                     }
-                ],
+                ]
+            }
+        },
+        computed: {
+            populatePackages () {
+                const me = this
+                let result = []
+                for (let i = 0; i < me.toShowPackages; i++) {
+                    me.packages[i].checked = true
+                    result.push(me.packages[i])
+                }
+                return result
+            },
+            checkPackages () {
+                const me = this
+                let count = 0
+                let result = false
+                me.packages.forEach((data, index) => {
+                    if (data.checked) {
+                        count++
+                    }
+                })
+                if (count == me.packages.length) {
+                    result = true
+                } else {
+                    result = false
+                }
+                return result
+            },
+            populateStoreCredits() {
+                const me = this
+                let result = []
+                for (let i = 0; i < me.toShowStoreCredits; i++) {
+                    me.credits[i].checked = true
+                    result.push(me.credits[i])
+                }
+                return result
+            },
+            checkStoreCredits () {
+                const me = this
+                let count = 0
+                let result = false
+                me.credits.forEach((data, index) => {
+                    if (data.checked) {
+                        count++
+                    }
+                })
+                if (count == me.credits.length) {
+                    result = true
+                } else {
+                    result = false
+                }
+                return result
             }
         },
         methods: {
+            loadMoreContent (type) {
+                const me = this
+                switch (type) {
+                    case 'packages':
+                        if (!me.checkPackages) {
+                            me.toShowPackages += 3
+                            me.$scrollTo('.load', {
+                                container: '#package',
+                                offset: -250
+                            })
+                        }
+                        break
+                    case 'store-credits':
+                        if (!me.checkStoreCredits) {
+                            me.toShowStoreCredits += 3
+                            me.$scrollTo('.load', {
+                                container: '#store_credits',
+                                offset: -250
+                            })
+                        }
+                        break
+                }
+            },
             togglePopUp (event, type) {
                 const me = this
                 let target = event.target
@@ -326,10 +414,18 @@
                         element.nextElementSibling.innerHTML = 'Copy Code'
                     }, 1000)
                 }
+            },
+            fetchData () {
+                const me = this
+                me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
+                me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
             }
         },
         mounted() {
             const me = this
+            setTimeout( () => {
+                me.fetchData()
+            }, 10)
             if (me.$route.hash != '') {
                 me.$scrollTo(`${me.$route.hash}`, {
                     offset: 300
