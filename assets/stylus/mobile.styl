@@ -7,6 +7,9 @@
         width: 100%
         brandon_bold(14px, true)
         padding: 12px 10px
+    .default_btn_wht_alt
+        .text
+            brandon_bold(14px, true)
 
     .form_group
         margin-bottom: 20px
@@ -134,22 +137,58 @@
                 brandon_regular_italic(14px, false)
 
     #packages
+        &.alt
+            .header
+                margin: 0 5px
+                h2
+                    display: inline-block
+                    margin: 0 auto
+                    brandon_bold(22px, false)
+                    line-height: 1
+        .header
+            padding: 30px 0 10px
         .content
+            padding-bottom: 30px
             .package_wrapper
                 flex: 0 0 100%
+                padding: 50px 20px
+                &.promo
+                    .ribbon
+                        top: calc(0% + 20px)
+                        left: calc(0% - 68px)
+                .package_header
+                    .title
+                        brandon_bold(26px, false)
+                    .description
+                        margin: 10px 0 20px
+                        brandon_medium(14px, false)
 
     .buy_rides
         #banner
             margin-top: 61px
             img
-                height: 100%
-                max-height: 200px
+                height: 250px
+        #packages
+            background-image: url('/dotted-bg.png')
+        #digital
+            img
+                width: 100%
+                height: 250px
+            .overlay
+                margin: 0 5px
+                h2
+                    brandon_bold(32px, false)
+                    line-height: 1.25
+                h3
+                    brandon_regular(16px, false)
+                    margin: 10px 0 20px
+                .default_btn
+                    width: auto
     .book_a_bike
         #banner
             margin-top: 61px
             img
-                height: 100%
-                max-height: 200px
+                height: 250px
         &.landing
             #content
                 .left

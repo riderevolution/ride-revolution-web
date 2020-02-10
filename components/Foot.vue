@@ -3,9 +3,9 @@
         <div class="logo">
             <img src="/footer-logo.svg" />
         </div>
-        <div class="footer_sitemap">
-            <label @click="toggleSitemap($event)">Show Sitemap <img src="/icons/back-arrow-icon.svg" /></label>
-        </div>
+        <a class="footer_sitemap" @click="toggleSitemap()">
+            <label>Show Sitemap <img src="/icons/back-arrow-icon.svg" /></label>
+        </a>
         <div class="footer_link">
             <h3>In Studio</h3>
             <ul>
@@ -48,19 +48,19 @@
 <script>
     export default {
         methods: {
-            toggleSitemap (event) {
+            toggleSitemap () {
                 const me = this
-                let target = event.target
+                let target = document.querySelector('.footer_sitemap')
                 let elements = document.querySelectorAll('#footer .footer_link')
-                target.parentNode.classList.add('oops')
+                target.classList.add('oops')
                 elements.forEach((element, index) => {
                     if (!element.classList.contains('alt')) {
                         if (element.classList.contains('active')) {
                             element.classList.remove('active')
-                            target.parentNode.classList.remove('toggled')
+                            target.classList.remove('toggled')
                             element.style.height = `0px`
                         } else {
-                            target.parentNode.classList.add('toggled')
+                            target.classList.add('toggled')
                             setTimeout( () => {
                                 element.classList.add('active')
                             }, 250)
@@ -69,7 +69,7 @@
                     }
                 })
                 setTimeout( () => {
-                    target.parentNode.classList.remove('oops')
+                    target.classList.remove('oops')
                 }, 500)
             },
             backToTop () {

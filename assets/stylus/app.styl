@@ -659,7 +659,7 @@ svg
         .logo
             flex: 0 0 15%
         .footer_sitemap
-            flex: 0 0 100%
+            flex: 0 0 auto
             margin: 25px 0
             &.toggled
                 label
@@ -3883,12 +3883,14 @@ svg
                     letter-spacing: 0.5px
                     color: $black
                     text-align: center
+                    margin-bottom: 0
     .header
         display: flex
         flex-flow: row wrap
         align-items: center
         justify-content: space-between
         padding: 50px 0
+        position: relative
         .image_bg
             font-size: 0
             flex: 0 0 50%
@@ -3897,6 +3899,30 @@ svg
             background-repeat: no-repeat
             background-position: left center
             background-size: contain
+        .description_overlay
+            position: absolute
+            top: calc(100% + 1px)
+            left: 0
+            right: 0
+            z-index: 1
+            brandon_regular(16px, false)
+            letter-spacing: 0.5px
+            color: $white
+            text-align: center
+            background-color: $green
+            padding: 10px
+            border-radius: 5px
+            .pointer
+                position: absolute
+                bottom: calc(100%)
+                width: 0
+                height: 0
+                border-left: 7px solid transparent
+                border-right: 7px solid transparent
+                border-bottom: 7px solid $green
+                right: 0
+                z-index: 1
+                transition: .3s ease-in-out
         .description
             flex: 0 0 40%
             margin-right: 50px
@@ -4012,6 +4038,13 @@ svg
                 &.promo
                     .ribbon
                         background-color: $pink_alt
+                        transition: .3s ease-in-out
+                .default_btn_out
+                    color: $white
+                    border: 1px solid transparent
+                    transition: .3s ease-in-out
+                    &::before
+                        opacity: 1
                         transition: .3s ease-in-out
                 .default_btn_wht_alt
                     .text

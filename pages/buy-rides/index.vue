@@ -10,10 +10,19 @@
         </section>
         <section id="packages" class="alt">
             <div class="header">
-                <h2>Choose Your Class Packages</h2>
-                <div class="description">
+                <h2>
+                    Choose Your Class Packages
+                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$parent.$parent.isMobile" />
+                </h2>
+                <div class="description" v-if="!$parent.$parent.isMobile">
                     <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
                 </div>
+                <transition name="slide">
+                    <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoPackages">
+                        <div class="pointer"></div>
+                        <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
+                    </div>
+                </transition>
             </div>
             <div class="content">
                 <nuxt-link :to="`/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
@@ -25,7 +34,8 @@
                     <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
                     <div class="price">Php {{ totalItems(data.price) }}</div>
                     <div class="expires">{{ data.expire }}</div>
-                    <div class="default_btn_wht_alt green">
+                    <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
+                    <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
                             <div class="border_top left"></div>
                             <div class="border_top left alt"></div>
@@ -55,8 +65,8 @@
                             </div>
                         </swiper-slide>
                         <div class="swiper-pagination" slot="pagination"></div>
-                        <div class="swiper-button-prev" slot="button-prev"></div>
-                        <div class="swiper-button-next" slot="button-next"></div>
+                        <div class="swiper-button-prev" slot="button-prev" v-if="!$parent.$parent.isMobile"></div>
+                        <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
                         <div class="overlay_btn default_btn" v-if="showAllPromos">See All Promos</div>
@@ -66,10 +76,19 @@
         </section>
         <section id="packages" class="alt">
             <div class="header">
-                <h2>Buy Store Credits</h2>
-                <div class="description">
+                <h2>
+                    Buy Store Credits
+                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'store-credits')" v-if="$parent.$parent.isMobile" />
+                </h2>
+                <div class="description" v-if="!$parent.$parent.isMobile">
                     <p>Use your store credits to purchase class packages and products.</p>
                 </div>
+                <transition name="slide">
+                    <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoStoreCredits">
+                        <div class="pointer"></div>
+                        <p>Use your store credits to purchase class packages and products.</p>
+                    </div>
+                </transition>
             </div>
             <div class="content" id="store-credits">
                 <nuxt-link :to="`/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in credits" :key="key">
@@ -80,7 +99,8 @@
                     <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
                     <div class="price">Php {{ totalItems(data.price) }}</div>
                     <div class="expires">{{ data.expire }}</div>
-                    <div class="default_btn_wht_alt green">
+                    <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
+                    <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
                             <div class="border_top left"></div>
                             <div class="border_top left alt"></div>
@@ -94,7 +114,8 @@
             </div>
         </section>
         <section id="digital">
-            <img src="/default/buy-rides/send-digital-bg.jpg" />
+            <img src="/default/buy-rides/send-digital-bg.jpg" v-if="!$parent.$parent.isMobile" />
+            <img src="/default/buy-rides/buy-rides-banner-mobile.jpg" v-else />
             <div class="overlay">
                 <h2>Share this experience with your loved ones!</h2>
                 <h3>For anyone who wants to be their best.</h3>
@@ -112,6 +133,8 @@
         },
         data () {
             return {
+                showInfoPackages: false,
+                showInfoStoreCredits: false,
                 showAllPromos: false,
                 promoOptions: {
                     slidesPerView: 1,
@@ -129,6 +152,12 @@
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        1024: {
+                            slidesPerView: 1,
+                            spaceBetween: 30
+                        }
                     }
                 },
                 promos: [
@@ -239,6 +268,37 @@
             }
         },
         methods: {
+            togglePopUp (event, type) {
+                const me = this
+                let target = event.target
+                let parentWidth = target.parentNode.scrollWidth
+                switch (type) {
+                    case 'packages':
+                        if (target.parentNode.classList.contains('toggled')) {
+                            target.parentNode.classList.remove('toggled')
+                        } else {
+                            target.parentNode.classList.add('toggled')
+                            setTimeout( () => {
+                                let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
+                                target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px / 2) - (${parentWidth}px / 2))`
+                            }, 200)
+                        }
+                        me.showInfoPackages ^= true
+                        break
+                    case 'store-credits':
+                        if (target.parentNode.classList.contains('toggled')) {
+                            target.parentNode.classList.remove('toggled')
+                        } else {
+                            target.parentNode.classList.add('toggled')
+                            setTimeout( () => {
+                                let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
+                                target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px / 2) - (${parentWidth}px / 2))`
+                            }, 200)
+                        }
+                        me.showInfoStoreCredits ^= true
+                        break
+                }
+            },
             swiperEvent (type) {
                 const me = this
                 switch (type) {
