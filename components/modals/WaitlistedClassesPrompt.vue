@@ -3,14 +3,11 @@
         <div class="background" @click.once="toggleClose()"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose()"></div>
-            <div class="confirmation_image">
-                <img src="/default/meme/success-meme.png" />
-            </div>
             <div class="confirmation_text">
                 {{ message }}
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn" @click.once="toggleClose()">Confirm</div>
+                <div class="flex default_btn" @click.once="toggleClose()">Done</div>
             </div>
         </div>
     </div>
@@ -27,8 +24,8 @@
         methods: {
             toggleClose () {
                 const me = this
-                me.$store.state.bookerAssignSuccessStatus = false
-                document.body.classList.remove('no_scroll')
+                me.$store.state.waitlistedClassesPromptStatus = false
+                me.$parent.message = ''
             }
         }
     }

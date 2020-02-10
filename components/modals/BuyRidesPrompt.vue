@@ -4,8 +4,8 @@
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose()"></div>
             <div class="confirmation_image">
-                <img src="/oops-meme.jpeg" v-if="!status" />
-                <img src="/success-meme.png" v-else />
+                <img src="/default/meme/oops-meme.jpeg" v-if="!status" />
+                <img src="/default/meme/success-meme.png" v-else />
             </div>
             <div class="confirmation_text">
                 {{ message }}
