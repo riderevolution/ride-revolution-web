@@ -29,8 +29,8 @@
                                     <div class="form_flex with_btn alt">
                                         <div class="form_group qty">
                                             <label>Qty</label>
-                                            <div :class="`form_qty ${(errors.has('quantity')) ? 'disabled' : ''}`">
-                                                <input type="text" name="quantity" id="quantity" class="input_text number" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'numeric|min_value:1'">
+                                            <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
+                                                <input type="text" name="quantity" id="quantity" :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'numeric|min_value:1'">
                                                 <div class="up" @click="addCount()"></div>
                                                 <div class="down" @click="subtractCount()"></div>
                                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">The qty field is required</span></transition>
@@ -38,10 +38,10 @@
                                         </div>
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
-                                            <input type="text" id="promo_code" name="promo_code" class="input_text" autocomplete="off" placeholder="Enter a Promo Code" v-model="form.promo">
+                                            <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-model="form.promo">
                                         </div>
                                         <div class="form_button">
-                                            <button type="button" class="default_btn_out" @click="applyPromo()"><span>Apply</span></button>
+                                            <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo()"><span>Apply</span></button>
                                         </div>
                                     </div>
                                 </form>
@@ -121,7 +121,7 @@
             </div>
         </section>
         <transition name="fade">
-            <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" />
+            <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
         <transition name="fade">
             <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" />
@@ -208,8 +208,15 @@
             },
             applyPromo () {
                 const me = this
-                me.message = 'You’ve entered an invalid promo code.'
-                me.$store.state.buyRidesPromptStatus = true
+                if (!me.promoApplied) {
+                    if (me.form.promo == 'asdasd') {
+                        me.promoApplied = true
+                        me.message = 'Cheers! You’ve entered a valid promo code.'
+                    } else {
+                        me.message = 'You’ve entered an invalid promo code.'
+                    }
+                    me.$store.state.buyRidesPromptStatus = true
+                }
             }
         },
         mounted () {

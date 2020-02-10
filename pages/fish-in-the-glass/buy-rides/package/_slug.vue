@@ -1,10 +1,6 @@
 <template>
-    <div class="buy_rides inner">
-        <breadcrumb :overlay="false" />
-        <transition name="slide">
-            <pro-tip v-if="$store.state.proTipStatus" />
-        </transition>
-        <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismissed' : 'dismiss'} ${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
+    <div class="buy_rides inner fish">
+        <section id="payments" :class="`${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div v-if="step == 1">
@@ -58,9 +54,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <nuxt-link to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
-                                <div class="action_mobile" v-else>
-                                    <nuxt-link to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                <div class="action_mobile">
+                                    <nuxt-link to="/fish-in-the-glass/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +85,7 @@
                                     <p class="store_credits">65</p>
                                     <transition name="slide">
                                         <div class="unavailable" v-if="storeCredits <= 50">
-                                            <nuxt-link to="/buy-rides#store_credits">Buy Rides</nuxt-link>
+                                            <nuxt-link to="/fish-in-the-glass/buy-rides#store_credits">Buy Rides</nuxt-link>
                                             <label>*Your store credits are insufficient.</label>
                                         </div>
                                     </transition>
@@ -101,7 +96,6 @@
                                 <p>Php 9,000.00</p>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
                                 <div :class="`default_btn_img ${(storeCredits <= 50) ? 'disabled' : ''}`" v-if="type == 'credit'" @click="paymentSuccess()">
                                     <div class="btn_wrapper">
                                         <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
@@ -117,7 +111,7 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$parent.$parent.isMobile">
+                            <div class="action_mobile" @click="stepBack()">
                                 <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                             </div>
                         </div>
@@ -135,14 +129,11 @@
 </template>
 
 <script>
-    import ProTip from '../../../components/ProTip'
-    import Breadcrumb from '../../../components/Breadcrumb'
-    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
-    import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
+    import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
+    import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
+        layout: 'fish',
         components: {
-            ProTip,
-            Breadcrumb,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -198,10 +189,6 @@
                     me.$store.state.buyRidesPromptStatus = true
                 }
             }
-        },
-        mounted () {
-            const me = this
-            me.$store.state.proTipStatus = true
         }
     }
 </script>

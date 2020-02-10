@@ -1,32 +1,37 @@
 <template>
-    <div class="buy_rides inner">
-        <breadcrumb :overlay="false" />
-        <transition name="slide">
-            <pro-tip v-if="$store.state.proTipStatus" />
-        </transition>
-        <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismissed' : 'dismiss'} ${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
+    <div class="buy_rides inner fish">
+        <section id="payments" :class="`${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div v-if="step == 1">
-                        <h1 class="header_title">Buy Class Package</h1>
+                        <h1 class="header_title">Buy Store Credits</h1>
                         <div class="wrapper">
                             <div class="left">
                                 <div class="header">
                                     <h2>{{ replacer($route.params.slug) }}</h2>
-                                    <h2>Php 9,500.00</h2>
+                                    <h2>Php 1,000.00</h2>
                                 </div>
                                 <div class="content">
                                     <ul>
-                                        <li>You’ll have <strong>10 ride credits</strong> that can be booked in any of our studios in metro manila.</li>
-                                        <li>Inclusive of one <strong>(1) free Bare Manila Class</strong>. Just show the e-receipt at Bare Manila to claim your free class.</li>
-                                        <li>Transferable or sharable to other Ride Revolution members.</li>
-                                        <li>This package is valid for 3 months upon activation. (A package is activated when a first class is booked.) You’ll have 30 days to activate this package.</li>
+                                        <li>1,000 worth of store credits that can be used to purchase class packages and Ride Revolution merchandise.</li>
+                                        <li>This can’t be used to purchase more store credits.</li>
+                                        <li>This is not transferrable or sharable to other Ride Rev members.</li>
+                                        <li>This is not convertible to cash.</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="right">
                                 <form id="default_form">
-                                    <div class="form_flex with_btn">
+                                    <div class="form_flex with_btn alt">
+                                        <div class="form_group qty">
+                                            <label>Qty</label>
+                                            <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
+                                                <input type="text" name="quantity" id="quantity" :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'numeric|min_value:1'">
+                                                <div class="up" @click="addCount()"></div>
+                                                <div class="down" @click="subtractCount()"></div>
+                                                <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">The qty field is required</span></transition>
+                                            </div>
+                                        </div>
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
                                             <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-model="form.promo">
@@ -50,17 +55,15 @@
                                         <p>Php 9,500.00</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions">
-                                    <div class="default_btn" @click="proceedToPayment('store-credit')">Use Store Credits</div>
+                                <div class="breakdown_actions alt">
                                     <div class="default_btn_img" @click="proceedToPayment('credit')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
                                     </div>
                                 </div>
-                                <nuxt-link to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
-                                <div class="action_mobile" v-else>
-                                    <nuxt-link to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                <div class="action_mobile">
+                                    <nuxt-link to="/fish-in-the-glass/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +71,7 @@
                 </transition>
             </div>
             <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`">
-                <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
+                <transition name="slideX">
                     <div v-if="step == 2" class="preview_payment">
                         <h2 class="header_title">Let’s make sure we got this right.</h2>
                         <div class="preview">
@@ -84,32 +87,18 @@
                                 <h3>Discount</h3>
                                 <p>Php 500.00</p>
                             </div>
-                            <div class="available" v-if="!paypal">
-                                <div :class="`available_item ${(storeCredits <= 50) ? 'insufficient' : ''}`">
-                                    <h3>Available Store Credits</h3>
-                                    <p class="store_credits">65</p>
-                                    <transition name="slide">
-                                        <div class="unavailable" v-if="storeCredits <= 50">
-                                            <nuxt-link to="/buy-rides#store_credits">Buy Rides</nuxt-link>
-                                            <label>*Your store credits are insufficient.</label>
-                                        </div>
-                                    </transition>
-                                </div>
-                            </div>
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>Php 9,000.00</p>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
-                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'disabled' : ''}`" v-if="type == 'credit'" @click="paymentSuccess()">
+                                <div class="default_btn_img" @click="paymentSuccess()">
                                     <div class="btn_wrapper">
                                         <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                     </div>
                                 </div>
-                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'disabled' : ''}`" v-else @click="paymentSuccess()">Pay Now</div>
                             </div>
-                            <div class="paypal_disclaimer" v-if="type == 'credit'">
+                            <div class="paypal_disclaimer">
                                 <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
@@ -135,28 +124,25 @@
 </template>
 
 <script>
-    import ProTip from '../../../components/ProTip'
-    import Breadcrumb from '../../../components/Breadcrumb'
-    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
-    import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
+    import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
+    import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
+        layout: 'fish',
         components: {
-            ProTip,
-            Breadcrumb,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
         data () {
             return {
                 type: '',
-                storeCredits: 55,
                 step: 1,
                 paypal: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
                 form: {
-                    promo: ''
+                    promo: '',
+                    quantity: 1
                 }
             }
         },
@@ -173,18 +159,42 @@
                     me.paypal = false
                 }
             },
+            addCount () {
+                const me = this
+                let data
+                data = parseInt(me.form.quantity)
+                if (data != 99) {
+                    data != 0 && (me.form.quantity = 0)
+                    me.form.quantity = (data += 1)
+                }
+            },
+            subtractCount () {
+                const me = this
+                let data
+                data = parseInt(me.form.quantity)
+                data > 1 && (me.form.quantity = (data -= 1))
+
+            },
             proceedToPayment (type) {
                 const me = this
-                me.type = type
-                switch (type) {
-                    case 'store-credit':
-                        me.step = 2
-                        break
-                    case 'credit':
-                        me.step = 2
-                        me.paypal = true
-                        break
-                }
+                me.$validator.validateAll().then(valid => {
+                    if (valid) {
+                        switch (type) {
+                            case 'store-credit':
+                            me.step = 2
+                            break
+                            case 'credit':
+                            me.paypal = true
+                            me.step = 2
+                            break
+                        }
+                    } else {
+                        me.$scrollTo('.validation_errors', {
+                            container: '#default_form',
+                            offset: -250
+                        })
+                    }
+                })
             },
             applyPromo () {
                 const me = this
@@ -198,10 +208,6 @@
                     me.$store.state.buyRidesPromptStatus = true
                 }
             }
-        },
-        mounted () {
-            const me = this
-            me.$store.state.proTipStatus = true
         }
     }
 </script>

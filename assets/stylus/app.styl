@@ -4337,6 +4337,16 @@ svg
             color: $white
             letter-spacing: 0.4px
             margin: 20px 0 70px
+        .link
+            margin-bottom: 40px
+            label
+                display: block
+                brandon_regular(12px, true)
+                color: $white
+                margin-bottom: 5px
+            .refer_link
+                brandon_medium(22px, false)
+                color: $white
         #default_form
             width: 100%
             max-width: 700px
@@ -4868,6 +4878,10 @@ input::placeholder
     outline: none
     resize: none
     transition: .3s ease-in-out
+    &.disabled
+        pointer-events: none
+        cursor: not-allowed
+        background-color: $white_alt
     &.email
         background-image: url('/icons/mail-icon.svg')
         background-position: calc(0% + 20px) center

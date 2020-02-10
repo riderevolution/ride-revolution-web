@@ -3,6 +3,10 @@
         <div class="wrapper">
             <h2>Don’t ride alone. Refer a friend and get Php 200 for every friend you refer.</h2>
             <h3>Your friends get Php 200 and you get Php 200 after their first purchase. Enter your email address to start referring.</h3>
+            <div class="link" v-if="isWebBased">
+                <label>Referral Link</label>
+                <a class="refer_link" href="http://riderev/refer-a-friend">http://riderev/refer-a-friend</a>
+            </div>
             <form id="default_form" @submit.prevent="submissionSuccess()">
                 <div class="form_flex with_btn">
                     <div class="form_group">
@@ -20,6 +24,11 @@
 
 <script>
     export default {
+        data () {
+            return {
+                isWebBased: false
+            }
+        },
         methods: {
             submissionSuccess () {
                 const me = this
@@ -32,6 +41,14 @@
 						})
                     }
                 })
+            }
+        },
+        mounted () {
+            const me = this
+            if (me.$route.fullPath.match(/\bfish-in-the-glass/ig)) {
+                me.isWebBased = true
+            } else {
+                me.isWebBased = false
             }
         }
     }
