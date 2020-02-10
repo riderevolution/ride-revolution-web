@@ -70,8 +70,11 @@
                         <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
-                        <div class="overlay_btn default_btn" v-if="showAllPromos">See All Promos</div>
+                        <div class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</div>
                     </transition>
+                    <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                        <div class="default_btn">See All Promos</div>
+                    </div>
                 </div>
             </no-ssr>
         </section>
@@ -143,7 +146,6 @@
                 promoOptions: {
                     slidesPerView: 1,
                     spaceBetween: 30,
-                    effect: 'fade',
                     loop: true,
                     autoplay: {
                         delay: 4000,
@@ -160,6 +162,7 @@
                     breakpoints: {
                         1024: {
                             slidesPerView: 1,
+                            autoHeight: true,
                             spaceBetween: 30
                         }
                     }
