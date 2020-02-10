@@ -1,7 +1,8 @@
 <template>
     <div class="book_a_bike landing">
         <section id="banner">
-            <img src="/default/book-a-bike/book-a-bike-banner.jpg" />
+            <img src="/default/book-a-bike/book-a-bike-banner.jpg" v-if="!$parent.$parent.isMobile" />
+            <img src="/default/book-a-bike/book-a-bike-banner-mobile.jpg" v-else />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Book a Bike</h1>
@@ -10,6 +11,10 @@
         </section>
         <section id="content">
             <div class="left">
+                <div class="filter_accordion" v-if="$parent.$parent.isMobile">
+                    <label>Filter</label>
+                    <div class="toggler" @click="toggleFilter($event)"></div>
+                </div>
                 <div class="filter">
                     <div class="wrapper studio_filter">
                         <h3>Studios</h3>
@@ -212,6 +217,26 @@
             }
         },
         methods: {
+            toggleFilter (event) {
+                const me = this
+                let target = event.target
+                let element = document.querySelector('.filter')
+                target.parentNode.classList.add('oops')
+                if (element.classList.contains('active')) {
+                    element.classList.remove('active')
+                    target.parentNode.classList.remove('toggled')
+                    element.style.height = `0px`
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    setTimeout( () => {
+                        element.classList.add('active')
+                    }, 250)
+                    element.style.height = `${element.scrollHeight + 10}px`
+                }
+                setTimeout( () => {
+                    target.parentNode.classList.remove('oops')
+                }, 500)
+            },
             resetFilter (type) {
                 const me = this
                 let elements = document.querySelectorAll('.studio_filter .group')

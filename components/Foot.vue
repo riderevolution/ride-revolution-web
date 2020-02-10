@@ -3,6 +3,9 @@
         <div class="logo">
             <img src="/footer-logo.svg" />
         </div>
+        <div class="footer_sitemap">
+            <label @click="toggleSitemap($event)">Show Sitemap <img src="/icons/back-arrow-icon.svg" /></label>
+        </div>
         <div class="footer_link">
             <h3>In Studio</h3>
             <ul>
@@ -37,7 +40,7 @@
         </div>
         <div class="back_to_top" @click="backToTop()">
             <img src="/icons/back-to-top-icon.svg" />
-            <span>Back to Top</span>
+            <span v-if="!$parent.isMobile">Back to Top</span>
         </div>
     </div>
 </template>
@@ -45,6 +48,30 @@
 <script>
     export default {
         methods: {
+            toggleSitemap (event) {
+                const me = this
+                let target = event.target
+                let elements = document.querySelectorAll('#footer .footer_link')
+                target.parentNode.classList.add('oops')
+                elements.forEach((element, index) => {
+                    if (!element.classList.contains('alt')) {
+                        if (element.classList.contains('active')) {
+                            element.classList.remove('active')
+                            target.parentNode.classList.remove('toggled')
+                            element.style.height = `0px`
+                        } else {
+                            target.parentNode.classList.add('toggled')
+                            setTimeout( () => {
+                                element.classList.add('active')
+                            }, 250)
+                            element.style.height = `${element.scrollHeight + 10}px`
+                        }
+                    }
+                })
+                setTimeout( () => {
+                    target.parentNode.classList.remove('oops')
+                }, 500)
+            },
             backToTop () {
                 window.scrollTo({ top: 0, behavior: 'smooth' })
             }

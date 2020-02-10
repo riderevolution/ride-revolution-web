@@ -76,6 +76,17 @@
                 .flex
                     flex: 0 0 48.33%
 
+    #breadcrumb
+        ul
+            padding: 10px
+
+    #banner
+        .overlay_mid
+            h1
+                brandon_bold(30px, true)
+            h2
+                brandon_bold(16px, false)
+
     #main_container
         #header
             &.not_front
@@ -92,6 +103,28 @@
             .nav_burger
                 flex: 0 0 50px
                 margin: 0 10px
+        #footer
+            padding: 30px
+            .logo
+                flex: 0 0 100%
+                img
+                    width: 50px
+            .footer_link
+                flex: 0 0 50%
+                height: 0px
+                overflow-y: hidden
+                transition: .3s ease-in-out
+                &.active
+                    margin-bottom: 10px
+                &.alt
+                    flex: 0 0 100%
+                    height: 100%
+                    .social_links
+                        margin-bottom: 20px
+            .back_to_top
+                top: calc(0% + 50px)
+                right: calc(0% + 30px)
+                transform: translateY(0%) rotate(90deg)
         #pro_tip
             top: calc(0% + 61px)
             padding: 5px 15px
@@ -101,8 +134,49 @@
     .book_a_bike
         #banner
             margin-top: 61px
+            img
+                width: auto
+                height: 100%
+                max-height: 200px
         &.landing
             #content
+                .left
+                    flex: 0 0 100%
+                    padding: 15px 10px
+                    .filter
+                        height: 0px
+                        overflow-y: hidden
+                        transition: .3s ease-in-out
+                        .wrapper
+                            &.studio_filter
+                                padding-bottom: 10px
+                                border-bottom: 1px solid #EDEEF0
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                h3
+                                    flex: 0 0 100%
+                                .group
+                                    flex: 0 0 calc(100% / 2)
+                                    label
+                                        display: block
+                                        padding-left: 20px
+                                        brandon_medium(16px, false)
+                            &.instructor_filter
+                                margin-top: 30px
+                                .autocomplete
+                                    .text
+                                        brandon_regular(16px, false)
+                                    .autocomplete_dropdown
+                                        .list
+                                            padding: 7.5px 10px
+                                            img
+                                                width: 35px
+                                            p
+                                                brandon_regular(16px, false)
+                            h3
+                                margin: 15px 0
+                                brandon_regular(16px, true)
                 .right
                     flex: 0 0 100%
                     padding: 0
