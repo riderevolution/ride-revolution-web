@@ -2,96 +2,6 @@
 
 @media (max-width: 767px) and (min-width: 320px)
 
-    .default_btn,
-    .default_btn_out
-        width: 100%
-        brandon_bold(14px, true)
-        padding: 12px 10px
-    .default_btn_wht_alt
-        .text
-            brandon_bold(14px, true)
-
-    .form_group
-        margin-bottom: 20px
-        .validation_errors
-            brandon_medium(14px, false)
-
-    .form_flex
-        .form_group
-            flex: 0 0 100%
-            margin-bottom: 20px
-
-    .form_radio
-        label
-            brandon_regular(16px, false)
-            margin-left: 10px
-
-    .input_text
-        brandon_regular(16px, false)
-        &.alt
-            brandon_regular(16px, true)
-
-    .form_disclaimer
-        brandon_regular(14px, false)
-
-    .default_modal
-        #default_form
-            &.overlay
-                &.alt,
-                &.alt_2
-                    max-width: calc(100% - 30px)
-            .modal_wrapper
-                .form_title
-                    brandon_bold(22px, false)
-                    padding: 40px 20px 30px
-                .modal_main_group
-                    padding: 0 20px 20px
-                    .form_custom_checkbox
-                        .custom_checkbox
-                            padding: 20px 40px 20px 20px
-                            label
-                                brandon_bold(18px, false)
-                            .info
-                                p
-                                    brandon_medium(12px, false)
-                            #check
-                                right: calc(0% + 10px)
-                    .form_toggler
-                        .form_flex
-                            margin-bottom: 0
-        .confirmation_wrapper
-            max-width: calc(100% - 30px)
-            padding: 40px 20px 30px
-            .confirmation_highlight
-                brandon_bold(22px, false)
-                margin-top: 20px
-            .confirmation_text
-                brandon_regular(16px, false)
-            .member_info
-                margin-top: 20px
-                h2
-                    brandon_bold(25px, false)
-            .button_group
-                margin-top: 30px
-                &.alt
-                    .flex
-                        flex: 0 0 100%
-                .flex
-                    flex: 0 0 48.33%
-
-    #breadcrumb
-        ul
-            padding: 10px
-
-    #banner
-        img
-            width: 100%
-        .overlay_mid
-            h1
-                brandon_bold(30px, true)
-            h2
-                brandon_bold(16px, false)
-
     #main_container
         #header
             &.not_front
@@ -185,6 +95,7 @@
         .header
             padding: 30px 0 10px
         .content
+            max-width: calc(100% - 30px)
             padding-bottom: 20px
             .package_wrapper
                 flex: 0 0 100%
@@ -204,6 +115,64 @@
                     margin-top: 10px
 
     .buy_rides
+        &.inner
+            #payments
+                max-width: calc(100% - 30px)
+                &.dismiss,
+                &.dismissed
+                    padding: 20px 0
+                .step
+                    .header_title
+                        brandon_bold(20px, false)
+                        margin-bottom: 15px
+                    .wrapper
+                        .left
+                            padding-right: 0px
+                            padding-bottom: 10px
+                            margin-bottom: 30px
+                            border-bottom: 1px solid #d0d0d0
+                            .header
+                                h2
+                                    brandon_regular(18px, false)
+                        .right
+                            border-left: none
+                            padding-left: 0px
+                            .breakdown_list
+                                .total
+                                    margin: 25px 0 0
+                                    p
+                                        brandon_bold(16px, false)
+                            .breakdown_actions
+                                margin: 30px 0 20px
+                                &.alt
+                                    margin: 15px 0
+                                .default_btn_img
+                                    margin-top: 20px
+                        .left,
+                        .right
+                            flex: 0 0 100%
+                    .preview_payment
+                        max-width: 100%
+                        .preview
+                            .item
+                                h3,
+                                p
+                                    brandon_regular(16px, false)
+                            .available
+                                .available_item
+                                    h3
+                                        brandon_regular(16px, false)
+                                    p
+                                        brandon_medium(16px, false)
+                            .total
+                                margin: 25px 0
+                                p
+                                    brandon_bold(16px, false)
+                            .paypal_disclaimer
+                                text-align: center
+                                .wrapper
+                                    justify-content: center
+
         #banner
             margin-top: 61px
             img
@@ -426,6 +395,159 @@
                 .main_left,
                 .main_right
                     flex: 0 0 100%
+
+    .default_btn,
+    .default_btn_out,
+    .default_btn_blue
+        width: 100%
+        brandon_bold(14px, true)
+        padding: 12px 10px
+    .default_btn_wht_alt
+        .text
+            brandon_bold(14px, true)
+    .default_btn_img
+        width: 100%
+        brandon_bold(14px, true)
+        .btn_wrapper
+            justify-content: center
+            span
+                padding: 12px 10px
+                &.img
+                    padding: 0
+                    border-right: none
+                    img
+                        width: 25px
+
+    .form_group
+        margin-bottom: 20px
+        .validation_errors
+            brandon_medium(14px, false)
+
+    .form_flex
+        &.with_btn
+            margin-bottom: 20px
+            &.alt
+                .form_group
+                    &.qty
+                        flex: 0 0 20%
+                .form_button
+                    flex: 0 0 auto
+            .form_group
+                flex: 1 0 40%
+                margin-bottom: 0
+                margin-right: 10px
+            .form_button
+                flex: 0 0 auto
+                .default_btn_out
+                    width: 100%
+                    padding: 12px 15px
+        .form_group
+            flex: 0 0 100%
+            margin-bottom: 20px
+
+    .form_radio
+        label
+            brandon_regular(16px, false)
+            margin-left: 10px
+
+    .input_text
+        brandon_regular(16px, false)
+        &.alt
+            brandon_regular(16px, true)
+
+    .form_disclaimer
+        brandon_regular(14px, false)
+
+    .default_modal
+        #default_form
+            &.overlay
+                &.alt,
+                &.alt_2
+                    max-width: calc(100% - 30px)
+            .modal_wrapper
+                .form_title
+                    brandon_bold(22px, false)
+                    padding: 40px 20px 30px
+                .modal_main_group
+                    padding: 0 20px 20px
+                    .form_custom_checkbox
+                        .custom_checkbox
+                            padding: 20px 40px 20px 20px
+                            label
+                                brandon_bold(18px, false)
+                            .info
+                                p
+                                    brandon_medium(12px, false)
+                            #check
+                                right: calc(0% + 10px)
+                    .form_toggler
+                        .form_flex
+                            margin-bottom: 0
+        .confirmation_wrapper
+            max-width: calc(100% - 30px)
+            padding: 40px 20px 30px
+            .confirmation_highlight
+                brandon_bold(22px, false)
+                margin-top: 20px
+            .confirmation_text
+                brandon_regular(16px, false)
+            .member_info
+                margin-top: 20px
+                h2
+                    brandon_bold(25px, false)
+            .button_group
+                margin-top: 30px
+                &.alt
+                    .flex
+                        flex: 0 0 100%
+                .flex
+                    flex: 0 0 48.33%
+
+    .default_modal_page
+        #banner
+            margin-top: 0
+
+    #breadcrumb
+        padding-top: 61px
+        &.dismiss
+            padding-top: 61px
+        ul
+            padding: 10px 15px
+
+    #banner
+        &.alt_2
+            .overlay_mid
+                h1
+                    brandon_bold(26px, false)
+        img
+            width: 100%
+        .overlay_mid
+            h1
+                brandon_bold(30px, true)
+            h2
+                brandon_bold(16px, false)
+
+    #referral
+        padding: 20px 15px 30px
+        .wrapper
+            h2
+                brandon_bold(18px, false)
+            h3
+                brandon_regular(14px, false)
+                margin: 20px 0 40px
+            #default_form
+                .form_flex
+                    &.with_btn
+                        margin-bottom: 0
+                        .form_group
+                            margin-right: 0
+                        .form_button
+                            flex: 0 0 100%
+                            text-align: center
+                            margin-top: 20px
+                            .default_btn
+                                width: auto
+                                padding: 12px 15px
 
 @media (max-width: 767px) and (min-width: 425px)
 

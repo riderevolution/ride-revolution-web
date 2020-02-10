@@ -150,6 +150,13 @@ svg
     outline: none
     box-shadow: 0px 0px 30px transparent
     transition: .3s ease-in-out
+    &.disabled
+        cursor: not-allowed
+        pointer-events: none
+        background-color: $gray_alt3
+        color: $gray
+        border: 1px solid $gray_alt3
+        transition: .3s ease-in-out
     &.mb
         margin-bottom: 15px
     &:hover
@@ -312,6 +319,21 @@ svg
         box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.75)
         transition: .3s ease-in-out
 
+.default_btn_blk_alt
+    brandon_bold(14px, true)
+    line-height: 1
+    letter-spacing: .7px
+    color: $black
+    display: inline-block
+    margin: 0 auto
+    transition: .3s ease-in-out
+    span
+        padding-left: 10px
+        vertical-align: middle
+    &:hover
+        color: $gray
+        transition: .3s ease-in-out
+
 .default_btn_out
     display: inline-block
     text-align: center
@@ -361,7 +383,7 @@ svg
     background-color: $blue_alt3
     border: 1px solid $blue_alt4
     transition: .3s ease-in-out
-    &.insufficient
+    &.disabled
         cursor: not-allowed
         pointer-events: none
         background-color: $gray_alt3
@@ -2159,6 +2181,10 @@ svg
                             flex-flow: row wrap
                             align-items: center
                             justify-content: space-between
+                        .action_mobile
+                            flex: 0 0 100%
+                            margin: 15px 0 0
+                            text-align: center
                         .paypal_disclaimer
                             margin-top: 10px
                             text-align: right
@@ -2232,6 +2258,8 @@ svg
                             align-items: center
                             justify-content: space-between
                             margin: 40px 0 20px
+                        .action_mobile
+                            text-align: center
     #banner
         margin-top: 81px
     #packages

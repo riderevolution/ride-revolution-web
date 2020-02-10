@@ -58,7 +58,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <nuxt-link to="/buy-rides" class="default_btn_blk">Back</nuxt-link>
+                                <nuxt-link to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
+                                <div class="action_mobile" v-else>
+                                    <nuxt-link to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,7 +90,7 @@
                                     <p class="store_credits">65</p>
                                     <transition name="slide">
                                         <div class="unavailable" v-if="storeCredits <= 50">
-                                            <nuxt-link to="/buy-rides#store-credits">Buy Rides</nuxt-link>
+                                            <nuxt-link to="/buy-rides#store_credits">Buy Rides</nuxt-link>
                                             <label>*Your store credits are insufficient.</label>
                                         </div>
                                     </transition>
@@ -98,13 +101,13 @@
                                 <p>Php 9,000.00</p>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()">Back</div>
-                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-if="type == 'credit'" @click="paymentSuccess()">
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'disabled' : ''}`" v-if="type == 'credit'" @click="paymentSuccess()">
                                     <div class="btn_wrapper">
                                         <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                     </div>
                                 </div>
-                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'insufficient' : ''}`" v-else @click="paymentSuccess()">Pay Now</div>
+                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'disabled' : ''}`" v-else @click="paymentSuccess()">Pay Now</div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'credit'">
                                 <p>Note: Paypal account not needed</p>
@@ -113,6 +116,9 @@
                                     <img src="/icons/visa.svg" />
                                     <img src="/icons/mastercard.svg" />
                                 </div>
+                            </div>
+                            <div class="action_mobile" @click="stepBack()" v-if="$parent.$parent.isMobile">
+                                <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                             </div>
                         </div>
                     </div>
