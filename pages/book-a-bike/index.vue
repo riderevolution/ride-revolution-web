@@ -243,16 +243,16 @@
                 switch (type) {
                     case 'studio':
                         me.hasStudioFilter = false
+                        me.studioFilter = 'select a studio'
                         break
                     case 'instructor':
                         me.hasSearchedInstructor = false
+                        me.searchedInstructor = ''
                         break
                 }
                 elements.forEach((element, index) => {
                     element.querySelector('.radio').checked = false
                 })
-                me.studioFilter = 'select a studio'
-                me.searchedInstructor = ''
             },
             selectIntructor (data) {
                 const me = this
