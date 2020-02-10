@@ -1,10 +1,11 @@
 <template>
     <div class="buy_rides">
         <section id="banner">
-            <img src="/default/buy-rides/buy-rides.jpg" />
+            <img src="/default/buy-rides/buy-rides-banner.jpg" v-if="!$parent.$parent.isMobile" />
+            <img src="/default/buy-rides/buy-rides-banner-mobile.jpg" v-else />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
-                <h1>Class Packages and Credits</h1>
+                <h1>Buy Rides and Credits</h1>
             </div>
         </section>
         <section id="packages" class="alt">
@@ -24,7 +25,16 @@
                     <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
                     <div class="price">Php {{ totalItems(data.price) }}</div>
                     <div class="expires">{{ data.expire }}</div>
-                    <div class="default_btn_out"><span>Buy Now</span></div>
+                    <div class="default_btn_wht_alt green">
+                        <div class="text">
+                            <div class="border_top left"></div>
+                            <div class="border_top left alt"></div>
+                            <div class="border_top right"></div>
+                            <span>Buy Now</span>
+                            <div class="border_bottom left"></div>
+                            <div class="border_bottom right"></div>
+                        </div>
+                    </div>
                 </nuxt-link>
             </div>
         </section>
@@ -70,7 +80,16 @@
                     <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
                     <div class="price">Php {{ totalItems(data.price) }}</div>
                     <div class="expires">{{ data.expire }}</div>
-                    <div class="default_btn_out"><span>Buy Now</span></div>
+                    <div class="default_btn_wht_alt green">
+                        <div class="text">
+                            <div class="border_top left"></div>
+                            <div class="border_top left alt"></div>
+                            <div class="border_top right"></div>
+                            <span>Buy Now</span>
+                            <div class="border_bottom left"></div>
+                            <div class="border_bottom right"></div>
+                        </div>
+                    </div>
                 </nuxt-link>
             </div>
         </section>

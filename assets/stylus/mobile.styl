@@ -81,6 +81,8 @@
             padding: 10px
 
     #banner
+        img
+            width: 100%
         .overlay_mid
             h1
                 brandon_bold(30px, true)
@@ -131,11 +133,21 @@
             .tip
                 brandon_regular_italic(14px, false)
 
+    #packages
+        .content
+            .package_wrapper
+                flex: 0 0 100%
+
+    .buy_rides
+        #banner
+            margin-top: 61px
+            img
+                height: 100%
+                max-height: 200px
     .book_a_bike
         #banner
             margin-top: 61px
             img
-                width: auto
                 height: 100%
                 max-height: 200px
         &.landing
