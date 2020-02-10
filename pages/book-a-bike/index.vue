@@ -68,7 +68,7 @@
                         <span>with</span>
                         <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                     </div>
-                    <!-- <div class="content" v-if="!$parent.$parent.isMobile">
+                    <div class="content" v-if="!$parent.$parent.isMobile">
                         <div class="schedule">
                             <div class="time">10:30 AM</div>
                             <div class="class">
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div> -->
+                    </div>
                     <div class="no_schedule">
                         <p>NO RESULTS, PLEASE TRY ANOTHER INSTRUCTOR</p>
                     </div>
