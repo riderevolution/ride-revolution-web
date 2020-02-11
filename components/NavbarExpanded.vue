@@ -1,5 +1,5 @@
 <template>
-    <div id="navbar_expanded">
+    <div id="navbar_expanded" :class="`${($parent.isMobile) ? 'mobile' : ''}`">
         <div class="close_icon" @click="toggleNavbarExpanded()"></div>
         <nuxt-link to="/" class="logo" @click.native="toggleNavbarExpanded()">
             <img src="/logo.svg" />
@@ -18,13 +18,13 @@
             </div>
             <div class="right">
                 <ul class="expanded_nav_list">
-                    <li><nuxt-link class="nav_item" to="/" @click.native="toggleNavbarExpanded()">About</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/" @click.native="toggleNavbarExpanded()">Ride Rewards</nuxt-link></li>
+                    <li><nuxt-link class="nav_item" to="/about" @click.native="toggleNavbarExpanded()">About</nuxt-link></li>
+                    <li><nuxt-link class="nav_item" to="/ride-rewards" @click.native="toggleNavbarExpanded()">Ride Rewards</nuxt-link></li>
                     <li><nuxt-link class="nav_item" to="/whats-new" @click.native="toggleNavbarExpanded()">What's New</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/" @click.native="toggleNavbarExpanded()">News</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/" @click.native="toggleNavbarExpanded()">Faqs</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/" @click.native="toggleNavbarExpanded()">Refer a Friend</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/" @click.native="toggleNavbarExpanded()">Contact Us</nuxt-link></li>
+                    <li><nuxt-link class="nav_item" to="/news" @click.native="toggleNavbarExpanded()">News</nuxt-link></li>
+                    <li><nuxt-link class="nav_item" to="/faqs" @click.native="toggleNavbarExpanded()">Faqs</nuxt-link></li>
+                    <li><nuxt-link class="nav_item" to="/refer-a-friend" @click.native="toggleNavbarExpanded()">Refer a Friend</nuxt-link></li>
+                    <li><nuxt-link class="nav_item" to="/contact-us" @click.native="toggleNavbarExpanded()">Contact Us</nuxt-link></li>
                 </ul>
                 <div class="expanded_nav_description">
                     <div class="link">

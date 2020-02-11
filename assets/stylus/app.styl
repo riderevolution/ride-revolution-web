@@ -875,6 +875,20 @@ svg
         display: flex
         flex-flow: row wrap
         align-items: flex-start
+        &.mobile
+            min-height: 200px
+            overflow-y: scroll
+            overflow-x: hidden
+            &::-webkit-scrollbar
+                width: 20px
+                background-color: $white
+            &::-webkit-scrollbar-track
+                box-shadow: none
+            &::-webkit-scrollbar-thumb
+                background-color: $green
+                border: 6px solid rgba(0, 0, 0, 0)
+                background-clip: padding-box
+                border-radius: 50px
         &.sticky
             .close_icon
                 top: calc(0% + 20px)

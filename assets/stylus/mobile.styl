@@ -19,8 +19,67 @@
                         neutra_bold(14px, true)
                         padding-left: 10px
             .nav_burger
-                flex: 0 0 50px
+                flex: 0 0 35px
                 margin: 0 10px
+                .bar
+                    &.bottom_line
+                        width: calc(100% - 15px)
+        #navbar_expanded
+            &.sticky
+                .logo
+                    padding: 10px 15px
+                .close_icon
+                    top: calc(0% + 10px)
+                    right: calc(0% + 15px)
+            .close_icon
+                top: calc(0% + 10px)
+                right: calc(0% + 15px)
+            .logo
+                padding: 10px 15px
+                img
+                    width: 30px
+                .logo_title
+                    neutra_bold(14px, true)
+                    padding-left: 10px
+            .content
+                padding: 20px 15px
+                .left
+                    margin-bottom: 30px
+                    .expanded_main_list
+                        li
+                            margin-bottom: 30px
+                            &:last-child
+                                margin-bottom: 0
+                            .main_item
+                                &.nuxt-link-exact-active,
+                                &.nuxt-link-active,
+                                &:hover,
+                                &:focus
+                                    &::before
+                                        right: calc(0% - 35px)
+                                #menu
+                                    width: auto
+                                    height: 30px
+                .right
+                    .expanded_nav_list
+                        li
+                            margin-bottom: 30px
+                            .nav_item
+                                brandon_bold(16px, true)
+                    .expanded_nav_description
+                        padding-top: 10px
+                        .link
+                            margin-bottom: 20px
+                            span
+                                brandon_bold(14px, false)
+                        .social_links
+                            margin-top: 20px
+                            brandon_regular(14px, false)
+                            a
+                                margin: 0 10px
+                .left,
+                .right
+                    flex: 0 0 100%
         #footer
             padding: 20px
             .logo
