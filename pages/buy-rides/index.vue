@@ -124,7 +124,7 @@
             <div class="overlay">
                 <h2>Share this experience with your loved ones!</h2>
                 <h3>For anyone who wants to be their best.</h3>
-                <a href="javascript:void(0)" class="default_btn">Send a Digital Gift Card</a>
+                <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Send a Digital Gift Card</nuxt-link>
             </div>
         </section>
     </div>

@@ -162,9 +162,9 @@
                             </div>
                         </a>
                     </div>
-                    <div class="no_schedule">
+                    <!-- <div class="no_schedule">
                         <p>NO RESULTS, PLEASE TRY ANOTHER INSTRUCTOR</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
