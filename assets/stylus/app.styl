@@ -1130,6 +1130,8 @@ svg
                 background-repeat: no-repeat
                 background-position: left center
                 background-size: contain
+                &.mobile
+                    background-image: url('/default/home/reviews-mobile.svg')
             .description
                 flex: 0 0 40%
                 margin-right: 50px
@@ -1151,6 +1153,17 @@ svg
                 opacity: 1
                 transform: scale(1)
                 transition: .3s ease-in-out
+                &.mobile
+                    &.swiper-slide-prev,
+                    &.swiper-slide-next
+                        opacity: 1
+                        transform: scale(1)
+                        transition: .3s ease-in-out
+                    &.swiper-slide-active
+                        box-shadow: 0 10px 15px rgba(234, 234, 234, 1)
+                        opacity: 1
+                        transform: scale(1)
+                        transition: .3s ease-in-out
                 &.swiper-slide-prev
                     opacity: 0.5
                     transform: scale(0.9)
@@ -1198,6 +1211,16 @@ svg
                 flex: 1 0 45%
                 position: relative
                 padding-left: 100px
+                &.mobile
+                    text-align: center
+                    .title
+                        brandon_bold(18px, false)
+                        margin-top: 10px
+                    .description
+                        margin: 10px 0 30px
+                        brandon_regular(14px, false)
+                    &::before
+                        content: unset
                 &::before
                     content: ''
                     position: absolute
@@ -1240,6 +1263,8 @@ svg
                 background-repeat: no-repeat
                 background-position: left center
                 background-size: contain
+                &.mobile
+                    background-image: url('/default/home/studios-mobile.svg')
             .description
                 flex: 0 0 40%
                 margin-right: 50px
@@ -1365,6 +1390,42 @@ svg
                                     color: $white
                                     transform: translateY(-50px)
                                     transition: .3s ease-in-out
+                        .content_flex
+                            .title
+                                brandon_medium(40px, false)
+                                color: $black
+                                margin-top: 30px
+                            .description
+                                margin: 20px 0 40px
+                                label
+                                    display: block
+                                    brandon_regular(18px, true)
+                                    color: $black_alt2
+                                    margin-bottom: 20px
+                                p
+                                    margin-bottom: 10px
+                                p,
+                                a
+                                    brandon_regular(18px, false)
+                                    color: $black
+                                    transition: .3s ease-in-out
+                                    &.email
+                                        color: $green
+                                        text-decoration: underline
+                                    &:hover
+                                        color: $green
+                                        text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                                        transition: .3s ease-in-out
+                                .link
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    img
+                                        margin-right: 15px
+                            .default_btn
+                                margin-top: 40px
+                                width: 100%
+                                text-align: center
     /**
      * Let's Ride */
     #lets_ride
@@ -1382,6 +1443,8 @@ svg
                 background-repeat: no-repeat
                 background-position: left center
                 background-size: contain
+                &.mobile
+                    background-image: url('/default/home/lets-ride-mobile.svg')
             .description
                 flex: 0 0 40%
                 display: flex
@@ -4125,6 +4188,8 @@ svg
             background-repeat: no-repeat
             background-position: left center
             background-size: contain
+            &.mobile
+                background-image: url('/default/home/packages-mobile.svg')
         .description_overlay
             position: absolute
             top: calc(100% + 1px)
@@ -4196,6 +4261,33 @@ svg
         max-width: calc(80% + 30px)
         margin: 0 auto
         padding-bottom: 50px
+        .link_mobile
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: flex-end
+            brandon_bold(20px, false)
+            letter-spacing: 0.5px
+            color: $green
+            transition: .3s ease-in-out
+            span
+                padding-right: 20px
+            div
+                margin-right: 4px
+                border-top: 5px solid transparent
+                border-left: 7px solid $green
+                border-bottom: 5px solid transparent
+                animation: blink 1s cubic-bezier(0, 0.5, 0.5, 1) infinite
+                &:nth-child(2)
+                    animation-delay: -0.40s
+                &:nth-child(3)
+                    animation-delay: -0.20s
+                &:nth-child(4)
+                    margin-right: 0px
+                    animation-delay: 0
+            &:hover
+                text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                transition: .3s ease-in-out
         .package_wrapper
             position: relative
             display: flex
@@ -4210,6 +4302,9 @@ svg
             transform: perspective(1px) scale(1)
             animation: slide_from_bottom 1s
             transition: .3s ease-in-out
+            &.slider
+                margin: 0
+                flex: 0 0 100%
             .package_header
                 display: flex
                 flex-flow: row wrap
@@ -4302,6 +4397,9 @@ svg
         flex-flow: row wrap
         align-items: center
         justify-content: center
+        &.mobile
+            .image
+                flex: 0 0 calc(100% / 3)
         &.less_one
             .image
                 flex: 0 0 25%
@@ -4544,6 +4642,12 @@ svg
             margin-right: 80px
         .default_btn
             flex: 0 0 auto
+        .scroll_mobile
+            flex: 0 0 100%
+            margin-top: 40px
+            text-align: center
+            img
+                width: auto
     &::before
         content: ''
         position: absolute
@@ -4915,6 +5019,20 @@ svg
             background-color: $white_alt
     &.alt2
         padding-bottom: 80px
+        .swiper-button-prev,
+        .swiper-container-rtl .swiper-button-next,
+        .swiper-button-next,
+        .swiper-container-rtl .swiper-button-prev
+            top: unset
+            bottom: 0
+        .swiper-button-prev,
+        .swiper-container-rtl .swiper-button-next
+            left: calc(0%)
+        .swiper-button-next,
+        .swiper-container-rtl .swiper-button-prev
+            right: 0
+            left: calc(0% + 65px)
+    &.alt3
         .swiper-button-prev,
         .swiper-container-rtl .swiper-button-next,
         .swiper-button-next,
