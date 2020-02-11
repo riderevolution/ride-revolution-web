@@ -130,11 +130,13 @@
                 max-width: calc(100% - 30px)
                 &.dismiss,
                 &.dismissed
-                    padding: 20px 0
+                    padding: 40px 0
                 .step
                     .header_title
                         brandon_bold(20px, false)
                         margin-bottom: 15px
+                    #initial_form
+                        max-width: 100%
                     .wrapper
                         .left
                             padding-right: 0px
@@ -443,6 +445,10 @@
         .validation_errors
             brandon_medium(14px, false)
 
+    .form_disclaimer
+        &.alt
+            brandon_regular_italic(14px, false)
+
     .form_flex
         &.with_btn
             margin-bottom: 20px
@@ -470,7 +476,8 @@
             brandon_regular(16px, false)
             margin-left: 10px
 
-    .input_text
+    .input_text,
+    .input_select
         brandon_regular(16px, false)
         &.alt
             brandon_regular(16px, true)

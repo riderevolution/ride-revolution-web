@@ -2100,7 +2100,7 @@ svg
                 &.success
                     padding: 0
             &.dismiss
-                padding: 120px 0 80px
+                padding: 60px 0 80px
                 &.success
                     padding: 0
             .step
@@ -2117,6 +2117,13 @@ svg
                     brandon_bold(26px, false)
                     color: $black
                     margin-bottom: 40px
+                #initial_form
+                    width: 100%
+                    max-width: 50%
+                    margin: 0 auto
+                    .form_action
+                        margin-top: 30px
+                        text-align: right
                 .preview_payment
                     width: 100%
                     max-width: 50%
@@ -4948,6 +4955,7 @@ svg
         height: 30px
         background-color: $black
         transform: rotate(-45deg)
+
 /**
  * Default Input Forms */
 .form_flex
@@ -5019,9 +5027,29 @@ svg
     text-align: right
     margin-top: 30px
 
+.form_content
+    margin-top: 30px
+    border-bottom: 1px solid $border_alt
+    &.alt
+        margin-top: 0
+
 .form_group
     position: relative
     margin-bottom: 30px
+    &.disclaimer
+        margin-bottom: 20px
+    &.select
+        .select
+            position: relative
+            &::before
+                content: ''
+                position: absolute
+                top: 50%
+                border-left: 5px solid transparent
+                border-right: 5px solid transparent
+                border-top: 5px solid $black
+                right: calc(0% + 20px)
+                transform: translateY(-50%)
     label
         user-select: none
         display: block
@@ -5053,6 +5081,30 @@ svg
             border-bottom: 7px solid $red
             left: 17px
             z-index: 1
+    .limit_wrapper
+        position: absolute
+        top: calc(0% - 5px)
+        right: calc(0% - 5px)
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: flex-end
+        .limit
+            brandon_regular(14px, false)
+            color: $gray_alt2
+    .progress
+        .inner_ring
+            position: relative
+            z-index: 0
+            stroke: $gray
+            stroke-width: 2
+            fill: transparent
+        .outer_ring
+            position: relative
+            z-index: 1
+            stroke: $green
+            stroke-width: 3
+            fill: transparent
 
 .form_radio
     display: flex
@@ -5081,6 +5133,11 @@ svg
     letter-spacing: 0.4px
     color: $black
     line-height: 1.25
+    &.alt
+        brandon_regular_italic(16px, false)
+        letter-spacing: 0.24px
+        color: $gray_alt2
+        margin-bottom: 30px
 
 input::-webkit-input-placeholder
     color: $gray
@@ -5091,6 +5148,18 @@ input:-ms-input-placeholder
     text-transform: none
 
 input::placeholder
+    color: $gray
+    text-transform: none
+
+textarea::-webkit-input-placeholder
+    color: $gray
+    text-transform: none
+
+textarea:-ms-input-placeholder
+    color: $gray
+    text-transform: none
+
+textarea::placeholder
     color: $gray
     text-transform: none
 
@@ -5115,6 +5184,26 @@ input::placeholder
         background-size: 20px
     &.alt
         brandon_regular(18px, true)
+    &:hover,
+    &:focus
+        border: 1px solid $black
+        transition: .3s ease-in-out
+
+.input_select
+    width: 100%
+    background-color: $white
+    border: 1px solid #ccc
+    padding: 10px 15px
+    brandon_regular(18px, false)
+    color: $black
+    outline: none
+    resize: none
+    -webkit-appearance: none
+    transition: .3s ease-in-out
+    &.disabled
+        pointer-events: none
+        cursor: not-allowed
+        background-color: $white_alt
     &:hover,
     &:focus
         border: 1px solid $black
