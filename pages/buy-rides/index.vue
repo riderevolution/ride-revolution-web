@@ -70,10 +70,10 @@
                         <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
-                        <div class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</div>
+                        <nuxt-link to="/whats-new" class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</nuxt-link>
                     </transition>
                     <div class="action_mobile" v-if="$parent.$parent.isMobile">
-                        <div class="default_btn">See All Promos</div>
+                        <nuxt-link to="/whats-new" class="default_btn">See All Promos</nuxt-link>
                     </div>
                 </div>
             </no-ssr>

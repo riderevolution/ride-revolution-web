@@ -1,7 +1,7 @@
 <template>
     <div class="buy_rides">
         <section id="banner">
-            <img src="/default/buy-rides/buy-rides.jpg" />
+            <img src="/default/buy-rides/buy-rides-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Ride Rev Promos</h1>
@@ -27,9 +27,6 @@
                         <div class="swiper-button-prev" slot="button-prev"></div>
                         <div class="swiper-button-next" slot="button-next"></div>
                     </swiper>
-                    <transition name="slideX">
-                        <div class="overlay_btn default_btn" v-if="showAllPromos">See All Promos</div>
-                    </transition>
                 </div>
             </no-ssr>
         </section>
