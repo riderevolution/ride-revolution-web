@@ -1,5 +1,5 @@
 <template>
-    <section id="referral">
+    <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
         <div class="wrapper">
             <h2>Don’t ride alone. Refer a friend and get Php 200 for every friend you refer.</h2>
             <h3>Your friends get Php 200 and you get Php 200 after their first purchase. Enter your email address to start referring.</h3>
