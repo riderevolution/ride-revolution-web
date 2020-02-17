@@ -45,7 +45,7 @@
             <img src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
-                <a href="javascript:void(0)" class="default_btn">Book a Ride</a>
+                <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
             </div>
         </section>
     </div>

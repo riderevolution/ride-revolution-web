@@ -420,8 +420,12 @@
             },
             fetchData () {
                 const me = this
+                me.loader(true)
                 me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                 me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
             }
         },
         mounted() {

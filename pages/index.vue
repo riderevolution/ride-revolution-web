@@ -154,7 +154,7 @@
                 <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">studios</h2>
                 <div class="description">
                     <p><strong>Explore Our Studios</strong></p>
-                    <a href="javascript:void(0)" class="default_btn">See All</a>
+                    <nuxt-link to="/studios" class="default_btn">See All</nuxt-link>
                 </div>
             </div>
             <div class="content">
