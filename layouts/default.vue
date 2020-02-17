@@ -9,6 +9,9 @@
         <transition name="fade">
             <navbar-expanded v-if="$store.state.isExpanded" />
         </transition>
+        <transition name="fade">
+            <login-sign-up v-if="$store.state.loginSignUpStatus" />
+        </transition>
     </div>
 </template>
 <script>
@@ -16,11 +19,13 @@
     import Navbar from '../components/Navbar'
     import Foot from '../components/Foot'
     import Loader from '../components/modals/Loader'
+    import LoginSignUp from '../components/modals/LoginSignUp'
     export default {
         components: {
             NavbarExpanded,
             Navbar,
             Foot,
+            LoginSignUp,
             Loader
         },
         data () {
@@ -31,6 +36,8 @@
         watch:{
             $route (to, from){
                 const me = this
+                document.body.classList.remove('no_scroll')
+                me.$store.state.loginSignUpStatus = false
                 me.$store.state.buyRidesSuccessStatus = false
                 me.$store.state.buyRidesPromptStatus = false
                 if (to.path == '/buy-rides/package' || to.path == '/buy-rides/store-credit') {
@@ -61,6 +68,6 @@
         beforeDestroy () {
             window.removeEventListener('resize', this.onResize)
             window.removeEventListener('load', this.onResize)
-        },
+        }
     }
 </script>

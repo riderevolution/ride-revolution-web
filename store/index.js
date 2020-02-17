@@ -14,6 +14,7 @@ const createStore = () => {
             bookerChoosePackageStatus: false,
             bookerAssignStatus: false,
             proTipStatus: false,
+            loginSignUpStatus: false,
             isExpanded: false,
             errorStatus: false,
             errorList: [],

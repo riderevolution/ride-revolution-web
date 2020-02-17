@@ -1,5 +1,5 @@
 <template>
-    <div id="header" :class="`${($route.fullPath == '/') ? 'front' : ($route.fullPath == '/instructors' ? 'instructor' : 'not_front')}`">
+    <div id="header" :class="`${($route.fullPath == '/') ? 'front' : ($route.fullPath == '/instructors' ? 'instructor' : 'not_front')} ${($store.state.loginSignUpStatus) ? 'login' : ''}`">
         <div class="navbar">
             <nuxt-link to="/" class="logo">
                 <img src="/logo.svg" />
@@ -54,7 +54,8 @@
         methods: {
             loginUser () {
                 const me = this
-                me.$store.state.isAuth = true
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
             },
             toggleNavbarExpanded () {
                 const me = this
