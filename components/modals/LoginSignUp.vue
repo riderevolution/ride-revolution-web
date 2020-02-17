@@ -254,21 +254,14 @@
                 </form>
             </section>
         </transition>
-        <transition name="fade">
-            <forgot-password-success :message="message" v-if="$store.state.forgotPasswordSuccessStatus" />
-        </transition>
+
     </div>
 </template>
 
 <script>
-    import ForgotPasswordSuccess from './ForgotPasswordSuccess'
     export default {
-        components: {
-            ForgotPasswordSuccess
-        },
         data () {
             return {
-                message: '',
                 showPassword: false,
                 showConfirmPassword: false,
                 forgotPassword: false,
@@ -329,7 +322,6 @@
                 const me = this
                 me.$validator.validateAll('forgot_form').then(valid => {
                     if (valid) {
-                        me.message = "Success! We've sent your new password. Please check the email you've provided us."
                         me.$store.state.forgotPasswordSuccessStatus = true
                     } else {
                         me.$scrollTo('.validation_errors', {

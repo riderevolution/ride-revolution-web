@@ -12,6 +12,9 @@
         <transition name="fade">
             <login-sign-up v-if="$store.state.loginSignUpStatus" />
         </transition>
+        <transition name="fade">
+            <forgot-password-success v-if="$store.state.forgotPasswordSuccessStatus" />
+        </transition>
     </div>
 </template>
 <script>
@@ -20,12 +23,14 @@
     import Foot from '../components/Foot'
     import Loader from '../components/modals/Loader'
     import LoginSignUp from '../components/modals/LoginSignUp'
+    import ForgotPasswordSuccess from '../components/modals/ForgotPasswordSuccess'
     export default {
         components: {
             NavbarExpanded,
             Navbar,
             Foot,
             LoginSignUp,
+            ForgotPasswordSuccess,
             Loader
         },
         data () {
@@ -37,6 +42,7 @@
             $route (to, from){
                 const me = this
                 document.body.classList.remove('no_scroll')
+                me.$store.state.forgotPasswordSuccessStatus = false
                 me.$store.state.loginSignUpStatus = false
                 me.$store.state.buyRidesSuccessStatus = false
                 me.$store.state.buyRidesPromptStatus = false

@@ -7,7 +7,7 @@
                 <img src="/default/meme/success-meme.png" />
             </div>
             <div class="confirmation_text">
-                {{ message }}
+                Success! We've sent your new password. Please check the email you've provided us.
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn" @click.once="toggleClose()">Great</div>
