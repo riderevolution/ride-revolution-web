@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            forgotPasswordSuccessStatus: false,
             waitlistedClassesPromptStatus: false,
             buyRidesSuccessStatus: false,
             buyRidesPromptStatus: false,

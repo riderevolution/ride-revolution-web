@@ -254,13 +254,21 @@
                 </form>
             </section>
         </transition>
+        <transition name="fade">
+            <forgot-password-success :message="message" v-if="$store.state.forgotPasswordSuccessStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
+    import ForgotPasswordSuccess from './ForgotPasswordSuccess'
     export default {
+        components: {
+            ForgotPasswordSuccess
+        },
         data () {
             return {
+                message: '',
                 showPassword: false,
                 showConfirmPassword: false,
                 forgotPassword: false,
@@ -321,8 +329,8 @@
                 const me = this
                 me.$validator.validateAll('forgot_form').then(valid => {
                     if (valid) {
-                        me.$store.state.loginSignUpStatus = false
-                        document.body.classList.remove('no_scroll')
+                        me.message = "Success! We've sent your new password. Please check the email you've provided us."
+                        me.$store.state.forgotPasswordSuccessStatus = true
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
@@ -331,11 +339,15 @@
                     }
                 })
             },
+            /**
+             * Toggling of forgot password form */
             toggleForgot () {
                 const me = this
                 me.forgotPassword = true
                 me.signUp = true
             },
+            /**
+             * Submission of next steps registration process form */
             submitRegistration () {
                 const me = this
                 me.$validator.validateAll('register_process_form').then(valid => {
@@ -351,6 +363,8 @@
                     }
                 })
             },
+            /**
+             * Toggling of step in registration */
             toggleStep (status) {
                 const me = this
                 switch (status) {
@@ -401,6 +415,8 @@
                         break
                 }
             },
+            /**
+             * Toggling of Sign Up and Login */
             toggleNextPrev () {
                 const me = this
                 if (me.signUp) {
@@ -412,6 +428,8 @@
                 me.showPassword = false
                 me.showConfirmPassword = false
             },
+            /**
+             * Toggling of Show/Hide password */
             togglePassword (status) {
                 const me = this
                 if (status) {
@@ -422,6 +440,8 @@
                     document.getElementById('password').type = 'text'
                 }
             },
+            /**
+             * Toggling of Show/Hide confirm password */
             toggleConfirmPassword (status) {
                 const me = this
                 if (status) {
@@ -432,11 +452,15 @@
                     document.getElementById('confirm_password').type = 'text'
                 }
             },
+            /**
+             * Close login/sign up modal */
             toggleClose () {
                 const me = this
                 me.$store.state.loginSignUpStatus = false
                 document.body.classList.remove('no_scroll')
             },
+            /**
+             * Submission of login form */
             submissionLoginSuccess () {
                 const me = this
                 me.$validator.validateAll('login_form').then(valid => {
@@ -450,6 +474,8 @@
                     }
                 })
             },
+            /**
+             * Submission of first step registration form */
             submissionRegisterSuccess () {
                 const me = this
                 me.$validator.validateAll('register_form').then(valid => {
@@ -464,6 +490,8 @@
                     }
                 })
             },
+            /**
+             * Detect height of scroll */
             windowScroll() {
                 let height = window.pageYOffset | document.body.scrollTop
                 let element = document.querySelector('.login_sign_up')
