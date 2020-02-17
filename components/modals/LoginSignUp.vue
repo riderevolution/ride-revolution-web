@@ -39,7 +39,7 @@
                             <input type="checkbox" id="remember_me" name="remember_me" class="input_check">
                             <label for="remember_me">Remember Me</label>
                         </div>
-                        <div class="input_link">Forgot Password?</div>
+                        <div class="input_link" @click="toggleForgot()">Forgot Password?</div>
                     </div>
                     <div class="form_button">
                         <button type="submit" class="default_btn full">Login</button>
@@ -48,6 +48,25 @@
                 <div class="new_here">
                     New here? <span @click="toggleNextPrev(signUp)">Create an account</span>.
                 </div>
+            </section>
+        </transition>
+        <transition name="fade">
+            <section id="login" v-if="forgotPassword">
+                <h2 class="title">Forgot your password?</h2>
+                <h3 class="subtitle">Just leave it to us. Please enter your email address where we can send your new password.</h3>
+                <form id="default_form" data-vv-scope="forgot_form">
+                    <div class="form_group">
+                        <label for="email">E-mail</label>
+                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ errors.first('forgot_form.email') | properFormat }}</span></transition>
+                    </div>
+                    <div class="form_flex sign_up">
+                        <div class="back" @click="toggleStep('forgot')">Back</div>
+                        <div class="form_button">
+                            <button type="button" class="default_btn full" @click="submissionForgotSuccess()">Send</button>
+                        </div>
+                    </div>
+                </form>
             </section>
         </transition>
         <transition name="fade">
@@ -150,10 +169,11 @@
                             :input-props='{
                                 class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
                                 id: "birth_date",
+                                name: "birth_date",
                                 readonly: true
                                 }'
                                 />
-                            </no-ssr>
+                        </no-ssr>
                     </div>
                     <div class="form_group select">
                         <label for="what_do_you_do">What do you do <span>*</span></label>
@@ -243,6 +263,7 @@
             return {
                 showPassword: false,
                 showConfirmPassword: false,
+                forgotPassword: false,
                 signUp: false,
                 signUpProcess: false,
                 signUpForm: {
@@ -258,7 +279,7 @@
                     iAgree: ''
                 },
                 hasReadTerms: false,
-                signUpStep: 0
+                signUpStep: null
             }
         },
         filters: {
@@ -294,6 +315,27 @@
             }
         },
         methods: {
+            /**
+             * Submission of forgot password */
+            submissionForgotSuccess () {
+                const me = this
+                me.$validator.validateAll('forgot_form').then(valid => {
+                    if (valid) {
+                        me.$store.state.loginSignUpStatus = false
+                        document.body.classList.remove('no_scroll')
+                    } else {
+                        me.$scrollTo('.validation_errors', {
+                            container: '#default_form',
+                            offset: -250
+                        })
+                    }
+                })
+            },
+            toggleForgot () {
+                const me = this
+                me.forgotPassword = true
+                me.signUp = true
+            },
             submitRegistration () {
                 const me = this
                 me.$validator.validateAll('register_process_form').then(valid => {
@@ -353,6 +395,10 @@
                             }
                         })
                         break
+                    case 'forgot':
+                        me.signUp = false
+                        me.forgotPassword = false
+                        break
                 }
             },
             toggleNextPrev () {
@@ -361,6 +407,7 @@
                     me.signUp = false
                 } else {
                     me.signUp = true
+                    me.signUpStep = 0
                 }
                 me.showPassword = false
                 me.showConfirmPassword = false
