@@ -63,7 +63,7 @@
             <img src="/default/studio/inner/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>See all this up close!</h2>
-                <a href="javascript:void(0)" class="default_btn">Book a Ride</a>
+                <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
             </div>
         </section>
         <transition name="fade">

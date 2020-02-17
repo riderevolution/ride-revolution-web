@@ -110,7 +110,7 @@
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
-                        <nuxt-link to="/instructors" class="view_all default_btn_wht_alt">
+                        <nuxt-link to="/studios" class="view_all default_btn_wht_alt">
                             <div class="text">
                                 <div class="border_top left"></div>
                                 <div class="border_top left alt"></div>
