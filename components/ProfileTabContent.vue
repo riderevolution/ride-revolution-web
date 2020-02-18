@@ -96,7 +96,7 @@
                                         </td>
                                         <td>
                                             <div class="default">{{ data.expiry_date }}</div>
-                                            <div class="label">Date of Expiry</div>
+                                            <div :class="`label ${(data.willExpire) ? 'violator' : ''}`">{{ (data.willExpire) ? '2 Days Left' : 'Date of Expiry' }}</div>
                                         </td>
                                         <td>
                                             <div class="table_menu_overlay">
@@ -117,6 +117,66 @@
                 </div>
             </div>
         </transition>
+        <transition name="fade">
+            <div id="tab_4" class="with_allowance wrapper" v-if="category == 'gift-cards'">
+                <div class="tab_content_header">
+                    <div class="with_info">
+                        <h2>
+                            Gift Cards send to me
+                            <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'gift-cards')" />
+                        </h2>
+                        <transition name="slide">
+                            <div class="description_overlay" v-if="showInfoGiftCards">
+                                <div class="pointer"></div>
+                                <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
+                            </div>
+                        </transition>
+                    </div>
+                </div>
+                <div class="tab_content_main">
+                    <div class="profile_gift_cards">
+                        <div class="gift_card_wrapper">
+                            <div class="top">
+                                <img src="/sample-gift.png" />
+                                <div class="overlay">
+                                    <img class="gift_img" src="/sample-image-booker.png" />
+                                    <div class="label">From Juan Dela Cruz</div>
+                                </div>
+                            </div>
+                            <div class="bottom">
+                                <div class="details">
+                                    <b>Happy Birthday</b>
+                                    <p>You’re turning 30 bro but I look much older than you wth!</p>
+                                </div>
+                                <div class="package_info">
+                                    <div class="name">10-Class Package</div>
+                                    <div class="default_btn">Use Now</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gift_card_wrapper">
+                            <div class="top">
+                                <img src="/sample-gift2.png" />
+                                <div class="overlay">
+                                    <img class="gift_img" src="/sample-image-booker.png" />
+                                    <div class="label">From Juan Dela Cruz</div>
+                                </div>
+                            </div>
+                            <div class="bottom">
+                                <div class="details">
+                                    <b>Happy Birthday</b>
+                                    <p>You’re turning 30 bro but I look much older than you wth!</p>
+                                </div>
+                                <div class="package_info">
+                                    <div class="name">10-Class Package</div>
+                                    <div class="default_btn">Use Now</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -130,6 +190,7 @@
         },
         data () {
             return {
+                showInfoGiftCards: false,
                 height: 0,
                 unique: 0,
                 tabCategory: '',
@@ -188,6 +249,7 @@
                         available: 12,
                         purchase_date: 'Apr 4, 2019',
                         activation_date: 'Apr 8, 2019',
+                        willExpire: false,
                         expiry_date: 'May 15, 2019',
                         toggled: false
                     },
@@ -204,6 +266,7 @@
                         available: 12,
                         purchase_date: 'Apr 4, 2019',
                         activation_date: 'Apr 8, 2019',
+                        willExpire: false,
                         expiry_date: 'May 15, 2019',
                         toggled: false
                     },
@@ -220,6 +283,7 @@
                         available: 12,
                         purchase_date: 'Apr 4, 2019',
                         activation_date: 'Apr 8, 2019',
+                        willExpire: true,
                         expiry_date: 'May 15, 2019',
                         toggled: false
                     }
@@ -232,6 +296,31 @@
                 setTimeout( () => {
                     me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
                 }, 10)
+            },
+            // checkWarning (data) {
+            //     const me = this
+            //     let expiry = me.$moment(data.class_package.computed_expiration_date)
+            //     let current = me.$moment()
+            //     if (parseInt(expiry.diff(current, 'days')) <= 15) {
+            //         me.violator.warning = expiry.diff(current, 'days')
+            //         return true
+            //     } else {
+            //         return false
+            //     }
+            // },
+            toggleInfoIcon (event, category) {
+                const me = this
+                let target = event.target
+                let parentWidth = target.parentNode.scrollWidth
+                switch (category) {
+                    case 'gift-cards':
+                        setTimeout( () => {
+                            let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
+                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
+                        }, 100)
+                        me.showInfoGiftCards ^= true
+                        break
+                }
             },
             toggleTableMenuDot (key) {
                 const me = this
@@ -268,9 +357,19 @@
             toggleOverlays (e) {
                 const me = this
                 let target = e.target
+                let info_overlay = document.querySelector('#tab_4 .with_info img')
                 let elements_first = document.querySelectorAll('.menu_dot')
+                let elements_second = document.querySelectorAll('.table_menu_dots')
+                if (target !== info_overlay) {
+                    me.showInfoGiftCards = false
+                }
                 me.classes.forEach((data, index) => {
                     if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
+                        data.toggled = false
+                    }
+                })
+                me.packages.forEach((data, index) => {
+                    if (target !== elements_second[index] && target.parentNode.previousElementSibling !== elements_second[index]) {
                         data.toggled = false
                     }
                 })

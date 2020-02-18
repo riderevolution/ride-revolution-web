@@ -32,7 +32,7 @@
                         <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
                         <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
                         <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
-                        <li :class="`tab_item ${(category == 'gift-card') ? 'active' : ''}`" @click="toggleTab(4, 'gift-card')">Gift Cards</li>
+                        <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
                     </ul>
                 </div>
             </div>

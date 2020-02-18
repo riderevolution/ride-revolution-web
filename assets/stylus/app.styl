@@ -3,6 +3,9 @@
 $green = #26A48B
 $green_alt = #78F7DE
 $green_alt2 = #82BCB1
+$green_alt3 = #C4FFF3
+
+$dark_green = #0E3439
 
 $blue = #51A6EA
 $blue_alt = #7AD1F7
@@ -4128,12 +4131,139 @@ svg
                 top: 0
                 left: 0
                 right: 0
+                &.with_allowance
+                    margin: 40px 0
                 &.class
                     #default_menu
                         .menu_tab_content
                             width: 100%
                             max-width: calc(90% + 30px)
                             margin: 0 auto
+                .tab_content_header
+                    width: 100%
+                    max-width: 90%
+                    margin: 0 auto 20px
+                    .with_info
+                        position: relative
+                        display: inline-block
+                        h2
+                            brandon_bold(18px, true)
+                            color: $black
+                            letter-spacing: 0.45px
+                        img
+                            margin-left: 10px
+                            margin-bottom: 7.5px
+                            cursor: pointer
+                        .description_overlay
+                            position: absolute
+                            top: calc(100% + 10px)
+                            left: calc(0% + 20px)
+                            width: 280px
+                            z-index: 1
+                            brandon_regular(14px, false)
+                            letter-spacing: 0.5px
+                            color: $white
+                            text-align: center
+                            background-color: $dark_green
+                            padding: 10px
+                            .pointer
+                                position: absolute
+                                bottom: calc(100%)
+                                width: 0
+                                height: 0
+                                border-left: 7px solid transparent
+                                border-right: 7px solid transparent
+                                border-bottom: 7px solid $dark_green
+                                right: 0
+                                z-index: 1
+                                transition: .3s ease-in-out
+                .tab_content_main
+                    width: 100%
+                    max-width: calc(90% + 30px)
+                    margin: 0 auto
+                    .profile_gift_cards
+                        display: flex
+                        flex-flow: row wrap
+                        padding-bottom: 50px
+                        .gift_card_wrapper
+                            flex: 0 0 calc(33.33% - 30px)
+                            margin: 15px
+                            display: flex
+                            flex-flow: column wrap
+                            background-color: $white
+                            border-radius: 7px
+                            border: 1px solid #E5E5E5
+                            .top
+                                position: relative
+                                .overlay
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    position: absolute
+                                    top: calc(0% + 10px)
+                                    left: calc(0% + 10px)
+                                    border-radius: 7px
+                                    padding: 2px 5px
+                                    background-color: $green_alt3
+                                    .gift_img
+                                        width: 25px
+                                        {image_default}
+                                    .label
+                                        brandon_medium(12px, true)
+                                        color: $green
+                                        padding-left: 5px
+                            .top,
+                            .bottom
+                                flex: auto
+                            .bottom
+                                .details
+                                    brandon_regular(16px, false)
+                                    letter-spacing: 0.24px
+                                    text-align: center
+                                    padding: 30px
+                                    b,
+                                    strong
+                                        color: $black
+                                    p
+                                        color: #5B5E64
+                                .package_info
+                                    position: relative
+                                    border-top: 1px solid #E5E5E5
+                                    padding: 15px 30px
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    justify-content: space-between
+                                    &::before
+                                        content: ''
+                                        position: absolute
+                                        top: calc(0% - 20px)
+                                        left: calc(0% - 1px)
+                                        width: 20px
+                                        height: 40px
+                                        background-color: #F7F7F7
+                                        border: 1px solid #E5E5E5
+                                        border-top-right-radius: 100px
+                                        border-bottom-right-radius: 100px
+                                        border-left: 1px solid #F7F7F7
+                                    &::after
+                                        content: ''
+                                        position: absolute
+                                        top: calc(0% - 20px)
+                                        right: calc(0% - 1px)
+                                        width: 20px
+                                        height: 40px
+                                        background-color: #F7F7F7
+                                        border: 1px solid #E5E5E5
+                                        border-top-left-radius: 100px
+                                        border-bottom-left-radius: 100px
+                                        border-right: 1px solid #F7F7F7
+                                    .name
+                                        brandon_medium(20px, false)
+                                        color: #53565C
+                                    .default_btn
+                                        padding: 10px 15px
+                                        brandon_bold(14px, true)
                 #default_menu
                     .menu_tab
                         width: 100%
@@ -5330,6 +5460,14 @@ svg
                 .label
                     brandon_medium(12px, false)
                     color: #B5B4B4
+                    &.violator
+                        display: inline-block
+                        brandon_medium(12px, true)
+                        padding: 2px 5px
+                        border-radius: 3px
+                        color: #C97C23
+                        margin-top: 5px
+                        background-color: #FFE8CE
                 .table_menu_overlay
                     position: relative
                     display: inline-block
