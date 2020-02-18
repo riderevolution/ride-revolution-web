@@ -1,16 +1,55 @@
 <template>
     <div class="my_profile">
         <breadcrumb :overlay="false" />
+        <section id="content">
+            <div class="profile_tab">
+                <div class="top">
+                    <div class="left">
+                        <div class="overlay">
+                            <img class="profile_img" src="/sample-image-booker.png" />
+                            <div class="badges">
+                                <div class="first"><img src="/sample-badge-2.svg" /></div>
+                                <div class="second"><img src="/sample-badge.svg" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="data">
+                            <div class="name"><h2>Mark Ruffalo</h2> <span><img src="/sample-type.svg" /></span></div>
+                            <div class="info">
+                                <div class="label">Member ID <b>RR12345</b></div>
+                                <div class="label">Ride Points <b>0</b></div>
+                                <div class="label">Store Credits <b>500</b></div>
+                            </div>
+                        </div>
+                        <div class="default_btn_wht_out"><span>Update Profile</span></div>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="left"></div>
+                    <ul class="tab_wrapper">
+                        <li class="tab_item">Ride Rev Journey</li>
+                        <li class="tab_item">Classes</li>
+                        <li class="tab_item">Packages</li>
+                        <li class="tab_item">Transactions</li>
+                        <li class="tab_item">Gift Cards</li>
+                    </ul>
+                </div>
+            </div>
+            <profile-tab-content />
+        </section>
         <referral />
     </div>
 </template>
 
 <script>
     import Breadcrumb from '../components/Breadcrumb'
+    import ProfileTabContent from '../components/ProfileTabContent'
     import Referral from '../components/Referral'
     export default {
         components: {
             Breadcrumb,
+            ProfileTabContent,
             Referral
         }
     }
