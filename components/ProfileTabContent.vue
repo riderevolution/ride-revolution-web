@@ -135,41 +135,25 @@
                 </div>
                 <div class="tab_content_main">
                     <div class="profile_gift_cards">
-                        <div class="gift_card_wrapper">
+                        <div class="gift_card_wrapper" v-for="(data, key) in giftCards" :key="key">
                             <div class="top">
-                                <img src="/sample-gift.png" />
+                                <img :src="data.path" />
                                 <div class="overlay">
-                                    <img class="gift_img" src="/sample-image-booker.png" />
-                                    <div class="label">From Juan Dela Cruz</div>
+                                    <img class="gift_img" src="/sample-image-booker.png" v-if="data.from.has_image" />
+                                    <div class="initials" v-else>
+                                        <div class="name">{{ data.from.initials }}</div>
+                                    </div>
+                                    <div class="label">From {{ data.from.name }}</div>
                                 </div>
                             </div>
                             <div class="bottom">
-                                <div class="details">
-                                    <b>Happy Birthday</b>
-                                    <p>You’re turning 30 bro but I look much older than you wth!</p>
-                                </div>
+                                <div class="details" v-html="data.details" v-line-clamp="3"></div>
                                 <div class="package_info">
-                                    <div class="name">10-Class Package</div>
-                                    <div class="default_btn">Use Now</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="gift_card_wrapper">
-                            <div class="top">
-                                <img src="/sample-gift2.png" />
-                                <div class="overlay">
-                                    <img class="gift_img" src="/sample-image-booker.png" />
-                                    <div class="label">From Juan Dela Cruz</div>
-                                </div>
-                            </div>
-                            <div class="bottom">
-                                <div class="details">
-                                    <b>Happy Birthday</b>
-                                    <p>You’re turning 30 bro but I look much older than you wth!</p>
-                                </div>
-                                <div class="package_info">
-                                    <div class="name">10-Class Package</div>
-                                    <div class="default_btn">Use Now</div>
+                                    <div class="name">
+                                        {{ data.package.name }}
+                                        <div class="violator" v-if="data.has_violator">You still have this package</div>
+                                    </div>
+                                    <div :class="`default_btn ${(data.has_violator) ? 'disabled' : ''}`">Use Now</div>
                                 </div>
                             </div>
                         </div>
@@ -286,6 +270,47 @@
                         willExpire: true,
                         expiry_date: 'May 15, 2019',
                         toggled: false
+                    }
+                ],
+                giftCards: [
+                    {
+                        from: {
+                            has_image: true,
+                            initials: 'JD',
+                            name: 'Juan Dela Cruz'
+                        },
+                        path: '/sample-gift.png',
+                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
+                        has_violator: false,
+                        package: {
+                            name: '10-Class Package'
+                        }
+                    },
+                    {
+                        from: {
+                            has_image: true,
+                            initials: 'JD',
+                            name: 'Juan Dela Cruz'
+                        },
+                        path: '/sample-gift2.png',
+                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
+                        has_violator: false,
+                        package: {
+                            name: '10-Class Package'
+                        }
+                    },
+                    {
+                        from: {
+                            has_image: false,
+                            initials: 'JD',
+                            name: 'Juan Dela Cruz'
+                        },
+                        path: '/sample-gift2.png',
+                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
+                        has_violator: true,
+                        package: {
+                            name: '10-Class Package'
+                        }
                     }
                 ]
             }
