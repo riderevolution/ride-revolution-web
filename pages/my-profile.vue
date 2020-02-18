@@ -28,15 +28,15 @@
                 <div class="bottom">
                     <div class="left"></div>
                     <ul class="tab_wrapper">
-                        <li class="tab_item">Ride Rev Journey</li>
-                        <li class="tab_item">Classes</li>
-                        <li class="tab_item">Packages</li>
-                        <li class="tab_item">Transactions</li>
-                        <li class="tab_item">Gift Cards</li>
+                        <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
+                        <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
+                        <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
+                        <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
+                        <li :class="`tab_item ${(category == 'gift-card') ? 'active' : ''}`" @click="toggleTab(4, 'gift-card')">Gift Cards</li>
                     </ul>
                 </div>
             </div>
-            <profile-tab-content />
+            <profile-tab-content ref="profileTab" :category="category" />
         </section>
         <referral />
     </div>
@@ -51,6 +51,28 @@
             Breadcrumb,
             ProfileTabContent,
             Referral
+        },
+        data () {
+            return {
+                category: 'ride-rev-journey'
+            }
+        },
+        methods: {
+            toggleTab (key, category) {
+                const me = this
+                me.category = category
+                switch (category) {
+                    case 'classes':
+                        setTimeout( () => {
+                            me.$refs.profileTab.tabCategory = 'upcoming'
+                        }, 10)
+                        break
+                }
+                setTimeout( () => {
+                    me.$refs.profileTab.getHeight()
+                    me.$refs.profileTab.unique = key
+                }, 10)
+            }
         }
     }
 </script>
