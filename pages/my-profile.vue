@@ -67,6 +67,11 @@
                             me.$refs.profileTab.tabCategory = 'upcoming'
                         }, 10)
                         break
+                    case 'packages':
+                        setTimeout( () => {
+                            me.$refs.profileTab.tabCategory = 'active'
+                        }, 10)
+                        break
                 }
                 setTimeout( () => {
                     me.$refs.profileTab.getHeight()

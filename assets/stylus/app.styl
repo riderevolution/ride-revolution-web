@@ -4101,7 +4101,7 @@ svg
                         &::before
                             content: ''
                             position: absolute
-                            top: calc(100% + 20px)
+                            top: calc(100% + 10px)
                             left: 0
                             width: 100%
                             background-color: $green
@@ -4140,10 +4140,17 @@ svg
                         max-width: 90%
                         margin: 0 auto
                     .menu_tab_content
+                        .profile_packages
+                            width: 100%
+                            max-width: 90%
+                            margin: 0 auto
+                            padding: 20px 0
                         .profile_classes
                             display: flex
                             flex-flow: row wrap
+                            padding: 20px 0
                             .class_wrapper
+                                position: relative
                                 background-color: $white
                                 border-radius: 4px
                                 flex: 0 0 calc(33.33% - 30px)
@@ -4153,13 +4160,95 @@ svg
                                 justify-content: space-between
                                 box-shadow: 0px 10px 15px transparent
                                 transition: .3s ease-in-out
+                                .overlay
+                                    position: absolute
+                                    top: calc(0% + 5px)
+                                    right: calc(0% + 10px)
+                                    .menu_dot
+                                        cursor: pointer
+                                        font-size: 12px
+                                    .menu_dot_list
+                                        list-style: none
+                                        padding: 0
+                                        margin: 0
+                                        position: absolute
+                                        top: calc(100% + 5px)
+                                        right: 0
+                                        width: 200px
+                                        z-index: 2
+                                        background-color: $white
+                                        border-radius: 3px
+                                        border: 1px solid #D3D3D3
+                                        .menu_dot_item
+                                            padding: 15px 20px
+                                            brandon_bold(18px, false)
+                                            color: $black
+                                            background-color: transparent
+                                            border-bottom: 1px solid #E8E8E8
+                                            cursor: pointer
+                                            transition: .3s ease-in-out
+                                            &.red
+                                                color: $red
+                                                transition: .3s ease-in-out
+                                                &:hover
+                                                    color: $red
+                                                    background-color: $red_alt
+                                                    transition: .3s ease-in-out
+                                            &:last-child
+                                                border-bottom: 1px solid transparent
+                                            &:hover
+                                                color: $green
+                                                background-color: #D6FFF7
+                                                transition: .3s ease-in-out
                                 .top
                                     display: flex
                                     flex-flow: row wrap
                                     align-items: flex-start
                                     justify-content: space-between
+                                    .left
+                                        position: relative
+                                        flex: 0 0 60px
+                                        width: 60px
+                                        height: 60px
+                                        background-color: $green
+                                        text-align: center
+                                        border-radius: 50%
+                                        .date
+                                            position: absolute
+                                            top: 50%
+                                            left: 0
+                                            right: 0
+                                            line-height: 1
+                                            transform: translateY(-50%)
+                                            .day
+                                                brandon_bold(26px, false)
+                                                color: $white
+                                                line-height: 1
+                                            .month
+                                                brandon_regular(12px, true)
+                                                color: $white
+                                                line-height: 1
+                                    .right
+                                        flex: 1 0 40%
+                                        padding-left: 20px
+                                        .title
+                                            brandon_bold(26px, false)
+                                            color: $black
+                                            margin: 15px 0 10px
+                                        .violator
+                                            display: inline-block
+                                            background-color: $red_alt
+                                            color: $red
+                                            brandon_medium(12px, true)
+                                            letter-spacing: 0.25px
+                                            padding: 5px 10px
+                                            border-radius: 4px
+                                            margin-bottom: 10px
+                                        .schedule
+                                            brandon_regular(16px, false)
+                                            color: $black
                                 .bottom
-                                    padding-top: 20px
+                                    padding-top: 15px
                                     border-top: 1px solid #E5E5E5
                                     display: flex
                                     flex-flow: row wrap
@@ -4168,7 +4257,7 @@ svg
                                         width: 50px
                                         {image_default}
                                     .right
-                                        margin-left: 10px
+                                        padding-left: 20px
                                         .label
                                             brandon_regular(14px, true)
                                             color: $gray_alt2
@@ -4177,7 +4266,7 @@ svg
                                             color: $green
                                 .top,
                                 .bottom
-                                    padding: 20px
+                                    padding: 15px 20px
                                     flex: 0 0 auto
                                 &:hover
                                     box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
@@ -5179,6 +5268,104 @@ svg
                     margin-top: 0
 
 /**
+ * Default Table */
+.default_table
+    border-collapse: collapse
+    width: 100%
+    thead
+        tr
+            th
+                brandon_bold(14px, true)
+                color: rgba(0, 0, 0, .43)
+                text-align: left
+                font-weight: normal
+                padding: 15px 0
+                &:first-child
+                    padding: 15px
+    tbody
+        background-color: $white
+        tr
+            td
+                padding: 15px 0
+                .package_info
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    .count
+                        position: relative
+                        width: 50px
+                        height: 50px
+                        border-radius: 50%
+                        text-align: center
+                        background-color: #D8DFE8
+                        border: 1px solid #C7C8D8
+                        .overlay
+                            brandon_bold(18px, false)
+                            color: #838B91
+                            line-height: 1
+                            position: absolute
+                            top: 50%
+                            left: 0
+                            right: 0
+                            transform: translateY(-50%)
+                    .title
+                        brandon_medium(20px, false)
+                        color: $black
+                        padding-left: 10px
+                        .violator
+                            margin-top: 5px
+                            flex: 0 0 100%
+                            brandon_medium(12px, true)
+                            padding: 2px 5px
+                            border-radius: 3px
+                            &.shared
+                                color: $blue
+                                background-color: #C7E6FF
+                            &.shared_with_me
+                                color: #B176A9
+                                background-color: #FAE2F7
+                .default
+                    brandon_regular(16px, false)
+                    color: $black
+                .label
+                    brandon_medium(12px, false)
+                    color: #B5B4B4
+                .table_menu_overlay
+                    position: relative
+                    display: inline-block
+                    .table_menu_dots
+                        cursor: pointer
+                        font-size: 12px
+                    .table_menu_dots_list
+                        list-style: none
+                        padding: 0
+                        margin: 0
+                        position: absolute
+                        top: calc(100% + 5px)
+                        right: 0
+                        width: 200px
+                        z-index: 2
+                        background-color: $white
+                        border-radius: 3px
+                        border: 1px solid #D3D3D3
+                        .table_menu_item
+                            padding: 15px 20px
+                            brandon_bold(18px, false)
+                            color: $black
+                            background-color: transparent
+                            border-bottom: 1px solid #E8E8E8
+                            cursor: pointer
+                            transition: .3s ease-in-out
+                            &:last-child
+                                border-bottom: 1px solid transparent
+                            &:hover
+                                color: $green
+                                background-color: #D6FFF7
+                                transition: .3s ease-in-out
+                &:first-child
+                    padding: 15px
+
+/**
  * Menu Tabs */
 #default_menu
     .menu_tab
@@ -5202,7 +5389,7 @@ svg
             &::before
                 content: ''
                 position: absolute
-                top: calc(100% + 20px)
+                top: calc(100% + 10px)
                 left: 0
                 width: 100%
                 height: 2px
