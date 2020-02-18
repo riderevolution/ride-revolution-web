@@ -118,6 +118,49 @@
             </div>
         </transition>
         <transition name="fade">
+            <div id="tab_3" class="default wrapper" v-if="category == 'transactions'">
+                <div class="profile_transactions">
+                    <div class="tab_content_header alt">
+                        <h2>My Pending Transactions (5)</h2>
+                        <div class="total">
+                            Total Due
+                            <span class="count">Php 105.00</span>
+                            <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'transactions')" />
+                        </div>
+                    </div>
+                    <table class="default_table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Products</th>
+                                <th>Branch</th>
+                                <th>Total Price</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(data, key) in packages" :key="key">
+                                <td><div class="default">{{ data.used }}</div></td>
+                                <td><div class="default">{{ data.available }}</div></td>
+                                <td>
+                                    <div class="default">{{ data.purchase_date }}</div>
+                                    <div class="label">Date Purchased</div>
+                                </td>
+                                <td>
+                                    <div class="default">{{ data.activation_date }}</div>
+                                    <div class="label">Date Activated</div>
+                                </td>
+                                <td>
+                                    <div class="default">{{ data.expiry_date }}</div>
+                                    <div :class="`label ${(data.willExpire) ? 'violator' : ''}`">{{ (data.willExpire) ? '2 Days Left' : 'Date of Expiry' }}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </transition>
+        <transition name="fade">
             <div id="tab_4" class="with_allowance wrapper" v-if="category == 'gift-cards'">
                 <div class="tab_content_header">
                     <div class="with_info">
