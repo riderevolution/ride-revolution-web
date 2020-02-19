@@ -2,6 +2,7 @@
     <div class="my_profile">
         <breadcrumb :overlay="false" />
         <section id="content">
+            <h1 class="no_font">My Profile</h1>
             <div class="profile_tab">
                 <div class="top">
                     <div class="left">
@@ -22,7 +23,7 @@
                                 <div class="label">Store Credits <b>500</b></div>
                             </div>
                         </div>
-                        <nuxt-link to="/update-profile" class="default_btn_wht_out"><span>Update Profile</span></nuxt-link>
+                        <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out"><span>Update Profile</span></nuxt-link>
                     </div>
                 </div>
                 <div class="bottom">

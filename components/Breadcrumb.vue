@@ -1,10 +1,11 @@
 <template>
 	<div id="breadcrumb" :class="`${(hasPadding) ? 'has_padding' : (overlay ? 'overlay' : '')} ${(!$store.state.proTipStatus) ? '' : 'dismiss'}`">
-		<ul>
-			<li v-for="(crumb, key) in crumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-				<nuxt-link itemprop="url" :to="crumb.url">
-					<span v-if="crumb.url == '/'" class="front">Homepage</span>
-					<span v-else class="crumb">{{ crumb.NAME }}</span>
+		<ul itemtype="http://schema.org/BreadcrumbList">
+			<li v-for="(crumb, key) in crumbs" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+				<nuxt-link itemprop="item" :to="crumb.url">
+					<span itemprop="name" v-if="crumb.url == '/'" class="front">Homepage</span>
+					<span v-else itemprop="name" class="crumb">{{ crumb.NAME }}</span>
+					<meta itemprop="position" :content="key + 1" />
 				</nuxt-link>
 				<span class="slash">
 					{{ (crumbs.length == key + 1) ? '' : '/' }}
