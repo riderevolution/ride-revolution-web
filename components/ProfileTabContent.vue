@@ -89,7 +89,8 @@
                         </div>
                         <div class="tab_content_main">
                             <div class="instructor">
-                                <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in topInstructors" :key="key" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)">
+                                <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in topInstructors" :key="key">
+                                    <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
                                     <img class="main" :src="data.path" />
                                     <transition name="fade">
                                         <div class="num_wrapper" v-if="!data.hovered"><div class="num">{{ key + 1 }}</div></div>
@@ -108,6 +109,30 @@
                                         </div>
                                     </transition>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart">
+                        <div class="tab_content_header alt3">
+                            <h2>Your Top Booked Instructors</h2>
+                            <ul class="tab_content_header_menu">
+                                <li :class="`header_menu_tab_item ${(tabChartCategory == 'weekly') ? 'active' : ''}`" @click="toggledChartMenuTab('weekly')">Weekly</li>
+                                <li :class="`header_menu_tab_item ${(tabChartCategory == 'monthly') ? 'active' : ''}`" @click="toggledChartMenuTab('monthly')">Monthly</li>
+                            </ul>
+                        </div>
+                        <div class="ride_chart">
+                            <no-ssr>
+                                <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
+                            </no-ssr>
+                        </div>
+                        <div class="ride_summary">
+                            <div class="left">
+                                <div class="value">35</div>
+                                <div class="label">Rides in the past 30 days</div>
+                            </div>
+                            <div class="right">
+                                <div class="value">Thurs 6:30 PM</div>
+                                <div class="label">Favorite Timeslot</div>
                             </div>
                         </div>
                     </div>
@@ -368,6 +393,7 @@
                 height: 0,
                 unique: 0,
                 tabCategory: '',
+                tabChartCategory: 'monthly',
                 topInstructors: [
                     {
                         path: '/default/instructor/sample-instructor.png',
@@ -694,7 +720,157 @@
                             name: '10-Class Package'
                         }
                     }
-                ]
+                ],
+                series: [
+                    {
+                        name: 'Ride Count',
+                        data: [10, 5, 44, 0, 57, 56, 0, 58, 20, 63, 0, 200]
+                    }
+                ],
+                chartOptions: {
+                    responsive: [
+                        {
+                            breakpoint: 767,
+                            options: {
+                                plotOptions: {
+                                    bar: {
+                                        columnWidth: '75%'
+                                    }
+                                },
+                                dataLabels: {
+                                    formatter: function (val) {
+                                        return `${val}`
+                                    },
+                                    offsetY: -10,
+                                    style: {
+                                        colors: ["#171717"],
+                                        fontSize: '10px',
+                                        fontFamily: 'Brandon-Regular'
+                                    }
+                                },
+                                xaxis: {
+                                    labels: {
+                                        style: {
+                                            colors: ['#000'],
+                                            fontSize: '10px',
+                                            fontFamily: 'Brandon-Regular'
+                                        }
+                                    },
+                                },
+                                yaxis: {
+                                    labels: {
+                                        style: {
+                                            colors: ['#000'],
+                                            fontSize: '10px',
+                                            fontFamily: 'Brandon-Regular'
+                                        }
+                                    },
+                                    title: {
+                                        text: 'Rides',
+                                        offsetX: 0,
+                                        style: {
+                                            colors: ['#000'],
+                                            fontSize: '10px',
+                                            cssClass: 'apexchart_uppercase'
+                                        }
+                                    }
+                                },
+                            },
+                        }
+                    ],
+                    chart: {
+                        type: 'bar',
+                        height: 350
+                    },
+                    colors: ['#9E558B'],
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '45%',
+                            dataLabels: {
+                                position: 'top'
+                            },
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function (val) {
+                            return `${val} rides`
+                        },
+                        offsetY: -15,
+                        style: {
+                            fontFamily: 'Brandon-Bold',
+                            fontSize: '14px',
+                            colors: ["#171717"]
+                        }
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    grid: {
+                        show: false
+                    },
+                    xaxis: {
+                        labels: {
+                            show: true,
+                            style: {
+                                colors: ['#000'],
+                                fontSize: '14px',
+                                fontFamily: 'Brandon-Regular'
+                            }
+                        },
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    yaxis: {
+                        labels: {
+                            show: true,
+                            style: {
+                                colors: ['#000'],
+                                fontSize: '14px',
+                                fontFamily: 'Brandon-Regular'
+                            }
+                        },
+                        title: {
+                            text: 'Rides',
+                            offsetX: -10,
+                            style: {
+                                color: '#000',
+                                fontSize: '12px',
+                                fontFamily: 'Brandon-Bold',
+                                cssClass: 'apexchart_uppercase'
+                            }
+                        }
+                    },
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            type: 'vertical',
+                            shadeIntensity: 1,
+                            opacityFrom: 0.7,
+                            opacityTo: 0.9,
+                            colorStops: [
+                                {
+                                    offset: 0,
+                                    color: "#FD649C",
+                                    opacity: 1
+                                },
+                                {
+                                    offset: 100,
+                                    color: "#9E558B",
+                                    opacity: 1
+                                }
+                            ]
+                        }
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return val + " rides"
+                            }
+                        }
+                    }
+                }
             }
         },
         methods: {
@@ -799,6 +975,10 @@
             toggledMenuTab (category) {
                 const me = this
                 me.tabCategory = category
+            },
+            toggledChartMenuTab (category) {
+                const me = this
+                me.tabChartCategory = category
             },
             toggleOverlays (e) {
                 const me = this
