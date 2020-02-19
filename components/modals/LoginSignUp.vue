@@ -457,7 +457,9 @@
                 const me = this
                 me.$validator.validateAll('login_form').then(valid => {
                     if (valid) {
-                        console.log(2);
+                        me.$store.state.isAuth = true
+                        me.$store.state.loginSignUpStatus = false
+                        document.body.classList.remove('no_scroll')
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',

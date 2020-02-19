@@ -1,7 +1,118 @@
 <template>
     <div class="profile_tab_content" :style="`height: ${height}px`">
         <transition name="fade">
-            <div id="tab_0" class="wrapper" v-if="category == 'ride-rev-journey'">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            <div id="tab_0" class="journey wrapper" v-if="category == 'ride-rev-journey'">
+                <div class="profile_journey">
+                    <div class="teaser">
+                        <div class="taken">
+                            <div class="summary">
+                                <div class="summary_header">
+                                    <h3>You've Taken...</h3>
+                                </div>
+                                <div class="summary_content">
+                                    <div class="class_stat">
+                                        <div class="class_count">115 Classes</div>
+                                        <div class="class_date">In 1 Year and 2 Months</div>
+                                    </div>
+                                    <div class="motto">
+                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lennon
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="badges_earned">
+                            <div class="summary">
+                                <div class="summary_header alt">
+                                    <h3>Badges You've Earned, Woohoo!</h3>
+                                    <div class="icon">
+                                        <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'ride-rev-journey')" />
+                                        <transition name="slide">
+                                            <div class="description_overlay" v-if="showInfoBadges">
+                                                <div class="pointer"></div>
+                                                <p>To show how much we love you, we will give you <b>30-Class Package</b> for free if you complete all 10 badges.</p>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                </div>
+                                <div class="summary_content">
+                                    <div class="left">
+                                        <div class="badge">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                        <div class="badge disabled">
+                                            <img src="/sample-badge.svg" />
+                                            <span>Ride back to back classes</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top_booked">
+                        <div class="tab_content_header alt2">
+                            <h2>Your Top Booked Instructors</h2>
+                        </div>
+                        <div class="tab_content_main">
+                            <div class="instructor">
+                                <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in topInstructors" :key="key" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)">
+                                    <img class="main" :src="data.path" />
+                                    <transition name="fade">
+                                        <div class="num_wrapper" v-if="!data.hovered"><div class="num">{{ key + 1 }}</div></div>
+                                    </transition>
+                                    <transition name="slide">
+                                        <div class="overlay" v-if="data.hovered">
+                                            <div class="info">
+                                                <div class="num_wrapper_alt">
+                                                    <div class="num">
+                                                        {{ key + 1 }}
+                                                    </div>
+                                                </div>
+                                                <div class="name">{{ data.name }}</div>
+                                            </div>
+                                            <div class="rides">{{ data.ride }} rides</div>
+                                        </div>
+                                    </transition>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </transition>
         <transition name="fade">
             <div id="tab_1" class="class wrapper" v-if="category == 'classes'">
@@ -96,7 +207,7 @@
                                         </td>
                                         <td>
                                             <div class="default">{{ data.expiry_date }}</div>
-                                            <div :class="`label ${(data.willExpire) ? 'violator' : ''}`">{{ (data.willExpire) ? '2 Days Left' : 'Date of Expiry' }}</div>
+                                            <div :class="`label ${(data.will_expire) ? 'violator' : ''}`">{{ (data.will_expire) ? '2 Days Left' : 'Date of Expiry' }}</div>
                                         </td>
                                         <td>
                                             <div class="table_menu_overlay">
@@ -121,11 +232,17 @@
             <div id="tab_3" class="default wrapper" v-if="category == 'transactions'">
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
-                        <h2>My Pending Transactions (5)</h2>
+                        <h2>My Pending Transactions ({{ totalItems(pendingTransactions.length) }})</h2>
                         <div class="total">
                             Total Due
                             <span class="count">Php 105.00</span>
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'transactions')" />
+                            <transition name="slide">
+                                <div class="description_overlay" v-if="showInfoTransactions">
+                                    <div class="pointer"></div>
+                                    <p>Please pay this balance to our studio cashiers. Thank you so much!</p>
+                                </div>
+                            </transition>
                         </div>
                     </div>
                     <table class="default_table">
@@ -139,20 +256,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, key) in packages" :key="key">
-                                <td><div class="default">{{ data.used }}</div></td>
-                                <td><div class="default">{{ data.available }}</div></td>
+                            <tr v-for="(data, key) in pendingTransactions" :key="key">
+                                <td><div class="default">{{ data.date }}</div></td>
+                                <td><div class="default" v-for="(child, key) in data.products" :key="key">{{ child.name }}({{ child.qty }})</div></td>
                                 <td>
-                                    <div class="default">{{ data.purchase_date }}</div>
-                                    <div class="label">Date Purchased</div>
+                                    <div class="default">{{ data.branch }}</div>
                                 </td>
                                 <td>
-                                    <div class="default">{{ data.activation_date }}</div>
-                                    <div class="label">Date Activated</div>
+                                    <div class="default bold">Php {{ data.total_price }}</div>
                                 </td>
                                 <td>
-                                    <div class="default">{{ data.expiry_date }}</div>
-                                    <div :class="`label ${(data.willExpire) ? 'violator' : ''}`">{{ (data.willExpire) ? '2 Days Left' : 'Date of Expiry' }}</div>
+                                    <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="profile_transactions">
+                    <div class="tab_content_header alt">
+                        <h2>My Closed Transactions</h2>
+                    </div>
+                    <table class="default_table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Products</th>
+                                <th>Branch</th>
+                                <th>Total Price</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(data, key) in paidTransactions" :key="key">
+                                <td><div class="default">{{ data.date }}</div></td>
+                                <td><div class="default" v-for="(child, key) in data.products" :key="key">{{ child.name }}({{ child.qty }})</div></td>
+                                <td>
+                                    <div class="default">{{ data.branch }}</div>
+                                </td>
+                                <td>
+                                    <div class="default bold">Php {{ data.total_price }}</div>
+                                </td>
+                                <td>
+                                    <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -217,10 +362,44 @@
         },
         data () {
             return {
+                showInfoBadges: false,
+                showInfoTransactions: false,
                 showInfoGiftCards: false,
                 height: 0,
                 unique: 0,
                 tabCategory: '',
+                topInstructors: [
+                    {
+                        path: '/default/instructor/sample-instructor.png',
+                        name: 'Billie',
+                        ride: 20,
+                        hovered: false
+                    },
+                    {
+                        path: '/default/instructor/sample-instructor.png',
+                        name: 'Billie',
+                        ride: 20,
+                        hovered: false
+                    },
+                    {
+                        path: '/default/instructor/sample-instructor.png',
+                        name: 'Billie',
+                        ride: 20,
+                        hovered: false
+                    },
+                    {
+                        path: '/default/instructor/sample-instructor.png',
+                        name: 'Billie',
+                        ride: 20,
+                        hovered: false
+                    },
+                    {
+                        path: '/default/instructor/sample-instructor.png',
+                        name: 'Billie',
+                        ride: 20,
+                        hovered: false
+                    }
+                ],
                 classes: [
                     {
                         date: {
@@ -276,7 +455,7 @@
                         available: 12,
                         purchase_date: 'Apr 4, 2019',
                         activation_date: 'Apr 8, 2019',
-                        willExpire: false,
+                        will_expire: false,
                         expiry_date: 'May 15, 2019',
                         toggled: false
                     },
@@ -293,7 +472,7 @@
                         available: 12,
                         purchase_date: 'Apr 4, 2019',
                         activation_date: 'Apr 8, 2019',
-                        willExpire: false,
+                        will_expire: false,
                         expiry_date: 'May 15, 2019',
                         toggled: false
                     },
@@ -310,9 +489,169 @@
                         available: 12,
                         purchase_date: 'Apr 4, 2019',
                         activation_date: 'Apr 8, 2019',
-                        willExpire: true,
+                        will_expire: true,
                         expiry_date: 'May 15, 2019',
                         toggled: false
+                    }
+                ],
+                pendingTransactions: [
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: false,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: false,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            },
+                            {
+                                name: 'Fitbar',
+                                qty: 2
+                            },
+                            {
+                                name: 'Pure Nectar Cashew Milk',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: false,
+                        branch: 'Greenbelt',
+                        total_price: '450.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: false,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
+                    }
+                ],
+                paidTransactions: [
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: true,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: true,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            },
+                            {
+                                name: 'Fitbar',
+                                qty: 2
+                            },
+                            {
+                                name: 'Pure Nectar Cashew Milk',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: true,
+                        branch: 'Greenbelt',
+                        total_price: '450.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: true,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: true,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            },
+                            {
+                                name: 'Fitbar',
+                                qty: 2
+                            },
+                            {
+                                name: 'Pure Nectar Cashew Milk',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: true,
+                        branch: 'Greenbelt',
+                        total_price: '450.00'
+                    },
+                    {
+                        date: 'Apr 4, 2019, 10:00 AM',
+                        products: [
+                            {
+                                name: 'Hope in a Bottle',
+                                qty: 2
+                            }
+                        ],
+                        is_paid: true,
+                        branch: 'Greenbelt',
+                        total_price: '70.00'
                     }
                 ],
                 giftCards: [
@@ -376,19 +715,58 @@
             //         return false
             //     }
             // },
+
+            toggleInstructor (type, key) {
+                const me = this
+                switch (type) {
+                    case 'in':
+                        me.topInstructors.forEach((data, index) => {
+                            if (key == index) {
+                                document.getElementById(`item_${index}`).classList.add('hovered')
+                                data.hovered = true
+                            } else {
+                                document.getElementById(`item_${index}`).classList.add('not_hovered')
+                                data.hovered = false
+                            }
+                        })
+                        break
+                    case 'out':
+                        me.topInstructors.forEach((data, index) => {
+                            if (key == index) {
+                                document.getElementById(`item_${index}`).classList.remove('hovered')
+                                data.hovered = false
+                            } else {
+                                document.getElementById(`item_${index}`).classList.remove('not_hovered')
+                            }
+                        })
+                        break
+                }
+            },
             toggleInfoIcon (event, category) {
                 const me = this
                 let target = event.target
                 let parentWidth = target.parentNode.scrollWidth
                 switch (category) {
                     case 'gift-cards':
-                        setTimeout( () => {
-                            let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
-                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
-                        }, 100)
                         me.showInfoGiftCards ^= true
                         break
+                    case 'transactions':
+                        me.showInfoTransactions ^= true
+                        break
+                    case 'ride-rev-journey':
+                        me.showInfoBadges ^= true
+                        break
                 }
+                setTimeout( () => {
+                    let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
+                    if (category == 'gift-cards') {
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
+                    } else if (category == 'transactions') {
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
+                    } else if (category == 'ride-rev-journey') {
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc(20px)`
+                    }
+                }, 100)
             },
             toggleTableMenuDot (key) {
                 const me = this

@@ -3,29 +3,29 @@
         <div class="logo">
             <img src="/footer-logo.svg" />
         </div>
-        <a class="footer_sitemap" @click="toggleSitemap()">
+        <a class="footer_sitemap" @click="toggleSitemap()" v-if="$parent.isMobile">
             <label>Show Sitemap <img src="/icons/back-arrow-icon.svg" /></label>
         </a>
         <div class="footer_link">
             <h3>In Studio</h3>
             <ul>
-                <li><a href="javascript:void(0)" class="footer_item">Rider's Guide</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Buy Credits</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Class Schedules</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Instructors</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Studio</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Ride Rewards</a></li>
+                <li><nuxt-link to="/riders-guide" class="footer_item">Rider's Guide</nuxt-link></li>
+                <li><nuxt-link to="/buy-rides" class="footer_item">Buy Rides</nuxt-link></li>
+                <li><nuxt-link to="/riders-guide" class="footer_item">Class Schedules</nuxt-link></li>
+                <li><nuxt-link to="/instructors" class="footer_item">Instructors</nuxt-link></li>
+                <li><nuxt-link to="/studios" class="footer_item">Studio</nuxt-link></li>
+                <li><nuxt-link to="/ride-rewards" class="footer_item">Ride Rewards</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link">
             <h3>Services</h3>
             <ul>
-                <li><a href="javascript:void(0)" class="footer_item">FAQ's</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Contact Us</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">News</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Shop</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Privacy Policy</a></li>
-                <li><a href="javascript:void(0)" class="footer_item">Terms &amp; Conditions</a></li>
+                <li><nuxt-link to="/faq" class="footer_item">FAQ's</nuxt-link></li>
+                <li><nuxt-link to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
+                <li><nuxt-link to="/news" class="footer_item">News</nuxt-link></li>
+                <li><nuxt-link to="/shop" class="footer_item">Shop</nuxt-link></li>
+                <li><nuxt-link to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
+                <li><nuxt-link to="/terms-&amps;-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link alt">
