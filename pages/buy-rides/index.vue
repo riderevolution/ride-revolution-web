@@ -25,7 +25,7 @@
                 </transition>
             </div>
             <div class="content" id="package">
-                <nuxt-link :to="`/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                <nuxt-link rel="canonical" :to="`/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                     <div class="ribbon" v-if="data.has_promo">Promo</div>
                     <div class="package_header">
                         <h2 class="title">{{ data.title }}</h2>
@@ -70,10 +70,10 @@
                         <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
-                        <nuxt-link to="/whats-new" class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/whats-new" class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</nuxt-link>
                     </transition>
                     <div class="action_mobile" v-if="$parent.$parent.isMobile">
-                        <nuxt-link to="/whats-new" class="default_btn">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/whats-new" class="default_btn">See All Promos</nuxt-link>
                     </div>
                 </div>
             </no-ssr>
@@ -95,7 +95,7 @@
                 </transition>
             </div>
             <div class="content" id="store_credits">
-                <nuxt-link :to="`/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populateStoreCredits" :key="key">
+                <nuxt-link rel="canonical" :to="`/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populateStoreCredits" :key="key">
                     <div class="ribbon" v-if="data.has_promo">Promo</div>
                     <div class="package_header alt">
                         <h2 class="title">{{ data.title }}</h2>
@@ -124,7 +124,7 @@
             <div class="overlay">
                 <h2>Share this experience with your loved ones!</h2>
                 <h3>For anyone who wants to be their best.</h3>
-                <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Send a Digital Gift Card</nuxt-link>
+                <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Send a Digital Gift Card</nuxt-link>
             </div>
         </section>
     </div>

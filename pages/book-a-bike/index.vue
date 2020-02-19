@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" class="btn default_btn_out">
                                     <span>Book Now</span>
                                 </nuxt-link>
                             </div>
@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" class="btn default_btn_out">
                                     <span>Waitlist</span>
                                 </nuxt-link>
                             </div>
@@ -128,7 +128,7 @@
                                 <h3>Greenbelt</h3>
                             </div>
                             <div class="action">
-                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" class="btn default_btn_out">
                                     <span>Book Now</span>
                                 </nuxt-link>
                             </div>
@@ -142,7 +142,7 @@
                                 <h3>Greenbelt</h3>
                             </div>
                             <div class="action">
-                                <nuxt-link to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" class="btn default_btn_out">
                                     <span>Waitlist</span>
                                 </nuxt-link>
                             </div>

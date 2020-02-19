@@ -58,9 +58,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <nuxt-link to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
+                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
                                 <div class="action_mobile" v-else>
-                                    <nuxt-link to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                     <p class="store_credits">65</p>
                                     <transition name="slide">
                                         <div class="unavailable" v-if="storeCredits <= 50">
-                                            <nuxt-link to="/buy-rides#store_credits">Buy Rides</nuxt-link>
+                                            <nuxt-link rel="canonical" to="/buy-rides#store_credits">Buy Rides</nuxt-link>
                                             <label>*Your store credits are insufficient.</label>
                                         </div>
                                     </transition>

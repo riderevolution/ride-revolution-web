@@ -1,7 +1,7 @@
 <template>
     <div id="header" :class="`${($route.fullPath == '/') ? 'front' : ($route.fullPath == '/instructors' ? 'instructor' : 'not_front')} ${($store.state.loginSignUpStatus) ? 'login' : ''}`">
         <div class="navbar">
-            <nuxt-link to="/" class="logo">
+            <nuxt-link rel="canonical" to="/" class="logo">
                 <img src="/logo.svg" />
                 <div class="logo_title">
                     Ride <br/>
@@ -10,13 +10,13 @@
             </nuxt-link>
             <ul class="nav_list" v-if="!$parent.isMobile">
                 <li>
-                    <nuxt-link to="/buy-rides" class="nav_item">Buy Rides</nuxt-link>
+                    <nuxt-link rel="canonical" to="/buy-rides" class="nav_item">Buy Rides</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link to="/book-a-bike" class="nav_item">Book a Bike</nuxt-link>
+                    <nuxt-link rel="canonical" to="/book-a-bike" class="nav_item">Book a Bike</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link to="/whats-new" class="nav_item">What's New</nuxt-link>
+                    <nuxt-link rel="canonical" to="/whats-new" class="nav_item">What's New</nuxt-link>
                 </li>
                 <li v-if="!$store.state.isAuth">
                     <div class="default_btn" @click="loginUser()">Login / Sign up</div>

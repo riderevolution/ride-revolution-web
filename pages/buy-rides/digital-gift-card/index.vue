@@ -166,7 +166,7 @@
                                     <p class="store_credits">65</p>
                                     <transition name="slide">
                                         <div class="unavailable" v-if="storeCredits <= 50">
-                                            <nuxt-link to="/buy-rides#store_credits">Buy Rides</nuxt-link>
+                                            <nuxt-link rel="canonical" to="/buy-rides#store_credits">Buy Rides</nuxt-link>
                                             <label>*Your store credits are insufficient.</label>
                                         </div>
                                     </transition>

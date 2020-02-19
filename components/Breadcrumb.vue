@@ -1,7 +1,7 @@
 <template>
 	<div id="breadcrumb" :class="`${(hasPadding) ? 'has_padding' : (overlay ? 'overlay' : '')} ${(!$store.state.proTipStatus) ? '' : 'dismiss'}`">
 		<ul>
-			<li v-for="(crumb, key) in crumbs" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+			<li v-for="(crumb, key) in crumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
 				<nuxt-link itemprop="url" :to="crumb.url">
 					<span v-if="crumb.url == '/'" class="front">Homepage</span>
 					<span v-else class="crumb">{{ crumb.NAME }}</span>

@@ -41,8 +41,8 @@
                                     <div class="overlay">
                                         <h2>{{ data.name }}</h2>
                                         <div class="action">
-                                            <nuxt-link to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
-                                            <nuxt-link to="/" class="default_btn">Book A Ride</nuxt-link>
+                                            <nuxt-link rel="canonical" to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
+                                            <nuxt-link rel="canonical" to="/" class="default_btn">Book A Ride</nuxt-link>
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
-                        <nuxt-link to="/instructors" class="view_all">
+                        <nuxt-link rel="canonical" to="/instructors" class="view_all">
                             <img src="/icons/view-all-instructors.svg" />
                             <span>View All Instructors</span>
                         </nuxt-link>
@@ -110,7 +110,7 @@
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
-                        <nuxt-link to="/studios" class="view_all default_btn_wht_alt">
+                        <nuxt-link rel="canonical" to="/studios" class="view_all default_btn_wht_alt">
                             <div class="text">
                                 <div class="border_top left"></div>
                                 <div class="border_top left alt"></div>
@@ -143,7 +143,7 @@
             <img src="/default/riders-guide/cool-lets-go.jpg" />
             <div class="overlay">
                 <h2>Cool! Let's go.</h2>
-                <nuxt-link to="/sign-up" class="default_btn">Create An Account</nuxt-link>
+                <div @click="loginUser()" class="default_btn">Create An Account</div>
             </div>
         </section>
         <transition name="fade">
@@ -477,6 +477,11 @@
             }
         },
         methods: {
+            loginUser () {
+                const me = this
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
+            },
             openGallery(key) {
                 const me = this
                 // me.imagesToSend = me.parser(me.studioImages[key].images)

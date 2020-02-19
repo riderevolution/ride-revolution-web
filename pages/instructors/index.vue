@@ -48,8 +48,8 @@
                     <div class="overlay">
                         <h2>{{ data.name }}</h2>
                         <div class="action">
-                            <nuxt-link to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
-                            <nuxt-link to="/" class="default_btn">Book A Ride</nuxt-link>
+                            <nuxt-link rel="canonical" to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
+                            <nuxt-link rel="canonical" to="/" class="default_btn">Book A Ride</nuxt-link>
                         </div>
                     </div>
                 </div>

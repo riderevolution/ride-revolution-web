@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                                 <div class="breakdown_actions alt">
-                                    <nuxt-link to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('credit')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="action_mobile" v-if="$parent.$parent.isMobile">
-                                    <nuxt-link to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
                             </div>
                         </div>

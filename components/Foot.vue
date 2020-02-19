@@ -9,23 +9,23 @@
         <div class="footer_link">
             <h3>In Studio</h3>
             <ul>
-                <li><nuxt-link to="/riders-guide" class="footer_item">Rider's Guide</nuxt-link></li>
-                <li><nuxt-link to="/buy-rides" class="footer_item">Buy Rides</nuxt-link></li>
-                <li><nuxt-link to="/riders-guide" class="footer_item">Class Schedules</nuxt-link></li>
-                <li><nuxt-link to="/instructors" class="footer_item">Instructors</nuxt-link></li>
-                <li><nuxt-link to="/studios" class="footer_item">Studio</nuxt-link></li>
-                <li><nuxt-link to="/ride-rewards" class="footer_item">Ride Rewards</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/riders-guide" class="footer_item">Rider's Guide</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/buy-rides" class="footer_item">Buy Rides</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/riders-guide" class="footer_item">Class Schedules</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/instructors" class="footer_item">Instructors</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/studios" class="footer_item">Studio</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/ride-rewards" class="footer_item">Ride Rewards</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link">
             <h3>Services</h3>
             <ul>
-                <li><nuxt-link to="/faq" class="footer_item">FAQ's</nuxt-link></li>
-                <li><nuxt-link to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
-                <li><nuxt-link to="/news" class="footer_item">News</nuxt-link></li>
-                <li><nuxt-link to="/shop" class="footer_item">Shop</nuxt-link></li>
-                <li><nuxt-link to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
-                <li><nuxt-link to="/terms-&amps;-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/faq" class="footer_item">FAQ's</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/news" class="footer_item">News</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/shop" class="footer_item">Shop</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/terms-&amps;-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link alt">

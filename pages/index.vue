@@ -50,10 +50,10 @@
                         <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
-                        <nuxt-link to="/whats-new" class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/whats-new" class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</nuxt-link>
                     </transition>
                     <div class="action_mobile" v-if="$parent.$parent.isMobile">
-                        <nuxt-link to="/whats-new" class="default_btn">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/whats-new" class="default_btn">See All Promos</nuxt-link>
                     </div>
                 </div>
             </no-ssr>
@@ -139,13 +139,13 @@
                 <div class="info" v-if="!$parent.$parent.isMobile">
                     <h2 class="title">Train With The Best</h2>
                     <div class="description">We have the most exciting instructors to allow you to lose <br> yourself, let's go and have fun.</div>
-                    <nuxt-link to="/instructors" class="default_btn">Meet our Instructors</nuxt-link>
+                    <nuxt-link rel="canonical" to="/instructors" class="default_btn">Meet our Instructors</nuxt-link>
                 </div>
                 <div class="info mobile" v-else>
                     <img src="/default/home/instructor-mobile.svg" />
                     <h2 class="title">Train With The Best</h2>
                     <div class="description">We have the most exciting instructors to allow you to lose yourself, let's go and have fun.</div>
-                    <nuxt-link to="/instructors" class="default_btn">Meet our Instructors</nuxt-link>
+                    <nuxt-link rel="canonical" to="/instructors" class="default_btn">Meet our Instructors</nuxt-link>
                 </div>
             </div>
         </section>
@@ -154,7 +154,7 @@
                 <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">studios</h2>
                 <div class="description">
                     <p><strong>Explore Our Studios</strong></p>
-                    <nuxt-link to="/studios" class="default_btn">See All</nuxt-link>
+                    <nuxt-link rel="canonical" to="/studios" class="default_btn">See All</nuxt-link>
                 </div>
             </div>
             <div class="content">

@@ -22,7 +22,7 @@
                                 <div class="label">Store Credits <b>500</b></div>
                             </div>
                         </div>
-                        <div class="default_btn_wht_out"><span>Update Profile</span></div>
+                        <nuxt-link to="/update-profile" class="default_btn_wht_out"><span>Update Profile</span></nuxt-link>
                     </div>
                 </div>
                 <div class="bottom">
@@ -43,9 +43,9 @@
 </template>
 
 <script>
-    import Breadcrumb from '../components/Breadcrumb'
-    import ProfileTabContent from '../components/ProfileTabContent'
-    import Referral from '../components/Referral'
+    import Breadcrumb from '../../components/Breadcrumb'
+    import ProfileTabContent from '../../components/ProfileTabContent'
+    import Referral from '../../components/Referral'
     export default {
         components: {
             Breadcrumb,

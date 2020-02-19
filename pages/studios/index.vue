@@ -19,7 +19,7 @@
         <section id="visit">
             <h2>Visit our Studios</h2>
             <div class="content">
-                <nuxt-link :to="`/studios/${convertToSlug(data.name)}`" class="wrapper" v-for="(data, key) in studios" :key="key">
+                <nuxt-link rel="canonical" :to="`/studios/${convertToSlug(data.name)}`" class="wrapper" v-for="(data, key) in studios" :key="key">
                     <div class="image">
                         <img :src="data.path" />
                         <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
