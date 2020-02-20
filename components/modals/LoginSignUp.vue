@@ -34,7 +34,7 @@
                         </transition>
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.password')">{{ errors.first('login_form.password') | properFormat }}</span></transition>
                     </div>
-                    <div class="form_flex alt">
+                    <div class="form_flex">
                         <div class="form_check">
                             <input type="checkbox" id="remember_me" name="remember_me" class="input_check">
                             <label for="remember_me">Remember Me</label>

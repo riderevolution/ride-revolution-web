@@ -2487,6 +2487,262 @@ svg
                 brandon_regular(20px, false)
                 color: $white
                 margin: 20px 0 40px
+
+/**
+ * Promo Landing */
+.promo_landing
+    #banner
+        margin-top: 81pxa
+
+/**
+ * News */
+.news
+    background-color: #f7f7f7
+    &.inner
+        #banner
+            &.alt
+                margin-top: 81px
+        #content
+            width: 100%
+            max-width: 75%
+            margin: 60px auto
+            display: flex
+            flex-flow: row wrap
+            align-items: flex-start
+            justify-content: space-between
+            .left
+                flex: 0 0 80%
+                p
+                    brandon_regular(16px, false)
+                    color: $black
+                    letter-spacing: 0.8px
+                    line-height: 2
+                b,
+                strong
+                    brandon_bold(16px, false)
+                    color: $black
+                a
+                    color: $green
+            .right
+                flex: 0 0 15%
+                .share
+                    brandon_bold(18px, true)
+                    color: $black
+                    margin-bottom: 20px
+                .share_links
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    margin-bottom: 40px
+                    h4
+                        brandon_regular(16px, false)
+                        color: $black
+                    a
+                        position: relative
+                        font-size: 0
+                        width: 25px
+                        height: 25px
+                        margin: 0 15px
+                        &:first-child
+                            margin: 0 15px 0 0
+                    .fb
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 0
+                            left: 0
+                            width: 100%
+                            height: 100%
+                            opacity: 1
+                            background-image: url('/icons/fb-icon.svg')
+                            background-repeat: no-repeat
+                            background-size: contain
+                            background-position: center
+                            transition: .3s ease-in-out
+                        &::after
+                            content: ''
+                            position: absolute
+                            top: 0
+                            left: 0
+                            width: 100%
+                            height: 100%
+                            opacity: 0
+                            background-image: url('/icons/fb-icon-active.svg')
+                            background-repeat: no-repeat
+                            background-size: contain
+                            background-position: center
+                            transition: .3s ease-in-out
+                        &:hover
+                            &::before
+                                opacity: 0
+                                transition: .3s ease-in-out
+                            &::after
+                                opacity: 1
+                                transition: .3s ease-in-out
+                    .ig
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 0
+                            left: 0
+                            width: 100%
+                            height: 100%
+                            opacity: 1
+                            background-image: url('/icons/ig-icon.svg')
+                            background-repeat: no-repeat
+                            background-size: contain
+                            background-position: center
+                            transition: .3s ease-in-out
+                        &::after
+                            content: ''
+                            position: absolute
+                            top: 0
+                            left: 0
+                            width: 100%
+                            height: 100%
+                            opacity: 0
+                            background-image: url('/icons/ig-icon-active.svg')
+                            background-repeat: no-repeat
+                            background-size: contain
+                            background-position: center
+                            transition: .3s ease-in-out
+                        &:hover
+                            &::before
+                                opacity: 0
+                                transition: .3s ease-in-out
+                            &::after
+                                opacity: 1
+                                transition: .3s ease-in-out
+        #more_things
+            width: 100%
+            max-width: calc(75% + 30px)
+            margin: 60px auto
+            display: flex
+            flex-flow: row wrap
+            h3
+                flex: 0 0 100%
+                brandon_bold(36px, true)
+                color: $black
+                letter-spacing: 1.8px
+                margin-left: 15px
+                margin-bottom: 20px
+            .news_list
+                background-color: $white
+                flex: 0 0 calc(33.33% - 30px)
+                margin: 15px
+                transform: perspective(0px) scale(1)
+                box-shadow: 0px 0px 30px transparent
+                transition: .3s ease-in-out
+                display: flex
+                flex-flow: column
+                animation: slide_from_bottom 1s
+                .top,
+                .bottom
+                    flex: auto
+                .bottom
+                    padding: 20px
+                    .title
+                        brandon_bold(20px, true)
+                        color: $black
+                        letter-spacing: 0.5px
+                    .date
+                        brandon_light(16px, false)
+                        letter-spacing: 0.8px
+                        color: $black
+                        padding: 10px 0
+                    .description
+                        brandon_light(16px, false)
+                        letter-spacing: 0.8px
+                        color: $black
+                    .link
+                        padding-top: 15px
+                        brandon_bold(15px, true)
+                        color: $green
+                &:hover
+                    transform: perspective(1px) scale(1.02)
+                    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
+                    transition: .3s ease-in-out
+            .action
+                flex: 0 0 100%
+                text-align: center
+                .default_btn
+                    margin: 40px auto 0
+    #banner
+        margin-top: 81px
+        &.alt
+            margin-top: 0
+            animation: none
+    #content
+        width: 100%
+        max-width: calc(75% + 30px)
+        margin: 60px auto
+        display: flex
+        flex-flow: row wrap
+        .news_list
+            background-color: $white
+            flex: 0 0 calc(33.33% - 30px)
+            margin: 15px
+            transform: perspective(0px) scale(1)
+            box-shadow: 0px 0px 30px transparent
+            transition: .3s ease-in-out
+            display: flex
+            flex-flow: column
+            animation: slide_from_bottom 1s
+            .top,
+            .bottom
+                flex: auto
+            .bottom
+                padding: 20px
+                .title
+                    brandon_bold(20px, true)
+                    color: $black
+                    letter-spacing: 0.5px
+                .date
+                    brandon_light(16px, false)
+                    letter-spacing: 0.8px
+                    color: $black
+                    padding: 10px 0
+                .description
+                    brandon_light(16px, false)
+                    letter-spacing: 0.8px
+                    color: $black
+                .link
+                    padding-top: 15px
+                    brandon_bold(15px, true)
+                    color: $green
+            &:hover
+                transform: perspective(1px) scale(1.02)
+                box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
+                transition: .3s ease-in-out
+        .action
+            flex: 0 0 100%
+            text-align: center
+            .default_btn
+                margin: 40px auto 0
+    /**
+     * Ride With */
+    #ride_with
+        .header
+            padding: 40px 0 30px
+            text-align: center
+            h2
+                brandon_bold(60px, true)
+                color: $black
+                letter-spacing: 3px
+            .description
+                flex: 0 0 40%
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                img
+                    margin-right: 10px
+                span
+                    brandon_bold(30px, false)
+                    color: $black
+                    letter-spacing: 0.75px
+                    padding-bottom: 5px
+
 /**
  * Riders Guide */
 .riders_guide
@@ -5094,10 +5350,11 @@ svg
         width: 100%
         max-width: calc(75% + 30px)
         margin: 60px auto
-        .default_btn
+        .action
+            flex: 0 0 100%
             text-align: center
-            &.load
-                margin: 30px auto 0
+            .default_btn
+                margin: 40px auto 0
         .promo_list
             padding: 20px
             flex: 0 0 calc(33.33% - 30px)
@@ -5507,6 +5764,12 @@ svg
         ul
             .front
                 color: $white
+            .nuxt-link-active
+                .crumb
+                    color: rgba(255, 255, 255, 0.7)
+            .nuxt-link-exact-active
+                .crumb
+                    color: rgba(255, 255, 255, 0.7)
             .slash,
             .crumb
                 color: rgba(255, 255, 255, 0.7)
@@ -5606,6 +5869,27 @@ svg
                     .icon
                         stroke: $green
                         transition: .3s ease-in-out
+    &.alt_4
+        img
+            width: 100%
+            height: 500px
+        .overlay_mid
+            width: 100%
+            max-width: 75%
+            margin: 0 auto
+            text-align: left
+            top: unset
+            bottom: 0
+            padding-bottom: 50px
+            transform: translateY(0%)
+            h1
+                brandon_bold(40px, true)
+                color: $white
+                line-height: normal
+            h2
+                brandon_light_italic(15px, false)
+                color: $white
+                letter-spacing: 0.75px
     h1
         font-size: 0
     .main_image
