@@ -25,7 +25,7 @@
                 <li><nuxt-link rel="canonical" to="/news" class="footer_item">News</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/shop" class="footer_item">Shop</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/terms-&amps;-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/terms-and-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link alt">

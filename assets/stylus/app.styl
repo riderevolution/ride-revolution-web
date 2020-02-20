@@ -6377,6 +6377,20 @@ svg
         brandon_regular(18px, false)
         color: $black
         padding: 20px 0
+    .form_arrow
+        cursor: pointer
+        #arrow
+            .path
+                fill: none
+                stroke: $gray_alt2
+                stroke-linecap: round
+                stroke-width: 2px
+                transition: .3s ease-in-out
+        &:hover
+            #arrow
+                .path
+                    stroke: $green
+                    transition: .3s ease-in-out
     &:last-child
         margin-bottom: 20px
 
@@ -6524,7 +6538,7 @@ svg
             width: 55px
             height: 30px
             top: 50%
-            left: calc(0% - 75px)
+            left: calc(0% - 60px)
             z-index: 1
             background-color: $red
             border-radius: 16px
@@ -6929,6 +6943,14 @@ textarea::placeholder
                 color: $black
                 padding: 40px 60px 30px
                 text-align: center
+                &.alt
+                    padding: 40px 60px 0
+            .form_subtitle
+                brandon_regular(16px, false)
+                color: #7E7E7E
+                letter-spacing: 0.21px
+                text-align: center
+                padding-bottom: 30px
             .form_close
                 position: absolute
                 width: 20px
