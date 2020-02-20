@@ -288,8 +288,10 @@
                 const me = this
                 let result = []
                 for (let i = 0; i < me.toShowPackages; i++) {
-                    me.packages[i].checked = true
-                    result.push(me.packages[i])
+                    if (me.packages[i]) {
+                        me.packages[i].checked = true
+                        result.push(me.packages[i])
+                    }
                 }
                 return result
             },
@@ -313,8 +315,10 @@
                 const me = this
                 let result = []
                 for (let i = 0; i < me.toShowStoreCredits; i++) {
-                    me.credits[i].checked = true
-                    result.push(me.credits[i])
+                    if (me.credits[i]) {
+                        me.credits[i].checked = true
+                        result.push(me.credits[i])
+                    }
                 }
                 return result
             },
