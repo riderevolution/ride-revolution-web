@@ -22,9 +22,9 @@
                     <div class="default_btn" @click="loginUser()">Login / Sign up</div>
                 </li>
                 <li v-else>
-                    <div class="user_dropdown">
+                    <div class="user_dropdown" @click="logout()">
                         <img src="/sample-image-booker.png" />
-                        <h3>Mark Ruffalo</h3>
+                        <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
                     </div>
                 </li>
             </ul>

@@ -14,8 +14,22 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      { src: 'https://apis.google.com/js/platform.js', async: true, defer: true },
+      { src: 'https://connect.facebook.net/en_US/sdk.js' }
+    ],
+    htmlAttrs: {
+      lang: 'en'
+    }
   },
+
+  render: {
+    static: {
+      maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+  },
+
   /*
   ** Customize the progress-bar color
   */
@@ -60,13 +74,19 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios'
   ],
+
+  robots: {
+    UserAgent: '*',
+    Disallow: ''
+  },
+  
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    // baseURL: (process.env.NODE_ENV == "development") ? 'http://api.riderevolution.test' : 'http://api-riderev.designbluemanila.ph',
+    baseURL: (process.env.NODE_ENV == "development") ? 'http://api.riderevolution.test' : 'http://api-riderev.designbluemanila.ph',
     // baseURL: (process.env.NODE_ENV == "development") ? 'http://127.0.0.1:8000' : 'https://api.riderevol.tk',
     credentials: false
   },

@@ -5,11 +5,11 @@
             <section id="login" v-if="!signUp">
                 <h2 class="title">Hi, welcome back!</h2>
                 <div class="action">
-                    <div class="default_btn_login">
+                    <div class="default_btn_login" @click="fbLogin()">
                         <img src="/icons/fb-login.svg" />
                         <span>Login with Facebook</span>
                     </div>
-                    <div class="default_btn_login alt">
+                    <div class="default_btn_login alt" @click="googleLogin()">
                         <img src="/icons/google-login.svg" />
                         <span>Login with Google</span>
                     </div>
@@ -241,7 +241,7 @@
                     <div class="form_group">
                         <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`">
                             <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'" v-model="signUpForm.iAgree">
-                            <label for="i_agree">I agree to the Terms &amp; Conditions and Ride Revolution’s Privacy Policy.</label>
+                            <label for="i_agree">I agree to the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> and Ride Revolution’s <a target="_blank" href="/privacy-policy">Privacy Policy</a>.</label>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ errors.first('register_process_form.i_agree') | properFormat }}</span></transition>
                         </div>
                     </div>
@@ -316,6 +316,58 @@
             }
         },
         methods: {
+            fbLogin () {
+                let me = this
+
+                me.initFB()
+
+                FB.login(res => {
+                    if (res.authResponse) {
+                        FB.api('/me?fields=email,name,first_name,last_name', res => {
+                            let data = res
+                            // me.loader(true)
+                            me.$axios.post('api/login/facebook/', data).then(res => {
+                                console.log(res.data)
+                                let token = res.data.token
+                                me.$cookies.set('token', token, '7d')
+                                location.reload()
+                            }).catch(err => {
+                                console.log(err)
+                                me.$cookies.remove('token')
+                            }).then(() => {
+                                setTimeout(() => {
+                                    // me.loader(false)
+                                }, 300)
+                                me.validateToken()
+                            })
+                        })
+                    } else {
+                        console.log('User cancelled login or did not fully authorize.');
+                    }
+                }, {
+                    scope: 'public_profile,email'
+                })
+            },
+            googleLogin () {
+                let me = this
+                me.$gAuth.signIn().then(res => {
+                    // call backend
+                    let data = res.w3
+                    me.$axios.post('login/google/', data).then(res => {
+                        let token = res.data.token
+                        me.$cookies.set('token', token, '7d')
+                        location.reload()
+                    }).catch(err => {
+                        me.$cookies.remove('token')
+                    }).then(() => {
+                        setTimeout(() => {
+                            me.loader(false)
+                        }, 300)
+                        me.validateToken()
+                    })
+                    // end
+                })
+            },
             /**
              * Submission of forgot password */
             submissionForgotSuccess () {
