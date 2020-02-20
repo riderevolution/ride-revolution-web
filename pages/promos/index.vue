@@ -1,5 +1,5 @@
 <template>
-    <div class="buy_rides">
+    <div class="promo_landing">
         <section id="banner">
             <img src="/default/promo/promo-banner.jpg" />
             <breadcrumb :overlay="true" />
@@ -18,7 +18,9 @@
                     <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
                 </div>
             </div>
-            <div v-if="!checkPromos" class="default_btn load" @click="loadMorePromos()">Load More</div>
+            <div class="action">
+                <div v-if="!checkPromos" class="default_btn load" @click="loadMorePromos()">Load More</div>
+            </div>
         </section>
     </div>
 </template>
