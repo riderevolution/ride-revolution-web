@@ -5094,6 +5094,10 @@ svg
         width: 100%
         max-width: calc(75% + 30px)
         margin: 60px auto
+        .default_btn
+            text-align: center
+            &.load
+                margin: 30px auto 0
         .promo_list
             padding: 20px
             flex: 0 0 calc(33.33% - 30px)
@@ -5102,6 +5106,7 @@ svg
             border: 1px solid $black
             text-align: center
             transform: perspective(0px) scale(1)
+            animation: slide_from_bottom 1s
             transition: .3s ease-in-out
             .header_title
                 brandon_bold(14px, true)
