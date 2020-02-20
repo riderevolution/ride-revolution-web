@@ -5,7 +5,7 @@
             <div class="form_close" @click="toggleClose()"></div>
             <div class="confirmation_image">
                 <img src="/default/meme/oops-meme.jpeg" v-if="!status" />
-                <img src="/default/meme/success-meme.png" v-else />
+                <img src="/default/meme/success-meme.jpg" v-else />
             </div>
             <div class="confirmation_text">
                 {{ message }}

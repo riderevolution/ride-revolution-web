@@ -4,7 +4,7 @@
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose()"></div>
             <div class="confirmation_image">
-                <img src="/default/meme/success-meme.png" />
+                <img src="/default/meme/success-meme.jpg" />
             </div>
             <div class="confirmation_text">
                 {{ message }}

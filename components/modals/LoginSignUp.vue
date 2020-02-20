@@ -486,7 +486,7 @@
             },
             /**
              * Detect height of scroll */
-            windowScroll() {
+            windowLoginScroll () {
                 let height = window.pageYOffset | document.body.scrollTop
                 let element = document.querySelector('.login_sign_up')
                 if (element.classList.contains('front')) {
@@ -496,17 +496,17 @@
                         element.classList.remove('sticky')
                     }
                 }
-            },
+            }
         },
         beforeMount () {
-            window.addEventListener('load', this.windowScroll)
-            window.addEventListener('scroll', this.windowScroll)
-            window.addEventListener('resize', this.windowScroll)
+            window.addEventListener('load', this.windowLoginScroll)
+            window.addEventListener('scroll', this.windowLoginScroll)
+            window.addEventListener('resize', this.windowLoginScroll)
         },
         beforeDestroy () {
-            window.removeEventListener('load', this.windowScroll)
-            window.removeEventListener('scroll', this.windowScroll)
-            window.removeEventListener('resize', this.windowScroll)
+            window.removeEventListener('load', this.windowLoginScroll)
+            window.removeEventListener('scroll', this.windowLoginScroll)
+            window.removeEventListener('resize', this.windowLoginScroll)
         }
     }
 </script>

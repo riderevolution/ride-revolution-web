@@ -336,6 +336,28 @@ svg
         box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.75)
         transition: .3s ease-in-out
 
+.default_btn_red
+    display: inline-block
+    text-align: center
+    width: auto
+    brandon_bold(16px, true)
+    color: $red
+    letter-spacing: .7px
+    padding: 15px 45px
+    background-color: $white
+    outline: none
+    box-shadow: 0px 0px 30px transparent
+    border: 1px solid $red
+    cursor: pointer
+    transition: .3s ease-in-out
+    &.mb
+        margin-bottom: 15px
+    &:hover
+        color: $white
+        background-color: $red
+        box-shadow: 0px 0px 30px rgba(241, 55, 71, 0.75)
+        transition: .3s ease-in-out
+
 .default_btn_blk_alt
     brandon_bold(14px, true)
     line-height: 1
@@ -440,6 +462,7 @@ svg
     outline: none
     background-color: $blue_alt3
     border: 1px solid $blue_alt4
+    cursor: pointer
     transition: .3s ease-in-out
     &.disabled
         cursor: not-allowed
@@ -575,7 +598,9 @@ svg
                         .nav_item
                             color: $black_alt
                             transition: .3s ease-in-out
-                            &:hover
+                            &:hover,
+                            &.nuxt-link-exact-active,
+                            &.nuxt-link-active
                                 color: $green
                                 text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                                 transition: .3s ease-in-out
@@ -4853,6 +4878,7 @@ svg
                             #default_form
                                 .form_main_group
                                     padding: 40px 80px 20px
+                                    border-bottom: 1px solid #EDEEF0
                                     &.alt
                                         padding: 40px 80px 0
                                     &:nth-child(2)
@@ -6332,7 +6358,6 @@ svg
         margin-top: 0
 
 .form_main_group
-    border-bottom: 1px solid #EDEEF0
     .form_header
         margin-bottom: 30px
         label
@@ -6340,6 +6365,20 @@ svg
             brandon_regular(22px, false)
             color: $black
             letter-spacing: 0.33px
+
+.form_inline_group
+    display: flex
+    flex-flow: row wrap
+    align-items: center
+    justify-content: space-between
+    border-bottom: 1px solid #EDEEF0
+    padding: 0 20px
+    label
+        brandon_regular(18px, false)
+        color: $black
+        padding: 20px 0
+    &:last-child
+        margin-bottom: 20px
 
 .form_group
     position: relative
@@ -6446,11 +6485,13 @@ svg
     flex-flow: row wrap
     align-items: center
     label
+        cursor: pointer
         brandon_regular(18px, false)
         margin-bottom: 0px
         margin-left: 20px
     .input_radio
         -webkit-appearance: none
+        cursor: pointer
         outline: none
         width: 21px
         height: 21px
@@ -6467,6 +6508,48 @@ svg
     position: relative
     display: flex
     align-items: center
+    &.toggler
+        flex: 0 0 auto
+        justify-content: flex-end
+        &.active
+            pointer-events: none
+        label
+            sf_pro_regular(18px)
+            margin-bottom: 0
+            margin-left: 0
+        .action_check
+            visibility: hidden
+        .toggle
+            position: absolute
+            width: 55px
+            height: 30px
+            top: 50%
+            left: calc(0% - 75px)
+            z-index: 1
+            background-color: $red
+            border-radius: 16px
+            transform: translateY(-50%)
+            cursor: pointer
+            transition: .3s ease-in-out
+            &.active
+                background-color: $green
+                transition: .3s ease-in-out
+                &::before
+                    left: calc(100% - 29px)
+                    background-color: $white
+                    transition: .3s ease-in-out
+            &::before
+                content: ''
+                position: absolute
+                top: 50%
+                left: calc(0% + 2px)
+                width: 27px
+                height: 27px
+                background-color: $white
+                border-radius: 50%
+                box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16)
+                transform: translateY(-50%)
+                transition: .3s ease-in-out
     &.disabled
         pointer-events: none
         cursor: not-allowed
@@ -6484,6 +6567,7 @@ svg
             color: $green
     .input_check
         -webkit-appearance: none
+        cursor: pointer
         outline: none
         width: 22px
         height: 22px

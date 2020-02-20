@@ -140,8 +140,28 @@
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_2" class="wrapper" v-if="category == 'account-settings'">
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <div id="tab_2" class="accounts wrapper" v-if="category == 'account-settings'">
+                <form id="default_form">
+                    <div class="form_main_group">
+                        <div class="form_header">
+                            <label>Account Settings</label>
+                        </div>
+                        <div class="form_inline_group">
+                            <label for="subscribed" @click="toggleSubscribe()">Subscribe to Ride Revolution newsletter</label>
+                            <div class="form_check toggler" @click="toggleSubscribe()">
+                                <input type="hidden" id="subscribed" name="subscribed" class="action_check" :value="(subscribed) ? 1 : 0">
+                                <div :class="`toggle ${(subscribed) ? 'active' : ''}`"></div>
+                            </div>
+                        </div>
+                        <div class="form_inline_group">
+                            <label>Change Password</label>
+                            <div class="form_arrow" @click="toggleChangePassword()"></div>
+                        </div>
+                    </div>
+                    <div class="form_button">
+                        <button type="button" class="default_btn_red">Deactivate Account</button>
+                    </div>
+                </form>
             </div>
         </transition>
     </div>
@@ -157,6 +177,7 @@
         },
         data () {
             return {
+                subscribed: true,
                 copied: false,
                 height: 0,
                 unique: 0,
@@ -216,6 +237,15 @@
                 setTimeout( () => {
                     me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
                 }, 10)
+            },
+            toggleSubscribe () {
+                const me = this
+                me.subscribed ^= true
+            },
+            toggleChangePassword () {
+                const me = this
+                me.$store.state.changePasswordStatus = true
+                document.body.classList.add('no_scroll')
             },
             copyPersonalAddress () {
                 const me = this

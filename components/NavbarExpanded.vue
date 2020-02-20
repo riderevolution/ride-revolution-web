@@ -20,7 +20,7 @@
                 <ul class="expanded_nav_list">
                     <li><nuxt-link class="nav_item" to="/about" @click.native="toggleNavbarExpanded()">About</nuxt-link></li>
                     <li><nuxt-link class="nav_item" to="/ride-rewards" @click.native="toggleNavbarExpanded()">Ride Rewards</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/whats-new" @click.native="toggleNavbarExpanded()">What's New</nuxt-link></li>
+                    <li><nuxt-link class="nav_item" to="/whats-new" @click.native="toggleNavbarExpanded()">Promos</nuxt-link></li>
                     <li><nuxt-link class="nav_item" to="/news" @click.native="toggleNavbarExpanded()">News</nuxt-link></li>
                     <li><nuxt-link class="nav_item" to="/faqs" @click.native="toggleNavbarExpanded()">Faqs</nuxt-link></li>
                     <li><nuxt-link class="nav_item" to="/refer-a-friend" @click.native="toggleNavbarExpanded()">Refer a Friend</nuxt-link></li>

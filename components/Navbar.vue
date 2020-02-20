@@ -1,5 +1,5 @@
 <template>
-    <div id="header" :class="`${($route.fullPath == '/') ? 'front' : ($route.fullPath == '/instructors' ? 'instructor' : 'not_front')} ${($store.state.loginSignUpStatus) ? 'login' : ''}`">
+    <div id="header" :class="`${(height > 200) ? 'sticky' : ''} ${($route.fullPath == '/') ? 'front' : ($route.fullPath == '/instructors' ? 'instructor' : 'not_front')} ${($store.state.loginSignUpStatus) ? 'login' : ''}`">
         <div class="navbar">
             <nuxt-link rel="canonical" to="/" class="logo">
                 <img src="/logo.svg" />
@@ -16,7 +16,7 @@
                     <nuxt-link rel="canonical" to="/book-a-bike" class="nav_item">Book a Bike</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link rel="canonical" to="/whats-new" class="nav_item">What's New</nuxt-link>
+                    <nuxt-link rel="canonical" to="/instructors" class="nav_item">Instructors</nuxt-link>
                 </li>
                 <li v-if="!$store.state.isAuth">
                     <div class="default_btn" @click="loginUser()">Login / Sign up</div>
@@ -49,6 +49,7 @@
     export default {
         data () {
             return {
+                height: 0
             }
         },
         methods: {
@@ -56,21 +57,19 @@
                 const me = this
                 me.$store.state.loginSignUpStatus = true
                 document.body.classList.add('no_scroll')
+                me.windowScroll()
             },
             toggleNavbarExpanded () {
                 const me = this
                 me.$store.state.isExpanded = true
                 document.body.classList.add('no_scroll')
             },
-            windowScroll() {
+            windowScroll () {
+                const me = this
                 let height = window.pageYOffset | document.body.scrollTop
                 let element = document.querySelector('#header')
                 if (element.classList.contains('front')) {
-                    if (height >= 200) {
-                        element.classList.add('sticky')
-                    } else {
-                        element.classList.remove('sticky')
-                    }
+                    me.height = height
                 }
             },
         },
