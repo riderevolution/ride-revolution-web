@@ -20,12 +20,12 @@
                 <form id="default_form" data-vv-scope="login_form" @submit.prevent="submissionLoginSuccess()">
                     <div class="form_group">
                         <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="loginForm.email">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.email')">{{ errors.first('login_form.email') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
+                        <input type="password" id="password" name="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="loginForm.password">
                         <transition name="fade">
                             <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>
@@ -280,7 +280,11 @@
                     iAgree: ''
                 },
                 hasReadTerms: false,
-                signUpStep: null
+                signUpStep: null,
+                loginForm: {
+                    email: '',
+                    password: '',
+                }
             }
         },
         filters: {
@@ -325,18 +329,19 @@
                     if (res.authResponse) {
                         FB.api('/me?fields=email,name,first_name,last_name', res => {
                             let data = res
-                            // me.loader(true)
+                            me.loader(true)
                             me.$axios.post('api/login/facebook/', data).then(res => {
-                                console.log(res.data)
                                 let token = res.data.token
                                 me.$cookies.set('token', token, '7d')
-                                location.reload()
+                                me.$store.state.isAuth = true
+                                me.$store.state.loginSignUpStatus = false
+                                document.body.classList.remove('no_scroll')
                             }).catch(err => {
                                 console.log(err)
                                 me.$cookies.remove('token')
                             }).then(() => {
                                 setTimeout(() => {
-                                    // me.loader(false)
+                                    me.loader(false)
                                 }, 300)
                                 me.validateToken()
                             })
@@ -509,9 +514,22 @@
                 const me = this
                 me.$validator.validateAll('login_form').then(valid => {
                     if (valid) {
-                        me.$store.state.isAuth = true
-                        me.$store.state.loginSignUpStatus = false
-                        document.body.classList.remove('no_scroll')
+                        me.loader(true)
+                        me.$axios.post('api/customer-login', me.loginForm).then(res => {
+                            let token = res.data.token
+                            me.$cookies.set('token', token, '7d')
+                            me.$store.state.isAuth = true
+                            me.$store.state.loginSignUpStatus = false
+                            document.body.classList.remove('no_scroll')
+                        }).catch(err => {
+                            alert(err.response.data.errors[0])
+                            console.log(err)
+                        }).then(() => {
+                            setTimeout(() => {
+                                me.loader(false)
+                            }, 300)
+                            me.validateToken()
+                        })
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
