@@ -65,14 +65,13 @@ Vue.mixin({
         },
         logout () {
             let token = this.$cookies.get('token')
-            this.$axios.post('api/logout', {}, {
+            this.$axios.post('/api/logout', {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             }).then(res => {
                 this.$cookies.remove('token')
                 this.$store.state.isAuth = false
-                this.$router.push('/login')
             }).catch(err => {
                 console.log(err)
             })
@@ -109,6 +108,14 @@ Vue.mixin({
             await me.validateToken()
             let api = await me.$axios.get(apiRoute)
             return api
+        },
+        async initFB () {
+            await FB.init({
+                appId            : '3306202862739419',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v3.3'
+            })
         }
     }
 })

@@ -41,6 +41,7 @@
         watch:{
             $route (to, from){
                 const me = this
+                me.validateToken()
                 document.body.classList.remove('no_scroll')
                 me.$store.state.changePasswordStatus = false
                 me.$store.state.forgotPasswordSuccessStatus = false
@@ -67,6 +68,7 @@
         mounted () {
             const me = this
             me.onResize()
+            me.validateToken()
         },
         beforeMount () {
             window.addEventListener('load', this.onResize)
