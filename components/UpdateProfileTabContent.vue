@@ -155,20 +155,32 @@
                         </div>
                         <div class="form_inline_group">
                             <label>Change Password</label>
-                            <div class="form_arrow" @click="toggleChangePassword()"></div>
+                            <div class="form_arrow" @click="toggleChangePassword()"><svg id="arrow" xmlns="http://www.w3.org/2000/svg" width="11.46" height="20.09" viewBox="0 0 11.46 20.09"> <path class="path" d="M9324.543,3625.279l8.631,8.631c.007.007-8.631,8.631-8.631,8.631" transform="translate(-9323.128 -3623.865)"/> </svg></div>
                         </div>
                     </div>
                     <div class="form_button">
-                        <button type="button" class="default_btn_red">Deactivate Account</button>
+                        <nuxt-link to="/my-profile/deactivate-account" class="default_btn_red">Deactivate Account</nuxt-link>
                     </div>
                 </form>
             </div>
+        </transition>
+        <transition name="fade">
+            <change-password v-if="$store.state.changePasswordStatus" />
+        </transition>
+        <transition name="fade">
+            <buy-rides-prompt v-if="$store.state.buyRidesPromptStatus" :status="true" :message="message" />
         </transition>
     </div>
 </template>
 
 <script>
+    import ChangePassword from './modals/ChangePassword'
+    import BuyRidesPrompt from './modals/BuyRidesPrompt'
     export default {
+        components: {
+            ChangePassword,
+            BuyRidesPrompt
+        },
         props: {
             category: {
                 type: String,

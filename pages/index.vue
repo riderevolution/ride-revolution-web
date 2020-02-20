@@ -23,7 +23,7 @@
             </div>
             <div class="overlay_bottom">
                 <p>The revolution begins with you. Joir our high intensity, low impact, full body workout on a bike, led by passionate and charismatic instructors.</p>
-                <a href="javascript:void(0)" class="default_btn">Let's Begin</a>
+                <nuxt-link to="/about-us" rel="canonical" class="default_btn">About Us</nuxt-link>
                 <div class="scroll_mobile" v-if="$parent.$parent.isMobile">
                     <img src="/icons/scroll-down.svg" @click="scrollDown()" />
                 </div>
