@@ -101,6 +101,12 @@
                     document.getElementById('confirm_password').type = 'text'
                 }
             }
+        },
+        mounted () {
+            const me = this
+            if (!me.$route.query.token) {
+                alert('GAGO!')
+            }
         }
     }
 </script>
