@@ -33,7 +33,7 @@
                     </div>
                     <transition name="slide">
                         <div class="form_group" v-if="user.reason == 'others'">
-                            <textarea name="other_details" placeholder="Enter your explanation here" rows="5" class="input_text" key="other_details" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$'}"></textarea>
+                            <textarea name="other_details" placeholder="Enter you " rows="5" class="input_text" key="other_details" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$'}"></textarea>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('other_details')">{{ errors.first('other_details') | properFormat }}</span></transition>
                         </div>
                     </transition>
@@ -48,14 +48,19 @@
                 </div>
             </form>
         </section>
+        <transition name="fade">
+            <deactivate-account-prompt v-if="$store.state.deactivateAccountPromptStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
     import Breadcrumb from '../../../components/Breadcrumb'
+    import DeactivateAccountPrompt from '../../../components/modals/DeactivateAccountPrompt'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            DeactivateAccountPrompt
         },
         data () {
             return {
@@ -101,7 +106,8 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-
+                        me.$store.state.deactivateAccountPromptStatus = true
+                        document.body.classList.add('no_scroll')
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
