@@ -81,7 +81,8 @@
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
                         me.$store.state.changePasswordStatus = false
-                        document.body.classList.remove('no_scroll')
+                        me.$store.state.buyRidesPromptStatus = true
+                        me.$parent.message = "You've successfully changed your password."
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',

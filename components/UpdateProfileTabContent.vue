@@ -167,13 +167,19 @@
         <transition name="fade">
             <change-password v-if="$store.state.changePasswordStatus" />
         </transition>
+        <transition name="fade">
+            <buy-rides-prompt v-if="$store.state.buyRidesPromptStatus" :status="true" :message="message" />
+        </transition>
     </div>
 </template>
+
 <script>
     import ChangePassword from './modals/ChangePassword'
+    import BuyRidesPrompt from './modals/BuyRidesPrompt'
     export default {
         components: {
-            ChangePassword
+            ChangePassword,
+            BuyRidesPrompt
         },
         props: {
             category: {
