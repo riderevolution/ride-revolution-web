@@ -343,7 +343,7 @@ svg
     brandon_bold(16px, true)
     color: $red
     letter-spacing: .7px
-    padding: 15px 45px
+    padding: 14px 45px
     background-color: $white
     outline: none
     box-shadow: 0px 0px 30px transparent
@@ -4896,6 +4896,11 @@ svg
         .fill_2
             fill: #000
             transition: .3s ease-in-out
+.deactivate_account
+    #content
+        width: 100%
+        max-width: 75%
+        margin: 60px auto
 
 /**
  * Upcoming Classes */
@@ -6248,6 +6253,8 @@ svg
     align-items: center
     justify-content: space-between
     margin-bottom: 30px
+    &.alt
+        justify-content: center
     .form_flex
         flex: 0 0 50%
         margin-bottom: 0
@@ -6350,6 +6357,8 @@ svg
 .form_button
     text-align: right
     margin-top: 30px
+    &.margin
+        margin-left: 20px
 
 .form_content
     margin-top: 30px
@@ -6357,9 +6366,45 @@ svg
     &.alt
         margin-top: 0
 
+.form_radio_group
+    position: relative
+    .form_radio
+        margin-bottom: 20px
+    .validation_errors
+        position: absolute
+        top: calc(100% + 5px)
+        background-color: $red
+        color: $white
+        brandon_medium(16px, false)
+        z-index: 2
+        padding: 5px 10px
+        border-radius: 5px
+        user-select: none
+        left: 0
+        &::before
+            content: ""
+            position: absolute
+            bottom: calc(100% - 1px)
+            width: 0
+            height: 0
+            border-left: 7px solid transparent
+            border-right: 7px solid transparent
+            border-bottom: 7px solid $red
+            left: 17px
+            z-index: 1
+
 .form_main_group
     .form_header
         margin-bottom: 30px
+        h1
+            brandon_bold(24px, false)
+            color: $black
+            letter-spacing: 0.36px
+            margin-bottom: 20px
+        h2
+            brandon_regular(16px, false)
+            color: $black
+            letter-spacing: 0.24px
         label
             display: block
             brandon_regular(22px, false)
@@ -6651,6 +6696,17 @@ textarea:-ms-input-placeholder
 textarea::placeholder
     color: $gray
     text-transform: none
+
+textarea::-webkit-scrollbar
+    width: 20px
+    background-color: #FAFAFA
+textarea::-webkit-scrollbar-track
+    box-shadow: none
+textarea::-webkit-scrollbar-thumb
+    background-color: $gray
+    border: 5px solid rgba(0, 0, 0, 0)
+    background-clip: padding-box
+    border-radius: 50px
 
 .input_link
     brandon_regular(16px, false)

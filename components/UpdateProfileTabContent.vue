@@ -159,7 +159,7 @@
                         </div>
                     </div>
                     <div class="form_button">
-                        <button type="button" class="default_btn_red">Deactivate Account</button>
+                        <nuxt-link to="/my-profile/deactivate-account" class="default_btn_red">Deactivate Account</nuxt-link>
                     </div>
                 </form>
             </div>
