@@ -3157,19 +3157,56 @@ svg
                 flex: 0 0 45%
                 img
                     {image_default}
-        #gym_icons
-            .stroke
-                fill: none
-                stroke-miterlimit: 10
-                stroke-width: 1.4px
-            .stroke_1
-                stroke: $black_alt2
-                stroke-dasharray: 500
-                animation: dash 5s linear
-            .stroke_2
-                stroke: #f5848e
-                stroke-dasharray: 500
-                animation: dash 5s linear
+    #gym_icons
+        .stroke
+            fill: none
+            stroke-miterlimit: 10
+            stroke-width: 1.4px
+        .stroke_1
+            stroke: $black_alt2
+            stroke-dasharray: 500
+            animation: dash 5s linear
+        .stroke_2
+            stroke: #f5848e
+            stroke-dasharray: 500
+            animation: dash 5s linear
+    #additional
+        padding: 60px 0
+        background-color: $white
+        .info
+            width: 100%
+            max-width: 65%
+            margin: 0 auto
+            p
+                brandon_regular(16px, false)
+                color: $black
+                letter-spacing: 0.8px
+        .experiences
+            display: flex
+            flex-flow: row wrap
+            width: 100%
+            max-width: calc(65% + 30px)
+            margin: 40px auto 0
+            .wrapper
+                flex: 0 0 calc(50% - 30px)
+                margin: 15px
+                border: 1px solid $black
+                padding: 100px 40px
+                .exp_top
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    margin-bottom: 20px
+                    .title
+                        brandon_bold(25px, true)
+                        color: $black
+                        letter-spacing: 0.63px
+                        padding-left: 20px
+                .description
+                    brandon_regular(16px, false)
+                    color: $black
+                    letter-spacing: 0.8px                
+
 /**
  * Riders Guide */
 .riders_guide
