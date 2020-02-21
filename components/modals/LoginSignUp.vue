@@ -339,6 +339,7 @@
                                 me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
+                                me.$router.push('/')
                             }).catch(err => {
                                 console.log(err)
                                 me.$cookies.remove('token')
@@ -360,20 +361,29 @@
                 let me = this
                 me.$gAuth.signIn().then(res => {
                     // call backend
-                    console.log(res)
-                    // me.$axios.post('login/google/', data).then(res => {
-                    //     let token = res.data.token
-                    //     me.$cookies.set('token', token, '7d')
-                    //     location.reload()
-                    // }).catch(err => {
-                    //     me.$cookies.remove('token')
-                    // }).then(() => {
-                    //     setTimeout(() => {
-                    //         me.loader(false)
-                    //     }, 300)
-                    //     me.validateToken()
-                    // })
-                    // end
+                    let profile = res.getBasicProfile()
+                    let data = {
+                        email: profile.getEmail(),
+                        google_id: profile.getId(),
+                        first_name: profile.getGivenName(),
+                        last_name: profile.getFamilyName(),
+                    }
+                    me.$axios.post('api/login/google/', data).then(res => {
+                        let token = res.data.token
+                        me.$cookies.set('token', token, '7d')
+                        me.$store.state.isAuth = true
+                        me.$store.state.loginSignUpStatus = false
+                        document.body.classList.remove('no_scroll')
+                        me.$router.push('/')
+                    }).catch(err => {
+                        console.log(err)
+                        me.$cookies.remove('token')
+                    }).then(() => {
+                        setTimeout(() => {
+                            me.loader(false)
+                        }, 300)
+                        me.validateToken()
+                    })
                 })
             },
             /**
@@ -526,10 +536,9 @@
                         me.loader(true)
                         me.$axios.post('api/customer-login', me.loginForm).then(res => {
                             let token = res.data.token
-                            me.$cookies.set('token', token, '7d')
-                            me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
+                            me.$router.push('/')
                         }).catch(err => {
                             alert(err.response.data.errors[0])
                             console.log(err)
@@ -537,7 +546,6 @@
                             setTimeout(() => {
                                 me.loader(false)
                             }, 300)
-                            me.validateToken()
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {
