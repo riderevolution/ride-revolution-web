@@ -1,5 +1,6 @@
 <template>
     <div class="book_a_bike inner">
+        <breadcrumb :overlay="false" />
         <section id="banner"></section>
         <transition name="slide">
             <pro-tip v-if="$store.state.proTipStatus" />
@@ -53,7 +54,7 @@
                             </ul>
                         </div>
                         <div class="actions">
-                            <a href="javascript:void()" class="default_btn" v-if="!checkPackage">Buy Rides</a>
+                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                             <transition name="fade">
                                 <div class="next_wrapper" v-if="checkPackage">
                                     <div class="left">
@@ -79,7 +80,7 @@
                                         </div>
                                     </div>
                                     <div class="right">
-                                        <a href="javascript:void()" class="default_btn">Next</a>
+                                        <nuxt-link to="/book-a-bike/asdasd/asdasdasd" class="default_btn">Next</nuxt-link>
                                     </div>
                                 </div>
                             </transition>
@@ -113,6 +114,7 @@
 </template>
 
 <script>
+    import Breadcrumb from '../../../components/Breadcrumb'
     import ProTip from '../../../components/ProTip'
     import BookerAssign from '../../../components/modals/BookerAssign'
     import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
@@ -123,6 +125,7 @@
     import BookerAssignSuccess from '../../../components/modals/BookerAssignSuccess'
     export default {
         components: {
+            Breadcrumb,
             ProTip,
             BookerAssign,
             BookerChoosePackage,

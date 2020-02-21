@@ -71,7 +71,11 @@ Vue.mixin({
                 }
             }).then(res => {
                 this.$cookies.remove('token')
-                this.$store.state.isAuth = false
+                if (this.$store.state.isAuth) {
+                    window.location.assign('/')
+                } else {
+                    this.$store.state.isAuth = false
+                }
             }).catch(err => {
                 console.log(err)
             })

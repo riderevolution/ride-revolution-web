@@ -32,8 +32,7 @@
                 <div class="instructor_content">
                     <no-ssr>
                         <swiper :options="instructorOptions" class="default alt2">
-                            <swiper-slide class="wrapper" v-for="(data, key) in instructors" :key="key">
-                                <div class="trigger" @mouseover="toggleActionHover(key)" @mouseleave="toggleActionLeave(key)"></div>
+                            <swiper-slide class="wrapper" :id="`item_${key}`" v-for="(data, key) in instructors" :key="key" @mouseover.native="toggleActionHover(key)" @mouseleave.native="toggleActionLeave(key)">
                                 <div :id="`ins_${key}`">
                                     <a class="follow" href="javascript:void(0)"><img src="/icons/ig-white-icon.svg" /><span>Follow</span></a>
                                     <img class="main" src="/default/instructor/sample-instructor.png" />
@@ -510,12 +509,12 @@
             },
             toggleActionHover (key) {
                 const me = this
-                let element = document.getElementById(`ins_${key}`)
+                let element = document.getElementById(`item_${key}`)
                 element.querySelector('.action').style.height = `${element.querySelector('.action').scrollHeight}px`
             },
             toggleActionLeave (key) {
                 const me = this
-                let element = document.getElementById(`ins_${key}`)
+                let element = document.getElementById(`item_${key}`)
                 element.querySelector('.action').style.height = `0px`
             }
         }
