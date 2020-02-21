@@ -105,7 +105,7 @@
         mounted () {
             const me = this
             if (!me.$route.query.token) {
-                alert('GAGO!')
+                // alert('GAGO!')
             }
         }
     }

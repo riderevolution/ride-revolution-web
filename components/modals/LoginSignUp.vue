@@ -54,16 +54,16 @@
             <section id="login" v-if="forgotPassword">
                 <h2 class="title">Forgot your password?</h2>
                 <h3 class="subtitle">Just leave it to us. Please enter your email address where we can send your new password.</h3>
-                <form id="default_form" data-vv-scope="forgot_form">
+                <form id="default_form" data-vv-scope="forgot_form" @submit.prevent="submissionForgotSuccess()">
                     <div class="form_group">
                         <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="forgotPasswordForm.email">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ errors.first('forgot_form.email') | properFormat }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
                         <div class="back" @click="toggleStep('forgot')">Back</div>
                         <div class="form_button">
-                            <button type="button" class="default_btn full" @click="submissionForgotSuccess()">Send</button>
+                            <button type="submit" class="default_btn full">Send</button>
                         </div>
                     </div>
                 </form>
@@ -284,6 +284,9 @@
                 loginForm: {
                     email: '',
                     password: '',
+                },
+                forgotPasswordForm: {
+                    email: ''
                 }
             }
         },
@@ -357,19 +360,19 @@
                 let me = this
                 me.$gAuth.signIn().then(res => {
                     // call backend
-                    let data = res.w3
-                    me.$axios.post('login/google/', data).then(res => {
-                        let token = res.data.token
-                        me.$cookies.set('token', token, '7d')
-                        location.reload()
-                    }).catch(err => {
-                        me.$cookies.remove('token')
-                    }).then(() => {
-                        setTimeout(() => {
-                            me.loader(false)
-                        }, 300)
-                        me.validateToken()
-                    })
+                    console.log(res)
+                    // me.$axios.post('login/google/', data).then(res => {
+                    //     let token = res.data.token
+                    //     me.$cookies.set('token', token, '7d')
+                    //     location.reload()
+                    // }).catch(err => {
+                    //     me.$cookies.remove('token')
+                    // }).then(() => {
+                    //     setTimeout(() => {
+                    //         me.loader(false)
+                    //     }, 300)
+                    //     me.validateToken()
+                    // })
                     // end
                 })
             },
@@ -379,7 +382,13 @@
                 const me = this
                 me.$validator.validateAll('forgot_form').then(valid => {
                     if (valid) {
-                        me.$store.state.forgotPasswordSuccessStatus = true
+                        me.$axios.post('api/forgot-password', me.forgotPasswordForm).then(res => {
+                            me.$store.state.loginSignUpStatus = false
+                            document.body.classList.remove('no_scroll')
+                            me.$store.state.forgotPasswordSuccessStatus = true
+                        }).catch(err => {
+                            console.log(err)
+                        })
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
