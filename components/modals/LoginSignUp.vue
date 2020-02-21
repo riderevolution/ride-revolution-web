@@ -93,7 +93,7 @@
                     </div>
                     <div class="form_group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" ref="password" v-model="signUpForm.password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
+                        <input type="password" id="password" name="password" ref="password" v-model="signUpForm.password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
                         <transition name="fade">
                             <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>
@@ -103,15 +103,15 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password')">{{ errors.first('register_form.password') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
-                        <label for="confirm_password">Confirm Password</label>
-                        <input type="password" id="confirm_password" name="confirm_password" v-model="signUpForm.confirmPassword" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
+                        <label for="password_confirmation">Confirm Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" v-model="signUpForm.password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
                         <transition name="fade">
                             <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>
                         <transition name="fade">
                             <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="showConfirmPassword"><img src="/icons/show-pw.svg" /></div>
                         </transition>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.confirm_password')">{{ errors.first('register_form.confirm_password') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password_confirmation')">{{ errors.first('register_form.password_confirmation') | properFormat }}</span></transition>
                     </div>
                     <div class="form_button">
                         <button type="button" class="default_btn full" @click="submissionRegisterSuccess()">Sign up</button>
@@ -268,12 +268,12 @@
                 signUp: false,
                 signUpProcess: false,
                 signUpForm: {
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    firstName: '',
-                    lastName: '',
-                    contactNumber: '',
+                    email: 'dthrcrpz@gmail.com',
+                    password: 'password',
+                    password_confirmation: 'password',
+                    firstName: 'Deither',
+                    lastName: 'Corpuz',
+                    contactNumber: '09085532912',
                     birthDate: new Date(),
                     whatDoYouDo: '',
                     sex: '',
@@ -420,9 +420,14 @@
                 const me = this
                 me.$validator.validateAll('register_process_form').then(valid => {
                     if (valid) {
-                        me.$router.push('/my-profile')
-                        me.$store.state.loginSignUpStatus = false
-                        document.body.classList.remove('no_scroll')
+                        me.$axios.post('api/user/register', me.signUpForm).then(res => {
+                            console.log(res.data)
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                        // me.$router.push('/my-profile')
+                        // me.$store.state.loginSignUpStatus = false
+                        // document.body.classList.remove('no_scroll')
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
@@ -514,10 +519,10 @@
                 const me = this
                 if (status) {
                     me.showConfirmPassword = false
-                    document.getElementById('confirm_password').type = 'password'
+                    document.getElementById('password_confirmation').type = 'password'
                 } else {
                     me.showConfirmPassword = true
-                    document.getElementById('confirm_password').type = 'text'
+                    document.getElementById('password_confirmation').type = 'text'
                 }
             },
             /**

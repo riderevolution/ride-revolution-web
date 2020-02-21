@@ -65,19 +65,27 @@ Vue.mixin({
         },
         logout () {
             let token = this.$cookies.get('token')
+            if (token) {
+                this.loader(true)
+            }
             this.$axios.post('/api/logout', {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             }).then(res => {
+                // wala
+            }).catch(err => {
+                console.log(err)
+            }).then(() => {
                 this.$cookies.remove('token')
                 if (this.$store.state.isAuth) {
-                    window.location.assign('/')
+                    setTimeout(() => {
+                        this.loader(false)
+                        window.location.assign('/')
+                    }, 500)
                 } else {
                     this.$store.state.isAuth = false
                 }
-            }).catch(err => {
-                console.log(err)
             })
         },
         validateToken () {
