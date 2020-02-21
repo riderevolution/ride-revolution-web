@@ -1,38 +1,41 @@
 <template>
     <div class="reset_password">
         <section id="banner"></section>
-        <form id="default_form" @submit.prevent="submissionResetSuccess()">
+        <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == true">
             <div class="form_main_group">
                 <div class="form_header">
                     <label>Reset Password</label>
                 </div>
                 <div class="form_group">
                     <label for="password">New Password</label>
-                    <input type="password" id="password" name="password" ref="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
+                    <input type="password" id="password" name="password" ref="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password">
                     <transition name="fade">
                         <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
                     </transition>
                     <transition name="fade">
                         <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
                     </transition>
-                    <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password')">{{ errors.first('register_form.password') | properFormat }}</span></transition>
+                    <transition name="slide"><span class="validation_errors" v-if="errors.has('password')">{{ errors.first('password') | properFormat }}</span></transition>
                 </div>
                 <div class="form_group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
+                    <label for="password_confirmation">Confirm Password</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password_confirmation">
                     <transition name="fade">
                         <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
                     </transition>
                     <transition name="fade">
                         <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="showConfirmPassword"><img src="/icons/show-pw.svg" /></div>
                     </transition>
-                    <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.confirm_password')">{{ errors.first('register_form.confirm_password') | properFormat }}</span></transition>
+                    <transition name="slide"><span class="validation_errors" v-if="errors.has('password_confirmation')">{{ errors.first('password_confirmation') | properFormat }}</span></transition>
                 </div>
             </div>
             <div class="form_button">
-                <button type="submit" class="default_btn">Reset</button>
+                <button type="submit" class="default_btn">Submit</button>
             </div>
         </form>
+        <div class="invalid-token" v-else>
+            {{ validToken }}
+        </div>
     </div>
 </template>
 
@@ -41,7 +44,15 @@
         data () {
             return{
                 showPassword: false,
-                showConfirmPassword: false
+                showConfirmPassword: false,
+                resetPasswordForm: {
+                    password: '',
+                    password_confirmation: '',
+                    _method: 'PATCH',
+                    token: null
+                },
+                res: null,
+                validToken: true
             }
         },
         filters: {
@@ -77,6 +88,33 @@
             }
         },
         methods: {
+            submissionResetSuccess () {
+                let me = this
+                me.$validator.validateAll('login_form').then(valid => {
+                    if (valid) {
+                        me.loader(true)
+                        me.$axios.post('api/forgot-password', me.resetPasswordForm).then(res => {
+                            let token = res.data.token
+                            me.$cookies.set('token', token, '7d')
+                            me.$store.state.isAuth = true
+                            me.$store.state.loginSignUpStatus = false
+                            document.body.classList.remove('no_scroll')
+                        }).catch(err => {
+                            alert(err.response.data.errors[0])
+                            console.log(err)
+                        }).then(() => {
+                            setTimeout(() => {
+                                me.loader(false)
+                            }, 300)
+                        })
+                    } else {
+                        me.$scrollTo('.validation_errors', {
+                            container: '#default_form',
+                            offset: -250
+                        })
+                    }
+                })
+            },
             /**
              * Toggling of Show/Hide password */
             togglePassword (status) {
@@ -95,18 +133,24 @@
                 const me = this
                 if (status) {
                     me.showConfirmPassword = false
-                    document.getElementById('confirm_password').type = 'password'
+                    document.getElementById('password_confirmation').type = 'password'
                 } else {
                     me.showConfirmPassword = true
-                    document.getElementById('confirm_password').type = 'text'
+                    document.getElementById('password_confirmation').type = 'text'
                 }
+            },
+            validateResetPasswordToken () {
+                this.$axios.get(`api/reset-password/validate-token/${this.$route.query.token}`).then(res => {
+                    this.validToken = true
+                    this.resetPasswordForm.token = this.$route.query.token
+                }).catch(err => {
+                    console.log(err)
+                    this.validToken = err.response.data.errors[0]
+                })
             }
         },
         mounted () {
-            const me = this
-            if (!me.$route.query.token) {
-                // alert('GAGO!')
-            }
-        }
+            this.validateResetPasswordToken()
+        },
     }
 </script>
