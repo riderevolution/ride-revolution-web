@@ -22,7 +22,7 @@
                 <div class="left">
                     <no-ssr>
                         <GmapMap
-                            :center="{lat:14.5529068, lng:121.0206284}"
+                            :center="{lat:mapLat, lng:mapLng}"
                             :zoom="15"
                             :options="{
                                 zoomControl: true,
@@ -35,7 +35,7 @@
                             style="width: 100%; height: 600px"
                         >
                             <GmapMarker
-                                :position="{lat:14.5529068, lng:121.0206284}"
+                                :position="{lat:mapLat, lng:mapLng}"
                                 :clickable="true"
                             >
                             </GmapMarker>
@@ -78,6 +78,8 @@
         },
         data () {
             return {
+                mapLat: 14.5529068,
+                mapLng: 121.0206284,
                 numbers: [
                     {
                         path: '<svg id="numbering" xmlns="http://www.w3.org/2000/svg" width="168.025" height="172" viewBox="0 0 168.025 172"> <g transform="translate(-173 -503)"> <path class="stroke_1 stroke" d="M20245.178-18893.389h80.66" transform="translate(-20044 19487.48)" /> <path class="stroke_1 stroke" d="M20245.178-18893.389h92.1" transform="translate(-20047 19499.48)" /> <path class="stroke_1 stroke" d="M20245.178-18893.389h16" transform="translate(-19958 19487.48)" /> <path class="stroke_1 stroke" d="M20255.176-18893.389h11.18" transform="translate(-19952.178 19499.48)" /> <path class="stroke_2 stroke" d="M20245.18-18893.908h107.838" transform="translate(-20047.178 19513)" /> <path class="stroke_2 stroke" d="M20245.178-18893.908h29.848" transform="translate(-19934 19513)" /> <path class="stroke_3 stroke" d="M20245.178-18893.908h96.66" transform="translate(-20042 19467)" /> <path class="stroke_3 stroke" d="M20245.178-18893.908h96.66" transform="translate(-20044 19477)" /> <path class="stroke_3 stroke" d="M20245.178-18893.908h22.211" transform="translate(-19940 19467)" /> <path class="stroke_3 stroke" d="M20245.176-18893.908h19.586" transform="translate(-19942 19477)" /> <text class="stroke_4" transform="translate(173 629)"> <tspan x="0" y="0">1</tspan> </text> </g> </svg>',
@@ -99,6 +101,8 @@
                         description: 'Unit GD107 North Wing, EDSA cor. Shaw Blvd. Mandaluyong City, Metro Manila, Philippines',
                         mail: 'shang@riderevolution.com',
                         contact: '0977 827 7433',
+                        lat: 14.5567487,
+                        lng: 121.0247024,
                         toggled: false
                     },
                     {
@@ -107,6 +111,8 @@
                         description: 'Unit GD107 North Wing, EDSA cor. Shaw Blvd. Mandaluyong City, Metro Manila, Philippines',
                         mail: 'shang@riderevolution.com',
                         contact: '0977 827 7433',
+                        lat: 14.5715771,
+                        lng: 121.017278,
                         toggled: false
                     },
                     {
@@ -115,6 +121,8 @@
                         description: 'Unit GD107 North Wing, EDSA cor. Shaw Blvd. Mandaluyong City, Metro Manila, Philippines',
                         mail: 'shang@riderevolution.com',
                         contact: '0977 827 7433',
+                        lat: 14.5567487,
+                        lng: 121.0247024,
                         toggled: false
                     }
                 ]
@@ -127,6 +135,8 @@
                 me.studios.forEach((element, index) => {
                     let elements = document.getElementById(`item_${index}`)
                     if (key == index) {
+                        me.mapLat = element.lat
+                        me.mapLng = element.lng
                         if (element.toggled) {
                             element.toggled = false
                             target.querySelector('.info').style.height = `${0}px`
