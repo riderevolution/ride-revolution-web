@@ -1,7 +1,12 @@
 <template>
     <div class="reset_password">
         <section id="banner"></section>
-        <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == true">
+
+        <div class="reset-done" v-if="resetDone">
+            <p>Password changed successfully. Click <a href="javascript:void(0)" @click="loginUser()">here</a> to login.</p>
+        </div>
+
+        <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == 1 && !resetDone">
             <div class="form_main_group">
                 <div class="form_header">
                     <label>Reset Password</label>
@@ -33,7 +38,7 @@
                 <button type="submit" class="default_btn">Submit</button>
             </div>
         </form>
-        <div class="invalid-token" v-else>
+        <div class="invalid-token" v-if="validToken != 1 && !resetDone">
             {{ validToken }}
         </div>
     </div>
@@ -52,7 +57,8 @@
                     token: null
                 },
                 res: null,
-                validToken: true
+                validToken: 1,
+                resetDone: false
             }
         },
         filters: {
@@ -88,6 +94,20 @@
             }
         },
         methods: {
+            loginUser () {
+                const me = this
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
+                me.windowScroll()
+            },
+            windowScroll () {
+                const me = this
+                let height = window.pageYOffset | document.body.scrollTop
+                let element = document.querySelector('#header')
+                if (element.classList.contains('front')) {
+                    me.height = height
+                }
+            },
             submissionResetSuccess () {
                 let me = this
                 me.$validator.validateAll('login_form').then(valid => {
@@ -99,6 +119,7 @@
                             me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
+                            me.resetDone = true
                         }).catch(err => {
                             alert(err.response.data.errors[0])
                             console.log(err)
@@ -141,7 +162,7 @@
             },
             validateResetPasswordToken () {
                 this.$axios.get(`api/reset-password/validate-token/${this.$route.query.token}`).then(res => {
-                    this.validToken = true
+                    this.validToken = 1
                     this.resetPasswordForm.token = this.$route.query.token
                 }).catch(err => {
                     console.log(err)

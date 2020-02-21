@@ -339,6 +339,7 @@
                                 me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
+                                me.$router.push('/')
                             }).catch(err => {
                                 console.log(err)
                                 me.$cookies.remove('token')
@@ -373,6 +374,7 @@
                         me.$store.state.isAuth = true
                         me.$store.state.loginSignUpStatus = false
                         document.body.classList.remove('no_scroll')
+                        me.$router.push('/')
                     }).catch(err => {
                         console.log(err)
                         me.$cookies.remove('token')
@@ -538,6 +540,7 @@
                             me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
+                            me.$router.push('/')
                         }).catch(err => {
                             alert(err.response.data.errors[0])
                             console.log(err)
