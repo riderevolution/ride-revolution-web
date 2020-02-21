@@ -1,10 +1,10 @@
 <template>
-    <div class="faqs">
+    <div class="contact_us">
         <section id="banner">
-            <img src="/default/faqs/faq-banner.jpg" />
+            <img src="/default/contact-us/contact-us-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
-                <h1>Faqs</h1>
+                <h1>Contact Us</h1>
                 <h2>We’re revolutionizing Manila’s fitness industry.</h2>
             </div>
         </section>
@@ -19,12 +19,45 @@
                 </div>
             </div>
             <div class="bottom">
-                <div class="faqs_list">
-                    <div :id="`item_${key}`" :class="`wrapper ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in faqs" :key="key" @click="toggleFAQ(key)">
-                        <div class="title">{{ data.title }} <span class="toggler"></span></div>
-                        <div class="description" v-html="data.description"></div>
+                <div class="left">
+                    <no-ssr>
+                        <GmapMap
+                            :center="{lat:14.5529068, lng:121.0206284}"
+                            :zoom="15"
+                            :options="{
+                                zoomControl: true,
+                                scaleControl: false,
+                                streetViewControl: false,
+                                rotateControl: false,
+                                fullscreenControl: false,
+                                scrollwheel: false
+                            }"
+                            style="width: 100%; height: 600px"
+                        >
+                            <GmapMarker
+                                :position="{lat:14.5529068, lng:121.0206284}"
+                                :clickable="true"
+                            >
+                            </GmapMarker>
+                        </GmapMap>
+                    </no-ssr>
+                </div>
+                <div class="right">
+                    <div :id="`item_${key}`" :class="`studio_item ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in studios" :key="key" @click="toggleStudio(key)">
+                        <div class="title">{{ data.name }}</div>
+                        <div class="info">
+                            <div class="description" v-html="data.description"></div>
+                            <div class="link">
+                                <img src="/icons/email-icon-alt.svg" />
+                                <a href="javascript:void(0)" class="email">{{ data.mail }}</a>
+                            </div>
+                            <div class="link">
+                                <img src="/icons/phone-icon-alt.svg" />
+                                <a href="javascript:void(0)">{{ data.contact }}</a>
+                            </div>
+                        </div>
                     </div>
-                 </div>
+                </div>
             </div>
         </section>
         <section id="banner" class="alt">
@@ -59,47 +92,51 @@
                         description: 'Choose your class time and reserve your bike. You can also book for up to 3 friends.'
                     }
                 ],
-                faqs: [
+                studios: [
                     {
-                        title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b> <br><br> <ul> <li> Sample Text </li> <li> Sample Text </li> </ul>',
+                        id: 1,
+                        name: 'Greenbelt',
+                        description: 'Unit GD107 North Wing, EDSA cor. Shaw Blvd. Mandaluyong City, Metro Manila, Philippines',
+                        mail: 'shang@riderevolution.com',
+                        contact: '0977 827 7433',
                         toggled: false
                     },
                     {
-                        title: 'Ride Rewards July 2018',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b>',
+                        id: 2,
+                        name: 'Shangri-la Plaza',
+                        description: 'Unit GD107 North Wing, EDSA cor. Shaw Blvd. Mandaluyong City, Metro Manila, Philippines',
+                        mail: 'shang@riderevolution.com',
+                        contact: '0977 827 7433',
                         toggled: false
                     },
                     {
-                        title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b>',
-                        toggled: false
-                    },
-                    {
-                        title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b>',
+                        id: 3,
+                        name: 'Kenny Sports BGC',
+                        description: 'Unit GD107 North Wing, EDSA cor. Shaw Blvd. Mandaluyong City, Metro Manila, Philippines',
+                        mail: 'shang@riderevolution.com',
+                        contact: '0977 827 7433',
                         toggled: false
                     }
                 ]
             }
         },
         methods: {
-            toggleFAQ (key) {
+            toggleStudio (key) {
                 const me = this
                 let target = document.getElementById(`item_${key}`)
-                me.faqs.forEach((element, index) => {
+                me.studios.forEach((element, index) => {
                     let elements = document.getElementById(`item_${index}`)
                     if (key == index) {
                         if (element.toggled) {
                             element.toggled = false
-                            target.querySelector('.description').style.height = `${0}px`
+                            target.querySelector('.info').style.height = `${0}px`
                         } else {
                             element.toggled = true
-                            target.querySelector('.description').style.height = `${target.querySelector('.description').scrollHeight}px`
+                            target.querySelector('.info').style.height = `${target.querySelector('.info').scrollHeight}px`
                         }
                     } else {
                         element.toggled = false
-                        elements.querySelector('.description').style.height = `${0}px`
+                        elements.querySelector('.info').style.height = `${0}px`
                     }
                 })
             }

@@ -2863,7 +2863,7 @@ svg
                         color: $black
         .bottom
             background-color: $black
-            .faqs
+            .faqs_list
                 width: 100%
                 max-width: 50%
                 margin: 0 auto
@@ -2958,6 +2958,74 @@ svg
             fill: $red
             letter-spacing: 0.24px
 
+/**
+ * Contact Us */
+.contact_us
+    #banner
+        margin-top: 81px
+        &.alt
+            margin-top: 0
+    #content
+        .bottom
+            display: flex
+            flex-flow: row wrap
+            .left
+                flex: 0 0 60%
+            .right
+                flex: 0 0 40%
+                background-color: $black
+                padding: 40px 50px
+                .studio_item
+                    padding: 20px 0
+                    border-bottom: 1px solid #707070
+                    cursor: pointer
+                    &.toggled
+                        .title
+                            color: $green_alt
+                            transition: .3s ease-in-out
+                            &::before
+                                border-top: 7px solid $green_alt
+                                transform: translateY(-50%) rotate(180deg)
+                                transition: .3s ease-in-out
+                        .info
+                            margin-top: 20px
+                            transition: .3s ease-in-out
+                    .title
+                        position: relative
+                        brandon_medium(20px, true)
+                        color: $white
+                        transition: .3s ease-in-out
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 50%
+                            right: 0
+                            border-top: 7px solid $white
+                            border-left: 7px solid transparent
+                            border-right: 7px solid transparent
+                            transform: translateY(-50%) rotate(0deg)
+                            transition: .3s ease-in-out
+                    .info
+                        height: 0px
+                        overflow-x: auto
+                        overflow-y: hidden
+                        transition: .3s ease-in-out
+                        .description
+                            brandon_medium(16px, false)
+                            color: $white
+                            line-height: 1.25
+                            margin-bottom: 10px
+                        .link
+                            padding: 10px 0
+                            a
+                                brandon_regular(16px, false)
+                                color: $white
+                                padding-left: 5px
+                                transition: .3s ease-in-out
+                                &:hover
+                                    color: $green_alt
+                                    text-shadow: 0px 0px 15px rgba(38, 164, 139, 0.75)
+                                    transition: .3s ease-in-out
 /**
  * Riders Guide */
 .riders_guide
