@@ -2837,6 +2837,126 @@ svg
         margin-top: 81px
         &.alt
             margin-top: 0
+    #content
+        .top
+            width: 100%
+            max-width: calc(50% + 60px)
+            margin: 0 auto
+            padding: 80px 0
+            .header_title
+                brandon_bold(50px, true)
+                color: $black
+                letter-spacing: 1.25px
+                text-align: center
+            .icons
+                display: flex
+                flex-flow: row wrap
+                align-items: flex-start
+                justify-content: center
+                .wrapper
+                    flex: 0 0 calc(33.33% - 60px)
+                    margin: 15px 30px
+                    text-align: center
+                    .title
+                        brandon_regular(18px, false)
+                        letter-spacing: 0.9px
+                        color: $black
+        .bottom
+            background-color: $black
+            .faqs
+                width: 100%
+                max-width: 50%
+                margin: 0 auto
+                padding: 80px 0
+                .wrapper
+                    &.toggled
+                        .title
+                            .toggler
+                                &::before
+                                    transform: translateX(-50%) rotate(90deg)
+                                    transition: .3s ease-in-out
+                                &::after
+                                    opacity: 0
+                                    transform: translate(-50%, -50%) rotate(180deg)
+                                    transition: .3s ease-in-out
+                    .title
+                        position: relative
+                        brandon_bold(22px, true)
+                        color: $white
+                        letter-spacing: 0.55px
+                        padding: 15px 0
+                        margin-bottom: 15px
+                        border-bottom: 1px solid $white
+                        cursor: pointer
+                        .toggler
+                            position: absolute
+                            top: calc(50% + 7.5px)
+                            right: 0
+                            width: 11px
+                            height: 11px
+                            cursor: pointer
+                            transform: translateY(-50%)
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 0
+                                left: 50%
+                                width: 2px
+                                height: 100%
+                                background-color: $white
+                                transform: translateX(-50%) rotate(0deg)
+                                transition: .3s ease-in-out
+                            &::after
+                                content: ''
+                                position: absolute
+                                top: 50%
+                                left: 50%
+                                width: 100%
+                                height: 2px
+                                background-color: $white
+                                opacity: 1
+                                transform: translate(-50%, -50%) rotate(0deg)
+                                transition: .3s ease-in-out
+                    .description
+                        padding: 0 15px
+                        height: 0px
+                        overflow-y: hidden
+                        overflow-x: auto
+                        transition: .3s ease-in-out
+                        p
+                            brandon_light(18px, false)
+                            color: $white
+                            letter-spacing: 0.9px
+                        b,
+                        strong
+                            brandon_medium(22px, true)
+                            color: $white
+                            letter-spacing: 1.1px
+                        ul
+                            li
+                                brandon_light(18px, false)
+                                color: $white
+                                letter-spacing: 0.9px
+    #numbering
+        brandon_bold_italic(120px, true)
+        .stroke
+            fill: none
+            stroke-width: 1.4px
+        .stroke_1
+            stroke: $gray
+            stroke-dasharray: 500
+            animation: dash 5s linear
+        .stroke_2
+            stroke: $green
+            stroke-dasharray: 500
+            animation: dash 5s linear
+        .stroke_3
+            stroke: $red
+            stroke-dasharray: 500
+            animation: dash 5s linear
+        .stroke_4
+            fill: $red
+            letter-spacing: 0.24px
 
 /**
  * Riders Guide */
