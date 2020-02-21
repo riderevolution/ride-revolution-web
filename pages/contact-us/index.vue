@@ -10,11 +10,67 @@
         </section>
         <section id="content">
             <div class="top">
-                <h3 class="header_title">Booking a ride is easy</h3>
-                <div class="icons">
-                    <div class="wrapper" v-for="(data, key) in numbers" :key="key">
-                        <div v-html="data.path"></div>
-                        <div class="title">{{ data.description }}</div>
+                <form id="default_form" @submit.prevent="submissionSuccess()">
+                    <div class="form_flex">
+                        <div class="form_group">
+                            <label for="first_name">First Name <span>*</span></label>
+                            <input type="text" name="first_name" autocomplete="off" class="input_text" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('first_name')">{{ errors.first('first_name') | properFormat }}</span></transition>
+                        </div>
+                        <div class="form_group">
+                            <label for="last_name">Last Name <span>*</span></label>
+                            <input type="text" name="last_name" autocomplete="off" class="input_text" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('last_name')">{{ errors.first('last_name') | properFormat }}</span></transition>
+                        </div>
+                    </div>
+                    <div class="form_group">
+                        <label for="email">E-mail</label>
+                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">{{ errors.first('email') | properFormat }}</span></transition>
+                    </div>
+                    <div class="form_group">
+                        <label for="message">Message <span>*</span></label>
+                        <textarea name="message" class="input_text" rows="5" maxlength="1000" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$', max: 1000}"></textarea>
+                        <div class="limit_wrapper">
+                            <div class="limit"><span class="count">{{ count }}</span> characters left</div>
+                            <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
+                        </div>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('message')">{{ errors.first('message') | properFormat }}</span></transition>
+                    </div>
+                    <div class="form_group">
+                        <div class="form_check">
+                            <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'">
+                            <label for="i_agree">I acknowledge and fully understand the terms and conditions stated above and that all information stated above are true.</label>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('i_agree')">{{ errors.first('i_agree') | properFormat }}</span></transition>
+                        </div>
+                    </div>
+                    <div class="form_flex">
+                        <vue-recaptcha sitekey="6Le_s3wUAAAAAMuN4YveR4ZNq2qaj-rkw7n1477N"></vue-recaptcha>
+                        <div class="form_button">
+                            <button type="submit" class="default_btn">Send</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="right">
+                    <div class="inquiry_list">
+                        <div class="wrapper" v-for="(data, key) in inquiries" :key="key">
+                            <div class="title">{{ data.title }}</div>
+                            <div class="link">
+                                <img src="/icons/email-icon.svg" />
+                                <a href="javascript:void(0)" class="email">{{ data.mail }}</a>
+                            </div>
+                            <div class="link">
+                                <img src="/icons/phone-icon.svg" />
+                                <a href="javascript:void(0)">{{ data.contact }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="connect">
+                        <p class="connect_title">Connect With Us</p>
+                        <div class="connect_links">
+                            <a href="javascript:void(0)" class="fb">fb</a>
+                            <a href="javascript:void(0)" class="ig">ig</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,28 +128,20 @@
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import VueRecaptcha from 'vue-recaptcha'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            VueRecaptcha
         },
         data () {
             return {
+                count: 1000,
+                dashOffset: 0,
+                normalizedRadius: 0,
+                circumference: 0,
                 mapLat: 14.5529068,
                 mapLng: 121.0206284,
-                numbers: [
-                    {
-                        path: '<svg id="numbering" xmlns="http://www.w3.org/2000/svg" width="168.025" height="172" viewBox="0 0 168.025 172"> <g transform="translate(-173 -503)"> <path class="stroke_1 stroke" d="M20245.178-18893.389h80.66" transform="translate(-20044 19487.48)" /> <path class="stroke_1 stroke" d="M20245.178-18893.389h92.1" transform="translate(-20047 19499.48)" /> <path class="stroke_1 stroke" d="M20245.178-18893.389h16" transform="translate(-19958 19487.48)" /> <path class="stroke_1 stroke" d="M20255.176-18893.389h11.18" transform="translate(-19952.178 19499.48)" /> <path class="stroke_2 stroke" d="M20245.18-18893.908h107.838" transform="translate(-20047.178 19513)" /> <path class="stroke_2 stroke" d="M20245.178-18893.908h29.848" transform="translate(-19934 19513)" /> <path class="stroke_3 stroke" d="M20245.178-18893.908h96.66" transform="translate(-20042 19467)" /> <path class="stroke_3 stroke" d="M20245.178-18893.908h96.66" transform="translate(-20044 19477)" /> <path class="stroke_3 stroke" d="M20245.178-18893.908h22.211" transform="translate(-19940 19467)" /> <path class="stroke_3 stroke" d="M20245.176-18893.908h19.586" transform="translate(-19942 19477)" /> <text class="stroke_4" transform="translate(173 629)"> <tspan x="0" y="0">1</tspan> </text> </g> </svg>',
-                        description: 'Enter your details and create your account.'
-                    },
-                    {
-                        path: '<svg id="numbering" xmlns="http://www.w3.org/2000/svg" width="181.025" height="172" viewBox="0 0 181.025 172"> <g transform="translate(-160 -503)"> <path class="stroke stroke_1" d="M20245.178-18893.389h80.66" transform="translate(-20044 19487.48)" /> <path class="stroke stroke_1" d="M20245.176-18893.389h98" transform="translate(-20056 19499.48)" /> <path class="stroke stroke_1" d="M20245.178-18893.389h16" transform="translate(-19958 19487.48)" /> <path class="stroke stroke_1" d="M20255.176-18893.389h11.18" transform="translate(-19953.178 19499.48)" /> <path class="stroke stroke_2" d="M20245.18-18893.908h107.838" transform="translate(-20047.178 19513)" /> <path class="stroke stroke_2" d="M20245.178-18893.908h29.848" transform="translate(-19934 19513)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h96.66" transform="translate(-20042 19467)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h96.66" transform="translate(-20044 19477)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h22.211" transform="translate(-19940 19467)" /> <path class="stroke stroke_3" d="M20245.176-18893.908h19.586" transform="translate(-19942 19477)" /> <text class="stroke_4" transform="translate(161 629)"> <tspan x="0" y="0">2</tspan> </text> </g> </svg>',
-                        description: 'One credit equals one class. You can buy credits one at a time or in packages.'
-                    },
-                    {
-                        path: '<svg id="numbering" xmlns="http://www.w3.org/2000/svg" width="179.025" height="172" viewBox="0 0 179.025 172"> <g transform="translate(-162 -502)"> <path class="stroke stroke_1" d="M20245.178-18893.389h80.66" transform="translate(-20044 19487.48)" /> <path class="stroke stroke_1" d="M20245.178-18893.389h92.1" transform="translate(-20047 19499.48)" /> <path class="stroke stroke_1" d="M20245.178-18893.389h16" transform="translate(-19958 19487.48)" /> <path class="stroke stroke_1" d="M20255.176-18893.389h11.18" transform="translate(-19952.178 19499.48)" /> <path class="stroke stroke_2" d="M20245.18-18893.908h107.838" transform="translate(-20047.178 19513)" /> <path class="stroke stroke_2" d="M20245.178-18893.908h29.848" transform="translate(-19934 19513)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h96.66" transform="translate(-20042 19467)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h96.66" transform="translate(-20044 19477)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h22.211" transform="translate(-19940 19467)" /> <path class="stroke stroke_3" d="M20245.176-18893.908h19.586" transform="translate(-19942 19477)" /> <text class="stroke_4" transform="translate(162 628)"> <tspan x="0" y="0">3</tspan> <tspan x="0" y="36"></tspan> </text> </g> </svg>',
-                        description: 'Choose your class time and reserve your bike. You can also book for up to 3 friends.'
-                    }
-                ],
                 studios: [
                     {
                         id: 1,
@@ -125,10 +173,88 @@
                         lng: 121.0247024,
                         toggled: false
                     }
+                ],
+                inquiries: [
+                    {
+                        title: 'Service Inquiries',
+                        mail: 'hello@riderev.com',
+                        contact: '(02) 798-7447'
+                    },
+                    {
+                        title: 'Business Inquiries',
+                        mail: 'hello@riderev.com',
+                        contact: '(02) 798-7447'
+                    },
+                    {
+                        title: 'Job Inquiries',
+                        mail: 'hello@riderev.com',
+                        contact: '(02) 798-7447'
+                    },
+                    {
+                        title: 'Other Inquiries',
+                        mail: 'hello@riderev.com',
+                        contact: '(02) 798-7447'
+                    }
                 ]
             }
         },
+        filters: {
+            properFormat: function (value) {
+                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
+                if (newValue.length > 1) {
+                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                }else {
+                    newValue = value.split('The ')[1].split(' field')[0].split('_')
+                    if (newValue.length > 1) {
+                        let firstValue = ''
+                        let lastValue = ''
+                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
+                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                        }
+                        for (let i = 1; i < newValue.length; i++) {
+                            if (newValue[i] != 'id') {
+                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
+                            }
+                        }
+                        newValue = firstValue + ' ' + lastValue
+                    } else {
+                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
+                    }
+                }
+                let message = value.split('The ')[1].split(' field')
+                if (message.length > 1) {
+                    message = message[1]
+                    return `The ${newValue} field${message}`
+                } else {
+                    return `The ${newValue}`
+                }
+            }
+        },
         methods: {
+            getCount (event) {
+                const me = this
+                let target = event.target
+                let total = 1000
+                if (target.value.length <= 1000) {
+                    me.dashOffset = me.circumference - (target.value.length / 1000) * me.circumference
+                    me.count = total - target.value.length
+                }
+            },
+            submissionSuccess () {
+                const me = this
+                me.$validator.validateAll().then(valid => {
+                    if (valid) {
+                        // me.$router.push('/my-profile')
+                        // me.$store.state.loginSignUpStatus = false
+                        // document.body.classList.remove('no_scroll')
+                    } else {
+                        me.$scrollTo('.validation_errors', {
+                            container: '#default_form',
+                            offset: -250
+                        })
+                    }
+                })
+            },
             toggleStudio (key) {
                 const me = this
                 let target = document.getElementById(`item_${key}`)
@@ -150,6 +276,12 @@
                     }
                 })
             }
+        },
+        mounted () {
+            const me = this
+            me.normalizedRadius = 15 - 3 * 2
+            me.circumference = me.normalizedRadius * 2 * Math.PI
+            me.dashOffset = me.circumference
         }
     }
 </script>

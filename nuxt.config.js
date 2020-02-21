@@ -10,14 +10,18 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: pkg.description },
+      { 'http-equiv': 'pragma', content: 'no-cache' },
+      { 'http-equiv': 'cache-control', content: 'no-cache' },
+      { 'http-equiv': 'expires', content: '0' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
       { src: 'https://apis.google.com/js/platform.js', async: true, defer: true },
-      { src: 'https://connect.facebook.net/en_US/sdk.js' }
+      { src: 'https://connect.facebook.net/en_US/sdk.js' },
+      { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: true, defer: true },
     ],
     htmlAttrs: {
       lang: 'en'
@@ -80,7 +84,7 @@ export default {
     UserAgent: '*',
     Disallow: ''
   },
-  
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
