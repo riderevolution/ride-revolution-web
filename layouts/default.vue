@@ -43,6 +43,7 @@
                 const me = this
                 me.validateToken()
                 document.body.classList.remove('no_scroll')
+                me.$store.state.proTipStatus = false
                 me.$store.state.changePasswordStatus = false
                 me.$store.state.forgotPasswordSuccessStatus = false
                 me.$store.state.loginSignUpStatus = false
