@@ -536,8 +536,6 @@
                         me.loader(true)
                         me.$axios.post('api/customer-login', me.loginForm).then(res => {
                             let token = res.data.token
-                            me.$cookies.set('token', token, '7d')
-                            me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
                             me.$router.push('/')
@@ -548,7 +546,6 @@
                             setTimeout(() => {
                                 me.loader(false)
                             }, 300)
-                            me.validateToken()
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {

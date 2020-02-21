@@ -114,9 +114,6 @@
                     if (valid) {
                         me.loader(true)
                         me.$axios.post('api/forgot-password', me.resetPasswordForm).then(res => {
-                            let token = res.data.token
-                            me.$cookies.set('token', token, '7d')
-                            me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
                             me.resetDone = true
