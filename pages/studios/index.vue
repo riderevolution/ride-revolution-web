@@ -1,6 +1,6 @@
 <template>
     <div class="studios">
-        <section id="banner">
+        <section id="banner" class="mt">
             <img src="/default/studio/studios-bg.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">

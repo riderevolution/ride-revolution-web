@@ -1,6 +1,6 @@
 <template>
     <div class="buy_rides">
-        <section id="banner">
+        <section id="banner" class="mt">
             <img src="/default/buy-rides/buy-rides-banner.jpg" v-if="!$parent.$parent.isMobile" />
             <img src="/default/buy-rides/buy-rides-banner-mobile.jpg" v-else />
             <breadcrumb :overlay="true" />

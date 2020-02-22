@@ -2522,8 +2522,6 @@ svg
                             margin: 40px 0 20px
                         .action_mobile
                             text-align: center
-    #banner
-        margin-top: 81px
     #packages
         background-color: $white_alt
     #digital
@@ -2552,12 +2550,6 @@ svg
                 brandon_regular(20px, false)
                 color: $white
                 margin: 20px 0 40px
-
-/**
- * Promo Landing */
-.promo_landing
-    #banner
-        margin-top: 81pxa
 
 /**
  * News */
@@ -2732,11 +2724,6 @@ svg
                 text-align: center
                 .default_btn
                     margin: 40px auto 0
-    #banner
-        margin-top: 81px
-        &.alt
-            margin-top: 0
-            animation: none
     #content
         width: 100%
         max-width: calc(75% + 30px)
@@ -2788,10 +2775,6 @@ svg
 /**
  * Faqs */
 .faqs
-    #banner
-        margin-top: 81px
-        &.alt
-            margin-top: 0
     #content
         .top
             width: 100%
@@ -2916,10 +2899,6 @@ svg
 /**
  * Contact Us */
 .contact_us
-    #banner
-        margin-top: 81px
-        &.alt
-            margin-top: 0
     #content
         .top
             display: flex
@@ -3108,10 +3087,6 @@ svg
 /**
  * About Us */
 .about
-    #banner
-        margin-top: 81px
-        &.alt
-            margin-top: 0
     #content
         padding: 60px 0
         background-image: url(/dotted-bg.png)
@@ -3205,13 +3180,185 @@ svg
                 .description
                     brandon_regular(16px, false)
                     color: $black
-                    letter-spacing: 0.8px                
+                    letter-spacing: 0.8px
+
+/**
+ * Ride Rewards */
+.ride_rewards
+    #content
+        padding: 60px 0
+        .top
+            width: 100%
+            max-width: 50%
+            margin: 0 auto
+            text-align: center
+            .title
+                brandon_bold(50px, true)
+                color: $black
+                letter-spacing: 2.5px
+                margin-bottom: 30px
+            .description
+                brandon_regular(18px, false)
+                color: $black
+                letter-spacing: 0.9px
+        .bottom
+            width: 100%
+            max-width: 50%
+            margin: 80px auto 0
+            text-align: center
+            .header_title
+                brandon_bold(50px, true)
+                color: $black
+                letter-spacing: 2.5px
+                margin-bottom: 40px
+            .icons
+                display: flex
+                flex-flow: row wrap
+                .wrapper
+                    flex: 0 0 33.33%
+                    display: flex
+                    flex-flow: column
+                    justify-content: space-between
+                    .icon_top,
+                    .icon_bottom
+                        flex: auto
+                    .icon_bottom
+                        padding-top: 20px
+                        .title
+                            brandon_bold(14px, true)
+                            letter-spacing: 1.4px
+                            color: $black
+                            padding-bottom: 10px
+                        .description
+                            brandon_regular(18px, false)
+                            letter-spacing: 0.9px
+                            color: $black
+        #work_icon
+            .stroke
+                stroke-dasharray: 500
+                animation: dash 5s linear
+    #rewards_levels
+        background-color: $black
+        padding: 60px 0
+        .main
+            width: 100%
+            max-width: 75%
+            margin: 0 auto
+            text-align: center
+            .title
+                brandon_bold(50px, true)
+                color: $white
+                letter-spacing: 2.5px
+            .description
+                brandon_regular(18px, false)
+                color: $white
+                letter-spacing: 0.9px
+            .levels
+                display: flex
+                flex-flow: row wrap
+                align-items: flex-end
+                padding-top: 30px
+                .wrapper
+                    border: 6px solid $black
+                    &.green
+                        flex: 0 0 30%
+                        .info
+                            &::before
+                                border-left: 3em solid $green
+                            .info_top
+                                background-color: #2FC1A4
+                            .info_bottom
+                                background-color: $green
+                    &.red
+                        flex: 0 0 33%
+                        .info
+                            &::before
+                                border-left: 3em solid $red
+                            .info_top
+                                background-color: #FC4C5B
+                            .info_bottom
+                                background-color: $red
+                    &.black
+                        flex: 0 0 37%
+                        .info
+                            &::before
+                                content: unset
+                            .info_top
+                                background-color: #272626
+                            .info_bottom
+                                background-color: #000
+                    .icon
+                        text-align: right
+                        padding-right: 20px
+                        padding-bottom: 20px
+                    .info
+                        position: relative
+                        .info_top
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: center
+                            padding: 30px 40px
+                            .number
+                                brandon_medium(65px, false)
+                                color: $white
+                                letter-spacing: 1.63px
+                                line-height: 1
+                            .icon_title
+                                brandon_medium(20px, true)
+                                color: $white
+                                letter-spacing: 0.5px
+                                text-align: left
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 50%
+                            right: calc(0% - 3em)
+                            z-index: 2
+                            border-left: 3em solid $white
+                            border-top: 3em solid transparent
+                            border-bottom: 3em solid transparent
+                            transform: translateY(-50%)
+                        &::after
+                            content: ''
+                            position: absolute
+                            top: 50%
+                            right: calc(0% - 4em)
+                            z-index: 1
+                            border-left: 4em solid $black
+                            border-top: 4em solid transparent
+                            border-bottom: 4em solid transparent
+                            transform: translateY(-50%)
+                        .info_bottom
+                            padding: 30px 0
+                            .info_description
+                                width: 100%
+                                max-width: 65%
+                                margin: 0 auto
+                                p
+                                    brandon_medium(15px, false)
+                                    letter-spacing: 0.75px
+                                    color: $white
+                                    &.capital
+                                        brandon_medium(25px, true)
+                                        letter-spacing: 0.63px
+                                        &.reg
+                                            brandon_medium(15px, true)
+                                            letter-spacing: 0.75px
+                                            margin-bottom: 20px
+                                b,
+                                strong
+                                    brandon_bold(18px, false)
+                                    letter-spacing: 0.9px
+                                    color: $white
+            #level_icon
+                .stroke
+                    stroke-dasharray: 500
+                    animation: dash 5s linear
 
 /**
  * Riders Guide */
 .riders_guide
-    #banner
-        margin-top: 81px
     #teaser
         padding: 120px
         h2
@@ -3789,8 +3936,6 @@ svg
 /**
  * Book a Bike */
 .book_a_bike
-    #banner
-        margin-top: 81px
     &.form
         #content
             .overlay
@@ -4618,11 +4763,6 @@ svg
 /**
  * Studios */
 .studios
-    #banner
-        margin-top: 81px
-        &.alt
-            margin-top: 0px
-            animation: none
     #teaser
         padding: 60px 0
         width: 100%
@@ -5710,8 +5850,6 @@ svg
     max-width: 75%
     margin: 0 auto
     padding: 60px 0
-    #banner
-        margin-top: 81px
 
 /**
  * Upcoming Classes */
@@ -6391,14 +6529,21 @@ svg
  * Default Banner */
 #banner
     position: relative
-    overflow: hidden,
-
+    overflow: hidden
+    &.mt
+        margin-top: 81px
+        &.alt
+            margin-top: 0
     .full
         width: 100%
     &.alt
         .overlay_mid
             h2
                 brandon_bold(50px, false)
+            h3
+                brandon_light(18px, false)
+                color: $white
+                letter-spacing: 0.9px
             .default_btn
                 margin-top: 40px
     &.alt_2

@@ -1,6 +1,6 @@
 <template>
     <div class="news inner">
-        <section id="banner" class="alt_4">
+        <section id="banner" class="mt alt_4">
             <img src="/default/news/news-inner-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">

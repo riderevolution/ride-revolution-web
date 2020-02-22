@@ -1,6 +1,6 @@
 <template>
     <div class="promo_landing">
-        <section id="banner">
+        <section id="banner" class="mt">
             <img src="/default/promo/promo-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">

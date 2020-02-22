@@ -1,11 +1,9 @@
 <template>
     <div class="reset_password">
-        <section id="banner"></section>
-
+        <section id="banner" class="mt"></section>
         <div class="reset-done" v-if="resetDone">
             <p>Password changed successfully. Click <a href="javascript:void(0)" @click="loginUser()">here</a> to login.</p>
         </div>
-
         <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == 1 && !resetDone">
             <div class="form_main_group">
                 <div class="form_header">

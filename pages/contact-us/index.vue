@@ -1,6 +1,6 @@
 <template>
     <div class="contact_us">
-        <section id="banner">
+        <section id="banner" class="mt">
             <img src="/default/contact-us/contact-us-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
@@ -116,7 +116,7 @@
                 </div>
             </div>
         </section>
-        <section id="banner" class="alt">
+        <section id="banner" class="mt alt">
             <img src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>

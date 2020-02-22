@@ -1,6 +1,6 @@
 <template>
     <div class="riders_guide">
-        <section id="banner">
+        <section id="banner" class="mt">
             <img class="full" src="/default/riders-guide/riders-guide.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
