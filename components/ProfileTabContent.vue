@@ -155,7 +155,7 @@
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
                                             <li class="menu_dot_item">Manage Class</li>
-                                            <li class="menu_dot_item red">Cancel Class</li>
+                                            <li class="menu_dot_item red" @click="toggleCancel()">Cancel Class</li>
                                         </ul>
                                     </transition>
                                 </div>
@@ -374,11 +374,18 @@
                 </div>
             </div>
         </transition>
+        <transition name="fade">
+            <cancel-class v-if="$store.state.cancelClassStatus" :type="type" />
+        </transition>
     </div>
 </template>
 
 <script>
+    import CancelClass from './modals/CancelClass'
     export default {
+        components: {
+            CancelClass
+        },
         props: {
             category: {
                 type: String,
@@ -387,6 +394,7 @@
         },
         data () {
             return {
+                type: 1,
                 showInfoBadges: false,
                 showInfoTransactions: false,
                 showInfoGiftCards: false,
@@ -891,7 +899,16 @@
             //         return false
             //     }
             // },
-
+            toggleCancel () {
+                const me = this
+                me.$store.state.cancelClassStatus = true
+                document.body.classList.add('no_scroll')
+            },
+            toggleCancelled () {
+                const me = this
+                me.type = 2
+                me.$store.state.cancelClassStatus = true
+            },
             toggleInstructor (type, key) {
                 const me = this
                 switch (type) {
