@@ -1,5 +1,6 @@
 <template>
-    <div :class="`login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'}`">
+    <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'}`">
+        {{ height }}
         <div class="close_icon" @click="toggleClose()"></div>
         <transition name="fade">
             <section id="login" v-if="!signUp">
@@ -262,6 +263,7 @@
     export default {
         data () {
             return {
+                height: 0,
                 showPassword: false,
                 showConfirmPassword: false,
                 forgotPassword: false,
@@ -579,16 +581,17 @@
             /**
              * Detect height of scroll */
             windowLoginScroll () {
+                const me = this
                 let height = window.pageYOffset | document.body.scrollTop
                 let element = document.querySelector('.login_sign_up')
                 if (element.classList.contains('front')) {
-                    if (height >= 200) {
-                        element.classList.add('sticky')
-                    } else {
-                        element.classList.remove('sticky')
-                    }
+                    me.height = height
                 }
             }
+        },
+        mounted () {
+            const me = this
+            me.windowLoginScroll()
         },
         beforeMount () {
             window.addEventListener('load', this.windowLoginScroll)
