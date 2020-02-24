@@ -10,30 +10,30 @@
                     </div>
                     <div class="form_radio_group">
                         <div class="form_radio">
-                            <input type="radio" id="temporary" value="temporary" name="reason" class="input_radio" v-validate="'required'" v-model="user.reason">
+                            <input type="radio" id="temporary" value="temporary" name="reason" class="input_radio" v-validate="'required'" v-model="form.reason">
                             <label for="temporary">This is temporary. I’ll be back soon.</label>
                         </div>
                         <div class="form_radio">
-                            <input type="radio" id="not-useful-website" value="not-useful-website" name="reason" class="input_radio" v-validate="'required'" v-model="user.reason">
+                            <input type="radio" id="not-useful-website" value="not-useful-website" name="reason" class="input_radio" v-validate="'required'" v-model="form.reason">
                             <label for="not-useful-website">I don’t find this website useful.</label>
                         </div>
                         <div class="form_radio">
-                            <input type="radio" id="privacy-issue" value="privacy-issue" name="reason" class="input_radio" v-validate="'required'" v-model="user.reason">
+                            <input type="radio" id="privacy-issue" value="privacy-issue" name="reason" class="input_radio" v-validate="'required'" v-model="form.reason">
                             <label for="privacy-issue">I have privacy issue.</label>
                         </div>
                         <div class="form_radio">
-                            <input type="radio" id="another-account" value="another-account" name="reason" class="input_radio" v-validate="'required'" v-model="user.reason">
+                            <input type="radio" id="another-account" value="another-account" name="reason" class="input_radio" v-validate="'required'" v-model="form.reason">
                             <label for="another-account">I have another Ride Rev account.</label>
                         </div>
                         <div class="form_radio">
-                            <input type="radio" id="others" value="others" name="reason" class="input_radio" v-validate="'required'" v-model="user.reason">
+                            <input type="radio" id="others" value="others" name="reason" class="input_radio" v-validate="'required'" v-model="form.reason">
                             <label for="others">Other (please explain further)</label>
                         </div>
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('reason')">{{ errors.first('reason') | properFormat }}</span></transition>
                     </div>
                     <transition name="slide">
-                        <div class="form_group" v-if="user.reason == 'others'">
-                            <textarea name="other_details" placeholder="Enter you " rows="5" class="input_text" key="other_details" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$'}"></textarea>
+                        <div class="form_group" v-if="form.reason == 'others'">
+                            <textarea name="other_details" placeholder="Enter your other reason" v-model="form.other_reason" rows="5" class="input_text" key="other_details" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$'}"></textarea>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('other_details')">{{ errors.first('other_details') | properFormat }}</span></transition>
                         </div>
                     </transition>
@@ -64,8 +64,10 @@
         },
         data () {
             return {
-                user: {
-                    reason: ''
+                form: {
+                    reason: '',
+                    other_reason: '',
+                    _method: 'PATCH'
                 }
             }
         },

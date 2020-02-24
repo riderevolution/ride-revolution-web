@@ -119,17 +119,17 @@
                         </div>
                         <div class="form_group">
                             <label for="billing_address_1">Address 1 <span>*</span></label>
-                            <input type="text" name="billing_address_1" autocomplete="off" class="input_text" v-model="user.billing_address_1" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="billing_address_1" autocomplete="off" class="input_text" v-model="address.billing_address_1" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_1')">{{ errors.first('address_form.billing_address_1') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="billing_address_2">Address 2 (Optional)</label>
-                            <input type="text" name="billing_address_2" autocomplete="off" class="input_text" v-model="user.billing_address_2" placeholder="Enter your address 2" v-validate="{regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="billing_address_2" autocomplete="off" class="input_text" v-model="address.billing_address_2" placeholder="Enter your address 2" v-validate="{regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_2')">{{ errors.first('address_form.billing_address_2') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="billing_city">City <span>*</span></label>
-                            <input type="text" name="billing_city" autocomplete="off" class="input_text" v-model="user.billing_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="billing_city" autocomplete="off" class="input_text" v-model="address.billing_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_city')">{{ errors.first('address_form.billing_city') | properFormat }}</span></transition>
                         </div>
                     </div>
@@ -257,7 +257,30 @@
             },
             toggleSubscribe () {
                 const me = this
+                let value
+                let token = me.$cookies.get('token')
+                let formData = new FormData()
+                formData.append('_method', 'PATCH')
                 me.subscribed ^= true
+                value = (me.subscribed) ? 1 : 0
+                me.loader(true)
+                me.$axios.post(`api/user/toggle-subscription/${value}`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    me.message = 'Successfully updated your account settings.'
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    setTimeout( () => {
+                        me.$store.state.buyRidesPromptStatus = true
+                        document.body.classList.add('no_scroll')
+                        me.loader(false)
+                    }, 500)
+                    me.validateToken()
+                })
             },
             toggleChangePassword () {
                 const me = this
@@ -266,9 +289,9 @@
             },
             copyPersonalAddress () {
                 const me = this
-                me.user.billing_address_1 = me.user.personal_address_1
-                me.user.billing_address_2 = me.user.personal_address_2
-                me.user.billing_city = me.user.personal_city
+                me.address.billing_address_1 = me.address.personal_address_1
+                me.address.billing_address_2 = me.address.personal_address_2
+                me.address.billing_city = me.address.personal_city
             },
             submissionProfileSuccess () {
                 const me = this
@@ -291,6 +314,7 @@
                                 document.body.classList.add('no_scroll')
                                 me.loader(false)
                             }, 500)
+                            me.validateToken()
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {
@@ -304,7 +328,25 @@
                 const me = this
                 me.$validator.validateAll('address_form').then(valid => {
                     if (valid) {
-
+                        let token = me.$cookies.get('token')
+                        me.loader(true)
+                        me.$axios.post(`api/user/update/address`, me.address, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            me.message = 'Successfully updated your address.'
+                        }).catch(err => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.$store.state.buyRidesPromptStatus = true
+                                document.body.classList.add('no_scroll')
+                                me.loader(false)
+                            }, 500)
+                            me.validateToken()
+                        })
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
@@ -327,6 +369,15 @@
                     me.profileOverview.sex = me.$store.state.user.customer_details.co_sex
                     me.profileOverview.shoe_size = me.$store.state.user.customer_details.co_shoe_size
                     me.profileOverview.what_do_you_do = me.$store.state.user.customer_details.occupation_id
+
+                    me.address.personal_address_1 = me.$store.state.user.customer_details.pa_address_1
+                    me.address.personal_address_2 = me.$store.state.user.customer_details.pa_address_2
+                    me.address.personal_city = me.$store.state.user.customer_details.pa_city
+                    me.address.billing_address_1 = me.$store.state.user.customer_details.ba_address_1
+                    me.address.billing_address_2 = me.$store.state.user.customer_details.ba_address_2
+                    me.address.billing_city = me.$store.state.user.customer_details.ba_city
+
+                    me.subscribed = (me.$store.state.user.newsletter_subscription) ? true : false
                     ctr++
                 }
             }, 500)

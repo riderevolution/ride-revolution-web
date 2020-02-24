@@ -24,8 +24,23 @@
             toggleClose (status) {
                 const me = this
                 if (status) {
-                    me.$store.state.loginSignUpStatus = true
-                    me.$store.state.deactivateAccountPromptStatus = false
+                    let token = me.$cookies.get('token')
+                    me.loader(true)
+                    me.$axios.post(`api/user/deactivate`, me.$parent.form, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        me.$store.state.deactivateAccountPromptStatus = false
+                    }).catch(err => {
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                        me.validateToken()
+                    })
                 } else {
                     me.$store.state.deactivateAccountPromptStatus = false
                     document.body.classList.remove('no_scroll')
