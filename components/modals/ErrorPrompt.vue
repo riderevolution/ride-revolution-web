@@ -1,0 +1,25 @@
+<template>
+    <div class="default_modal">
+        <div class="background" @click="toggleClose()"></div>
+        <div class="confirmation_wrapper">
+            <div class="confirmation_text">
+                <div class="text error" v-for="(error, key) in $store.state.errorList" :key="key">{{ error }}</div>
+            </div>
+            <div class="button_group alt">
+                <div class="default_btn" @click="toggleClose()">OK</div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        methods: {
+            toggleClose () {
+                const me = this
+                me.$store.state.errorPromptStatus = false
+                document.body.classList.remove('no_scroll')
+            }
+        }
+    }
+</script>

@@ -20,7 +20,7 @@ const createStore = () => {
             proTipStatus: false,
             loginSignUpStatus: false,
             isExpanded: false,
-            errorStatus: false,
+            errorPromptStatus: false,
             errorList: [],
             isAuth: false,
             isNotify: false,

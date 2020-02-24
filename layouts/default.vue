@@ -15,6 +15,9 @@
         <transition name="fade">
             <forgot-password-success v-if="$store.state.forgotPasswordSuccessStatus" />
         </transition>
+        <transition name="fade">
+            <error-prompt v-if="$store.state.errorPromptStatus" />
+        </transition>
     </div>
 </template>
 <script>
@@ -24,6 +27,7 @@
     import Loader from '../components/modals/Loader'
     import LoginSignUp from '../components/modals/LoginSignUp'
     import ForgotPasswordSuccess from '../components/modals/ForgotPasswordSuccess'
+    import ErrorPrompt from '../components/modals/ErrorPrompt'
     export default {
         components: {
             NavbarExpanded,
@@ -31,6 +35,7 @@
             Foot,
             LoginSignUp,
             ForgotPasswordSuccess,
+            ErrorPrompt,
             Loader
         },
         data () {
