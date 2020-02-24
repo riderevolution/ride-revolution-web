@@ -1,6 +1,5 @@
 <template>
     <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'}`">
-        {{ height }}
         <div class="close_icon" @click="toggleClose()"></div>
         <transition name="fade">
             <section id="login" v-if="!signUp">
