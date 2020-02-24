@@ -1,8 +1,8 @@
 <template>
     <div class="reset_password">
         <section id="banner" class="mt"></section>
-        <div class="reset-done" v-if="resetDone">
-            <p>Password changed successfully. Click <a href="javascript:void(0)" @click="loginUser()">here</a> to login.</p>
+        <div class="reset_done" v-if="resetDone">
+            <p>Password changed successfully. Click <div class="link" @click="loginUser()">here</div> to login.</p>
         </div>
         <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == 1 && !resetDone">
             <div class="form_main_group">
@@ -36,7 +36,7 @@
                 <button type="submit" class="default_btn">Submit</button>
             </div>
         </form>
-        <div class="invalid-token" v-if="validToken != 1 && !resetDone">
+        <div class="invalid_token" v-if="validToken != 1 && !resetDone">
             {{ validToken }}
         </div>
     </div>
@@ -92,36 +92,20 @@
             }
         },
         methods: {
-            loginUser () {
-                const me = this
-                me.$store.state.loginSignUpStatus = true
-                document.body.classList.add('no_scroll')
-                me.windowScroll()
-            },
-            windowScroll () {
-                const me = this
-                let height = window.pageYOffset | document.body.scrollTop
-                let element = document.querySelector('#header')
-                if (element.classList.contains('front')) {
-                    me.height = height
-                }
-            },
             submissionResetSuccess () {
                 let me = this
                 me.$validator.validateAll('login_form').then(valid => {
                     if (valid) {
                         me.loader(true)
                         me.$axios.post('api/forgot-password', me.resetPasswordForm).then(res => {
-                            me.$store.state.loginSignUpStatus = false
-                            document.body.classList.remove('no_scroll')
                             me.resetDone = true
                         }).catch(err => {
-                            alert(err.response.data.errors[0])
-                            console.log(err)
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
                         }).then(() => {
                             setTimeout(() => {
                                 me.loader(false)
-                            }, 300)
+                            }, 500)
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {

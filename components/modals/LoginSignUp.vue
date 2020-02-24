@@ -337,17 +337,18 @@
                             me.$axios.post('api/login/facebook/', data).then(res => {
                                 let token = res.data.token
                                 me.$cookies.set('token', token, '7d')
-                                me.$store.state.isAuth = true
-                                me.$store.state.loginSignUpStatus = false
-                                document.body.classList.remove('no_scroll')
                                 me.$router.push('/')
                             }).catch(err => {
-                                console.log(err)
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
                                 me.$cookies.remove('token')
                             }).then(() => {
                                 setTimeout(() => {
+                                    me.$store.state.isAuth = true
+                                    me.$store.state.loginSignUpStatus = false
+                                    document.body.classList.remove('no_scroll')
                                     me.loader(false)
-                                }, 300)
+                                }, 500)
                                 me.validateToken()
                             })
                         })
@@ -372,17 +373,18 @@
                     me.$axios.post('api/login/google/', data).then(res => {
                         let token = res.data.token
                         me.$cookies.set('token', token, '7d')
-                        me.$store.state.isAuth = true
-                        me.$store.state.loginSignUpStatus = false
-                        document.body.classList.remove('no_scroll')
                         me.$router.push('/')
                     }).catch(err => {
-                        console.log(err)
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
                         me.$cookies.remove('token')
                     }).then(() => {
                         setTimeout(() => {
+                            me.$store.state.isAuth = true
+                            me.$store.state.loginSignUpStatus = false
+                            document.body.classList.remove('no_scroll')
                             me.loader(false)
-                        }, 300)
+                        }, 500)
                         me.validateToken()
                     })
                 })
@@ -393,12 +395,17 @@
                 const me = this
                 me.$validator.validateAll('forgot_form').then(valid => {
                     if (valid) {
+                        me.loader(true)
                         me.$axios.post('api/forgot-password', me.forgotPasswordForm).then(res => {
                             me.$store.state.loginSignUpStatus = false
-                            document.body.classList.remove('no_scroll')
-                            me.$store.state.forgotPasswordSuccessStatus = true
                         }).catch(err => {
-                            console.log(err)
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.$store.state.forgotPasswordSuccessStatus = true
+                                me.loader(false)
+                            }, 500)
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {

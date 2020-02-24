@@ -104,17 +104,20 @@ svg
 .no_font
     font-size: 0
 
-.invalid-token, .reset-done
+.invalid_token,
+.reset_done
     text-align: center
-    font-size: 30px
     height: 20vh
     vertical-align: middle
     display: flex
     justify-content: center
     align-items: center
-    font-family: Brandon-Medium
+    brandon_medium(30px, false)
+    color: $black
     padding: 0 20px
-
+    .link
+        color: $green
+        
 /**
  * Default Buttons */
 .back
