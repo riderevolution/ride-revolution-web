@@ -17,6 +17,7 @@ const createStore = () => {
             bookerChooseSeatStatus: false,
             bookerChoosePackageStatus: false,
             bookerAssignStatus: false,
+            completeProfileStatus: false,
             proTipStatus: false,
             loginSignUpStatus: false,
             isExpanded: false,

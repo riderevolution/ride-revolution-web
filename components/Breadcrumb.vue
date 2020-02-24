@@ -1,5 +1,5 @@
 <template>
-	<div id="breadcrumb" :class="`${(hasPadding) ? 'has_padding' : (overlay ? 'overlay' : '')} ${(!$store.state.proTipStatus) ? '' : 'dismiss'}`">
+	<div id="breadcrumb" :class="`${(hasPadding) ? 'has_padding' : (overlay ? 'overlay' : '')} ${(!$store.state.proTipStatus || !$store.state.completeProfileStatus) ? '' : 'dismiss'}`">
 		<ul itemtype="http://schema.org/BreadcrumbList">
 			<li v-for="(crumb, key) in crumbs" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 				<nuxt-link itemprop="item" :to="crumb.url">

@@ -1,6 +1,9 @@
 <template>
-    <div class="my_profile">
+    <div :class="`${(!$store.state.completeProfileStatus) ? 'dismissed' : 'dismiss'} my_profile`">
         <breadcrumb :overlay="false" />
+        <transition name="slide">
+            <complete-profile v-if="$store.state.completeProfileStatus" />
+        </transition>
         <section id="content">
             <h1 class="no_font">My Profile</h1>
             <div class="profile_tab">
@@ -45,11 +48,13 @@
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import CompleteProfile from '../../components/CompleteProfile'
     import ProfileTabContent from '../../components/ProfileTabContent'
     import Referral from '../../components/Referral'
     export default {
         components: {
             Breadcrumb,
+            CompleteProfile,
             ProfileTabContent,
             Referral
         },
@@ -79,6 +84,10 @@
                     me.$refs.profileTab.unique = key
                 }, 10)
             }
+        },
+        mounted () {
+            const me = this
+            me.$store.state.completeProfileStatus = true
         }
     }
 </script>

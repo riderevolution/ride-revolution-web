@@ -91,6 +91,10 @@
                 }
             },
         },
+        mounted () {
+            const me = this
+            me.windowScroll()
+        },
         beforeMount () {
             window.addEventListener('load', this.windowScroll)
             window.addEventListener('scroll', this.windowScroll)
