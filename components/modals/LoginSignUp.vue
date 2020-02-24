@@ -428,14 +428,23 @@
                 const me = this
                 me.$validator.validateAll('register_process_form').then(valid => {
                     if (valid) {
+                        me.loader(true)
                         me.$axios.post('api/user/register', me.signUpForm).then(res => {
-                            console.log(res.data)
+                            let token = res.data.token
+                            me.$cookies.set('token', token, '7d')
+                            me.$router.push('/my-profile')
                         }).catch(err => {
-                            console.log(err)
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.$store.state.isAuth = true
+                                me.$store.state.loginSignUpStatus = false
+                                document.body.classList.remove('no_scroll')
+                                me.loader(false)
+                            }, 500)
+                            me.validateToken()
                         })
-                        // me.$router.push('/my-profile')
-                        // me.$store.state.loginSignUpStatus = false
-                        // document.body.classList.remove('no_scroll')
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
@@ -550,17 +559,18 @@
                         me.$axios.post('api/customer-login', me.loginForm).then(res => {
                             let token = res.data.token
                             me.$cookies.set('token', token, '7d')
-                            me.$store.state.isAuth = true
-                            me.$store.state.loginSignUpStatus = false
-                            document.body.classList.remove('no_scroll')
                             me.$router.push('/')
                         }).catch(err => {
-                            alert(err.response.data.errors[0])
-                            console.log(err)
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                            me.$cookies.remove('token')
                         }).then(() => {
                             setTimeout(() => {
+                                me.$store.state.isAuth = true
+                                me.$store.state.loginSignUpStatus = false
+                                document.body.classList.remove('no_scroll')
                                 me.loader(false)
-                            }, 300)
+                            }, 500)
                             me.validateToken()
                         })
                     } else {
