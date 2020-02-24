@@ -6,18 +6,18 @@
                     <div class="form_flex">
                         <div class="form_group">
                             <label for="first_name">First Name <span>*</span></label>
-                            <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="user.first_name" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="profileOverview.first_name" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.first_name')">{{ errors.first('profile_overview_form.first_name') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="last_name">Last Name <span>*</span></label>
-                            <input type="text" name="last_name" autocomplete="off" class="input_text" v-model="user.last_name" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="last_name" autocomplete="off" class="input_text" v-model="profileOverview.last_name" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.last_name')">{{ errors.first('profile_overview_form.last_name') | properFormat }}</span></transition>
                         </div>
                     </div>
                     <div class="form_group">
                         <label for="email">E-mail <span>*</span></label>
-                        <input type="text" id="email" name="email" class="input_text" v-model="user.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                        <input type="text" id="email" name="email" class="input_text" v-model="profileOverview.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.email')">{{ errors.first('profile_overview_form.email') | properFormat }}</span></transition>
                     </div>
                     <div class="form_flex">
@@ -26,7 +26,7 @@
                             <no-ssr>
                                 <vc-date-picker
                                 :is-required="true"
-                                v-model="user.birth_date"
+                                v-model="profileOverview.birth_date"
                                 :input-props='{
                                     class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
                                     id: "birth_date",
@@ -38,7 +38,7 @@
                         </div>
                         <div class="form_group">
                             <label for="co_contact_number">Contact Number <span>*</span></label>
-                            <input type="text" name="co_contact_number" autocomplete="off" v-model="user.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+                            <input type="text" name="co_contact_number" autocomplete="off" v-model="profileOverview.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.co_contact_number')">{{ errors.first('profile_overview_form.co_contact_number') | properFormat }}</span></transition>
                         </div>
                     </div>
@@ -46,11 +46,11 @@
                         <div class="form_flex radio">
                             <label>Sex <span>*</span></label>
                             <div class="form_radio">
-                                <input type="radio" id="female" value="female" name="sex" class="input_radio" v-validate="'required'" v-model="user.sex">
+                                <input type="radio" id="female" value="female" name="sex" class="input_radio" v-validate="'required'" v-model="profileOverview.sex">
                                 <label for="female">Female</label>
                             </div>
                             <div class="form_radio">
-                                <input type="radio" id="male" value="male" name="sex" class="input_radio" v-validate="'required'" v-model="user.sex">
+                                <input type="radio" id="male" value="male" name="sex" class="input_radio" v-validate="'required'" v-model="profileOverview.sex">
                                 <label for="male">Male</label>
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.sex')">{{ errors.first('profile_overview_form.sex') | properFormat }}</span></transition>
@@ -58,7 +58,7 @@
                         <div class="form_group select">
                             <label for="shoe_size">Shoe Size (US Sizes) <span>*</span></label>
                             <div class="select">
-                                <select class="input_select" name="shoe_size" v-model="user.shoe_size" v-validate="'required'">
+                                <select class="input_select" name="shoe_size" v-model="profileOverview.shoe_size" v-validate="'required'">
                                     <option value="" selected disabled>Please select a shoe size</option>
                                     <option value="5">5</option>
                                     <option value="6">6</option>
@@ -70,7 +70,7 @@
                     <div class="form_group select">
                         <label for="what_do_you_do">What do you do <span>*</span></label>
                         <div class="select">
-                            <select class="input_select" name="what_do_you_do" v-model="user.what_do_you_do" v-validate="'required'">
+                            <select class="input_select" name="what_do_you_do" v-model="profileOverview.what_do_you_do" v-validate="'required'">
                                 <option value="" selected disabled>Choose a Profession</option>
                                 <option value="1">Option 1</option>
                                 <option value="2">Option 2</option>
@@ -93,17 +93,17 @@
                         </div>
                         <div class="form_group">
                             <label for="personal_address_1">Address 1 <span>*</span></label>
-                            <input type="text" name="personal_address_1" autocomplete="off" class="input_text" v-model="user.personal_address_1" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="personal_address_1" autocomplete="off" class="input_text" v-model="address.personal_address_1" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_address_1')">{{ errors.first('address_form.personal_address_1') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="personal_address_2">Address 2 (Optional)</label>
-                            <input type="text" name="personal_address_2" autocomplete="off" class="input_text" v-model="user.personal_address_2" placeholder="Enter your address 2" v-validate="{regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="personal_address_2" autocomplete="off" class="input_text" v-model="address.personal_address_2" placeholder="Enter your address 2" v-validate="{regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_address_2')">{{ errors.first('address_form.personal_address_2') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="personal_city">City <span>*</span></label>
-                            <input type="text" name="personal_city" autocomplete="off" class="input_text" v-model="user.personal_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="personal_city" autocomplete="off" class="input_text" v-model="address.personal_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_city')">{{ errors.first('address_form.personal_city') | properFormat }}</span></transition>
                         </div>
                     </div>
@@ -189,25 +189,30 @@
         },
         data () {
             return {
+                message: '',
                 subscribed: true,
                 copied: false,
                 height: 0,
                 unique: 0,
-                user: {
-                    first_name: 'Mark',
-                    last_name: 'Ruffalo',
-                    email: 'markruffalo@gmail.com',
+                profileOverview: {
+                    first_name: '',
+                    last_name: '',
+                    email: '',
                     birth_date: new Date(),
-                    contact_number: '09559123947',
-                    sex: 'male',
-                    shoe_size: '5',
-                    what_do_you_do: '1',
+                    contact_number: '',
+                    sex: '',
+                    shoe_size: '',
+                    what_do_you_do: '',
+                    _method: 'PATCH'
+                },
+                address: {
                     personal_address_1: '',
                     personal_address_2: '',
                     personal_city: '',
                     billing_address_1: '',
                     billing_address_2: '',
-                    billing_city: ''
+                    billing_city: '',
+                    _method: 'PATCH'
                 }
             }
         },
@@ -269,7 +274,24 @@
                 const me = this
                 me.$validator.validateAll('profile_overview_form').then(valid => {
                     if (valid) {
-
+                        let token = me.$cookies.get('token')
+                        me.loader(true)
+                        me.$axios.post(`api/user/update/profile-overview`, me.profileOverview, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            me.message = 'Successfully updated your profile overview.'
+                        }).catch(err => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.$store.state.buyRidesPromptStatus = true
+                                document.body.classList.add('no_scroll')
+                                me.loader(false)
+                            }, 500)
+                        })
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
@@ -294,6 +316,20 @@
         },
         mounted () {
             const me = this
+            let ctr = 0
+            setInterval( () => {
+                if (ctr < 1) {
+                    me.profileOverview.first_name = me.$store.state.user.first_name
+                    me.profileOverview.last_name = me.$store.state.user.last_name
+                    me.profileOverview.email = me.$store.state.user.email
+                    me.profileOverview.birth_date = new Date(me.$store.state.user.customer_details.co_birthdate)
+                    me.profileOverview.contact_number = me.$store.state.user.customer_details.co_contact_number
+                    me.profileOverview.sex = me.$store.state.user.customer_details.co_sex
+                    me.profileOverview.shoe_size = me.$store.state.user.customer_details.co_shoe_size
+                    me.profileOverview.what_do_you_do = me.$store.state.user.customer_details.occupation_id
+                    ctr++
+                }
+            }, 500)
             me.getHeight()
         },
         beforeMount () {

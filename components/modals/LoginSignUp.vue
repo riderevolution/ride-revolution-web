@@ -131,17 +131,17 @@
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group">
                         <label for="first_name">First Name <span>*</span></label>
-                        <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="signUpForm.firstName" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                        <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="signUpForm.first_name" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.first_name')">{{ errors.first('register_process_form.first_name') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="last_name">Last Name <span>*</span></label>
-                        <input type="text" name="last_name" autocomplete="off" class="input_text" v-model="signUpForm.lastName" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                        <input type="text" name="last_name" autocomplete="off" class="input_text" v-model="signUpForm.last_name" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.last_name')">{{ errors.first('register_process_form.last_name') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="co_contact_number">Contact Number <span>*</span></label>
-                        <input type="text" name="co_contact_number" autocomplete="off" v-model="signUpForm.contactNumber" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+                        <input type="text" name="co_contact_number" autocomplete="off" v-model="signUpForm.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.co_contact_number')">{{ errors.first('register_process_form.co_contact_number') | properFormat }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
@@ -165,7 +165,7 @@
                         <no-ssr>
                             <vc-date-picker
                             :is-required="true"
-                            v-model="signUpForm.birthDate"
+                            v-model="signUpForm.birth_date"
                             :input-props='{
                                 class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
                                 id: "birth_date",
@@ -178,7 +178,7 @@
                     <div class="form_group select">
                         <label for="what_do_you_do">What do you do <span>*</span></label>
                         <div class="select">
-                            <select class="input_select" name="what_do_you_do" v-model="signUpForm.whatDoYouDo" v-validate="'required'">
+                            <select class="input_select" name="what_do_you_do" v-model="signUpForm.what_do_you_do" v-validate="'required'">
                                 <option value="" selected disabled>Choose a Profession</option>
                                 <option value="1">Option 1</option>
                                 <option value="2">Option 2</option>
@@ -272,11 +272,11 @@
                     email: 'dthrcrpz@gmail.com',
                     password: 'password',
                     password_confirmation: 'password',
-                    firstName: 'Deither',
-                    lastName: 'Corpuz',
-                    contactNumber: '09085532912',
-                    birthDate: new Date(),
-                    whatDoYouDo: '',
+                    first_name: 'Deither',
+                    last_name: 'Corpuz',
+                    contact_number: '09085532912',
+                    birth_date: new Date(),
+                    what_do_you_do: '',
                     sex: '',
                     iAgree: ''
                 },
@@ -373,6 +373,7 @@
                     me.$axios.post('api/login/google/', data).then(res => {
                         let token = res.data.token
                         me.$cookies.set('token', token, '7d')
+                        me.$store.state.isAuth = true
                         me.$router.push('/')
                     }).catch(err => {
                         me.$store.state.errorList = err.response.data.errors
@@ -380,7 +381,6 @@
                         me.$cookies.remove('token')
                     }).then(() => {
                         setTimeout(() => {
-                            me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
                             me.loader(false)
@@ -432,13 +432,13 @@
                         me.$axios.post('api/user/register', me.signUpForm).then(res => {
                             let token = res.data.token
                             me.$cookies.set('token', token, '7d')
+                            me.$store.state.isAuth = true
                             me.$router.push('/my-profile')
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
                         }).then(() => {
                             setTimeout( () => {
-                                me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
                                 me.loader(false)
@@ -557,8 +557,10 @@
                     if (valid) {
                         me.loader(true)
                         me.$axios.post('api/customer-login', me.loginForm).then(res => {
+                            console.log(res.data);
                             let token = res.data.token
                             me.$cookies.set('token', token, '7d')
+                            me.$store.state.isAuth = true
                             me.$router.push('/')
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
@@ -566,7 +568,6 @@
                             me.$cookies.remove('token')
                         }).then(() => {
                             setTimeout(() => {
-                                me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
                                 me.loader(false)
