@@ -867,6 +867,22 @@ svg
                 img
                     width: 35px
                     {image_default}
+                .overlay
+                    position: relative
+                    width: 35px
+                    height: 35px
+                    background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                    border-radius: 50%
+                    .letter
+                        position: absolute
+                        top: 50%
+                        left: 0
+                        right: 0
+                        text-align: center
+                        brandon_bold(18px, true)
+                        line-height: 1
+                        color: $white
+                        transform: translateY(-50%)
                 h3
                     margin-left: 20px
                     brandon_bold(16px, false)

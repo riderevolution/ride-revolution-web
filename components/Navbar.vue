@@ -23,7 +23,12 @@
                 </li>
                 <li v-else>
                     <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
-                        <img src="/sample-image-booker.png" />
+                        <img src="/sample-image-booker.png" v-if="$store.state.user.customer_details.images" />
+                        <div class="overlay" v-else>
+                            <div class="letter">
+                                {{ $store.state.user.first_name.charAt(0) }}{{ $store.state.user.last_name.charAt(0) }}
+                            </div>
+                        </div>
                         <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
                         <transition name="slideAlt">
                             <ul class="user_dropdown_list" v-if="showList">

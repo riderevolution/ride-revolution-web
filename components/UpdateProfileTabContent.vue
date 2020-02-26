@@ -7,6 +7,7 @@
                         <label class="main_label">Profile Picture</label>
                         <div class="flex_image">
                             <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'size:1000|image|ext:jpeg,jpg,png'">
+                            <input type="hidden" name="image_id[]" :value="profileOverview.image_id">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">{{ errors.first('profile_overview_form.image[]') | properFormat }}</span></transition>
                             <label class="input_image_label" for="image">
                                 <div class="label">
@@ -226,7 +227,8 @@
                     contact_number: '',
                     sex: '',
                     shoe_size: '',
-                    what_do_you_do: ''
+                    what_do_you_do: '',
+                    image_id: 0
                 },
                 address: {
                     personal_address_1: '',
