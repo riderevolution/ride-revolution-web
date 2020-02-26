@@ -3,18 +3,18 @@
         <div class="background" @click="toggleClose()"></div>
             <form id="default_form" class="overlay alt_2" @submit.prevent="submissionSuccess()">
                 <div class="modal_wrapper">
-                    <h2 class="form_title alt">Redeem gift card</h2>
-                    <h3 class="form_subtitle">Please input the 4-digit PIN sent to your email address.</h3>
+                    <h2 class="form_title alt">{{ (category == 'transfer') ? 'Transfer' : 'Share' }} Class Package</h2>
+                    <h3 class="form_subtitle">You are about to share your <b>[package]</b>. Please input the recipient's member ID.</h3>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_flex with_btn alt_2">
                             <div class="form_group">
-                                <label for="pin">Pin <span>*</span></label>
-                                <input type="text" name="pin" autocomplete="off" placeholder="Enter your pin number" class="input_text" v-validate="'required|numeric|min:4|max:12'">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('pin')">{{ errors.first('pin') | properFormat }}</span></transition>
+                                <label for="recipients_member_id">Recipients Member ID <span>*</span></label>
+                                <input type="text" name="recipients_member_id" autocomplete="off" placeholder="Enter your recipients member id" class="input_text" v-validate="'required|numeric|min:4|max:12'">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('recipients_member_id')">{{ errors.first('recipients_member_id') | properFormat }}</span></transition>
                             </div>
                             <div class="form_button alt">
-                                <button type="submit" class="default_btn">Redeem Now</button>
+                                <button type="submit" class="default_btn">{{ (category == 'transfer') ? 'Transfer' : 'Share' }}</button>
                             </div>
                         </div>
                     </div>
@@ -26,6 +26,12 @@
 
 <script>
     export default {
+        props: {
+            category: {
+                type: String,
+                default: 'transfer'
+            }
+        },
         filters: {
             properFormat: function (value) {
                 let newValue = value.split('The ')[1].split(' field')[0].split('[]')
@@ -92,7 +98,7 @@
             },
             toggleClose () {
                 const me = this
-                me.$store.state.redeemGiftCardStatus = false
+                me.$store.state.shareTransferPackageStatus = false
                 document.body.classList.remove('no_scroll')
             }
         }

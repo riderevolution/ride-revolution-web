@@ -239,8 +239,8 @@
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                        <li class="table_menu_item">Share Package</li>
-                                                        <li class="table_menu_item">Transfer Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage('share')">Share Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage('transfer')">Transfer Package</li>
                                                     </ul>
                                                 </transition>
                                             </div>
@@ -380,16 +380,21 @@
         <transition name="fade">
             <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" />
         </transition>
+        <transition name="fade">
+            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" />
+        </transition>
     </div>
 </template>
 
 <script>
     import CancelClass from './modals/CancelClass'
     import RedeemGiftCard from './modals/RedeemGiftCard'
+    import ShareTransferPackage from './modals/ShareTransferPackage'
     export default {
         components: {
             CancelClass,
-            RedeemGiftCard
+            RedeemGiftCard,
+            ShareTransferPackage
         },
         props: {
             category: {
@@ -399,6 +404,7 @@
         },
         data () {
             return {
+                packageCategory: 'transfer',
                 type: 1,
                 showInfoBadges: false,
                 showInfoTransactions: false,
@@ -887,6 +893,12 @@
             }
         },
         methods: {
+            togglePackage (category) {
+                const me = this
+                me.packageCategory = category
+                me.$store.state.shareTransferPackageStatus = true
+                document.body.classList.add('no_scroll')
+            },
             toggleRedeem () {
                 const me = this
                 me.$store.state.redeemGiftCardStatus = true
