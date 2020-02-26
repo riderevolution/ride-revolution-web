@@ -80,9 +80,9 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                <a href="/book-a-bike/asdasdasd" @click="checkIfNew($event)" class="btn default_btn_out">
                                     <span>Book Now</span>
-                                </nuxt-link>
+                                </a>
                             </div>
                         </div>
                         <div class="schedule">
@@ -168,14 +168,19 @@
                 </div>
             </div>
         </section>
+        <transition name="fade">
+            <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            CompleteProfilePrompt
         },
         data () {
             return {
@@ -220,6 +225,11 @@
             }
         },
         methods: {
+            checkIfNew (event) {
+                const me = this
+                event.preventDefault()
+                me.$store.state.completeProfilePromptStatus = true
+            },
             toggleFilter (event) {
                 const me = this
                 let target = event.target
