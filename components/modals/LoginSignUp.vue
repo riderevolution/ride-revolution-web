@@ -140,9 +140,9 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.last_name')">{{ errors.first('register_process_form.last_name') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
-                        <label for="co_contact_number">Contact Number <span>*</span></label>
-                        <input type="text" name="co_contact_number" autocomplete="off" v-model="signUpForm.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.co_contact_number')">{{ errors.first('register_process_form.co_contact_number') | properFormat }}</span></transition>
+                        <label for="contact_number">Contact Number <span>*</span></label>
+                        <input type="text" name="contact_number" autocomplete="off" v-model="signUpForm.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.contact_number')">{{ errors.first('register_process_form.contact_number') | properFormat }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
                         <div class="back" @click="toggleStep('back')">Back</div>
@@ -433,14 +433,14 @@
                             let token = res.data.token
                             me.$cookies.set('token', token, '7d')
                             me.$store.state.isAuth = true
+                            me.$store.state.loginSignUpStatus = false
+                            document.body.classList.remove('no_scroll')
                             me.$router.push('/my-profile')
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
                         }).then(() => {
                             setTimeout( () => {
-                                me.$store.state.loginSignUpStatus = false
-                                document.body.classList.remove('no_scroll')
                                 me.loader(false)
                             }, 500)
                             me.validateToken()
@@ -560,6 +560,8 @@
                             let token = res.data.token
                             me.$cookies.set('token', token, '7d')
                             me.$store.state.isAuth = true
+                            me.$store.state.loginSignUpStatus = false
+                            document.body.classList.remove('no_scroll')
                             me.$router.push('/')
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
@@ -567,8 +569,6 @@
                             me.$cookies.remove('token')
                         }).then(() => {
                             setTimeout(() => {
-                                me.$store.state.loginSignUpStatus = false
-                                document.body.classList.remove('no_scroll')
                                 me.loader(false)
                             }, 500)
                             me.validateToken()

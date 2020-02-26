@@ -17,9 +17,10 @@ const createStore = () => {
             bookerChooseSeatStatus: false,
             bookerChoosePackageStatus: false,
             bookerAssignStatus: false,
+            completeProfileHealthStatus: false,
             completeProfileStepsStatus: false,
+            completeProfileStatus: false,
             proTipStatus: false,
-            completeProfileStepsStatus: false,
             loginSignUpStatus: false,
             isExpanded: false,
             errorPromptStatus: false,
@@ -35,6 +36,9 @@ const createStore = () => {
             user: {
                 first_name: '',
                 current_studio_id: '',
+                customer_details: {
+                    images: []
+                },
                 staff_details: {
                     studio_access: [
                         {

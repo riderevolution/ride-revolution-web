@@ -90,9 +90,15 @@
             me.$store.state.completeProfileStatus = true
         },
         async asyncData ({ axios, params, store, error }) {
-            if (!store.state.isAuth) {
-                error({ statusCode: 403, message: 'Page not found' })
-            }
+            let ctr = 0
+            setInterval( () => {
+                if (ctr < 1) {
+                    if (!store.state.isAuth) {
+                        error({ statusCode: 403, message: 'Page not found' })
+                    }
+                    ctr++
+                }
+            }, 500)
         }
     }
 </script>

@@ -16,7 +16,7 @@
                                 <transition name="fade">
                                     <div class="preview_flex_image_wrapper" id="preview_flex_image_wrapper" v-if="previewImage">
                                         <div class="preview">
-                                            <img id="preview_image" src="" />
+                                            <img id="preview_image" :src="`${($store.state.user.customer_details.images) ? $store.state.user.customer_details.images[0].path : '' }`" />
                                         </div>
                                     </div>
                                 </transition>
@@ -430,6 +430,7 @@
                     me.address.billing_address_2 = me.$store.state.user.customer_details.ba_address_2
                     me.address.billing_city = me.$store.state.user.customer_details.ba_city
 
+                    me.previewImage = (me.$store.state.user.customer_details.images) ? true : false
                     me.subscribed = (me.$store.state.user.newsletter_subscription) ? true : false
                     ctr++
                 }

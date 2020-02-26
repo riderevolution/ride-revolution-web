@@ -17,6 +17,7 @@
             toggleSteps () {
                 const me = this
                 me.$store.state.completeProfileStepsStatus = true
+                document.body.classList.add('no_scroll')
             }
         }
     }
