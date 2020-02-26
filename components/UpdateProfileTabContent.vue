@@ -378,8 +378,10 @@
                 me.$validator.validateAll('address_form').then(valid => {
                     if (valid) {
                         let token = me.$cookies.get('token')
+                        let formData = new FormData(document.getElementById('default_form'))
+                        formData.append('_method', 'PATCH')
                         me.loader(true)
-                        me.$axios.post(`api/user/update/address`, me.address, {
+                        me.$axios.post(`api/user/update/address`, formData, {
                             headers: {
                                 Authorization: `Bearer ${token}`
                             }
