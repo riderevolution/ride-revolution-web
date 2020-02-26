@@ -2,7 +2,30 @@
     <div class="update_profile_tab_content" :style="`height: ${height}px`">
         <transition name="fade">
             <div id="tab_0" class="wrapper" v-if="category == 'profile-overview'">
-                <form id="default_form" @submit.prevent="submissionProfileSuccess()" data-vv-scope="profile_overview_form">
+                <form id="default_form" @submit.prevent="submissionProfileSuccess()" data-vv-scope="profile_overview_form" enctype="multipart/form-data">
+                    <div class="form_flex_image">
+                        <label class="main_label">Profile Picture</label>
+                        <div class="flex_image">
+                            <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'size:1000|image|ext:jpeg,jpg,png'">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">{{ errors.first('profile_overview_form.image[]') | properFormat }}</span></transition>
+                            <label class="input_image_label" for="image">
+                                <div class="label">
+                                    Upload
+                                </div>
+                                <transition name="fade">
+                                    <div class="preview_flex_image_wrapper" id="preview_flex_image_wrapper" v-if="previewImage">
+                                        <div class="preview">
+                                            <img id="preview_image" src="" />
+                                        </div>
+                                    </div>
+                                </transition>
+                            </label>
+                        </div>
+                        <div class="sub_label">
+                            <div class="text">{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</div>
+                            <img src="/sample-type.svg" />
+                        </div>
+                    </div>
                     <div class="form_flex">
                         <div class="form_group">
                             <label for="first_name">First Name <span>*</span></label>
@@ -37,9 +60,9 @@
                             </no-ssr>
                         </div>
                         <div class="form_group">
-                            <label for="co_contact_number">Contact Number <span>*</span></label>
-                            <input type="text" name="co_contact_number" autocomplete="off" v-model="profileOverview.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.co_contact_number')">{{ errors.first('profile_overview_form.co_contact_number') | properFormat }}</span></transition>
+                            <label for="contact_number">Contact Number <span>*</span></label>
+                            <input type="text" name="contact_number" autocomplete="off" v-model="profileOverview.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.contact_number')">{{ errors.first('profile_overview_form.contact_number') | properFormat }}</span></transition>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -190,6 +213,7 @@
         data () {
             return {
                 message: '',
+                previewImage: false,
                 subscribed: true,
                 copied: false,
                 height: 0,
@@ -202,8 +226,7 @@
                     contact_number: '',
                     sex: '',
                     shoe_size: '',
-                    what_do_you_do: '',
-                    _method: 'PATCH'
+                    what_do_you_do: ''
                 },
                 address: {
                     personal_address_1: '',
@@ -211,8 +234,7 @@
                     personal_city: '',
                     billing_address_1: '',
                     billing_address_2: '',
-                    billing_city: '',
-                    _method: 'PATCH'
+                    billing_city: ''
                 }
             }
         },
@@ -244,11 +266,36 @@
                     message = message[1]
                     return `The ${newValue} field${message}`
                 } else {
-                    return `The ${newValue}`
+                    if (message[0].split('image[]').length > 1) {
+                        message = message[0].split('image[]')[1]
+                        return `The ${newValue} field${message}`
+                    } else {
+                        return `The ${newValue}`
+                    }
                 }
             }
         },
         methods: {
+            getFile (event) {
+                const me = this
+                let element = event.target
+                if (element.files[0]) {
+                    me.previewImage = true
+                } else {
+                    me.previewImage = false
+                }
+                if (element.files && element.files[0]) {
+                    let reader = new FileReader()
+                    reader.onload = function () {
+                        let image = document.getElementById('preview_image')
+                        image.src = reader.result
+                    }
+                    reader.readAsDataURL(element.files[0])
+                } else {
+                    let image = document.getElementById('preview_image')
+                    image.src = ''
+                }
+            },
             getHeight () {
                 const me = this
                 setTimeout( () => {
@@ -270,12 +317,12 @@
                     }
                 }).then(res => {
                     me.message = 'Successfully updated your account settings.'
+                    me.$store.state.buyRidesPromptStatus = true
                 }).catch(err => {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
                 }).then(() => {
                     setTimeout( () => {
-                        me.$store.state.buyRidesPromptStatus = true
                         document.body.classList.add('no_scroll')
                         me.loader(false)
                     }, 500)
@@ -298,19 +345,21 @@
                 me.$validator.validateAll('profile_overview_form').then(valid => {
                     if (valid) {
                         let token = me.$cookies.get('token')
+                        let formData = new FormData(document.getElementById('default_form'))
+                        formData.append('_method', 'PATCH')
                         me.loader(true)
-                        me.$axios.post(`api/user/update/profile-overview`, me.profileOverview, {
+                        me.$axios.post(`api/user/update/profile-overview`, formData, {
                             headers: {
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
                             me.message = 'Successfully updated your profile overview.'
+                            me.$store.state.buyRidesPromptStatus = true
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
                         }).then(() => {
                             setTimeout( () => {
-                                me.$store.state.buyRidesPromptStatus = true
                                 document.body.classList.add('no_scroll')
                                 me.loader(false)
                             }, 500)
@@ -336,12 +385,12 @@
                             }
                         }).then(res => {
                             me.message = 'Successfully updated your address.'
+                            me.$store.state.buyRidesPromptStatus = true
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
                         }).then(() => {
                             setTimeout( () => {
-                                me.$store.state.buyRidesPromptStatus = true
                                 document.body.classList.add('no_scroll')
                                 me.loader(false)
                             }, 500)

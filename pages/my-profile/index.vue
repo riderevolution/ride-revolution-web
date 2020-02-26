@@ -19,9 +19,9 @@
                     </div>
                     <div class="right">
                         <div class="data">
-                            <div class="name"><h2>Mark Ruffalo</h2> <span><img src="/sample-type.svg" /></span></div>
+                            <div class="name"><h2>{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div>
                             <div class="info">
-                                <div class="label">Member ID <b>RR12345</b></div>
+                                <div class="label">Member ID <b>{{ $store.state.user.member_id }}</b></div>
                                 <div class="label">Ride Points <b>0</b></div>
                                 <div class="label">Store Credits <b>500</b></div>
                             </div>
@@ -88,6 +88,11 @@
         mounted () {
             const me = this
             me.$store.state.completeProfileStatus = true
+        },
+        async asyncData ({ axios, params, store, error }) {
+            if (!store.state.isAuth) {
+                error({ statusCode: 403, message: 'Page not found' })
+            }
         }
     }
 </script>

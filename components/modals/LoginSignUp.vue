@@ -557,7 +557,6 @@
                     if (valid) {
                         me.loader(true)
                         me.$axios.post('api/customer-login', me.loginForm).then(res => {
-                            console.log(res.data);
                             let token = res.data.token
                             me.$cookies.set('token', token, '7d')
                             me.$store.state.isAuth = true

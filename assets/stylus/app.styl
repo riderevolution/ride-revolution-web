@@ -117,7 +117,34 @@ svg
     padding: 0 20px
     .link
         color: $green
-        
+
+.error_page
+    &.alternate
+        height: 50vh
+        .container
+            .header_title
+                brandon_bold(40px, false)
+    height: 100vh
+    position: relative
+    animation: slide_from_top 1s
+    .container
+        position: absolute
+        top: 50%
+        left: 0
+        right: 0
+        text-align: center
+        transform: translateY(-50%)
+        .logo
+            filter: grayscale(1)
+            opacity: 0.3
+        .header_title
+            brandon_bold(40px, false)
+            margin: 20px 0
+        .header_subtitle
+            neutra_book(36px, false)
+        .default_btn
+            margin-top: 40px
+
 /**
  * Default Buttons */
 .back
@@ -588,6 +615,9 @@ svg
             flex-flow: row wrap
             align-items: center
             justify-content: center
+            .complete
+                text-decoration: underline
+                cursor: pointer
             .wrapper
                 display: flex
                 flex-flow: row wrap
@@ -7620,6 +7650,102 @@ svg
                 color: $gray_alt2
                 &.alt
                     padding-left: 10px
+    .validation_errors
+        position: absolute
+        top: calc(100% + 5px)
+        background-color: $red
+        color: $white
+        brandon_medium(16px, false)
+        z-index: 2
+        padding: 5px 10px
+        border-radius: 5px
+        user-select: none
+        left: 0
+        &::before
+            content: ""
+            position: absolute
+            bottom: calc(100% - 1px)
+            width: 0
+            height: 0
+            border-left: 7px solid transparent
+            border-right: 7px solid transparent
+            border-bottom: 7px solid $red
+            left: 17px
+            z-index: 1
+
+.form_flex_image
+    position: relative
+    margin-bottom: 30px
+    display: flex
+    flex-flow: row wrap
+    align-items: center
+    .main_label
+        flex: 0 0 100%
+        user-select: none
+        display: block
+        brandon_medium(14px, true)
+        font-weight: normal
+        color: $black_alt2
+        margin-bottom: 5px
+        span
+            color: $green
+    .input_image
+        position: absolute
+        bottom: 10px
+        opacity: 0
+    .input_image_label
+        position: relative
+        display: inline-block
+        width: 100px
+        height: 100px
+        text-align: center
+        border-radius: 50%
+        cursor: pointer
+        &::before
+            content: ''
+            position: absolute
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            z-index: 2
+            border-radius: 50%
+            background-color: rgba(0, 0, 0, 0.45)
+            transition: .3s ease-in-out
+        .label
+            position: absolute
+            top: 50%
+            left: 0
+            right: 0
+            z-index: 2
+            text-align: center
+            transform: translateY(-50%)
+            brandon_medium(14px, true)
+            color: #fff
+            transition: .3s ease-in-out
+        .preview_flex_image_wrapper
+            position: absolute
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            z-index: 1
+            img
+                border-radius: 50%
+                width: 100px
+                height: 100px
+                object-fit: cover
+                object-position: center
+        &:hover
+            &::before
+                background-color: rgba(38, 164, 139, 0.45)
+                transition: .3s ease-in-out
+    .sub_label
+        padding-left: 30px
+        .text
+            brandon_regular(22px, false)
+            color: $black
+            letter-spacing: 0.33px
     .validation_errors
         position: absolute
         top: calc(100% + 5px)

@@ -5,8 +5,8 @@
             <div class="wrapper">
                 <div :class="`rec ${(n <= 3) ? 'active' : ''}`" v-for="n in 10"></div>
             </div>
-            <span class="complete">Complete profile now &nbsp;</span>
-            <span> so you can book your first ride already.</span>
+            <span class="complete" @click="toggleSteps()">Complete profile now</span>
+            <span>&nbsp; so you can book your first ride already.</span>
         </div>
     </div>
 </template>
@@ -14,7 +14,10 @@
 <script>
     export default {
         methods: {
-
+            toggleSteps () {
+                const me = this
+                me.$store.state.completeProfileStepsStatus = true
+            }
         }
     }
 </script>
