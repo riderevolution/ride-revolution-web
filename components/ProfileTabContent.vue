@@ -366,7 +366,7 @@
                                         {{ data.package.name }}
                                         <div class="violator" v-if="data.has_violator">You still have this package</div>
                                     </div>
-                                    <div :class="`default_btn ${(data.has_violator) ? 'disabled' : ''}`">Use Now</div>
+                                    <div :class="`default_btn ${(data.has_violator) ? 'disabled' : ''}`" @click="toggleRedeem()">Use Now</div>
                                 </div>
                             </div>
                         </div>
@@ -377,14 +377,19 @@
         <transition name="fade">
             <cancel-class v-if="$store.state.cancelClassStatus" :type="type" />
         </transition>
+        <transition name="fade">
+            <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" />
+        </transition>
     </div>
 </template>
 
 <script>
     import CancelClass from './modals/CancelClass'
+    import RedeemGiftCard from './modals/RedeemGiftCard'
     export default {
         components: {
-            CancelClass
+            CancelClass,
+            RedeemGiftCard
         },
         props: {
             category: {
@@ -882,6 +887,11 @@
             }
         },
         methods: {
+            toggleRedeem () {
+                const me = this
+                me.$store.state.redeemGiftCardStatus = true
+                document.body.classList.add('no_scroll')
+            },
             getHeight () {
                 const me = this
                 setTimeout( () => {

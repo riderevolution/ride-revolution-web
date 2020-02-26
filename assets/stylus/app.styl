@@ -7446,6 +7446,8 @@ svg
     margin-bottom: 30px
     &.alt
         justify-content: center
+    &.flex_end
+        align-items: flex-end
     .form_flex
         flex: 0 0 50%
         margin-bottom: 0
@@ -7548,6 +7550,9 @@ svg
 .form_button
     text-align: right
     margin-top: 30px
+    &.alt
+        .default_btn
+            padding: 12px 45px
     &.margin
         margin-left: 20px
 
@@ -8620,12 +8625,13 @@ textarea::-webkit-scrollbar-thumb
                 text-align: center
                 &.alt
                     padding: 40px 60px 0
+                    text-align: left
             .form_subtitle
                 brandon_regular(16px, false)
                 color: #7E7E7E
                 letter-spacing: 0.21px
-                text-align: center
-                padding-bottom: 30px
+                text-align: left
+                padding: 0 60px 30px
             .form_close
                 position: absolute
                 width: 20px
