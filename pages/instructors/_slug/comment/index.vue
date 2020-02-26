@@ -60,17 +60,22 @@
                 </div>
             </form>
         </section>
+        <transition name="fade">
+            <comment-success v-if="$store.state.commentSuccessStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
     import ProTip from '../../../../components/ProTip'
     import Breadcrumb from '../../../../components/Breadcrumb'
+    import CommentSuccess from '../../../../components/modals/CommentSuccess'
     import VueRecaptcha from 'vue-recaptcha'
     export default {
         components: {
             ProTip,
             Breadcrumb,
+            CommentSuccess,
             VueRecaptcha
         },
         data () {
@@ -222,6 +227,8 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
+                        me.$store.state.commentSuccessStatus = true
+                        document.body.classList.add('no_scroll')
                         // me.$router.push('/my-profile')
                         // me.$store.state.loginSignUpStatus = false
                         // document.body.classList.remove('no_scroll')

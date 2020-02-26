@@ -131,7 +131,7 @@
         <section id="comments">
             <div class="header">
                 <h2>Here are what other riders are raving about Billie</h2>
-                <div class="default_btn">Write a Review</div>
+                <nuxt-link to="/instructors/asdasdadas/comment" class="default_btn">Write a Review</nuxt-link>
             </div>
             <div class="content">
                 <div class="comment" v-for="(data, key) in populateComment" :key="key">
