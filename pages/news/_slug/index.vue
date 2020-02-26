@@ -20,7 +20,7 @@
                 <p class="share">Share this article</p>
                 <div class="share_links">
                     <a href="javascript:void(0)" class="fb">fb</a>
-                    <a href="javascript:void(0)" class="ig">ig</a>
+                    <a href="javascript:void(0)" class="email" @click="shareViaEmail()">email</a>
                 </div>
             </div>
         </section>
@@ -48,14 +48,19 @@
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
             </div>
         </section>
+        <transition name="fade">
+            <share-via-email v-if="$store.state.shareEmailStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
     import Breadcrumb from '../../../components/Breadcrumb'
+    import ShareViaEmail from '../../../components/modals/ShareViaEmail'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            ShareViaEmail
         },
         data () {
             return {
@@ -79,6 +84,11 @@
             }
         },
         methods: {
+            shareViaEmail () {
+                const me = this
+                me.$store.state.shareEmailStatus = true
+                document.body.classList.add('no_scroll')
+            }
         }
     }
 </script>
