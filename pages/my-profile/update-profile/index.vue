@@ -56,6 +56,17 @@
                     me.$refs.updateProfileTab.unique = key
                 }, 10)
             }
+        },
+        async asyncData ({ axios, params, store, error }) {
+            let ctr = 0
+            setInterval( () => {
+                if (ctr < 1) {
+                    if (!store.state.isAuth || store.state.user.new_user == 1) {
+                        error({ statusCode: 403, message: 'Page not found' })
+                    }
+                    ctr++
+                }
+            }, 500)
         }
     }
 </script>

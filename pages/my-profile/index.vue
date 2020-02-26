@@ -26,7 +26,7 @@
                                 <div class="label">Store Credits <b>500</b></div>
                             </div>
                         </div>
-                        <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out"><span>Update Profile</span></nuxt-link>
+                        <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="!$store.state.completeProfileStatus"><span>Update Profile</span></nuxt-link>
                     </div>
                 </div>
                 <div class="bottom">
