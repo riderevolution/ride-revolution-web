@@ -63,6 +63,8 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
+                        me.$store.state.redeemGiftCardStatus = false
+                        me.$store.state.redeemGiftCardSuccessStatus = true
                     //     let token = me.$cookies.get('token')
                     //     me.loader(true)
                     //     me.$axios.post(`api/user/update-password`, me.form, {

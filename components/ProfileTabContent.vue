@@ -381,6 +381,9 @@
             <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" />
         </transition>
         <transition name="fade">
+            <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" />
+        </transition>
+        <transition name="fade">
             <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" />
         </transition>
     </div>
@@ -389,11 +392,13 @@
 <script>
     import CancelClass from './modals/CancelClass'
     import RedeemGiftCard from './modals/RedeemGiftCard'
+    import RedeemGiftCardSuccess from './modals/RedeemGiftCardSuccess'
     import ShareTransferPackage from './modals/ShareTransferPackage'
     export default {
         components: {
             CancelClass,
             RedeemGiftCard,
+            RedeemGiftCardSuccess,
             ShareTransferPackage
         },
         props: {

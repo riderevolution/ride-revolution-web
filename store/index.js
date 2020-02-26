@@ -4,6 +4,7 @@ const createStore = () => {
     return new Vuex.Store({
         state: () => ({
             shareTransferPackageStatus: false,
+            redeemGiftCardSuccessStatus: false,
             redeemGiftCardStatus: false,
             cancelClassStatus: false,
             deactivateAccountPromptStatus: false,

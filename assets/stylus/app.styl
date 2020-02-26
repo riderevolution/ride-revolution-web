@@ -8575,6 +8575,51 @@ textarea::-webkit-scrollbar-thumb
     z-index: 9
     width: 100%
     height: 100%
+    &.alt
+        .confirmation_wrapper
+            background-color: transparent
+            background-image: linear-gradient(110deg, $blue, $green)
+            .form_close
+                &::before,
+                &::after
+                    background-color: $white
+            .confirmation_title
+                color: $white
+            .confirmation_image
+                position: relative
+                .overlay
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    position: absolute
+                    top: calc(0% + 10px)
+                    left: calc(0% + 10px)
+                    border-radius: 7px
+                    padding: 2px 5px
+                    background-color: $green_alt3
+                    .gift_img
+                        width: 25px
+                        {image_default}
+                    .initials
+                        position: relative
+                        width: 25px
+                        height: 25px
+                        background-color: $white
+                        border-radius: 50%
+                        .name
+                            position: absolute
+                            top: 50%
+                            left: 0
+                            right: 0
+                            text-align: center
+                            brandon_bold(11px, true)
+                            color: $green
+                            line-height: 1
+                            transform: translateY(-50%)
+                    .label
+                        brandon_medium(12px, true)
+                        color: $green
+                        padding-left: 5px
     .background
         position: fixed
         z-index: 3
