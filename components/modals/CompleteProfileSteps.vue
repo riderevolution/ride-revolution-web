@@ -20,7 +20,7 @@
                     </li>
                 </ul>
             </div>
-            <form id="step_1_form" data-vv-scope="complete_profile_form" v-show="completeProfileStep == 1">
+            <form id="step_1_form" data-vv-scope="complete_profile_form" v-show="completeProfileStep == 1" enctype="multipart/form-data">
                 <div id="default_form" :class="`${(completeProfileStep == 1) ? 'fade_in' : 'fade_out'}`">
                     <div class="sign_up_header alt">
                         <h2 class="title">Complete your profile</h2>
