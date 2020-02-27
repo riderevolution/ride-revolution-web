@@ -46,6 +46,7 @@ const createStore = () => {
                 customer_details: {
                     images: [
                         {
+                            id: 0,
                             path: ''
                         }
                     ]

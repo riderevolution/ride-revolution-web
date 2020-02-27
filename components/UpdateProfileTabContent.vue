@@ -414,6 +414,7 @@
             let ctr = 0
             setInterval( () => {
                 if (ctr < 1) {
+                    me.profileOverview.image_id = (me.$store.state.user.customer_details.images) ? me.$store.state.user.customer_details.images[0].id : 0
                     me.profileOverview.first_name = me.$store.state.user.first_name
                     me.profileOverview.last_name = me.$store.state.user.last_name
                     me.profileOverview.email = me.$store.state.user.email

@@ -25,7 +25,7 @@
                 </transition>
             </div>
             <div class="content" id="package">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                     <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                     <div class="package_header">
                         <h2 class="title">{{ data.name }}</h2>
@@ -46,6 +46,7 @@
                         </div>
                     </div>
                 </nuxt-link>
+                {{ toShowPackages }}
                 <div class="action">
                     <div v-if="!checkPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
                 </div>
@@ -292,12 +293,14 @@
             }
         },
         methods: {
-            checkIfLoggedIn (event) {
+            checkIfLoggedIn (event, slug) {
                 const me = this
                 event.preventDefault()
                 if (!me.$store.state.isAuth) {
                     me.$store.state.loginCheckerStatus = true
                     document.body.classList.add('no_scroll')
+                } else {
+                    me.$router.push(slug)
                 }
             },
             loadMoreContent (type) {
