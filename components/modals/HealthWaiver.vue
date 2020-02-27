@@ -195,7 +195,7 @@
                     } else {
                         me.error = true
                         me.$scrollTo('.validation_errors', {
-                            container: '#default_form.alt_2',
+                            container: '#health_waiver_form.alt_2',
 							offset: -250
 						})
                     }
@@ -209,7 +209,7 @@
         mounted () {
             const me = this
             setTimeout( () => {
-                document.querySelector('#default_form .read .form_group_body').addEventListener('scroll', function(e) {
+                document.querySelector('#health_waiver_form .read .form_group_body').addEventListener('scroll', function(e) {
                     if (this.offsetHeight + this.scrollTop >= this.scrollHeight) {
                         me.hasReadTerms = true
                     } else {
