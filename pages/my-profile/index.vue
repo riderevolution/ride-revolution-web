@@ -76,14 +76,14 @@
                         break
                     case 'packages':
                         me.$axios.get(`api/customers/${me.$store.state.user.id}/packages?forWeb=1`).then(res => {
-                            if (res.data) {
-                                setTimeout( () => {
-                                    res.data.customer.user_package_counts.forEach((data, index) => {
-                                        data.toggled = false
-                                        me.$refs.profileTab.packages.push(data)
-                                    })
-                                }, 10)
-                            }
+                            // if (res.data) {
+                            //     setTimeout( () => {
+                            //         res.data.customer.user_package_counts.forEach((data, index) => {
+                            //             data.toggled = false
+                            //             me.$refs.profileTab.packages.push(data)
+                            //         })
+                            //     }, 10)
+                            // }
                         }).catch((err) => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true

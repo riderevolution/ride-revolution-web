@@ -195,7 +195,7 @@
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_packages">
-                            <table class="default_table">
+                            <table class="default_table" v-if="packages.length >0">
                                 <thead>
                                     <tr>
                                         <th>Packages</th>
@@ -249,6 +249,13 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="no_results" v-else>
+                                <div class="text">You don't have any packages.</div>
+                                <div class="logo">
+                                    <img src="/footer-logo.svg" />
+                                </div>
+                                <nuxt-link to="buy-rides" class="default_btn">Buy rides</nuxt-link>
+                            </div>
                         </div>
                     </div>
                 </div>
