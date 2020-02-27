@@ -1,5 +1,5 @@
 <template>
-    <div class="buy_rides">
+    <div :class="`buy_rides ${hasHash}`">
         <section id="banner" class="mt">
             <img src="/default/buy-rides/buy-rides-banner.jpg" v-if="!$parent.$parent.isMobile" />
             <img src="/default/buy-rides/buy-rides-banner-mobile.jpg" v-else />
@@ -25,7 +25,7 @@
                 </transition>
             </div>
             <div class="content" id="package">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" v-if="data.checked" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                     <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                     <div class="package_header">
                         <h2 class="title">{{ data.name }}</h2>
@@ -46,9 +46,8 @@
                         </div>
                     </div>
                 </nuxt-link>
-                {{ toShowPackages }}
                 <div class="action">
-                    <div v-if="!checkPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
+                    <div v-if="!showLoadedPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
                 </div>
             </div>
         </section>
@@ -81,7 +80,7 @@
                 </div>
             </no-ssr>
         </section>
-        <section id="packages" class="alt">
+        <section id="packages" class="container alt">
             <div class="header">
                 <h2>
                     Buy Store Credits
@@ -97,15 +96,13 @@
                     </div>
                 </transition>
             </div>
-            <div class="content" id="store_credits">
-                <nuxt-link rel="canonical" :to="`/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populateStoreCredits" :key="key">
-                    <div class="ribbon" v-if="data.has_promo">Promo</div>
+            <div class="content" id="storecredits">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`)" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-if="data.checked" v-for="(data, key) in populateStoreCredits" :key="key">
                     <div class="package_header alt">
-                        <h2 class="title">{{ data.title }}</h2>
+                        <h2 class="title">{{ data.name }}</h2>
                     </div>
-                    <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
-                    <div class="price">Php {{ totalItems(data.price) }}</div>
-                    <div class="expires">{{ data.expire }}</div>
+                    <div class="price">Php {{ totalItems(data.amount) }}</div>
+                    <div class="expires">No Expiry</div>
                     <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
                     <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
@@ -118,7 +115,9 @@
                         </div>
                     </div>
                 </nuxt-link>
-                <div v-if="!checkStoreCredits" class="default_btn load" @click="loadMoreContent('store-credits')">Load More</div>
+                <div class="action">
+                    <div v-if="!showLoadedStoreCredits" class="default_btn load" @click="loadMoreContent('store-credits')">Load More</div>
+                </div>
             </div>
         </section>
         <section id="digital">
@@ -145,7 +144,9 @@
                 toShowPackages: 3,
                 toShowStoreCredits: 3,
                 showInfoPackages: false,
+                showLoadedPackages: false,
                 showInfoStoreCredits: false,
+                showLoadedStoreCredits: false,
                 showAllPromos: false,
                 promoOptions: {
                     slidesPerView: 1,
@@ -207,90 +208,59 @@
                     }
                 ],
                 packages: [],
-                credits: [
-                    {
-                        title: '500 Store Credits',
-                        discounted_price: '500',
-                        price: '400',
-                        has_promo: true,
-                        expire: 'No Expiry',
-                        type: 'store-credit',
-                        checked: false
-                    },
-                    {
-                        title: '1k Store Credits',
-                        price: '1000',
-                        has_promo: false,
-                        expire: 'No Expiry',
-                        type: 'store-credit',
-                        checked: false
-                    },
-                    {
-                        title: '5k Store Credits',
-                        price: '5000',
-                        has_promo: false,
-                        expire: 'No Expiry',
-                        type: 'store-credit',
-                        checked: false
-                    }
-                ]
+                credits: []
             }
         },
         computed: {
+            /**
+             * Anchor in div */
+            hasHash() {
+                let hash = this.$route.hash
+                if (hash.length > 0) {
+                    setTimeout( () => {
+                        this.$scrollTo(`${hash}`, {
+                            duration: 1000,
+                            offset: -250
+                        })
+                    }, 100)
+                }
+            },
             populatePackages () {
                 const me = this
+                let count = 0
                 let result = []
                 for (let i = 0; i < me.toShowPackages; i++) {
                     if (me.packages[i]) {
+                        count++
                         me.packages[i].checked = true
                         result.push(me.packages[i])
                     }
                 }
-                return result
-            },
-            checkPackages () {
-                const me = this
-                let count = 0
-                let result = false
-                me.packages.forEach((data, index) => {
-                    if (data.checked) {
-                        count++
-                    }
-                })
                 if (count == me.packages.length) {
-                    result = true
+                    me.showLoadedPackages = true
                 } else {
-                    result = false
+                    me.showLoadedPackages = false
                 }
                 return result
             },
             populateStoreCredits() {
                 const me = this
+                let count = 0
                 let result = []
                 for (let i = 0; i < me.toShowStoreCredits; i++) {
                     if (me.credits[i]) {
+                        count++
                         me.credits[i].checked = true
                         result.push(me.credits[i])
                     }
                 }
-                return result
-            },
-            checkStoreCredits () {
-                const me = this
-                let count = 0
-                let result = false
-                me.credits.forEach((data, index) => {
-                    if (data.checked) {
-                        count++
-                    }
-                })
                 if (count == me.credits.length) {
-                    result = true
+                    me.showLoadedStoreCredits = true
                 } else {
-                    result = false
+                    me.showLoadedStoreCredits = false
                 }
                 return result
-            }
+            },
         },
         methods: {
             checkIfLoggedIn (event, slug) {
@@ -307,7 +277,7 @@
                 const me = this
                 switch (type) {
                     case 'packages':
-                        if (!me.checkPackages) {
+                        if (!me.showLoadedPackages) {
                             me.toShowPackages += 3
                             me.$scrollTo('.load', {
                                 container: '#package',
@@ -316,7 +286,7 @@
                         }
                         break
                     case 'store-credits':
-                        if (!me.checkStoreCredits) {
+                        if (!me.showLoadedStoreCredits) {
                             me.toShowStoreCredits += 3
                             me.$scrollTo('.load', {
                                 container: '#store_credits',
@@ -388,10 +358,8 @@
             fetchData () {
                 const me = this
                 me.loader(true)
-                me.res.classPackages.forEach((element, index) => {
-                    element.checked = false
-                    me.packages.push(element)
-                })
+                me.packages = me.res.classPackages
+                me.credits = me.res.storeCredits
                 me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                 me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
                 setTimeout( () => {
@@ -404,11 +372,6 @@
             setTimeout( () => {
                 me.fetchData()
             }, 10)
-            if (me.$route.hash != '') {
-                me.$scrollTo(`${me.$route.hash}`, {
-                    offset: 300
-                })
-            }
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get('api/packages/for-buy-rides').then(res => {

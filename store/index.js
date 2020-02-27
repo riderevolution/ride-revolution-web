@@ -60,7 +60,8 @@ const createStore = () => {
                     role: {
                         display_name: '',
                     }
-                }
+                },
+                store_credits: []
             }
         })
     })

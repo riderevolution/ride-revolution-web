@@ -12,56 +12,43 @@
                         <div class="wrapper">
                             <div class="left">
                                 <div class="header">
-                                    <h2>{{ replacer($route.params.slug) }}</h2>
-                                    <h2>Php 1,000.00</h2>
+                                    <h2>{{ res.name }}</h2>
+                                    <h2>Php {{ totalCount(res.amount) }}</h2>
                                 </div>
-                                <div class="content">
-                                    <ul>
-                                        <li>1,000 worth of store credits that can be used to purchase class packages and Ride Revolution merchandise.</li>
-                                        <li>This can’t be used to purchase more store credits.</li>
-                                        <li>This is not transferrable or sharable to other Ride Rev members.</li>
-                                        <li>This is not convertible to cash.</li>
-                                    </ul>
+                                <div class="content" v-html="res.description">
                                 </div>
                             </div>
                             <div class="right">
                                 <form id="default_form">
-                                    <div class="form_flex with_btn alt">
-                                        <div class="form_group qty">
+                                    <div class="form_flex alt_2">
+                                        <div class="form_group">
                                             <label>Qty</label>
                                             <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
-                                                <input type="text" name="quantity" id="quantity" :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'numeric|min_value:1'">
+                                                <input type="text" name="quantity" id="quantity" readonly :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'numeric|min_value:1'">
                                                 <div class="up" @click="addCount()"></div>
                                                 <div class="down" @click="subtractCount()"></div>
-                                                <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">The qty field is required</span></transition>
+                                                <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">{{ errors.first('quantity') | properFormat }}</span></transition>
                                             </div>
-                                        </div>
-                                        <div class="form_group">
-                                            <label for="promo_code">Promo Code</label>
-                                            <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-model="form.promo">
-                                        </div>
-                                        <div class="form_button">
-                                            <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo()"><span>Apply</span></button>
                                         </div>
                                     </div>
                                 </form>
                                 <div class="breakdown_list">
                                     <div class="item">
-                                        <p>Subtotal</p>
-                                        <p>Php 9,500.00</p>
+                                        <p>Quantity</p>
+                                        <p>{{ form.quantity }}</p>
                                     </div>
                                     <div class="item">
-                                        <p>Discount</p>
-                                        <p>Php 0.00</p>
+                                        <p>Subtotal</p>
+                                        <p>Php {{ computeTotal(res.amount * form.quantity) }}</p>
                                     </div>
                                     <div class="total">
                                         <p>You Pay</p>
-                                        <p>Php 9,500.00</p>
+                                        <p>Php {{ totalCount(form.total) }}</p>
                                     </div>
                                 </div>
                                 <div class="breakdown_actions alt">
                                     <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
-                                    <div class="default_btn_img" @click="proceedToPayment('credit')">
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
@@ -81,24 +68,20 @@
                         <h2 class="header_title">Let’s make sure we got this right.</h2>
                         <div class="preview">
                             <div class="item">
-                                <h3>{{ replacer($route.params.slug) }}</h3>
-                                <p>Php 9,500.00</p>
+                                <h3>{{ res.name }}</h3>
+                                <p>Php {{ totalCount(res.amount) }}</p>
                             </div>
                             <div class="item">
-                                <h3>Rides</h3>
-                                <p>10</p>
-                            </div>
-                            <div class="item">
-                                <h3>Discount</h3>
-                                <p>Php 500.00</p>
+                                <h3>Quantity</h3>
+                                <p>{{ form.quantity }}</p>
                             </div>
                             <div class="total">
                                 <p>You Pay</p>
-                                <p>Php 9,000.00</p>
+                                <p>Php {{ totalCount(form.total) }}</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
-                                <div class="default_btn_img" @click="paymentSuccess()">
+                                <div class="default_btn_img" @click="paymentSuccess(res)">
                                     <div class="btn_wrapper">
                                         <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                     </div>
@@ -143,6 +126,7 @@
         },
         data () {
             return {
+                res: [],
                 type: '',
                 storeCredits: 50,
                 step: 1,
@@ -152,15 +136,83 @@
                 promo: false,
                 form: {
                     promo: '',
-                    quantity: 1
+                    quantity: 1,
+                    total: 0
+                }
+            }
+        },
+        filters: {
+            properFormat: function (value) {
+                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
+                if (newValue.length > 1) {
+                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                }else {
+                    newValue = value.split('The ')[1].split(' field')[0].split('_')
+                    if (newValue.length > 1) {
+                        let firstValue = ''
+                        let lastValue = ''
+                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
+                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                        }
+                        for (let i = 1; i < newValue.length; i++) {
+                            if (newValue[i] != 'id') {
+                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
+                            }
+                        }
+                        newValue = firstValue + ' ' + lastValue
+                    } else {
+                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
+                    }
+                }
+                let message = value.split('The ')[1].split(' field')
+                if (message.length > 1) {
+                    message = message[1]
+                    return `The ${newValue} field${message}`
+                } else {
+                    if (message[0].split('image[]').length > 1) {
+                        message = message[0].split('image[]')[1]
+                        return `The ${newValue} field${message}`
+                    } else {
+                        return `The ${newValue}`
+                    }
                 }
             }
         },
         methods: {
-            paymentSuccess () {
+            computeTotal (total) {
                 const me = this
-                me.step = 0
-                me.$store.state.buyRidesSuccessStatus = true
+                me.form.total = total
+                return me.totalCount(total)
+            },
+            paymentSuccess (data) {
+                const me = this
+                let token = me.$cookies.get('token')
+                let formData = new FormData()
+                formData.append('type', 'store-credit')
+                formData.append('store_credit_id', data.id)
+                formData.append('price', data.amount)
+                formData.append('quantity', me.form.quantity)
+                formData.append('total', me.form.total)
+                formData.append('payment_method', me.type)
+                me.loader(true)
+                me.$axios.post('api/web/pay', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.$store.state.buyRidesSuccessStatus = true
+                    }
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    me.step = 0
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                    me.validateToken()
+                })
             },
             stepBack () {
                 const me = this
@@ -187,15 +239,16 @@
             },
             proceedToPayment (type) {
                 const me = this
+                me.type = type
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
                         switch (type) {
-                            case 'store-credit':
-                            me.step = 2
+                            case 'store-credits':
+                                me.step = 2
                             break
-                            case 'credit':
-                            me.paypal = true
-                            me.step = 2
+                            case 'paypal':
+                                me.paypal = true
+                                me.step = 2
                             break
                         }
                     } else {
@@ -205,23 +258,23 @@
                         })
                     }
                 })
-            },
-            applyPromo () {
-                const me = this
-                if (!me.promoApplied) {
-                    if (me.form.promo == 'asdasd') {
-                        me.promoApplied = true
-                        me.message = 'Cheers! You’ve entered a valid promo code.'
-                    } else {
-                        me.message = 'You’ve entered an invalid promo code.'
-                    }
-                    me.$store.state.buyRidesPromptStatus = true
-                }
             }
         },
         mounted () {
             const me = this
             me.$store.state.proTipStatus = true
+        },
+        async asyncData ({ $axios, params, store, error }) {
+            return await $axios.get(`api/packages/web/store-credits/${params.slug}`).then(res => {
+                if (res.data) {
+                    return {
+                        res: res.data.storeCredit,
+                        storeCredits: (store.state.user.store_credits === null) ? 0 : store.state.user.store_credits.amount
+                    }
+                }
+            }).catch(err => {
+                error({ statusCode: 404, message: 'Page not found' })
+            })
         }
     }
 </script>

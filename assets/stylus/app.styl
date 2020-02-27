@@ -2542,6 +2542,14 @@ svg
                                         brandon_medium(16px, true)
                                         letter-spacing: 0.8px
                                         color: $green
+                                        background-color: transparent
+                                        border: 1px solid $green
+                                        padding: 5px 10px
+                                        transition: .3s ease-in-out
+                                        &:hover
+                                            color: $white
+                                            background-color: $green
+                                            transition: .3s ease-in-out
                                     label
                                         brandon_regular_italic(14px, false)
                                         color: $red
@@ -2589,6 +2597,7 @@ svg
                     .left
                         padding-right: 60px
                         .header
+                            position: relative
                             display: flex
                             flex-flow: row wrap
                             align-items: center
@@ -2597,6 +2606,12 @@ svg
                                 brandon_regular(20px, false)
                                 color: $black
                                 text-transform: capitalize
+                            .discount
+                                position: absolute
+                                top: calc(0% - 20px)
+                                right: 0
+                                text-decoration: line-through
+                                brandon_regular(14px, false)
                         .content
                             margin: 20px 0
                             ul
@@ -4110,6 +4125,14 @@ svg
                                     brandon_medium(16px, true)
                                     letter-spacing: 0.8px
                                     color: $green
+                                    background-color: transparent
+                                    border: 1px solid $green
+                                    padding: 5px 10px
+                                    transition: .3s ease-in-out
+                                    &:hover
+                                        color: $white
+                                        background-color: $green
+                                        transition: .3s ease-in-out
                                 label
                                     brandon_regular_italic(14px, false)
                                     color: $red
@@ -7461,6 +7484,10 @@ svg
     margin-bottom: 30px
     &.alt
         justify-content: center
+    &.alt_2
+        justify-content: flex-start
+        .form_group
+            flex: 0 0 auto
     &.flex_end
         align-items: flex-end
     .form_flex
