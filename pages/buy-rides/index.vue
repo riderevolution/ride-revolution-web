@@ -25,15 +25,15 @@
                 </transition>
             </div>
             <div class="content" id="package">
-                <nuxt-link rel="canonical" :to="`/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
-                    <div class="ribbon" v-if="data.has_promo">Promo</div>
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                    <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                     <div class="package_header">
-                        <h2 class="title">{{ data.title }}</h2>
-                        <div class="description" v-line-clamp="3" v-html="data.description"></div>
+                        <h2 class="title">{{ data.name }}</h2>
+                        <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                     </div>
-                    <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
-                    <div class="price">Php {{ totalItems(data.price) }}</div>
-                    <div class="expires">{{ data.expire }}</div>
+                    <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
+                    <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
+                    <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
                     <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
                     <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
@@ -46,7 +46,9 @@
                         </div>
                     </div>
                 </nuxt-link>
-                <div v-if="!checkPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
+                <div class="action">
+                    <div v-if="!checkPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
+                </div>
             </div>
         </section>
         <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
@@ -138,6 +140,7 @@
         },
         data () {
             return {
+                res: [],
                 toShowPackages: 3,
                 toShowStoreCredits: 3,
                 showInfoPackages: false,
@@ -202,58 +205,7 @@
                         code: 'JHSHAI23'
                     }
                 ],
-                packages: [
-                    {
-                        title: 'Trial Class',
-                        description: '<p>1 class included<br /> First Timers Only</p>',
-                        price: '500',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days',
-                        checked: false
-                    },
-                    {
-                        title: 'First Timer Package',
-                        description: '<p>UNLIMITED RIDES VALID<br /> FOR ONLY 2 WEEKS</p>',
-                        price: '1800',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days',
-                        checked: false
-                    },
-                    {
-                        title: 'Single Class',
-                        description: '<p>1 CLASS INCLUDED</p>',
-                        price: '5000',
-                        has_promo: false,
-                        expire: 'Expires in 45 Days',
-                        checked: false
-                    },
-                    {
-                        title: '10 Class Package',
-                        description: '<p>10 CLASSES INCLUDED<br /> + 1 BARE MANILA CLASS</p>',
-                        price: '500',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days',
-                        checked: false
-                    },
-                    {
-                        title: '20 Class Package',
-                        description: '<p>20 CLASSES INCLUDED<br /> + 2 BARE MANILA CLASS</p>',
-                        discounted_price: '17000',
-                        price: '15000',
-                        has_promo: true,
-                        expire: 'Expires in 6 Months',
-                        checked: false
-                    },
-                    {
-                        title: 'Monthly Unlimited Class Package',
-                        description: '<p>UNLIMITED CLASS RIDES<br /> + 3 BARE MANILA CLASSES AND<br /> FREE FOOD AND DRINKS</p>',
-                        discounted_price: '22500',
-                        price: '20000',
-                        has_promo: true,
-                        expire: 'Expires in 1 Year',
-                        checked: false
-                    },
-                ],
+                packages: [],
                 credits: [
                     {
                         title: '500 Store Credits',
@@ -340,6 +292,14 @@
             }
         },
         methods: {
+            checkIfLoggedIn (event) {
+                const me = this
+                event.preventDefault()
+                if (!me.$store.state.isAuth) {
+                    me.$store.state.loginCheckerStatus = true
+                    document.body.classList.add('no_scroll')
+                }
+            },
             loadMoreContent (type) {
                 const me = this
                 switch (type) {
@@ -425,6 +385,10 @@
             fetchData () {
                 const me = this
                 me.loader(true)
+                me.res.classPackages.forEach((element, index) => {
+                    element.checked = false
+                    me.packages.push(element)
+                })
                 me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                 me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
                 setTimeout( () => {
@@ -442,6 +406,15 @@
                     offset: 300
                 })
             }
+        },
+        async asyncData ({ $axios, params, store, error }) {
+            return await $axios.get('api/packages/for-buy-rides').then(res => {
+                if (res.data) {
+                    return { res: res.data }
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            })
         }
     }
 </script>

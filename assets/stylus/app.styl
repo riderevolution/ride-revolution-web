@@ -6475,6 +6475,7 @@ svg
                     margin-bottom: 40px
                 .title
                     flex: 0 0 100%
+                    padding: 0 20px
                     brandon_bold(36px, false)
                     color: $black
                     line-height: 1
@@ -6548,9 +6549,12 @@ svg
                         &::before
                             opacity: 1
                             transition: .3s ease-in-out
-        .default_btn
-            &.load
-                margin-top: 20px
+        .action
+            flex: 0 0 100%
+            text-align: center
+            .default_btn
+                &.load
+                    margin: 40px auto 0
 /**
  * Instagram */
 #instagram
@@ -8439,6 +8443,8 @@ textarea::-webkit-scrollbar-thumb
     &.not_front
         margin-top: 81px
         transition: .3s ease-in-out
+    &.health
+        z-index: 99
     #login
         position: absolute
         top: 0
@@ -8798,6 +8804,10 @@ textarea::-webkit-scrollbar-thumb
             .flex
                 flex: 0 0 47%
             &.alt
+                flex: 0 0 auto
+                justify-content: center
+            &.alt_2
+                margin-top: 25px
                 flex: 0 0 auto
                 justify-content: center
 

@@ -1,5 +1,5 @@
 <template>
-    <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'}`">
+    <div :class="`${($store.state.completeProfileHealthStatus) ? 'health' : ''} ${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'}`">
         <section id="login" class="alt">
             <div class="steps">
                 <ul>

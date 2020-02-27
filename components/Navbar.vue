@@ -89,6 +89,7 @@
             },
             windowScroll () {
                 const me = this
+                me.height = 0
                 let height = window.pageYOffset | document.body.scrollTop
                 let element = document.querySelector('#header')
                 if (element.classList.contains('front')) {

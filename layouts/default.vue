@@ -13,6 +13,9 @@
             <login-sign-up v-if="$store.state.loginSignUpStatus" />
         </transition>
         <transition name="fade">
+            <login-checker v-if="$store.state.loginCheckerStatus" />
+        </transition>
+        <transition name="fade">
             <complete-profile-steps v-if="$store.state.completeProfileStepsStatus" />
         </transition>
         <transition name="fade">
@@ -29,6 +32,7 @@
     import Foot from '../components/Foot'
     import Loader from '../components/modals/Loader'
     import LoginSignUp from '../components/modals/LoginSignUp'
+    import LoginChecker from '../components/modals/LoginChecker'
     import CompleteProfileSteps from '../components/modals/CompleteProfileSteps'
     import ForgotPasswordSuccess from '../components/modals/ForgotPasswordSuccess'
     import ErrorPrompt from '../components/modals/ErrorPrompt'
@@ -38,6 +42,7 @@
             Navbar,
             Foot,
             LoginSignUp,
+            LoginChecker,
             CompleteProfileSteps,
             ForgotPasswordSuccess,
             ErrorPrompt,
