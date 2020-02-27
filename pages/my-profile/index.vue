@@ -23,7 +23,7 @@
                             <div class="info">
                                 <div class="label">Member ID <b>{{ $store.state.user.member_id }}</b></div>
                                 <div class="label">Ride Points <b>0</b></div>
-                                <div class="label">Store Credits <b>500</b></div>
+                                <div class="label">Store Credits <b>{{ storeCredits }}</b></div>
                             </div>
                         </div>
                         <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="!$store.state.completeProfileStatus"><span>Update Profile</span></nuxt-link>
@@ -60,7 +60,8 @@
         },
         data () {
             return {
-                category: 'ride-rev-journey'
+                category: 'ride-rev-journey',
+                storeCredits: 0
             }
         },
         methods: {
@@ -74,9 +75,23 @@
                         }, 10)
                         break
                     case 'packages':
-                        setTimeout( () => {
-                            me.$refs.profileTab.tabCategory = 'active'
-                        }, 10)
+                        me.$axios.get(`api/customers/${me.$store.state.user.id}/packages?forWeb=1`).then(res => {
+                            if (res.data) {
+                                setTimeout( () => {
+                                    res.data.customer.user_package_counts.forEach((data, index) => {
+                                        data.toggled = false
+                                        me.$refs.profileTab.packages.push(data)
+                                    })
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.$refs.profileTab.tabCategory = 'active'
+                            }, 10)
+                        })
                         break
                 }
                 setTimeout( () => {
@@ -88,17 +103,14 @@
         mounted () {
             const me = this
             me.$store.state.completeProfileStatus = true
-        },
-        async asyncData ({ axios, params, store, error }) {
-            let ctr = 0
-            setInterval( () => {
-                if (ctr < 1) {
-                    if (!store.state.isAuth) {
-                        error({ statusCode: 403, message: 'Page not found' })
-                    }
-                    ctr++
-                }
-            }, 500)
+            let token = me.$cookies.get('token')
+            if (token == null || token == undefined) {
+                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+            } else {
+                setTimeout( () => {
+                    me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
+                }, 500)
+            }
         }
     }
 </script>

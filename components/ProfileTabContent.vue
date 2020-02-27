@@ -212,27 +212,28 @@
                                         <td>
                                             <div class="package_info">
                                                 <div class="count">
-                                                    <div class="overlay">{{ data.package.count }}</div>
+                                                    <div :class="`overlay ${(data.class_package.class_count_unlimited == 1) ? 'infinite' : ''}`">{{ (data.class_package.class_count_unlimited == 1) ? '&#8734;' : data.class_package.class_count }}</div>
                                                 </div>
                                                 <div class="title">
-                                                    {{ data.package.name }}
-                                                    <div :class="`violator ${data.violator.class}`" v-if="data.violator != null">{{ data.violator.title }}</div>
+                                                    {{ data.class_package.name }}
+                                                    <!-- <div :class="`violator ${data.violator.class}`" v-if="data.violator != null">{{ data.violator.title }}</div> -->
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><div class="default">{{ data.used }}</div></td>
-                                        <td><div class="default">{{ data.available }}</div></td>
+                                        <td><div class="default">{{ parseInt(data.original_package_count) - parseInt(data.count) }}</div></td>
+                                        <td><div class="default">{{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : (parseInt(data.count) == data.original_package_count) ? parseInt(data.original_package_count) : parseInt(data.count) }}</div></td>
                                         <td>
-                                            <div class="default">{{ data.purchase_date }}</div>
+                                            <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
                                             <div class="label">Date Purchased</div>
                                         </td>
                                         <td>
-                                            <div class="default">{{ data.activation_date }}</div>
+                                            <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
                                             <div class="label">Date Activated</div>
                                         </td>
                                         <td>
-                                            <div class="default">{{ data.expiry_date }}</div>
-                                            <div :class="`label ${(data.will_expire) ? 'violator' : ''}`">{{ (data.will_expire) ? '2 Days Left' : 'Date of Expiry' }}</div>
+                                            <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
+                                            <div class="label violator" v-if="checkWarning(data)">{{ violator.warning }} Days Left</div>
+                                            <div class="label" v-else>Date of Expiry</div>
                                         </td>
                                         <td>
                                             <div class="table_menu_overlay">
@@ -409,6 +410,12 @@
         },
         data () {
             return {
+                violator: {
+                    warning: 0,
+                    shared: 0,
+                    transferred: 0,
+                    freeze: 0,
+                },
                 packageCategory: 'transfer',
                 type: 1,
                 showInfoBadges: false,
@@ -494,56 +501,7 @@
                         toggled: false
                     }
                 ],
-                packages: [
-                    {
-                        package: {
-                            count: 15,
-                            name: '15-Class Package'
-                        },
-                        violator: null,
-                        used: 3,
-                        available: 12,
-                        purchase_date: 'Apr 4, 2019',
-                        activation_date: 'Apr 8, 2019',
-                        will_expire: false,
-                        expiry_date: 'May 15, 2019',
-                        toggled: false
-                    },
-                    {
-                        package: {
-                            count: 15,
-                            name: '5-Class Package'
-                        },
-                        violator: {
-                            title: 'Shared with Ben Stiller',
-                            class: 'shared'
-                        },
-                        used: 3,
-                        available: 12,
-                        purchase_date: 'Apr 4, 2019',
-                        activation_date: 'Apr 8, 2019',
-                        will_expire: false,
-                        expiry_date: 'May 15, 2019',
-                        toggled: false
-                    },
-                    {
-                        package: {
-                            count: 15,
-                            name: '15-Class Package'
-                        },
-                        violator: {
-                            title: 'Ben Stiller Shared with me',
-                            class: 'shared_with_me'
-                        },
-                        used: 3,
-                        available: 12,
-                        purchase_date: 'Apr 4, 2019',
-                        activation_date: 'Apr 8, 2019',
-                        will_expire: true,
-                        expiry_date: 'May 15, 2019',
-                        toggled: false
-                    }
-                ],
+                packages: [],
                 pendingTransactions: [
                     {
                         date: 'Apr 4, 2019, 10:00 AM',
@@ -917,19 +875,19 @@
                 const me = this
                 setTimeout( () => {
                     me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
-                }, 10)
+                }, 100)
             },
-            // checkWarning (data) {
-            //     const me = this
-            //     let expiry = me.$moment(data.class_package.computed_expiration_date)
-            //     let current = me.$moment()
-            //     if (parseInt(expiry.diff(current, 'days')) <= 15) {
-            //         me.violator.warning = expiry.diff(current, 'days')
-            //         return true
-            //     } else {
-            //         return false
-            //     }
-            // },
+            checkWarning (data) {
+                const me = this
+                let expiry = me.$moment(data.class_package.computed_expiration_date)
+                let current = me.$moment()
+                if (parseInt(expiry.diff(current, 'days')) <= 15) {
+                    me.violator.warning = expiry.diff(current, 'days')
+                    return true
+                } else {
+                    return false
+                }
+            },
             toggleCancel () {
                 const me = this
                 me.$store.state.cancelClassStatus = true
