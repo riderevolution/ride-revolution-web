@@ -19,7 +19,7 @@
             <div class="right">
                 <p class="share">Share this article</p>
                 <div class="share_links">
-                    <a href="javascript:void(0)" class="fb">fb</a>
+                    <a href="javascript:void(0)" class="fb" @click="sharer('fb')">fb</a>
                     <a href="javascript:void(0)" class="email" @click="shareViaEmail()">email</a>
                 </div>
             </div>

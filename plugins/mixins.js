@@ -2,6 +2,19 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
+        sharer (type) {
+            let link = location.href
+            let shareLink = ''
+            switch (type) {
+                case 'fb':
+                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
+                    break
+                case 'tw':
+                    shareLink = `https://twitter.com/home?status=${link}`
+                    break
+            }
+            window.open(shareLink, "shareWindow", "status=1,width=600,height=450")
+        },
         randomCode () {
             return Math.random().toString(36).substring(5).toUpperCase()
         },

@@ -43,7 +43,11 @@ const createStore = () => {
                 first_name: '',
                 current_studio_id: '',
                 customer_details: {
-                    images: []
+                    images: [
+                        {
+                            path: ''
+                        }
+                    ]
                 },
                 staff_details: {
                     studio_access: [

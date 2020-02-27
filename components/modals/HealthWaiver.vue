@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="form_group">
-                            <div class="form_check alt">
+                            <div class="form_check">
                                 <input type="checkbox" id="email_waiver" name="email_waiver" class="input_check" v-validate="'required'">
                                 <label for="email_waiver">Email me my Waiver</label>
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('health_waiver_form.email_waiver') && hasReadTerms">{{ errors.first('health_waiver_form.email_waiver') | properFormat }}</span></transition>
@@ -164,7 +164,35 @@
                 const me = this
                 me.$validator.validateAll('health_waiver_form').then(valid => {
                     if (valid) {
-
+                        let token = me.$cookies.get('token')
+                        let formData = new FormData()
+                        let formData1 = new FormData(document.getElementById('step_1_form'))
+                        let formData2 = new FormData(document.getElementById('step_2_form'))
+                        let formData3 = new FormData(document.getElementById('step_3_form'))
+                        let formData4 = new FormData(document.getElementById('default_form'))
+                        formData.append('step_1', JSON.stringify(Object.fromEntries(formData1)))
+                        formData.append('step_2', JSON.stringify(Object.fromEntries(formData2)))
+                        formData.append('step_3', JSON.stringify(Object.fromEntries(formData3)))
+                        formData.append('health_waiver', JSON.stringify(Object.fromEntries(formData4)))
+                        formData.append('_method', 'PATCH')
+                        me.$axios.post('api/user/complete-profile', formData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            console.log(res.data);
+                        //     me.$store.state.changePasswordStatus = false
+                        //     me.$store.state.buyRidesPromptStatus = true
+                        //     me.$parent.message = "You've successfully changed your password."
+                        // }).catch(err => {
+                        //     me.$store.state.errorList = err.response.data.errors
+                        //     me.$store.state.errorPromptStatus = true
+                        // }).then(() => {
+                        //     setTimeout( () => {
+                        //         me.loader(false)
+                        //     }, 500)
+                        //     me.validateToken()
+                        })
                     } else {
                         me.error = true
                         me.$scrollTo('.validation_errors', {
@@ -187,7 +215,6 @@
                         me.hasReadTerms = true
                     } else {
                         me.hasReadTerms = false
-                        me.signUpForm.iAgree = ''
                         document.getElementById('i_agree').checked = false
                     }
                 })

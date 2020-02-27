@@ -20,7 +20,7 @@
         <div class="footer_link">
             <h3>Services</h3>
             <ul>
-                <li><nuxt-link rel="canonical" to="/faq" class="footer_item">FAQ's</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/faqs" class="footer_item">FAQ's</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/news" class="footer_item">News</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/promos" class="footer_item">Promos</nuxt-link></li>

@@ -20,8 +20,8 @@
                     </li>
                 </ul>
             </div>
-            <form id="default_form" data-vv-scope="complete_profile_form" v-show="completeProfileStep == 1">
-                <div :class="`${(completeProfileStep == 1) ? 'fade_in' : 'fade_out'}`">
+            <form id="step_1_form" data-vv-scope="complete_profile_form" v-show="completeProfileStep == 1">
+                <div id="default_form" :class="`${(completeProfileStep == 1) ? 'fade_in' : 'fade_out'}`">
                     <div class="sign_up_header alt">
                         <h2 class="title">Complete your profile</h2>
                     </div>
@@ -71,8 +71,8 @@
                     </div>
                 </div>
             </form>
-            <form id="default_form" data-vv-scope="complete_profile_2_form" v-show="completeProfileStep == 2">
-                <div :class="`${(completeProfileStep == 2) ? 'fade_in' : 'fade_out'}`">
+            <form id="step_2_form" data-vv-scope="complete_profile_2_form" v-show="completeProfileStep == 2">
+                <div id="default_form" :class="`${(completeProfileStep == 2) ? 'fade_in' : 'fade_out'}`">
                     <div class="sign_up_header alt">
                         <h2 class="title">Tell us about your personal address</h2>
                     </div>
@@ -99,8 +99,8 @@
                     </div>
                 </div>
             </form>
-            <form id="default_form" data-vv-scope="complete_profile_3_form" v-show="completeProfileStep == 3">
-                <div :class="`${(completeProfileStep == 3) ? 'fade_in' : 'fade_out'}`">
+            <form id="step_3_form" data-vv-scope="complete_profile_3_form" v-show="completeProfileStep == 3">
+                <div id="default_form" :class="`${(completeProfileStep == 3) ? 'fade_in' : 'fade_out'}`">
                     <div class="sign_up_header alt_2">
                         <h2 class="title">Almost there!</h2>
                     </div>

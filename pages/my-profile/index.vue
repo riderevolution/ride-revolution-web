@@ -1,5 +1,5 @@
 <template>
-    <div :class="`${(!$store.state.completeProfileStatus) ? 'dismissed' : 'dismiss'} my_profile`">
+    <div class="my_profile">
         <breadcrumb :overlay="false" />
         <transition name="slide">
             <complete-profile v-if="$store.state.completeProfileStatus" />
