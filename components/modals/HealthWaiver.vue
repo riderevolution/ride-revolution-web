@@ -1,8 +1,8 @@
 <template>
     <div class="default_modal">
         <div class="background" @click="toggleClose()"></div>
-            <form id="default_form" class="overlay alt_2 scroll" data-vv-scope="health_waiver_form" @submit.prevent="submissionSuccess()">
-                <div class="modal_wrapper">
+            <form id="health_waiver_form" class="overlay alt_2 scroll" data-vv-scope="health_waiver_form" @submit.prevent="submissionSuccess()">
+                <div id="default_form" class="modal_wrapper">
                     <h2 class="form_title alt">One last thing, please sign our health waiver.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
@@ -168,10 +168,11 @@
                         let formData1 = new FormData(document.getElementById('step_1_form'))
                         let formData2 = new FormData(document.getElementById('step_2_form'))
                         let formData3 = new FormData(document.getElementById('step_3_form'))
-                        let formData4 = new FormData(document.getElementById('default_form'))
+                        let formData4 = new FormData(document.getElementById('health_waiver_form'))
                         formData1.append('step_2', JSON.stringify(Object.fromEntries(formData2)))
                         formData1.append('step_3', JSON.stringify(Object.fromEntries(formData3)))
                         formData1.append('health_waiver', JSON.stringify(Object.fromEntries(formData4)))
+                        formData1.append('medical_history', JSON.stringify(me.form.medical_history))
                         formData1.append('_method', 'PATCH')
                         me.$axios.post('api/user/complete-profile', formData1, {
                             headers: {
