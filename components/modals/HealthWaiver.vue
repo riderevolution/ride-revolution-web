@@ -2,7 +2,7 @@
     <div class="default_modal">
         <div class="background" @click="toggleClose()"></div>
             <form id="health_waiver_form" class="overlay alt_2 scroll" data-vv-scope="health_waiver_form" @submit.prevent="submissionSuccess()">
-                <div id="default_form" class="modal_wrapper">
+                <div class="modal_wrapper">
                     <h2 class="form_title alt">One last thing, please sign our health waiver.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
