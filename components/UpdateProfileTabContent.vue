@@ -25,6 +25,7 @@
                         <div class="sub_label">
                             <div class="text">{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</div>
                             <img src="/sample-type.svg" />
+                            <div class="default_btn_blue" @click="viewImage()">View Photo</div>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -289,6 +290,11 @@
             }
         },
         methods: {
+            viewImage () {
+                const me = this
+                me.$store.state.imageViewerStatus = true
+                document.body.classList.add('no_scroll')
+            },
             getFile (event) {
                 const me = this
                 let element = event.target

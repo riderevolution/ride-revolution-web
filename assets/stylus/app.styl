@@ -7865,7 +7865,7 @@ svg
             color: $green
     .input_image
         position: absolute
-        bottom: 10px
+        top: 0
         opacity: 0
     .input_image_label
         position: relative
@@ -7920,6 +7920,11 @@ svg
             brandon_regular(22px, false)
             color: $black
             letter-spacing: 0.33px
+        .default_btn_blue
+            display: block
+            padding: 5px 10px
+            margin-top: 10px
+            brandon_bold(14px, true)
     .validation_errors
         position: absolute
         top: calc(100% + 5px)
@@ -8798,6 +8803,16 @@ textarea::-webkit-scrollbar-thumb
         background-color: $white
         padding: 80px 80px 60px
         transform: translate(-50%, -50%)
+        &.image
+            background-color: transparent
+            padding: 15% 80px
+            background-repeat: no-repeat
+            background-position: center
+            background-size: contain
+            .form_close
+                &::before,
+                &::after
+                    background-color: $white
         .form_close
             position: absolute
             width: 20px

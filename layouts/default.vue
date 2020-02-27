@@ -27,6 +27,9 @@
         <transition name="fade">
             <error-prompt v-if="$store.state.errorPromptStatus" />
         </transition>
+        <transition name="fade">
+            <image-viewer v-if="$store.state.imageViewerStatus" />
+        </transition>
     </div>
 </template>
 <script>
@@ -40,6 +43,7 @@
     import CompleteProfileSuccess from '../components/modals/CompleteProfileSuccess'
     import ForgotPasswordSuccess from '../components/modals/ForgotPasswordSuccess'
     import ErrorPrompt from '../components/modals/ErrorPrompt'
+    import ImageViewer from '../components/modals/ImageViewer'
     export default {
         components: {
             NavbarExpanded,
@@ -51,6 +55,7 @@
             CompleteProfileSuccess,
             ForgotPasswordSuccess,
             ErrorPrompt,
+            ImageViewer,
             Loader
         },
         data () {
