@@ -5177,6 +5177,22 @@ svg
                             height: 120px
                             border-radius: 50%
                             border: 3px solid $white
+                        .overlay
+                            position: relative
+                            width: 120px
+                            height: 120px
+                            background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                            border-radius: 50%
+                            .letter
+                                position: absolute
+                                top: 50%
+                                left: 0
+                                right: 0
+                                text-align: center
+                                brandon_bold(40px, true)
+                                line-height: 1
+                                color: $white
+                                transform: translateY(-50%)
                         .badges
                             position: absolute
                             bottom: calc(0% - 30px)

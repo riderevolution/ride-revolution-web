@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            completeProfileSuccessStatus: false,
             loginCheckerStatus: false,
             shareEmailStatus: false,
             commentSuccessStatus: false,

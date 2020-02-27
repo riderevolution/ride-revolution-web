@@ -84,8 +84,7 @@
                             <div class="select">
                                 <select class="input_select" name="shoe_size" v-model="profileOverview.shoe_size" v-validate="'required'">
                                     <option value="" selected disabled>Please select a shoe size</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
+                                    <option :value="size" v-for="(size, index) in sizes">{{ size }}</option>
                                 </select>
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.shoe_size')">{{ errors.first('profile_overview_form.shoe_size') | properFormat }}</span></transition>
@@ -238,6 +237,18 @@
                     billing_address_2: '',
                     billing_city: ''
                 }
+            }
+        },
+        computed: {
+            sizes () {
+                const me = this
+                let ctr = 5
+                let sizes = []
+                for (let i = 0; i < 35; i++) {
+                    ctr += 0.5
+                    sizes.push(ctr)
+                }
+                return sizes
             }
         },
         filters: {

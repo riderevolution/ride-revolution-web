@@ -10,7 +10,12 @@
                 <div class="top">
                     <div class="left">
                         <div class="overlay">
-                            <img class="profile_img" src="/sample-image-booker.png" />
+                            <img class="profile_img" :src="`${($store.state.user.customer_details.images) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images" />
+                            <div class="overlay" v-else>
+                                <div class="letter">
+                                    {{ $store.state.user.first_name.charAt(0) }}{{ $store.state.user.last_name.charAt(0) }}
+                                </div>
+                            </div>
                             <div class="badges">
                                 <div class="first"><img src="/sample-badge-2.svg" /></div>
                                 <div class="second"><img src="/sample-badge.svg" /></div>
@@ -26,7 +31,7 @@
                                 <div class="label">Store Credits <b>{{ storeCredits }}</b></div>
                             </div>
                         </div>
-                        <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="!$store.state.completeProfileStatus"><span>Update Profile</span></nuxt-link>
+                        <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="$store.state.user.new_user == 0"><span>Update Profile</span></nuxt-link>
                     </div>
                 </div>
                 <div class="bottom">
@@ -102,13 +107,15 @@
         },
         mounted () {
             const me = this
-            me.$store.state.completeProfileStatus = true
             let token = me.$cookies.get('token')
             if (token == null || token == undefined) {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             } else {
                 setTimeout( () => {
                     me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
+                    if (me.$store.state.user.new_user == 1) {
+                        me.$store.state.completeProfileStatus = true
+                    }
                 }, 500)
             }
         }

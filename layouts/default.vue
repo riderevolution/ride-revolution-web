@@ -19,6 +19,9 @@
             <complete-profile-steps v-if="$store.state.completeProfileStepsStatus" />
         </transition>
         <transition name="fade">
+            <complete-profile-success v-if="$store.state.completeProfileSuccessStatus" />
+        </transition>
+        <transition name="fade">
             <forgot-password-success v-if="$store.state.forgotPasswordSuccessStatus" />
         </transition>
         <transition name="fade">
@@ -34,6 +37,7 @@
     import LoginSignUp from '../components/modals/LoginSignUp'
     import LoginChecker from '../components/modals/LoginChecker'
     import CompleteProfileSteps from '../components/modals/CompleteProfileSteps'
+    import CompleteProfileSuccess from '../components/modals/CompleteProfileSuccess'
     import ForgotPasswordSuccess from '../components/modals/ForgotPasswordSuccess'
     import ErrorPrompt from '../components/modals/ErrorPrompt'
     export default {
@@ -44,6 +48,7 @@
             LoginSignUp,
             LoginChecker,
             CompleteProfileSteps,
+            CompleteProfileSuccess,
             ForgotPasswordSuccess,
             ErrorPrompt,
             Loader

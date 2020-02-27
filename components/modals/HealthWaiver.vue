@@ -184,18 +184,17 @@
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
-                            console.log(res.data);
-                        //     me.$store.state.changePasswordStatus = false
-                        //     me.$store.state.buyRidesPromptStatus = true
-                        //     me.$parent.message = "You've successfully changed your password."
-                        // }).catch(err => {
-                        //     me.$store.state.errorList = err.response.data.errors
-                        //     me.$store.state.errorPromptStatus = true
-                        // }).then(() => {
-                        //     setTimeout( () => {
-                        //         me.loader(false)
-                        //     }, 500)
-                        //     me.validateToken()
+                            me.$store.state.completeProfileHealthStatus = false
+                            me.$store.state.completeProfileStepsStatus = false
+                        }).catch(err => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                                me.$store.state.completeProfileSuccessStatus = true
+                            }, 500)
+                            me.validateToken()
                         })
                     } else {
                         me.error = true
