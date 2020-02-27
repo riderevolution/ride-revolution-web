@@ -162,6 +162,11 @@
             },
             submissionSuccess () {
                 const me = this
+                if (me.form.medical_history.length == me.histories.length) {
+                    me.error = false
+                } else {
+                    me.error = true
+                }
                 me.$validator.validateAll('health_waiver_form').then(valid => {
                     if (valid) {
                         let token = me.$cookies.get('token')
