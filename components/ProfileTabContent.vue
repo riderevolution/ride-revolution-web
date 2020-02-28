@@ -880,9 +880,14 @@
             },
             getHeight () {
                 const me = this
-                setTimeout( () => {
+                let ctr = 0
+                let interval = setInterval( () => {
                     me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
-                }, 100)
+                    ctr++
+                }, 200)
+                if (ctr > 2) {
+                    clearInterval(interval)
+                }
             },
             checkWarning (data) {
                 const me = this

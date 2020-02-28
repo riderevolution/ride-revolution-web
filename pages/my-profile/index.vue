@@ -10,10 +10,10 @@
                 <div class="top">
                     <div class="left">
                         <div class="overlay">
-                            <img class="profile_img" :src="`${($store.state.user.customer_details.images) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images" />
-                            <div class="overlay" v-else>
+                            <img class="profile_img" :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images.path != null" />
+                            <div class="overlay_letter" v-else>
                                 <div class="letter">
-                                    {{ $store.state.user.first_name.charAt(0) }}{{ $store.state.user.last_name.charAt(0) }}
+                                    {{ first_name }}{{ last_name }}
                                 </div>
                             </div>
                             <div class="badges">
@@ -27,7 +27,6 @@
                             <div class="name"><h2>{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div>
                             <div class="info">
                                 <div class="label">Member ID <b>{{ $store.state.user.member_id }}</b></div>
-                                <div class="label">Ride Points <b>0</b></div>
                                 <div class="label">Store Credits <b>{{ storeCredits }}</b></div>
                             </div>
                         </div>
@@ -66,7 +65,9 @@
         data () {
             return {
                 category: 'ride-rev-journey',
-                storeCredits: 0
+                storeCredits: 0,
+                first_name: '',
+                last_name: ''
             }
         },
         methods: {
@@ -80,15 +81,17 @@
                         }, 10)
                         break
                     case 'packages':
+                        me.loader(true)
                         me.$axios.get(`api/customers/${me.$store.state.user.id}/packages?forWeb=1`).then(res => {
-                            // if (res.data) {
-                            //     setTimeout( () => {
-                            //         res.data.customer.user_package_counts.forEach((data, index) => {
-                            //             data.toggled = false
-                            //             me.$refs.profileTab.packages.push(data)
-                            //         })
-                            //     }, 10)
-                            // }
+                            if (res.data) {
+                                setTimeout( () => {
+                                    me.$refs.profileTab.packages = []
+                                    res.data.customer.user_package_counts.forEach((data, index) => {
+                                        data.toggled = false
+                                        me.$refs.profileTab.packages.push(data)
+                                    })
+                                }, 10)
+                            }
                         }).catch((err) => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
@@ -96,6 +99,9 @@
                             setTimeout( () => {
                                 me.$refs.profileTab.tabCategory = 'active'
                             }, 10)
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
                         })
                         break
                 }
@@ -113,6 +119,8 @@
             } else {
                 setTimeout( () => {
                     me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
+                    me.first_name = me.$store.state.user.first_name.charAt(0)
+                    me.last_name = me.$store.state.user.last_name.charAt(0)
                     if (me.$store.state.user.new_user == 1) {
                         me.$store.state.completeProfileStatus = true
                     }

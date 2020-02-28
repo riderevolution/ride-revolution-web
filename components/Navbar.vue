@@ -23,10 +23,10 @@
                 </li>
                 <li v-else>
                     <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
-                        <img :src="`${($store.state.user.customer_details.images) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images" />
+                        <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
                         <div class="overlay" v-else>
                             <div class="letter">
-                                {{ $store.state.user.first_name.charAt(0) }}{{ $store.state.user.last_name.charAt(0) }}
+                                {{ first_name }}{{ last_name }}
                             </div>
                         </div>
                         <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
@@ -68,7 +68,9 @@
         data () {
             return {
                 height: 0,
-                showList: false
+                showList: false,
+                first_name: '',
+                last_name: ''
             }
         },
         methods: {
@@ -100,6 +102,10 @@
         mounted () {
             const me = this
             me.windowScroll()
+            setTimeout( () => {
+                me.first_name = me.$store.state.user.first_name.charAt(0)
+                me.last_name = me.$store.state.user.last_name.charAt(0)
+            }, 500)
         },
         beforeMount () {
             window.addEventListener('load', this.windowScroll)
