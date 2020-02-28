@@ -713,6 +713,12 @@ svg
                 .excess_line
                     background-color: $black_alt
                     transition: .3s ease-in-out
+                &:hover
+                    .bar,
+                    .excess_line
+                        background-color: $green
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
         &.instructor
             background-color: $white
             box-shadow: 0 3px 6px transparent
@@ -750,6 +756,12 @@ svg
                 .excess_line
                     background-color: $black_alt
                     transition: .3s ease-in-out
+                &:hover
+                    .bar,
+                    .excess_line
+                        background-color: $green
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
         &.sticky,
         &.not_front
             border-bottom: 0.5px solid transparent
@@ -788,6 +800,12 @@ svg
                 .excess_line
                     background-color: $black_alt
                     transition: .3s ease-in-out
+                &:hover
+                    .bar,
+                    .excess_line
+                        background-color: $green
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
         .navbar
             display: flex
             flex-flow: row wrap
@@ -979,6 +997,7 @@ svg
                 background-color: $white
                 height: 2px
                 margin-bottom: 5.5px
+                box-shadow: 0px 0px 25px transparent
                 transition: .3s ease-in-out
                 &.bottom_line
                     width: calc(100% - 20px)
@@ -990,7 +1009,14 @@ svg
                 width: 10px
                 height: 2px
                 background-color: $white
+                box-shadow: 0px 0px 25px transparent
                 transition: .3s ease-in-out
+            &:hover
+                .bar,
+                .excess_line
+                    background-color: $green
+                    box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                    transition: .3s ease-in-out
     #footer
         position: relative
         display: flex
