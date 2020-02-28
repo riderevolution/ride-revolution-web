@@ -10,7 +10,7 @@
                 <div class="top">
                     <div class="left">
                         <div class="overlay">
-                            <img class="profile_img" :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images.path != null" />
+                            <img class="profile_img" :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
                             <div class="overlay_letter" v-else>
                                 <div class="letter">
                                     {{ first_name }}{{ last_name }}
@@ -117,13 +117,17 @@
             if (token == null || token == undefined) {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             } else {
-                setTimeout( () => {
-                    me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
-                    me.first_name = me.$store.state.user.first_name.charAt(0)
-                    me.last_name = me.$store.state.user.last_name.charAt(0)
-                    if (me.$store.state.user.new_user == 1) {
-                        me.$store.state.completeProfileStatus = true
+                let ctr = 0
+                setInterval( () => {
+                    if (ctr > 1) {
+                        me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
+                        me.first_name = me.$store.state.user.first_name.charAt(0)
+                        me.last_name = me.$store.state.user.last_name.charAt(0)
+                        if (me.$store.state.user.new_user == 1) {
+                            me.$store.state.completeProfileStatus = true
+                        }
                     }
+                    ctr++
                 }, 500)
             }
         }

@@ -101,10 +101,14 @@
         },
         mounted () {
             const me = this
+            let ctr = 0
             me.windowScroll()
-            setTimeout( () => {
-                me.first_name = me.$store.state.user.first_name.charAt(0)
-                me.last_name = me.$store.state.user.last_name.charAt(0)
+            setInterval( () => {
+                if (ctr > 1) {
+                    me.first_name = me.$store.state.user.first_name.charAt(0)
+                    me.last_name = me.$store.state.user.last_name.charAt(0)
+                }
+                ctr++
             }, 500)
         },
         beforeMount () {

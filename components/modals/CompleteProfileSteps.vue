@@ -26,9 +26,9 @@
                         <h2 class="title">Complete your profile</h2>
                     </div>
                     <div class="form_flex_image">
-                        <label class="main_label">Profile Picture <span>*</span></label>
+                        <label class="main_label">Profile Picture</label>
                         <div class="flex_image">
-                            <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'required|size:1000|image|ext:jpeg,jpg,png'">
+                            <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'size:1000|image|ext:jpeg,jpg,png'">
                             <input type="hidden" name="image_id[]" value="0">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.image[]')">{{ errors.first('complete_profile_form.image[]') | properFormat }}</span></transition>
                             <label class="input_image_label" for="image">

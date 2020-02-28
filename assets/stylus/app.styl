@@ -882,6 +882,7 @@ svg
                     object-fit: cover
                     object-position: center
                     border-radius: 50%
+                    border: 2px solid $green
                 .overlay
                     position: relative
                     width: 35px
@@ -895,7 +896,6 @@ svg
                         right: 0
                         text-align: center
                         brandon_bold(16px, true)
-                        line-height: 1
                         color: $white
                         transform: translateY(-50%)
                 h3
@@ -1783,10 +1783,8 @@ svg
                     background-image: url('/default/home/lets-ride-mobile.svg')
             .description
                 flex: 0 0 40%
-                display: flex
-                flex-flow: row wrap
-                align-items: center
-                justify-content: center
+                text-align: right
+                margin-right: 50px
                 img
                     margin-right: 10px
                 span

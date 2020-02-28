@@ -114,7 +114,7 @@
                     </div>
                     <div class="chart">
                         <div class="tab_content_header alt3">
-                            <h2>Your Top Booked Instructors</h2>
+                            <h2>HOW MANY TIMES YOU’VE RIDEN WITH RIDE REV</h2>
                             <ul class="tab_content_header_menu">
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'weekly') ? 'active' : ''}`" @click="toggledChartMenuTab('weekly')">Weekly</li>
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'monthly') ? 'active' : ''}`" @click="toggledChartMenuTab('monthly')">Monthly</li>
@@ -882,9 +882,11 @@
                 const me = this
                 let ctr = 0
                 let interval = setInterval( () => {
-                    me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
+                    if (document.getElementById(`tab_${me.unique}`)) {
+                        me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
+                    }
                     ctr++
-                }, 200)
+                }, 500)
                 if (ctr > 2) {
                     clearInterval(interval)
                 }

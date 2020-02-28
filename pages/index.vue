@@ -36,7 +36,7 @@
                         <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
-                        <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn">See All Promos</nuxt-link>
                     </transition>
                     <div class="action_mobile" v-if="$parent.$parent.isMobile">
                         <nuxt-link rel="canonical" to="/promos" class="default_btn">See All Promos</nuxt-link>
@@ -236,7 +236,10 @@
             <div class="header">
                 <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">studios</h2>
                 <div class="description">
-                    <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
+                    <p>
+                        <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
+                    </p>
+                    <a href="https://www.instagram.com/" target="_blank" class="default_btn">Follow Now</a>
                 </div>
             </div>
             <div class="content">
