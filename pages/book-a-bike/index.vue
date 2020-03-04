@@ -87,10 +87,10 @@
                                         </div>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" @click="checkIfNew($event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                        <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew($event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
                                             <span>Book Now</span>
                                         </nuxt-link>
-                                        <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" @click="checkIfNew($event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                        <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew($event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
                                             <span>Waitlist</span>
                                         </nuxt-link>
                                         <div class="btn default_btn_out disabled" v-else>

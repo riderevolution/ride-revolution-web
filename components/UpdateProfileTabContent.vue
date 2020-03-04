@@ -52,6 +52,7 @@
                                 <vc-date-picker
                                 :is-required="true"
                                 v-model="profileOverview.birth_date"
+                                :nav-visibility="'visible'"
                                 :input-props='{
                                     class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
                                     id: "birth_date",
@@ -431,7 +432,7 @@
             let ctr = 0
             setInterval( () => {
                 if (ctr < 1) {
-                    me.profileOverview.image_id = (me.$store.state.user.customer_details.images) ? me.$store.state.user.customer_details.images[0].id : 0
+                    me.profileOverview.image_id = (me.$store.state.user.customer_details.images[0].path != null) ? me.$store.state.user.customer_details.images[0].id : 0
                     me.profileOverview.first_name = me.$store.state.user.first_name
                     me.profileOverview.last_name = me.$store.state.user.last_name
                     me.profileOverview.email = me.$store.state.user.email
@@ -448,7 +449,7 @@
                     me.address.billing_address_2 = me.$store.state.user.customer_details.ba_address_2
                     me.address.billing_city = me.$store.state.user.customer_details.ba_city
 
-                    me.previewImage = (me.$store.state.user.customer_details.images) ? true : false
+                    me.previewImage = (me.$store.state.user.customer_details.images[0].path != null) ? true : false
                     me.subscribed = (me.$store.state.user.newsletter_subscription) ? true : false
                     ctr++
                 }
