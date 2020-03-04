@@ -9,7 +9,7 @@
             </div>
         </section>
         <section id="content">
-            <nuxt-link :to="`/news/${convertToSlug(data.title)}`" class="news_list" v-for="(data, key) in populateNews" :key="key">
+            <nuxt-link :to="`/news/${convertToSlug(data.title)}`" class="news_list" v-if="data.checked" v-for="(data, key) in populateNews" :key="key">
                 <div class="top">
                     <img :src="data.path" alt="asdasdasd" />
                 </div>
@@ -21,7 +21,7 @@
                 </div>
             </nuxt-link>
             <div class="action">
-                <div v-if="!checkNews" class="default_btn load" @click="loadMoreNews()">Load More</div>
+                <div v-if="!showLoadedNews" class="default_btn load" @click="loadMoreNews()">Load More</div>
             </div>
         </section>
         <section id="ride_with">
@@ -55,6 +55,7 @@
         data () {
             return {
                 toShow: 6,
+                showLoadedNews: false,
                 news: [
                     {
                         path: '/default/news/news-inner-banner.jpg',
@@ -123,27 +124,18 @@
             populateNews () {
                 const me = this
                 let result = []
+                let count = 0
                 for (let i = 0; i < me.toShow; i++) {
                     if (me.news[i]) {
+                        count++
                         me.news[i].checked = true
                         result.push(me.news[i])
                     }
                 }
-                return result
-            },
-            checkNews () {
-                const me = this
-                let count = 0
-                let result = false
-                me.news.forEach((data, index) => {
-                    if (data.checked) {
-                        count++
-                    }
-                })
                 if (count == me.news.length) {
-                    result = true
+                    me.showLoadedNews = true
                 } else {
-                    result = false
+                    me.showLoadedNews = false
                 }
                 return result
             }
@@ -151,7 +143,7 @@
         methods: {
             loadMoreNews () {
                 const me = this
-                if (!me.checkNews) {
+                if (!me.showLoadedNews) {
                     me.toShow += 3
                     me.$scrollTo('.load', {
                         offset: -250

@@ -166,6 +166,7 @@
                             <vc-date-picker
                             :is-required="true"
                             v-model="signUpForm.birth_date"
+                            :nav-visibility="'visible'"
                             :input-props='{
                                 class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
                                 id: "birth_date",

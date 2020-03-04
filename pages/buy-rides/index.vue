@@ -25,7 +25,7 @@
                 </transition>
             </div>
             <div class="content" id="package">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" v-if="data.checked" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                     <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                     <div class="package_header">
                         <h2 class="title">{{ data.name }}</h2>
@@ -46,9 +46,6 @@
                         </div>
                     </div>
                 </nuxt-link>
-                <div class="action">
-                    <div v-if="!showLoadedPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
-                </div>
             </div>
         </section>
         <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
@@ -72,10 +69,10 @@
                         <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
-                        <nuxt-link rel="canonical" to="/whats-new" class="overlay_btn default_btn" v-if="showAllPromos && !$parent.$parent.isMobile">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn">See All Promos</nuxt-link>
                     </transition>
                     <div class="action_mobile" v-if="$parent.$parent.isMobile">
-                        <nuxt-link rel="canonical" to="/whats-new" class="default_btn">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/promos" class="default_btn">See All Promos</nuxt-link>
                     </div>
                 </div>
             </no-ssr>
@@ -115,9 +112,6 @@
                         </div>
                     </div>
                 </nuxt-link>
-                <div class="action">
-                    <div v-if="!showLoadedStoreCredits" class="default_btn load" @click="loadMoreContent('store-credits')">Load More</div>
-                </div>
             </div>
         </section>
         <section id="digital">
@@ -227,37 +221,22 @@
             },
             populatePackages () {
                 const me = this
-                let count = 0
                 let result = []
-                for (let i = 0; i < me.toShowPackages; i++) {
+                for (let i = 0; i < me.packages.length; i++) {
                     if (me.packages[i]) {
-                        count++
-                        me.packages[i].checked = true
                         result.push(me.packages[i])
                     }
-                }
-                if (count == me.packages.length) {
-                    me.showLoadedPackages = true
-                } else {
-                    me.showLoadedPackages = false
                 }
                 return result
             },
             populateStoreCredits() {
                 const me = this
-                let count = 0
                 let result = []
-                for (let i = 0; i < me.toShowStoreCredits; i++) {
+                for (let i = 0; i < me.credits.length; i++) {
                     if (me.credits[i]) {
-                        count++
                         me.credits[i].checked = true
                         result.push(me.credits[i])
                     }
-                }
-                if (count == me.credits.length) {
-                    me.showLoadedStoreCredits = true
-                } else {
-                    me.showLoadedStoreCredits = false
                 }
                 return result
             },

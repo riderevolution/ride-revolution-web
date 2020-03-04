@@ -44,6 +44,7 @@ const createStore = () => {
             customerID: 0,
             user: {
                 first_name: '',
+                last_name: '',
                 current_studio_id: '',
                 customer_details: {
                     images: [

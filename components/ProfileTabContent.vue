@@ -39,6 +39,7 @@
                                         <div class="badge">
                                             <img src="/sample-badge.svg" />
                                             <span>Ride back to back classes</span>
+                                            <p></p>
                                         </div>
                                         <div class="badge">
                                             <img src="/sample-badge.svg" />
@@ -114,7 +115,7 @@
                     </div>
                     <div class="chart">
                         <div class="tab_content_header alt3">
-                            <h2>Your Top Booked Instructors</h2>
+                            <h2>HOW MANY TIMES YOU’VE RIDEN WITH RIDE REV</h2>
                             <ul class="tab_content_header_menu">
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'weekly') ? 'active' : ''}`" @click="toggledChartMenuTab('weekly')">Weekly</li>
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'monthly') ? 'active' : ''}`" @click="toggledChartMenuTab('monthly')">Monthly</li>
@@ -880,9 +881,16 @@
             },
             getHeight () {
                 const me = this
-                setTimeout( () => {
-                    me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
-                }, 100)
+                let ctr = 0
+                let interval = setInterval( () => {
+                    if (document.getElementById(`tab_${me.unique}`)) {
+                        me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
+                    }
+                    ctr++
+                }, 500)
+                if (ctr > 2) {
+                    clearInterval(interval)
+                }
             },
             checkWarning (data) {
                 const me = this

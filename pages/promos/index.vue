@@ -137,6 +137,19 @@
                         offset: -250
                     })
                 }
+            },
+            codeClipboard (data, key) {
+                const me = this
+                if (data.hasCode) {
+                    let element = document.getElementById(`code_${key}`)
+                    element.select()
+                    element.setSelectionRange(0, 99999)
+                    document.execCommand("copy")
+                    element.nextElementSibling.innerHTML = 'Copied!'
+                    setTimeout( () => {
+                        element.nextElementSibling.innerHTML = 'Copy Code'
+                    }, 1000)
+                }
             }
         }
     }

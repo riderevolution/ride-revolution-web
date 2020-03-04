@@ -713,6 +713,12 @@ svg
                 .excess_line
                     background-color: $black_alt
                     transition: .3s ease-in-out
+                &:hover
+                    .bar,
+                    .excess_line
+                        background-color: $green
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
         &.instructor
             background-color: $white
             box-shadow: 0 3px 6px transparent
@@ -750,6 +756,12 @@ svg
                 .excess_line
                     background-color: $black_alt
                     transition: .3s ease-in-out
+                &:hover
+                    .bar,
+                    .excess_line
+                        background-color: $green
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
         &.sticky,
         &.not_front
             border-bottom: 0.5px solid transparent
@@ -788,6 +800,12 @@ svg
                 .excess_line
                     background-color: $black_alt
                     transition: .3s ease-in-out
+                &:hover
+                    .bar,
+                    .excess_line
+                        background-color: $green
+                        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                        transition: .3s ease-in-out
         .navbar
             display: flex
             flex-flow: row wrap
@@ -882,6 +900,7 @@ svg
                     object-fit: cover
                     object-position: center
                     border-radius: 50%
+                    border: 2px solid $green
                 .overlay
                     position: relative
                     width: 35px
@@ -894,8 +913,7 @@ svg
                         left: 0
                         right: 0
                         text-align: center
-                        brandon_bold(18px, true)
-                        line-height: 1
+                        brandon_bold(16px, true)
                         color: $white
                         transform: translateY(-50%)
                 h3
@@ -970,7 +988,7 @@ svg
                         opacity: 1
                         transition: .3s ease-in-out
         .nav_burger
-            flex: 1 0 auto
+            flex: 0 0 50px
             margin: 0 22px
             position: relative
             cursor: pointer
@@ -979,6 +997,7 @@ svg
                 background-color: $white
                 height: 2px
                 margin-bottom: 5.5px
+                box-shadow: 0px 0px 25px transparent
                 transition: .3s ease-in-out
                 &.bottom_line
                     width: calc(100% - 20px)
@@ -990,7 +1009,14 @@ svg
                 width: 10px
                 height: 2px
                 background-color: $white
+                box-shadow: 0px 0px 25px transparent
                 transition: .3s ease-in-out
+            &:hover
+                .bar,
+                .excess_line
+                    background-color: $green
+                    box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                    transition: .3s ease-in-out
     #footer
         position: relative
         display: flex
@@ -1001,7 +1027,7 @@ svg
         .logo
             flex: 0 0 15%
         .footer_sitemap
-            flex: 0 0 auto
+            flex: 0 0 100%
             margin: 25px 0
             &.toggled
                 label
@@ -1176,6 +1202,7 @@ svg
             img
                 transform: rotate(-90deg)
             span
+                flex: 1 0 20%
                 brandon_medium(14px, true)
                 letter-spacing: 1.4px
                 color: $black
@@ -1680,8 +1707,9 @@ svg
                                         color: $black_alt2
                                         margin-bottom: 20px
                                     p
+                                        brandon_regular(18px, false)
+                                        color: $black
                                         margin-bottom: 10px
-                                    p,
                                     a
                                         brandon_regular(18px, false)
                                         color: $black
@@ -1783,10 +1811,8 @@ svg
                     background-image: url('/default/home/lets-ride-mobile.svg')
             .description
                 flex: 0 0 40%
-                display: flex
-                flex-flow: row wrap
-                align-items: center
-                justify-content: center
+                text-align: right
+                margin-right: 50px
                 img
                     margin-right: 10px
                 span
@@ -1794,6 +1820,8 @@ svg
                     color: $black
                     letter-spacing: 0.75px
                     padding-bottom: 5px
+                .default_btn
+                    margin-top: 15px
 
 /**
  * Instructors */
@@ -4266,8 +4294,9 @@ svg
                     .seat_wrapper
                         position: relative
                         width: 100%
+                        max-width: 1120px
                         height: 600px
-                        margin: 10px 0 20px
+                        margin: 10px auto 20px
                         .overlay_header
                             position: absolute
                             top: calc(0%)
@@ -4658,15 +4687,32 @@ svg
                                         &:last-child
                                             border-bottom: 1px solid transparent
                                             transition: .3s ease-in-out
+                                        .overlay
+                                            position: relative
+                                            width: 50px
+                                            height: 50px
+                                            background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                                            border-radius: 50%
+                                            .letter
+                                                position: absolute
+                                                top: 50%
+                                                left: 0
+                                                right: 0
+                                                text-align: center
+                                                brandon_bold(16px, true)
+                                                color: $white
+                                                transform: translateY(-50%)
                                         img
                                             width: 50px
+                                            border-radius: 50%
                                             {image_default}
                                         p
                                             padding-left: 20px
                                             brandon_regular(20px, false)
                                             color: $white
                                             letter-spacing: 0.24px
-                                        &:hover
+                                        &:hover,
+                                        &.active
                                             background-color: $green
                                             transition: .3s ease-in-out
                                 &::before
@@ -4854,6 +4900,7 @@ svg
                                 align-items: center
                                 .image
                                     width: 70px
+                                    border-radius: 50%
                                     {image_default}
                                 .info
                                     padding-left: 40px
@@ -5177,7 +5224,7 @@ svg
                             height: 120px
                             border-radius: 50%
                             border: 3px solid $white
-                        .overlay
+                        .overlay_letter
                             position: relative
                             width: 120px
                             height: 120px
@@ -5643,6 +5690,7 @@ svg
                                     .right
                                         flex: 0 0 50%
                                         .badge
+                                            position: relative
                                             display: flex
                                             flex-flow: row wrap
                                             align-items: center
