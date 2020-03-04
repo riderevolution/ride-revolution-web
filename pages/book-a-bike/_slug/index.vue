@@ -1,5 +1,5 @@
 <template>
-    <div class="book_a_bike inner">
+    <div class="book_a_bike inner" v-if="loaded">
         <breadcrumb :overlay="false" />
         <section id="banner"></section>
         <transition name="slide">
@@ -137,6 +137,7 @@
         },
         data () {
             return {
+                loaded: false,
                 customer: {
                     path: '/sample-image-booker.png',
                     name: 'A. Hepburn',
@@ -375,7 +376,19 @@
         },
         mounted () {
             const me = this
+            let ctr = 0
             me.$store.state.proTipStatus = true
+            setInterval( () => {
+                if (ctr < 1) {
+                    if (!me.$store.state.isAuth) {
+                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    } else {
+                        me.loaded = true
+                    }
+                    ctr++
+                }
+            }, 500)
+            me.getHeight()
         }
     }
 </script>

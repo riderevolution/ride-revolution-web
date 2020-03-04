@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         <div class="no_schedule" v-else-if="res.schedules.length <= 0">
-                            <p>NO RESULTS, PLEASE TRY ANOTHER INSTRUCTOR</p>
+                            <p>NO RESULTS, PLEASE TRY OTHER DATES</p>
                         </div>
                     </div>
                 </div>
