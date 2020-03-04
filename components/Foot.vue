@@ -11,7 +11,7 @@
             <ul>
                 <li><nuxt-link rel="canonical" to="/riders-guide" class="footer_item">Rider's Guide</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/buy-rides" class="footer_item">Buy Rides</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/riders-guide" class="footer_item">Class Schedules</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/book-a-bike" class="footer_item">Book a Bike</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/instructors" class="footer_item">Instructors</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/studios" class="footer_item">Studio</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/ride-rewards" class="footer_item">Ride Rewards</nuxt-link></li>

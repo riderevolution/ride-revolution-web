@@ -39,6 +39,7 @@
                                         <div class="badge">
                                             <img src="/sample-badge.svg" />
                                             <span>Ride back to back classes</span>
+                                            <p></p>
                                         </div>
                                         <div class="badge">
                                             <img src="/sample-badge.svg" />

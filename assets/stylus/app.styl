@@ -988,7 +988,7 @@ svg
                         opacity: 1
                         transition: .3s ease-in-out
         .nav_burger
-            flex: 1 0 auto
+            flex: 0 0 50px
             margin: 0 22px
             position: relative
             cursor: pointer
@@ -1027,7 +1027,7 @@ svg
         .logo
             flex: 0 0 15%
         .footer_sitemap
-            flex: 0 0 auto
+            flex: 0 0 100%
             margin: 25px 0
             &.toggled
                 label
@@ -1707,8 +1707,9 @@ svg
                                         color: $black_alt2
                                         margin-bottom: 20px
                                     p
+                                        brandon_regular(18px, false)
+                                        color: $black
                                         margin-bottom: 10px
-                                    p,
                                     a
                                         brandon_regular(18px, false)
                                         color: $black
@@ -4685,15 +4686,32 @@ svg
                                         &:last-child
                                             border-bottom: 1px solid transparent
                                             transition: .3s ease-in-out
+                                        .overlay
+                                            position: relative
+                                            width: 50px
+                                            height: 50px
+                                            background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
+                                            border-radius: 50%
+                                            .letter
+                                                position: absolute
+                                                top: 50%
+                                                left: 0
+                                                right: 0
+                                                text-align: center
+                                                brandon_bold(16px, true)
+                                                color: $white
+                                                transform: translateY(-50%)
                                         img
                                             width: 50px
+                                            border-radius: 50%
                                             {image_default}
                                         p
                                             padding-left: 20px
                                             brandon_regular(20px, false)
                                             color: $white
                                             letter-spacing: 0.24px
-                                        &:hover
+                                        &:hover,
+                                        &.active
                                             background-color: $green
                                             transition: .3s ease-in-out
                                 &::before
@@ -4881,6 +4899,7 @@ svg
                                 align-items: center
                                 .image
                                     width: 70px
+                                    border-radius: 50%
                                     {image_default}
                                 .info
                                     padding-left: 40px
@@ -5670,6 +5689,7 @@ svg
                                     .right
                                         flex: 0 0 50%
                                         .badge
+                                            position: relative
                                             display: flex
                                             flex-flow: row wrap
                                             align-items: center

@@ -36,7 +36,7 @@
                         <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
                     </swiper>
                     <transition name="slideX">
-                        <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn">See All Promos</nuxt-link>
+                        <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn" v-if="!$parent.$parent.isMobile">See All Promos</nuxt-link>
                     </transition>
                     <div class="action_mobile" v-if="$parent.$parent.isMobile">
                         <nuxt-link rel="canonical" to="/promos" class="default_btn">See All Promos</nuxt-link>
