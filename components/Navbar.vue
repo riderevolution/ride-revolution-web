@@ -31,7 +31,7 @@
                         </div>
                         <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
                         <transition name="slideAlt">
-                            <ul class="user_dropdown_list" v-if="showList">
+                            <ul class="user_dropdown_list" v-click-outside="toggleList" v-if="showList">
                                 <li class="user_dropdown_item">
                                     <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
                                 </li>
@@ -57,9 +57,8 @@
                         {{ first_name }}{{ last_name }}
                     </div>
                 </div>
-                <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
                 <transition name="slideAlt">
-                    <ul class="user_dropdown_list" v-if="showList">
+                    <ul class="user_dropdown_list" v-click-outside="toggleList" v-if="showList">
                         <li class="user_dropdown_item">
                             <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
                         </li>

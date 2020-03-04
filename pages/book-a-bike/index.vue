@@ -20,11 +20,11 @@
                         <div class="wrapper studio_filter">
                             <h3>Studios</h3>
                             <div class="group">
-                                <input type="radio" class="radio" name="studios" id="studio_0" value="0" checked @change="toggleStudio(null, 'static')">
+                                <input type="radio" class="radio all" name="studios" id="studio_0" value="0" checked @change="toggleStudio(null, 'static')">
                                 <label for="studio_0">All Studios</label>
                             </div>
                             <div class="group" v-for="(studio, key) in studios" :key="key">
-                                <input type="radio" class="radio" name="studios" :id="`studio_${key + 1}`" v-model="studio.id" @change="toggleStudio(studio, 'dynamic')">
+                                <input type="radio" class="radio" name="studios" :id="`studio_${key + 1}`" @change="toggleStudio(studio, 'dynamic')">
                                 <label :for="`studio_${key + 1}`">{{ studio.name }}</label>
                             </div>
                         </div>
@@ -176,10 +176,13 @@
                 last: 0,
                 currentMonth: '',
                 currentYear: '',
+                currentDay: '',
                 results: [],
                 res: [],
                 studios: [],
                 instructors: [],
+                studioID: 0,
+                instructorID: 0,
                 studioFilter: 'all studios',
                 hasStudioFilter: false,
                 searchedInstructor: '',
@@ -195,9 +198,18 @@
                 if (me.searchedInstructor != '') {
                     result = `${me.searchedInstructor}`
                     me.hasSearchedInstructor = true
+
                 } else {
+                    me.hasSearchedInstructor = false
                     result = 'all instructors '
                 }
+                setTimeout( () => {
+                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1` }`).then(res => {
+                        if (res.data) {
+                            me.instructors = res.data.instructors
+                        }
+                    })
+                }, 250)
                 return result
             }
         },
@@ -254,29 +266,43 @@
                 let elements = document.querySelectorAll('.studio_filter .group')
                 switch (type) {
                     case 'studio':
+                        me.studioID = 0
                         me.hasStudioFilter = false
-                        me.studioFilter = 'select a studio'
+                        me.studioFilter = 'all studios'
                         elements.forEach((element, index) => {
-                            element.querySelector('.radio').checked = false
+                            if (element.querySelector('.radio').classList.contains('all')) {
+                                element.querySelector('.radio').checked = true
+                            } else {
+                                element.querySelector('.radio').checked = false
+                            }
                         })
                         break
                     case 'instructor':
+                        me.instructorID = 0
                         me.hasSearchedInstructor = false
                         me.searchedInstructor = ''
                         break
                 }
+                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
             },
             /**
              * Select instructor from filter */
             selectIntructor (data) {
                 const me = this
+                me.instructorID = data.id
                 me.searchedInstructor = `${data.first_name} ${data.last_name}`
                 me.toggledAutocomplete = false
+                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
             },
             /**
              * Select studio from filter */
             toggleStudio (data, type) {
                 const me = this
+                if (data != null) {
+                    me.studioID = data.id
+                } else {
+                    me.studioID = 0
+                }
                 switch (type) {
                     case 'static':
                         me.studioFilter = 'all studios'
@@ -286,6 +312,7 @@
                         me.hasStudioFilter = true
                         break
                 }
+                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
             },
             /**
              * On/Off of custom autocomplete */
@@ -312,6 +339,7 @@
              * Get Schedule of specific date */
             toggleDate (year, month, day, unique) {
                 const me = this
+                me.currentDay = day
                 let elements = document.querySelectorAll('.date_navigator .date')
                 document.getElementById(`date_${unique}`).classList.add('active')
                 elements.forEach((element, index) => {
@@ -319,31 +347,51 @@
                         element.classList.remove('active')
                     }
                 })
-                me.getAllSchedules(year, month, day)
+                me.getAllSchedules(year, month, day, false)
             },
             /**
              * Fetch All Schedules */
-            getAllSchedules (year, month, day) {
+            getAllSchedules (year, month, day, searched) {
                 const me = this
                 let token = me.$cookies.get('token')
                 me.loader(true)
-                me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        me.res = res.data
-                        me.loaded = true
-                    }
-                }).catch(err => {
-                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-                    me.loader(false)
-                }).then(() => {
-                    setTimeout( () => {
+                if (searched) {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data) {
+                            me.res = res.data
+                            me.loaded = true
+                        }
+                    }).catch(err => {
+                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
                         me.loader(false)
-                    }, 500)
-                })
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                    })
+                } else {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data) {
+                            me.res = res.data
+                            me.loaded = true
+                        }
+                    }).catch(err => {
+                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        me.loader(false)
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                    })
+                }
             },
             /**
              * Generate Next Week of Calendar */
@@ -480,12 +528,13 @@
         },
         mounted () {
             const me = this
-            me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'))
+            me.currentDay = me.$moment().format('D')
+            me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), false)
 
             setTimeout( () => {
                 me.populateClasses()
             }, 10)
-            
+
             /**
              * Fetch all studios */
             me.$axios.get('api/studios?enabled=1').then(res => {
