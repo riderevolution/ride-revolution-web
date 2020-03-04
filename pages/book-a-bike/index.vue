@@ -93,8 +93,11 @@
                                         <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew($event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
                                             <span>Waitlist</span>
                                         </nuxt-link>
-                                        <div class="btn default_btn_out disabled" v-else>
+                                        <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
+                                        </div>
+                                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
+                                            <span>Book Now</span>
                                         </div>
                                     </div>
                                 </div>
@@ -214,6 +217,14 @@
             }
         },
         methods: {
+            checkIfLoggedIn (event) {
+                const me = this
+                event.preventDefault()
+                if (!me.$store.state.isAuth) {
+                    me.$store.state.loginCheckerStatus = true
+                    document.body.classList.add('no_scroll')
+                }
+            },
             /**
              * Conversion of hours and minutes */
             parseScheduleRide (data) {
