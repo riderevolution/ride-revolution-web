@@ -4922,8 +4922,38 @@ svg
                                         align-items: center
                                         p
                                             padding-right: 10px
-                                        img
-                                            cursor: pointer
+                                        .info_icon
+                                            position: relative
+                                            display: flex
+                                            flex-flow: row wrap
+                                            align-items: center
+                                            img
+                                                cursor: pointer
+                                            .info_overlay
+                                                position: absolute
+                                                top: calc(0% - 75px)
+                                                left: 100%
+                                                width: 280px
+                                                z-index: 1
+                                                brandon_regular(14px, false)
+                                                letter-spacing: 0.5px
+                                                color: $white
+                                                text-align: center
+                                                background-color: $dark_green
+                                                padding: 10px
+                                                transform: translateX(-50%) translateY(0px)
+                                                .pointer
+                                                    position: absolute
+                                                    bottom: -7px
+                                                    right: calc(50% - 7px)
+                                                    width: 0
+                                                    height: 0
+                                                    border-left: 7px solid transparent
+                                                    border-right: 7px solid transparent
+                                                    border-top: 7px solid $dark_green
+                                                    z-index: 1
+                                                    transform: translateX(-50%)
+                                                    transition: .3s ease-in-out
                                     h3
                                         brandon_regular(18px, false)
                                         color: $black
@@ -4970,6 +5000,7 @@ svg
                                     color: $green
                                     padding: 5px 0
                                 .ride
+                                    position: relative
                                     brandon_medium(14px, false)
                                     color: $black
                                     display: flex
@@ -4977,8 +5008,38 @@ svg
                                     align-items: center
                                     p
                                         padding-right: 5px
-                                    img
-                                        cursor: pointer
+                                    .info_icon
+                                        position: relative
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
+                                        img
+                                            cursor: pointer
+                                        .info_overlay
+                                            position: absolute
+                                            top: calc(0% - 75px)
+                                            left: 100%
+                                            width: 250px
+                                            z-index: 1
+                                            brandon_regular(14px, false)
+                                            letter-spacing: 0.5px
+                                            color: $white
+                                            text-align: center
+                                            background-color: $dark_green
+                                            padding: 10px
+                                            transform: translateX(-50%) translateY(0px)
+                                            .pointer
+                                                position: absolute
+                                                bottom: -7px
+                                                right: calc(50% - 7px)
+                                                width: 0
+                                                height: 0
+                                                border-left: 7px solid transparent
+                                                border-right: 7px solid transparent
+                                                border-top: 7px solid $dark_green
+                                                z-index: 1
+                                                transform: translateX(-50%)
+                                                transition: .3s ease-in-out
                                 h3
                                     brandon_regular(14px, false)
                                     color: $black
@@ -9075,6 +9136,16 @@ textarea::-webkit-scrollbar-thumb
     opacity: 0
     visibility: hidden
     transform: translateY(50px)
+
+.slideAltY-enter-active,
+.slideAltY-leave-active
+    transition: all .2s ease-in-out
+
+.slideAltY-enter,
+.slideAltY-leave-to
+    opacity: 0
+    visibility: hidden
+    transform: translateY(50px) translateX(-50%)
 
 .slideX-enter-active,
 .slideX-leave-active

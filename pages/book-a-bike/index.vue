@@ -74,15 +74,27 @@
                             <span>with</span>
                             <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                         </div>
-                        <div v-if="!$parent.$parent.isMobile && res.schedules.length > 0">
+                        <div v-if="!$parent.$parent.isMobile && res.length > 0">
                             <div class="content">
-                                <div class="schedule" v-for="(data, key) in res.schedules" :key="key">
+                                <div class="schedule" v-for="(data, key) in res" :key="key">
                                     <div class="time">{{ data.schedule.start_time }}</div>
                                     <div class="class">
                                         <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                         <div class="info">
                                             <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
-                                            <div class="ride"><p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                            <div class="ride">
+                                                <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
+                                                <div class="info_icon">
+                                                    <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
+                                                    <transition name="slideAltY">
+                                                        <div class="info_overlay" v-if="data.toggled">
+                                                            <div class="pointer"></div>
+                                                            Details: {{ data.schedule.description }}<br>
+                                                            Credits to Deduct: {{ data.schedule.class_credits }}
+                                                        </div>
+                                                    </transition>
+                                                </div>
+                                            </div>
                                             <h3>{{ data.schedule.studio.name }}</h3>
                                         </div>
                                     </div>
@@ -103,14 +115,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-else-if="$parent.$parent.isMobile && res.schedules.length > 0">
+                        <div v-else-if="$parent.$parent.isMobile && res.length > 0">
                             <div class="content_mobile">
-                                <a class="schedule" v-for="(data, key) in res.schedules" :key="key">
+                                <a class="schedule" v-for="(data, key) in res" :key="key">
                                     <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     <div class="info">
                                         <div class="time">{{ data.schedule.start_time }}</div>
                                         <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
-                                        <div class="ride"><p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                        <div class="ride">
+                                            <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
+                                            <div class="info_icon">
+                                                <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
+                                                <transition name="slideAltY">
+                                                    <div class="info_overlay" v-if="data.toggled">
+                                                        <div class="pointer"></div>
+                                                        Details: {{ data.schedule.description }}<br>
+                                                        Credits to Deduct: {{ data.schedule.class_credits }}
+                                                    </div>
+                                                </transition>
+                                            </div>
+                                        </div>
                                         <h3>{{ data.schedule.studio.name }}</h3>
                                     </div>
                                     <div class="action">
@@ -213,6 +237,14 @@
             }
         },
         methods: {
+            /**
+             * Toggle info in each schedule */
+            toggleScheduleInfo (data) {
+                const me = this
+                data.toggled ^= true
+            },
+            /**
+             * Check if user is logged in */
             checkIfLoggedIn (event) {
                 const me = this
                 event.preventDefault()
@@ -385,7 +417,7 @@
                         }
                     }).then(res => {
                         if (res.data) {
-                            me.res = res.data
+                            me.populateResSchedules(res.data.schedules)
                             me.loaded = true
                         }
                     }).catch(err => {
@@ -403,7 +435,7 @@
                         }
                     }).then(res => {
                         if (res.data) {
-                            me.res = res.data
+                            me.populateResSchedules(res.data.schedules)
                             me.loaded = true
                         }
                     }).catch(err => {
@@ -415,6 +447,13 @@
                         }, 500)
                     })
                 }
+            },
+            populateResSchedules (data) {
+                const me = this
+                data.forEach((element, index) => {
+                    element.toggled = false
+                    me.res.push(element)
+                })
             },
             /**
              * Generate Next Week of Calendar */
