@@ -1,193 +1,177 @@
 <template>
-    <div class="book_a_bike landing">
-        <section id="content">
-            <div class="left">
-                <div class="filter_accordion" v-if="$parent.$parent.isMobile">
-                    <label>Filter</label>
-                    <div class="toggler" @click="toggleFilter($event)"></div>
-                </div>
-                <div class="filter">
-                    <div class="wrapper studio_filter">
-                        <h3>Studios</h3>
-                        <div class="group">
-                            <input type="radio" class="radio" name="studios" id="studio_0" value="0" checked @change="toggleStudio(studio, 'static')">
-                            <label for="studio_0">All Studios</label>
-                        </div>
-                        <div class="group" v-for="(studio, key) in studios" :key="key">
-                            <input type="radio" class="radio" name="studios" :id="`studio_${key + 1}`" v-model="studio.id" @change="toggleStudio(studio, 'dynamic')">
-                            <label :for="`studio_${key + 1}`">{{ studio.name }}</label>
-                        </div>
+    <transition name="fade">
+        <div class="book_a_bike landing" v-if="loaded">
+            <section id="content">
+                <div class="left">
+                    <div class="filter_accordion" v-if="$parent.$parent.isMobile">
+                        <label>Filter</label>
+                        <div class="toggler" @click="toggleFilter($event)"></div>
                     </div>
-                    <div class="wrapper instructor_filter">
-                        <h3>Instructors</h3>
-                        <div :class="`autocomplete ${(toggledAutocomplete) ? 'toggled' : ''}`" v-click-outside="toggleAutoCompleteOutside">
-                            <input type="text" name="instructor" class="text" placeholder="Search for an instructor" v-model="searchedInstructor" @click="toggleAutoComplete()">
-                            <transition name="slideAlt">
-                                <div class="autocomplete_dropdown" v-if="toggledAutocomplete">
-                                    <div class="list" v-for="(n, key) in 8" :key="key" @click="selectIntructor('Billie Capistrano')">
-                                        <img src="/default/book-a-bike/autodd-sample.png" />
-                                        <p>Billie Capistrano</p>
+                    <div class="filter">
+                        <div class="wrapper studio_filter">
+                            <h3>Studios</h3>
+                            <div class="group">
+                                <input type="radio" class="radio all" name="studios" id="studio_0" value="0" checked @change="toggleStudio(null, 'static')">
+                                <label for="studio_0">All Studios</label>
+                            </div>
+                            <div class="group" v-for="(studio, key) in studios" :key="key">
+                                <input type="radio" class="radio" name="studios" :id="`studio_${key + 1}`" @change="toggleStudio(studio, 'dynamic')">
+                                <label :for="`studio_${key + 1}`">{{ studio.name }}</label>
+                            </div>
+                        </div>
+                        <div class="wrapper instructor_filter">
+                            <h3>Instructors</h3>
+                            <div :class="`autocomplete ${(toggledAutocomplete) ? 'toggled' : ''}`" v-click-outside="toggleAutoCompleteOutside">
+                                <input type="text" name="instructor" class="text" placeholder="Search for an instructor" v-model="searchedInstructor" @click="toggleAutoComplete()">
+                                <transition name="slideAlt">
+                                    <div class="autocomplete_dropdown" v-if="toggledAutocomplete">
+                                        <div :class="`list ${(`${data.first_name} ${data.last_name}` == checkSearchedInstructor) ? 'active' : ''}`" v-for="(data, key) in instructors" :key="key" @click="selectIntructor(data)">
+                                            <img v-if="data.instructor_details.images[0].path != null" :src="data.instructor_details.images[0].path" />
+                                            <div class="overlay" v-else>
+                                                <div class="letter">
+                                                    {{ data.first_name.charAt(0) }}{{ data.last_name.charAt(0) }}
+                                                </div>
+                                            </div>
+                                            <p>{{ data.first_name }} {{ data.last_name }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </transition>
+                                </transition>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="right">
-                <div class="date_navigator">
-                    <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(key)">
-                        <div class="overlay">
-                            <div class="abbr">{{ result.abbr }}</div>
-                            <div class="month">{{ result.month }}</div>
-                            <div class="day">{{ result.day }}</div>
+                <div class="right">
+                    <div class="date_navigator">
+                        <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(currentYear, currentMonth, result.day, key)">
+                            <div class="overlay">
+                                <div class="abbr">{{ result.abbr }}</div>
+                                <div class="month">{{ result.month }}</div>
+                                <div class="day">{{ result.day }}</div>
+                            </div>
+                        </div>
+                        <div class="date_controls" v-if="!$parent.$parent.isMobile">
+                            <div class="prev" @click="generatePrevClasses()"></div>
+                            <div class="next" @click="generateNextClasses()"></div>
                         </div>
                     </div>
-                    <div class="date_controls" v-if="!$parent.$parent.isMobile">
+                    <div class="date_controls_mobile" v-if="$parent.$parent.isMobile">
                         <div class="prev" @click="generatePrevClasses()"></div>
                         <div class="next" @click="generateNextClasses()"></div>
                     </div>
-                </div>
-                <div class="date_controls_mobile" v-if="$parent.$parent.isMobile">
-                    <div class="prev" @click="generatePrevClasses()"></div>
-                    <div class="next" @click="generateNextClasses()"></div>
-                </div>
-                <div class="schedule_list">
-                    <div class="header">
-                        <span>Showing rides in </span>
-                        <span :class="`label ${(hasStudioFilter) ? 'active' : ''}`">{{ studioFilter }}<img v-if="hasStudioFilter" @click="resetFilter('studio')" src="/icons/filter-close.svg" /></span>
-                        <span>with</span>
-                        <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
-                    </div>
-                    <div class="content" v-if="!$parent.$parent.isMobile">
-                        <div class="schedule">
-                            <div class="time">10:30 AM</div>
-                            <div class="class">
-                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                                <div class="info">
-                                    <h2>Billie Capistrano</h2>
-                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                    <h3>Greenbelt</h3>
-                                </div>
-                            </div>
-                            <div class="action">
-                                <nuxt-link to="/fish-in-the-glass/book-a-bike/asdasdasd" class="btn default_btn_out">
-                                    <span>Book Now</span>
-                                </nuxt-link>
-                            </div>
+                    <div class="schedule_list">
+                        <div class="header">
+                            <span>Showing rides in </span>
+                            <span :class="`label ${(hasStudioFilter) ? 'active' : ''}`">{{ studioFilter }}<img v-if="hasStudioFilter && studioFilter != 'all studios'" @click="resetFilter('studio')" src="/icons/filter-close.svg" /></span>
+                            <span>with</span>
+                            <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                         </div>
-                        <div class="schedule">
-                            <div class="time">10:30 AM</div>
-                            <div class="class">
-                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                                <div class="info">
-                                    <h2>Billie Capistrano</h2>
-                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                    <h3>Greenbelt</h3>
-                                </div>
-                            </div>
-                            <div class="action">
-                                <nuxt-link to="/fish-in-the-glass/book-a-bike/asdasdasd" class="btn default_btn_out">
-                                    <span>Waitlist</span>
-                                </nuxt-link>
-                            </div>
-                        </div>
-                        <div class="schedule">
-                            <div class="time">10:30 AM</div>
-                            <div class="class">
-                                <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                                <div class="info">
-                                    <h2>Billie Capistrano</h2>
-                                    <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                    <h3>Greenbelt</h3>
-                                </div>
-                            </div>
-                            <div class="action">
-                                <div class="btn default_btn_out disabled">
-                                    <span>Waitlisted</span>
+                        <div v-if="!$parent.$parent.isMobile && res.schedules.length > 0">
+                            <div class="content">
+                                <div class="schedule" v-for="(data, key) in res.schedules" :key="key">
+                                    <div class="time">{{ data.schedule.start_time }}</div>
+                                    <div class="class">
+                                        <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
+                                        <div class="info">
+                                            <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
+                                            <div class="ride"><p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                            <h3>{{ data.schedule.studio.name }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="action">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                            <span>Book Now</span>
+                                        </nuxt-link>
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                            <span>Waitlist</span>
+                                        </div>
+                                        <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
+                                            <span>Waitlisted</span>
+                                        </div>
+                                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
+                                            <span>Book Now</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div v-else-if="$parent.$parent.isMobile && res.schedules.length > 0">
+                            <div class="content_mobile">
+                                <a class="schedule" v-for="(data, key) in res.schedules" :key="key">
+                                    <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
+                                    <div class="info">
+                                        <div class="time">{{ data.schedule.start_time }}</div>
+                                        <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
+                                        <div class="ride"><p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                        <h3>{{ data.schedule.studio.name }}</h3>
+                                    </div>
+                                    <div class="action">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                            <span>Book Now</span>
+                                        </nuxt-link>
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                            <span>Waitlist</span>
+                                        </div>
+                                        <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
+                                            <span>Waitlisted</span>
+                                        </div>
+                                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
+                                            <span>Book Now</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="no_schedule" v-else-if="res.schedules.length <= 0">
+                            <p>NO RESULTS, PLEASE TRY OTHER DATES</p>
+                        </div>
                     </div>
-                    <div class="content_mobile" v-else>
-                        <a class="schedule">
-                            <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                            <div class="info">
-                                <div class="time">10:30 AM</div>
-                                <h2>Billie Capistrano</h2>
-                                <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                <h3>Greenbelt</h3>
-                            </div>
-                            <div class="action">
-                                <nuxt-link to="/fish-in-the-glass/book-a-bike/asdasdasd" class="btn default_btn_out">
-                                    <span>Book Now</span>
-                                </nuxt-link>
-                            </div>
-                        </a>
-                        <a class="schedule">
-                            <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                            <div class="info">
-                                <div class="time">10:30 AM</div>
-                                <h2>Billie Capistrano</h2>
-                                <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                <h3>Greenbelt</h3>
-                            </div>
-                            <div class="action">
-                                <nuxt-link to="/fish-in-the-glass/book-a-bike/asdasdasd" class="btn default_btn_out">
-                                    <span>Waitlist</span>
-                                </nuxt-link>
-                            </div>
-                        </a>
-                        <a class="schedule">
-                            <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                            <div class="info">
-                                <div class="time">10:30 AM</div>
-                                <h2>Billie Capistrano</h2>
-                                <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                <h3>Greenbelt</h3>
-                            </div>
-                            <div class="action">
-                                <div class="btn default_btn_out disabled">
-                                    <span>Waitlisted</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- <div class="no_schedule">
-                        <p>NO RESULTS, PLEASE TRY ANOTHER INSTRUCTOR</p>
-                    </div> -->
                 </div>
-            </div>
-        </section>
-    </div>
+            </section>
+            <transition name="fade">
+                <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+            </transition>
+            <transition name="fade">
+                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
+            </transition>
+            <transition name="fade">
+                <buy-rides-prompt v-if="$store.state.buyRidesPromptStatus" :message="message" :status="status" />
+            </transition>
+        </div>
+    </transition>
 </template>
 
 <script>
+    import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
+    import CompleteProfilePrompt from '../../../components/modals/CompleteProfilePrompt'
+    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     export default {
         layout: 'fish',
+        components: {
+            BookerChoosePackage,
+            CompleteProfilePrompt,
+            BuyRidesPrompt
+        },
         data () {
             return {
+                schedule: [],
+                type: 0,
+                buyCredits: false,
+                message: '',
+                status: false,
+                loaded: false,
                 isPrev: false,
                 toggledAutocomplete: false,
                 current: 0,
                 last: 0,
                 currentMonth: '',
                 currentYear: '',
+                currentDay: '',
                 results: [],
-                studios: [
-                    {
-                        id: 1,
-                        name: 'Shangri-La Plaza'
-                    },
-                    {
-                        id: 2,
-                        name: 'Greenbelt'
-                    },
-                    {
-                        id: 3,
-                        name: 'Bonifacio Global City'
-                    }
-                ],
+                res: [],
+                studios: [],
+                instructors: [],
+                studioID: 0,
+                instructorID: 0,
                 studioFilter: 'all studios',
                 hasStudioFilter: false,
                 searchedInstructor: '',
@@ -195,19 +179,79 @@
             }
         },
         computed: {
+            /**
+             * Toggle the filter is not selected a instructor or removed a instructor */
             checkSearchedInstructor () {
                 const me = this
                 let result = ''
                 if (me.searchedInstructor != '') {
                     result = `${me.searchedInstructor}`
                     me.hasSearchedInstructor = true
+
                 } else {
+                    me.hasSearchedInstructor = false
                     result = 'all instructors '
                 }
+                setTimeout( () => {
+                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {
+                        if (res.data) {
+                            me.instructors = res.data.instructors
+                        }
+                    })
+                }, 250)
                 return result
             }
         },
         methods: {
+            checkIfLoggedIn (event) {
+                const me = this
+                event.preventDefault()
+                if (!me.$store.state.isAuth) {
+                    me.$store.state.loginCheckerStatus = true
+                    document.body.classList.add('no_scroll')
+                }
+            },
+            /**
+             * Conversion of hours and minutes */
+            parseScheduleRide (data) {
+                const me = this
+                let result = ''
+                let time = data.split('+')[1]
+                let hour = time.split(':')[0]
+                let minutes = time.split(':')[1]
+                if (hour != 0) {
+                    result += me.$moment(time, 'H:m').format('HH') + (hour > 1) ? ' Hours' : ' Hour'
+                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                } else {
+                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                }
+                return result
+            },
+            /**
+             * Validation if the user doesn't completed their profile */
+            checkIfNew (data, type, event) {
+                const me = this
+                let token = me.$cookies.get('token')
+                event.preventDefault()
+                if (me.$store.state.user.new_user == 0) {
+                    if (data.hasUser && token != null && token != undefined) {
+                        switch (type) {
+                            case 'book':
+                                me.$router.push(`/book-a-bike/${data.id}`)
+                                break
+                            case 'waitlist':
+                                me.schedule = data
+                                me.$store.state.bookerChoosePackageStatus = true
+                                document.body.classList.add('no_scroll')
+                                break
+                        }
+                    }
+                } else {
+                    me.$store.state.completeProfilePromptStatus = true
+                }
+            },
+            /**
+             * Toggling of instructors custom autocomplete dropdown */
             toggleFilter (event) {
                 const me = this
                 let target = event.target
@@ -228,30 +272,50 @@
                     target.parentNode.classList.remove('oops')
                 }, 500)
             },
+            /**
+             * Remove current filter */
             resetFilter (type) {
                 const me = this
                 let elements = document.querySelectorAll('.studio_filter .group')
                 switch (type) {
                     case 'studio':
+                        me.studioID = 0
                         me.hasStudioFilter = false
-                        me.studioFilter = 'select a studio'
+                        me.studioFilter = 'all studios'
+                        elements.forEach((element, index) => {
+                            if (element.querySelector('.radio').classList.contains('all')) {
+                                element.querySelector('.radio').checked = true
+                            } else {
+                                element.querySelector('.radio').checked = false
+                            }
+                        })
                         break
                     case 'instructor':
+                        me.instructorID = 0
                         me.hasSearchedInstructor = false
                         me.searchedInstructor = ''
                         break
                 }
-                elements.forEach((element, index) => {
-                    element.querySelector('.radio').checked = false
-                })
+                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
             },
+            /**
+             * Select instructor from filter */
             selectIntructor (data) {
                 const me = this
-                me.searchedInstructor = data
+                me.instructorID = data.id
+                me.searchedInstructor = `${data.first_name} ${data.last_name}`
                 me.toggledAutocomplete = false
+                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
             },
+            /**
+             * Select studio from filter */
             toggleStudio (data, type) {
                 const me = this
+                if (data != null) {
+                    me.studioID = data.id
+                } else {
+                    me.studioID = 0
+                }
                 switch (type) {
                     case 'static':
                         me.studioFilter = 'all studios'
@@ -261,15 +325,22 @@
                         me.hasStudioFilter = true
                         break
                 }
+                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
             },
+            /**
+             * On/Off of custom autocomplete */
             toggleAutoComplete () {
                 const me = this
                 me.toggledAutocomplete ^= true
             },
+            /**
+             * Click outside of autocomplete */
             toggleAutoCompleteOutside () {
                 const me = this
                 me.toggledAutocomplete = false
             },
+            /**
+             * Toggle class of calendar element */
             removeActive () {
                 const me = this
                 let elements = document.querySelectorAll('.date_navigator .date')
@@ -277,8 +348,11 @@
                     element.classList.remove('active')
                 })
             },
-            toggleDate (unique) {
+            /**
+             * Get Schedule of specific date */
+            toggleDate (year, month, day, unique) {
                 const me = this
+                me.currentDay = day
                 let elements = document.querySelectorAll('.date_navigator .date')
                 document.getElementById(`date_${unique}`).classList.add('active')
                 elements.forEach((element, index) => {
@@ -286,7 +360,54 @@
                         element.classList.remove('active')
                     }
                 })
+                me.getAllSchedules(year, month, day, false)
             },
+            /**
+             * Fetch All Schedules */
+            getAllSchedules (year, month, day, searched) {
+                const me = this
+                let token = me.$cookies.get('token')
+                me.loader(true)
+                if (searched) {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}&forWeb=1`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data) {
+                            me.res = res.data
+                            me.loaded = true
+                        }
+                    }).catch(err => {
+                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        me.loader(false)
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                    })
+                } else {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&forWeb=1`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data) {
+                            me.res = res.data
+                            me.loaded = true
+                        }
+                    }).catch(err => {
+                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        me.loader(false)
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                    })
+                }
+            },
+            /**
+             * Generate Next Week of Calendar */
             generateNextClasses () {
                 const me = this
                 if (me.isPrev) {
@@ -310,6 +431,8 @@
                     me.current++
                 }
             },
+            /**
+             * Generate Prev Week of Calendar */
             generatePrevClasses () {
                 const me = this
                 if (!me.isPrev) {
@@ -355,15 +478,17 @@
                     }
                 }
             },
+            /**
+             * Populate Calendar with specific values */
             populateResults (data, type) {
                 const me = this
-                me.loader(true)
                 switch (type) {
                     case 'next':
                         me.results.push({
                             abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('ddd'),
                             month: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('MMM'),
                             day: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('D'),
+                            year: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('YYYY'),
                             value: data
                         })
                         break
@@ -372,15 +497,15 @@
                             abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('ddd'),
                             month: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('MMM'),
                             day: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('D'),
+                            year: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('YYYY'),
                             value: data
                         })
                         break
                 }
                 me.removeActive()
-                setTimeout( () => {
-                    me.loader(false)
-                }, 500)
             },
+            /**
+             * Populate Calendar */
             populateClasses () {
                 const me = this
                 me.results = []
@@ -416,9 +541,32 @@
         },
         mounted () {
             const me = this
+            me.currentDay = me.$moment().format('D')
+            me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), false)
+
             setTimeout( () => {
                 me.populateClasses()
             }, 10)
+
+            /**
+             * Fetch all studios */
+            me.$axios.get('api/studios?enabled=1').then(res => {
+                if (res.data) {
+                    me.studios = res.data.studios
+                }
+            }).catch(err => {
+                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+            })
+
+            /**
+             * Fetch all instructors */
+            me.$axios.get('api/instructors?enabled=1').then(res => {
+                if (res.data) {
+                    me.instructors = res.data.instructors.data
+                }
+            }).catch(err => {
+                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+            })
         }
     }
 </script>

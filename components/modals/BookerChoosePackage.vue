@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(key == 0) ? 'active' : ''}`" v-for="(classPackage, key) in classPackages" :key="key" @click="togglePackage(classPackage, key)">
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(classPackage.active) ? 'active' : ''}`" v-for="(classPackage, key) in populateClassPackages" :key="key" @click="togglePackage(classPackage, key)" v-if="classPackage.count > 1">
                                 <label>{{ classPackage.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -48,6 +48,21 @@
                 selectedPackage: 0
             }
         },
+        computed: {
+            populateClassPackages () {
+                const me = this
+                let result = []
+                let ctr = 0
+                me.classPackages.forEach((element, index) => {
+                    if (ctr < 1 && element.count > 0) {
+                        element.active = true
+                        ctr++
+                    }
+                    result.push(element)
+                })
+                return result
+            },
+        },
         methods: {
             submissionSuccess () {
                 const me = this
@@ -84,11 +99,14 @@
             },
             togglePackage (data, unique) {
                 const me = this
+                me.active = false
                 me.selectedPackage = data.class_package.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
-                    if (unique != index) {
-                        document.getElementById(`package_${index}`).classList.remove('active')
+                    if (element.count > 0) {
+                        if (unique != index) {
+                            document.getElementById(`package_${index}`).classList.remove('active')
+                        }
                     }
                 })
             },
