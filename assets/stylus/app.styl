@@ -4398,13 +4398,13 @@ svg
                                         left: calc(0% - 40px)
                             &.layout_3
                                 &.bottom
-                                    bottom: calc(60%)
+                                    bottom: calc(40%)
                                 &.bottom_alt
-                                    bottom: calc(60% - 105px)
+                                    bottom: calc(40% - 105px)
                                     .seat
                                         left: calc(0% - 40px)
                                 &.bottom_alt_2
-                                    bottom: calc(60% - 210px)
+                                    bottom: calc(40% - 210px)
                                     justify-content: center
                             &.left
                                 align-items: flex-start
@@ -4520,6 +4520,29 @@ svg
                                                         border-left: 5px solid transparent
                                                         border-right: 5px solid transparent
                                                         transform: translateY(-50%)
+                                                    .package_violator
+                                                        position: absolute
+                                                        top: calc(100% + 5px)
+                                                        left: 50%
+                                                        width: 100%
+                                                        padding: 10px
+                                                        z-index: 1
+                                                        brandon_bold(14px, false)
+                                                        letter-spacing: 0.5px
+                                                        color: $white
+                                                        text-align: center
+                                                        background-color: $dark_green
+                                                        transform: translateX(-50%)
+                                                        &::before
+                                                            content: ''
+                                                            position: absolute
+                                                            bottom: 100%
+                                                            right: calc(50% - 7px)
+                                                            border-left: 7px solid transparent
+                                                            border-right: 7px solid transparent
+                                                            border-bottom: 7px solid $dark_green
+                                                            z-index: 1
+                                                            transition: .3s ease-in-out
                                         p
                                             brandon_regular(16px, false)
                                             color: $black
@@ -4907,8 +4930,10 @@ svg
                                 align-items: center
                                 .image
                                     width: 70px
+                                    height: 70px
+                                    object-fit: cover
+                                    object-position: center
                                     border-radius: 50%
-                                    {image_default}
                                 .info
                                     padding-left: 40px
                                     h2
@@ -4987,7 +5012,9 @@ svg
                             transition: .3s ease-in-out
                             .image
                                 width: 40px
-                                {image_default}
+                                height: 40px
+                                object-fit: cover
+                                object-position: center
                                 border-radius: 50%
                             .info
                                 flex: 1 0 30%

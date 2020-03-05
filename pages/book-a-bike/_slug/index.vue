@@ -21,7 +21,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="main_right">
                     <div class="header" v-if="!$parent.$parent.isMobile">
@@ -65,7 +65,12 @@
                                             <div class="flex package">
                                                 <div class="toggler">
                                                     <p>Class Package:</p>
-                                                    <div class="picker" @click="choosePackage()">10 Class Package</div>
+                                                    <div class="picker" @click="choosePackage()">
+                                                        {{ packageSelected }}
+                                                        <transition name="slide">
+                                                            <div class="package_violator" v-if="pointPackage">Choose Package Here</div>
+                                                        </transition>
+                                                    </div>
                                                 </div>
                                                 <div class="toggler" v-if="hasGuest">
                                                     <p>Switch seat for:</p>
@@ -114,6 +119,9 @@
             <transition name="fade">
                 <booker-assign-success :message="message" v-if="$store.state.bookerAssignSuccessStatus" />
             </transition>
+            <transition name="fade">
+                <buy-rides-prompt :message="promptMessage" v-if="$store.state.buyRidesPromptStatus" :status="status" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -128,6 +136,7 @@
     import BookerAssignMemberError from '../../../components/modals/BookerAssignMemberError'
     import BookerAssignNonMember from '../../../components/modals/BookerAssignNonMember'
     import BookerAssignSuccess from '../../../components/modals/BookerAssignSuccess'
+    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     export default {
         components: {
             Breadcrumb,
@@ -138,7 +147,8 @@
             BookerAssignMemberPrompt,
             BookerAssignMemberError,
             BookerAssignNonMember,
-            BookerAssignSuccess
+            BookerAssignSuccess,
+            BuyRidesPrompt
         },
         data () {
             return {
@@ -148,194 +158,40 @@
                     name: 'A. Hepburn',
                     member_id: 'MEMBER ID: RR-12345'
                 },
+                temp: [],
+                schedule: [],
                 seats: {
                     left: {
                         position: 'left',
-                        layout: 'layout_1',
-                        data: [
-                            {
-                                number: '18',
-                                status: 'blocked'
-                            },
-                            {
-                                number: '16',
-                                status: 'blocked'
-                            },
-                            {
-                                number: '17',
-                                status: 'blocked'
-                            },
-                            {
-                                number: '15',
-                                status: 'blocked'
-                            }
-                        ]
+                        data: []
                     },
                     right: {
                         position: 'right',
-                        layout: 'layout_1',
-                        data: [
-                            {
-                                number: '12',
-                                status: 'open'
-                            },
-                            {
-                                number: '14',
-                                status: 'open'
-                            },
-                            {
-                                number: '11',
-                                status: 'open'
-                            },
-                            {
-                                number: '13',
-                                status: 'open'
-                            }
-                        ]
+                        data: []
                     },
                     bottom: {
                         position: 'bottom',
-                        layout: 'layout_1',
-                        data: [
-                            {
-                                number: '10',
-                                status: 'open'
-                            },
-                            {
-                                number: '9',
-                                status: 'open'
-                            },
-                            {
-                                number: '8',
-                                status: 'open'
-                            },
-                            {
-                                number: '7',
-                                status: 'open'
-                            },
-                            {
-                                number: '6',
-                                status: 'open'
-                            },
-                            {
-                                number: '5',
-                                status: 'open'
-                            },
-                            {
-                                number: '4',
-                                status: 'open'
-                            },
-                            {
-                                number: '3',
-                                status: 'open'
-                            },
-                            {
-                                number: '2',
-                                status: 'open'
-                            },
-                            {
-                                number: '1',
-                                status: 'open'
-                            }
-                        ]
+                        data: []
                     },
                     bottom_alt: {
                         position: 'bottom_alt',
-                        layout: 'layout_1',
-                        data: [
-                            {
-                                number: '28',
-                                status: 'open'
-                            },
-                            {
-                                number: '27',
-                                status: 'open'
-                            },
-                            {
-                                number: '26',
-                                status: 'open'
-                            },
-                            {
-                                number: '25',
-                                status: 'open'
-                            },
-                            {
-                                number: '24',
-                                status: 'open'
-                            },
-                            {
-                                number: '23',
-                                status: 'open'
-                            },
-                            {
-                                number: '22',
-                                status: 'open'
-                            },
-                            {
-                                number: '21',
-                                status: 'open'
-                            },
-                            {
-                                number: '20',
-                                status: 'open'
-                            },
-                            {
-                                number: '19',
-                                status: 'open'
-                            }
-                        ]
+                        data: []
                     },
                     bottom_alt_2: {
                         position: 'bottom_alt_2',
-                        layout: 'layout_1',
-                        data: [
-                            {
-                                number: '28',
-                                status: 'open'
-                            },
-                            {
-                                number: '27',
-                                status: 'open'
-                            },
-                            {
-                                number: '26',
-                                status: 'open'
-                            },
-                            {
-                                number: '25',
-                                status: 'open'
-                            },
-                            {
-                                number: '24',
-                                status: 'open'
-                            },
-                            {
-                                number: '23',
-                                status: 'open'
-                            },
-                            {
-                                number: '22',
-                                status: 'open'
-                            },
-                            {
-                                number: '21',
-                                status: 'open'
-                            },
-                            {
-                                number: '20',
-                                status: 'open'
-                            },
-                            {
-                                number: '19',
-                                status: 'open'
-                            }
-                        ]
-                    }
+                        data: []
+                    },
                 },
+                ctr: 0,
                 checkPackage: 0,
                 nonMemberEmail: null,
                 currentSeat: [],
                 message: 'Cheers! Successfully added a Guest.',
+                promptMessage: '',
+                status: false,
+                classPackageID: 0,
+                packageSelected: 'Please Select a Package',
+                pointPackage: false,
                 hasGuest: false
             }
         },
@@ -361,21 +217,37 @@
             signIn (data) {
                 const me = this
                 me.currentSeat = data
-                if (me.checkPackage == 0) {
-                    me.loader(true)
-                    document.body.classList.add('no_scroll')
-                    setTimeout( () => {
-                        me.checkPackage = 1
-                        data.status = 'reserved'
-                        document.body.classList.remove('no_scroll')
-                        me.loader(false)
-                    }, 500)
-                } else {
-                    if (me.checkPackage == 1) {
-                        me.$store.state.bookerAssignStatus = true
-                        document.body.classList.add('no_scroll')
-                        me.checkPackage = 1
+                if (me.checkPackage == 1) {
+                    switch (data.status) {
+                        case 'blocked':
+                            me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
+                            me.$store.state.buyRidesPromptStatus = true
+                            document.body.classList.add('no_scroll')
+                            break
+                        case 'open':
+                            if (me.classPackageID == 0) {
+                                me.promptMessage = 'Please select a package first before booking on your preferred seat.'
+                                me.$store.state.buyRidesPromptStatus = true
+                                document.body.classList.add('no_scroll')
+                                me.pointPackage = true
+                            }
+                            break
                     }
+                    console.log(data);
+                    // me.loader(true)
+                    // document.body.classList.add('no_scroll')
+                    // setTimeout( () => {
+                    //     me.checkPackage = 1
+                    //     data.status = 'reserved'
+                    //     document.body.classList.remove('no_scroll')
+                    //     me.loader(false)
+                    // }, 500)
+                } else {
+                    // if (me.checkPackage == 1) {
+                    //     me.$store.state.bookerAssignStatus = true
+                    //     document.body.classList.add('no_scroll')
+                    //     me.checkPackage = 1
+                    // }
                 }
             },
             fetchSeats (id) {
@@ -387,7 +259,31 @@
                     }
                 }).then(res => {
                     if (res.data) {
-                        console.log(res.data);
+                        let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
+                        me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                        me.temp = res.data.seats
+                        me.schedule = res.data.scheduledDate
+                        me.temp.forEach((seat , index) => {
+                            switch (seat.position) {
+                                case 'left':
+                                    me.seats.left.data.push(seat)
+                                    break
+                                case 'right':
+                                    me.seats.right.data.push(seat)
+                                    break
+                                case 'bottom':
+                                    me.seats.bottom.data.push(seat)
+                                    break
+                                case 'bottom_alt':
+                                    me.seats.bottom_alt.data.push(seat)
+                                    break
+                                case 'bottom_alt_2':
+                                    me.seats.bottom_alt_2.data.push(seat)
+                                    break
+                            }
+                            me.ctr++
+                        })
+                        me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
                         me.loaded = true
                     }
                 })

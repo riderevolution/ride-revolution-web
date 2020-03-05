@@ -74,9 +74,9 @@
                             <span>with</span>
                             <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                         </div>
-                        <div v-if="!$parent.$parent.isMobile && res.length > 0">
+                        <div v-if="!$parent.$parent.isMobile && res.schedules.length > 0">
                             <div class="content">
-                                <div class="schedule" v-for="(data, key) in res" :key="key">
+                                <div class="schedule" v-for="(data, key) in res.schedules" :key="key">
                                     <div class="time">{{ data.schedule.start_time }}</div>
                                     <div class="class">
                                         <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
@@ -115,9 +115,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-else-if="$parent.$parent.isMobile && res.length > 0">
+                        <div v-else-if="$parent.$parent.isMobile && res.schedules.length > 0">
                             <div class="content_mobile">
-                                <a class="schedule" v-for="(data, key) in res" :key="key">
+                                <a class="schedule" v-for="(data, key) in res.schedules" :key="key">
                                     <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     <div class="info">
                                         <div class="time">{{ data.schedule.start_time }}</div>
@@ -201,7 +201,9 @@
                 currentYear: '',
                 currentDay: '',
                 results: [],
-                res: [],
+                res: {
+                    schedules: []
+                },
                 studios: [],
                 instructors: [],
                 studioID: 0,
@@ -417,7 +419,7 @@
                         }
                     }).then(res => {
                         if (res.data) {
-                            me.populateResSchedules(res.data.schedules)
+                            me.populateResSchedules(res.data)
                             me.loaded = true
                         }
                     }).catch(err => {
@@ -435,7 +437,7 @@
                         }
                     }).then(res => {
                         if (res.data) {
-                            me.populateResSchedules(res.data.schedules)
+                            me.populateResSchedules(res.data)
                             me.loaded = true
                         }
                     }).catch(err => {
@@ -450,9 +452,10 @@
             },
             populateResSchedules (data) {
                 const me = this
-                data.forEach((element, index) => {
+                me.res.schedules = []
+                data.schedules.forEach((element, index) => {
                     element.toggled = false
-                    me.res.push(element)
+                    me.res.schedules.push(element)
                 })
             },
             /**
@@ -586,6 +589,16 @@
                 setTimeout( () => {
                     me.loader(false)
                 }, 500)
+            },
+            toggleOverlays (e) {
+                const me = this
+                let target = e.target
+                let elements_first = document.querySelectorAll('.schedule_list .schedule .ride img')
+                me.res.schedules.forEach((data, index) => {
+                    if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
+                        data.toggled = false
+                    }
+                })
             }
         },
         mounted () {
@@ -616,6 +629,12 @@
             }).catch(err => {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             })
+        },
+        beforeMount () {
+            document.addEventListener('click', this.toggleOverlays)
+        },
+        beforeDestroy () {
+            document.removeEventListener('click', this.toggleOverlays)
         }
     }
 </script>
