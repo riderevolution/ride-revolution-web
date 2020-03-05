@@ -159,7 +159,10 @@
                 <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
             </transition>
             <transition name="fade">
-                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" />
+                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
+            </transition>
+            <transition name="fade">
+                <buy-rides-prompt v-if="$store.state.buyRidesPromptStatus" :message="message" :status="status" />
             </transition>
         </div>
     </transition>
@@ -169,14 +172,21 @@
     import Breadcrumb from '../../components/Breadcrumb'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
+    import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
     export default {
         components: {
             Breadcrumb,
             BookerChoosePackage,
-            CompleteProfilePrompt
+            CompleteProfilePrompt,
+            BuyRidesPrompt
         },
         data () {
             return {
+                schedule: [],
+                type: 0,
+                buyCredits: false,
+                message: '',
+                status: false,
                 loaded: false,
                 isPrev: false,
                 toggledAutocomplete: false,
@@ -258,21 +268,9 @@
                             me.$router.push(`/book-a-bike/${data.id}`)
                             break
                         case 'waitlist':
+                            me.schedule = data
                             me.$store.state.bookerChoosePackageStatus = true
                             document.body.classList.add('no_scroll')
-                            // let formData = new FormData()
-                            // formData.append('scheduled_date_id', data.id)
-                            // formData.append('user_id', me.$store.state.user.id)
-                            // formData.append('studio_id', data.schedule.studio_id)
-                            // me.$axios.post(`api/waitlists`, formData, {
-                            //     headers: {
-                            //         Authorization: `Bearer ${token}`
-                            //     }
-                            // }).then(res => {
-                            //     if (res.data) {
-                            //         me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, false)
-                            //     }
-                            // })
                             break
                     }
                 } else {
@@ -398,7 +396,7 @@
                 let token = me.$cookies.get('token')
                 me.loader(true)
                 if (searched) {
-                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}`, {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}&forWeb=1`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -416,7 +414,7 @@
                         }, 500)
                     })
                 } else {
-                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&xxxxx=1`, {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&forWeb=1`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }

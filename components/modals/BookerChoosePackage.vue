@@ -8,7 +8,7 @@
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
                             <div :id="`package_${key}`" :class="`custom_checkbox ${(key == 0) ? 'active' : ''}`" v-for="(classPackage, key) in classPackages" :key="key" @click="togglePackage(classPackage, key)">
-                                <label>{{ classPackage.title }}</label>
+                                <label>{{ classPackage.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
                                         <circle class="circle" cx="14" cy="14" r="14" transform="translate(805.833 313)" />
@@ -16,8 +16,8 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>Available: {{ classPackage.available }}</p>
-                                    <p>Expires on {{ formatDate(classPackage.expire) }}</p>
+                                    <p>Available: {{ classPackage.count }}</p>
+                                    <p>Expires on {{ formatDate(classPackage.class_package.computed_expiration_date) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -37,24 +37,14 @@
             category: {
                 type: String,
                 default: 'slug'
+            },
+            type: {
+                type: Number
             }
         },
         data () {
             return {
-                classPackages: [
-                    {
-                        id: 1,
-                        title: '10 Class Package',
-                        available: '8',
-                        expire: '01/31/2021'
-                    },
-                    {
-                        id: 2,
-                        title: 'Monthly Unlimited',
-                        available: '∞',
-                        expire: '01/31/2021'
-                    }
-                ],
+                classPackages: [],
                 selectedPackage: 0
             }
         },
@@ -62,15 +52,39 @@
             submissionSuccess () {
                 const me = this
                 if (me.selectedPackage) {
+                    if (me.type == 0) {
+                        let token = me.$cookies.get('token')
+                        let formData = new FormData()
+                        formData.append('scheduled_date_id', me.$parent.schedule.id)
+                        formData.append('user_id', me.$store.state.user.id)
+                        formData.append('studio_id', me.$parent.schedule.schedule.studio_id)
+                        formData.append('class_package_id', me.selectedPackage)
+                        me.$axios.post(`api/waitlists`, formData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            if (res.data) {
+                                me.$parent.getAllSchedules(me.$parent.currentYear, me.$parent.currentMonth, me.$parent.currentDay, false)
+                                setTimeout( () => {
+                                    me.$store.state.buyRidesPromptStatus = true
+                                    me.$parent.message = "You've successfully added as waitlist in this class."
+                                    me.$parent.status = true
+                                    me.$parent.buyCredits = false
+                                }, 500)
+                            }
+                        }).catch(err => {
+                            me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                            me.loader(false)
+                        })
+                    }
                     me.$store.state.bookerChoosePackageStatus = false
                     document.body.classList.remove('no_scroll')
                 }
             },
             togglePackage (data, unique) {
                 const me = this
-                let formData = new FormData()
-                formData.append('class_package_id', data.id)
-                me.selectedPackage = data.id
+                me.selectedPackage = data.class_package.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
                     if (unique != index) {
@@ -95,21 +109,17 @@
                 case 'landing':
                     me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
                         if (res.data) {
-                            console.log(res.data);
-                            // if (res.data.customer.user_package_counts.length > 0) {
-                            //     me.res = res.data.customer.user_package_counts
-                            // } else {
-                            //     me.$store.state.customerPackageStatus = false
-                            //     setTimeout( () => {
-                            //         me.$parent.$refs.plan.message = 'Please buy a class package first'
-                            //     }, 10)
-                            //     me.$parent.buyCredits = true
-                            //     document.getElementById('credits').classList.add('active')
-                            //     me.$scrollTo('#credits', {
-                            //         offset: -250
-                            //     })
-                            //     me.$store.state.promptBookerStatus = true
-                            // }
+                            if (res.data.customer.user_package_counts.length > 0) {
+                                me.classPackages = res.data.customer.user_package_counts
+                                me.selectedPackage = me.classPackages[0].class_package.id
+                            } else {
+                                me.$store.state.bookerChoosePackageStatus = false
+                                setTimeout( () => {
+                                    me.$parent.message = 'Please buy a class package first'
+                                }, 10)
+                                me.$parent.buyCredits = true
+                                me.$store.state.buyRidesPromptStatus = true
+                            }
                         }
                     })
                     break
