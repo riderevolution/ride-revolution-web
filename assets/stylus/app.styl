@@ -4370,6 +4370,13 @@ svg
                                     color: $black
                                     z-index: 1
                                     transition: .3s ease-in-out
+                                &:hover
+                                    background-color: $blue
+                                    border: 1px solid $blue
+                                    transition: .3s ease-in-out
+                                    .seat_number
+                                        color: $white
+                                        transition: .3s ease-in-out
                             &.layout_1
                                 &.bottom
                                     bottom: calc(0% + 230px)
@@ -4915,6 +4922,8 @@ svg
                                         align-items: center
                                         p
                                             padding-right: 10px
+                                        img
+                                            cursor: pointer
                                     h3
                                         brandon_regular(18px, false)
                                         color: $black
@@ -4947,8 +4956,9 @@ svg
                             border-bottom: 1px solid #F0F0F0
                             transition: .3s ease-in-out
                             .image
-                                width: 50px
+                                width: 40px
                                 {image_default}
+                                border-radius: 50%
                             .info
                                 flex: 1 0 30%
                                 padding: 0 10px
@@ -4967,6 +4977,8 @@ svg
                                     align-items: center
                                     p
                                         padding-right: 5px
+                                    img
+                                        cursor: pointer
                                 h3
                                     brandon_regular(14px, false)
                                     color: $black
@@ -6768,6 +6780,9 @@ svg
 #banner
     position: relative
     overflow: hidden
+    img
+        width: 100%
+        {image_default}
     &.mt
         margin-top: 81px
         &.alt
@@ -8710,7 +8725,8 @@ textarea::-webkit-scrollbar-thumb
                 &::before,
                 &::after
                     background-color: $white
-            .confirmation_title
+            .confirmation_title,
+            .confirmation_text
                 color: $white
             .confirmation_image
                 position: relative

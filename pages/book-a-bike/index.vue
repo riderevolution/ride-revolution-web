@@ -87,12 +87,12 @@
                                         </div>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew($event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
                                             <span>Book Now</span>
                                         </nuxt-link>
-                                        <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew($event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
                                             <span>Waitlist</span>
-                                        </nuxt-link>
+                                        </div>
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
                                         </div>
@@ -105,45 +105,26 @@
                         </div>
                         <div v-else-if="$parent.$parent.isMobile && res.schedules.length > 0">
                             <div class="content_mobile">
-                                <a class="schedule">
-                                    <img class="image" src="/default/book-a-bike/class-image-sample.png" />
+                                <a class="schedule" v-for="(data, key) in res.schedules" :key="key">
+                                    <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     <div class="info">
-                                        <div class="time">10:30 AM</div>
-                                        <h2>Billie Capistrano</h2>
-                                        <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                        <h3>Greenbelt</h3>
+                                        <div class="time">{{ data.schedule.start_time }}</div>
+                                        <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
+                                        <div class="ride"><p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                        <h3>{{ data.schedule.studio.name }}</h3>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
                                             <span>Book Now</span>
                                         </nuxt-link>
-                                    </div>
-                                </a>
-                                <a class="schedule">
-                                    <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                                    <div class="info">
-                                        <div class="time">10:30 AM</div>
-                                        <h2>Billie Capistrano</h2>
-                                        <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                        <h3>Greenbelt</h3>
-                                    </div>
-                                    <div class="action">
-                                        <nuxt-link rel="canonical" to="/book-a-bike/asdasdasd" class="btn default_btn_out">
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
                                             <span>Waitlist</span>
-                                        </nuxt-link>
-                                    </div>
-                                </a>
-                                <a class="schedule">
-                                    <img class="image" src="/default/book-a-bike/class-image-sample.png" />
-                                    <div class="info">
-                                        <div class="time">10:30 AM</div>
-                                        <h2>Billie Capistrano</h2>
-                                        <div class="ride"><p>50 Minute Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
-                                        <h3>Greenbelt</h3>
-                                    </div>
-                                    <div class="action">
-                                        <div class="btn default_btn_out disabled">
+                                        </div>
+                                        <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
+                                        </div>
+                                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
+                                            <span>Book Now</span>
                                         </div>
                                     </div>
                                 </a>
@@ -158,20 +139,35 @@
             <transition name="fade">
                 <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
             </transition>
+            <transition name="fade">
+                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
+            </transition>
+            <transition name="fade">
+                <buy-rides-prompt v-if="$store.state.buyRidesPromptStatus" :message="message" :status="status" />
+            </transition>
         </div>
     </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
+    import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
     export default {
         components: {
             Breadcrumb,
-            CompleteProfilePrompt
+            BookerChoosePackage,
+            CompleteProfilePrompt,
+            BuyRidesPrompt
         },
         data () {
             return {
+                schedule: [],
+                type: 0,
+                buyCredits: false,
+                message: '',
+                status: false,
                 loaded: false,
                 isPrev: false,
                 toggledAutocomplete: false,
@@ -207,7 +203,7 @@
                     result = 'all instructors '
                 }
                 setTimeout( () => {
-                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1` }`).then(res => {
+                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {
                         if (res.data) {
                             me.instructors = res.data.instructors
                         }
@@ -243,10 +239,26 @@
             },
             /**
              * Validation if the user doesn't completed their profile */
-            checkIfNew (event) {
+            checkIfNew (data, type, event) {
                 const me = this
+                let token = me.$cookies.get('token')
                 event.preventDefault()
-                me.$store.state.completeProfilePromptStatus = true
+                if (me.$store.state.user.new_user == 0) {
+                    if (data.hasUser && token != null && token != undefined) {
+                        switch (type) {
+                            case 'book':
+                                me.$router.push(`/book-a-bike/${data.id}`)
+                                break
+                            case 'waitlist':
+                                me.schedule = data
+                                me.$store.state.bookerChoosePackageStatus = true
+                                document.body.classList.add('no_scroll')
+                                break
+                        }
+                    }
+                } else {
+                    me.$store.state.completeProfilePromptStatus = true
+                }
             },
             /**
              * Toggling of instructors custom autocomplete dropdown */
@@ -367,7 +379,7 @@
                 let token = me.$cookies.get('token')
                 me.loader(true)
                 if (searched) {
-                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}`, {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}&forWeb=1`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -385,7 +397,7 @@
                         }, 500)
                     })
                 } else {
-                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}`, {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&forWeb=1`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }

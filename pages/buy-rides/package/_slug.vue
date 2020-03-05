@@ -39,11 +39,11 @@
                                     </div>
                                     <div class="item">
                                         <p>Discount</p>
-                                        <p>Php {{ computeDiscount((promoApplied) ? totalCount(res.package_price - res.final_price) : '0.00') }}</p>
+                                        <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
                                     </div>
                                     <div class="total">
                                         <p>You Pay</p>
-                                        <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price)) }}</p>
+                                        <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                     </div>
                                 </div>
                                 <div class="breakdown_actions">
@@ -78,7 +78,7 @@
                             </div>
                             <div class="item">
                                 <h3>Discount</h3>
-                                <p>Php {{ computeDiscount((promoApplied) ? totalCount(res.package_price - res.final_price) : '0.00') }}</p>
+                                <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
                             </div>
                             <div class="available" v-if="!paypal">
                                 <div :class="`available_item ${(storeCredits <= 50) ? 'insufficient' : ''}`">
@@ -94,7 +94,7 @@
                             </div>
                             <div class="total">
                                 <p>You Pay</p>
-                                <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price)) }}</p>
+                                <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
