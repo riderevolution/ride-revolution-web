@@ -338,7 +338,7 @@
                             me.$axios.post('api/login/facebook/', data).then(res => {
                                 let token = res.data.token
                                 me.$cookies.set('token', token, '7d')
-                                me.$router.push('/')
+                                me.$router.push(`${me.$route.fullPath}`)
                             }).catch(err => {
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
@@ -375,7 +375,7 @@
                         let token = res.data.token
                         me.$cookies.set('token', token, '7d')
                         me.$store.state.isAuth = true
-                        me.$router.push('/')
+                        me.$router.push(`${me.$route.fullPath}`)
                     }).catch(err => {
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
@@ -563,7 +563,7 @@
                             me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
-                            me.$router.push('/')
+                            me.$router.push(`${me.$route.fullPath}`)
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true

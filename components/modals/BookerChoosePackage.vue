@@ -33,6 +33,12 @@
 
 <script>
     export default {
+        props: {
+            category: {
+                type: String,
+                default: 'slug'
+            }
+        },
         data () {
             return {
                 classPackages: [
@@ -81,6 +87,32 @@
                 const me = this
                 me.$store.state.bookerChoosePackageStatus = false
                 document.body.classList.remove('no_scroll')
+            }
+        },
+        mounted () {
+            const me = this
+            switch (me.category) {
+                case 'landing':
+                    me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
+                        if (res.data) {
+                            console.log(res.data);
+                            // if (res.data.customer.user_package_counts.length > 0) {
+                            //     me.res = res.data.customer.user_package_counts
+                            // } else {
+                            //     me.$store.state.customerPackageStatus = false
+                            //     setTimeout( () => {
+                            //         me.$parent.$refs.plan.message = 'Please buy a class package first'
+                            //     }, 10)
+                            //     me.$parent.buyCredits = true
+                            //     document.getElementById('credits').classList.add('active')
+                            //     me.$scrollTo('#credits', {
+                            //         offset: -250
+                            //     })
+                            //     me.$store.state.promptBookerStatus = true
+                            // }
+                        }
+                    })
+                    break
             }
         }
     }

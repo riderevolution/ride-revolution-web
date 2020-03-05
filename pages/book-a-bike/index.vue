@@ -87,12 +87,12 @@
                                         </div>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew($event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                        <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
                                             <span>Book Now</span>
                                         </nuxt-link>
-                                        <nuxt-link rel="canonical" :to="`/book-a-bike/${data.id}`" @click="checkIfNew($event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
                                             <span>Waitlist</span>
-                                        </nuxt-link>
+                                        </div>
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
                                         </div>
@@ -158,16 +158,21 @@
             <transition name="fade">
                 <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
             </transition>
+            <transition name="fade">
+                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" />
+            </transition>
         </div>
     </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
     export default {
         components: {
             Breadcrumb,
+            BookerChoosePackage,
             CompleteProfilePrompt
         },
         data () {
@@ -207,7 +212,7 @@
                     result = 'all instructors '
                 }
                 setTimeout( () => {
-                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1` }`).then(res => {
+                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {
                         if (res.data) {
                             me.instructors = res.data.instructors
                         }
@@ -243,10 +248,36 @@
             },
             /**
              * Validation if the user doesn't completed their profile */
-            checkIfNew (event) {
+            checkIfNew (data, type, event) {
                 const me = this
+                let token = me.$cookies.get('token')
                 event.preventDefault()
-                me.$store.state.completeProfilePromptStatus = true
+                if (data.hasUser && token != null && token != undefined) {
+                    switch (type) {
+                        case 'book':
+                            me.$router.push(`/book-a-bike/${data.id}`)
+                            break
+                        case 'waitlist':
+                            me.$store.state.bookerChoosePackageStatus = true
+                            document.body.classList.add('no_scroll')
+                            // let formData = new FormData()
+                            // formData.append('scheduled_date_id', data.id)
+                            // formData.append('user_id', me.$store.state.user.id)
+                            // formData.append('studio_id', data.schedule.studio_id)
+                            // me.$axios.post(`api/waitlists`, formData, {
+                            //     headers: {
+                            //         Authorization: `Bearer ${token}`
+                            //     }
+                            // }).then(res => {
+                            //     if (res.data) {
+                            //         me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, false)
+                            //     }
+                            // })
+                            break
+                    }
+                } else {
+                    me.$store.state.completeProfilePromptStatus = true
+                }
             },
             /**
              * Toggling of instructors custom autocomplete dropdown */
@@ -385,7 +416,7 @@
                         }, 500)
                     })
                 } else {
-                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}`, {
+                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&xxxxx=1`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
