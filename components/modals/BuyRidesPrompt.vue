@@ -35,9 +35,12 @@
                 if (booker == 1) {
                     me.$router.push('/buy-rides#package')
                 }
-                if (me.$parent.classPackageID == 0) {
-                    me.$parent.pointPackage = true
-                    document.querySelector('.package_violator').scrollIntoView({block: 'center', behavior: 'smooth'})
+                switch (me.$parent.seatStatus) {
+                    case 'open':
+                        if (me.$parent.classPackage == null) {
+                            document.querySelector('.package_violator').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        }
+                        break
                 }
                 me.$store.state.buyRidesPromptStatus = false
                 document.body.classList.remove('no_scroll')

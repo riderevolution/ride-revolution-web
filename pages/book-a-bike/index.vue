@@ -285,8 +285,12 @@
                                 break
                             case 'waitlist':
                                 me.schedule = data
-                                me.$store.state.bookerChoosePackageStatus = true
-                                document.body.classList.add('no_scroll')
+                                me.loader(true)
+                                setTimeout( () => {
+                                    me.$store.state.bookerChoosePackageStatus = true
+                                    document.body.classList.add('no_scroll')
+                                    me.loader(false)
+                                }, 500)
                                 break
                         }
                     }

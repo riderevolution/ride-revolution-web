@@ -45,6 +45,7 @@
         data () {
             return {
                 classPackages: [],
+                classPackage: [],
                 selectedPackage: 0
             }
         },
@@ -56,6 +57,11 @@
                 me.classPackages.forEach((element, index) => {
                     if (ctr < 1 && element.count > 0) {
                         element.active = true
+                        me.classPackage = element
+                        if (me.type == 1) {
+                            me.$parent.classPackage = me.classPackage
+                        }
+                        me.selectedPackage = element.class_package.id
                         ctr++
                     }
                     result.push(element)
@@ -92,6 +98,11 @@
                             me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
                             me.loader(false)
                         })
+                    } else if (me.type == 1) {
+                        me.$parent.classPackage = me.classPackage
+                        me.$parent.packageSelected = me.classPackage.class_package.name
+                        me.$parent.pointPackage = false
+                        console.log(me.$parent.classPackage);
                     }
                     me.$store.state.bookerChoosePackageStatus = false
                     document.body.classList.remove('no_scroll')
@@ -100,6 +111,7 @@
             togglePackage (data, unique) {
                 const me = this
                 me.active = false
+                me.classPackage = data
                 me.selectedPackage = data.class_package.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
@@ -123,25 +135,24 @@
         },
         mounted () {
             const me = this
-            switch (me.category) {
-                case 'landing':
-                    me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
-                        if (res.data) {
-                            if (res.data.customer.user_package_counts.length > 0) {
-                                me.classPackages = res.data.customer.user_package_counts
-                                me.selectedPackage = me.classPackages[0].class_package.id
-                            } else {
-                                me.$store.state.bookerChoosePackageStatus = false
-                                setTimeout( () => {
-                                    me.$parent.message = 'Please buy a class package first'
-                                }, 10)
+            me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
+                if (res.data) {
+                    if (res.data.customer.user_package_counts.length > 0) {
+                        me.classPackages = res.data.customer.user_package_counts
+                    } else {
+                        me.$store.state.bookerChoosePackageStatus = false
+                        setTimeout( () => {
+                            me.$parent.message = 'Please buy a class package first'
+                        }, 10)
+                        switch (me.category) {
+                            case 'landing':
                                 me.$parent.buyCredits = true
-                                me.$store.state.buyRidesPromptStatus = true
-                            }
+                                break
                         }
-                    })
-                    break
-            }
+                        me.$store.state.buyRidesPromptStatus = true
+                    }
+                }
+            })
         }
     }
 </script>

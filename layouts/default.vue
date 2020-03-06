@@ -68,6 +68,7 @@
                 const me = this
                 me.validateToken()
                 document.body.classList.remove('no_scroll')
+                me.$store.state.completeProfileStepsStatus = false
                 me.$store.state.completeProfileStatus = false
                 me.$store.state.proTipStatus = false
                 me.$store.state.changePasswordStatus = false

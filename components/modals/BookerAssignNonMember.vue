@@ -23,6 +23,12 @@
             email: {
                 type: String,
                 default: null
+            },
+            nonMember: {
+                default: null
+            },
+            tempSeat: {
+                default: null
             }
         },
         methods: {
@@ -32,12 +38,31 @@
                     if (me.email != null) {
                         me.loader(true)
                         setTimeout( () => {
-                            me.$parent.currentSeat.status = 'guest'
+                            me.loader(true)
+                            Object.keys(me.$parent.seats).forEach((parent) => {
+                                Object.keys(me.$parent.seats[parent]).forEach((child) => {
+                                    if (child == 'data') {
+                                        for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
+                                            if (me.$parent.seats[parent][child][i].id == me.tempSeat.id) {
+                                                me.$parent.seats[parent][child][i].guest = 2
+                                                me.$parent.seats[parent][child][i].status = 'guest'
+                                                me.$parent.seats[parent][child][i].temp = me.nonMember
+                                                break
+                                            }
+                                        }
+                                    }
+                                })
+                            })
+                            me.$parent.toSubmit.guestCount++
+                            me.$parent.toSubmit.tempSeat.push(me.tempSeat)
+                            me.$parent.tempGuestSeat = null
                             me.$parent.hasGuest = true
-                            me.$store.state.bookerAssignStatus = false
-                            me.$store.state.bookerAssignNonMemberStatus = false
-                            me.$store.state.bookerAssignSuccessStatus = true
-                            me.loader(false)
+                            setTimeout( () => {
+                                me.$store.state.bookerAssignStatus = false
+                                me.$store.state.bookerAssignNonMemberStatus = false
+                                me.$store.state.bookerAssignSuccessStatus = true
+                                me.loader(false)
+                            }, 500)
                         }, 500)
                     }
                 } else {

@@ -7,8 +7,15 @@
                 Are you sure you want to add this member?
             </div>
             <div class="member_info" v-if="customer != null">
-                <img :src="customer.path" />
-                <h2>{{ customer.name }}</h2>
+                <div class="member_image">
+                    <img :src="customer.customer_details.images[0].path" v-if="customer.customer_details.images[0].path != null" />
+                    <div class="overlay" v-else>
+                        <div class="letter">
+                            {{ customer.first_name.charAt(0) }}{{ customer.last_name.charAt(0) }}
+                        </div>
+                    </div>
+                </div>
+                <h2>{{ customer.first_name }} {{ customer.last_name }}</h2>
                 <h3>{{ customer.member_id }}</h3>
             </div>
             <div class="button_group">
@@ -23,7 +30,9 @@
     export default {
         props: {
             customer: {
-                type: Object,
+                default: null
+            },
+            tempSeat: {
                 default: null
             }
         },
@@ -33,15 +42,32 @@
                 if (status) {
                     if (me.customer != null) {
                         me.loader(true)
+                        Object.keys(me.$parent.seats).forEach((parent) => {
+                            Object.keys(me.$parent.seats[parent]).forEach((child) => {
+                                if (child == 'data') {
+                                    for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
+                                        if (me.$parent.seats[parent][child][i].id == me.tempSeat.id) {
+                                            me.$parent.seats[parent][child][i].guest = 1
+                                            me.$parent.seats[parent][child][i].status = 'guest'
+                                            me.$parent.seats[parent][child][i].temp = me.customer
+                                            break
+                                        }
+                                    }
+                                }
+                            })
+                        })
+                        me.$parent.toSubmit.guestCount++
+                        me.$parent.toSubmit.tempSeat.push(me.tempSeat)
+                        me.$parent.tempGuestSeat = null
+                        me.$parent.hasGuest = true
                         setTimeout( () => {
-                            me.$parent.currentSeat.status = 'guest'
-                            me.$parent.hasGuest = true
                             me.$store.state.bookerAssignMemberPromptStatus = false
                             me.$store.state.bookerAssignSuccessStatus = true
                             me.loader(false)
                         }, 500)
                     }
                 } else {
+                    me.$parent.tempGuestSeat = null
                     me.$store.state.bookerAssignMemberPromptStatus = false
                     me.$store.state.bookerAssignStatus = true
                 }

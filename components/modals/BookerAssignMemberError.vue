@@ -1,5 +1,5 @@
 <template>
-    <div class="default_modal">
+    <div class="default_modal alt">
         <div class="background" @click.once="toggleClose(false)"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
@@ -10,7 +10,7 @@
                 Sorry we don’t recognize that member ID. Please make sure all characters are correct.
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn" @click.once="toggleClose(true)">Try Again</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose(true)">Try Again</div>
             </div>
         </div>
     </div>
