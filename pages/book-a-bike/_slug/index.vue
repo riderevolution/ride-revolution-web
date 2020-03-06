@@ -103,8 +103,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="toggler" v-if="hasGuest">
-                                                                <p>Switch seat for:</p>
-                                                                <div class="picker" @click="chooseSeat()">Bike No. 8</div>
+                                                                <p>Swap seat for:</p>
+                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ toSubmit.tempSeat[1].number }}</div>
                                                             </div>
                                                         </div>
                                                         <div class="flex package_details">
@@ -137,35 +137,35 @@
                             <div class="preview">
                                 <div class="item">
                                     <h3>Class</h3>
-                                    <p>50-Minute Ride</p>
+                                    <p>{{ schedule.schedule.class_type.name }}</p>
                                 </div>
                                 <div class="item">
                                     <h3>Instructor</h3>
-                                    <p>Billie Capistrano</p>
+                                    <p>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Studio</p>
-                                    <p>Shangri-La</p>
+                                    <p>{{ schedule.schedule.studio.name }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Date</p>
-                                    <p>{{ $moment().format('MMMM DD, YYYY') }}</p>
+                                    <p>{{ $moment(schedule.date, 'MMMM DD, YYYY').format('MMMM DD, YYYY') }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Time</p>
-                                    <p>7:30 PM - 8:20 PM</p>
+                                    <p>{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Bike No.</p>
-                                    <p>7, 8</p>
+                                    <p>{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Class Package Used</p>
-                                    <p>10 Class Package</p>
+                                    <p>{{ classPackage.class_package.name }}</p>
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>2 Credit</p>
+                                    <p>{{ schedule.schedule.class_credits }} Credit</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -183,7 +183,7 @@
                 <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
             </transition>
             <transition name="fade">
-                <booker-choose-seat v-if="$store.state.bookerChooseSeatStatus" />
+                <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
             </transition>
             <transition name="fade">
                 <booker-assign-member-prompt :customer="customer" :tempSeat="tempGuestSeat" v-if="$store.state.bookerAssignMemberPromptStatus" />
@@ -296,6 +296,20 @@
             }
         },
         methods: {
+            getAllTempSeats (data) {
+                const me = this
+                let ctr = 0
+                let result = ''
+                data.forEach((element, index) => {
+                    if (ctr == 0) {
+                        result = element.number
+                    } else if (ctr > 0) {
+                        result += `, ${element.number}`
+                    }
+                    ctr++
+                })
+                return result
+            },
             submitPreview () {
                 const me = this
                 let token = me.$cookies.get('token')
@@ -334,8 +348,14 @@
                 const me = this
                 switch (type) {
                     case 'next':
-                        me.step = 2
-                        document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        if (me.hasBooked) {
+                            me.step = 2
+                            document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        } else {
+                            me.promptMessage = 'Please select a seat first before proceeding.'
+                            me.$store.state.buyRidesPromptStatus = true
+                            document.body.classList.add('no_scroll')
+                        }
                         break
                     case 'prev':
                         me.step = 1

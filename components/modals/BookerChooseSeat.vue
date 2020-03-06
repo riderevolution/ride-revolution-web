@@ -3,12 +3,12 @@
         <div class="background" @click="toggleClose()"></div>
             <form id="default_form" class="overlay alt" @submit.prevent="submissionSuccess()">
                 <div class="modal_wrapper">
-                    <h2 class="form_title">Which seat would you like to switch?</h2>
+                    <h2 class="form_title">Which seat would you like to swap?</h2>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(key == 0) ? 'active' : ''}`" v-for="(seat, key) in seats" :key="key" @click="togglePackage(seat, key)">
-                                <label>{{ seat.title }}</label>
+                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(key == 1) ? 'active' : ''}`" v-if="key != 0" v-for="(seat, key) in seats" :key="key" @click="toggleSeat(seat, key)">
+                                <label>Bike No. {{ seat.number }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
                                         <circle class="circle" cx="14" cy="14" r="14" transform="translate(805.833 313)" />
@@ -16,7 +16,7 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>{{ seat.user }}</p>
+                                    <p>{{ (key == 0) ? 'Me' : `${seat.temp.first_name} ${seat.temp.last_name}` }}</p>
                                 </div>
                             </div>
                         </div>
@@ -32,40 +32,56 @@
 
 <script>
     export default {
+        props: {
+            seatNumbers: {
+                default: null
+            }
+        },
         data () {
             return {
-                seats: [
-                    {
-                        id: 1,
-                        title: 'Bike No. 8',
-                        user: 'Me'
-                    },
-                    {
-                        id: 2,
-                        title: 'Bike No. 15',
-                        user: 'Matt Stefanina'
-                    }
-                ],
-                selectedSeat: 0
+                selectedSeat: 0,
+                originalSeat: 0,
+                original: null,
+                seat: null,
+                seats: []
             }
         },
         methods: {
             submissionSuccess () {
                 const me = this
                 if (me.selectedSeat) {
-                    me.$store.state.bookerChooseSeatStatus = false
-                    document.body.classList.remove('no_scroll')
+                    let tempOriginal = me.original
+                    let tempSeat = me.seat
+                    let tempSeats = []
+                    if (tempOriginal.id == me.originalSeat) {
+                        me.original.guest = tempSeat.guest
+                        tempSeats.push(me.original)
+                    }
+                    if (tempSeat.id == me.selectedSeat) {
+                        me.seat.guest = 0
+                        tempSeats.push(me.seat)
+                    }
+                    console.log(tempSeats);
+                    //
+                    // if (tempSeat.id == me.selectedSeat) {
+                    //     me.original.guest = tempSeat.guest
+                    // }
+
+
+                    // console.log(me.seats);
+                    // me.$store.state.bookerChooseSeatStatus = false
+                    // document.body.classList.remove('no_scroll')
                 }
             },
-            togglePackage (data, unique) {
+            toggleSeat (data, unique) {
                 const me = this
                 let formData = new FormData()
-                formData.append('class_package_id', data.id)
                 me.selectedSeat = data.id
-                document.getElementById(`package_${unique}`).classList.add('active')
+                me.seat = data
+                document.getElementById(`seat_${unique}`).classList.add('active')
                 me.seats.forEach((element, index) => {
                     if (unique != index) {
-                        document.getElementById(`package_${index}`).classList.remove('active')
+                        document.getElementById(`seat_${index}`).classList.remove('active')
                     }
                 })
             },
@@ -74,6 +90,20 @@
                 me.$store.state.bookerChooseSeatStatus = false
                 document.body.classList.remove('no_scroll')
             }
+        },
+        mounted () {
+            const me = this
+            me.seats = me.seatNumbers
+            me.seats.forEach((element, index) => {
+                if (index == 0) {
+                    me.original = element
+                    me.originalSeat = element.id
+                }
+                if (index == 1) {
+                    me.seat = element
+                    me.selectedSeat = element.id
+                }
+            })
         }
     }
 </script>
