@@ -36,8 +36,8 @@
                                             <h4>Note: You can book up to 5 bikes.</h4>
                                             <img src="/sample-image-booker.png" />
                                         </div>
-                                        <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in seats" :key="key" v-if="seat.data.length > 0">
-                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0) ? 'reserved alt' : 'reserved' : (data.status == 'blocked') ? 'blocked' : (data.status == 'guest') ? 'guest' : ''}`" v-for="(data, key) in seat.data" :key="key">
+                                        <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
+                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0 ? 'reserved alt' : 'reserved') : (data.status == 'guest') ? 'guest' : (data.comp.length > 0) ? 'blocked comp' : (data.status == 'blocked') ? 'comp blocked' : ''}`" v-for="(data, key) in seat.data" :key="key">
                                                 <transition name="slide">
                                                     <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.bookings.length > 0 && data.bookings[0].user.customer_details.image[0].path != null)" />
 
@@ -104,7 +104,7 @@
                                                             </div>
                                                             <div class="toggler" v-if="hasGuest">
                                                                 <p>Swap seat for:</p>
-                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ toSubmit.tempSeat[1].number }}</div>
+                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ toSubmit.tempSeat[0].number }}</div>
                                                             </div>
                                                         </div>
                                                         <div class="flex package_details">
@@ -295,6 +295,14 @@
                 }
             }
         },
+        computed: {
+            populateSeats () {
+                const me = this
+                let result
+                result = me.seats
+                return result
+            },
+        },
         methods: {
             getAllTempSeats (data) {
                 const me = this
@@ -388,6 +396,7 @@
                 if (me.checkPackage == 1) {
                     switch (data.status) {
                         case 'blocked':
+                        case 'comp':
                             me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
                             me.$store.state.buyRidesPromptStatus = true
                             document.body.classList.add('no_scroll')
