@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.hasBookings">
                                             <span>Book Now</span>
                                         </nuxt-link>
                                         <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
@@ -108,6 +108,9 @@
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
                                         </div>
+                                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && data.hasBookings">
+                                            <span>Manage Class</span>
+                                        </nuxt-link>
                                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
                                             <span>Book Now</span>
                                         </div>
@@ -147,6 +150,9 @@
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
                                         </div>
+                                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && data.hasBookings">
+                                            <span>Manage Class</span>
+                                        </nuxt-link>
                                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
                                             <span>Book Now</span>
                                         </div>

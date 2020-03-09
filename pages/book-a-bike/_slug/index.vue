@@ -18,9 +18,9 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />50-Minute Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />Billie Capistrano</span></li>
-                                            <li><span><img class="icon" src="/icons/location-icon.svg" />Shangri-La Plaza</span></li>
+                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                                                             </div>
                                                             <div class="toggler" v-if="hasGuest">
                                                                 <p>Swap seat for:</p>
-                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ toSubmit.tempSeat[0].number }}</div>
+                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
                                                         <div class="flex package_details">
@@ -289,6 +289,7 @@
                 seatStatus: '',
                 hasBooked: false,
                 tempGuestSeat: null,
+                tempOriginalSeat: null,
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
@@ -304,6 +305,22 @@
             },
         },
         methods: {
+            /**
+             * Conversion of hours and minutes */
+            parseScheduleRide (data) {
+                const me = this
+                let result = ''
+                let time = data.split('+')[1]
+                let hour = time.split(':')[0]
+                let minutes = time.split(':')[1]
+                if (hour != 0) {
+                    result += me.$moment(time, 'H:m').format('HH') + (hour > 1) ? ' Hours' : ' Hour'
+                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                } else {
+                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                }
+                return result
+            },
             getAllTempSeats (data) {
                 const me = this
                 let ctr = 0
@@ -325,20 +342,19 @@
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 formData.append('class_package_id', me.classPackage.class_package.id)
-                // me.loader(true)
+                me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        console.log(res.data);
-                        // me.submitted = true
-                        // me.step = 0
-                        // me.$store.state.buyRidesSuccessStatus = true
-                        // me.$scrollTo('#content', {
-                        //     offset: -250
-                        // })
+                        me.submitted = true
+                        me.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
+                        me.$scrollTo('#content', {
+                            offset: -250
+                        })
                     }
                 }).catch(err => {
                     setTimeout( () => {
@@ -346,11 +362,10 @@
                         me.$store.state.errorStatus = true
                     }, 500)
                 }).then(() => {
-                    // setTimeout( () => {
-                    //     me.loader(false)
-                    // }, 500)
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
-
             },
             toggleStep (type) {
                 const me = this
@@ -417,6 +432,7 @@
                                     data.guest = 0
                                     data.status = 'reserved'
                                     data.temp = me.$store.state.user
+                                    me.tempOriginalSeat = data
                                     me.toSubmit.tempSeat.push(data)
                                     me.hasBooked = true
                                 } else {
@@ -435,56 +451,10 @@
                                             document.body.classList.add('no_scroll')
                                         }
                                     }
-
                                 }
-                                // let token = me.$cookies.get('token')
-                                // let formData = new FormData()
-                                // formData.append('is_guest', 0)
-                                // formData.append('scheduled_date_id', me.$route.params.slug)
-                                // formData.append('seat_id', data.id)
-                                // formData.append('class_package_id', me.classPackage.class_package.id)
-                                // me.loader(true)
-                                // me.$axios.post('api/web/bookings', formData, {
-                                //     headers: {
-                                //         Authorization: `Bearer ${token}`
-                                //     }
-                                // }).then(res => {
-                                //     if (res.data) {
-                                //         setTimeout( () => {
-                                //             me.promptMessage = `You've successfully booked seat ${data.number} at ${me.schedule.schedule.instructor_schedules[0].user.first_name} ${me.schedule.schedule.instructor_schedules[0].user.last_name}'s class`
-                                //             me.status = true
-                                //             me.$store.state.buyRidesPromptStatus = true
-                                //             document.body.classList.add('no_scroll')
-                                //         }, 500)
-                                //     }
-                                // }).catch(err => {
-                                //     setTimeout( () => {
-                                //         me.$store.state.errorList = err.response.data.errors
-                                //         me.$store.state.errorStatus = true
-                                //     }, 500)
-                                // }).then(() => {
-                                //     setTimeout( () => {
-                                //         me.loader(false)
-                                //     }, 500)
-                                // })
                             }
                             break
                     }
-                    // console.log(data);
-                    // me.loader(true)
-                    // document.body.classList.add('no_scroll')
-                    // setTimeout( () => {
-                    //     me.checkPackage = 1
-                    //     data.status = 'reserved'
-                    //     document.body.classList.remove('no_scroll')
-                    //     me.loader(false)
-                    // }, 500)
-                } else {
-                    // if (me.checkPackage == 1) {
-                    //     me.$store.state.bookerAssignStatus = true
-                    //     document.body.classList.add('no_scroll')
-                    //     me.checkPackage = 1
-                    // }
                 }
             },
             fetchSeats (id) {
@@ -525,7 +495,7 @@
                         me.loaded = true
                     }
                 }).catch(err => {
-                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                     me.loader(false)
                 }).then(() => {
                     setTimeout( () => {

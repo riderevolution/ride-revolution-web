@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
-                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(key == 1) ? 'active' : ''}`" v-if="key != 0" v-for="(seat, key) in bikeSeats" :key="key" @click="toggleSeat(seat, key)">
+                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.active) ? 'active' : ''}`" v-if="seat.guest != 0" v-for="(seat, key) in populateSeats" :key="key" @click="toggleSeat(seat, key)">
                                 <label>Bike No. {{ seat.number }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -16,7 +16,7 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>{{ (key == 0) ? 'Me' : `${seat.temp.first_name} ${seat.temp.last_name}` }}</p>
+                                    <p>{{ (seat.guest == 0) ? 'Me' : `${seat.temp.first_name} ${seat.temp.last_name}` }}</p>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,25 @@
                 originalSeat: 0,
                 originalIndex: null,
                 currentSeatIndex: null,
+                temp: [],
                 bikeSeats: []
+            }
+        },
+        computed: {
+            populateSeats () {
+                const me = this
+                let result = []
+                let ctr = 0
+                me.bikeSeats.forEach((element, index) => {
+                    if (ctr < 1 && element.guest != 0) {
+                        me.currentSeatIndex = index
+                        me.selectedSeat = element.id
+                        element.active = true
+                        ctr++
+                    }
+                    result.push(element)
+                })
+                return result
             }
         },
         methods: {
@@ -66,12 +84,16 @@
                 let tempSeat = null
                 if (me.selectedSeat) {
                     me.loader(true)
+
                     me.bikeSeats = me.swapGuestObjects(me.originalIndex, me.currentSeatIndex)
                     me.bikeSeats = me.swapTempObjects(me.originalIndex, me.currentSeatIndex)
+
                     me.bikeSeats[me.originalIndex].status = (me.bikeSeats[me.originalIndex].status == 'guest') ? 'reserved' : 'guest'
                     me.bikeSeats[me.currentSeatIndex].status = (me.bikeSeats[me.currentSeatIndex].status == 'reserved') ? 'guest' : 'reserved'
 
                     me.$parent.toSubmit.tempSeat = me.bikeSeats
+
+                    me.$parent.tempOriginalSeat = me.bikeSeats[me.currentSeatIndex]
 
                     Object.keys(me.$parent.seats).forEach((parent) => {
                         Object.keys(me.$parent.seats[parent]).forEach((child) => {
@@ -95,13 +117,14 @@
             },
             toggleSeat (data, unique) {
                 const me = this
-                let formData = new FormData()
                 me.selectedSeat = data.id
                 me.currentSeatIndex = unique
                 document.getElementById(`seat_${unique}`).classList.add('active')
                 me.bikeSeats.forEach((element, index) => {
-                    if (unique != index) {
-                        document.getElementById(`seat_${index}`).classList.remove('active')
+                    if (data.id != element.id) {
+                        if (document.getElementById(`seat_${index}`)) {
+                            document.getElementById(`seat_${index}`).classList.remove('active')
+                        }
                     }
                 })
             },
@@ -113,16 +136,14 @@
         },
         mounted () {
             const me = this
-            me.bikeSeats = me.seatNumbers
-            me.bikeSeats.forEach((element, index) => {
-                if (index == 0) {
+            me.temp = me.seatNumbers
+            me.temp.forEach((element, index) => {
+                element.active = false
+                if (element.guest == 0) {
                     me.originalIndex = index
                     me.originalSeat = element.id
                 }
-                if (index == 1) {
-                    me.currentSeatIndex = index
-                    me.selectedSeat = element.id
-                }
+                me.bikeSeats.push(element)
             })
         }
     }

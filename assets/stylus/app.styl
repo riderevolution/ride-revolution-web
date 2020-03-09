@@ -4251,15 +4251,14 @@ svg
                 .content
                     ul
                         list-style: none
-                        margin: 0
-                        padding: 0
+                        width: 100%
+                        max-width: 200px
+                        margin: 0 auto
                         padding: 30px 20px
-                        text-align: center
                         li
                             display: flex
                             flex-flow: row wrap
                             align-items: center
-                            justify-content: center
                             margin-bottom: 10px
                             brandon_regular(16px, false)
                             color: $black
@@ -4773,8 +4772,10 @@ svg
                                                 transform: translateY(-50%)
                                         img
                                             width: 50px
+                                            height: 50px
                                             border-radius: 50%
-                                            {image_default}
+                                            object-fit: cover
+                                            object-position: center
                                         p
                                             padding-left: 20px
                                             brandon_regular(20px, false)
