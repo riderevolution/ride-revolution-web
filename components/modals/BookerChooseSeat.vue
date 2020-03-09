@@ -88,8 +88,8 @@
                     me.bikeSeats = me.swapGuestObjects(me.originalIndex, me.currentSeatIndex)
                     me.bikeSeats = me.swapTempObjects(me.originalIndex, me.currentSeatIndex)
 
-                    me.bikeSeats[me.originalIndex].status = (me.bikeSeats[me.originalIndex].status == 'guest') ? 'reserved' : 'guest'
-                    me.bikeSeats[me.currentSeatIndex].status = (me.bikeSeats[me.currentSeatIndex].status == 'reserved') ? 'guest' : 'reserved'
+                    me.bikeSeats[me.originalIndex].status = (me.bikeSeats[me.originalIndex].status == 'reserved-guest') ? 'reserved' : 'reserved-guest'
+                    me.bikeSeats[me.currentSeatIndex].status = (me.bikeSeats[me.currentSeatIndex].status == 'reserved') ? 'reserved-guest' : 'reserved'
 
                     me.$parent.toSubmit.tempSeat = me.bikeSeats
 

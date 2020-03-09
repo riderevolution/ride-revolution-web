@@ -35,7 +35,7 @@
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/my-profile" class="back">Back</nuxt-link>
+                                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -45,13 +45,21 @@
                                             <img src="/sample-image-booker.png" />
                                         </div>
                                         <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
-                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0 ? 'reserved alt' : 'reserved') : (data.status == 'guest') ? 'guest' : (data.comp.length > 0) ? 'blocked comp' : (data.status == 'blocked') ? 'comp blocked' : ''}`" v-for="(data, key) in seat.data" :key="key">
+                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0 ? 'reserved alt' : 'reserved') : (data.status == 'reserved-guest') ? 'reserved-guest' : (data.comp.length > 0) ? 'blocked comp' : (data.status == 'blocked') ? 'comp blocked' : ''}`" v-for="(data, key) in seat.data" :key="key">
                                                 <transition name="slide">
                                                     <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.bookings.length > 0 && data.bookings[0].user.customer_details.image[0].path != null)" />
 
                                                     <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'reserved' && (!data.temp && data.bookings.length > 0) && data.bookings[0].user.customer_details.image[0].path == null">
                                                         <div class="letter">
                                                             {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
+                                                        </div>
+                                                    </div>
+                                                </transition>
+    
+                                                <transition name="slide">
+                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && data.is_guest == 1">
+                                                        <div class="letter">
+                                                            {{ data.guest_first_name.charAt(0) }}{{ data.guest_last_name.charAt(0) }}
                                                         </div>
                                                     </div>
                                                 </transition>
@@ -65,16 +73,16 @@
                                                     </div>
                                                 </transition>
                                                 <transition name="slide">
-                                                    <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && data.status == 'guest' && (data.temp && data.guest == 1 && data.temp.customer_details.images[0].path != null)" />
+                                                    <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.temp && data.guest == 1 && data.temp.customer_details.images[0].path != null)" />
 
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'guest' && (data.temp && data.guest == 1) && data.temp.customer_details.images[0].path == null">
+                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.temp && data.guest == 1) && data.temp.customer_details.images[0].path == null">
                                                         <div class="letter">
                                                             {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
                                                         </div>
                                                     </div>
                                                 </transition>
                                                 <transition name="slide">
-                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && data.status == 'guest' && (data.temp && data.guest == 2) && data.temp.customer_details.images[0].path == null">
+                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.temp && data.guest == 2) && data.temp.customer_details.images[0].path == null">
                                                         <div class="letter">
                                                             {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
                                                         </div>
@@ -112,7 +120,7 @@
                                                             </div>
                                                             <div class="toggler" v-if="hasGuest">
                                                                 <p>Swap seat for:</p>
-                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ toSubmit.tempSeat[0].number }}</div>
+                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
                                                         <div class="flex package_details">
@@ -297,6 +305,7 @@
                 seatStatus: '',
                 hasBooked: false,
                 tempGuestSeat: null,
+                tempOriginalSeat: null,
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
@@ -439,6 +448,7 @@
                                     data.guest = 0
                                     data.status = 'reserved'
                                     data.temp = me.$store.state.user
+                                    me.tempOriginalSeat = data
                                     me.toSubmit.tempSeat.push(data)
                                     me.hasBooked = true
                                 } else {

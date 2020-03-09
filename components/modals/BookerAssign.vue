@@ -74,6 +74,7 @@
                         if (me.assignType == 'member') {
                             let formData = new FormData()
                             formData.append('member_id', me.memberID)
+                            formData.append('scheduled_date_id', me.$route.params.slug)
                             formData.append('temp_seats', JSON.stringify(me.$parent.toSubmit.tempSeat))
                             // me.loader(true)
                             me.$axios.post('api/customers/member-id-search', formData).then(res => {

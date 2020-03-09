@@ -48,7 +48,7 @@
                                     for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
                                         if (me.$parent.seats[parent][child][i].id == me.tempSeat.id) {
                                             me.$parent.seats[parent][child][i].guest = 1
-                                            me.$parent.seats[parent][child][i].status = 'guest'
+                                            me.$parent.seats[parent][child][i].status = 'reserved-guest'
                                             me.$parent.seats[parent][child][i].temp = me.customer
                                             break
                                         }
