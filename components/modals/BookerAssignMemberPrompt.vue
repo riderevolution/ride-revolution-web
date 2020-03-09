@@ -50,6 +50,7 @@
                                             me.$parent.seats[parent][child][i].guest = 1
                                             me.$parent.seats[parent][child][i].status = 'reserved-guest'
                                             me.$parent.seats[parent][child][i].temp = me.customer
+                                            me.$parent.seats[parent][child][i].original_booker_id = me.$store.state.user.id
                                             break
                                         }
                                     }

@@ -13,8 +13,8 @@
                             <div class="main_left">
                                 <div>
                                     <div class="header">
-                                        <h2 class="date">May 15, 2019</h2>
-                                        <h2 class="time">7:30 PM - 8:20 PM</h2>
+                                        <h2 class="date">{{ $moment(schedule.date).format('MMM DD, YYYY') }}</h2>
+                                        <h2 class="time">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
                                     </div>
                                     <div class="content">
                                         <ul>
@@ -34,20 +34,63 @@
                                         <div class="overlay_header">
                                             <h3>Please choose your bike/s</h3>
                                             <h4>Note: You can book up to 5 bikes.</h4>
-                                            <img src="/sample-image-booker.png" />
+                                            <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                         </div>
                                         <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
-                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0 ? 'reserved alt' : 'reserved') : (data.status == 'reserved-guest') ? 'reserved-guest' : (data.comp.length > 0) ? 'blocked comp' : (data.status == 'blocked') ? 'comp blocked' : ''}`" v-for="(data, key) in seat.data" :key="key">
-                                                <transition name="slide">
-                                                    <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.bookings.length > 0 && data.bookings[0].user.customer_details.image[0].path != null)" />
+                                            <div @click="signIn(data)" :class="`seat ${addClass(data)}`" v-for="(data, key) in seat.data" :key="key">
 
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'reserved' && (!data.temp && data.bookings.length > 0) && data.bookings[0].user.customer_details.image[0].path == null">
+                                                <transition name="slide">
+                                                    <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path != null)" />
+
+                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path == null)">
+                                                        <div class="letter">
+                                                            {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
+                                                        </div>
+                                                    </div>
+                                                </transition>
+
+                                                <transition name="slide">
+                                                    <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path != null" />
+
+                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path == null">
                                                         <div class="letter">
                                                             {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
                                                         </div>
                                                     </div>
+
+                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user == null)">
+                                                        <div class="letter">
+                                                            {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
+                                                        </div>
+                                                    </div>
+                                                </transition>
+
+
+                                                <!-- <transition name="slide">
+                                                    <div class="seat_image" v-if="!$parent.$parent.isMobile && (data.comp.length > 0 && data.comp[0].user.customer_details.images[0] != null)">
+                                                        <img :src="data.comp[0].user.customer_details.images[0].path" />
+                                                    </div>
+                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.comp.length > 0 && data.comp[0].user.customer_details.images[0] == null)">
+                                                        <div class="letter">
+                                                            {{ data.comp[0].user.first_name.charAt(0) }}{{ data.comp[0].user.last_name.charAt(0) }}
+                                                        </div>
+                                                    </div>
                                                 </transition>
                                                 <transition name="slide">
+                                                    <div class="seat_image" v-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user.customer_details.images[0] != null)">
+                                                        <img :src="data.bookings[0].user.customer_details.images[0].path" />
+                                                    </div>
+                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user.customer_details.images[0] == null)">
+                                                        <div class="letter">
+                                                            {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
+                                                        </div>
+                                                    </div>
+                                                </transition> -->
+                                                <!-- <div class="seat_image" v-if="seat.bookings.length > 0 && seat.bookings[0].user != null">
+                                                    <img :src="seat.bookings[0].user.customer_details.customer_type.image.path" />
+                                                </div>
+                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.bookings.length > 0 && data.bookings[0].user.customer_details.image[0].path != null)" /> -->
+                                                <!-- <transition name="slide">
                                                     <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.temp && data.guest == 0 && data.temp.customer_details.images[0].path != null)" />
 
                                                     <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.temp && data.guest == 0) && data.temp.customer_details.images[0].path == null">
@@ -71,7 +114,7 @@
                                                             {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
                                                         </div>
                                                     </div>
-                                                </transition>
+                                                </transition> -->
                                                 <div class="seat_number">
                                                     {{ data.number }}
                                                 </div>
@@ -305,6 +348,60 @@
             },
         },
         methods: {
+            addClass (seat) {
+                const me = this
+                let result = ''
+                switch (seat.status) {
+                    case 'open':
+                        result = 'open'
+                        break
+                    case 'reserved':
+                    case 'reserved-guest':
+                        if (seat.temp) {
+                            if (seat.guest != 0) {
+                                result = 'reserved-guest'
+                            } else {
+                                result = 'reserved alt'
+                            }
+                        } else {
+                            if (seat.bookings.length > 0) {
+                                if (seat.bookings[0].user != null) {
+                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                        if (seat.bookings[0].is_guest == 1) {
+                                            result = 'reserved-guest'
+                                        } else {
+                                            result = 'reserved alt'
+                                        }
+                                    } else {
+                                        if (seat.bookings[0].user_id == me.$store.state.user.id) {
+                                            if (seat.bookings[0].is_guest == 1) {
+                                                result = 'reserved alt'
+                                            }
+                                        } else {
+                                            result = 'reserved'
+                                        }
+                                    }
+                                } else {
+                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                        if (seat.bookings[0].is_guest == 1) {
+                                            result = 'reserved-guest'
+                                        }
+                                    } else {
+                                        result = 'reserved'
+                                    }
+                                }
+                            } else if (seat.comp.length > 0) {
+
+                            }
+                        }
+                        break
+                    case 'blocked':
+                    case 'comp':
+                        result = 'blocked comp'
+                        break
+                }
+                return result
+            },
             /**
              * Conversion of hours and minutes */
             parseScheduleRide (data) {
@@ -417,6 +514,7 @@
                             document.body.classList.add('no_scroll')
                             break
                         case 'reserved':
+                        case 'reserved-guest':
                             me.promptMessage = 'This seat is already booked or reserved by someone else.'
                             me.$store.state.buyRidesPromptStatus = true
                             document.body.classList.add('no_scroll')
