@@ -47,6 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="breakdown_actions alt">
+                                    <div id="paypal-button-container"></div>
                                     <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
@@ -263,6 +264,21 @@
         mounted () {
             const me = this
             me.$store.state.proTipStatus = true
+
+            /** render paypal button */
+            paypal.Buttons({
+                // createOrder: function(data, actions) {
+                //   // This function sets up the details of the transaction, including the amount and line item details.
+                //     return actions.order.create({
+                //         purchase_units: [{
+                //             amount: {
+                //                 value: '0.01'
+                //             }
+                //         }]
+                //     });
+                // }
+            }).render('#paypal-button-container');
+
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get(`api/packages/web/store-credits/${params.slug}`).then(res => {
