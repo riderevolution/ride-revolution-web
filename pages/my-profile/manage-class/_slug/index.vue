@@ -45,7 +45,7 @@
                                             <img src="/sample-image-booker.png" />
                                         </div>
                                         <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
-                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0 ? 'reserved alt' : 'reserved') : (data.status == 'reserved-guest') ? 'reserved-guest' : (data.comp.length > 0) ? 'blocked comp' : (data.status == 'blocked') ? 'comp blocked' : ''}`" v-for="(data, key) in seat.data" :key="key">
+                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.bookings.length > 0 && data.bookings[0].user_id == $store.state.user.id ? 'reserved alt' : 'reserved') : (data.status == 'reserved-guest') ? 'reserved-guest' : (data.comp.length > 0) ? 'blocked comp' : (data.status == 'blocked') ? 'comp blocked' : ''}`" v-for="(data, key) in seat.data" :key="key">
                                                 <transition name="slide">
                                                     <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.bookings.length > 0 && data.bookings[0].user.customer_details.image[0].path != null)" />
 
@@ -55,11 +55,19 @@
                                                         </div>
                                                     </div>
                                                 </transition>
-    
                                                 <transition name="slide">
-                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && data.is_guest == 1">
+                                                    <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.bookings.length > 0 && data.bookings[0].is_guest == 0) && data.bookings[0].user.customer_details.image[0].path != null" />
+
+                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.bookings.length > 0 && data.bookings[0].is_guest == 0) && data.bookings[0].user.customer_details.image[0].path == null">
                                                         <div class="letter">
-                                                            {{ data.guest_first_name.charAt(0) }}{{ data.guest_last_name.charAt(0) }}
+                                                            {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
+                                                        </div>
+                                                    </div>
+                                                </transition>
+                                                <transition name="slide">
+                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.bookings.length > 0 && data.bookings[0].is_guest == 1)">
+                                                        <div class="letter">
+                                                            {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
                                                         </div>
                                                     </div>
                                                 </transition>
