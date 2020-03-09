@@ -118,7 +118,7 @@
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             } else {
                 let ctr = 0
-                setInterval( () => {
+                let timer = setInterval( () => {
                     if (ctr > 1) {
                         me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
                         me.first_name = me.$store.state.user.first_name.charAt(0)
@@ -129,6 +129,9 @@
                     }
                     ctr++
                 }, 500)
+                if (ctr > 4) {
+                    clearInterval(timer)
+                }
             }
         }
     }

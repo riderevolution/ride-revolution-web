@@ -74,23 +74,25 @@
                         if (me.assignType == 'member') {
                             let formData = new FormData()
                             formData.append('member_id', me.memberID)
-                            me.loader(true)
+                            formData.append('temp_seats', JSON.stringify(me.$parent.toSubmit.tempSeat))
+                            // me.loader(true)
                             me.$axios.post('api/customers/member-id-search', formData).then(res => {
-                                if (res.data) {
-                                    me.$parent.customer = res.data
-                                    setTimeout( () => {
-                                        me.$store.state.bookerAssignStatus = false
-                                        me.$store.state.bookerAssignMemberPromptStatus = true
-                                    }, 500)
-                                }
-                            }).catch(err => {
-                                me.loader(false)
-                                me.$store.state.bookerAssignStatus = false
-                                me.$store.state.bookerAssignMemberErrorStatus = true
-                            }).then(() => {
-                                setTimeout( () => {
-                                    me.loader(false)
-                                }, 500)
+                                console.log(res.data);
+                            //     if (res.data) {
+                            //         me.$parent.customer = res.data
+                            //         setTimeout( () => {
+                            //             me.$store.state.bookerAssignStatus = false
+                            //             me.$store.state.bookerAssignMemberPromptStatus = true
+                            //         }, 500)
+                            //     }
+                            // }).catch(err => {
+                            //     me.loader(false)
+                            //     me.$store.state.bookerAssignStatus = false
+                            //     me.$store.state.bookerAssignMemberErrorStatus = true
+                            // }).then(() => {
+                            //     setTimeout( () => {
+                            //         me.loader(false)
+                            //     }, 500)
                             })
                         } else {
                             me.$parent.nonMember.email = me.nonMemberEmail

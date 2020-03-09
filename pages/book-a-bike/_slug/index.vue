@@ -18,9 +18,9 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />50-Minute Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />Billie Capistrano</span></li>
-                                            <li><span><img class="icon" src="/icons/location-icon.svg" />Shangri-La Plaza</span></li>
+                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -36,8 +36,8 @@
                                             <h4>Note: You can book up to 5 bikes.</h4>
                                             <img src="/sample-image-booker.png" />
                                         </div>
-                                        <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in seats" :key="key" v-if="seat.data.length > 0">
-                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0) ? 'reserved alt' : 'reserved' : (data.status == 'blocked') ? 'blocked' : (data.status == 'guest') ? 'guest' : ''}`" v-for="(data, key) in seat.data" :key="key">
+                                        <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
+                                            <div @click="signIn(data)" :class="`seat ${(data.status == 'reserved') ? (data.guest == 0 ? 'reserved alt' : 'reserved') : (data.status == 'guest') ? 'guest' : (data.comp.length > 0) ? 'blocked comp' : (data.status == 'blocked') ? 'comp blocked' : ''}`" v-for="(data, key) in seat.data" :key="key">
                                                 <transition name="slide">
                                                     <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.bookings.length > 0 && data.bookings[0].user.customer_details.image[0].path != null)" />
 
@@ -103,8 +103,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="toggler" v-if="hasGuest">
-                                                                <p>Switch seat for:</p>
-                                                                <div class="picker" @click="chooseSeat()">Bike No. 8</div>
+                                                                <p>Swap seat for:</p>
+                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
                                                         <div class="flex package_details">
@@ -137,35 +137,35 @@
                             <div class="preview">
                                 <div class="item">
                                     <h3>Class</h3>
-                                    <p>50-Minute Ride</p>
+                                    <p>{{ schedule.schedule.class_type.name }}</p>
                                 </div>
                                 <div class="item">
                                     <h3>Instructor</h3>
-                                    <p>Billie Capistrano</p>
+                                    <p>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Studio</p>
-                                    <p>Shangri-La</p>
+                                    <p>{{ schedule.schedule.studio.name }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Date</p>
-                                    <p>{{ $moment().format('MMMM DD, YYYY') }}</p>
+                                    <p>{{ $moment(schedule.date, 'MMMM DD, YYYY').format('MMMM DD, YYYY') }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Time</p>
-                                    <p>7:30 PM - 8:20 PM</p>
+                                    <p>{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Bike No.</p>
-                                    <p>7, 8</p>
+                                    <p>{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Class Package Used</p>
-                                    <p>10 Class Package</p>
+                                    <p>{{ classPackage.class_package.name }}</p>
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>2 Credit</p>
+                                    <p>{{ schedule.schedule.class_credits }} Credit</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -183,7 +183,7 @@
                 <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
             </transition>
             <transition name="fade">
-                <booker-choose-seat v-if="$store.state.bookerChooseSeatStatus" />
+                <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
             </transition>
             <transition name="fade">
                 <booker-assign-member-prompt :customer="customer" :tempSeat="tempGuestSeat" v-if="$store.state.bookerAssignMemberPromptStatus" />
@@ -289,13 +289,52 @@
                 seatStatus: '',
                 hasBooked: false,
                 tempGuestSeat: null,
+                tempOriginalSeat: null,
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
                 }
             }
         },
+        computed: {
+            populateSeats () {
+                const me = this
+                let result
+                result = me.seats
+                return result
+            },
+        },
         methods: {
+            /**
+             * Conversion of hours and minutes */
+            parseScheduleRide (data) {
+                const me = this
+                let result = ''
+                let time = data.split('+')[1]
+                let hour = time.split(':')[0]
+                let minutes = time.split(':')[1]
+                if (hour != 0) {
+                    result += me.$moment(time, 'H:m').format('HH') + (hour > 1) ? ' Hours' : ' Hour'
+                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                } else {
+                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                }
+                return result
+            },
+            getAllTempSeats (data) {
+                const me = this
+                let ctr = 0
+                let result = ''
+                data.forEach((element, index) => {
+                    if (ctr == 0) {
+                        result = element.number
+                    } else if (ctr > 0) {
+                        result += `, ${element.number}`
+                    }
+                    ctr++
+                })
+                return result
+            },
             submitPreview () {
                 const me = this
                 let token = me.$cookies.get('token')
@@ -303,20 +342,19 @@
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 formData.append('class_package_id', me.classPackage.class_package.id)
-                // me.loader(true)
+                me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        console.log(res.data);
-                        // me.submitted = true
-                        // me.step = 0
-                        // me.$store.state.buyRidesSuccessStatus = true
-                        // me.$scrollTo('#content', {
-                        //     offset: -250
-                        // })
+                        me.submitted = true
+                        me.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
+                        me.$scrollTo('#content', {
+                            offset: -250
+                        })
                     }
                 }).catch(err => {
                     setTimeout( () => {
@@ -324,18 +362,23 @@
                         me.$store.state.errorStatus = true
                     }, 500)
                 }).then(() => {
-                    // setTimeout( () => {
-                    //     me.loader(false)
-                    // }, 500)
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
-
             },
             toggleStep (type) {
                 const me = this
                 switch (type) {
                     case 'next':
-                        me.step = 2
-                        document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        if (me.hasBooked) {
+                            me.step = 2
+                            document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        } else {
+                            me.promptMessage = 'Please select a seat first before proceeding.'
+                            me.$store.state.buyRidesPromptStatus = true
+                            document.body.classList.add('no_scroll')
+                        }
                         break
                     case 'prev':
                         me.step = 1
@@ -368,6 +411,7 @@
                 if (me.checkPackage == 1) {
                     switch (data.status) {
                         case 'blocked':
+                        case 'comp':
                             me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
                             me.$store.state.buyRidesPromptStatus = true
                             document.body.classList.add('no_scroll')
@@ -388,6 +432,7 @@
                                     data.guest = 0
                                     data.status = 'reserved'
                                     data.temp = me.$store.state.user
+                                    me.tempOriginalSeat = data
                                     me.toSubmit.tempSeat.push(data)
                                     me.hasBooked = true
                                 } else {
@@ -406,56 +451,10 @@
                                             document.body.classList.add('no_scroll')
                                         }
                                     }
-
                                 }
-                                // let token = me.$cookies.get('token')
-                                // let formData = new FormData()
-                                // formData.append('is_guest', 0)
-                                // formData.append('scheduled_date_id', me.$route.params.slug)
-                                // formData.append('seat_id', data.id)
-                                // formData.append('class_package_id', me.classPackage.class_package.id)
-                                // me.loader(true)
-                                // me.$axios.post('api/web/bookings', formData, {
-                                //     headers: {
-                                //         Authorization: `Bearer ${token}`
-                                //     }
-                                // }).then(res => {
-                                //     if (res.data) {
-                                //         setTimeout( () => {
-                                //             me.promptMessage = `You've successfully booked seat ${data.number} at ${me.schedule.schedule.instructor_schedules[0].user.first_name} ${me.schedule.schedule.instructor_schedules[0].user.last_name}'s class`
-                                //             me.status = true
-                                //             me.$store.state.buyRidesPromptStatus = true
-                                //             document.body.classList.add('no_scroll')
-                                //         }, 500)
-                                //     }
-                                // }).catch(err => {
-                                //     setTimeout( () => {
-                                //         me.$store.state.errorList = err.response.data.errors
-                                //         me.$store.state.errorStatus = true
-                                //     }, 500)
-                                // }).then(() => {
-                                //     setTimeout( () => {
-                                //         me.loader(false)
-                                //     }, 500)
-                                // })
                             }
                             break
                     }
-                    // console.log(data);
-                    // me.loader(true)
-                    // document.body.classList.add('no_scroll')
-                    // setTimeout( () => {
-                    //     me.checkPackage = 1
-                    //     data.status = 'reserved'
-                    //     document.body.classList.remove('no_scroll')
-                    //     me.loader(false)
-                    // }, 500)
-                } else {
-                    // if (me.checkPackage == 1) {
-                    //     me.$store.state.bookerAssignStatus = true
-                    //     document.body.classList.add('no_scroll')
-                    //     me.checkPackage = 1
-                    // }
                 }
             },
             fetchSeats (id) {
@@ -496,7 +495,7 @@
                         me.loaded = true
                     }
                 }).catch(err => {
-                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                     me.loader(false)
                 }).then(() => {
                     setTimeout( () => {
