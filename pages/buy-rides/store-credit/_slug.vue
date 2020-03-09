@@ -47,7 +47,6 @@
                                     </div>
                                 </div>
                                 <div class="breakdown_actions alt">
-                                    <div id="paypal-button-container"></div>
                                     <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
@@ -82,11 +81,12 @@
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
-                                <div class="default_btn_img" @click="paymentSuccess(res)">
+                                <!-- <div class="default_btn_img" @click="fakePay()">
                                     <div class="btn_wrapper">
                                         <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                     </div>
-                                </div>
+                                </div> -->
+                                <div id="paypal-button-container"></div>
                             </div>
                             <div class="paypal_disclaimer">
                                 <p>Note: Paypal account not needed</p>
@@ -185,7 +185,7 @@
                 me.form.total = total
                 return me.totalCount(total)
             },
-            paymentSuccess (data) {
+            paymentSuccess (data, paypal_details) {
                 const me = this
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
@@ -195,6 +195,7 @@
                 formData.append('quantity', me.form.quantity)
                 formData.append('total', me.form.total)
                 formData.append('payment_method', me.type)
+                formData.append('paypal_details', paypal_details)
                 me.loader(true)
                 me.$axios.post('api/web/pay', formData, {
                     headers: {
@@ -250,6 +251,7 @@
                             case 'paypal':
                                 me.paypal = true
                                 me.step = 2
+                                me.renderPaypal()
                             break
                         }
                     } else {
@@ -259,26 +261,38 @@
                         })
                     }
                 })
+            },
+            renderPaypal () {
+                let me = this
+                setTimeout(() => {
+                    paypal.Buttons({
+                        style: {
+                            color: 'blue'
+                        },
+                        createOrder: function(data, actions) {
+                          // This function sets up the details of the transaction, including the amount and line item details.
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: me.form.total
+                                    }
+                                }]
+                            })
+                        },
+                        onApprove: function(data, actions) {
+                          // This function captures the funds from the transaction.
+                            me.loader(true)
+                            return actions.order.capture().then(function(details) {
+                                me.paymentSuccess(me.res, JSON.stringify(details))
+                            })
+                        }
+                    }).render('#paypal-button-container')
+                }, 500)
             }
         },
         mounted () {
             const me = this
             me.$store.state.proTipStatus = true
-
-            /** render paypal button */
-            paypal.Buttons({
-                // createOrder: function(data, actions) {
-                //   // This function sets up the details of the transaction, including the amount and line item details.
-                //     return actions.order.create({
-                //         purchase_units: [{
-                //             amount: {
-                //                 value: '0.01'
-                //             }
-                //         }]
-                //     });
-                // }
-            }).render('#paypal-button-container');
-
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get(`api/packages/web/store-credits/${params.slug}`).then(res => {
