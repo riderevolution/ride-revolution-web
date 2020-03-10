@@ -71,7 +71,7 @@
                 const me = this
                 if (me.selectedPackage) {
                     if (me.type == 0) {
-                        let token = me.$cookies.get('token')
+                        let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
                         let formData = new FormData()
                         formData.append('scheduled_date_id', me.$parent.schedule.id)
                         formData.append('user_id', me.$store.state.user.id)
@@ -133,26 +133,44 @@
         },
         mounted () {
             const me = this
-            me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
-                if (res.data) {
-                    if (res.data.customer.user_package_counts.length > 0) {
-                        me.classPackages = res.data.customer.user_package_counts
-                        me.$parent.classPackage = me.classPackages[0]
-                        me.$parent.packageSelected = me.classPackages[0].class_package.name
-                    } else {
-                        me.$store.state.bookerChoosePackageStatus = false
-                        setTimeout( () => {
-                            me.$parent.message = 'Please buy a class package first'
-                        }, 10)
-                        switch (me.category) {
-                            case 'landing':
-                                me.$parent.buyCredits = true
-                                break
-                        }
-                        me.$store.state.buyRidesPromptStatus = true
-                    }
+            let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
+            let id = 0
+            me.$axios.get('api/check-token', {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }).then(res => {
+                if (res.data) {
+                    id = res.data.user.id
+                    me.$axios.get(`api/customers/${id}/packages`).then(res => {
+                        if (res.data) {
+                            if (res.data.customer.user_package_counts.length > 0) {
+                                me.classPackages = res.data.customer.user_package_counts
+                                me.classPackages.forEach((element, index) => {
+                                    if (element.count > 0) {
+                                        me.$parent.classPackage = element
+                                        me.$parent.packageSelected = element.class_package.name
+                                    }
+                                })
+                            } else {
+                                me.$store.state.bookerChoosePackageStatus = false
+                                setTimeout( () => {
+                                    me.$parent.message = 'Please buy a class package first'
+                                }, 10)
+                                switch (me.category) {
+                                    case 'landing':
+                                        me.$parent.buyCredits = true
+                                        break
+                                }
+                                me.$store.state.buyRidesPromptStatus = true
+                            }
+                        }
+                    })
+                }
+            }).catch(err => {
+                console.log(err);
             })
+
         }
     }
 </script>

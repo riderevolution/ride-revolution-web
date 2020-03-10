@@ -581,6 +581,40 @@ svg
 
 #main_container
     position: relative
+    &.fish
+        .login_sign_up
+            margin-top: 0
+            #login
+                max-width: 100%
+                margin: 60px 0 30px
+                padding: 0 20px
+                .title
+                    brandon_bold(22px, false)
+        .default_modal
+            #health_waiver_form
+                &.overlay
+                    &.alt_2
+                        max-width: calc(100% - 40px)
+                .modal_wrapper
+                    .form_title
+                        brandon_bold(22px, false)
+                        &.alt
+                            padding: 30px 20px 0
+                    .modal_main_group
+                        padding: 0 20px 30px
+        .form_group
+            label
+                brandon_medium(12px, true)
+            .form_flex_radio_alternate
+                margin-bottom: 15px
+                label
+                    flex: 0 0 40%
+                .radio_wrapper
+                    flex: 0 0 40%
+        .form_check
+            label
+                a
+                    pointer-events: none
     /**
      * Pro Tip */
     #pro_tip

@@ -1,12 +1,7 @@
 <template>
     <transition name="fade">
         <div class="book_a_bike inner" v-if="loaded">
-            <breadcrumb :overlay="false" />
-            <section id="banner"></section>
-            <transition name="slide">
-                <pro-tip v-if="$store.state.proTipStatus" />
-            </transition>
-            <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''} ${(submitted) ? 'overlay' : ''}`">
+            <section id="content" :class="`fish ${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
                 <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                     <transition name="slideX">
                         <div class="flex_step" v-if="step == 1">
@@ -209,18 +204,19 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../../../components/Breadcrumb'
-    import ProTip from '../../../../components/ProTip'
-    import BookerAssign from '../../../../components/modals/BookerAssign'
-    import BookerChoosePackage from '../../../../components/modals/BookerChoosePackage'
-    import BookerChooseSeat from '../../../../components/modals/BookerChooseSeat'
-    import BookerAssignMemberPrompt from '../../../../components/modals/BookerAssignMemberPrompt'
-    import BookerAssignMemberError from '../../../../components/modals/BookerAssignMemberError'
-    import BookerAssignNonMember from '../../../../components/modals/BookerAssignNonMember'
-    import BookerAssignSuccess from '../../../../components/modals/BookerAssignSuccess'
-    import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
-    import BookerSuccess from '../../../../components/modals/BookerSuccess'
+    import Breadcrumb from '../../../components/Breadcrumb'
+    import ProTip from '../../../components/ProTip'
+    import BookerAssign from '../../../components/modals/BookerAssign'
+    import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
+    import BookerChooseSeat from '../../../components/modals/BookerChooseSeat'
+    import BookerAssignMemberPrompt from '../../../components/modals/BookerAssignMemberPrompt'
+    import BookerAssignMemberError from '../../../components/modals/BookerAssignMemberError'
+    import BookerAssignNonMember from '../../../components/modals/BookerAssignNonMember'
+    import BookerAssignSuccess from '../../../components/modals/BookerAssignSuccess'
+    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
+    import BookerSuccess from '../../../components/modals/BookerSuccess'
     export default {
+        layout: 'fish',
         components: {
             Breadcrumb,
             ProTip,
@@ -294,7 +290,8 @@
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
-                }
+                },
+                user: null
             }
         },
         computed: {
@@ -324,14 +321,14 @@
                         } else {
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         } else {
                                             result = 'reserved alt'
                                         }
                                     } else {
-                                        if (seat.bookings[0].user_id == me.$store.state.user.id) {
+                                        if (seat.bookings[0].user_id == me.user.id) {
                                             if (seat.bookings[0].is_guest == 1) {
                                                 result = 'reserved alt'
                                             }
@@ -340,7 +337,7 @@
                                         }
                                     }
                                 } else {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         }
@@ -487,7 +484,7 @@
                                 if (!me.hasBooked) {
                                     data.guest = 0
                                     data.status = 'reserved'
-                                    data.temp = me.$store.state.user
+                                    data.temp = me.user
                                     me.tempOriginalSeat = data
                                     me.toSubmit.tempSeat.push(data)
                                     me.hasBooked = true
@@ -516,54 +513,65 @@
             fetchSeats (id) {
                 const me = this
                 me.loader(true)
-                let token = me.$cookies.get('token')
-                me.$axios.get(`api/scheduled-dates/${id}`, {
+                let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
+                me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
-                        me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
-                        me.temp = res.data.seats
-                        me.schedule = res.data.scheduledDate
-                        me.temp.forEach((seat , index) => {
-                            switch (seat.position) {
-                                case 'left':
-                                    me.seats.left.data.push(seat)
-                                    break
-                                case 'right':
-                                    me.seats.right.data.push(seat)
-                                    break
-                                case 'bottom':
-                                    me.seats.bottom.data.push(seat)
-                                    break
-                                case 'bottom_alt':
-                                    me.seats.bottom_alt.data.push(seat)
-                                    break
-                                case 'bottom_alt_2':
-                                    me.seats.bottom_alt_2.data.push(seat)
-                                    break
+                        me.user = res.data.user
+                        me.$axios.get(`api/scheduled-dates/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
                             }
-                            me.ctr++
+                        }).then(res => {
+                            if (res.data) {
+                                let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
+                                me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                                me.temp = res.data.seats
+                                me.schedule = res.data.scheduledDate
+                                me.temp.forEach((seat , index) => {
+                                    switch (seat.position) {
+                                        case 'left':
+                                            me.seats.left.data.push(seat)
+                                            break
+                                        case 'right':
+                                            me.seats.right.data.push(seat)
+                                            break
+                                        case 'bottom':
+                                            me.seats.bottom.data.push(seat)
+                                            break
+                                        case 'bottom_alt':
+                                            me.seats.bottom_alt.data.push(seat)
+                                            break
+                                        case 'bottom_alt_2':
+                                            me.seats.bottom_alt_2.data.push(seat)
+                                            break
+                                    }
+                                    me.ctr++
+                                })
+                                me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+                                me.loaded = true
+                            }
+                        }).catch(err => {
+                            me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                            me.loader(false)
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
                         })
-                        me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
-                        me.loaded = true
                     }
                 }).catch(err => {
-                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                    me.loader(false)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
+                    console.log(err);
                 })
             }
         },
         mounted () {
             const me = this
             let ctr = 0
-            let token = me.$cookies.get('token')
+            let token = me.$route.query.token
             me.$store.state.proTipStatus = true
             setInterval( () => {
                 if (ctr < 1) {

@@ -1,4 +1,4 @@
- <template>
+<template>
     <transition name="fade">
         <div class="book_a_bike landing" v-if="loaded">
             <section id="content">
@@ -73,21 +73,33 @@
                                         <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                         <div class="info">
                                             <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
-                                            <div class="ride"><p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                            <div class="ride">
+                                                <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
+                                                <div class="info_icon">
+                                                    <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
+                                                    <transition name="slideAltY">
+                                                        <div class="info_overlay" v-if="data.toggled">
+                                                            <div class="pointer"></div>
+                                                            Details: {{ data.schedule.description }}<br>
+                                                            Credits to Deduct: {{ data.schedule.class_credits }}
+                                                        </div>
+                                                    </transition>
+                                                </div>
+                                            </div>
                                             <h3>{{ data.schedule.studio.name }}</h3>
                                         </div>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.hasBookings">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Book Now</span>
                                         </nuxt-link>
-                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Waitlist</span>
                                         </div>
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
                                         </div>
-                                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasBookings">
+                                        <nuxt-link :to="`/fish-in-the-glass/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
                                             <span>Manage Class</span>
                                         </nuxt-link>
                                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
@@ -104,19 +116,34 @@
                                     <div class="info">
                                         <div class="time">{{ data.schedule.start_time }}</div>
                                         <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
-                                        <div class="ride"><p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p> <img src="/icons/info-booker-icon.svg" /></div>
+                                        <div class="ride">
+                                            <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
+                                            <div class="info_icon">
+                                                <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
+                                                <transition name="slideAltY">
+                                                    <div class="info_overlay" v-if="data.toggled">
+                                                        <div class="pointer"></div>
+                                                        Details: {{ data.schedule.description }}<br>
+                                                        Credits to Deduct: {{ data.schedule.class_credits }}
+                                                    </div>
+                                                </transition>
+                                            </div>
+                                        </div>
                                         <h3>{{ data.schedule.studio.name }}</h3>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Book Now</span>
                                         </nuxt-link>
-                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Waitlist</span>
                                         </div>
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
                                         </div>
+                                        <nuxt-link :to="`/fish-in-the-glass/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
+                                            <span>Manage Class</span>
+                                        </nuxt-link>
                                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
                                             <span>Book Now</span>
                                         </div>
@@ -170,7 +197,9 @@
                 currentYear: '',
                 currentDay: '',
                 results: [],
-                res: [],
+                res: {
+                    schedules: []
+                },
                 studios: [],
                 instructors: [],
                 studioID: 0,
@@ -206,6 +235,14 @@
             }
         },
         methods: {
+            /**
+             * Toggle info in each schedule */
+            toggleScheduleInfo (data) {
+                const me = this
+                data.toggled ^= true
+            },
+            /**
+             * Check if user is logged in */
             checkIfLoggedIn (event) {
                 const me = this
                 event.preventDefault()
@@ -234,24 +271,34 @@
              * Validation if the user doesn't completed their profile */
             checkIfNew (data, type, event) {
                 const me = this
-                let token = me.$cookies.get('token')
-                event.preventDefault()
-                if (me.$store.state.user.new_user == 0) {
-                    if (data.hasUser && token != null && token != undefined) {
-                        switch (type) {
-                            case 'book':
-                                me.$router.push(`/book-a-bike/${data.id}`)
-                                break
-                            case 'waitlist':
-                                me.schedule = data
-                                me.$store.state.bookerChoosePackageStatus = true
-                                document.body.classList.add('no_scroll')
-                                break
+                let token = me.$route.query.token
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        if (data.hasUser && token != null && token != undefined) {
+                            switch (type) {
+                                case 'book':
+                                    me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
+                                    break
+                                case 'waitlist':
+                                    me.schedule = data
+                                    me.loader(true)
+                                    setTimeout( () => {
+                                        me.$store.state.bookerChoosePackageStatus = true
+                                        document.body.classList.add('no_scroll')
+                                        me.loader(false)
+                                    }, 500)
+                                    break
+                            }
                         }
                     }
-                } else {
+                }).catch(err => {
                     me.$store.state.completeProfilePromptStatus = true
-                }
+                })
+                event.preventDefault()
             },
             /**
              * Toggling of instructors custom autocomplete dropdown */
@@ -369,7 +416,7 @@
              * Fetch All Schedules */
             getAllSchedules (year, month, day, searched) {
                 const me = this
-                let token = me.$cookies.get('token')
+                let token = me.$route.query.token
                 me.loader(true)
                 if (searched) {
                     me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}&forWeb=1`, {
@@ -378,7 +425,7 @@
                         }
                     }).then(res => {
                         if (res.data) {
-                            me.res = res.data
+                            me.populateResSchedules(res.data)
                             me.loaded = true
                         }
                     }).catch(err => {
@@ -396,7 +443,7 @@
                         }
                     }).then(res => {
                         if (res.data) {
-                            me.res = res.data
+                            me.populateResSchedules(res.data)
                             me.loaded = true
                         }
                     }).catch(err => {
@@ -408,6 +455,14 @@
                         }, 500)
                     })
                 }
+            },
+            populateResSchedules (data) {
+                const me = this
+                me.res.schedules = []
+                data.schedules.forEach((element, index) => {
+                    element.toggled = false
+                    me.res.schedules.push(element)
+                })
             },
             /**
              * Generate Next Week of Calendar */
@@ -540,6 +595,16 @@
                 setTimeout( () => {
                     me.loader(false)
                 }, 500)
+            },
+            toggleOverlays (e) {
+                const me = this
+                let target = e.target
+                let elements_first = document.querySelectorAll('.schedule_list .schedule .ride img')
+                me.res.schedules.forEach((data, index) => {
+                    if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
+                        data.toggled = false
+                    }
+                })
             }
         },
         mounted () {
@@ -570,6 +635,12 @@
             }).catch(err => {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             })
+        },
+        beforeMount () {
+            document.addEventListener('click', this.toggleOverlays)
+        },
+        beforeDestroy () {
+            document.removeEventListener('click', this.toggleOverlays)
         }
     }
 </script>

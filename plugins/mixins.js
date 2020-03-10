@@ -77,7 +77,7 @@ Vue.mixin({
             }
         },
         logout () {
-            let token = this.$cookies.get('token')
+            let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('token')
             if (token) {
                 this.loader(true)
             }
@@ -103,7 +103,7 @@ Vue.mixin({
         },
         validateToken () {
             return new Promise((resolve, reject) => {
-                let token = this.$cookies.get('token')
+                let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('token')
                 if (token != null || token != undefined) {
                     this.$axios.get('api/user', {
                         headers: {

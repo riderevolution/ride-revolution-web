@@ -180,9 +180,8 @@
                         <label for="what_do_you_do">What do you do <span>*</span></label>
                         <div class="select">
                             <select class="input_select" name="what_do_you_do" v-model="signUpForm.what_do_you_do" v-validate="'required'">
-                                <option value="" selected disabled>Choose a Profession</option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
+                                <option value="0" selected disabled>Choose a Profession</option>
+                                <option :value="data" v-for="(data, key) in professions" :key="key">{{ data }}</option>
                             </select>
                         </div>
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.what_do_you_do')">{{ errors.first('register_process_form.what_do_you_do') | properFormat }}</span></transition>
@@ -277,10 +276,11 @@
                     last_name: 'Corpuz',
                     contact_number: '09085532912',
                     birth_date: new Date(),
-                    what_do_you_do: '',
+                    what_do_you_do: '0',
                     sex: '',
                     iAgree: ''
                 },
+                professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Compute', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
                 hasReadTerms: false,
                 signUpStep: null,
                 loginForm: {

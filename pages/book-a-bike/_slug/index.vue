@@ -65,56 +65,6 @@
                                                     </div>
                                                 </transition>
 
-
-                                                <!-- <transition name="slide">
-                                                    <div class="seat_image" v-if="!$parent.$parent.isMobile && (data.comp.length > 0 && data.comp[0].user.customer_details.images[0] != null)">
-                                                        <img :src="data.comp[0].user.customer_details.images[0].path" />
-                                                    </div>
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.comp.length > 0 && data.comp[0].user.customer_details.images[0] == null)">
-                                                        <div class="letter">
-                                                            {{ data.comp[0].user.first_name.charAt(0) }}{{ data.comp[0].user.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition>
-                                                <transition name="slide">
-                                                    <div class="seat_image" v-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user.customer_details.images[0] != null)">
-                                                        <img :src="data.bookings[0].user.customer_details.images[0].path" />
-                                                    </div>
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user.customer_details.images[0] == null)">
-                                                        <div class="letter">
-                                                            {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition> -->
-                                                <!-- <div class="seat_image" v-if="seat.bookings.length > 0 && seat.bookings[0].user != null">
-                                                    <img :src="seat.bookings[0].user.customer_details.customer_type.image.path" />
-                                                </div>
-                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.image[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.bookings.length > 0 && data.bookings[0].user.customer_details.image[0].path != null)" /> -->
-                                                <!-- <transition name="slide">
-                                                    <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.temp && data.guest == 0 && data.temp.customer_details.images[0].path != null)" />
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'reserved' && (data.temp && data.guest == 0) && data.temp.customer_details.images[0].path == null">
-                                                        <div class="letter">
-                                                            {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition>
-                                                <transition name="slide">
-                                                    <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.temp && data.guest == 1 && data.temp.customer_details.images[0].path != null)" />
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.temp && data.guest == 1) && data.temp.customer_details.images[0].path == null">
-                                                        <div class="letter">
-                                                            {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition>
-                                                <transition name="slide">
-                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && data.status == 'reserved-guest' && (data.temp && data.guest == 2) && data.temp.customer_details.images[0].path == null">
-                                                        <div class="letter">
-                                                            {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition> -->
                                                 <div class="seat_number">
                                                     {{ data.number }}
                                                 </div>
@@ -130,7 +80,7 @@
                                                 <li class="you"><span></span>You</li>
                                             </ul>
                                         </div>
-                                        <div class="actions">
+                                        <div class="actions" v-if="!schedule.guestHere">
                                             <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage">
@@ -565,6 +515,9 @@
                     }
                 }).then(res => {
                     if (res.data) {
+                        if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
+                            me.$router.push(`/my-profile/manage-class/${id}`)
+                        }
                         let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                         me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
                         me.temp = res.data.seats

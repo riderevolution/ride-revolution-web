@@ -16,8 +16,8 @@
                                 <div class="form_group select disclaimer">
                                     <div class="select">
                                         <select class="input_select" name="class_package" v-validate="'required'" v-model="form.classPackage">
-                                            <option value="" disabled selected>Please select a class package</option>
-                                            <option value="1">Sample Package</option>
+                                            <option value="0" disabled selected>Please select a class package</option>
+                                            <option :value="data.id" v-for="(data, key) in classPackages">{{ data.name }}</option>
                                         </select>
                                     </div>
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('class_package')">{{ errors.first('class_package') | properFormat }}</span></transition>
@@ -27,12 +27,12 @@
                                 </div>
                                 <div class="form_group">
                                     <label for="from_sender">From <span>*</span></label>
-                                    <input type="text" name="from_sender" class="input_text" v-validate="'required|email'" v-model="form.from" placeholder="Enter an email">
+                                    <input type="text" name="from_sender" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}" v-model="form.from" placeholder="Enter a name">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('from_sender')">{{ errors.first('from_sender') | properFormat }}</span></transition>
                                 </div>
                                 <div class="form_group">
                                     <label for="to_sender">To <span>*</span></label>
-                                    <input type="text" name="to_sender" class="input_text" v-validate="'required|email'" v-model="form.to" placeholder="Enter an email">
+                                    <input type="text" name="to_sender" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}" v-model="form.to" placeholder="Enter a name">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('to_sender')">{{ errors.first('to_sender') | properFormat }}</span></transition>
                                 </div>
                                 <div :class="`form_group select ${(other) ? 'disclaimer' : ''}`">
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="form_group">
                                     <label for="recipient_email">Recipient's Email <span>*</span></label>
-                                    <input type="text" name="recipient_email" class="input_text" v-validate="'required|email'" v-model="form.recipientEmail" placeholder="Enter a recipient's email">
+                                    <input type="email" name="recipient_email" class="input_text" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="form.recipientEmail" placeholder="Enter a recipient's email">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('recipient_email')">{{ errors.first('recipient_email') | properFormat }}</span></transition>
                                 </div>
                                 <div class="form_group">
@@ -237,7 +237,7 @@
                 promo: false,
                 other: false,
                 form: {
-                    classPackage: '',
+                    classPackage: '0',
                     to: '',
                     from: '',
                     title: '',
@@ -246,7 +246,9 @@
                     recipientEmail: '',
                     recipientMobileNo: '',
                     promo: ''
-                }
+                },
+                res: [],
+                classPackages: []
             }
         },
         filters: {
@@ -360,6 +362,18 @@
             me.circumference = me.normalizedRadius * 2 * Math.PI
             me.dashOffset = me.circumference
             me.$store.state.proTipStatus = true
+            setTimeout( () => {
+                me.classPackages = me.res.classPackages
+            }, 10)
+        },
+        async asyncData ({ $axios, params, store, error }) {
+            return await $axios.get('api/packages/for-buy-rides').then(res => {
+                if (res.data) {
+                    return { res: res.data }
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            })
         }
     }
 </script>
