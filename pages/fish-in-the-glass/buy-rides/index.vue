@@ -1,5 +1,5 @@
 <template>
-    <div class="buy_rides">
+    <div :class="`buy_rides ${hasHash}`">
         <section id="packages" class="alt">
             <div class="header">
                 <h2>
@@ -17,15 +17,15 @@
                 </transition>
             </div>
             <div class="content" id="package">
-                <nuxt-link :to="`/fish-in-the-glass/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
-                    <div class="ribbon" v-if="data.has_promo">Promo</div>
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`)" rel="canonical" :to="`/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                    <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                     <div class="package_header">
-                        <h2 class="title">{{ data.title }}</h2>
-                        <div class="description" v-line-clamp="3" v-html="data.description"></div>
+                        <h2 class="title">{{ data.name }}</h2>
+                        <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                     </div>
-                    <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
-                    <div class="price">Php {{ totalItems(data.price) }}</div>
-                    <div class="expires">{{ data.expire }}</div>
+                    <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
+                    <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
+                    <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
                     <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
                     <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
@@ -38,10 +38,9 @@
                         </div>
                     </div>
                 </nuxt-link>
-                <div v-if="!checkPackages" class="default_btn load" @click="loadMoreContent('packages')">Load More</div>
             </div>
         </section>
-        <section id="packages" class="alt">
+        <section id="packages" class="container alt">
             <div class="header">
                 <h2>
                     Buy Store Credits
@@ -57,15 +56,13 @@
                     </div>
                 </transition>
             </div>
-            <div class="content" id="store_credits">
-                <nuxt-link :to="`/fish-in-the-glass/buy-rides/store-credit/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in populateStoreCredits" :key="key">
-                    <div class="ribbon" v-if="data.has_promo">Promo</div>
+            <div class="content" id="storecredits">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/store-credit/${data.slug}?token=${$route.query.token}`)" rel="canonical" :to="`/fish-in-the-glass/buy-rides/store-credit/${data.slug}?token=${$route.query.token}`" class="package_wrapper" v-if="data.checked" v-for="(data, key) in populateStoreCredits" :key="key">
                     <div class="package_header alt">
-                        <h2 class="title">{{ data.title }}</h2>
+                        <h2 class="title">{{ data.name }}</h2>
                     </div>
-                    <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
-                    <div class="price">Php {{ totalItems(data.price) }}</div>
-                    <div class="expires">{{ data.expire }}</div>
+                    <div class="price">Php {{ totalItems(data.amount) }}</div>
+                    <div class="expires">No Expiry</div>
                     <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
                     <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
@@ -78,7 +75,6 @@
                         </div>
                     </div>
                 </nuxt-link>
-                <div v-if="!checkStoreCredits" class="default_btn load" @click="loadMoreContent('store-credits')">Load More</div>
             </div>
         </section>
         <section id="digital">
@@ -87,7 +83,7 @@
             <div class="overlay">
                 <h2>Share this experience with your loved ones!</h2>
                 <h3>For anyone who wants to be their best.</h3>
-                <nuxt-link to="/fish-in-the-glass/buy-rides/digital-gift-card" class="default_btn">Send a Digital Gift Card</nuxt-link>
+                <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides/digital-gift-card?token=${$route.query.token}`" class="default_btn">Send a Digital Gift Card</nuxt-link>
             </div>
         </section>
     </div>
@@ -98,149 +94,137 @@
         layout: 'fish',
         data () {
             return {
+                res: [],
                 toShowPackages: 3,
                 toShowStoreCredits: 3,
                 showInfoPackages: false,
+                showLoadedPackages: false,
                 showInfoStoreCredits: false,
-                packages: [
-                    {
-                        title: 'Trial Class',
-                        description: '<p>1 class included<br /> First Timers Only</p>',
-                        price: '500',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days',
-                        checked: false
+                showLoadedStoreCredits: false,
+                showAllPromos: false,
+                promoOptions: {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    loop: true,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false
                     },
-                    {
-                        title: 'First Timer Package',
-                        description: '<p>UNLIMITED RIDES VALID<br /> FOR ONLY 2 WEEKS</p>',
-                        price: '1800',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days',
-                        checked: false
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true
                     },
-                    {
-                        title: 'Single Class',
-                        description: '<p>1 CLASS INCLUDED</p>',
-                        price: '5000',
-                        has_promo: false,
-                        expire: 'Expires in 45 Days',
-                        checked: false
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
                     },
-                    {
-                        title: '10 Class Package',
-                        description: '<p>10 CLASSES INCLUDED<br /> + 1 BARE MANILA CLASS</p>',
-                        price: '500',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days',
-                        checked: false
-                    },
-                    {
-                        title: '20 Class Package',
-                        description: '<p>20 CLASSES INCLUDED<br /> + 2 BARE MANILA CLASS</p>',
-                        discounted_price: '17000',
-                        price: '15000',
-                        has_promo: true,
-                        expire: 'Expires in 6 Months',
-                        checked: false
-                    },
-                    {
-                        title: 'Monthly Unlimited Class Package',
-                        description: '<p>UNLIMITED CLASS RIDES<br /> + 3 BARE MANILA CLASSES AND<br /> FREE FOOD AND DRINKS</p>',
-                        discounted_price: '22500',
-                        price: '20000',
-                        has_promo: true,
-                        expire: 'Expires in 1 Year',
-                        checked: false
-                    },
-                ],
-                credits: [
-                    {
-                        title: '500 Store Credits',
-                        discounted_price: '500',
-                        price: '400',
-                        has_promo: true,
-                        expire: 'No Expiry',
-                        type: 'store-credit',
-                        checked: false
-                    },
-                    {
-                        title: '1k Store Credits',
-                        price: '1000',
-                        has_promo: false,
-                        expire: 'No Expiry',
-                        type: 'store-credit',
-                        checked: false
-                    },
-                    {
-                        title: '5k Store Credits',
-                        price: '5000',
-                        has_promo: false,
-                        expire: 'No Expiry',
-                        type: 'store-credit',
-                        checked: false
+                    breakpoints: {
+                        1024: {
+                            slidesPerView: 1,
+                            autoHeight: true,
+                            spaceBetween: 30
+                        }
                     }
-                ]
+                },
+                promos: [
+                    {
+                        path: '/default/promo/sample-image.jpg',
+                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
+                        hasCode: false
+                    },
+                    {
+                        path: '/default/promo/sample-image.jpg',
+                        title: 'Get 1,500 Pesos Discount on your Ride!*',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
+                        hasCode: true,
+                        code: 'ASD1231'
+                    },
+                    {
+                        path: '/default/promo/sample-image.jpg',
+                        title: 'Get 1,500 Pesos Discount on your Ride!*',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
+                        hasCode: true,
+                        code: 'HGJ23A'
+                    },
+                    {
+                        path: '/default/promo/sample-image.jpg',
+                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
+                        hasCode: false
+                    },
+                    {
+                        path: '/default/promo/sample-image.jpg',
+                        title: 'Get 1,500 Pesos Discount on your Ride!*',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
+                        hasCode: true,
+                        code: 'JHSHAI23'
+                    }
+                ],
+                packages: [],
+                credits: []
             }
         },
         computed: {
+            /**
+             * Anchor in div */
+            hasHash() {
+                let hash = this.$route.hash
+                if (hash.length > 0) {
+                    setTimeout( () => {
+                        this.$scrollTo(`${hash}`, {
+                            duration: 1000,
+                            offset: -250
+                        })
+                    }, 100)
+                }
+            },
             populatePackages () {
                 const me = this
                 let result = []
-                for (let i = 0; i < me.toShowPackages; i++) {
-                    me.packages[i].checked = true
-                    result.push(me.packages[i])
-                }
-                return result
-            },
-            checkPackages () {
-                const me = this
-                let count = 0
-                let result = false
-                me.packages.forEach((data, index) => {
-                    if (data.checked) {
-                        count++
+                for (let i = 0; i < me.packages.length; i++) {
+                    if (me.packages[i]) {
+                        result.push(me.packages[i])
                     }
-                })
-                if (count == me.packages.length) {
-                    result = true
-                } else {
-                    result = false
                 }
                 return result
             },
             populateStoreCredits() {
                 const me = this
                 let result = []
-                for (let i = 0; i < me.toShowStoreCredits; i++) {
-                    me.credits[i].checked = true
-                    result.push(me.credits[i])
+                for (let i = 0; i < me.credits.length; i++) {
+                    if (me.credits[i]) {
+                        me.credits[i].checked = true
+                        result.push(me.credits[i])
+                    }
                 }
                 return result
             },
-            checkStoreCredits () {
-                const me = this
-                let count = 0
-                let result = false
-                me.credits.forEach((data, index) => {
-                    if (data.checked) {
-                        count++
-                    }
-                })
-                if (count == me.credits.length) {
-                    result = true
-                } else {
-                    result = false
-                }
-                return result
-            }
         },
         methods: {
+            checkIfLoggedIn (event, slug) {
+                const me = this
+                event.preventDefault()
+                let token = me.$route.query.token
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        if (token != null && token != undefined) {
+                            me.$router.push(slug)
+                        }
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
             loadMoreContent (type) {
                 const me = this
                 switch (type) {
                     case 'packages':
-                        if (!me.checkPackages) {
+                        if (!me.showLoadedPackages) {
                             me.toShowPackages += 3
                             me.$scrollTo('.load', {
                                 container: '#package',
@@ -249,7 +233,7 @@
                         }
                         break
                     case 'store-credits':
-                        if (!me.checkStoreCredits) {
+                        if (!me.showLoadedStoreCredits) {
                             me.toShowStoreCredits += 3
                             me.$scrollTo('.load', {
                                 container: '#store_credits',
@@ -290,10 +274,44 @@
                         break
                 }
             },
+            swiperEvent (type) {
+                const me = this
+                switch (type) {
+                    case 'stop':
+                        setTimeout( () =>  {
+                            me.$refs.swiper.swiper.autoplay.stop()
+                        }, 10)
+                        break
+                    case 'start':
+                        setTimeout( () => {
+                            me.$refs.swiper.swiper.autoplay.start()
+                        }, 10)
+                        break
+                }
+            },
+            codeClipboard (data, key) {
+                const me = this
+                if (data.hasCode) {
+                    let element = document.getElementById(`code_${key}`)
+                    element.select()
+                    element.setSelectionRange(0, 99999)
+                    document.execCommand("copy")
+                    element.nextElementSibling.innerHTML = 'Copied!'
+                    setTimeout( () => {
+                        element.nextElementSibling.innerHTML = 'Copy Code'
+                    }, 1000)
+                }
+            },
             fetchData () {
                 const me = this
+                me.loader(true)
+                me.packages = me.res.classPackages
+                me.credits = me.res.storeCredits
                 me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                 me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
             }
         },
         mounted() {
@@ -301,11 +319,15 @@
             setTimeout( () => {
                 me.fetchData()
             }, 10)
-            if (me.$route.hash != '') {
-                me.$scrollTo(`${me.$route.hash}`, {
-                    offset: 300
-                })
-            }
+        },
+        async asyncData ({ $axios, params, store, error }) {
+            return await $axios.get('api/packages/for-buy-rides').then(res => {
+                if (res.data) {
+                    return { res: res.data }
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            })
         }
     }
 </script>

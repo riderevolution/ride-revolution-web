@@ -338,6 +338,14 @@
                     padding: 30px 0
                     &.success
                         padding: 0
+                    .step
+                        .preview
+                            .preview_actions
+                                justify-content: center
+                                #paypal-button-container
+                                    .paypal-buttons
+                                        min-width: 400px
+                                        max-width: 1200px
             #payments
                 max-width: calc(100% - 30px)
                 &.dismiss,
@@ -685,6 +693,9 @@
             brandon_regular_italic(14px, false)
 
     .form_flex
+        &.alt_2
+            .form_group
+                flex: 0 0 100%
         &.with_btn
             margin-bottom: 20px
             &.alt

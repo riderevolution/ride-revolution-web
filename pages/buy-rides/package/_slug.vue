@@ -81,11 +81,11 @@
                                 <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
                             </div>
                             <div class="available" v-if="!paypal">
-                                <div :class="`available_item ${(storeCredits <= 50) ? 'insufficient' : ''}`">
+                                <div :class="`available_item ${(parseInt(storeCredits) <= parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'insufficient' : ''}`">
                                     <h3>Available Store Credits</h3>
                                     <p class="store_credits">{{ storeCredits }}</p>
                                     <transition name="slide">
-                                        <div class="unavailable" v-if="storeCredits <= 50">
+                                        <div class="unavailable" v-if="(parseInt(storeCredits) <= parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)))">
                                             <nuxt-link rel="canonical" to="/buy-rides#storecredits">Buy Rides</nuxt-link>
                                             <label>*Your store credits are insufficient.</label>
                                         </div>
@@ -94,12 +94,12 @@
                             </div>
                             <div class="total">
                                 <p>You Pay</p>
-                                <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
+                                <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
-                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess(res)">Pay Now</div>
+                                <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess(res)">Pay Now</div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paypal'">
                                 <p>Note: Paypal account not needed</p>
