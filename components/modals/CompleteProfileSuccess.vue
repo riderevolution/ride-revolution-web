@@ -10,7 +10,7 @@
                 Success! You have completed your profile.
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn" @click.once="toggleClose(true)">Book a Ride</div>
+                <div class="flex default_btn" @click.once="toggleClose(true)">Got It!</div>
             </div>
         </div>
     </div>
@@ -22,7 +22,6 @@
             toggleClose (status) {
                 const me = this
                 if (status) {
-                    me.$router.push('/book-a-bike')
                     me.$store.state.completeProfileSuccessStatus = false
                     document.body.classList.remove('no_scroll')
                 }

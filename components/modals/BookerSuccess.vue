@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bottom">
+            <div class="bottom" v-if="!$route.query.token">
                 <nuxt-link to="/instructors/asdasdasd" class="default_btn_wht"><span>See Instructor's Profile</span></nuxt-link>
                 <nuxt-link to="/my-profile" class="default_btn_wht ml"><span>See My Profile</span></nuxt-link>
             </div>

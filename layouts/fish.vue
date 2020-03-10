@@ -1,15 +1,25 @@
 <template>
-    <div id="main_container">
+    <div id="main_container" class="fish">
         <nuxt />
+        <transition name="fade">
+            <complete-profile-steps v-if="$store.state.completeProfileStepsStatus" />
+        </transition>
+        <transition name="fade">
+            <complete-profile-success v-if="$store.state.completeProfileSuccessStatus" />
+        </transition>
         <transition name="fade">
             <loader v-if="$store.state.isLoading" />
         </transition>
     </div>
 </template>
 <script>
+    import CompleteProfileSteps from '../components/modals/CompleteProfileSteps'
+    import CompleteProfileSuccess from '../components/modals/CompleteProfileSuccess'
     import Loader from '../components/modals/Loader'
     export default {
         components: {
+            CompleteProfileSteps,
+            CompleteProfileSuccess,
             Loader
         },
         data () {

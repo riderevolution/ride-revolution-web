@@ -509,11 +509,29 @@
                 padding: 60px 0 0
                 max-width: calc(100% - 20px)
                 &.fish
+                    max-width: 100%
                     padding: 0
-                    margin: 30px auto
+                    margin: 0 auto
                     .main_right
                         .content
                             padding: 30px 0 20px
+                    .step
+                        &.form
+                            .preview_book_form
+                                max-width: 100%
+                                padding: 30px 20px
+                                .header_title
+                                    brandon_bold(22px, false)
+                                    margin-bottom: 20px
+                                .preview
+                                    .item
+                                        h3,
+                                        p
+                                            brandon_regular(18px, false)
+                                    .total
+                                        margin: 20px 0
+                                        p
+                                            brandon_bold(18px, false)
                 &.dismiss
                     padding: 0 0 40px
                 .main_left
@@ -531,7 +549,9 @@
                     .content
                         ul
                             padding: 20px 0
+                            max-width: 100%
                             li
+                                justify-content: center
                                 brandon_regular(12px, false)
                 .main_right
                     margin-left: 0
@@ -553,6 +573,7 @@
                                     margin: 0 0 20px
                                 img
                                     width: 70px
+                                    height: 70px
                             .overlay_seat
                                 &.left
                                     justify-content: flex-start
@@ -699,6 +720,31 @@
     .form_disclaimer
         brandon_regular(14px, false)
 
+    .default_modal_page
+        #disclaimer
+            padding: 4em 20px
+            .content
+                max-width: 100%
+                .left,
+                .right
+                    flex: 0 0 100%
+                    padding: 0
+                .left
+                    label
+                        brandon_medium(20px, false)
+                .right
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: flex-start
+                    text-align: center
+                    margin-top: 30px
+                    .icon
+                        flex: 0 0 33.33%
+                        .title,
+                        #ready_icon
+                            flex: 0 0 100%
+                            margin: 0
+
     .default_modal
         #default_form
             &.overlay
@@ -730,6 +776,8 @@
             .confirmation_highlight
                 brandon_bold(22px, false)
                 margin-top: 20px
+            .confirmation_title
+                brandon_bold(22px, false)
             .confirmation_text
                 brandon_regular(16px, false)
             .member_info
@@ -1015,6 +1063,7 @@
                                         brandon_regular(14px, false)
                                     img
                                         width: 100px
+                                        height: 100px
                                 .overlay_seat
                                     &.layout_1
                                         &.bottom

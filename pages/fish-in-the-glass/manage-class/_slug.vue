@@ -18,6 +18,14 @@
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
+                                    <div class="description">
+                                        <h3>What can I do?</h3>
+                                        <ul>
+                                            <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                            <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="main_right">
@@ -196,18 +204,22 @@
 </template>
 
 <script>
-    import BookerAssign from '../../../../components/modals/BookerAssign'
-    import BookerChoosePackage from '../../../../components/modals/BookerChoosePackage'
-    import BookerChooseSeat from '../../../../components/modals/BookerChooseSeat'
-    import BookerAssignMemberPrompt from '../../../../components/modals/BookerAssignMemberPrompt'
-    import BookerAssignMemberError from '../../../../components/modals/BookerAssignMemberError'
-    import BookerAssignNonMember from '../../../../components/modals/BookerAssignNonMember'
-    import BookerAssignSuccess from '../../../../components/modals/BookerAssignSuccess'
-    import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
-    import BookerSuccess from '../../../../components/modals/BookerSuccess'
+    import Breadcrumb from '../../../components/Breadcrumb'
+    import ProTip from '../../../components/ProTip'
+    import BookerAssign from '../../../components/modals/BookerAssign'
+    import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
+    import BookerChooseSeat from '../../../components/modals/BookerChooseSeat'
+    import BookerAssignMemberPrompt from '../../../components/modals/BookerAssignMemberPrompt'
+    import BookerAssignMemberError from '../../../components/modals/BookerAssignMemberError'
+    import BookerAssignNonMember from '../../../components/modals/BookerAssignNonMember'
+    import BookerAssignSuccess from '../../../components/modals/BookerAssignSuccess'
+    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
+    import BookerSuccess from '../../../components/modals/BookerSuccess'
     export default {
         layout: 'fish',
         components: {
+            Breadcrumb,
+            ProTip,
             BookerAssign,
             BookerChoosePackage,
             BookerChooseSeat,
@@ -377,7 +389,7 @@
             },
             submitPreview () {
                 const me = this
-                let token = me.$route.query.token
+                let token = me.$cookies.get('token')
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
@@ -515,9 +527,6 @@
                             }
                         }).then(res => {
                             if (res.data) {
-                                if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
-                                    me.$router.push(`/manage-class/${id}`)
-                                }
                                 let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                                 me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
                                 me.temp = res.data.seats
