@@ -81,11 +81,6 @@
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
-                                <!-- <div class="default_btn_img" @click="fakePay()">
-                                    <div class="btn_wrapper">
-                                        <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                    </div>
-                                </div> -->
                                 <div id="paypal-button-container"></div>
                             </div>
                             <div class="paypal_disclaimer">
