@@ -98,12 +98,8 @@
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
-                                <div class="default_btn_img" v-if="type == 'paypal'" @click="paymentSuccess(res)">
-                                    <div class="btn_wrapper">
-                                        <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                    </div>
-                                </div>
-                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'disabled' : ''}`" v-else @click="paymentSuccess(res)">Pay Now</div>
+                                <div id="paypal-button-container"></div>
+                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess(res)">Pay Now</div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paypal'">
                                 <p>Note: Paypal account not needed</p>
@@ -197,7 +193,7 @@
             }
         },
         methods: {
-            paymentSuccess (data) {
+            paymentSuccess (data, paypal_details = null) {
                 const me = this
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
@@ -209,6 +205,9 @@
                 formData.append('discount', me.form.discount)
                 formData.append('total', me.form.total)
                 formData.append('payment_method', me.type)
+                if (paypal_details != null) {
+                    formData.append('paypal_details', paypal_details)
+                }
                 me.loader(true)
                 me.$axios.post('api/web/pay', formData, {
                     headers: {
@@ -256,6 +255,7 @@
                     case 'paypal':
                         me.step = 2
                         me.paypal = true
+                        me.renderPaypal()
                         break
                 }
             },
@@ -281,6 +281,33 @@
                         }, 500)
                     })
                 }
+            },
+            renderPaypal () {
+                let me = this
+                setTimeout(() => {
+                    paypal.Buttons({
+                        style: {
+                            color: 'blue'
+                        },
+                        createOrder: function(data, actions) {
+                          // This function sets up the details of the transaction, including the amount and line item details.
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: me.form.total
+                                    }
+                                }]
+                            })
+                        },
+                        onApprove: function(data, actions) {
+                          // This function captures the funds from the transaction.
+                            me.loader(true)
+                            return actions.order.capture().then(function(details) {
+                                me.paymentSuccess(me.res, JSON.stringify(details))
+                            })
+                        }
+                    }).render('#paypal-button-container')
+                }, 500)
             }
         },
         mounted () {
