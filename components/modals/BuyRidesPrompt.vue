@@ -1,8 +1,8 @@
 <template>
     <div class="default_modal alt">
-        <div class="background" @click.once="toggleClose(($parent.buyCredits) ? 0 : 1)"></div>
+        <div class="background" @click.once="toggleClose(($parent.buyCredits) ? 0 : null)"></div>
         <div class="confirmation_wrapper">
-            <div class="form_close" @click="toggleClose(($parent.buyCredits) ? 0 : 1)"></div>
+            <div class="form_close" @click="toggleClose(($parent.buyCredits) ? 0 : null)"></div>
             <div class="confirmation_image">
                 <img src="/default/meme/cancelled-meme.jpg" v-if="!status" />
                 <img src="/default/meme/success-meme.jpg" v-else />
@@ -34,6 +34,13 @@
                 const me = this
                 if (booker == 1) {
                     me.$router.push('/buy-rides#package')
+                }
+                switch (me.$parent.seatStatus) {
+                    case 'open':
+                        if (me.$parent.classPackage == null) {
+                            document.querySelector('.package_violator').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        }
+                        break
                 }
                 me.$store.state.buyRidesPromptStatus = false
                 document.body.classList.remove('no_scroll')

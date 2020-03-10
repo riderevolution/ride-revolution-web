@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(classPackage.active) ? 'active' : ''}`" v-for="(classPackage, key) in populateClassPackages" :key="key" @click="togglePackage(classPackage, key)" v-if="classPackage.count > 1">
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(classPackage.active) ? 'active' : ''}`" v-for="(classPackage, key) in populateClassPackages" :key="key" @click="togglePackage(classPackage, key)" v-if="classPackage.count >= 1">
                                 <label>{{ classPackage.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -45,6 +45,7 @@
         data () {
             return {
                 classPackages: [],
+                classPackage: [],
                 selectedPackage: 0
             }
         },
@@ -54,8 +55,10 @@
                 let result = []
                 let ctr = 0
                 me.classPackages.forEach((element, index) => {
-                    if (ctr < 1 && element.count > 0) {
+                    if (ctr <= 0  && element.count > 0) {
                         element.active = true
+                        me.classPackage = element
+                        me.selectedPackage = element.class_package.id
                         ctr++
                     }
                     result.push(element)
@@ -92,6 +95,10 @@
                             me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
                             me.loader(false)
                         })
+                    } else if (me.type == 1) {
+                        me.$parent.classPackage = me.classPackage
+                        me.$parent.packageSelected = me.classPackage.class_package.name
+                        me.$parent.pointPackage = false
                     }
                     me.$store.state.bookerChoosePackageStatus = false
                     document.body.classList.remove('no_scroll')
@@ -100,12 +107,15 @@
             togglePackage (data, unique) {
                 const me = this
                 me.active = false
+                me.classPackage = data
                 me.selectedPackage = data.class_package.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
                     if (element.count > 0) {
                         if (unique != index) {
-                            document.getElementById(`package_${index}`).classList.remove('active')
+                            if (document.getElementById(`package_${index}`)) {
+                                document.getElementById(`package_${index}`).classList.remove('active')
+                            }
                         }
                     }
                 })
@@ -123,25 +133,26 @@
         },
         mounted () {
             const me = this
-            switch (me.category) {
-                case 'landing':
-                    me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
-                        if (res.data) {
-                            if (res.data.customer.user_package_counts.length > 0) {
-                                me.classPackages = res.data.customer.user_package_counts
-                                me.selectedPackage = me.classPackages[0].class_package.id
-                            } else {
-                                me.$store.state.bookerChoosePackageStatus = false
-                                setTimeout( () => {
-                                    me.$parent.message = 'Please buy a class package first'
-                                }, 10)
+            me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
+                if (res.data) {
+                    if (res.data.customer.user_package_counts.length > 0) {
+                        me.classPackages = res.data.customer.user_package_counts
+                        me.$parent.classPackage = me.classPackages[0]
+                        me.$parent.packageSelected = me.classPackages[0].class_package.name
+                    } else {
+                        me.$store.state.bookerChoosePackageStatus = false
+                        setTimeout( () => {
+                            me.$parent.message = 'Please buy a class package first'
+                        }, 10)
+                        switch (me.category) {
+                            case 'landing':
                                 me.$parent.buyCredits = true
-                                me.$store.state.buyRidesPromptStatus = true
-                            }
+                                break
                         }
-                    })
-                    break
-            }
+                        me.$store.state.buyRidesPromptStatus = true
+                    }
+                }
+            })
         }
     }
 </script>

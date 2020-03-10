@@ -18,8 +18,8 @@
                         </div>
                         <div class="form_toggler" v-if="assignType == 'member'">
                             <div class="form_group">
-                                <label for="member_id">Member ID</label>
-                                <input type="text" id="member_id" name="member_id" class="input_text alt" autocomplete="off" placeholder="Please enter a Member ID" v-validate="{required: true, regex: '^[a-zA-Z0-9]*$'}" v-model="memberID">
+                                <label for="member_id">Username</label>
+                                <input type="text" id="member_id" name="member_id" class="input_text alt" autocomplete="off" placeholder="Please enter a username" v-validate="{required: true, regex: '^[a-zA-Z0-9]*$'}" v-model="memberID">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('member_id')">The member id field is required</span></transition>
                             </div>
                         </div>
@@ -27,12 +27,12 @@
                             <div class="form_flex">
                                 <div class="form_group">
                                     <label for="first_name">First Name</label>
-                                    <input type="text" id="first_name" name="first_name" class="input_text" autocomplete="off" placeholder="Enter First Name" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1]*$'}">
+                                    <input type="text" id="first_name" name="first_name" class="input_text" autocomplete="off" placeholder="Enter First Name" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1]*$'}" v-model="nonMemberFirstName">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('first_name')">The first name field is required</span></transition>
                                 </div>
                                 <div class="form_group">
                                     <label for="last_name">Last Name</label>
-                                    <input type="text" id="last_name" name="last_name" class="input_text" autocomplete="off" placeholder="Enter Last Name" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1]*$'}">
+                                    <input type="text" id="last_name" name="last_name" class="input_text" autocomplete="off" placeholder="Enter Last Name" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1]*$'}" v-model="nonMemberLastName">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('last_name')">The last name field is required</span></transition>
                                 </div>
                             </div>
@@ -60,9 +60,10 @@
         data () {
             return {
                 assignType: 'member',
-                toCheckMemberID: 'asdasd',
                 memberID: '',
-                nonMemberEmail: ''
+                nonMemberEmail: '',
+                nonMemberFirstName: '',
+                nonMemberLastName: ''
             }
         },
         methods: {
@@ -71,15 +72,32 @@
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
                         if (me.assignType == 'member') {
-                            if (me.memberID == me.toCheckMemberID) {
-                                me.$store.state.bookerAssignStatus = false
-                                me.$store.state.bookerAssignMemberPromptStatus = true
-                            } else {
+                            let formData = new FormData()
+                            formData.append('member_id', me.memberID)
+                            formData.append('scheduled_date_id', me.$route.params.slug)
+                            formData.append('temp_seats', JSON.stringify(me.$parent.toSubmit.tempSeat))
+                            me.loader(true)
+                            me.$axios.post('api/customers/member-id-search', formData).then(res => {
+                                if (res.data) {
+                                    me.$parent.customer = res.data
+                                    setTimeout( () => {
+                                        me.$store.state.bookerAssignStatus = false
+                                        me.$store.state.bookerAssignMemberPromptStatus = true
+                                    }, 500)
+                                }
+                            }).catch(err => {
+                                me.loader(false)
                                 me.$store.state.bookerAssignStatus = false
                                 me.$store.state.bookerAssignMemberErrorStatus = true
-                            }
+                            }).then(() => {
+                                setTimeout( () => {
+                                    me.loader(false)
+                                }, 500)
+                            })
                         } else {
-                            me.$parent.nonMemberEmail = me.nonMemberEmail
+                            me.$parent.nonMember.email = me.nonMemberEmail
+                            me.$parent.nonMember.first_name = me.nonMemberFirstName
+                            me.$parent.nonMember.last_name = me.nonMemberLastName
                             me.$store.state.bookerAssignNonMemberStatus = true
                         }
                     } else {
