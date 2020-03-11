@@ -23,7 +23,8 @@
                 const me = this
                 if (status) {
                     if (me.$parent.webApp) {
-                        me.$router.push('/fish-in-the-glass/buy-rides#package')
+                        let token = me.$route.query.token
+                        me.$router.push(`/fish-in-the-glass/buy-rides#package?token=${token}`)
                     } else {
                         me.$router.push('/buy-rides#package')
                     }
