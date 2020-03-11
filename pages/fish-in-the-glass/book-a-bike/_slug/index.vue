@@ -227,6 +227,7 @@
             return {
                 step: 1,
                 type: 1,
+                webApp: true,
                 loaded: false,
                 submitted: false,
                 customer: null,
