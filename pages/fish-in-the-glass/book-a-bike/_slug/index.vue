@@ -22,7 +22,7 @@
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
+                                    <nuxt-link :to="`/book-a-bike?token=${$route.query.token}`" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -76,7 +76,7 @@
                                             </ul>
                                         </div>
                                         <div class="actions" v-if="!schedule.guestHere">
-                                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
+                                            <nuxt-link :to="`/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage">
                                                     <div class="left">
@@ -156,8 +156,11 @@
                                     <p>{{ schedule.schedule.class_credits }} Credit</p>
                                 </div>
                                 <div class="preview_actions">
-                                    <div class="back" @click="toggleStep('prev')">Back</div>
+                                    <div class="back" @click="toggleStep('prev')" v-if="!$parent.$parent.isMobile">Back</div>
                                     <div class="default_btn" @click="submitPreview()">Let's Do This</div>
+                                    <div class="action_mobile" @click="toggleStep('prev')" v-if="$parent.$parent.isMobile">
+                                        <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
