@@ -196,6 +196,9 @@
             <transition name="fade">
                 <booker-success v-if="$store.state.buyRidesSuccessStatus" />
             </transition>
+            <transition name="fade">
+                <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -212,6 +215,7 @@
     import BookerAssignSuccess from '../../../components/modals/BookerAssignSuccess'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     import BookerSuccess from '../../../components/modals/BookerSuccess'
+    import BuyPackageFirst from '../../../components/modals/BuyPackageFirst'
     export default {
         components: {
             Breadcrumb,
@@ -224,7 +228,8 @@
             BookerAssignNonMember,
             BookerAssignSuccess,
             BuyRidesPrompt,
-            BookerSuccess
+            BookerSuccess,
+            BuyPackageFirst
         },
         data () {
             return {
@@ -503,6 +508,9 @@
                             }
                             break
                     }
+                } else {
+                    me.$store.state.buyPackageFirstStatus = true
+                    document.body.classList.remove('no_scroll')
                 }
             },
             fetchSeats (id) {
@@ -543,6 +551,10 @@
                             me.ctr++
                         })
                         me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+                        if (!me.checkPackage) {
+                            me.$store.state.buyPackageFirstStatus = true
+                            document.body.classList.remove('no_scroll')
+                        }
                         me.loaded = true
                     }
                 }).catch(err => {

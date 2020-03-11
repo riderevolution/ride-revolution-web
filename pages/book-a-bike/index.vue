@@ -173,7 +173,7 @@
                 <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
             </transition>
             <transition name="fade">
-                <buy-rides-prompt v-if="$store.state.buyRidesPromptStatus" :message="message" :status="status" />
+                <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
         </div>
     </transition>
@@ -183,19 +183,18 @@
     import Breadcrumb from '../../components/Breadcrumb'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
-    import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
+    import BuyPackageFirst from '../../components/modals/BuyPackageFirst'
     export default {
         components: {
             Breadcrumb,
             BookerChoosePackage,
             CompleteProfilePrompt,
-            BuyRidesPrompt
+            BuyPackageFirst
         },
         data () {
             return {
                 schedule: [],
                 type: 0,
-                buyCredits: false,
                 message: '',
                 status: false,
                 loaded: false,
@@ -287,7 +286,22 @@
                     if (data.hasUser && token != null && token != undefined) {
                         switch (type) {
                             case 'book':
-                                me.$router.push(`/book-a-bike/${data.id}`)
+                                me.$axios.get('api/check-token', {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }).then(res => {
+                                    if (res.data) {
+                                        if (res.data.userPackagesCount > 0) {
+                                            me.$router.push(`/book-a-bike/${data.id}`)
+                                        } else {
+                                            me.$store.state.buyPackageFirstStatus = true
+                                            document.body.classList.remove('no_scroll')
+                                        }
+                                    }
+                                }).catch(err => {
+                                    console.log(err)
+                                })
                                 break
                             case 'waitlist':
                                 me.schedule = data

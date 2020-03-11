@@ -94,7 +94,7 @@
                 </transition>
             </div>
             <div class="content" id="storecredits">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`)" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-if="data.checked" v-for="(data, key) in populateStoreCredits" :key="key">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`)" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
                     <div class="package_header alt">
                         <h2 class="title">{{ data.name }}</h2>
                     </div>
@@ -234,7 +234,6 @@
                 let result = []
                 for (let i = 0; i < me.credits.length; i++) {
                     if (me.credits[i]) {
-                        me.credits[i].checked = true
                         result.push(me.credits[i])
                     }
                 }
