@@ -164,7 +164,7 @@
                 <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
             </transition>
             <transition name="fade">
-                <buy-rides-prompt v-if="$store.state.buyRidesPromptStatus" :message="message" :status="status" />
+                <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
         </div>
     </transition>
@@ -173,19 +173,18 @@
 <script>
     import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../../components/modals/CompleteProfilePrompt'
-    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
+    import BuyPackageFirst from '../../../components/modals/BuyPackageFirst'
     export default {
         layout: 'fish',
         components: {
             BookerChoosePackage,
             CompleteProfilePrompt,
-            BuyRidesPrompt
+            BuyPackageFirst
         },
         data () {
             return {
                 schedule: [],
                 type: 0,
-                buyCredits: false,
                 message: '',
                 status: false,
                 loaded: false,
@@ -281,7 +280,12 @@
                         if (data.hasUser && token != null && token != undefined) {
                             switch (type) {
                                 case 'book':
-                                    me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
+                                    if (res.data.userPackagesCount > 0) {
+                                        me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
+                                    } else {
+                                        me.$store.state.buyPackageFirstStatus = true
+                                        document.body.classList.remove('no_scroll')
+                                    }
                                     break
                                 case 'waitlist':
                                     me.schedule = data
