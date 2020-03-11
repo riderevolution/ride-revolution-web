@@ -8,14 +8,14 @@
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div v-if="step == 1">
-                        <form id="initial_form">
+                        <form id="initial_form" @submit.prevent="submit()">
                             <div class="form_content alt">
                                 <div class="form_header">
                                     <h1 class="header_title">Buy a Digital Gift Card</h1>
                                 </div>
                                 <div class="form_group select disclaimer">
                                     <div class="select">
-                                        <select class="input_select" name="class_package" v-validate="'required'" v-model="form.classPackage">
+                                        <select class="input_select" name="class_package" v-validate="'required'" v-model="form.classPackage" @change="getPackage($event)">
                                             <option value="0" disabled selected>Please select a class package</option>
                                             <option :value="data.id" v-for="(data, key) in classPackages">{{ data.name }}</option>
                                         </select>
@@ -40,6 +40,7 @@
                                     <div class="select">
                                         <select class="input_select" name="title" v-validate="'required'" @change="getTitle($event)" v-model="form.title">
                                             <option value="" disabled selected>Please select a title</option>
+                                            <option value="birthday">Birthday!</option>
                                             <option value="other">Other</option>
                                         </select>
                                     </div>
@@ -88,55 +89,51 @@
                         <div class="wrapper">
                             <div class="left">
                                 <div class="header">
-                                    <h2>10 Class Package</h2>
-                                    <h2>Php 9,500.00</h2>
+                                    <h2>{{ selectedPackage.name }}</h2>
+                                    <h2 :class="`${(selectedPackage.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(selectedPackage.package_price) }}</h2>
+                                    <h2 v-if="selectedPackage.is_promo == 1">Php {{ totalCount(selectedPackage.discounted_price) }}</h2>
                                 </div>
-                                <div class="content">
-                                    <ul>
-                                        <li>You’ll have <strong>10 ride credits</strong> that can be booked in any of our studios in metro manila.</li>
-                                        <li>Inclusive of one <strong>(1) free Bare Manila Class</strong>. Just show the e-receipt at Bare Manila to claim your free class.</li>
-                                        <li>Transferable or sharable to other Ride Revolution members.</li>
-                                        <li>This package is valid for 3 months upon activation. (A package is activated when a first class is booked.) You’ll have 30 days to activate this package.</li>
-                                    </ul>
+                                <div class="content" v-html="selectedPackage.description">
                                 </div>
                             </div>
                             <div class="right">
-                                <form id="default_form">
+                                <div id="default_form">
                                     <div class="form_flex with_btn">
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
-                                            <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-model="form.promo">
+                                            <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-validate="{regex: '^[a-zA-Z0-9-|\-|\_]*$'}" v-model="form.promo">
+                                            <transition name="slide"><span class="validation_errors" v-if="errors.has('promo_code')">{{ errors.first('promo_code') | properFormat }}</span></transition>
                                         </div>
                                         <div class="form_button">
-                                            <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo()"><span>Apply</span></button>
+                                            <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(selectedPackage.id)"><span>Apply</span></button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                                 <div class="breakdown_list">
                                     <div class="item">
                                         <p>Subtotal</p>
-                                        <p>Php 9,500.00</p>
+                                        <p>Php {{ totalCount((selectedPackage.is_promo == 1) ? selectedPackage.discounted_price : selectedPackage.package_price) }}</p>
                                     </div>
                                     <div class="item">
                                         <p>Discount</p>
-                                        <p>Php 0.00</p>
+                                        <p>Php {{ computeDiscount((promoApplied) ? selectedPackage.package_price - selectedPackage.final_price : '0.00') }}</p>
                                     </div>
                                     <div class="total">
                                         <p>You Pay</p>
-                                        <p>Php 9,500.00</p>
+                                        <p>Php {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }}</p>
                                     </div>
                                 </div>
                                 <div class="breakdown_actions">
-                                    <div class="default_btn" @click="proceedToPayment('store-credit')">Use Store Credits</div>
-                                    <div class="default_btn_img" @click="proceedToPayment('credit')">
+                                    <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="default_btn_blk" v-if="!$parent.$parent.isMobile" @click="stepBack()">Back</div>
-                                <div class="action_mobile" v-else>
-                                    <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div class="action_mobile" @click="stepBack()" v-else>
+                                    <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                                 </div>
                             </div>
                         </div>
@@ -149,24 +146,24 @@
                         <h2 class="header_title">Let’s make sure we got this right.</h2>
                         <div class="preview">
                             <div class="item">
-                                <h3>10 Class Package</h3>
-                                <p>Php 9,500.00</p>
+                                <h3>{{ selectedPackage.name }}</h3>
+                                <p>Php {{ totalCount((selectedPackage.is_promo == 1) ? selectedPackage.discounted_price : selectedPackage.package_price) }}</p>
                             </div>
                             <div class="item">
                                 <h3>Rides</h3>
-                                <p>10</p>
+                                <p>{{ selectedPackage.class_count }}</p>
                             </div>
                             <div class="item">
                                 <h3>Discount</h3>
-                                <p>Php 500.00</p>
+                                <p>Php {{ computeDiscount((promoApplied) ? selectedPackage.package_price - selectedPackage.final_price : '0.00') }}</p>
                             </div>
                             <div class="available" v-if="!paypal">
-                                <div :class="`available_item ${(storeCredits <= 50) ? 'insufficient' : ''}`">
+                                <div :class="`available_item ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'insufficient' : ''}`">
                                     <h3>Available Store Credits</h3>
-                                    <p class="store_credits">65</p>
+                                    <p class="store_credits">{{ storeCredits }}</p>
                                     <transition name="slide">
-                                        <div class="unavailable" v-if="storeCredits <= 50">
-                                            <nuxt-link rel="canonical" to="/buy-rides#store_credits">Buy Rides</nuxt-link>
+                                        <div class="unavailable" v-if="(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)))">
+                                            <nuxt-link rel="canonical" to="/buy-rides#storecredits">Buy Rides</nuxt-link>
                                             <label>*Your store credits are insufficient.</label>
                                         </div>
                                     </transition>
@@ -174,18 +171,14 @@
                             </div>
                             <div class="total">
                                 <p>You Pay</p>
-                                <p>Php 9,000.00</p>
+                                <p>Php {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }}</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
-                                <div :class="`default_btn_img ${(storeCredits <= 50) ? 'disabled' : ''}`" v-if="type == 'credit'" @click="paymentSuccess()">
-                                    <div class="btn_wrapper">
-                                        <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                    </div>
-                                </div>
-                                <div :class="`default_btn_blue ${(storeCredits <= 50) ? 'disabled' : ''}`" v-else @click="paymentSuccess()">Pay Now</div>
+                                <div id="paypal-button-container"></div>
+                                <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess(selectedPackage)">Pay Now</div>
                             </div>
-                            <div class="paypal_disclaimer" v-if="type == 'credit'">
+                            <div class="paypal_disclaimer" v-if="type == 'paypal'">
                                 <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
@@ -245,10 +238,13 @@
                     message: '',
                     recipientEmail: '',
                     recipientMobileNo: '',
-                    promo: ''
+                    promo: '',
+                    discount: 0,
+                    total: 0
                 },
                 res: [],
-                classPackages: []
+                classPackages: [],
+                selectedPackage: null
             }
         },
         filters: {
@@ -284,6 +280,61 @@
             }
         },
         methods: {
+            submit () {
+                const me = this
+            },
+            paymentSuccess (data, paypal_details = null) {
+                const me = this
+                let token = me.$cookies.get('token')
+                let formData = new FormData()
+                formData.append('type', 'digital-gift-card')
+                formData.append('class_package_id', data.id)
+                formData.append('price', data.package_price)
+                formData.append('digital_gift_card_form', JSON.stringify(me.form))
+                formData.append('quantity', 1)
+                formData.append('payment_method', me.type)
+                if (paypal_details != null) {
+                    formData.append('paypal_details', paypal_details)
+                }
+                me.loader(true)
+                me.$axios.post('api/web/pay', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        console.log(res.data);
+                        // me.$store.state.buyRidesSuccessStatus = true
+                    }
+                // }).catch(err => {
+                //     me.$store.state.errorList = err.response.data.errors
+                //     me.$store.state.errorPromptStatus = true
+                // }).then(() => {
+                //     me.step = 0
+                //     setTimeout( () => {
+                //         me.loader(false)
+                //     }, 500)
+                })
+            },
+            computeTotal (total) {
+                const me = this
+                me.form.total = total
+                return me.totalCount(total)
+            },
+            computeDiscount (discount) {
+                const me = this
+                me.form.discount = discount
+                return me.totalCount(discount)
+            },
+            getPackage (event) {
+                const me = this
+                let value = event.target.value
+                me.$axios.get(`api/packages/class-packages/${value}`).then(res => {
+                    if (res.data) {
+                        me.selectedPackage = res.data.classPackage
+                    }
+                })
+            },
             getCount (event) {
                 const me = this
                 let target = event.target
@@ -315,11 +366,6 @@
                     me.other = true
                 }
             },
-            paymentSuccess () {
-                const me = this
-                me.step = 0
-                me.$store.state.buyRidesSuccessStatus = true
-            },
             stepBack () {
                 const me = this
                 if (me.step == 2) {
@@ -343,17 +389,55 @@
                         break
                 }
             },
-            applyPromo () {
+            applyPromo (id) {
                 const me = this
                 if (!me.promoApplied) {
-                    if (me.form.promo == 'asdasd') {
-                        me.promoApplied = true
-                        me.message = 'Cheers! You’ve entered a valid promo code.'
-                    } else {
-                        me.message = 'You’ve entered an invalid promo code.'
-                    }
-                    me.$store.state.buyRidesPromptStatus = true
+                    let formData = new FormData()
+                    formData.append('promo_code', me.form.promo)
+                    formData.append('class_package_id', id)
+                    me.loader(true)
+                    me.$axios.post('api/apply-promo', formData).then(res => {
+                        if (res.data) {
+                            me.classPackages = res.data.classPackage
+                            me.promoApplied = true
+                            me.message = 'Cheers! You’ve entered a valid promo code.'
+                        }
+                    }).catch(err => {
+                        me.message = err.response.data.errors[0]
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                            me.$store.state.buyRidesPromptStatus = true
+                        }, 500)
+                    })
                 }
+            },
+            renderPaypal () {
+                let me = this
+                setTimeout(() => {
+                    paypal.Buttons({
+                        style: {
+                            color: 'blue'
+                        },
+                        createOrder: function(data, actions) {
+                          // This function sets up the details of the transaction, including the amount and line item details.
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: me.form.total
+                                    }
+                                }]
+                            })
+                        },
+                        onApprove: function(data, actions) {
+                          // This function captures the funds from the transaction.
+                            me.loader(true)
+                            return actions.order.capture().then(function(details) {
+                                me.paymentSuccess(me.res, JSON.stringify(details))
+                            })
+                        }
+                    }).render('#paypal-button-container')
+                }, 500)
             }
         },
         mounted () {
@@ -365,11 +449,20 @@
             setTimeout( () => {
                 me.classPackages = me.res.classPackages
             }, 10)
+            let token = me.$cookies.get('token')
+            if ((token == null || token == undefined) && !me.$store.state.isAuth) {
+                me.$store.state.loginCheckerStatus = true
+                document.body.classList.add('no_scroll')
+                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+            }
         },
         async asyncData ({ $axios, params, store, error }) {
-            return await $axios.get('api/packages/for-buy-rides').then(res => {
+            return await $axios.get('api/extras/class-packages-for-gift-cards').then(res => {
                 if (res.data) {
-                    return { res: res.data }
+                    return {
+                        res: res.data,
+                        storeCredits: (store.state.user.store_credits === null) ? 0 : store.state.user.store_credits.amount
+                    }
                 }
             }).catch(err => {
                 error({ statusCode: 403, message: 'Page not found' })

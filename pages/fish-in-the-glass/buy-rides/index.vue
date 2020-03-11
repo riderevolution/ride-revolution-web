@@ -77,15 +77,6 @@
                 </nuxt-link>
             </div>
         </section>
-        <section id="digital">
-            <img src="/default/buy-rides/send-digital-bg.jpg" v-if="!$parent.$parent.isMobile" />
-            <img src="/default/buy-rides/buy-rides-banner-mobile.jpg" v-else />
-            <div class="overlay">
-                <h2>Share this experience with your loved ones!</h2>
-                <h3>For anyone who wants to be their best.</h3>
-                <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides/digital-gift-card?token=${$route.query.token}`" class="default_btn">Send a Digital Gift Card</nuxt-link>
-            </div>
-        </section>
     </div>
 </template>
 

@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="total">
                                         <p>You Pay</p>
-                                        <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
+                                        <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                     </div>
                                 </div>
                                 <div class="breakdown_actions">
@@ -273,7 +273,7 @@
                             me.message = 'Cheers! You’ve entered a valid promo code.'
                         }
                     }).catch(err => {
-                        me.message = 'You’ve entered an invalid promo code.'
+                        me.message = err.response.data.errors[0]
                     }).then(() => {
                         setTimeout( () => {
                             me.loader(false)
@@ -313,7 +313,12 @@
         mounted () {
             const me = this
             me.$store.state.proTipStatus = true
-
+            let token = me.$cookies.get('token')
+            if ((token == null || token == undefined) && !me.$store.state.isAuth) {
+                me.$store.state.loginCheckerStatus = true
+                document.body.classList.add('no_scroll')
+                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+            }
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get(`api/packages/web/class-packages/${params.slug}`).then(res => {
