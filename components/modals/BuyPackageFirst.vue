@@ -22,7 +22,11 @@
             toggleClose (status) {
                 const me = this
                 if (status) {
-                    me.$router.push('/buy-rides#package')
+                    if (me.$parent.webApp) {
+                        me.$router.push('/fish-in-the-glass/buy-rides#package')
+                    } else {
+                        me.$router.push('/buy-rides#package')
+                    }
                 }
                 me.$store.state.buyPackageFirstStatus = false
                 document.body.classList.remove('no_scroll')
