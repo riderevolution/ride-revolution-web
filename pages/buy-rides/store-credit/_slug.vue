@@ -288,6 +288,12 @@
         mounted () {
             const me = this
             me.$store.state.proTipStatus = true
+            let token = me.$cookies.get('token')
+            if ((token == null || token == undefined) && !me.$store.state.isAuth) {
+                me.$store.state.loginCheckerStatus = true
+                document.body.classList.add('no_scroll')
+                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+            }
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get(`api/packages/web/store-credits/${params.slug}`).then(res => {

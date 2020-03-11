@@ -217,7 +217,6 @@
                     setTimeout( () => {
                         me.loader(false)
                     }, 500)
-                    me.validateToken()
                 })
             },
             computeTotal (total) {
