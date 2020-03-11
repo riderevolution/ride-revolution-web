@@ -186,6 +186,7 @@
                 schedule: [],
                 type: 0,
                 message: '',
+                webApp: true,
                 status: false,
                 loaded: false,
                 isPrev: false,

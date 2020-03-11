@@ -547,6 +547,7 @@
                             }
                             me.ctr++
                         })
+                        console.log(res.data);
                         me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
                         me.loaded = true
                     }
