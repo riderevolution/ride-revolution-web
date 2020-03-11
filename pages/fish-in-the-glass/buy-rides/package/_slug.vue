@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                             <div class="right">
-                                <form id="default_form">
+                                <div id="default_form">
                                     <div class="form_flex with_btn">
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
@@ -27,7 +27,7 @@
                                             <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(res.id)"><span>Apply</span></button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                                 <div class="breakdown_list">
                                     <div class="item">
                                         <p>Subtotal</p>
@@ -264,7 +264,7 @@
                             me.message = 'Cheers! You’ve entered a valid promo code.'
                         }
                     }).catch(err => {
-                        me.message = 'You’ve entered an invalid promo code.'
+                        me.message = err.response.data.errors[0]
                     }).then(() => {
                         setTimeout( () => {
                             me.loader(false)
