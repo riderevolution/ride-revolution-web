@@ -26,7 +26,7 @@
                         <div class="data">
                             <div class="name"><h2>{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div>
                             <div class="info">
-                                <div class="label">Member ID <b>{{ $store.state.user.member_id }}</b></div>
+                                <div class="label">Username <b>{{ $store.state.user.member_id }}</b></div>
                                 <div class="label">Store Credits <b>{{ storeCredits }}</b></div>
                             </div>
                         </div>
