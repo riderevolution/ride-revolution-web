@@ -23,6 +23,14 @@
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
+                                    <div class="description">
+                                        <h3>What can I do?</h3>
+                                        <ul>
+                                            <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                            <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="main_right">
@@ -111,7 +119,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right">
+                                                    <div class="right" v-if="!removeNext">
                                                         <div  class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>
@@ -142,7 +150,7 @@
                                 </div>
                                 <div class="item">
                                     <p>Date</p>
-                                    <p>{{ $moment(schedule.date, 'MMMM DD, YYYY').format('MMMM DD, YYYY') }}</p>
+                                    <p>{{ $moment(schedule.date).format('MMMM DD, YYYY') }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Time</p>
@@ -236,6 +244,7 @@
                 step: 1,
                 type: 1,
                 loaded: false,
+                removeNext: false,
                 submitted: false,
                 customer: null,
                 temp: [],

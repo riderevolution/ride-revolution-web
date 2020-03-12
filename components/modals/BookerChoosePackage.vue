@@ -83,6 +83,7 @@
                             }
                         }).then(res => {
                             if (res.data) {
+                                me.$store.state.bookerChoosePackageStatus = false
                                 me.$parent.getAllSchedules(me.$parent.currentYear, me.$parent.currentMonth, me.$parent.currentDay, false)
                                 setTimeout( () => {
                                     me.$store.state.buyRidesPromptStatus = true
@@ -99,9 +100,18 @@
                         me.$parent.classPackage = me.classPackage
                         me.$parent.packageSelected = me.classPackage.class_package.name
                         me.$parent.pointPackage = false
+                        if (me.$parent.hasBooked) {
+                            if (((me.$parent.toSubmit.guestCount + 1) * me.$parent.schedule.schedule.class_credits) >= me.$parent.classPackage.count) {
+                                me.$parent.removeNext = true
+                                me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
+                                me.$store.state.buyRidesPromptStatus = true
+                            } else {
+                                me.$parent.removeNext = false
+                                document.body.classList.remove('no_scroll')
+                            }
+                        }
+                        me.$store.state.bookerChoosePackageStatus = false
                     }
-                    me.$store.state.bookerChoosePackageStatus = false
-                    document.body.classList.remove('no_scroll')
                 }
             },
             togglePackage (data, unique) {
