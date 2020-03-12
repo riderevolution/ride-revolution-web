@@ -287,7 +287,13 @@
                 setTimeout(() => {
                     paypal.Buttons({
                         style: {
-                            color: 'blue'
+                            layout: 'vertical',
+                            color: 'blue',
+                            size: 'responsive',
+                            fundingicons: true
+                        },
+                        funding: {
+                            allowed: [ paypal.FUNDING.CARD ]
                         },
                         createOrder: function(data, actions) {
                           // This function sets up the details of the transaction, including the amount and line item details.
