@@ -109,6 +109,8 @@
                                 me.$parent.removeNext = false
                                 document.body.classList.remove('no_scroll')
                             }
+                        } else {
+                            document.body.classList.remove('no_scroll')
                         }
                         me.$store.state.bookerChoosePackageStatus = false
                     }

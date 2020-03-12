@@ -119,7 +119,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right">
+                                                    <div class="right" v-if="!removeNext && added != 0">
                                                         <div  class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>
@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>{{ schedule.schedule.class_credits }} Credit</p>
+                                    <p>{{ toSubmit.guestCount + 1 }} Credit/s</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -220,6 +220,7 @@
     import BookerAssignSuccess from '../../../../components/modals/BookerAssignSuccess'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BookerSuccess from '../../../../components/modals/BookerSuccess'
+    import BuyPackageFirst from '../../../../components/modals/BuyPackageFirst'
     export default {
         components: {
             Breadcrumb,
@@ -232,15 +233,18 @@
             BookerAssignNonMember,
             BookerAssignSuccess,
             BuyRidesPrompt,
-            BookerSuccess
+            BookerSuccess,
+            BuyPackageFirst
         },
         data () {
             return {
                 step: 1,
                 type: 1,
                 loaded: false,
+                removeNext: false,
                 submitted: false,
                 customer: null,
+                added: 0,
                 temp: [],
                 schedule: [],
                 seats: {
@@ -511,6 +515,9 @@
                             }
                             break
                     }
+                } else {
+                    me.$store.state.buyPackageFirstStatus = true
+                    document.body.classList.remove('no_scroll')
                 }
             },
             fetchSeats (id) {
@@ -523,6 +530,7 @@
                     }
                 }).then(res => {
                     if (res.data) {
+                        let package_id = 0
                         let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                         me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
                         me.temp = res.data.seats
@@ -547,8 +555,38 @@
                             }
                             me.ctr++
                         })
-                        console.log(res.data);
+
                         me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+                        if (!me.checkPackage) {
+                            me.$store.state.buyPackageFirstStatus = true
+                            document.body.classList.remove('no_scroll')
+                        }
+
+                        me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
+                        package_id = res.data.tempSeats.class_package_id
+
+                        if (res.data.tempSeats != null) {
+                            me.hasBooked = true
+                            me.toSubmit.tempSeat.forEach((element, index) => {
+                                if (element.guest == 0) {
+                                    me.tempOriginalSeat = element
+                                    me.hasGuest = true
+                                }
+                            })
+
+                            me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
+                                if (res.data) {
+                                    if (res.data.customer.user_package_counts.length > 0) {
+                                        res.data.customer.user_package_counts.forEach((element, index) => {
+                                            if (element.class_package.id == package_id) {
+                                                me.classPackage = element
+                                                me.packageSelected = element.class_package.name
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
                         me.loaded = true
                     }
                 }).catch(err => {

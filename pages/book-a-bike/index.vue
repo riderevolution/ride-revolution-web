@@ -428,7 +428,7 @@
                         element.classList.remove('active')
                     }
                 })
-                me.getAllSchedules(year, month, day, false)
+                me.getAllSchedules(year, month, day, true)
             },
             /**
              * Fetch All Schedules */

@@ -61,6 +61,9 @@
                         me.$parent.toSubmit.tempSeat.push(me.tempSeat)
                         me.$parent.tempGuestSeat = null
                         me.$parent.hasGuest = true
+                        if (me.$parent.added) {
+                            me.$parent.added++
+                        }
                         setTimeout( () => {
                             me.$store.state.bookerAssignMemberPromptStatus = false
                             me.$store.state.bookerAssignSuccessStatus = true
