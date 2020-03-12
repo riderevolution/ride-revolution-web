@@ -401,33 +401,32 @@
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('booking_id', me.bookingID)
+                formData.append('update', 1)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 formData.append('class_package_id', me.classPackage.class_package.id)
-                formData.append('_method', 'PATCH')
-                // me.loader(true)
+                me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                //  if (res.data) {
-                        console.log(res.data);
-                //         me.submitted = true
-                //         me.step = 0
-                //         me.$store.state.buyRidesSuccessStatus = true
-                //         me.$scrollTo('#content', {
-                //             offset: -250
-                //         })
-                // }
-                // }).catch(err => {
-                //     setTimeout( () => {
-                //         me.$store.state.errorList = err.response.data.errors
-                //         me.$store.state.errorStatus = true
-                //     }, 500)
-                // }).then(() => {
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
+                    if (res.data) {
+                        me.submitted = true
+                        me.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
+                        me.$scrollTo('#content', {
+                            offset: -250
+                        })
+                    }
+                }).catch(err => {
+                    setTimeout( () => {
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorStatus = true
+                    }, 500)
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             },
             toggleStep (type) {
