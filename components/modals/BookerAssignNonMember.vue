@@ -58,7 +58,7 @@
                             me.$parent.toSubmit.tempSeat.push(me.tempSeat)
                             me.$parent.tempGuestSeat = null
                             me.$parent.hasGuest = true
-                            if (me.$parent.added) {
+                            if (me.$parent.added != null && me.$parent.added != undefined) {
                                 me.$parent.added++
                             }
                             setTimeout( () => {

@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>{{ toSubmit.guestCount + 1 }} Credit/s</p>
+                                    <p>{{ toSubmit.guestCount }} Credit/s</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -244,6 +244,7 @@
                 removeNext: false,
                 submitted: false,
                 customer: null,
+                bookingID: 0,
                 added: 0,
                 temp: [],
                 schedule: [],
@@ -399,6 +400,8 @@
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
+                formData.append('booking_id', me.bookingID)
+                formData.append('update', 1)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 formData.append('class_package_id', me.classPackage.class_package.id)
                 me.loader(true)
@@ -563,7 +566,9 @@
                         }
 
                         me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
+                        me.toSubmit.guestCount = me.parser(res.data.tempSeats.data).length
                         package_id = res.data.tempSeats.class_package_id
+                        me.bookingID = res.data.tempSeats.booking_id
 
                         if (res.data.tempSeats != null) {
                             me.hasBooked = true

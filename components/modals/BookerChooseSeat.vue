@@ -108,6 +108,9 @@
                             }
                         })
                     })
+                    if (me.$parent.added != null && me.$parent.added != undefined) {
+                        me.$parent.added++
+                    }
                     setTimeout( () => {
                         me.$store.state.bookerChooseSeatStatus = false
                         document.body.classList.remove('no_scroll')
