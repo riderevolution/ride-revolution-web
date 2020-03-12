@@ -31,7 +31,7 @@
                         </div>
                         <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
                         <transition name="slideAlt">
-                            <ul class="user_dropdown_list" v-click-outside="toggleList" v-if="showList">
+                            <ul class="user_dropdown_list" v-if="showList">
                                 <li class="user_dropdown_item">
                                     <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
                                 </li>
@@ -50,26 +50,28 @@
                 <img src="/icons/login-icon.svg" />
                 <div class="background"></div>
             </div>
-            <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList" v-if="$parent.isMobile && $store.state.isAuth">
-                <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
-                <div class="overlay" v-else>
-                    <div class="letter">
-                        {{ first_name }}{{ last_name }}
+            <div v-if="$parent.isMobile && $store.state.isAuth">
+                <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
+                    <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
+                    <div class="overlay" v-else>
+                        <div class="letter">
+                            {{ first_name }}{{ last_name }}
+                        </div>
                     </div>
+                    <transition name="slideAlt">
+                        <ul class="user_dropdown_list" v-if="showList">
+                            <li class="user_dropdown_item">
+                                <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
+                            </li>
+                            <li class="user_dropdown_item">
+                                <nuxt-link to="/my-profile/update-profile" class="item_link">Update My Account</nuxt-link>
+                            </li>
+                            <li class="user_dropdown_item">
+                                <div class="item_link red" @click="logout()">Signout</div>
+                            </li>
+                        </ul>
+                    </transition>
                 </div>
-                <transition name="slideAlt">
-                    <ul class="user_dropdown_list" v-click-outside="toggleList" v-if="showList">
-                        <li class="user_dropdown_item">
-                            <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
-                        </li>
-                        <li class="user_dropdown_item">
-                            <nuxt-link to="/my-profile/update-profile" class="item_link">Update My Account</nuxt-link>
-                        </li>
-                        <li class="user_dropdown_item">
-                            <div class="item_link red" @click="logout()">Signout</div>
-                        </li>
-                    </ul>
-                </transition>
             </div>
         </div>
         <div class="nav_burger" @click="toggleNavbarExpanded()">

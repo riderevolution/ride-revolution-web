@@ -16,7 +16,7 @@
                                 <transition name="fade">
                                     <div class="preview_flex_image_wrapper" id="preview_flex_image_wrapper" v-if="previewImage">
                                         <div class="preview">
-                                            <img id="preview_image" :src="`${($store.state.user.customer_details.images) ? $store.state.user.customer_details.images[0].path : '' }`" />
+                                            <img id="preview_image" :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" />
                                         </div>
                                     </div>
                                 </transition>
@@ -25,7 +25,7 @@
                         <div class="sub_label">
                             <div class="text">{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</div>
                             <img src="/sample-type.svg" />
-                            <div class="default_btn_blue" @click="viewImage()">View Photo</div>
+                            <div class="default_btn_blue" @click="viewImage()" v-if="$store.state.user.customer_details.images[0].path != null">View Photo</div>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -97,7 +97,7 @@
                         <div class="select">
                             <select class="input_select" name="what_do_you_do" v-model="profileOverview.what_do_you_do" v-validate="'required'">
                                 <option value="0" selected disabled>Choose a Profession</option>
-                                <option :value="data" v-for="(data, key) in professions" :key="key">{{ data }}</option>
+                                <option :value="data" v-for="(data, key) in professions" :selected="data == profileOverview.what_do_you_do" :key="key">{{ data }}</option>
                             </select>
                         </div>
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.what_do_you_do')">{{ errors.first('profile_overview_form.what_do_you_do') | properFormat }}</span></transition>
@@ -440,7 +440,7 @@
                     me.profileOverview.contact_number = me.$store.state.user.customer_details.co_contact_number
                     me.profileOverview.sex = me.$store.state.user.customer_details.co_sex
                     me.profileOverview.shoe_size = me.$store.state.user.customer_details.co_shoe_size
-                    me.profileOverview.what_do_you_do = me.$store.state.user.customer_details.occupation_id
+                    me.profileOverview.what_do_you_do = me.$store.state.user.customer_details.profession
 
                     me.address.personal_address_1 = me.$store.state.user.customer_details.pa_address_1
                     me.address.personal_address_2 = me.$store.state.user.customer_details.pa_address_2

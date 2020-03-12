@@ -85,7 +85,7 @@
             onResize() {
                 const me = this
                 if (document.documentElement && document.documentElement.clientWidth) {
-                    if (document.documentElement.clientWidth < 1025) {
+                    if (document.documentElement.clientWidth <= 1024) {
                         me.isMobile = true
                     } else {
                         me.isMobile = false

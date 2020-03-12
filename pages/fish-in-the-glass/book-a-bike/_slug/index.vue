@@ -18,6 +18,14 @@
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
+                                    <div class="description">
+                                        <h3>What can I do?</h3>
+                                        <ul>
+                                            <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                            <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="main_right">
@@ -106,7 +114,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right">
+                                                    <div class="right" v-if="!removeNext">
                                                         <div  class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>
@@ -231,6 +239,7 @@
                 step: 1,
                 type: 1,
                 webApp: true,
+                removeNext: false,
                 loaded: false,
                 submitted: false,
                 customer: null,
@@ -528,7 +537,7 @@
                         }).then(res => {
                             if (res.data) {
                                 if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
-                                    me.$router.push(`/manage-class/${id}`)
+                                    me.$router.push(`/fish-in-the-glass/manage-class/${id}?token=${token}`)
                                 }
                                 let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                                 me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }

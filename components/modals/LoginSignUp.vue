@@ -88,12 +88,13 @@
                 <form id="default_form" data-vv-scope="register_form">
                     <div class="form_group">
                         <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" v-model="signUpForm.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.email')">{{ errors.first('register_form.email') | properFormat }}</span></transition>
+                        <input type="text" @input="checkValidity('email', $event)" id="email" name="email" class="input_text" v-model="signUpForm.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9|\u00f1|\@|\.]*$'}">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.email') && !checkEmailValidity">{{ errors.first('register_form.email') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="checkEmailValidity">Email address is already taken</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" ref="password" v-model="signUpForm.password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
+                        <input type="password" id="password" name="password" ref="password" v-model="signUpForm.password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}">
                         <transition name="fade">
                             <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>
@@ -104,7 +105,7 @@
                     </div>
                     <div class="form_group">
                         <label for="password_confirmation">Confirm Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" v-model="signUpForm.password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}">
+                        <input type="password" id="password_confirmation" name="password_confirmation" v-model="signUpForm.password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}">
                         <transition name="fade">
                             <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>
@@ -129,6 +130,15 @@
                     <div class="counter">1/3</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
+                    <div class="form_group disclaimer">
+                        <label for="username">Username <span>*</span></label>
+                        <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="signUpForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 15}">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.username') && !checkUsernameValidity">{{ errors.first('register_process_form.username') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="checkUsernameValidity">Username is already taken</span></transition>
+                    </div>
+                    <div class="form_group_disclaimer">
+                        <div class="form_disclaimer"><img src="/icons/disclaimer-icon.svg" /> <span>Username cannot be changed once saved.</span></div>
+                    </div>
                     <div class="form_group">
                         <label for="first_name">First Name <span>*</span></label>
                         <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="signUpForm.first_name" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
@@ -268,10 +278,13 @@
                 forgotPassword: false,
                 signUp: false,
                 signUpProcess: false,
+                checkEmailValidity: false,
+                checkUsernameValidity: false,
                 signUpForm: {
                     email: 'dthrcrpz@gmail.com',
                     password: 'password',
                     password_confirmation: 'password',
+                    username: 'USERNAME',
                     first_name: 'Deither',
                     last_name: 'Corpuz',
                     contact_number: '09085532912',
@@ -325,6 +338,35 @@
             }
         },
         methods: {
+            checkValidity (type, event) {
+                const me = this
+                let value = event.target.value
+                let formData = new FormData()
+                formData.append('type', type)
+                formData.append('value', value)
+                setTimeout( () => {
+                    me.$axios.post('api/check-data-validity', formData).then(res => {
+                        if (res.data) {
+                            if (res.data.exists) {
+                                if (type == 'email') {
+                                    me.checkEmailValidity = true
+                                } else {
+                                    me.checkUsernameValidity = true
+                                }
+                            } else {
+                                if (type == 'email') {
+                                    me.checkEmailValidity = false
+                                } else {
+                                    me.checkUsernameValidity = false
+                                }
+                            }
+                        }
+                    }).catch(err => {
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    })
+                }, 250)
+            },
             fbLogin () {
                 let me = this
 
