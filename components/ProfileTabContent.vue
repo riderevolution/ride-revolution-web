@@ -150,7 +150,7 @@
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_classes">
-                            <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
+                            <div class="class_wrapper" v-for="(data, key) in classes" :key="key" v-if="classes.length > 0">
                                 <div class="overlay">
                                     <div class="menu_dot" @click="toggleMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                     <transition name="slideAlt">
@@ -163,24 +163,31 @@
                                 <div class="top">
                                     <div class="left">
                                         <div class="date">
-                                            <div class="day">{{ data.date.day }}</div>
-                                            <div class="month">{{ data.date.month }}</div>
+                                            <div class="day">{{ $moment(data.scheduled_date.date).format('DD') }}</div>
+                                            <div class="month">{{ $moment(data.scheduled_date.date).format('MMM') }}</div>
                                         </div>
                                     </div>
                                     <div class="right">
-                                        <h3 class="title">{{ data.title }}</h3>
-                                        <div class="violator" v-if="data.has_violator">Today</div>
-                                        <div class="schedule">{{ data.schedule }}</div>
-                                        <div class="schedule">Bikes: {{ data.bike }}</div>
+                                        <h3 class="title">{{ data.scheduled_date.schedule.class_type.name }}</h3>
+                                        <div class="violator" v-if="$moment(data.scheduled_date.date).format('MMMM DD, YYYY') == $moment().format('MMMM DD, YYYY')">Today</div>
+                                        <div class="schedule">{{ data.scheduled_date.schedule.start_time }} at {{ data.scheduled_date.schedule.studio.name }}</div>
+                                        <div class="schedule">Bikes: {{ data.seat.number }}</div>
                                     </div>
                                 </div>
                                 <div class="bottom">
-                                    <img src="/sample-image-booker.png" />
+                                    <img :src="data.instructor.user.instructor_details.images[0].path" />
                                     <div class="right">
                                         <div class="label">Instructor</div>
-                                        <h3 class="name">{{ data.instructor.name }}</h3>
+                                        <h3 class="name">{{ data.instructor.user.first_name }} {{ data.instructor.user.last_name }}</h3>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="no_results" v-else>
+                                <div class="text">You don't have any classes.</div>
+                                <div class="logo">
+                                    <img src="/footer-logo.svg" />
+                                </div>
+                                <nuxt-link to="book-a-bike" class="default_btn">Book a Bike</nuxt-link>
                             </div>
                         </div>
                     </div>
@@ -465,50 +472,7 @@
                         hovered: false
                     }
                 ],
-                classes: [
-                    {
-                        date: {
-                            day: 15,
-                            month: 'APR'
-                        },
-                        title: 'Michael Buble x Jose Mari Chan Holiday Theme Ride',
-                        has_violator: true,
-                        schedule: '12:15 PM at Greenbelt 5',
-                        bike: 15,
-                        instructor: {
-                            name: 'Billie Capistrano'
-                        },
-                        toggled: false
-                    },
-                    {
-                        date: {
-                            day: 15,
-                            month: 'APR'
-                        },
-                        title: '50 Minute Ride',
-                        has_violator: false,
-                        schedule: '12:15 PM at Greenbelt 5',
-                        bike: 15,
-                        instructor: {
-                            name: 'Billie Capistrano'
-                        },
-                        toggled: false
-                    },
-                    {
-                        date: {
-                            day: 15,
-                            month: 'APR'
-                        },
-                        title: 'Black Eyed Peas Theme Ride',
-                        has_violator: false,
-                        schedule: '12:15 PM at Greenbelt 5',
-                        bike: 15,
-                        instructor: {
-                            name: 'Billie Capistrano'
-                        },
-                        toggled: false
-                    }
-                ],
+                classes: [],
                 packages: [],
                 pendingTransactions: [
                     {
@@ -996,6 +960,29 @@
             toggledMenuTab (category) {
                 const me = this
                 me.tabCategory = category
+                switch (category) {
+                    case 'waitlisted':
+                        me.loader(true)
+                        me.$axios.get(`api/customers/${me.$store.state.user.id}/waitlisted`).then(res => {
+                            if (res.data) {
+                                setTimeout( () => {
+                                    me.classes = []
+                                    res.data.waitlisted.forEach((data, index) => {
+                                        data.toggled = false
+                                        me.classes.push(data)
+                                    })
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                        break
+                }
             },
             toggledChartMenuTab (category) {
                 const me = this

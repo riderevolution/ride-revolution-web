@@ -479,9 +479,13 @@
                             break
                         case 'reserved':
                         case 'reserved-guest':
-                            me.promptMessage = 'This seat is already booked or reserved by someone else.'
-                            me.$store.state.buyRidesPromptStatus = true
-                            document.body.classList.add('no_scroll')
+                            if (data.temp.id == me.$store.state.user.id) {
+                                console.log('cancel seat');
+                            } else {
+                                me.promptMessage = 'This seat is already booked or reserved by someone else.'
+                                me.$store.state.buyRidesPromptStatus = true
+                                document.body.classList.add('no_scroll')
+                            }
                             break
                         case 'open':
                             if (me.classPackage == null) {

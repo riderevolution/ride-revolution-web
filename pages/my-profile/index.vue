@@ -76,9 +76,28 @@
                 me.category = category
                 switch (category) {
                     case 'classes':
-                        setTimeout( () => {
-                            me.$refs.profileTab.tabCategory = 'upcoming'
-                        }, 10)
+                        me.loader(true)
+                        me.$axios.get(`api/customers/${me.$store.state.user.id}/upcoming-classes`).then(res => {
+                            if (res.data) {
+                                setTimeout( () => {
+                                    me.$refs.profileTab.classes = []
+                                    res.data.upcomingClasses.forEach((data, index) => {
+                                        data.toggled = false
+                                        me.$refs.profileTab.classes.push(data)
+                                    })
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.$refs.profileTab.tabCategory = 'upcoming'
+                            }, 10)
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
                         break
                     case 'packages':
                         me.loader(true)
