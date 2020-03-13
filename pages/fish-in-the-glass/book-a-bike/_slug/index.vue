@@ -30,7 +30,7 @@
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
+                                    <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -292,7 +292,8 @@
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
-                }
+                },
+                user: ''
             }
         },
         computed: {
@@ -322,14 +323,14 @@
                         } else {
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         } else {
                                             result = 'reserved alt'
                                         }
                                     } else {
-                                        if (seat.bookings[0].user_id == me.$store.state.user.id) {
+                                        if (seat.bookings[0].user_id == me.user.id) {
                                             if (seat.bookings[0].is_guest == 1) {
                                                 result = 'reserved alt'
                                             }
@@ -338,7 +339,7 @@
                                         }
                                     }
                                 } else {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         }
@@ -459,85 +460,105 @@
             },
             signIn (data) {
                 const me = this
+                let token = me.$route.query.token
                 me.currentSeat = data
                 me.seatStatus = data.status
-                if (me.checkPackage == 1) {
-                    switch (data.status) {
-                        case 'blocked':
-                        case 'comp':
-                            me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
-                            me.$store.state.buyRidesPromptStatus = true
-                            document.body.classList.add('no_scroll')
-                            break
-                        case 'reserved':
-                        case 'reserved-guest':
-                            if (data.temp.id == me.$store.state.user.id) {
-                                if (data.guest == 0) {
-                                    me.toSubmit.tempSeat.forEach((element, index) => {
-                                        if (element.temp.id == data.temp.id) {
-                                            delete data.guest
-                                            delete data.temp
-                                            data.status = 'open'
-                                            me.hasBooked = false
-                                            me.removeNext = true
-                                            me.toSubmit.tempSeat.splice(index, 1)
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        if (me.checkPackage == 1) {
+                            switch (data.status) {
+                                case 'blocked':
+                                case 'comp':
+                                    me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
+                                    me.$store.state.buyRidesPromptStatus = true
+                                    document.body.classList.add('no_scroll')
+                                    break
+                                case 'reserved':
+                                case 'reserved-guest':
+                                    if (res.data.user.id == data.temp.id) {
+                                        if (data.guest == 0) {
+                                            me.toSubmit.tempSeat.forEach((element, index) => {
+                                                if (element.temp.id == data.temp.id) {
+                                                    delete data.guest
+                                                    delete data.temp
+                                                    data.status = 'open'
+                                                    me.hasBooked = false
+                                                    me.removeNext = true
+                                                    me.toSubmit.tempSeat.splice(index, 1)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            } else {
-                                me.promptMessage = 'This seat is already booked or reserved by someone else.'
-                                me.$store.state.buyRidesPromptStatus = true
-                                document.body.classList.add('no_scroll')
-                            }
-                            break
-                        case 'open':
-                            if (me.classPackage == null) {
-                                me.pointPackage = true
-                                me.promptMessage = 'Please select a package first before booking on your preferred seat.'
-                                me.$store.state.buyRidesPromptStatus = true
-                                document.body.classList.add('no_scroll')
-                            } else {
-                                if (!me.hasBooked) {
-                                    data.guest = 0
-                                    data.status = 'reserved'
-                                    data.temp = me.$store.state.user
-                                    me.tempOriginalSeat = data
-                                    if (me.toSubmit.tempSeat.length > 0) {
-                                        me.toSubmit.tempSeat.unshift(data)
                                     } else {
-                                        me.toSubmit.tempSeat.push(data)
+                                        me.promptMessage = 'This seat is already booked or reserved by someone else.'
+                                        me.$store.state.buyRidesPromptStatus = true
+                                        document.body.classList.add('no_scroll')
                                     }
-                                    me.removeNext = false
-                                    me.hasBooked = true
-                                } else {
-                                    if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
-                                        me.promptMessage = "Sorry! You don't have enough rides left."
+                                    break
+                                case 'open':
+                                    if (me.classPackage == null) {
+                                        me.pointPackage = true
+                                        me.promptMessage = 'Please select a package first before booking on your preferred seat.'
                                         me.$store.state.buyRidesPromptStatus = true
                                         document.body.classList.add('no_scroll')
                                     } else {
-                                        if (me.toSubmit.guestCount < 4) {
-                                            me.tempGuestSeat = data
-                                            me.$store.state.bookerAssignStatus = true
-                                            document.body.classList.add('no_scroll')
+                                        if (!me.hasBooked) {
+                                            data.guest = 0
+                                            data.status = 'reserved'
+                                            data.temp = res.data.user
+                                            me.tempOriginalSeat = data
+                                            if (me.toSubmit.tempSeat.length > 0) {
+                                                me.toSubmit.tempSeat.unshift(data)
+                                            } else {
+                                                me.toSubmit.tempSeat.push(data)
+                                            }
+                                            me.removeNext = false
+                                            me.hasBooked = true
                                         } else {
-                                            me.promptMessage = "You've already reached the limit of adding guest."
-                                            me.$store.state.buyRidesPromptStatus = true
-                                            document.body.classList.add('no_scroll')
+                                            if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
+                                                me.promptMessage = "Sorry! You don't have enough rides left."
+                                                me.$store.state.buyRidesPromptStatus = true
+                                                document.body.classList.add('no_scroll')
+                                            } else {
+                                                if (me.toSubmit.guestCount < 4) {
+                                                    me.tempGuestSeat = data
+                                                    me.$store.state.bookerAssignStatus = true
+                                                    document.body.classList.add('no_scroll')
+                                                } else {
+                                                    me.promptMessage = "You've already reached the limit of adding guest."
+                                                    me.$store.state.buyRidesPromptStatus = true
+                                                    document.body.classList.add('no_scroll')
+                                                }
+                                            }
                                         }
                                     }
-                                }
+                                    break
                             }
-                            break
+                        } else {
+                            me.$store.state.buyPackageFirstStatus = true
+                            document.body.classList.remove('no_scroll')
+                        }
                     }
-                } else {
-                    me.$store.state.buyPackageFirstStatus = true
-                    document.body.classList.remove('no_scroll')
-                }
+                }).catch(err => {
+                    console.log(err)
+                })
             },
             fetchSeats (id) {
                 const me = this
-                me.loader(true)
                 let token = me.$route.query.token
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.user = res.data.user
+                    }
+                })
+                me.loader(true)
                 me.$axios.get(`api/scheduled-dates/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
