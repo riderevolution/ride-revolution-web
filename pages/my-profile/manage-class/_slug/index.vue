@@ -31,11 +31,20 @@
                                             <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
                                         </ul>
                                     </div>
+                                    <div class="waitlisted">
+                                        <div class="label">Waitlisted</div>
+                                        <div class="user">
+                                            <div class="name">
+                                                {{ user.first_name }} {{ user.last_name }}
+                                            </div>
+                                            <div class="default_btn_red" @click="cancelWaitlist()">Cancel</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
+                                    <nuxt-link to="/my-profile" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -88,7 +97,7 @@
                                                 <li class="you"><span></span>You</li>
                                             </ul>
                                         </div>
-                                        <div class="actions" v-if="!schedule.guestHere">
+                                        <div class="actions" v-if="!schedule.guestHere && !res.waitlisted">
                                             <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage">
@@ -246,8 +255,10 @@
                 customer: null,
                 bookingID: 0,
                 added: 0,
+                res: [],
                 temp: [],
                 schedule: [],
+                user: [],
                 seats: {
                     left: {
                         position: 'left',
@@ -311,6 +322,34 @@
             },
         },
         methods: {
+            cancelWaitlist () {
+                const me = this
+                let formData = new FormData()
+                let token = me.$cookies.get('token')
+                formData.append('scheduled_date_id', me.$route.params.slug)
+                me.loader(true)
+                me.$axios.post('api/schedules/waitlist', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.promptMessage = 'You have been successfully removed from the waitlist.'
+                        document.body.classList.add('no_scroll')
+                        me.$store.state.buyRidesPromptStatus = true
+                        setTimeout( () => {
+                            me.$router.push('/my-profile')
+                        }, 1500)
+                    }
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
             addClass (seat) {
                 const me = this
                 let result = ''
@@ -536,6 +575,7 @@
                         let package_id = 0
                         let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                         me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                        me.res = res.data
                         me.temp = res.data.seats
                         me.schedule = res.data.scheduledDate
                         me.temp.forEach((seat , index) => {
@@ -565,12 +605,11 @@
                             document.body.classList.remove('no_scroll')
                         }
 
-                        me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                        me.toSubmit.guestCount = me.parser(res.data.tempSeats.data).length
-                        package_id = res.data.tempSeats.class_package_id
-                        me.bookingID = res.data.tempSeats.booking_id
-
                         if (res.data.tempSeats != null) {
+                            me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
+                            me.toSubmit.guestCount = me.parser(res.data.tempSeats.data).length
+                            package_id = res.data.tempSeats.class_package_id
+                            me.bookingID = res.data.tempSeats.booking_id
                             me.hasBooked = true
                             me.toSubmit.tempSeat.forEach((element, index) => {
                                 if (element.guest == 0) {
@@ -599,6 +638,7 @@
                     me.loader(false)
                 }).then(() => {
                     setTimeout( () => {
+                        me.user = me.$store.state.user
                         me.loader(false)
                     }, 500)
                 })

@@ -149,14 +149,14 @@
                         <li :class="`menu_tab_item ${(tabCategory == 'history') ? 'active' : ''}`" @click="toggledMenuTab('history')">History</li>
                     </ul>
                     <div class="menu_tab_content">
-                        <div class="profile_classes">
-                            <div class="class_wrapper" v-for="(data, key) in classes" :key="key" v-if="classes.length > 0">
+                        <div class="profile_classes" v-if="classes.length > 0">
+                            <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
                                 <div class="overlay">
                                     <div class="menu_dot" @click="toggleMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
-                                            <li class="menu_dot_item" @click="manageClass()">Manage Class</li>
-                                            <li class="menu_dot_item red" @click="toggleCancel()">Cancel Class</li>
+                                            <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)">Manage Class</li>
+                                            <li class="menu_dot_item red" @click="toggleCancel(data.scheduled_date_id)">Cancel Class</li>
                                         </ul>
                                     </transition>
                                 </div>
@@ -171,7 +171,7 @@
                                         <h3 class="title">{{ data.scheduled_date.schedule.class_type.name }}</h3>
                                         <div class="violator" v-if="$moment(data.scheduled_date.date).format('MMMM DD, YYYY') == $moment().format('MMMM DD, YYYY')">Today</div>
                                         <div class="schedule">{{ data.scheduled_date.schedule.start_time }} at {{ data.scheduled_date.schedule.studio.name }}</div>
-                                        <div class="schedule">Bikes: {{ data.seat.number }}</div>
+                                        <div class="schedule" v-if="data.seat">Bikes: {{ data.seat.number }}</div>
                                     </div>
                                 </div>
                                 <div class="bottom">
@@ -182,13 +182,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="no_results" v-else>
-                                <div class="text">You don't have any classes.</div>
-                                <div class="logo">
-                                    <img src="/footer-logo.svg" />
-                                </div>
-                                <nuxt-link to="book-a-bike" class="default_btn">Book a Bike</nuxt-link>
+                        </div>
+                        <div class="no_results" v-else>
+                            <div class="text">You don't have any classes.</div>
+                            <div class="logo">
+                                <img src="/footer-logo.svg" />
                             </div>
+                            <nuxt-link to="book-a-bike" class="default_btn">Book a Bike</nuxt-link>
                         </div>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_packages">
-                            <table class="default_table" v-if="packages.length >0">
+                            <table class="default_table" v-if="packages.length > 0">
                                 <thead>
                                     <tr>
                                         <th>Packages</th>
@@ -828,9 +828,9 @@
             }
         },
         methods: {
-            manageClass () {
+            manageClass (id) {
                 const me = this
-                me.$router.push('/my-profile/manage-class/asdasdasdas')
+                me.$router.push(`/my-profile/manage-class/${id}`)
             },
             togglePackage (category) {
                 const me = this
@@ -961,16 +961,35 @@
                 const me = this
                 me.tabCategory = category
                 switch (category) {
+                    case 'upcoming':
                     case 'waitlisted':
+                    case 'history':
+                        category = (category == 'upcoming') ? 'upcoming-classes' : category
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$store.state.user.id}/waitlisted`).then(res => {
+                        me.$axios.get(`api/customers/${me.$store.state.user.id}/${category}`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.classes = []
-                                    res.data.waitlisted.forEach((data, index) => {
-                                        data.toggled = false
-                                        me.classes.push(data)
-                                    })
+                                    switch (category) {
+                                        case 'upcoming-classes':
+                                            res.data.upcomingClasses.forEach((data, index) => {
+                                                data.toggled = false
+                                                me.classes.push(data)
+                                            })
+                                            break
+                                        case 'waitlisted':
+                                            res.data.waitlisted.forEach((data, index) => {
+                                                data.toggled = false
+                                                me.classes.push(data)
+                                            })
+                                            break
+                                        case 'history':
+                                            // res.data.waitlisted.forEach((data, index) => {
+                                            //     data.toggled = false
+                                            //     me.classes.push(data)
+                                            // })
+                                            break
+                                    }
                                 }, 10)
                             }
                         }).catch((err) => {
