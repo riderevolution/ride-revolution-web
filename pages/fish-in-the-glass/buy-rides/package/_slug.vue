@@ -44,14 +44,19 @@
                                 </div>
                                 <div class="breakdown_actions">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="!$parent.$parent.isMobile">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="action_mobile">
-                                    <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
+                                        <div class="btn_wrapper">
+                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -104,8 +109,8 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$parent.$parent.isMobile">
-                                <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                            <div class="back_wrapper">
+                                <div class="back" @click="stepBack()" v-if="$parent.$parent.isMobile"><span>Back</span></div>
                             </div>
                         </div>
                     </div>
@@ -278,7 +283,13 @@
                 setTimeout(() => {
                     paypal.Buttons({
                         style: {
-                            color: 'blue'
+                            layout: 'vertical',
+                            color: 'blue',
+                            size: 'responsive',
+                            fundingicons: true
+                        },
+                        funding: {
+                            allowed: [ paypal.FUNDING.CARD ]
                         },
                         createOrder: function(data, actions) {
                           // This function sets up the details of the transaction, including the amount and line item details.
