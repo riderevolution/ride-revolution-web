@@ -31,7 +31,7 @@
                                             <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
                                         </ul>
                                     </div>
-                                    <div class="waitlisted">
+                                    <div class="waitlisted" v-if="isWaitlisted">
                                         <div class="label">Waitlisted</div>
                                         <div class="user">
                                             <div class="name">
@@ -310,7 +310,8 @@
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
-                }
+                },
+                isWaitlisted: false
             }
         },
         computed: {
@@ -603,6 +604,10 @@
                         if (!me.checkPackage) {
                             me.$store.state.buyPackageFirstStatus = true
                             document.body.classList.remove('no_scroll')
+                        }
+
+                        if (res.data.waitlisted) {
+                            me.isWaitlisted = true
                         }
 
                         if (res.data.tempSeats != null) {

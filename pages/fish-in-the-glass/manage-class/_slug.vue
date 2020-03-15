@@ -26,7 +26,7 @@
                                             <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
                                         </ul>
                                     </div>
-                                    <div class="waitlisted">
+                                    <div class="waitlisted" v-if="isWaitlisted">
                                         <div class="label">Waitlisted</div>
                                         <div class="user">
                                             <div class="name">
