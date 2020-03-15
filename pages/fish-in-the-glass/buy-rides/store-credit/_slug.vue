@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="breakdown_actions alt" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk"Back</nuxt-link>
+                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
