@@ -141,16 +141,16 @@
                                         <h3>{{ data.schedule.studio.name }}</h3>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull">
+                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Book Now</span>
                                         </nuxt-link>
-                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull">
+                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Waitlist</span>
                                         </div>
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted">
                                             <span>Waitlisted</span>
                                         </div>
-                                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && data.hasBookings">
+                                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
                                             <span>Manage Class</span>
                                         </nuxt-link>
                                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
@@ -175,6 +175,9 @@
             <transition name="fade">
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
+            <transition name="fade">
+                <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -184,12 +187,14 @@
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
     import BuyPackageFirst from '../../components/modals/BuyPackageFirst'
+    import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
     export default {
         components: {
             Breadcrumb,
             BookerChoosePackage,
             CompleteProfilePrompt,
-            BuyPackageFirst
+            BuyPackageFirst,
+            BuyRidesPrompt
         },
         data () {
             return {

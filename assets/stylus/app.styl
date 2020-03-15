@@ -615,6 +615,135 @@ svg
             label
                 a
                     pointer-events: none
+        .buy_rides
+            &.inner
+                background-image: url('/dotted-bg.png')
+                #payments
+                    padding: 30px 0
+                    &.success
+                        padding: 0
+                    .step
+                        .preview
+                            .preview_actions
+                                @media (max-width: 767px) and (min-width: 320px)
+                                    justify-content: center
+                                #paypal-button-container
+                                    .paypal-buttons
+                                        min-width: 400px
+                                        max-width: 1200px
+                        .wrapper
+                            .right
+                                .action_mobile
+                                    margin-top: 30px
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    justify-content: space-between
+                                    .back,
+                                    .default_btn_img
+                                        width: auto
+                                        flex: 0 0 auto
+                                    .default_btn_img
+                                        padding: 0 10px
+                        .preview_payment
+                            .preview
+                                .back_wrapper
+                                    margin-top: 10px
+                                    text-align: center
+                                    .back
+                                        display: inline-block
+                                        width: auto
+        .book_a_bike
+            &.inner
+                background-image: url('/dotted-bg.png')
+                #content
+                    padding: 60px 0
+                    .main_left
+                        margin-bottom: 30px
+                        .content
+                            ul
+                                padding: 10px 0
+                                display: flex
+                                flex-flow: row wrap
+                                justify-content: center
+                                li
+                                    margin-bottom: 0
+                                    padding: 0 5px
+                        .description
+                            padding: 0 10px 30px
+                            h3
+                                brandon_regular(14px, false)
+                            ul
+                                li
+                                    brandon_regular(14px, false)
+                        .waitlisted
+                            padding: 20px 10px
+                            .label
+                                brandon_bold(18px, false)
+                            .user
+                                margin-top: 10px
+                    .main_right
+                        .content
+                            padding: 30px 0
+                            .footer
+                                .actions
+                                    @media (max-width: 767px) and (min-width: 320px)
+                                        .next_wrapper
+                                            .left
+                                                .flex
+                                                    &.package
+                                                        display: flex
+                                                        flex-flow: row wrap
+                                                        align-items: center
+                                                        justify-content: space-between
+                                                        padding-right: 0
+                                                        .toggler
+                                                            justify-content: flex-start
+                                                            flex: 0 0 48%
+                                                            &.alt
+                                                                justify-content: flex-end
+                                                            .picker
+                                                                margin-left: 0
+                                            .right
+                                                display: flex
+                                                flex-flow: row wrap
+                                                align-items: center
+                                                justify-content: space-between
+                                                .back,
+                                                .default_btn
+                                                    width: auto
+                                                    flex: 0 0 auto
+                                    .next_wrapper
+                                        .left
+                                            .flex
+                                                display: flex
+                                                flex-flow: row wrap
+                                                align-items: center
+                                                justify-content: space-between
+                                                flex: 0 0 100%
+                                                .toggler
+                                                    justify-content: flex-start
+                                                    flex: 0 0 48%
+                                                    &.alt
+                                                        justify-content: flex-end
+                                                    .picker
+                                                        margin-left: 0
+                    .step
+                        &.form
+                            .preview_book_form
+                                padding: 0
+                                .preview
+                                    .preview_actions
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
+                                        justify-content: space-between
+                                        .back,
+                                        .default_btn
+                                            width: auto
+                                            flex: 0 0 auto
+                    .back
+                        brandon_medium(14px, true)
     /**
      * Pro Tip */
     #pro_tip
@@ -4331,6 +4460,24 @@ svg
                             b
                                 brandon_bold(16px, false)
                                 color: $black
+                .waitlisted
+                    border-top: 1px solid $border_alt
+                    padding: 30px
+                    .label
+                        brandon_bold(22px, false)
+                        color: $black
+                    .user
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: space-between
+                        margin-top: 20px
+                        .name
+                            brandon_medium(22px, false)
+                            color: $black
+                        .default_btn_red
+                            brandon_bold(14px, true)
+                            padding: 5px 15px
             .main_right
                 flex: 0 0 calc(75% - 30px)
                 margin-left: 30px
@@ -4718,6 +4865,7 @@ svg
                                         transition: .3s ease-in-out
                                 .radio
                                     -webkit-appearance: none
+                                    appearance: none
                                     position: absolute
                                     &:hover
                                         ~ label

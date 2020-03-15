@@ -71,7 +71,6 @@
                         }, 500)
                     }
                 } else {
-                    me.$parent.tempGuestSeat = null
                     me.$store.state.bookerAssignMemberPromptStatus = false
                     me.$store.state.bookerAssignStatus = true
                 }

@@ -72,29 +72,39 @@
                 if (me.selectedPackage) {
                     if (me.type == 0) {
                         let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
-                        let formData = new FormData()
-                        formData.append('scheduled_date_id', me.$parent.schedule.id)
-                        formData.append('user_id', me.$store.state.user.id)
-                        formData.append('studio_id', me.$parent.schedule.schedule.studio_id)
-                        formData.append('class_package_id', me.selectedPackage)
-                        me.$axios.post(`api/waitlists`, formData, {
+                        me.$axios.get('api/check-token', {
                             headers: {
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
                             if (res.data) {
-                                me.$store.state.bookerChoosePackageStatus = false
-                                me.$parent.getAllSchedules(me.$parent.currentYear, me.$parent.currentMonth, me.$parent.currentDay, false)
-                                setTimeout( () => {
-                                    me.$store.state.buyRidesPromptStatus = true
-                                    me.$parent.message = "You've successfully added as waitlist in this class."
-                                    me.$parent.status = true
-                                    me.$parent.buyCredits = false
-                                }, 500)
+                                let formData = new FormData()
+                                formData.append('scheduled_date_id', me.$parent.schedule.id)
+                                formData.append('user_id', res.data.user.id)
+                                formData.append('studio_id', me.$parent.schedule.schedule.studio_id)
+                                formData.append('class_package_id', me.selectedPackage)
+                                me.$axios.post(`api/waitlists`, formData, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }).then(res => {
+                                    if (res.data) {
+                                        me.$store.state.bookerChoosePackageStatus = false
+                                        me.$parent.getAllSchedules(me.$parent.currentYear, me.$parent.currentMonth, me.$parent.currentDay, false)
+                                        setTimeout( () => {
+                                            me.$store.state.buyRidesPromptStatus = true
+                                            me.$parent.message = "You've successfully added as waitlist in this class."
+                                            me.$parent.status = true
+                                            me.$parent.buyCredits = false
+                                        }, 500)
+                                    }
+                                }).catch(err => {
+                                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                                    me.loader(false)
+                                })
                             }
                         }).catch(err => {
-                            me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-                            me.loader(false)
+                            console.log(err)
                         })
                     } else if (me.type == 1) {
                         me.$parent.classPackage = me.classPackage
@@ -139,6 +149,8 @@
             },
             toggleClose () {
                 const me = this
+                me.$parent.classPackage = null
+                me.$parent.packageSelected = 'Please Select a Package'
                 me.$store.state.bookerChoosePackageStatus = false
                 document.body.classList.remove('no_scroll')
             }
@@ -161,7 +173,7 @@
                                 me.classPackages.forEach((element, index) => {
                                     if (element.count > 0) {
                                         me.$parent.classPackage = element
-                                        me.$parent.packageSelected = element.class_package.name
+                                        // me.$parent.packageSelected = element.class_package.name
                                     }
                                 })
                             } else {

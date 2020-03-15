@@ -480,7 +480,18 @@
                         case 'reserved':
                         case 'reserved-guest':
                             if (data.temp.id == me.$store.state.user.id) {
-                                console.log('cancel seat');
+                                if (data.guest == 0) {
+                                    me.toSubmit.tempSeat.forEach((element, index) => {
+                                        if (element.temp.id == data.temp.id) {
+                                            delete data.guest
+                                            delete data.temp
+                                            data.status = 'open'
+                                            me.hasBooked = false
+                                            me.removeNext = true
+                                            me.toSubmit.tempSeat.splice(index, 1)
+                                        }
+                                    })
+                                }
                             } else {
                                 me.promptMessage = 'This seat is already booked or reserved by someone else.'
                                 me.$store.state.buyRidesPromptStatus = true
@@ -499,7 +510,12 @@
                                     data.status = 'reserved'
                                     data.temp = me.$store.state.user
                                     me.tempOriginalSeat = data
-                                    me.toSubmit.tempSeat.push(data)
+                                    if (me.toSubmit.tempSeat.length > 0) {
+                                        me.toSubmit.tempSeat.unshift(data)
+                                    } else {
+                                        me.toSubmit.tempSeat.push(data)
+                                    }
+                                    me.removeNext = false
                                     me.hasBooked = true
                                 } else {
                                     if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {

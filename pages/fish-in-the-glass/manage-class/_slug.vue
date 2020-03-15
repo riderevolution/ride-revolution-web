@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="book_a_bike inner" v-if="loaded">
-            <section id="content" :class="`fish ${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
+            <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''} ${(submitted) ? 'overlay' : ''}`">
                 <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                     <transition name="slideX">
                         <div class="flex_step" v-if="step == 1">
@@ -13,9 +13,9 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
+                                            <li>{{ parseScheduleRide(schedule.schedule.class_length) }} Ride</li>
+                                            <li>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</li>
+                                            <li>{{ schedule.schedule.studio.name }}</li>
                                         </ul>
                                     </div>
                                     <div class="description">
@@ -26,11 +26,20 @@
                                             <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
                                         </ul>
                                     </div>
+                                    <div class="waitlisted" v-if="isWaitlisted">
+                                        <div class="label">Waitlisted</div>
+                                        <div class="user">
+                                            <div class="name">
+                                                {{ user.first_name }} {{ user.last_name }}
+                                            </div>
+                                            <div class="default_btn_red" @click="cancelWaitlist()">Cancel</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
+                                    <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -83,14 +92,21 @@
                                                 <li class="you"><span></span>You</li>
                                             </ul>
                                         </div>
-                                        <div class="actions" v-if="!schedule.guestHere">
-                                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
+                                        <div class="actions" v-if="!schedule.guestHere && !res.waitlisted">
+                                            <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage">
                                                     <div class="left">
-                                                        <div class="flex package">
+                                                        <div class="flex package package_details">
                                                             <div class="toggler">
-                                                                <p>Class Package:</p>
+                                                                <p>Total Rides Left:</p>
+                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
+                                                            </div>
+                                                            <div class="toggler alt">
+                                                                <p class="bold">Total Rides Used:</p>
+                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
+                                                            </div>
+                                                            <div class="toggler">
                                                                 <div class="picker" @click="choosePackage()">
                                                                     {{ packageSelected }}
                                                                     <transition name="slide">
@@ -98,24 +114,14 @@
                                                                     </transition>
                                                                 </div>
                                                             </div>
-                                                            <div class="toggler" v-if="hasGuest">
-                                                                <p>Swap seat for:</p>
+                                                            <div class="toggler alt" v-if="hasGuest">
                                                                 <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex package_details">
-                                                            <div class="toggler">
-                                                                <p>Total Rides Left:</p>
-                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
-                                                            </div>
-                                                            <div class="toggler">
-                                                                <p class="bold">Total Rides Used:</p>
-                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="right">
-                                                        <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        <nuxt-link class="back" :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`">Back</nuxt-link>
+                                                        <div class="default_btn" v-if="!removeNext && added != 0" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>
                                             </transition>
@@ -161,7 +167,7 @@
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>{{ schedule.schedule.class_credits }} Credit</p>
+                                    <p>{{ toSubmit.guestCount }} Credit/s</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -199,13 +205,14 @@
             <transition name="fade">
                 <booker-success v-if="$store.state.buyRidesSuccessStatus" />
             </transition>
+            <transition name="fade">
+                <waitlist-prompt v-if="$store.state.waitlistPrompt" />
+            </transition>
         </div>
     </transition>
 </template>
 
 <script>
-    import Breadcrumb from '../../../components/Breadcrumb'
-    import ProTip from '../../../components/ProTip'
     import BookerAssign from '../../../components/modals/BookerAssign'
     import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
     import BookerChooseSeat from '../../../components/modals/BookerChooseSeat'
@@ -215,11 +222,11 @@
     import BookerAssignSuccess from '../../../components/modals/BookerAssignSuccess'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     import BookerSuccess from '../../../components/modals/BookerSuccess'
+    import BuyPackageFirst from '../../../components/modals/BuyPackageFirst'
+    import WaitlistPrompt from '../../../components/modals/WaitlistPrompt'
     export default {
         layout: 'fish',
         components: {
-            Breadcrumb,
-            ProTip,
             BookerAssign,
             BookerChoosePackage,
             BookerChooseSeat,
@@ -228,17 +235,24 @@
             BookerAssignNonMember,
             BookerAssignSuccess,
             BuyRidesPrompt,
-            BookerSuccess
+            BookerSuccess,
+            BuyPackageFirst,
+            WaitlistPrompt
         },
         data () {
             return {
                 step: 1,
                 type: 1,
                 loaded: false,
+                removeNext: false,
                 submitted: false,
                 customer: null,
+                bookingID: 0,
+                added: 0,
+                res: [],
                 temp: [],
                 schedule: [],
+                user: [],
                 seats: {
                     left: {
                         position: 'left',
@@ -291,7 +305,7 @@
                     guestCount: 0,
                     tempSeat: []
                 },
-                user: null
+                user: ''
             }
         },
         computed: {
@@ -303,6 +317,32 @@
             },
         },
         methods: {
+            cancelWaitlist () {
+                const me = this
+                let formData = new FormData()
+                let token = me.$route.query.token
+                formData.append('scheduled_date_id', me.$route.params.slug)
+                me.loader(true)
+                me.$axios.post('api/schedules/waitlist', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        setTimeout( () => {
+                            me.$store.state.waitlistPrompt = true
+                            document.body.classList.add('no_scroll')
+                        }, 500)
+                    }
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
             addClass (seat) {
                 const me = this
                 let result = ''
@@ -389,9 +429,11 @@
             },
             submitPreview () {
                 const me = this
-                let token = me.$cookies.get('token')
+                let token = me.$route.query.token
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
+                formData.append('booking_id', me.bookingID)
+                formData.append('update', 1)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 formData.append('class_package_id', me.classPackage.class_package.id)
                 me.loader(true)
@@ -508,12 +550,14 @@
                             }
                             break
                     }
+                } else {
+                    me.$store.state.buyPackageFirstStatus = true
+                    document.body.classList.remove('no_scroll')
                 }
             },
             fetchSeats (id) {
                 const me = this
-                me.loader(true)
-                let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
+                let token = me.$route.query.token
                 me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -521,50 +565,82 @@
                 }).then(res => {
                     if (res.data) {
                         me.user = res.data.user
-                        me.$axios.get(`api/scheduled-dates/${id}`, {
-                            headers: {
-                                Authorization: `Bearer ${token}`
+                    }
+                })
+                me.loader(true)
+                me.$axios.get(`api/scheduled-dates/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        let package_id = 0
+                        let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
+                        me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                        me.res = res.data
+                        me.temp = res.data.seats
+                        me.schedule = res.data.scheduledDate
+                        me.temp.forEach((seat , index) => {
+                            switch (seat.position) {
+                                case 'left':
+                                    me.seats.left.data.push(seat)
+                                    break
+                                case 'right':
+                                    me.seats.right.data.push(seat)
+                                    break
+                                case 'bottom':
+                                    me.seats.bottom.data.push(seat)
+                                    break
+                                case 'bottom_alt':
+                                    me.seats.bottom_alt.data.push(seat)
+                                    break
+                                case 'bottom_alt_2':
+                                    me.seats.bottom_alt_2.data.push(seat)
+                                    break
                             }
-                        }).then(res => {
-                            if (res.data) {
-                                let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
-                                me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
-                                me.temp = res.data.seats
-                                me.schedule = res.data.scheduledDate
-                                me.temp.forEach((seat , index) => {
-                                    switch (seat.position) {
-                                        case 'left':
-                                            me.seats.left.data.push(seat)
-                                            break
-                                        case 'right':
-                                            me.seats.right.data.push(seat)
-                                            break
-                                        case 'bottom':
-                                            me.seats.bottom.data.push(seat)
-                                            break
-                                        case 'bottom_alt':
-                                            me.seats.bottom_alt.data.push(seat)
-                                            break
-                                        case 'bottom_alt_2':
-                                            me.seats.bottom_alt_2.data.push(seat)
-                                            break
-                                    }
-                                    me.ctr++
-                                })
-                                me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
-                                me.loaded = true
-                            }
-                        }).catch(err => {
-                            me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                            me.loader(false)
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
+                            me.ctr++
                         })
+
+                        me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+                        if (!me.checkPackage) {
+                            me.$store.state.buyPackageFirstStatus = true
+                            document.body.classList.remove('no_scroll')
+                        }
+
+                        if (res.data.tempSeats != null) {
+                            me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
+                            me.toSubmit.guestCount = me.parser(res.data.tempSeats.data).length
+                            package_id = res.data.tempSeats.class_package_id
+                            me.bookingID = res.data.tempSeats.booking_id
+                            me.hasBooked = true
+                            me.toSubmit.tempSeat.forEach((element, index) => {
+                                if (element.guest == 0) {
+                                    me.tempOriginalSeat = element
+                                    me.hasGuest = true
+                                }
+                            })
+                            me.$axios.get(`api/customers/${me.user.id}/packages`).then(res => {
+                                if (res.data) {
+                                    if (res.data.customer.user_package_counts.length > 0) {
+                                        res.data.customer.user_package_counts.forEach((element, index) => {
+                                            if (element.class_package.id == package_id) {
+                                                me.classPackage = element
+                                                me.packageSelected = element.class_package.name
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                        me.loaded = true
                     }
                 }).catch(err => {
-                    console.log(err);
+                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                    me.loader(false)
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             }
         },

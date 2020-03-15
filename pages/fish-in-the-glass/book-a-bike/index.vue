@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link :to="`/book-a-bike/${data.id}?token=${$route.query.token}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
+                                        <nuxt-link :to="`/fish-in-the-glass/book-a-bike/${data.id}?token=${$route.query.token}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Book Now</span>
                                         </nuxt-link>
                                         <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere">
@@ -132,7 +132,7 @@
                                         <h3>{{ data.schedule.studio.name }}</h3>
                                     </div>
                                     <div class="action">
-                                        <nuxt-link :to="`/book-a-bike/${data.id}?token=${$route.query.token}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
+                                        <nuxt-link :to="`/fish-in-the-glass/book-a-bike/${data.id}?token=${$route.query.token}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Book Now</span>
                                         </nuxt-link>
                                         <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere">
@@ -166,6 +166,9 @@
             <transition name="fade">
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
+            <transition name="fade">
+                <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -174,19 +177,20 @@
     import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../../components/modals/CompleteProfilePrompt'
     import BuyPackageFirst from '../../../components/modals/BuyPackageFirst'
+    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     export default {
         layout: 'fish',
         components: {
             BookerChoosePackage,
             CompleteProfilePrompt,
-            BuyPackageFirst
+            BuyPackageFirst,
+            BuyRidesPrompt
         },
         data () {
             return {
                 schedule: [],
                 type: 0,
                 message: '',
-                webApp: true,
                 status: false,
                 loaded: false,
                 isPrev: false,
@@ -200,7 +204,6 @@
                 res: {
                     schedules: []
                 },
-                token: '',
                 studios: [],
                 instructors: [],
                 studioID: 0,
@@ -246,8 +249,9 @@
              * Check if user is logged in */
             checkIfLoggedIn (event) {
                 const me = this
+                let token = me.$route.query.token
                 event.preventDefault()
-                if (!me.$store.state.isAuth) {
+                if (token == null && token == undefined) {
                     me.$store.state.loginCheckerStatus = true
                     document.body.classList.add('no_scroll')
                 }
@@ -273,38 +277,52 @@
             checkIfNew (data, type, event) {
                 const me = this
                 let token = me.$route.query.token
+                event.preventDefault()
                 me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        if (data.hasUser && token != null && token != undefined) {
-                            switch (type) {
-                                case 'book':
-                                    if (res.data.userPackagesCount > 0) {
-                                        me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
-                                    } else {
-                                        me.$store.state.buyPackageFirstStatus = true
-                                        document.body.classList.remove('no_scroll')
-                                    }
-                                    break
-                                case 'waitlist':
-                                    me.schedule = data
-                                    me.loader(true)
-                                    setTimeout( () => {
-                                        me.$store.state.bookerChoosePackageStatus = true
-                                        document.body.classList.add('no_scroll')
-                                        me.loader(false)
-                                    }, 500)
-                                    break
+                        if (res.data.user.new_user == 0) {
+                            if (data.hasUser && token != null && token != undefined) {
+                                switch (type) {
+                                    case 'book':
+                                        me.$axios.get('api/check-token', {
+                                            headers: {
+                                                Authorization: `Bearer ${token}`
+                                            }
+                                        }).then(res => {
+                                            if (res.data) {
+                                                if (res.data.userPackagesCount > 0) {
+                                                    me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
+                                                } else {
+                                                    me.$store.state.buyPackageFirstStatus = true
+                                                    document.body.classList.remove('no_scroll')
+                                                }
+                                            }
+                                        }).catch(err => {
+                                            console.log(err)
+                                        })
+                                        break
+                                    case 'waitlist':
+                                        me.schedule = data
+                                        me.loader(true)
+                                        setTimeout( () => {
+                                            me.$store.state.bookerChoosePackageStatus = true
+                                            document.body.classList.add('no_scroll')
+                                            me.loader(false)
+                                        }, 500)
+                                        break
+                                }
                             }
+                        } else {
+                            me.$store.state.completeProfilePromptStatus = true
                         }
                     }
                 }).catch(err => {
-                    me.$store.state.completeProfilePromptStatus = true
+                    console.log(err)
                 })
-                event.preventDefault()
             },
             /**
              * Toggling of instructors custom autocomplete dropdown */
@@ -416,7 +434,7 @@
                         element.classList.remove('active')
                     }
                 })
-                me.getAllSchedules(year, month, day, false)
+                me.getAllSchedules(year, month, day, true)
             },
             /**
              * Fetch All Schedules */
