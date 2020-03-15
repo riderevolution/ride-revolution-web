@@ -615,6 +615,81 @@ svg
             label
                 a
                     pointer-events: none
+        .book_a_bike
+            &.inner
+                background-image: url('/dotted-bg.png')
+                #content
+                    padding: 60px 0
+                    .main_left
+                        margin-bottom: 30px
+                        .content
+                            ul
+                                padding: 10px 0
+                                display: flex
+                                flex-flow: row wrap
+                                justify-content: center
+                                li
+                                    margin-bottom: 0
+                                    padding: 0 5px
+                        .description
+                            padding: 0 10px 30px
+                            h3
+                                brandon_regular(14px, false)
+                            ul
+                                li
+                                    brandon_regular(14px, false)
+                        .waitlisted
+                            padding: 20px 10px
+                            .label
+                                brandon_bold(18px, false)
+                            .user
+                                margin-top: 10px
+                    .main_right
+                        .content
+                            padding: 30px 0
+                            .footer
+                                .actions
+                                    .next_wrapper
+                                        .left
+                                            .flex
+                                                &.package
+                                                    display: flex
+                                                    flex-flow: row wrap
+                                                    align-items: center
+                                                    justify-content: space-between
+                                                    padding-right: 0
+                                                    .toggler
+                                                        justify-content: flex-start
+                                                        flex: 0 0 48%
+                                                        &.alt
+                                                            justify-content: flex-end
+                                                        .picker
+                                                            margin-left: 0
+                                        .right
+                                            display: flex
+                                            flex-flow: row wrap
+                                            align-items: center
+                                            justify-content: space-between
+                                            .back,
+                                            .default_btn
+                                                width: auto
+                                                flex: 0 0 auto
+                    .step
+                        &.form
+                            .preview_book_form
+                                padding: 0
+                                .preview
+                                    .preview_actions
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
+                                        justify-content: space-between
+                                        .back,
+                                        .default_btn
+                                            width: auto
+                                            flex: 0 0 auto
+                    .back
+                        brandon_medium(14px, true)
     /**
      * Pro Tip */
     #pro_tip

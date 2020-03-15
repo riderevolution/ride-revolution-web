@@ -139,6 +139,8 @@
             },
             toggleClose () {
                 const me = this
+                me.$parent.classPackage = null
+                me.$parent.packageSelected = 'Please Select a Package'
                 me.$store.state.bookerChoosePackageStatus = false
                 document.body.classList.remove('no_scroll')
             }
@@ -161,7 +163,7 @@
                                 me.classPackages.forEach((element, index) => {
                                     if (element.count > 0) {
                                         me.$parent.classPackage = element
-                                        me.$parent.packageSelected = element.class_package.name
+                                        // me.$parent.packageSelected = element.class_package.name
                                     }
                                 })
                             } else {

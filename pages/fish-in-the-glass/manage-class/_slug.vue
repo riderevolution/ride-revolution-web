@@ -13,9 +13,9 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
+                                            <li>{{ parseScheduleRide(schedule.schedule.class_length) }} Ride</li>
+                                            <li>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</li>
+                                            <li>{{ schedule.schedule.studio.name }}</li>
                                         </ul>
                                     </div>
                                     <div class="description">
@@ -39,7 +39,7 @@
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/my-profile" class="back">Back</nuxt-link>
+                                    <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -93,13 +93,20 @@
                                             </ul>
                                         </div>
                                         <div class="actions" v-if="!schedule.guestHere && !res.waitlisted">
-                                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
+                                            <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage">
                                                     <div class="left">
-                                                        <div class="flex package">
+                                                        <div class="flex package package_details">
                                                             <div class="toggler">
-                                                                <p>Class Package:</p>
+                                                                <p>Total Rides Left:</p>
+                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
+                                                            </div>
+                                                            <div class="toggler alt">
+                                                                <p class="bold">Total Rides Used:</p>
+                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
+                                                            </div>
+                                                            <div class="toggler">
                                                                 <div class="picker" @click="choosePackage()">
                                                                     {{ packageSelected }}
                                                                     <transition name="slide">
@@ -107,24 +114,14 @@
                                                                     </transition>
                                                                 </div>
                                                             </div>
-                                                            <div class="toggler" v-if="hasGuest">
-                                                                <p>Swap seat for:</p>
+                                                            <div class="toggler alt" v-if="hasGuest">
                                                                 <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
-                                                        <div class="flex package_details">
-                                                            <div class="toggler">
-                                                                <p>Total Rides Left:</p>
-                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
-                                                            </div>
-                                                            <div class="toggler">
-                                                                <p class="bold">Total Rides Used:</p>
-                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
-                                                            </div>
-                                                        </div>
                                                     </div>
-                                                    <div class="right" v-if="!removeNext && added != 0">
-                                                        <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    <div class="right">
+                                                        <nuxt-link class="back" :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`">Back</nuxt-link>
+                                                        <div class="default_btn" v-if="!removeNext && added != 0" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>
                                             </transition>
@@ -208,6 +205,9 @@
             <transition name="fade">
                 <booker-success v-if="$store.state.buyRidesSuccessStatus" />
             </transition>
+            <transition name="fade">
+                <waitlist-prompt v-if="$store.state.waitlistPrompt" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -223,6 +223,7 @@
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     import BookerSuccess from '../../../components/modals/BookerSuccess'
     import BuyPackageFirst from '../../../components/modals/BuyPackageFirst'
+    import WaitlistPrompt from '../../../components/modals/WaitlistPrompt'
     export default {
         layout: 'fish',
         components: {
@@ -235,7 +236,8 @@
             BookerAssignSuccess,
             BuyRidesPrompt,
             BookerSuccess,
-            BuyPackageFirst
+            BuyPackageFirst,
+            WaitlistPrompt
         },
         data () {
             return {
@@ -302,7 +304,8 @@
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
-                }
+                },
+                user: ''
             }
         },
         computed: {
@@ -326,12 +329,10 @@
                     }
                 }).then(res => {
                     if (res.data) {
-                        me.promptMessage = 'You have been successfully removed from the waitlist.'
-                        document.body.classList.add('no_scroll')
-                        me.$store.state.buyRidesPromptStatus = true
                         setTimeout( () => {
-                            me.$router.push('/my-profile')
-                        }, 1500)
+                            me.$store.state.waitlistPrompt = true
+                            document.body.classList.add('no_scroll')
+                        }, 500)
                     }
                 }).catch(err => {
                     me.$store.state.errorList = err.response.data.errors
@@ -360,14 +361,14 @@
                         } else {
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         } else {
                                             result = 'reserved alt'
                                         }
                                     } else {
-                                        if (seat.bookings[0].user_id == me.$store.state.user.id) {
+                                        if (seat.bookings[0].user_id == me.user.id) {
                                             if (seat.bookings[0].is_guest == 1) {
                                                 result = 'reserved alt'
                                             }
@@ -376,7 +377,7 @@
                                         }
                                     }
                                 } else {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         }
@@ -525,7 +526,7 @@
                                 if (!me.hasBooked) {
                                     data.guest = 0
                                     data.status = 'reserved'
-                                    data.temp = me.$store.state.user
+                                    data.temp = me.user
                                     me.tempOriginalSeat = data
                                     me.toSubmit.tempSeat.push(data)
                                     me.hasBooked = true
@@ -556,8 +557,17 @@
             },
             fetchSeats (id) {
                 const me = this
-                me.loader(true)
                 let token = me.$route.query.token
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.user = res.data.user
+                    }
+                })
+                me.loader(true)
                 me.$axios.get(`api/scheduled-dates/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -609,8 +619,7 @@
                                     me.hasGuest = true
                                 }
                             })
-
-                            me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
+                            me.$axios.get(`api/customers/${me.user.id}/packages`).then(res => {
                                 if (res.data) {
                                     if (res.data.customer.user_package_counts.length > 0) {
                                         res.data.customer.user_package_counts.forEach((element, index) => {
@@ -630,7 +639,6 @@
                     me.loader(false)
                 }).then(() => {
                     setTimeout( () => {
-                        me.user = me.$store.state.user
                         me.loader(false)
                     }, 500)
                 })

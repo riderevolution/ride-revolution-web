@@ -13,9 +13,9 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
+                                            <li>{{ parseScheduleRide(schedule.schedule.class_length) }} Ride</li>
+                                            <li>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</li>
+                                            <li>{{ schedule.schedule.studio.name }}</li>
                                         </ul>
                                     </div>
                                     <div class="description">
@@ -88,9 +88,16 @@
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage">
                                                     <div class="left">
-                                                        <div class="flex package">
+                                                        <div class="flex package package_details">
                                                             <div class="toggler">
-                                                                <p>Class Package:</p>
+                                                                <p>Total Rides Left:</p>
+                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
+                                                            </div>
+                                                            <div class="toggler alt">
+                                                                <p class="bold">Total Rides Used:</p>
+                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
+                                                            </div>
+                                                            <div class="toggler">
                                                                 <div class="picker" @click="choosePackage()">
                                                                     {{ packageSelected }}
                                                                     <transition name="slide">
@@ -98,24 +105,14 @@
                                                                     </transition>
                                                                 </div>
                                                             </div>
-                                                            <div class="toggler" v-if="hasGuest">
-                                                                <p>Swap seat for:</p>
+                                                            <div class="toggler alt" v-if="hasGuest">
                                                                 <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
-                                                        <div class="flex package_details">
-                                                            <div class="toggler">
-                                                                <p>Total Rides Left:</p>
-                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
-                                                            </div>
-                                                            <div class="toggler">
-                                                                <p class="bold">Total Rides Used:</p>
-                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
-                                                            </div>
-                                                        </div>
                                                     </div>
-                                                    <div class="right" v-if="!removeNext">
-                                                        <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    <div class="right">
+                                                        <nuxt-link class="back" :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`">Back</nuxt-link>
+                                                        <div v-if="!removeNext" class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>
                                             </transition>
@@ -460,91 +457,80 @@
             },
             signIn (data) {
                 const me = this
-                let token = me.$route.query.token
                 me.currentSeat = data
                 me.seatStatus = data.status
-                me.$axios.get('api/check-token', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        if (me.checkPackage == 1) {
-                            switch (data.status) {
-                                case 'blocked':
-                                case 'comp':
-                                    me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
-                                    me.$store.state.buyRidesPromptStatus = true
-                                    document.body.classList.add('no_scroll')
-                                    break
-                                case 'reserved':
-                                case 'reserved-guest':
-                                    if (res.data.user.id == data.temp.id) {
-                                        if (data.guest == 0) {
-                                            me.toSubmit.tempSeat.forEach((element, index) => {
-                                                if (element.temp.id == data.temp.id) {
-                                                    delete data.guest
-                                                    delete data.temp
-                                                    data.status = 'open'
-                                                    me.hasBooked = false
-                                                    me.removeNext = true
-                                                    me.toSubmit.tempSeat.splice(index, 1)
-                                                }
-                                            })
+                if (me.checkPackage == 1) {
+                    switch (data.status) {
+                        case 'blocked':
+                        case 'comp':
+                            me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
+                            me.$store.state.buyRidesPromptStatus = true
+                            document.body.classList.add('no_scroll')
+                            break
+                        case 'reserved':
+                        case 'reserved-guest':
+                            if (me.user.id == data.temp.id) {
+                                if (data.guest == 0) {
+                                    me.toSubmit.tempSeat.forEach((element, index) => {
+                                        if (element.temp.id == data.temp.id) {
+                                            delete data.guest
+                                            delete data.temp
+                                            data.status = 'open'
+                                            me.hasBooked = false
+                                            me.removeNext = true
+                                            me.toSubmit.tempSeat.splice(index, 1)
                                         }
-                                    } else {
-                                        me.promptMessage = 'This seat is already booked or reserved by someone else.'
-                                        me.$store.state.buyRidesPromptStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    }
-                                    break
-                                case 'open':
-                                    if (me.classPackage == null) {
-                                        me.pointPackage = true
-                                        me.promptMessage = 'Please select a package first before booking on your preferred seat.'
-                                        me.$store.state.buyRidesPromptStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    } else {
-                                        if (!me.hasBooked) {
-                                            data.guest = 0
-                                            data.status = 'reserved'
-                                            data.temp = res.data.user
-                                            me.tempOriginalSeat = data
-                                            if (me.toSubmit.tempSeat.length > 0) {
-                                                me.toSubmit.tempSeat.unshift(data)
-                                            } else {
-                                                me.toSubmit.tempSeat.push(data)
-                                            }
-                                            me.removeNext = false
-                                            me.hasBooked = true
-                                        } else {
-                                            if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
-                                                me.promptMessage = "Sorry! You don't have enough rides left."
-                                                me.$store.state.buyRidesPromptStatus = true
-                                                document.body.classList.add('no_scroll')
-                                            } else {
-                                                if (me.toSubmit.guestCount < 4) {
-                                                    me.tempGuestSeat = data
-                                                    me.$store.state.bookerAssignStatus = true
-                                                    document.body.classList.add('no_scroll')
-                                                } else {
-                                                    me.promptMessage = "You've already reached the limit of adding guest."
-                                                    me.$store.state.buyRidesPromptStatus = true
-                                                    document.body.classList.add('no_scroll')
-                                                }
-                                            }
-                                        }
-                                    }
-                                    break
+                                    })
+                                }
+                            } else {
+                                me.promptMessage = 'This seat is already booked or reserved by someone else.'
+                                me.$store.state.buyRidesPromptStatus = true
+                                document.body.classList.add('no_scroll')
                             }
-                        } else {
-                            me.$store.state.buyPackageFirstStatus = true
-                            document.body.classList.remove('no_scroll')
-                        }
+                            break
+                        case 'open':
+                            if (me.classPackage == null) {
+                                me.pointPackage = true
+                                me.promptMessage = 'Please select a package first before booking on your preferred seat.'
+                                me.$store.state.buyRidesPromptStatus = true
+                                document.body.classList.add('no_scroll')
+                            } else {
+                                if (!me.hasBooked) {
+                                    data.guest = 0
+                                    data.status = 'reserved'
+                                    data.temp = me.user
+                                    me.tempOriginalSeat = data
+                                    if (me.toSubmit.tempSeat.length > 0) {
+                                        me.toSubmit.tempSeat.unshift(data)
+                                    } else {
+                                        me.toSubmit.tempSeat.push(data)
+                                    }
+                                    me.removeNext = false
+                                    me.hasBooked = true
+                                } else {
+                                    if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
+                                        me.promptMessage = "Sorry! You don't have enough rides left."
+                                        me.$store.state.buyRidesPromptStatus = true
+                                        document.body.classList.add('no_scroll')
+                                    } else {
+                                        if (me.toSubmit.guestCount < 4) {
+                                            me.tempGuestSeat = data
+                                            me.$store.state.bookerAssignStatus = true
+                                            document.body.classList.add('no_scroll')
+                                        } else {
+                                            me.promptMessage = "You've already reached the limit of adding guest."
+                                            me.$store.state.buyRidesPromptStatus = true
+                                            document.body.classList.add('no_scroll')
+                                        }
+                                    }
+                                }
+                            }
+                            break
                     }
-                }).catch(err => {
-                    console.log(err)
-                })
+                } else {
+                    me.$store.state.buyPackageFirstStatus = true
+                    document.body.classList.remove('no_scroll')
+                }
             },
             fetchSeats (id) {
                 const me = this
@@ -566,7 +552,7 @@
                 }).then(res => {
                     if (res.data) {
                         if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
-                            me.$router.push(`/my-profile/manage-class/${id}`)
+                            me.$router.push(`/fish-in-the-glass/manage-class/${id}?token=${token}`)
                         }
                         let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                         me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }

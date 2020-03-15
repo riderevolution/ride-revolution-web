@@ -25,6 +25,9 @@
                 <nuxt-link to="/instructors/asdasdasd" class="default_btn_wht"><span>See Instructor's Profile</span></nuxt-link>
                 <nuxt-link to="/my-profile" class="default_btn_wht ml"><span>See My Profile</span></nuxt-link>
             </div>
+            <div class="bottom" v-else>
+                <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="default_btn_wht ml"><span>Go Back</span></nuxt-link>
+            </div>
         </section>
     </div>
 </template>
