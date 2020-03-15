@@ -141,7 +141,7 @@
         data () {
             return {
                 type: '',
-                storeCredits: 55,
+                storeCredits: 0,
                 step: 1,
                 paypal: false,
                 message: '',

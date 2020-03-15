@@ -50,9 +50,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                                <div class="action_mobile">
                                     <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="$parent.$parent.isMobile">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
@@ -138,7 +138,7 @@
         data () {
             return {
                 type: '',
-                storeCredits: 55,
+                storeCredits: 0,
                 step: 1,
                 paypal: false,
                 message: '',
