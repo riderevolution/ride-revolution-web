@@ -660,6 +660,9 @@ svg
                     padding: 60px 0
                     .main_left
                         margin-bottom: 30px
+                        .header
+                            h2
+                                flex: 0 0 auto
                         .content
                             ul
                                 padding: 10px 0
@@ -690,6 +693,7 @@ svg
                                     @media (max-width: 767px) and (min-width: 320px)
                                         .next_wrapper
                                             .left
+                                                padding: 10px 0
                                                 .flex
                                                     &.package
                                                         display: flex
@@ -700,10 +704,17 @@ svg
                                                         .toggler
                                                             justify-content: flex-start
                                                             flex: 0 0 48%
+                                                            &:last-child
+                                                                margin-bottom: 15px
                                                             &.alt
                                                                 justify-content: flex-end
                                                             .picker
                                                                 margin-left: 0
+                                                                brandon_bold(12px, false)
+                                                        p
+                                                            brandon_regular(12px, false)
+                                                            &.margin
+                                                                margin-left: 10px
                                             .right
                                                 display: flex
                                                 flex-flow: row wrap
