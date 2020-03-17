@@ -21,7 +21,7 @@
                 const me = this
                 switch (type) {
                     case 'package':
-
+                        me.$store.state.bookerChoosePackageStatus = true
                         break
                     case 'cancel':
 

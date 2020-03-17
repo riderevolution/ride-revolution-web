@@ -131,7 +131,7 @@
             togglePackage (data, unique) {
                 const me = this
                 me.active = false
-                me.classPackage = data
+                me.selectedClassPackage = data.class_package
                 me.selectedPackage = data.class_package.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
