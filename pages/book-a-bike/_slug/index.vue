@@ -331,14 +331,14 @@
                         } else {
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         } else {
                                             result = 'reserved alt'
                                         }
                                     } else {
-                                        if (seat.bookings[0].user_id == me.$store.state.user.id) {
+                                        if (seat.bookings[0].user_id == me.user.id) {
                                             if (seat.bookings[0].is_guest == 1) {
                                                 result = 'reserved alt'
                                             }
@@ -347,7 +347,7 @@
                                         }
                                     }
                                 } else {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         }
@@ -480,18 +480,20 @@
                             break
                         case 'reserved':
                         case 'reserved-guest':
-                            if (data.temp.id == me.$store.state.user.id) {
-                                if (data.guest == 0) {
-                                    me.toSubmit.tempSeat.forEach((element, index) => {
-                                        if (element.temp.id == data.temp.id) {
-                                            delete data.guest
-                                            delete data.temp
-                                            data.status = 'open'
-                                            me.hasBooked = false
-                                            me.removeNext = true
-                                            me.toSubmit.tempSeat.splice(index, 1)
-                                        }
-                                    })
+                            if (data.temp) {
+                                if (data.temp.id == me.user.id) {
+                                    if (data.guest == 0) {
+                                        me.toSubmit.tempSeat.forEach((element, index) => {
+                                            if (element.temp.id == data.temp.id) {
+                                                delete data.guest
+                                                delete data.temp
+                                                data.status = 'open'
+                                                me.hasBooked = false
+                                                me.removeNext = true
+                                                me.toSubmit.tempSeat.splice(index, 1)
+                                            }
+                                        })
+                                    }
                                 }
                             } else {
                                 me.promptMessage = 'This seat is already booked or reserved by someone else.'
