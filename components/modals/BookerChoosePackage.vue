@@ -7,8 +7,8 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(classPackage.active) ? 'active' : ''}`" v-for="(classPackage, key) in populateClassPackages" :key="key" @click="togglePackage(classPackage, key)" v-if="classPackage.count >= 1">
-                                <label>{{ classPackage.class_package.name }}</label>
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(data.class_package.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
+                                <label>{{ data.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
                                         <circle class="circle" cx="14" cy="14" r="14" transform="translate(805.833 313)" />
@@ -16,8 +16,8 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>Available: {{ classPackage.count }}</p>
-                                    <p>Expires on {{ formatDate(classPackage.class_package.computed_expiration_date) }}</p>
+                                    <p>Available: {{ data.count }}</p>
+                                    <p>Expires on {{ formatDate(data.class_package.computed_expiration_date) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -34,6 +34,9 @@
 <script>
     export default {
         props: {
+            tempSeat: {
+                default: null
+            },
             category: {
                 type: String,
                 default: 'slug'
@@ -46,30 +49,16 @@
             return {
                 classPackages: [],
                 classPackage: [],
+                selectedClassPackage: null,
                 selectedPackage: 0
             }
-        },
-        computed: {
-            populateClassPackages () {
-                const me = this
-                let result = []
-                let ctr = 0
-                me.classPackages.forEach((element, index) => {
-                    if (ctr <= 0  && element.count > 0) {
-                        element.active = true
-                        me.classPackage = element
-                        me.selectedPackage = element.class_package.id
-                        ctr++
-                    }
-                    result.push(element)
-                })
-                return result
-            },
         },
         methods: {
             submissionSuccess () {
                 const me = this
                 if (me.selectedPackage) {
+                    /**
+                     * Waitlist */
                     if (me.type == 0) {
                         let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
                         me.$axios.get('api/check-token', {
@@ -106,19 +95,32 @@
                         }).catch(err => {
                             console.log(err)
                         })
+                    /**
+                     * Book a ride */
                     } else if (me.type == 1) {
-                        me.$parent.classPackage = me.classPackage
-                        me.$parent.packageSelected = me.classPackage.class_package.name
                         me.$parent.pointPackage = false
-                        if (me.$parent.hasBooked) {
-                            if (((me.$parent.toSubmit.guestCount + 1) * me.$parent.schedule.schedule.class_credits) >= me.$parent.classPackage.count) {
-                                me.$parent.removeNext = true
-                                me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
-                                me.$store.state.buyRidesPromptStatus = true
-                            } else {
+                        if (me.tempSeat != null) {
+                            // if (((me.$parent.toSubmit.guestCount + 1) * me.$parent.schedule.schedule.class_credits) >= me.$parent.classPackage.count) {
+                            //     me.$parent.removeNext = true
+                            //     me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
+                            //     me.$store.state.buyRidesPromptStatus = true
+                            // } else {
+                                let newTemp = me.tempSeat
+                                newTemp.guest = 0
+                                newTemp.status = 'reserved'
+                                newTemp.temp = me.$parent.user
+                                newTemp.class_package = me.selectedClassPackage
+                                me.$parent.tempOriginalSeat = newTemp
+                                if (me.$parent.toSubmit.tempSeat.length > 0) {
+                                    me.$parent.toSubmit.tempSeat.unshift(newTemp)
+                                } else {
+                                    me.$parent.toSubmit.tempSeat.push(newTemp)
+                                }
+                                me.$parent.hasBooked = true
                                 me.$parent.removeNext = false
                                 document.body.classList.remove('no_scroll')
-                            }
+                                console.log(me.$parent.toSubmit.tempSeat)
+                            // }
                         } else {
                             document.body.classList.remove('no_scroll')
                         }
@@ -149,9 +151,6 @@
             },
             toggleClose () {
                 const me = this
-                if (me.$parent.classPackage == null) {
-                    me.$parent.packageSelected = 'Please Select a Package'
-                }
                 me.$store.state.bookerChoosePackageStatus = false
                 document.body.classList.remove('no_scroll')
             }
@@ -171,11 +170,17 @@
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 me.classPackages = res.data.customer.user_package_counts
-                                for (let i = 0; i < me.classPackages.length; i++) {
-                                    if (me.classPackages[i].count > 0) {
-                                        me.$parent.classPackage = me.classPackages[i].class_package
-                                        break
+                                if (me.$parent.tempOriginalSeat == null) {
+                                    for (let i = 0; i < me.classPackages.length; i++) {
+                                        if (me.classPackages[i].count > 0) {
+                                            me.selectedClassPackage = me.classPackages[i].class_package
+                                            me.selectedPackage = me.classPackages[i].class_package.id
+                                            break
+                                        }
                                     }
+                                } else {
+                                    me.selectedClassPackage = me.$parent.tempOriginalSeat.class_package
+                                    me.selectedPackage = me.$parent.tempOriginalSeat.class_package.id
                                 }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
@@ -195,7 +200,6 @@
             }).catch(err => {
                 console.log(err);
             })
-
         }
     }
 </script>

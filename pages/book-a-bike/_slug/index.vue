@@ -57,22 +57,6 @@
                                                     </div>
                                                 </transition>
 
-                                                <transition name="slide">
-                                                    <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path != null" />
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path == null">
-                                                        <div class="letter">
-                                                            {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user == null)">
-                                                        <div class="letter">
-                                                            {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition>
-
                                                 <div class="seat_number">
                                                     {{ data.number }}
                                                 </div>
@@ -91,7 +75,7 @@
                                         <div class="actions" v-if="!schedule.guestHere">
                                             <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
-                                                <div class="next_wrapper" v-if="checkPackage">
+                                                <div class="next_wrapper" v-if="checkPackage && hasBooked">
                                                     <div class="left">
                                                         <div class="flex package" v-if="hasBooked">
                                                             <div class="toggler">
@@ -178,7 +162,7 @@
                 <booker-assign v-if="$store.state.bookerAssignStatus" />
             </transition>
             <transition name="fade">
-                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
+                <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
             </transition>
             <transition name="fade">
                 <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
@@ -204,6 +188,9 @@
             <transition name="fade">
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
+            <transition name="fade">
+                <booker-actions v-if="$store.state.bookerActionsPrompt" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -221,6 +208,7 @@
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     import BookerSuccess from '../../../components/modals/BookerSuccess'
     import BuyPackageFirst from '../../../components/modals/BuyPackageFirst'
+    import BookerActions from '../../../components/modals/BookerActions'
     export default {
         components: {
             Breadcrumb,
@@ -234,7 +222,8 @@
             BookerAssignSuccess,
             BuyRidesPrompt,
             BookerSuccess,
-            BuyPackageFirst
+            BuyPackageFirst,
+            BookerActions
         },
         data () {
             return {
@@ -294,12 +283,11 @@
                 hasBooked: false,
                 tempGuestSeat: null,
                 tempOriginalSeat: null,
+                dummyData: null,
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
                 },
-                tempTotalRides: 0,
-                tempTotalUsed: 0,
                 user: ''
             }
         },
@@ -473,16 +461,18 @@
                             if (data.temp) {
                                 if (data.temp.id == me.user.id) {
                                     if (data.guest == 0) {
-                                        me.toSubmit.tempSeat.forEach((element, index) => {
-                                            if (element.temp.id == data.temp.id) {
-                                                delete data.guest
-                                                delete data.temp
-                                                data.status = 'open'
-                                                me.hasBooked = false
-                                                me.removeNext = true
-                                                me.toSubmit.tempSeat.splice(index, 1)
-                                            }
-                                        })
+                                        me.$store.state.bookerActionsPrompt = true
+                                        document.body.classList.add('no_scroll')
+                                        // me.toSubmit.tempSeat.forEach((element, index) => {
+                                        //     if (element.temp.id == data.temp.id) {
+                                        //         delete data.guest
+                                        //         delete data.temp
+                                        //         data.status = 'open'
+                                        //         me.hasBooked = false
+                                        //         me.removeNext = true
+                                        //         me.toSubmit.tempSeat.splice(index, 1)
+                                        //     }
+                                        // })
                                     }
                                 }
                             } else {
@@ -492,42 +482,84 @@
                             }
                             break
                         case 'open':
-                            if (me.classPackage == null) {
-                                me.pointPackage = true
-                                me.promptMessage = 'Please select a package first before booking on your preferred seat.'
-                                me.$store.state.buyRidesPromptStatus = true
+                            if (me.user.user_package_counts.length > 0) {
+                                me.$store.state.bookerChoosePackageStatus = true
                                 document.body.classList.add('no_scroll')
-                            } else {
-                                if (!me.hasBooked) {
-                                    data.guest = 0
-                                    data.status = 'reserved'
-                                    data.temp = me.$store.state.user
-                                    me.tempOriginalSeat = data
-                                    if (me.toSubmit.tempSeat.length > 0) {
-                                        me.toSubmit.tempSeat.unshift(data)
-                                    } else {
-                                        me.toSubmit.tempSeat.push(data)
-                                    }
-                                    me.removeNext = false
-                                    me.hasBooked = true
-                                } else {
-                                    if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
-                                        me.promptMessage = "Sorry! You don't have enough rides left."
-                                        me.$store.state.buyRidesPromptStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    } else {
-                                        if (me.toSubmit.guestCount < 4) {
-                                            me.tempGuestSeat = data
-                                            me.$store.state.bookerAssignStatus = true
-                                            document.body.classList.add('no_scroll')
-                                        } else {
-                                            me.promptMessage = "You've already reached the limit of adding guest."
-                                            me.$store.state.buyRidesPromptStatus = true
-                                            document.body.classList.add('no_scroll')
-                                        }
-                                    }
-                                }
+                                me.dummyData = data
                             }
+                            // if (!me.hasBooked) {
+                            //     data.guest = 0
+                            //     data.status = 'reserved'
+                            //     data.temp = me.user
+                            //     me.tempOriginalSeat = data
+                            //     if (me.toSubmit.tempSeat.length > 0) {
+                            //         me.toSubmit.tempSeat.unshift(data)
+                            //     } else {
+                            //         me.toSubmit.tempSeat.push(data)
+                            //     }
+                            //     me.removeNext = false
+                            //     me.hasBooked = true
+                            // } else {
+                            //     if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
+                            //         me.promptMessage = "Sorry! You don't have enough rides left."
+                            //         me.$store.state.buyRidesPromptStatus = true
+                            //         document.body.classList.add('no_scroll')
+                            //     } else {
+                            //         if (me.toSubmit.guestCount < 4) {
+                            //             me.tempGuestSeat = data
+                            //             me.$store.state.bookerAssignStatus = true
+                            //             document.body.classList.add('no_scroll')
+                            //         } else {
+                            //             me.promptMessage = "You've already reached the limit of adding guest."
+                            //             me.$store.state.buyRidesPromptStatus = true
+                            //             document.body.classList.add('no_scroll')
+                            //         }
+                            //     }
+                            // }
+                            // if (me.classPackage == null) {
+                            //     me.pointPackage = true
+                            //     me.promptMessage = 'Please select a package first before booking on your preferred seat.'
+                            //     me.$store.state.buyRidesPromptStatus = true
+                            //     document.body.classList.add('no_scroll')
+                            // } else {
+                            //
+                            // }
+                            // if (me.classPackage == null) {
+                            //     me.pointPackage = true
+                            //     me.promptMessage = 'Please select a package first before booking on your preferred seat.'
+                            //     me.$store.state.buyRidesPromptStatus = true
+                            //     document.body.classList.add('no_scroll')
+                            // } else {
+                            //     if (!me.hasBooked) {
+                            //         data.guest = 0
+                            //         data.status = 'reserved'
+                            //         data.temp = me.$store.state.user
+                            //         me.tempOriginalSeat = data
+                            //         if (me.toSubmit.tempSeat.length > 0) {
+                            //             me.toSubmit.tempSeat.unshift(data)
+                            //         } else {
+                            //             me.toSubmit.tempSeat.push(data)
+                            //         }
+                            //         me.removeNext = false
+                            //         me.hasBooked = true
+                            //     } else {
+                            //         if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
+                            //             me.promptMessage = "Sorry! You don't have enough rides left."
+                            //             me.$store.state.buyRidesPromptStatus = true
+                            //             document.body.classList.add('no_scroll')
+                            //         } else {
+                            //             if (me.toSubmit.guestCount < 4) {
+                            //                 me.tempGuestSeat = data
+                            //                 me.$store.state.bookerAssignStatus = true
+                            //                 document.body.classList.add('no_scroll')
+                            //             } else {
+                            //                 me.promptMessage = "You've already reached the limit of adding guest."
+                            //                 me.$store.state.buyRidesPromptStatus = true
+                            //                 document.body.classList.add('no_scroll')
+                            //             }
+                            //         }
+                            //     }
+                            // }
                             break
                     }
                 } else {
@@ -581,10 +613,10 @@
                                 })
                                 me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
 
-                                if (!me.checkPackage) {
-                                    me.$store.state.buyPackageFirstStatus = true
-                                    document.body.classList.remove('no_scroll')
-                                }
+                                // if (!me.checkPackage) {
+                                //     me.$store.state.buyPackageFirstStatus = true
+                                //     document.body.classList.remove('no_scroll')
+                                // }
 
                                 me.loaded = true
                             }
