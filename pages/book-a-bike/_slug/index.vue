@@ -300,7 +300,8 @@
                 toSubmit: {
                     guestCount: 0,
                     tempSeat: []
-                }
+                },
+                user: ''
             }
         },
         computed: {
@@ -544,55 +545,80 @@
             },
             fetchSeats (id) {
                 const me = this
-                me.loader(true)
                 let token = me.$cookies.get('token')
-                me.$axios.get(`api/scheduled-dates/${id}`, {
+                me.loader(true)
+                me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
-                            me.$router.push(`/my-profile/manage-class/${id}`)
-                        }
-                        let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
-                        me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
-                        me.temp = res.data.seats
-                        me.schedule = res.data.scheduledDate
-                        me.temp.forEach((seat , index) => {
-                            switch (seat.position) {
-                                case 'left':
-                                    me.seats.left.data.push(seat)
-                                    break
-                                case 'right':
-                                    me.seats.right.data.push(seat)
-                                    break
-                                case 'bottom':
-                                    me.seats.bottom.data.push(seat)
-                                    break
-                                case 'bottom_alt':
-                                    me.seats.bottom_alt.data.push(seat)
-                                    break
-                                case 'bottom_alt_2':
-                                    me.seats.bottom_alt_2.data.push(seat)
-                                    break
+                        me.user = res.data.user
+                        me.$axios.get(`api/scheduled-dates/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
                             }
-                            me.ctr++
+                        }).then(res => {
+                            if (res.data) {
+                                if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
+                                    me.$router.push(`/my-profile/manage-class/${id}`)
+                                }
+                                let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
+                                me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                                me.temp = res.data.seats
+                                me.schedule = res.data.scheduledDate
+                                me.temp.forEach((seat , index) => {
+                                    switch (seat.position) {
+                                        case 'left':
+                                            me.seats.left.data.push(seat)
+                                            break
+                                        case 'right':
+                                            me.seats.right.data.push(seat)
+                                            break
+                                        case 'bottom':
+                                            me.seats.bottom.data.push(seat)
+                                            break
+                                        case 'bottom_alt':
+                                            me.seats.bottom_alt.data.push(seat)
+                                            break
+                                        case 'bottom_alt_2':
+                                            me.seats.bottom_alt_2.data.push(seat)
+                                            break
+                                    }
+                                    me.ctr++
+                                })
+
+                                me.$axios.get(`api/customers/${me.user.id}/packages`).then(res => {
+                                    if (res.data) {
+                                        if (res.data.customer.user_package_counts.length > 0) {
+                                            for (let i = 0; i < res.data.customer.user_package_counts.length; i++) {
+                                                if (res.data.customer.user_package_counts[i].count > 0) {
+                                                    me.checkPackage = true
+                                                    me.classPackage = res.data.customer.user_package_counts[i]
+                                                    me.packageSelected = res.data.customer.user_package_counts[i].class_package.name
+                                                    break
+                                                }
+                                            }
+                                        } else {
+                                            me.checkPackage = false
+                                            me.$store.state.buyPackageFirstStatus = true
+                                            document.body.classList.remove('no_scroll')
+                                        }
+                                        me.loaded = true
+                                    }
+                                })
+                            }
+                        }).catch(err => {
+                            me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                            me.loader(false)
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
                         })
-                        me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
-                        if (!me.checkPackage) {
-                            me.$store.state.buyPackageFirstStatus = true
-                            document.body.classList.remove('no_scroll')
-                        }
-                        me.loaded = true
                     }
                 }).catch(err => {
-                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                    me.loader(false)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
+                    console.log(err)
                 })
             }
         },

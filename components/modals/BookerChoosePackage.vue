@@ -170,12 +170,6 @@
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 me.classPackages = res.data.customer.user_package_counts
-                                me.classPackages.forEach((element, index) => {
-                                    if (element.count > 0) {
-                                        me.$parent.classPackage = element
-                                        // me.$parent.packageSelected = element.class_package.name
-                                    }
-                                })
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
                                 setTimeout( () => {
