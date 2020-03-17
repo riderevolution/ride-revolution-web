@@ -149,8 +149,9 @@
             },
             toggleClose () {
                 const me = this
-                me.$parent.classPackage = null
-                me.$parent.packageSelected = 'Please Select a Package'
+                if (me.$parent.classPackage == null) {
+                    me.$parent.packageSelected = 'Please Select a Package'
+                }
                 me.$store.state.bookerChoosePackageStatus = false
                 document.body.classList.remove('no_scroll')
             }
@@ -170,6 +171,12 @@
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 me.classPackages = res.data.customer.user_package_counts
+                                for (let i = 0; i < me.classPackages.length; i++) {
+                                    if (me.classPackages[i].count > 0) {
+                                        me.$parent.classPackage = me.classPackages[i].class_package
+                                        break
+                                    }
+                                }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
                                 setTimeout( () => {

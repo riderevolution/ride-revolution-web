@@ -93,14 +93,11 @@
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage">
                                                     <div class="left">
-                                                        <div class="flex package">
+                                                        <div class="flex package" v-if="hasBooked">
                                                             <div class="toggler">
                                                                 <p>Class Package:</p>
-                                                                <div class="picker" @click="choosePackage()">
-                                                                    {{ packageSelected }}
-                                                                    <transition name="slide">
-                                                                        <div class="package_violator" v-if="pointPackage">Choose Package Here</div>
-                                                                    </transition>
+                                                                <div class="picker active">
+                                                                    sdasdasdasd
                                                                 </div>
                                                             </div>
                                                             <div class="toggler" v-if="hasGuest">
@@ -301,6 +298,8 @@
                     guestCount: 0,
                     tempSeat: []
                 },
+                tempTotalRides: 0,
+                tempTotalUsed: 0,
                 user: ''
             }
         },
@@ -457,15 +456,6 @@
                     me.loader(false)
                 }, 500)
             },
-            choosePackage () {
-                const me = this
-                me.loader(true)
-                setTimeout( () => {
-                    me.$store.state.bookerChoosePackageStatus = true
-                    document.body.classList.add('no_scroll')
-                    me.loader(false)
-                }, 500)
-            },
             signIn (data) {
                 const me = this
                 me.currentSeat = data
@@ -589,26 +579,14 @@
                                     }
                                     me.ctr++
                                 })
+                                me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
 
-                                me.$axios.get(`api/customers/${me.user.id}/packages`).then(res => {
-                                    if (res.data) {
-                                        if (res.data.customer.user_package_counts.length > 0) {
-                                            for (let i = 0; i < res.data.customer.user_package_counts.length; i++) {
-                                                if (res.data.customer.user_package_counts[i].count > 0) {
-                                                    me.checkPackage = true
-                                                    me.classPackage = res.data.customer.user_package_counts[i]
-                                                    me.packageSelected = res.data.customer.user_package_counts[i].class_package.name
-                                                    break
-                                                }
-                                            }
-                                        } else {
-                                            me.checkPackage = false
-                                            me.$store.state.buyPackageFirstStatus = true
-                                            document.body.classList.remove('no_scroll')
-                                        }
-                                        me.loaded = true
-                                    }
-                                })
+                                if (!me.checkPackage) {
+                                    me.$store.state.buyPackageFirstStatus = true
+                                    document.body.classList.remove('no_scroll')
+                                }
+
+                                me.loaded = true
                             }
                         }).catch(err => {
                             me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
