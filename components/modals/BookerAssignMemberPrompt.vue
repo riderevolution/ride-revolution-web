@@ -50,16 +50,18 @@
                                             me.$parent.seats[parent][child][i].guest = 1
                                             me.$parent.seats[parent][child][i].status = 'reserved-guest'
                                             me.$parent.seats[parent][child][i].temp = me.customer
-                                            me.$parent.seats[parent][child][i].original_booker_id = me.$store.state.user.id
+                                            me.$parent.seats[parent][child][i].class_package = me.$parent.tempClassPackage
+                                            me.$parent.seats[parent][child][i].original_booker_id = me.$parent.user.id
                                             break
                                         }
                                     }
                                 }
                             })
                         })
-                        me.$parent.toSubmit.guestCount++
+                        me.$parent.toSubmit.bookCount++
                         me.$parent.toSubmit.tempSeat.push(me.tempSeat)
                         me.$parent.tempGuestSeat = null
+                        me.$parent.tempClassPackage = null
                         me.$parent.hasGuest = true
                         if (me.$parent.added != null && me.$parent.added != undefined) {
                             me.$parent.added++

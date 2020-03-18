@@ -77,7 +77,7 @@
                                             <transition name="fade">
                                                 <div class="next_wrapper" v-if="checkPackage && hasBooked">
                                                     <div class="left">
-                                                        <div class="flex package" v-if="hasBooked">
+                                                        <!-- <div class="flex package" v-if="hasBooked">
                                                             <div class="toggler">
                                                                 <p>Class Package:</p>
                                                                 <div class="picker active">
@@ -98,7 +98,7 @@
                                                                 <p class="bold">Total Rides Used:</p>
                                                                 <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="right" v-if="!removeNext">
                                                         <div  class="default_btn" @click="toggleStep('next')">Next</div>
@@ -147,7 +147,7 @@
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>{{ toSubmit.guestCount + 1 }} Credit/s</p>
+                                    <p>{{ toSubmit.bookCount + 1 }} Credit/s</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -275,6 +275,7 @@
                 message: 'Cheers! Successfully added a Guest.',
                 promptMessage: '',
                 status: false,
+                tempClassPackage: null,
                 classPackage: null,
                 packageSelected: 'Please Select a Package',
                 pointPackage: false,
@@ -285,7 +286,7 @@
                 tempOriginalSeat: null,
                 dummyData: null,
                 toSubmit: {
-                    guestCount: 0,
+                    bookCount: 0,
                     tempSeat: []
                 },
                 user: ''
@@ -390,7 +391,7 @@
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                formData.append('class_package_id', me.classPackage.class_package.id)
+                // formData.append('class_package_id', me.classPackage.class_package.id)
                 me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
@@ -459,13 +460,9 @@
                         case 'reserved':
                         case 'reserved-guest':
                             if (data.temp) {
-                                if (data.temp.id == me.user.id) {
-                                    if (data.guest == 0) {
-                                        me.dummyData = data
-                                        me.$store.state.bookerActionsPrompt = true
-                                        document.body.classList.add('no_scroll')
-                                    }
-                                }
+                                me.dummyData = data
+                                me.$store.state.bookerActionsPrompt = true
+                                document.body.classList.add('no_scroll')
                             } else {
                                 me.promptMessage = 'This seat is already booked or reserved by someone else.'
                                 me.$store.state.buyRidesPromptStatus = true
@@ -473,12 +470,22 @@
                             }
                             break
                         case 'open':
+                            me.dummyData = data
                             if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
                                 me.$store.state.bookerChoosePackageStatus = true
                                 document.body.classList.add('no_scroll')
-                                me.dummyData = data
                             } else {
-                                alert(1)
+                                if (me.toSubmit.tempSeat.length == 5) {
+                                    me.promptMessage = "You've already reached the limit of adding guest."
+                                    me.$store.state.buyRidesPromptStatus = true
+                                    document.body.classList.add('no_scroll')
+                                } else {
+                                    me.tempGuestSeat = data
+                                    me.$store.state.bookerChoosePackageStatus = true
+                                    document.body.classList.add('no_scroll')
+                                    // me.$store.state.bookerAssignStatus = true
+                                    // document.body.classList.add('no_scroll')
+                                }
                             }
                             // if (!me.hasBooked) {
                             //     data.guest = 0
@@ -493,12 +500,12 @@
                             //     me.removeNext = false
                             //     me.hasBooked = true
                             // } else {
-                            //     if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
+                            //     if (((me.toSubmit.bookCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
                             //         me.promptMessage = "Sorry! You don't have enough rides left."
                             //         me.$store.state.buyRidesPromptStatus = true
                             //         document.body.classList.add('no_scroll')
                             //     } else {
-                            //         if (me.toSubmit.guestCount < 4) {
+                            //         if (me.toSubmit.bookCount < 4) {
                             //             me.tempGuestSeat = data
                             //             me.$store.state.bookerAssignStatus = true
                             //             document.body.classList.add('no_scroll')
@@ -536,12 +543,12 @@
                             //         me.removeNext = false
                             //         me.hasBooked = true
                             //     } else {
-                            //         if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
+                            //         if (((me.toSubmit.bookCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
                             //             me.promptMessage = "Sorry! You don't have enough rides left."
                             //             me.$store.state.buyRidesPromptStatus = true
                             //             document.body.classList.add('no_scroll')
                             //         } else {
-                            //             if (me.toSubmit.guestCount < 4) {
+                            //             if (me.toSubmit.bookCount < 4) {
                             //                 me.tempGuestSeat = data
                             //                 me.$store.state.bookerAssignStatus = true
                             //                 document.body.classList.add('no_scroll')

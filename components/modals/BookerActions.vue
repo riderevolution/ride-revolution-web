@@ -4,7 +4,7 @@
         <div class="confirmation_wrapper alt">
             <div class="form_close" @click.once="toggleClose()"></div>
             <div class="confirmation_title">
-                Please choose an action for seat 00.
+                Please choose an action for seat {{ seat.number }}.
             </div>
             <div class="button_group">
                 <div class="flex default_btn_wht" @click.once="toggleAction('package')">Choose Package</div>
@@ -36,14 +36,22 @@
                                         if (me.$parent.seats[parent][child][i].id == me.seat.id) {
                                             me.$parent.toSubmit.tempSeat.forEach((element, index) => {
                                                 if (me.$parent.seats[parent][child][i].temp.id == element.temp.id) {
+                                                    if (me.$parent.toSubmit.tempSeat.length <= 1 && element.guest == 0) {
+                                                        me.$parent.removeNext = true
+                                                    }
+                                                    if (element.guest == 0) {
+                                                        me.$parent.hasBooked = false
+                                                        me.$parent.tempOriginalSeat = null
+                                                    } else {
+                                                        me.$parent.toSubmit.bookCount--
+                                                        me.$parent.tempGuestSeat = null
+                                                        me.$parent.tempClassPackage = null
+                                                    }
                                                     delete me.$parent.seats[parent][child][i].guest
                                                     delete me.$parent.seats[parent][child][i].temp
                                                     me.$parent.seats[parent][child][i].status = 'open'
-                                                    me.$parent.hasBooked = false
-                                                    me.$parent.removeNext = true
-                                                    me.$parent.hasBooked = false
-                                                    me.$parent.tempOriginalSeat = null
                                                     me.$parent.toSubmit.tempSeat.splice(index, 1)
+                                                    console.log(me.$parent.toSubmit)
                                                 }
                                             })
                                             break

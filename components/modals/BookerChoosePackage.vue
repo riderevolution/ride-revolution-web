@@ -98,19 +98,17 @@
                     /**
                      * Book a ride */
                     } else if (me.type == 1) {
-                        me.$parent.pointPackage = false
+                        let newTemp = me.tempSeat
+                        /**
+                         * Check if has temp */
                         if (me.tempSeat != null) {
-                            // if (((me.$parent.toSubmit.guestCount + 1) * me.$parent.schedule.schedule.class_credits) >= me.$parent.classPackage.count) {
-                            //     me.$parent.removeNext = true
-                            //     me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
-                            //     me.$store.state.buyRidesPromptStatus = true
-                            // } else {
-                                let newTemp = me.tempSeat
+                            if (!me.tempSeat.guest && !me.$parent.hasBooked) {
                                 newTemp.guest = 0
                                 newTemp.status = 'reserved'
                                 newTemp.temp = me.$parent.user
                                 newTemp.class_package = me.selectedClassPackage
                                 me.$parent.tempOriginalSeat = newTemp
+                                me.$parent.toSubmit.bookCount++
                                 if (me.$parent.toSubmit.tempSeat.length > 0) {
                                     me.$parent.toSubmit.tempSeat.unshift(newTemp)
                                 } else {
@@ -118,20 +116,97 @@
                                 }
                                 me.$parent.hasBooked = true
                                 me.$parent.removeNext = false
+                                me.$store.state.bookerChoosePackageStatus = false
                                 document.body.classList.remove('no_scroll')
-                                console.log(me.$parent.toSubmit.tempSeat)
-                            // }
-                        } else {
-                            document.body.classList.remove('no_scroll')
+                            } else {
+                                /**
+                                 * check if the temp has class_package */
+                                if (me.tempSeat.class_package) {
+                                    /**
+                                     * Update the package if the use choose package */
+                                    if (me.tempSeat.temp) {
+                                        let hasSamePackage = false
+                                        me.$parent.toSubmit.tempSeat.forEach((element, index) => {
+                                            /**
+                                             * Check all packages except the selected */
+                                            if (me.tempSeat.temp.id != element.temp.id) {
+                                                /**
+                                                * if has the same package */
+                                                if (me.selectedClassPackage.class_package_id == element.class_package.class_package_id) {
+                                                    /**
+                                                    * check the package count */
+                                                    if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) >= element.class_package.count) {
+                                                        hasSamePackage = true
+                                                    }
+                                                }
+                                            }
+                                        })
+                                        if (!hasSamePackage) {
+                                            me.$parent.toSubmit.tempSeat.forEach((element, index) => {
+                                                if (me.tempSeat.temp.id == element.temp.id) {
+                                                    /**
+                                                    * for original booker */
+                                                    if (element.guest == 0) {
+                                                        newTemp.class_package = me.selectedClassPackage
+                                                        me.$parent.toSubmit.tempSeat.splice(index, 1)
+                                                        if (me.$parent.toSubmit.tempSeat.length > 0) {
+                                                            me.$parent.toSubmit.tempSeat.unshift(newTemp)
+                                                        } else {
+                                                            me.$parent.toSubmit.tempSeat.push(newTemp)
+                                                        }
+                                                        me.$store.state.bookerChoosePackageStatus = false
+                                                        document.body.classList.remove('no_scroll')
+                                                        /**
+                                                        * for original booker guest */
+                                                    } else {
+                                                        newTemp.class_package = me.selectedClassPackage
+                                                        me.$parent.tempClassPackage = me.selectedClassPackage
+                                                        me.$parent.toSubmit.tempSeat.splice(index, 1)
+                                                        me.$parent.toSubmit.tempSeat.push(newTemp)
+                                                        me.$store.state.bookerChoosePackageStatus = false
+                                                        document.body.classList.remove('no_scroll')
+                                                    }
+                                                }
+                                            })
+                                        } else {
+                                            me.$store.state.bookerChoosePackageStatus = false
+                                            me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
+                                            me.$store.state.buyRidesPromptStatus = true
+                                        }
+                                    }
+                                } else {
+                                    let hasGuestSamePackage = false
+                                    /**
+                                     * Check if the package has rides left */
+                                    me.$parent.toSubmit.tempSeat.forEach((element, index) => {
+                                        if (me.selectedClassPackage.class_package_id == element.class_package.class_package_id) {
+                                            if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) >= element.class_package.count) {
+                                                hasGuestSamePackage = true
+                                            }
+                                        }
+                                    })
+                                    if (!hasGuestSamePackage) {
+                                        /**
+                                         * Adding a guest */
+                                        me.$parent.tempClassPackage = me.selectedClassPackage
+                                        me.$store.state.bookerChoosePackageStatus = false
+                                        me.$store.state.bookerAssignStatus = true
+                                    } else {
+                                        me.$parent.tempGuestSeat = null
+                                        me.$store.state.bookerChoosePackageStatus = false
+                                        me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
+                                        me.$store.state.buyRidesPromptStatus = true
+                                    }
+                                }
+                            }
                         }
-                        me.$store.state.bookerChoosePackageStatus = false
                     }
                 }
             },
             togglePackage (data, unique) {
                 const me = this
                 me.active = false
-                me.selectedClassPackage = data.class_package
+                me.selectedClassPackage = data
                 me.selectedPackage = data.class_package.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
@@ -173,14 +248,24 @@
                                 if (me.$parent.tempOriginalSeat == null) {
                                     for (let i = 0; i < me.classPackages.length; i++) {
                                         if (me.classPackages[i].count > 0) {
-                                            me.selectedClassPackage = me.classPackages[i].class_package
+                                            me.selectedClassPackage = me.classPackages[i]
                                             me.selectedPackage = me.classPackages[i].class_package.id
                                             break
                                         }
                                     }
                                 } else {
-                                    me.selectedClassPackage = me.tempSeat.class_package
-                                    me.selectedPackage = me.tempSeat.class_package.id
+                                    if (me.$parent.tempGuestSeat == null) {
+                                        me.selectedClassPackage = me.tempSeat.class_package
+                                        me.selectedPackage = me.tempSeat.class_package.class_package_id
+                                    } else {
+                                        for (let i = 0; i < me.classPackages.length; i++) {
+                                            if (me.classPackages[i].count > 0) {
+                                                me.selectedClassPackage = me.classPackages[i]
+                                                me.selectedPackage = me.classPackages[i].class_package.id
+                                                break
+                                            }
+                                        }
+                                    }
                                 }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
