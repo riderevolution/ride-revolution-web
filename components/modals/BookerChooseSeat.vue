@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
-                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.active) ? 'active' : ''}`" v-if="seat.guest != 0" v-for="(seat, key) in populateSeats" :key="key" @click="toggleSeat(seat, key)">
+                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.id == originalSeat) ? 'active' : ''}`" v-for="(seat, key) in seatNumbers" :key="key" @click="toggleSeat(seat, key)">
                                 <label>Bike No. {{ seat.number }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -44,24 +44,8 @@
                 originalIndex: null,
                 currentSeatIndex: null,
                 temp: [],
-                bikeSeats: []
-            }
-        },
-        computed: {
-            populateSeats () {
-                const me = this
-                let result = []
-                let ctr = 0
-                me.bikeSeats.forEach((element, index) => {
-                    if (ctr < 1 && element.guest != 0) {
-                        me.currentSeatIndex = index
-                        me.selectedSeat = element.id
-                        element.active = true
-                        ctr++
-                    }
-                    result.push(element)
-                })
-                return result
+                bikeSeats: [],
+                ctr: 0
             }
         },
         methods: {
@@ -120,16 +104,20 @@
             },
             toggleSeat (data, unique) {
                 const me = this
-                me.selectedSeat = data.id
-                me.currentSeatIndex = unique
-                document.getElementById(`seat_${unique}`).classList.add('active')
-                me.bikeSeats.forEach((element, index) => {
-                    if (data.id != element.id) {
-                        if (document.getElementById(`seat_${index}`)) {
-                            document.getElementById(`seat_${index}`).classList.remove('active')
-                        }
-                    }
-                })
+                if (me.ctr < 2) {
+                    me.selectedSeat = data.id
+                    me.currentSeatIndex = unique
+                    // me.bikeSeats.forEach((element, index) => {
+                    //     if (data.id != element.id) {
+                    //         if (document.getElementById(`seat_${index}`)) {
+                    //             document.getElementById(`seat_${index}`).classList.remove('active')
+                    //         }
+                    //     }
+                    // })
+                    me.ctr++
+                } else {
+
+                }
             },
             toggleClose () {
                 const me = this
@@ -139,15 +127,13 @@
         },
         mounted () {
             const me = this
-            me.temp = me.seatNumbers
-            me.temp.forEach((element, index) => {
-                element.active = false
+            me.seatNumbers.forEach((element, index) => {
                 if (element.guest == 0) {
-                    me.originalIndex = index
                     me.originalSeat = element.id
+                    me.originalIndex = index
                 }
-                me.bikeSeats.push(element)
             })
+            me.ctr++
         }
     }
 </script>

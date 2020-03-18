@@ -73,35 +73,21 @@
                                             </ul>
                                         </div>
                                         <div class="actions" v-if="!schedule.guestHere">
-                                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
-                                                <div class="next_wrapper" v-if="checkPackage && hasBooked">
-                                                    <div class="left">
-                                                        <!-- <div class="flex package" v-if="hasBooked">
-                                                            <div class="toggler">
-                                                                <p>Class Package:</p>
-                                                                <div class="picker active">
-                                                                    sdasdasdasd
-                                                                </div>
-                                                            </div>
+                                                <div class="next_wrapper">
+                                                    <div class="left" v-if="hasBooked">
+                                                        <div class="flex package">
                                                             <div class="toggler" v-if="hasGuest">
                                                                 <p>Swap seat for:</p>
                                                                 <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
-                                                        <div class="flex package_details">
-                                                            <div class="toggler">
-                                                                <p>Total Rides Left:</p>
-                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
-                                                            </div>
-                                                            <div class="toggler">
-                                                                <p class="bold">Total Rides Used:</p>
-                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
-                                                            </div>
-                                                        </div> -->
                                                     </div>
                                                     <div class="right" v-if="!removeNext">
                                                         <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    </div>
+                                                    <div class="right" v-if="!checkPackage">
+                                                        <nuxt-link to="/buy-rides" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
                                                     </div>
                                                 </div>
                                             </transition>
