@@ -142,12 +142,12 @@
                                     <p>{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="item">
-                                    <p>Class Package Used</p>
-                                    <p>{{ classPackage.class_package.name }}</p>
+                                    <p>Class Packages Used</p>
+                                    <p>{{ getAllTempPackages(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>{{ toSubmit.bookCount + 1 }} Credit/s</p>
+                                    <p>{{ toSubmit.bookCount }} Credit/s</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -385,36 +385,60 @@
                 })
                 return result
             },
+            getAllTempPackages (data) {
+                const me = this
+                let packages = []
+                let result = ''
+                let ctr = 0
+                data.forEach((element, index) => {
+                    if (packages.length == 0) {
+                        packages.push(element.class_package.class_package.name)
+                    } else {
+                        if (packages.indexOf(element.class_package.class_package.name) <= -1) {
+                            packages.push(element.class_package.class_package.name)
+                        }
+                    }
+                })
+                packages.forEach((element, index) => {
+                    if (ctr == 0) {
+                        result = element
+                    } else if (ctr > 0) {
+                        result += `, ${element}`
+                    }
+                    ctr++
+                })
+                return result
+            },
             submitPreview () {
                 const me = this
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                // formData.append('class_package_id', me.classPackage.class_package.id)
                 me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    if (res.data) {
-                        me.submitted = true
-                        me.step = 0
-                        me.$store.state.buyRidesSuccessStatus = true
-                        me.$scrollTo('#content', {
-                            offset: -250
-                        })
-                    }
-                }).catch(err => {
-                    setTimeout( () => {
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorStatus = true
-                    }, 500)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
+                    console.log(res.data)
+                //     if (res.data) {
+                //         me.submitted = true
+                //         me.step = 0
+                //         me.$store.state.buyRidesSuccessStatus = true
+                //         me.$scrollTo('#content', {
+                //             offset: -250
+                //         })
+                //     }
+                // }).catch(err => {
+                //     setTimeout( () => {
+                //         me.$store.state.errorList = err.response.data.errors
+                //         me.$store.state.errorStatus = true
+                //     }, 500)
+                // }).then(() => {
+                //     setTimeout( () => {
+                //         me.loader(false)
+                //     }, 500)
                 })
             },
             toggleStep (type) {
@@ -483,83 +507,8 @@
                                     me.tempGuestSeat = data
                                     me.$store.state.bookerChoosePackageStatus = true
                                     document.body.classList.add('no_scroll')
-                                    // me.$store.state.bookerAssignStatus = true
-                                    // document.body.classList.add('no_scroll')
                                 }
                             }
-                            // if (!me.hasBooked) {
-                            //     data.guest = 0
-                            //     data.status = 'reserved'
-                            //     data.temp = me.user
-                            //     me.tempOriginalSeat = data
-                            //     if (me.toSubmit.tempSeat.length > 0) {
-                            //         me.toSubmit.tempSeat.unshift(data)
-                            //     } else {
-                            //         me.toSubmit.tempSeat.push(data)
-                            //     }
-                            //     me.removeNext = false
-                            //     me.hasBooked = true
-                            // } else {
-                            //     if (((me.toSubmit.bookCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
-                            //         me.promptMessage = "Sorry! You don't have enough rides left."
-                            //         me.$store.state.buyRidesPromptStatus = true
-                            //         document.body.classList.add('no_scroll')
-                            //     } else {
-                            //         if (me.toSubmit.bookCount < 4) {
-                            //             me.tempGuestSeat = data
-                            //             me.$store.state.bookerAssignStatus = true
-                            //             document.body.classList.add('no_scroll')
-                            //         } else {
-                            //             me.promptMessage = "You've already reached the limit of adding guest."
-                            //             me.$store.state.buyRidesPromptStatus = true
-                            //             document.body.classList.add('no_scroll')
-                            //         }
-                            //     }
-                            // }
-                            // if (me.classPackage == null) {
-                            //     me.pointPackage = true
-                            //     me.promptMessage = 'Please select a package first before booking on your preferred seat.'
-                            //     me.$store.state.buyRidesPromptStatus = true
-                            //     document.body.classList.add('no_scroll')
-                            // } else {
-                            //
-                            // }
-                            // if (me.classPackage == null) {
-                            //     me.pointPackage = true
-                            //     me.promptMessage = 'Please select a package first before booking on your preferred seat.'
-                            //     me.$store.state.buyRidesPromptStatus = true
-                            //     document.body.classList.add('no_scroll')
-                            // } else {
-                            //     if (!me.hasBooked) {
-                            //         data.guest = 0
-                            //         data.status = 'reserved'
-                            //         data.temp = me.$store.state.user
-                            //         me.tempOriginalSeat = data
-                            //         if (me.toSubmit.tempSeat.length > 0) {
-                            //             me.toSubmit.tempSeat.unshift(data)
-                            //         } else {
-                            //             me.toSubmit.tempSeat.push(data)
-                            //         }
-                            //         me.removeNext = false
-                            //         me.hasBooked = true
-                            //     } else {
-                            //         if (((me.toSubmit.bookCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
-                            //             me.promptMessage = "Sorry! You don't have enough rides left."
-                            //             me.$store.state.buyRidesPromptStatus = true
-                            //             document.body.classList.add('no_scroll')
-                            //         } else {
-                            //             if (me.toSubmit.bookCount < 4) {
-                            //                 me.tempGuestSeat = data
-                            //                 me.$store.state.bookerAssignStatus = true
-                            //                 document.body.classList.add('no_scroll')
-                            //             } else {
-                            //                 me.promptMessage = "You've already reached the limit of adding guest."
-                            //                 me.$store.state.buyRidesPromptStatus = true
-                            //                 document.body.classList.add('no_scroll')
-                            //             }
-                            //         }
-                            //     }
-                            // }
                             break
                     }
                 } else {
