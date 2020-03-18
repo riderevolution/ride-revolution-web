@@ -179,8 +179,8 @@
                                         }
                                     }
                                 } else {
-                                    me.selectedClassPackage = me.$parent.tempOriginalSeat.class_package
-                                    me.selectedPackage = me.$parent.tempOriginalSeat.class_package.id
+                                    me.selectedClassPackage = me.tempSeat.class_package
+                                    me.selectedPackage = me.tempSeat.class_package.id
                                 }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false

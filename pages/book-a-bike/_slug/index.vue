@@ -189,7 +189,7 @@
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
             <transition name="fade">
-                <booker-actions v-if="$store.state.bookerActionsPrompt" />
+                <booker-actions :seat="dummyData" v-if="$store.state.bookerActionsPrompt" />
             </transition>
         </div>
     </transition>
@@ -461,18 +461,9 @@
                             if (data.temp) {
                                 if (data.temp.id == me.user.id) {
                                     if (data.guest == 0) {
+                                        me.dummyData = data
                                         me.$store.state.bookerActionsPrompt = true
                                         document.body.classList.add('no_scroll')
-                                        // me.toSubmit.tempSeat.forEach((element, index) => {
-                                        //     if (element.temp.id == data.temp.id) {
-                                        //         delete data.guest
-                                        //         delete data.temp
-                                        //         data.status = 'open'
-                                        //         me.hasBooked = false
-                                        //         me.removeNext = true
-                                        //         me.toSubmit.tempSeat.splice(index, 1)
-                                        //     }
-                                        // })
                                     }
                                 }
                             } else {
@@ -482,10 +473,12 @@
                             }
                             break
                         case 'open':
-                            if (me.user.user_package_counts.length > 0) {
+                            if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
                                 me.$store.state.bookerChoosePackageStatus = true
                                 document.body.classList.add('no_scroll')
                                 me.dummyData = data
+                            } else {
+                                alert(1)
                             }
                             // if (!me.hasBooked) {
                             //     data.guest = 0
