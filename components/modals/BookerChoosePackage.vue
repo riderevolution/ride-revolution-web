@@ -16,7 +16,7 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>Available: {{ data.count }}</p>
+                                    <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
                                     <p>Expires on {{ formatDate(data.class_package.computed_expiration_date) }}</p>
                                 </div>
                             </div>
