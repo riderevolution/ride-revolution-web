@@ -263,8 +263,6 @@
                 status: false,
                 tempClassPackage: null,
                 classPackage: null,
-                packageSelected: 'Please Select a Package',
-                pointPackage: false,
                 hasGuest: false,
                 seatStatus: '',
                 hasBooked: false,
