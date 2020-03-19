@@ -3,7 +3,7 @@
         <div class="background" @click="toggleClose()"></div>
             <form id="default_form" class="overlay alt" @submit.prevent="submissionSuccess()">
                 <div class="modal_wrapper">
-                    <h2 class="form_title">Which seat would you like to swap?</h2>
+                    <h2 class="form_title">Which seat would you like to switch?</h2>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_custom_checkbox">
