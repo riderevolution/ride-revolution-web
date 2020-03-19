@@ -67,6 +67,7 @@
                                                      * delete all the temp objects connected to the id */
                                                     delete me.$parent.seats[parent][child][i].guest
                                                     delete me.$parent.seats[parent][child][i].temp
+                                                    delete me.$parent.seats[parent][child][i].class_package
                                                     me.$parent.seats[parent][child][i].status = 'open'
                                                     me.$parent.toSubmit.tempSeat.splice(index, 1)
                                                 }

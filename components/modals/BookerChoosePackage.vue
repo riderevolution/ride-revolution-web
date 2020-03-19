@@ -156,8 +156,8 @@
                                                         }
                                                         me.$store.state.bookerChoosePackageStatus = false
                                                         document.body.classList.remove('no_scroll')
-                                                        /**
-                                                        * for original booker guest */
+                                                    /**
+                                                    * for original booker guest */
                                                     } else {
                                                         newTemp.class_package = me.selectedClassPackage
                                                         me.$parent.tempClassPackage = me.selectedClassPackage
@@ -234,6 +234,7 @@
             const me = this
             let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
             let id = 0
+            me.loader(true)
             me.$axios.get('api/check-token', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -284,6 +285,10 @@
                 }
             }).catch(err => {
                 console.log(err);
+            }).then(() => {
+                setTimeout(() => {
+                    me.loader(false)
+                }, 500)
             })
         }
     }
