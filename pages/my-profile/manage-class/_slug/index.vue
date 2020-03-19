@@ -44,7 +44,7 @@
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/my-profile" class="back">Back</nuxt-link>
+                                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -97,39 +97,22 @@
                                                 <li class="you"><span></span>You</li>
                                             </ul>
                                         </div>
-                                        <div class="actions" v-if="!schedule.guestHere && !res.waitlisted">
-                                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
+                                        <div class="actions" v-if="!schedule.guestHere">
                                             <transition name="fade">
-                                                <div class="next_wrapper" v-if="checkPackage">
-                                                    <div class="left">
+                                                <div class="next_wrapper">
+                                                    <div class="left" v-if="hasBooked">
                                                         <div class="flex package">
-                                                            <div class="toggler">
-                                                                <p>Class Package:</p>
-                                                                <div class="picker" @click="choosePackage()">
-                                                                    {{ packageSelected }}
-                                                                    <transition name="slide">
-                                                                        <div class="package_violator" v-if="pointPackage">Choose Package Here</div>
-                                                                    </transition>
-                                                                </div>
-                                                            </div>
                                                             <div class="toggler" v-if="hasGuest">
                                                                 <p>Swap seat for:</p>
                                                                 <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
-                                                        <div class="flex package_details">
-                                                            <div class="toggler">
-                                                                <p>Total Rides Left:</p>
-                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
-                                                            </div>
-                                                            <div class="toggler">
-                                                                <p class="bold">Total Rides Used:</p>
-                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
-                                                            </div>
-                                                        </div>
                                                     </div>
-                                                    <div class="right" v-if="!removeNext && added != 0">
+                                                    <div class="right" v-if="!removeNext">
                                                         <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    </div>
+                                                    <div class="right" v-if="!checkPackage">
+                                                        <nuxt-link to="/buy-rides" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
                                                     </div>
                                                 </div>
                                             </transition>
@@ -159,7 +142,7 @@
                                 </div>
                                 <div class="item">
                                     <p>Date</p>
-                                    <p>{{ $moment(schedule.date, 'MMMM DD, YYYY').format('MMMM DD, YYYY') }}</p>
+                                    <p>{{ $moment(schedule.date).format('MMMM DD, YYYY') }}</p>
                                 </div>
                                 <div class="item">
                                     <p>Time</p>
@@ -170,12 +153,12 @@
                                     <p>{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="item">
-                                    <p>Class Package Used</p>
-                                    <p>{{ classPackage.class_package.name }}</p>
+                                    <p>Class Packages Used</p>
+                                    <p>{{ getAllTempPackages(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>{{ toSubmit.guestCount }} Credit/s</p>
+                                    <p>{{ toSubmit.bookCount }} Credit/s</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -190,7 +173,7 @@
                 <booker-assign v-if="$store.state.bookerAssignStatus" />
             </transition>
             <transition name="fade">
-                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
+                <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
             </transition>
             <transition name="fade">
                 <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
@@ -213,6 +196,12 @@
             <transition name="fade">
                 <booker-success v-if="$store.state.buyRidesSuccessStatus" />
             </transition>
+            <transition name="fade">
+                <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
+            </transition>
+            <transition name="fade">
+                <booker-actions :seat="dummyData" v-if="$store.state.bookerActionsPrompt" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -230,6 +219,7 @@
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BookerSuccess from '../../../../components/modals/BookerSuccess'
     import BuyPackageFirst from '../../../../components/modals/BuyPackageFirst'
+    import BookerActions from '../../../../components/modals/BookerActions'
     export default {
         components: {
             Breadcrumb,
@@ -243,7 +233,8 @@
             BookerAssignSuccess,
             BuyRidesPrompt,
             BookerSuccess,
-            BuyPackageFirst
+            BuyPackageFirst,
+            BookerActions
         },
         data () {
             return {
@@ -253,12 +244,8 @@
                 removeNext: false,
                 submitted: false,
                 customer: null,
-                bookingID: 0,
-                added: 0,
-                res: [],
                 temp: [],
                 schedule: [],
-                user: [],
                 seats: {
                     left: {
                         position: 'left',
@@ -299,18 +286,18 @@
                 message: 'Cheers! Successfully added a Guest.',
                 promptMessage: '',
                 status: false,
-                classPackage: null,
-                packageSelected: 'Please Select a Package',
-                pointPackage: false,
+                tempClassPackage: null,
                 hasGuest: false,
                 seatStatus: '',
                 hasBooked: false,
                 tempGuestSeat: null,
                 tempOriginalSeat: null,
+                dummyData: null,
                 toSubmit: {
-                    guestCount: 0,
+                    bookCount: 0,
                     tempSeat: []
                 },
+                user: '',
                 isWaitlisted: false
             }
         },
@@ -323,34 +310,6 @@
             },
         },
         methods: {
-            cancelWaitlist () {
-                const me = this
-                let formData = new FormData()
-                let token = me.$cookies.get('token')
-                formData.append('scheduled_date_id', me.$route.params.slug)
-                me.loader(true)
-                me.$axios.post('api/schedules/waitlist', formData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        me.promptMessage = 'You have been successfully removed from the waitlist.'
-                        document.body.classList.add('no_scroll')
-                        me.$store.state.buyRidesPromptStatus = true
-                        setTimeout( () => {
-                            me.$router.push('/my-profile')
-                        }, 1500)
-                    }
-                }).catch(err => {
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                })
-            },
             addClass (seat) {
                 const me = this
                 let result = ''
@@ -369,14 +328,14 @@
                         } else {
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         } else {
                                             result = 'reserved alt'
                                         }
                                     } else {
-                                        if (seat.bookings[0].user_id == me.$store.state.user.id) {
+                                        if (seat.bookings[0].user_id == me.user.id) {
                                             if (seat.bookings[0].is_guest == 1) {
                                                 result = 'reserved alt'
                                             }
@@ -385,7 +344,7 @@
                                         }
                                     }
                                 } else {
-                                    if (seat.bookings[0].original_booker_id == me.$store.state.user.id) {
+                                    if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
                                             result = 'reserved-guest'
                                         }
@@ -435,15 +394,36 @@
                 })
                 return result
             },
+            getAllTempPackages (data) {
+                const me = this
+                let packages = []
+                let result = ''
+                let ctr = 0
+                data.forEach((element, index) => {
+                    if (packages.length == 0) {
+                        packages.push(element.class_package.class_package.name)
+                    } else {
+                        if (packages.indexOf(element.class_package.class_package.name) <= -1) {
+                            packages.push(element.class_package.class_package.name)
+                        }
+                    }
+                })
+                packages.forEach((element, index) => {
+                    if (ctr == 0) {
+                        result = element
+                    } else if (ctr > 0) {
+                        result += `, ${element}`
+                    }
+                    ctr++
+                })
+                return result
+            },
             submitPreview () {
                 const me = this
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
-                formData.append('booking_id', me.bookingID)
-                formData.append('update', 1)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                formData.append('class_package_id', me.classPackage.class_package.id)
                 me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
@@ -497,15 +477,6 @@
                     me.loader(false)
                 }, 500)
             },
-            choosePackage () {
-                const me = this
-                me.loader(true)
-                setTimeout( () => {
-                    me.$store.state.bookerChoosePackageStatus = true
-                    document.body.classList.add('no_scroll')
-                    me.loader(false)
-                }, 500)
-            },
             signIn (data) {
                 const me = this
                 me.currentSeat = data
@@ -520,40 +491,30 @@
                             break
                         case 'reserved':
                         case 'reserved-guest':
-                            me.promptMessage = 'This seat is already booked or reserved by someone else.'
-                            me.$store.state.buyRidesPromptStatus = true
-                            document.body.classList.add('no_scroll')
-                            break
-                        case 'open':
-                            if (me.classPackage == null) {
-                                me.pointPackage = true
-                                me.promptMessage = 'Please select a package first before booking on your preferred seat.'
-                                me.$store.state.buyRidesPromptStatus = true
+                            if (data.temp) {
+                                me.dummyData = data
+                                me.$store.state.bookerActionsPrompt = true
                                 document.body.classList.add('no_scroll')
                             } else {
-                                if (!me.hasBooked) {
-                                    data.guest = 0
-                                    data.status = 'reserved'
-                                    data.temp = me.$store.state.user
-                                    me.tempOriginalSeat = data
-                                    me.toSubmit.tempSeat.push(data)
-                                    me.hasBooked = true
+                                me.promptMessage = 'This seat is already booked or reserved by someone else.'
+                                me.$store.state.buyRidesPromptStatus = true
+                                document.body.classList.add('no_scroll')
+                            }
+                            break
+                        case 'open':
+                            me.dummyData = data
+                            if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
+                                me.$store.state.bookerChoosePackageStatus = true
+                                document.body.classList.add('no_scroll')
+                            } else {
+                                if (me.toSubmit.tempSeat.length == 5) {
+                                    me.promptMessage = "You've already reached the limit of adding guest."
+                                    me.$store.state.buyRidesPromptStatus = true
+                                    document.body.classList.add('no_scroll')
                                 } else {
-                                    if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
-                                        me.promptMessage = "Sorry! You don't have enough rides left."
-                                        me.$store.state.buyRidesPromptStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    } else {
-                                        if (me.toSubmit.guestCount < 4) {
-                                            me.tempGuestSeat = data
-                                            me.$store.state.bookerAssignStatus = true
-                                            document.body.classList.add('no_scroll')
-                                        } else {
-                                            me.promptMessage = "You've already reached the limit of adding guest."
-                                            me.$store.state.buyRidesPromptStatus = true
-                                            document.body.classList.add('no_scroll')
-                                        }
-                                    }
+                                    me.tempGuestSeat = data
+                                    me.$store.state.bookerChoosePackageStatus = true
+                                    document.body.classList.add('no_scroll')
                                 }
                             }
                             break
@@ -567,85 +528,96 @@
                 const me = this
                 me.loader(true)
                 let token = me.$cookies.get('token')
-                me.$axios.get(`api/scheduled-dates/${id}`, {
+                me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        let package_id = 0
-                        let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
-                        me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
-                        me.res = res.data
-                        me.temp = res.data.seats
-                        me.schedule = res.data.scheduledDate
-                        me.temp.forEach((seat , index) => {
-                            switch (seat.position) {
-                                case 'left':
-                                    me.seats.left.data.push(seat)
-                                    break
-                                case 'right':
-                                    me.seats.right.data.push(seat)
-                                    break
-                                case 'bottom':
-                                    me.seats.bottom.data.push(seat)
-                                    break
-                                case 'bottom_alt':
-                                    me.seats.bottom_alt.data.push(seat)
-                                    break
-                                case 'bottom_alt_2':
-                                    me.seats.bottom_alt_2.data.push(seat)
-                                    break
+                        me.user = res.data.user
+                        me.$axios.get(`api/scheduled-dates/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
                             }
-                            me.ctr++
-                        })
+                        }).then(res => {
+                            if (res.data) {
+                                let package_id = 0
+                                let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
+                                me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                                me.res = res.data
+                                me.temp = res.data.seats
+                                me.schedule = res.data.scheduledDate
+                                me.temp.forEach((seat , index) => {
+                                    switch (seat.position) {
+                                        case 'left':
+                                            me.seats.left.data.push(seat)
+                                            break
+                                        case 'right':
+                                            me.seats.right.data.push(seat)
+                                            break
+                                        case 'bottom':
+                                            me.seats.bottom.data.push(seat)
+                                            break
+                                        case 'bottom_alt':
+                                            me.seats.bottom_alt.data.push(seat)
+                                            break
+                                        case 'bottom_alt_2':
+                                            me.seats.bottom_alt_2.data.push(seat)
+                                            break
+                                    }
+                                    me.ctr++
+                                })
 
-                        me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
-                        if (!me.checkPackage) {
-                            me.$store.state.buyPackageFirstStatus = true
-                            document.body.classList.remove('no_scroll')
-                        }
-
-                        if (res.data.waitlisted) {
-                            me.isWaitlisted = true
-                        }
-
-                        if (res.data.tempSeats != null) {
-                            me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                            me.toSubmit.guestCount = me.parser(res.data.tempSeats.data).length
-                            package_id = res.data.tempSeats.class_package_id
-                            me.bookingID = res.data.tempSeats.booking_id
-                            me.hasBooked = true
-                            me.toSubmit.tempSeat.forEach((element, index) => {
-                                if (element.guest == 0) {
-                                    me.tempOriginalSeat = element
-                                    me.hasGuest = true
+                                me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+                                if (!me.checkPackage) {
+                                    me.$store.state.buyPackageFirstStatus = true
+                                    document.body.classList.remove('no_scroll')
                                 }
-                            })
 
-                            me.$axios.get(`api/customers/${me.$store.state.user.id}/packages`).then(res => {
-                                if (res.data) {
-                                    if (res.data.customer.user_package_counts.length > 0) {
-                                        res.data.customer.user_package_counts.forEach((element, index) => {
-                                            if (element.class_package.id == package_id) {
-                                                me.classPackage = element
-                                                me.packageSelected = element.class_package.name
+                                if (res.data.waitlisted) {
+                                    me.isWaitlisted = true
+                                }
+
+                                if (res.data.tempSeats != null) {
+                                    me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
+                                    me.toSubmit.bookCount = me.parser(res.data.tempSeats.data).length
+                                    package_id = res.data.tempSeats.class_package_id
+                                    me.bookingID = res.data.tempSeats.booking_id
+                                    me.hasBooked = true
+                                    me.toSubmit.tempSeat.forEach((element, index) => {
+                                        if (element.guest == 0) {
+                                            me.tempOriginalSeat = element
+                                            me.hasGuest = true
+                                        }
+                                    })
+                                    Object.keys(me.seats).forEach((parent) => {
+                                        Object.keys(me.seats[parent]).forEach((child) => {
+                                            if (child == 'data') {
+                                                for (let i = 0; i < me.seats[parent][child].length; i++) {
+                                                    for (let j = 0; j < me.toSubmit.tempSeat.length; j++) {
+                                                        if (me.toSubmit.tempSeat[j].id == me.seats[parent][child][i].id) {
+                                                            me.seats[parent][child][i] = me.toSubmit.tempSeat[j]
+                                                            me.seats[parent][child][i].manage = true
+                                                        }
+                                                    }
+                                                }
                                             }
                                         })
-                                    }
+                                    })
                                 }
-                            })
-                        }
-                        me.loaded = true
+                                me.loaded = true
+                            }
+                        }).catch(err => {
+                            me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                            me.loader(false)
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
                     }
                 }).catch(err => {
-                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                    me.loader(false)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.user = me.$store.state.user
-                        me.loader(false)
-                    }, 500)
+                    console.log(err)
                 })
             }
         },

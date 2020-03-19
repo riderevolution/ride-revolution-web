@@ -234,7 +234,6 @@
             const me = this
             let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
             let id = 0
-            me.loader(true)
             me.$axios.get('api/check-token', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -242,7 +241,7 @@
             }).then(res => {
                 if (res.data) {
                     id = res.data.user.id
-                    me.$axios.get(`api/customers/${id}/packages`).then(res => {
+                    me.$axios.get(`api/customers/${id}/packages${(me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') ? `?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}` : ''}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 me.classPackages = res.data.customer.user_package_counts

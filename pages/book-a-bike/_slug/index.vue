@@ -79,12 +79,13 @@
                                                         <div class="flex package">
                                                             <div class="toggler" v-if="hasGuest">
                                                                 <p>Swap seat for:</p>
-                                                                <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
+                                                                <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
+                                                            <div class="default_btn_out" @click="chooseSeat('switch')" v-if="hasGuest"><span>Switch Seat</span></div>
                                                         </div>
                                                     </div>
                                                     <div class="right" v-if="!removeNext">
-                                                        <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        <div class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
@@ -154,6 +155,9 @@
                 <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
             </transition>
             <transition name="fade">
+                <booker-switch-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerSwitchSeatStatus" />
+            </transition>
+            <transition name="fade">
                 <booker-assign-member-prompt :customer="customer" :tempSeat="tempGuestSeat" v-if="$store.state.bookerAssignMemberPromptStatus" />
             </transition>
             <transition name="fade">
@@ -187,6 +191,7 @@
     import BookerAssign from '../../../components/modals/BookerAssign'
     import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
     import BookerChooseSeat from '../../../components/modals/BookerChooseSeat'
+    import BookerSwitchSeat from '../../../components/modals/BookerSwitchSeat'
     import BookerAssignMemberPrompt from '../../../components/modals/BookerAssignMemberPrompt'
     import BookerAssignMemberError from '../../../components/modals/BookerAssignMemberError'
     import BookerAssignNonMember from '../../../components/modals/BookerAssignNonMember'
@@ -202,6 +207,7 @@
             BookerAssign,
             BookerChoosePackage,
             BookerChooseSeat,
+            BookerSwitchSeat,
             BookerAssignMemberPrompt,
             BookerAssignMemberError,
             BookerAssignNonMember,
@@ -262,7 +268,6 @@
                 promptMessage: '',
                 status: false,
                 tempClassPackage: null,
-                classPackage: null,
                 hasGuest: false,
                 seatStatus: '',
                 hasBooked: false,
@@ -399,30 +404,29 @@
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                me.loader(false)
+                me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    console.log(res.data)
-                //     if (res.data) {
-                //         me.submitted = true
-                //         me.step = 0
-                //         me.$store.state.buyRidesSuccessStatus = true
-                //         me.$scrollTo('#content', {
-                //             offset: -250
-                //         })
-                //     }
-                // }).catch(err => {
-                //     setTimeout( () => {
-                //         me.$store.state.errorList = err.response.data.errors
-                //         me.$store.state.errorStatus = true
-                //     }, 500)
-                // }).then(() => {
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
+                    if (res.data) {
+                        me.submitted = true
+                        me.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
+                        me.$scrollTo('#content', {
+                            offset: -250
+                        })
+                    }
+                }).catch(err => {
+                    setTimeout( () => {
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorStatus = true
+                    }, 500)
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             },
             toggleStep (type) {
@@ -444,15 +448,34 @@
                         break
                 }
             },
-            chooseSeat () {
+            /**
+             * [chooseSeat toggle the swap and switch seat]
+             * @param  {[string]} type [type of action]
+             */
+            chooseSeat (type) {
                 const me = this
                 me.loader(true)
-                setTimeout( () => {
-                    me.$store.state.bookerChooseSeatStatus = true
-                    document.body.classList.add('no_scroll')
-                    me.loader(false)
-                }, 500)
+                switch (type) {
+                    case 'swap':
+                        setTimeout( () => {
+                            me.$store.state.bookerChooseSeatStatus = true
+                            document.body.classList.add('no_scroll')
+                            me.loader(false)
+                        }, 500)
+                        break
+                    case 'switch':
+                        setTimeout( () => {
+                            me.$store.state.bookerSwitchSeatStatus = true
+                            document.body.classList.add('no_scroll')
+                            me.loader(false)
+                        }, 500)
+                        break;
+                }
             },
+            /**
+             * [signIn check the seat]
+             * @param  {[object]} data [seat structure]
+             */
             signIn (data) {
                 const me = this
                 me.currentSeat = data
@@ -480,8 +503,11 @@
                         case 'open':
                             me.dummyData = data
                             if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
-                                me.$store.state.bookerChoosePackageStatus = true
-                                document.body.classList.add('no_scroll')
+                                me.loader(true)
+                                setTimeout(() => {
+                                    me.$store.state.bookerChoosePackageStatus = true
+                                    document.body.classList.add('no_scroll')
+                                }, 500)
                             } else {
                                 if (me.toSubmit.tempSeat.length == 5) {
                                     me.promptMessage = "You've already reached the limit of adding guest."
@@ -489,8 +515,11 @@
                                     document.body.classList.add('no_scroll')
                                 } else {
                                     me.tempGuestSeat = data
-                                    me.$store.state.bookerChoosePackageStatus = true
-                                    document.body.classList.add('no_scroll')
+                                    me.loader(true)
+                                    setTimeout(() => {
+                                        me.$store.state.bookerChoosePackageStatus = true
+                                        document.body.classList.add('no_scroll')
+                                    }, 500)
                                 }
                             }
                             break
@@ -500,6 +529,10 @@
                     document.body.classList.remove('no_scroll')
                 }
             },
+            /**
+             * [fetchSeats fetch all the seats]
+             * @param  {[int]} id [schedule date id slug]
+             */
             fetchSeats (id) {
                 const me = this
                 let token = me.$cookies.get('token')
