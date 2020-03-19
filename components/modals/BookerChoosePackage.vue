@@ -117,8 +117,10 @@
                                 me.$parent.canSwitch = true
                                 me.$parent.hasBooked = true
                                 me.$parent.removeNext = false
+                                me.$parent.promptMessage = "You've successfully booked for this seat."
                                 me.$store.state.bookerChoosePackageStatus = false
-                                document.body.classList.remove('no_scroll')
+                                me.$store.state.buyRidesPromptStatus = true
+                                me.$parent.status = true
                             } else {
                                 /**
                                  * check if the temp has class_package */

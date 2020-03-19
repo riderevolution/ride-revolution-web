@@ -554,6 +554,11 @@
                 })
                 return temp
             },
+            /**
+             * [deleteCurrentSeat delete the current seat before switching]
+             * @param  {[int]} id [the id of the first seat]
+             * @return {[object]}    [the original seats]
+             */
             deleteCurrentSeat (id) {
                 const me = this
                 let seats = me.seats
