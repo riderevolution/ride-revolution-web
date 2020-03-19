@@ -42,6 +42,7 @@
                         }
                         break
                 }
+                me.$parent.status = false
                 me.$store.state.buyRidesPromptStatus = false
                 document.body.classList.remove('no_scroll')
             }

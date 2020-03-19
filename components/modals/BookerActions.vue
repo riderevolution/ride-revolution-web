@@ -7,7 +7,7 @@
                 Please choose an action for seat {{ seat.number }}.
             </div>
             <div class="button_group">
-                <div class="flex default_btn_wht" @click.once="toggleAction('package')" v-if="seat.manage">Choose Package</div>
+                <div class="flex default_btn_wht" @click.once="toggleAction('package')">Choose Package</div>
                 <div class="flex default_btn_red" @click.once="toggleAction('cancel')">Cancel Seat</div>
             </div>
         </div>

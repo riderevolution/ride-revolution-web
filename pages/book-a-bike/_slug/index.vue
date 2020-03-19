@@ -72,7 +72,7 @@
                                                 <li class="you"><span></span>You</li>
                                             </ul>
                                         </div>
-                                        <div class="actions" v-if="!schedule.guestHere">
+                                        <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat">
                                             <transition name="fade">
                                                 <div class="next_wrapper">
                                                     <div class="left" v-if="hasBooked">
@@ -81,7 +81,7 @@
                                                                 <p>Swap seat for:</p>
                                                                 <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
-                                                            <div class="default_btn_out" @click="chooseSeat('switch')" v-if="hasGuest"><span>Switch Seat</span></div>
+                                                            <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                         </div>
                                                     </div>
                                                     <div class="right" v-if="!removeNext">
@@ -278,7 +278,10 @@
                     bookCount: 0,
                     tempSeat: []
                 },
-                user: ''
+                user: '',
+                canSwitch: false,
+                isSwitchingSeat: false,
+                selectedSwitchSeat: null
             }
         },
         computed: {
@@ -293,43 +296,46 @@
             addClass (seat) {
                 const me = this
                 let result = ''
+                if (me.isSwitchingSeat) {
+                    result += 'switch '
+                }
                 switch (seat.status) {
                     case 'open':
-                        result = 'open'
+                        result += 'open'
                         break
                     case 'reserved':
                     case 'reserved-guest':
                         if (seat.temp) {
                             if (seat.guest != 0) {
-                                result = 'reserved-guest'
+                                result += 'reserved-guest'
                             } else {
-                                result = 'reserved alt'
+                                result += 'reserved alt'
                             }
                         } else {
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
                                     if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
-                                            result = 'reserved-guest'
+                                            result += 'reserved-guest'
                                         } else {
-                                            result = 'reserved alt'
+                                            result += 'reserved alt'
                                         }
                                     } else {
                                         if (seat.bookings[0].user_id == me.user.id) {
                                             if (seat.bookings[0].is_guest == 1) {
-                                                result = 'reserved alt'
+                                                result += 'reserved alt'
                                             }
                                         } else {
-                                            result = 'reserved'
+                                            result += 'reserved'
                                         }
                                     }
                                 } else {
                                     if (seat.bookings[0].original_booker_id == me.user.id) {
                                         if (seat.bookings[0].is_guest == 1) {
-                                            result = 'reserved-guest'
+                                            result += 'reserved-guest'
                                         }
                                     } else {
-                                        result = 'reserved'
+                                        result += 'reserved'
                                     }
                                 }
                             } else if (seat.comp.length > 0) {
@@ -339,7 +345,7 @@
                         break
                     case 'blocked':
                     case 'comp':
-                        result = 'blocked comp'
+                        result += 'blocked comp'
                         break
                 }
                 return result
@@ -502,24 +508,28 @@
                             break
                         case 'open':
                             me.dummyData = data
-                            if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
-                                me.loader(true)
-                                setTimeout(() => {
-                                    me.$store.state.bookerChoosePackageStatus = true
-                                    document.body.classList.add('no_scroll')
-                                }, 500)
+                            if (me.isSwitchingSeat) {
+                                me.switchSeatData (me.selectedSwitchSeat, data)
                             } else {
-                                if (me.toSubmit.tempSeat.length == 5) {
-                                    me.promptMessage = "You've already reached the limit of adding guest."
-                                    me.$store.state.buyRidesPromptStatus = true
-                                    document.body.classList.add('no_scroll')
-                                } else {
-                                    me.tempGuestSeat = data
+                                if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
                                     me.loader(true)
                                     setTimeout(() => {
                                         me.$store.state.bookerChoosePackageStatus = true
                                         document.body.classList.add('no_scroll')
                                     }, 500)
+                                } else {
+                                    if (me.toSubmit.tempSeat.length == 5) {
+                                        me.promptMessage = "You've already reached the limit of adding guest."
+                                        me.$store.state.buyRidesPromptStatus = true
+                                        document.body.classList.add('no_scroll')
+                                    } else {
+                                        me.tempGuestSeat = data
+                                        me.loader(true)
+                                        setTimeout(() => {
+                                            me.$store.state.bookerChoosePackageStatus = true
+                                            document.body.classList.add('no_scroll')
+                                        }, 500)
+                                    }
                                 }
                             }
                             break
@@ -528,6 +538,94 @@
                     me.$store.state.buyPackageFirstStatus = true
                     document.body.classList.remove('no_scroll')
                 }
+            },
+            /**
+             * [deleteFirstSeat delete the first seat in the temp]
+             * @param  {[object]} data [the seat selected from the switch seat]
+             * @return {[object]}      [return temp seat]
+             */
+            deleteFirstSeat (data) {
+                const me= this
+                let temp = me.toSubmit.tempSeat
+                temp.forEach((element, index) => {
+                    if (element.id == data.id) {
+                        me.toSubmit.tempSeat.splice(index, 1)
+                    }
+                })
+                return temp
+            },
+            sample (id) {
+                const me = this
+                let seats = me.seats
+                /**
+                 * Delete the value of the first seat in the seats */
+                Object.keys(seats).forEach((parent) => {
+                    Object.keys(seats[parent]).forEach((child) => {
+                        if (child == 'data') {
+                            for (let i = 0; i < seats[parent][child].length; i++) {
+                                if (seats[parent][child][i].id == me.selectedSwitchSeat.id) {
+                                    if (me.selectedSwitchSeat.guest == 0) {
+                                        me.tempOriginalSeat = seats[parent][child][i]
+                                    }
+                                    seats[parent][child][i].status = 'open'
+                                    delete seats[parent][child][i].temp
+                                    delete seats[parent][child][i].guest
+                                    delete seats[parent][child][i].class_package
+                                }
+                            }
+                        }
+                    })
+                })
+                return seats
+            },
+            /**
+             * [swapSeatData switching of datas]
+             * @param  {[object]} firstSeat  [the seat selected from the switch seat]
+             * @param  {[object]} secondSeat [the seat selected from the switch seat booker]
+             */
+            switchSeatData (firstSeat, secondSeat) {
+                const me = this
+                me.loader(true)
+                let id = 0
+                me.toSubmit.tempSeat = me.deleteFirstSeat(firstSeat)
+                /**
+                 * Change first the second seat value to first seat value */
+                Object.keys(me.seats).forEach((parent) => {
+                    Object.keys(me.seats[parent]).forEach((child) => {
+                        if (child == 'data') {
+                            for (let i = 0; i < me.seats[parent][child].length; i++) {
+                                if (me.seats[parent][child][i].id == firstSeat.id) {
+                                    id = me.seats[parent][child][i].id
+                                }
+                                if (me.seats[parent][child][i].id == secondSeat.id) {
+                                    me.seats[parent][child][i].status = firstSeat.status
+                                    me.seats[parent][child][i].guest = firstSeat.guest
+                                    me.seats[parent][child][i].class_package = firstSeat.class_package
+                                    me.seats[parent][child][i].temp = firstSeat.temp
+                                    if (me.seats[parent][child][i].guest == 0) {
+                                        if (me.toSubmit.tempSeat.length > 0) {
+                                            me.toSubmit.tempSeat.unshift(me.seats[parent][child][i])
+                                        } else {
+                                            me.toSubmit.tempSeat.push(me.seats[parent][child][i])
+                                        }
+                                    } else {
+                                        me.toSubmit.tempSeat.push(me.seats[parent][child][i])
+                                    }
+                                    break
+                                }
+                            }
+                        }
+                    })
+                })
+                me.sample (id)
+                me.isSwitchingSeat = false
+                me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
+                me.status = true
+                setTimeout(() => {
+                    me.$store.state.buyRidesPromptStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.loader(false)
+                }, 500)
             },
             /**
              * [fetchSeats fetch all the seats]

@@ -4538,7 +4538,16 @@ svg
                                 background-color: $white
                                 border: 1px solid $black
                                 transition: .3s ease-in-out
+                                &.switch
+                                    background-color: $blue
+                                    border: 1px solid $blue
+                                    transition: .3s ease-in-out
+                                    .seat_number
+                                        color: $white
+                                        transition: .3s ease-in-out
                                 &.blocked
+                                    &.switch
+                                        pointer-events: none
                                     background-color: #EDEDED
                                     border: 1px solid #EDEDED
                                     transition: .3s ease-in-out
@@ -4546,6 +4555,8 @@ svg
                                         color: $gray
                                         transition: .3s ease-in-out
                                 &.reserved-guest
+                                    &.switch
+                                        pointer-events: none
                                     background-color: $pink
                                     border: 1px solid $pink
                                     transition: .3s ease-in-out
@@ -4553,6 +4564,8 @@ svg
                                         color: $white
                                         transition: .3s ease-in-out
                                 &.reserved
+                                    &.switch
+                                        pointer-events: none
                                     background-color: #EDEDED
                                     border: 1px solid #EDEDED
                                     transition: .3s ease-in-out

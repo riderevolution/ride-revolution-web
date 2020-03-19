@@ -114,6 +114,7 @@
                                 } else {
                                     me.$parent.toSubmit.tempSeat.push(newTemp)
                                 }
+                                me.$parent.canSwitch = true
                                 me.$parent.hasBooked = true
                                 me.$parent.removeNext = false
                                 me.$store.state.bookerChoosePackageStatus = false
