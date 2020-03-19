@@ -554,7 +554,7 @@
                 })
                 return temp
             },
-            sample (id) {
+            deleteCurrentSeat (id) {
                 const me = this
                 let seats = me.seats
                 /**
@@ -617,7 +617,7 @@
                         }
                     })
                 })
-                me.sample (id)
+                me.deleteCurrentSeat (id)
                 me.isSwitchingSeat = false
                 me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
                 me.status = true
