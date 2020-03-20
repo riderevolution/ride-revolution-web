@@ -72,27 +72,29 @@
                                                 <li class="you"><span></span>You</li>
                                             </ul>
                                         </div>
-                                        <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat">
-                                            <transition name="fade">
-                                                <div class="next_wrapper">
-                                                    <div class="left" v-if="hasBooked">
-                                                        <div class="flex package">
-                                                            <div class="toggler" v-if="hasGuest">
-                                                                <p>Swap seat for:</p>
-                                                                <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
+                                        <transition name="fade">
+                                            <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat">
+                                                <transition name="fade">
+                                                    <div class="next_wrapper">
+                                                        <div class="left" v-if="toSubmit.tempSeat.length > 0">
+                                                            <div class="flex package">
+                                                                <div class="toggler" v-if="hasGuest">
+                                                                    <p>Swap seat for:</p>
+                                                                    <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
+                                                                </div>
+                                                                <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                             </div>
-                                                            <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
+                                                        </div>
+                                                        <div class="right" v-if="!removeNext">
+                                                            <div class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        </div>
+                                                        <div class="right" v-if="!checkPackage">
+                                                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
                                                         </div>
                                                     </div>
-                                                    <div class="right" v-if="!removeNext">
-                                                        <div class="default_btn" @click="toggleStep('next')">Next</div>
-                                                    </div>
-                                                    <div class="right" v-if="!checkPackage">
-                                                        <nuxt-link to="/buy-rides" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
-                                                    </div>
-                                                </div>
-                                            </transition>
-                                        </div>
+                                                </transition>
+                                            </div>
+                                        </transition>
                                     </div>
                                 </div>
                             </div>
@@ -293,6 +295,10 @@
             },
         },
         methods: {
+            /**
+             * [addClass description]
+             * @param {[type]} seat [description]
+             */
             addClass (seat) {
                 const me = this
                 let result = ''
@@ -569,9 +575,6 @@
                         if (child == 'data') {
                             for (let i = 0; i < seats[parent][child].length; i++) {
                                 if (seats[parent][child][i].id == me.selectedSwitchSeat.id) {
-                                    if (me.selectedSwitchSeat.guest == 0) {
-                                        me.tempOriginalSeat = seats[parent][child][i]
-                                    }
                                     seats[parent][child][i].status = 'open'
                                     delete seats[parent][child][i].temp
                                     delete seats[parent][child][i].guest
@@ -608,6 +611,7 @@
                                     me.seats[parent][child][i].class_package = firstSeat.class_package
                                     me.seats[parent][child][i].temp = firstSeat.temp
                                     if (me.seats[parent][child][i].guest == 0) {
+                                        me.tempOriginalSeat = me.seats[parent][child][i]
                                         if (me.toSubmit.tempSeat.length > 0) {
                                             me.toSubmit.tempSeat.unshift(me.seats[parent][child][i])
                                         } else {

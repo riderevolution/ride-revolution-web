@@ -1,5 +1,5 @@
 <template>
-    <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'}`">
+    <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'} ${($parent.isMobile) ? 'mobile' : ''}`">
         <div class="close_icon" @click="toggleClose()"></div>
         <transition name="fade">
             <section id="login" v-if="!signUp">
@@ -176,12 +176,11 @@
                             <vc-date-picker
                             :is-required="true"
                             v-model="signUpForm.birth_date"
-                            :nav-visibility="'visible'"
                             :input-props='{
-                                class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
-                                id: "birth_date",
-                                name: "birth_date",
-                                readonly: true
+                                    class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
+                                    id: "birth_date",
+                                    name: "birth_date",
+                                    readonly: true
                                 }'
                                 />
                         </no-ssr>
@@ -190,7 +189,7 @@
                         <label for="what_do_you_do">What do you do <span>*</span></label>
                         <div class="select">
                             <select class="input_select" name="what_do_you_do" v-model="signUpForm.what_do_you_do" v-validate="'required'">
-                                <option value="0" selected disabled>Choose a Profession</option>
+                                <option value="" selected disabled>Choose a Profession</option>
                                 <option :value="data" v-for="(data, key) in professions" :key="key">{{ data }}</option>
                             </select>
                         </div>
@@ -289,7 +288,7 @@
                     last_name: 'Corpuz',
                     contact_number: '09085532912',
                     birth_date: new Date(),
-                    what_do_you_do: '0',
+                    what_do_you_do: '',
                     sex: '',
                     iAgree: ''
                 },
@@ -464,6 +463,7 @@
                 const me = this
                 me.forgotPassword = true
                 me.signUp = true
+                me.signUpStep = 1
             },
             /**
              * Submission of next steps registration process form */

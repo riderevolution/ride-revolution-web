@@ -110,6 +110,7 @@
                                 me.$parent.tempOriginalSeat = newTemp
                                 me.$parent.toSubmit.bookCount++
                                 if (me.$parent.toSubmit.tempSeat.length > 0) {
+                                    me.$parent.hasGuest = true
                                     me.$parent.toSubmit.tempSeat.unshift(newTemp)
                                 } else {
                                     me.$parent.toSubmit.tempSeat.push(newTemp)
@@ -117,10 +118,14 @@
                                 me.$parent.canSwitch = true
                                 me.$parent.hasBooked = true
                                 me.$parent.removeNext = false
-                                me.$parent.promptMessage = "You've successfully booked for this seat."
-                                me.$store.state.bookerChoosePackageStatus = false
-                                me.$store.state.buyRidesPromptStatus = true
                                 me.$parent.status = true
+                                me.$store.state.bookerChoosePackageStatus = false
+                                me.loader(true)
+                                setTimeout(() => {
+                                    me.$parent.promptMessage = "You've successfully booked for this seat."
+                                    me.$store.state.buyRidesPromptStatus = true
+                                    me.loader(false)
+                                }, 500)
                             } else {
                                 /**
                                  * check if the temp has class_package */
@@ -147,6 +152,25 @@
                                         if (!hasSamePackage) {
                                             me.$parent.toSubmit.tempSeat.forEach((element, index) => {
                                                 if (me.tempSeat.temp.id == element.temp.id) {
+                                                    let tempClassPackage = newTemp.class_package
+                                                    /**
+                                                     * Check if the the user changed package */
+                                                    if (me.$route.name == 'my-profile-manage-class-slug') {
+                                                        if (newTemp.old_class_package_id) {
+                                                            if (newTemp.old_class_package_id != me.selectedClassPackage.class_package_id) {
+                                                                newTemp.changedPackage = true
+                                                                newTemp.old_class_package_id = tempClassPackage.class_package_id
+                                                            } else {
+                                                               delete newTemp.changedPackage
+                                                               delete newTemp.old_class_package_id
+                                                            }
+                                                        } else {
+                                                            if (newTemp.class_package.class_package_id != me.selectedClassPackage.class_package_id) {
+                                                                newTemp.changedPackage = true
+                                                                newTemp.old_class_package_id = tempClassPackage.class_package_id
+                                                            }
+                                                        }
+                                                    }
                                                     /**
                                                     * for original booker */
                                                     if (element.guest == 0) {

@@ -15,35 +15,7 @@
                 </div>
             </div>
         </section>
-        <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
-            <no-ssr>
-                <div @mouseenter="swiperEvent('stop')" @mouseleave="swiperEvent('start')">
-                    <swiper :options="promoOptions" ref="swiper" class="default">
-                        <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
-                            <img :src="data.path" alt="" />
-                            <div class="overlay">
-                                <h2 class="header_title" v-line-clamp="3">Ride Rev Promo</h2>
-                                <h3 class="title">{{ data.title }}</h3>
-                                <div class="description" v-line-clamp="4" v-html="data.description"></div>
-                                <div class="copy_wrapper" v-if="data.hasCode">
-                                    <input class="code" :id="`code_${key}`" :value="data.code" />
-                                    <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
-                                </div>
-                            </div>
-                        </swiper-slide>
-                        <div class="swiper-pagination" slot="pagination"></div>
-                        <div class="swiper-button-prev" slot="button-prev" v-if="!$parent.$parent.isMobile"></div>
-                        <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.isMobile"></div>
-                    </swiper>
-                    <transition name="slideX">
-                        <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn" v-if="!$parent.$parent.isMobile">See All Promos</nuxt-link>
-                    </transition>
-                    <div class="action_mobile" v-if="$parent.$parent.isMobile">
-                        <nuxt-link rel="canonical" to="/promos" class="default_btn">See All Promos</nuxt-link>
-                    </div>
-                </div>
-            </no-ssr>
-        </section>
+        <promo />
         <section id="packages">
             <div class="header">
                 <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">packages</h2>
@@ -67,9 +39,9 @@
             </div>
             <div class="content" v-else>
                 <no-ssr>
-                    <swiper :options="promoOptions" class="default">
-                        <swiper-slide :class="`package_wrapper slider ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
-                            <nuxt-link :to="`/buy-rides/package/${convertToSlug(data.title)}`">
+                    <swiper :options="mobileOptions" class="default">
+                        <swiper-slide class="slider" v-for="(data, key) in packages" :key="key">
+                            <nuxt-link :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" :to="`/buy-rides/package/${convertToSlug(data.title)}`">
                                 <div class="ribbon" v-if="data.has_promo">Promo</div>
                                 <div class="package_header">
                                     <h2 class="title">{{ data.title }}</h2>
@@ -83,7 +55,9 @@
                         </swiper-slide>
                         <div class="swiper-pagination" slot="pagination"></div>
                     </swiper>
-                    <nuxt-link class="link_mobile" to="/buy-rides" v-if="$parent.$parent.isMobile"><span>See All Class Packages</span> <div></div><div></div><div></div></nuxt-link>
+                    <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn">See All Class Packages</nuxt-link>
+                    </div>
                 </no-ssr>
             </div>
         </section>
@@ -105,7 +79,7 @@
                         <div class="swiper-button-prev" slot="button-prev"></div>
                         <div class="swiper-button-next" slot="button-next"></div>
                     </swiper>
-                    <swiper :options="promoOptions" class="default" v-else>
+                    <swiper :options="mobileOptions" class="default" v-else>
                         <swiper-slide class="review_slide mobile" v-for="(data, key) in reviews" :key="key">
                             <div class="description" v-html="data.description"></div>
                             <img :src="data.path" alt="" />
@@ -117,7 +91,6 @@
             </div>
         </section>
         <section id="instructors">
-            <img src="/default/home/instructor-bg.jpg" alt="ride-revolution-instructor" />
             <div class="overlay">
                 <div class="image">
                     <img src="/default/home/instructors-cover.png" alt="ride-revolution-instructor" />
@@ -151,9 +124,11 @@
                                 <div class="content_select">
                                     <div class="input">
                                         <label>Branch: </label>
-                                        <select class="select" name="studio_id" @change="getStudio($event)">
-                                            <option :value="data.id" v-for="(data, key) in studios" :key="key">{{ data.name }}</option>
-                                        </select>
+                                        <div class="select">
+                                            <select name="studio_id" @change="getStudio($event)">
+                                                <option :value="data.id" v-for="(data, key) in studios" :key="key">{{ data.name }}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="content_flex" v-if="!$parent.$parent.isMobile">
@@ -194,8 +169,8 @@
                                 </swiper>
                             </no-ssr>
                             <no-ssr v-else>
-                                <swiper :options="promoOptions" class="default alt3">
-                                    <swiper-slide class="studio_slide" v-for="(studio, key) in studio.images" :key="key">
+                                <swiper :options="mobileStudioOptions" class="default alt3">
+                                    <swiper-slide class="studio_slide mob" v-for="(studio, key) in studio.images" :key="key">
                                         <img :src="studio.path" alt="" />
                                         <div class="overlay">
                                             <h2 class="title">{{ studio.title }}</h2>
@@ -251,18 +226,20 @@
 
 <script>
     import Instagram from '../components/Instagram'
+    import Promo from '../components/Promo'
     export default {
         components: {
-            Instagram
+            Instagram,
+            Promo
         },
         data () {
             return {
                 playVideoHTML: '<div class="overlay_child"> <svg id="play_icon" xmlns="http://www.w3.org/2000/svg" width="94" height="93" viewBox="0 0 94 93"> <g transform="translate(-864 -325)"> <g transform="translate(868 329)"> <path class="play" d="M806.695,422.713,787.279,411.3v22.829Z" transform="translate(-752.454 -380.462)" /> <path class="border" d="M819.75,455.351a42.252,42.252,0,1,1-51.864-66.715" transform="translate(-751.456 -379.831)" /> <path class="border" d="M834.187,441.3a42.306,42.306,0,0,1-6.325,9.807" transform="translate(-753.584 -381.298)" /> <path class="border" d="M778.942,382.525a42.283,42.283,0,0,1,56.253,50.6" transform="translate(-752.222 -379.579)" /> </g> <rect class="rect" width="94" height="93" transform="translate(864 325)" /> </g> </svg> <div class="label">Play Video</div> </div>',
-                showAllPromos: false,
                 studio: [],
-                promoOptions: {
-                    slidesPerView: 1,
+                mobileOptions: {
+                    slidesPerView: 2,
                     spaceBetween: 30,
+                    slidesPerGroup: 2,
                     loop: true,
                     autoplay: {
                         delay: 4000,
@@ -270,16 +247,42 @@
                     },
                     pagination: {
                         el: '.swiper-pagination',
-                        clickable: true
+                        clickable: true,
+                        dynamicBullets: true
                     },
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
                     },
                     breakpoints: {
-                        768: {
+                        767: {
                             slidesPerView: 1,
-                            spaceBetween: 0
+                            slidesPerGroup: 1,
+                            spaceBetween: 0,
+                            autoHeight: true
+                        }
+                    }
+                },
+                mobileStudioOptions: {
+                    slidesPerView: 2,
+                    spaceBetween: 0,
+                    slidesPerGroup: 2,
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        767: {
+                            slidesPerView: 1,
+                            slidesPerGroup: 1,
+                            spaceBetween: 0,
+                            autoHeight: true
                         }
                     }
                 },
@@ -290,7 +293,8 @@
                     loop: true,
                     pagination: {
                         el: '.swiper-pagination',
-                        clickable: true
+                        clickable: true,
+                        dynamicBullets: true
                     },
                     navigation: {
                         nextEl: '.swiper-button-next',
@@ -307,41 +311,6 @@
                         prevEl: '.swiper-button-prev'
                     }
                 },
-                res: [
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'ASD1231'
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'HGJ23A'
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'JHSHAI23'
-                    }
-                ],
                 packages: [
                     {
                         title: 'Trial Class',
@@ -503,21 +472,6 @@
                     offset: -65
                 })
             },
-            swiperEvent (type) {
-                const me = this
-                switch (type) {
-                    case 'stop':
-                        setTimeout( () =>  {
-                            me.$refs.swiper.swiper.autoplay.stop()
-                        }, 10)
-                        break
-                    case 'start':
-                        setTimeout( () => {
-                            me.$refs.swiper.swiper.autoplay.start()
-                        }, 10)
-                        break
-                }
-            },
             getStudio (event) {
                 const me = this
                 me.studios.forEach((data, index) => {
@@ -525,24 +479,15 @@
                         me.studio = data
                     }
                 })
-            },
-            codeClipboard (data, key) {
-                const me = this
-                if (data.hasCode) {
-                    let element = document.getElementById(`code_${key}`)
-                    element.select()
-                    element.setSelectionRange(0, 99999)
-                    document.execCommand("copy")
-                    element.nextElementSibling.innerHTML = 'Copied!'
-                    setTimeout( () => {
-                        element.nextElementSibling.innerHTML = 'Copy Code'
-                    }, 1000)
-                }
             }
         },
         mounted () {
             const me = this
+            me.loader(true)
             me.studio = me.studios[0]
+            setTimeout( () => {
+                me.loader(false)
+            }, 500)
         },
         head () {
             return {

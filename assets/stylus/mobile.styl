@@ -1,6 +1,218 @@
 @import 'fonts'
 
-@media (max-width: 991px) and (min-width: 768px)
+@media (max-width: 1440px) and (min-width: 1281px)
+
+    .default_btn,
+    .default_btn_out
+        brandon_bold(14px, true)
+        padding: 10px 30px
+
+    .form_group
+        margin-bottom: 20px
+
+    .login_sign_up
+        .close_icon
+            top: calc(0% + 15px)
+        &.front
+            margin-top: 60px
+            &.sticky
+                margin-top: 60px
+        #login
+            height: calc(100% - 150px)
+            overflow-y: scroll
+            overflow-x: hidden
+            padding-right: 10px
+            max-width: 50%
+            .title
+                brandon_bold(22px, false)
+
+    /**
+     * Main */
+    #main_container
+        #header
+            &.not_front,
+            &.front
+                .navbar
+                    padding: 10px
+            .navbar
+                flex: 1 0 70%
+                .logo
+                    img
+                        width: 30px
+                    .logo_title
+                        neutra_bold(16px, true)
+                        padding-left: 10px
+                .nav_list
+                    li
+                        margin: 0 15px
+                        .nav_item
+                            brandon_bold(14px, true)
+            .nav_burger
+                flex: 0 0 35px
+                margin: 0 10px
+                .bar
+                    &.bottom_line
+                        width: calc(100% - 15px)
+        #navbar_expanded
+            min-height: 200px
+            overflow-y: scroll
+            overflow-x: hidden
+            &.sticky
+                .logo
+                    padding: 10px 15px
+                .close_icon
+                    top: calc(0% + 15px)
+                    right: 0
+            .close_icon
+                top: calc(0% + 15px)
+                right: 0
+            .logo
+                padding: 10px 15px
+                img
+                    width: 30px
+                .logo_title
+                    neutra_bold(16px, true)
+                    padding-left: 10px
+                    letter-spacing: 3px
+            .content
+                padding: 20px 15px
+                .left
+                    margin-bottom: 30px
+                    .expanded_main_list
+                        li
+                            margin-bottom: 40px
+                            &:last-child
+                                margin-bottom: 0
+                            .main_item
+                                &.nuxt-link-exact-active,
+                                &.nuxt-link-active,
+                                &:hover,
+                                &:focus
+                                    &::before
+                                        right: calc(0% - 35px)
+                                #menu
+                                    width: auto
+                                    height: 40px
+                .right
+                    .expanded_nav_list
+                        li
+                            margin-bottom: 20px
+                            .nav_item
+                                brandon_bold(14px, true)
+                    .expanded_nav_description
+                        padding-top: 10px
+                        .link
+                            margin-bottom: 20px
+                            span
+                                brandon_bold(14px, false)
+                        .social_links
+                            margin-top: 20px
+                            brandon_regular(14px, false)
+                            a
+                                margin: 0 10px
+                .left,
+                .right
+                    flex: 0 0 45%
+        #footer
+            padding: 60px
+        #pro_tip
+            top: calc(0% + 61px)
+            padding: 5px 15px
+            .tip
+                brandon_regular_italic(14px, false)
+
+    .home
+        #reviews
+            .header
+                margin: 0
+                .description
+                    p
+                        strong
+                            brandon_bold(24px, true)
+            .content
+                .review_slide
+                    .description
+                        brandon_regular(16px, false)
+        #instructors
+            padding: 25em 0
+            .overlay
+                .info
+                    &::before
+                        background-size: contain
+        #studios
+            .header
+                padding: 30px 0
+                .description
+                    p
+                        strong
+                            brandon_bold(24px, true)
+            .content
+                .studio_content
+                    max-width: calc(100% - 75px)
+                    .wrapper
+                        padding-bottom: 60px
+                        .right
+                            .overlay
+                                padding: 30px
+                                .content_select
+                                    .input
+                                        .select
+                                            select
+                                                width: auto
+                                .content_flex
+                                    .title
+                                        brandon_medium(30px, false)
+                                        margin-top: 15px
+                                    .description
+                                        margin: 20px 0
+                                        label
+                                            brandon_regular(16px, true)
+                                    .default_btn
+                                        margin-top: 20px
+        #lets_ride
+            .header
+                padding: 30px 0
+                .description
+                    p
+                        span
+                            brandon_bold(24px, false)
+
+    #promos
+        .promo_slide
+            .overlay
+                .title
+                    brandon_bold(24px, false)
+
+    #packages
+        .content
+            max-width: calc(100% - 60px)
+            .package_wrapper
+                .package_header
+                    .title
+                        brandon_bold(26px, false)
+                    .description
+                        brandon_medium(14px, true)
+                        margin: 30px 0 60px
+                .price
+                    brandon_bold(16px, true)
+    #banner
+        &.alt_2
+            .overlay_mid
+                h1
+                    brandon_bold(26px, false)
+        .overlay_top
+            .overlay_image
+                width: 600px
+        .overlay_bottom
+            p
+                brandon_regular(16px, false)
+
+@media (max-width: 1280px) and (min-width: 768px)
+
+    .default_btn,
+    .default_btn_out
+        width: auto
+        brandon_bold(14px, true)
 
     /**
      * Main */
@@ -48,7 +260,7 @@
                     margin-bottom: 30px
                     .expanded_main_list
                         li
-                            margin-bottom: 30px
+                            margin-bottom: 40px
                             &:last-child
                                 margin-bottom: 0
                             .main_item
@@ -64,7 +276,7 @@
                 .right
                     .expanded_nav_list
                         li
-                            margin-bottom: 30px
+                            margin-bottom: 20px
                             .nav_item
                                 brandon_bold(18px, true)
                     .expanded_nav_description
@@ -80,7 +292,7 @@
                                 margin: 0 10px
                 .left,
                 .right
-                    flex: 0 0 100%
+                    flex: 0 0 48%
         #footer
             padding: 20px
             .logo
@@ -108,6 +320,200 @@
             padding: 5px 15px
             .tip
                 brandon_regular_italic(14px, false)
+
+    #promos
+        .promo_slide
+            img
+                width: 100%
+                height: 450px
+                object-fit: cover
+                object-position: center
+            .overlay
+                max-width: 400px
+                left: calc(0% + 5%)
+                .title
+                    brandon_bold(20px, false)
+                    line-height: 1.25
+                .description
+                    brandon_regular(14px, false)
+                .copy_wrapper
+                    margin-top: 20px
+                    .code
+                        brandon_bold(20px, false)
+                    .default_btn
+                        padding: 10px
+        .action_mobile
+            text-align: center
+            .default_btn
+                width: auto
+                margin-top: 20px
+
+    #packages
+        .header
+            padding: 10px 30px 30px
+            .description
+                margin-right: 0
+                p
+                    brandon_regular(16px, false)
+                    margin-bottom: 0
+        .content
+            padding-bottom: 20px
+            max-width: calc(100% - 60px)
+            .swiper-container
+                padding-bottom: 40px
+                margin-bottom: 20px
+                .package_wrapper
+                    height: inherit
+                    margin: 0
+                    .package_header
+                        .title
+                            brandon_bold(24px, false)
+                        .description
+                            brandon_regular(14px, true)
+                            margin: 30px 0
+                    .default_btn_out
+                        width: auto
+        .default
+            .swiper-pagination
+                bottom: calc(0%) !important
+                .swiper-pagination-bullet
+                    background: rgba(38, 164, 139, 0.4)
+                    &.swiper-pagination-bullet-active
+                        background: rgba(38, 164, 139, 1)
+    .home
+        #reviews
+            .header
+                margin-top: 10px
+                padding: 0 30px
+                .description
+                    flex: 0 0 45%
+                    margin-right: 0
+                    p
+                        brandon_regular(16px, true)
+                        margin-bottom: 0
+                        strong
+                            brandon_bold(24px, true)
+            .content
+                padding: 30px
+                .swiper-container
+                    padding-bottom: 60px
+                    .review_slide
+                        .description
+                            brandon_regular(16px, false)
+            .default
+                .swiper-pagination
+                    bottom: calc(0%) !important
+                    .swiper-pagination-bullet
+                        background: rgba(38, 164, 139, 0.4)
+                        &.swiper-pagination-bullet-active
+                            background: rgba(38, 164, 139, 1)
+        #instructors
+            padding: 30em 0
+            .overlay
+                top: 50%
+                padding: 0 15px
+                .image
+                    text-align: center
+                    img
+                        width: 280px
+                        {image_default}
+                .info
+                    padding-left: 0
+                .image,
+                .info
+                    flex: 0 0 100%
+        #studios
+            .header
+                padding: 30px
+                .description
+                    flex: 0 0 45%
+                    margin-right: 0
+                    p
+                        brandon_regular(16px, true)
+                        margin-bottom: 0
+                        strong
+                            brandon_bold(24px, true)
+            .content
+                .studio_content
+                    max-width: calc(100% - 60px)
+                    .wrapper
+                        padding-bottom: 20px
+                        .right
+                            background-color: transparent
+                            .overlay
+                                position: static
+                                padding: 30px 15px
+                                transform: translateY(0%)
+                                .content_select
+                                    .input
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
+                                        width: 100%
+                                        label
+                                            flex: 0 0 auto
+                                            brandon_regular(18px, false)
+                                        select
+                                            flex: 0 0 auto
+                                            width: auto
+                                            brandon_bold(18px, false)
+                        .left
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: flex-start
+                            justify-content: space-between
+                            .content_flex
+                                flex: 0 0 calc(50% - 30px)
+                                .default_btn
+                                    width: auto
+                            .studio_slide
+                                .overlay
+                                    bottom: calc(0% + 35px)
+                                    .title
+                                        brandon_regular(14px, true)
+                        .left,
+                        .right
+                            flex: 0 0 100%
+                            max-width: 100%
+                            .content_flex
+                                margin: 15px
+                                .title
+                                    brandon_medium(22px, false)
+                                    margin-top: 0
+                                .description
+                                    margin: 0 0 20px
+                                    label
+                                        brandon_regular(12px, true)
+                                        margin-bottom: 10px
+                                    p
+                                        brandon_regular(16px, false)
+                                        margin-bottom: 5px
+                                    .link
+                                        a
+                                            brandon_regular(16px, false)
+                                .default_btn
+                                    margin-top: 10px
+        #lets_ride
+            .header
+                padding: 30px
+                .description
+                    flex: 0 0 45%
+                    margin-right: 0
+                    p
+                        brandon_regular(16px, false)
+                        margin-bottom: 0
+                        span
+                            brandon_bold(24px, false)
+
+    .login_sign_up
+        &.front
+            margin-top: 74px
+            &.sticky
+                margin-top: 74px
+        #login
+            max-width: 80%
+            .title
+                brandon_bold(22px, false)
 
     #banner
         &.alt_2
@@ -161,7 +567,38 @@
                 margin-right: 0
                 margin-bottom: 20px
 
+    .default
+        .swiper-pagination
+            bottom: calc(0% + 15px) !important
+
 @media (max-width: 767px) and (min-width: 320px)
+
+    .login_sign_up
+        &.front
+            margin-top: 60px
+            &.sticky
+                margin-top: 60px
+        #login
+            max-width: 80%
+            overflow-x: hidden
+            .title
+                brandon_bold(16px, false)
+            .action
+                .default_btn_login
+                    flex: 0 0 100%
+                    margin: 20px 0
+                    &:last-child
+                        margin: 0 0 20px
+            #default_form
+                margin-top: 20px
+        .close_icon
+            right: calc(0% + 10px)
+            width: 20px
+            height: 20px
+            &::before,
+            &::after
+                right: calc(0% + 10px)
+                height: 20px
 
     /**
      * Main */
@@ -390,9 +827,9 @@
                     img
                         width: 45px
                         {image_default}
+
         #instructors
-            & > img
-                height: 650px
+            padding: 25em 0
             .overlay
                 top: 50%
                 padding: 0 15px
@@ -416,8 +853,8 @@
                 .description
                     flex: 0 0 100%
                     padding: 0 15px
+                    text-align: center
                     p
-                        text-align: center
                         brandon_regular(14px, false)
                         text-transform: unset
                         strong
@@ -428,6 +865,7 @@
                     .wrapper
                         padding-bottom: 20px
                         .right
+                            background-color: transparent
                             .overlay
                                 position: static
                                 padding: 30px 15px
@@ -442,8 +880,8 @@
                                             flex: 0 0 auto
                                             brandon_regular(18px, false)
                                         select
-                                            flex: 1 0 40%
-                                            width: 100%
+                                            flex: 0 0 auto
+                                            width: auto
                                             brandon_bold(18px, false)
                         .left
                             .studio_slide
@@ -1145,6 +1583,16 @@
 
 @media (max-width: 767px) and (min-width: 600px)
 
+    .login_sign_up
+        #login
+            overflow-x: hidden
+            .action
+                .default_btn_login
+                    flex: 0 0 48.33%
+                    margin: 20px 0
+                    &:last-child
+                        margin: 20px 0
+
     .default_btn,
     .default_btn_out
         width: auto
@@ -1215,6 +1663,8 @@
                                 flex: 0 0 calc(50% - 30px)
                                 .default_btn
                                     width: auto
+        #instructors
+            padding: 25em 0
 
     #main_container
         .book_a_bike
