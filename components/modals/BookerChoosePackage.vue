@@ -229,7 +229,6 @@
                         }
                     }
                 }
-                console.log(me.$parent.toSubmit.tempSeat);
             },
             togglePackage (data, unique) {
                 const me = this

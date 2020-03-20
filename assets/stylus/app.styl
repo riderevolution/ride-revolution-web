@@ -63,6 +63,17 @@ body
     &.no_scroll
         overflow-y: hidden
 
+::-webkit-scrollbar
+    width: 20px
+    background-color: $white
+::-webkit-scrollbar-track
+    box-shadow: none
+::-webkit-scrollbar-thumb
+    background-color: $green
+    border: 6px solid rgba(0, 0, 0, 0)
+    background-clip: padding-box
+    border-radius: 50px
+
 input,
 input:before,
 input:after,
@@ -1402,16 +1413,6 @@ svg
             min-height: 200px
             overflow-y: scroll
             overflow-x: hidden
-            &::-webkit-scrollbar
-                width: 20px
-                background-color: $white
-            &::-webkit-scrollbar-track
-                box-shadow: none
-            &::-webkit-scrollbar-thumb
-                background-color: $green
-                border: 6px solid rgba(0, 0, 0, 0)
-                background-clip: padding-box
-                border-radius: 50px
         &.sticky
             .close_icon
                 top: calc(0% + 20px)
@@ -1728,6 +1729,11 @@ svg
      * Instructors */
     #instructors
         position: relative
+        background-image: url('/default/home/instructor-bg.jpg')
+        background-position: center
+        background-repeat: no-repeat
+        background-size: cover
+        padding: 30em 0
         .overlay
             position: absolute
             top: 60%
@@ -1839,36 +1845,38 @@ svg
                             height: 100%
                             transform: translateY(-50%)
                             .content_select
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
                                 .input
-                                    position: relative
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    .select
+                                        position: relative
+                                        select
+                                            width: 200px
+                                            -webkit-appearance: none
+                                            background-color: transparent
+                                            outline: none
+                                            border: none
+                                            border-bottom: 2px dashed $pink
+                                            padding-right: 20px
+                                            brandon_bold(20px, false)
+                                            color: $pink
+                                        &::before
+                                            content: ''
+                                            position: absolute
+                                            top: 50%
+                                            border-top: 7px solid $pink
+                                            border-left: 5px solid transparent
+                                            border-right: 5px solid transparent
+                                            right: calc(0% + 10px)
+                                            transform: rotate(0deg) translateY(-50%)
+                                            transition: .3s ease-in-out
                                     label
                                         margin-right: 10px
                                         brandon_regular(20px, false)
                                         color: $black
-                                    select
-                                        width: 200px
-                                        -webkit-appearance: none
-                                        background-color: transparent
-                                        outline: none
-                                        border: none
-                                        border-bottom: 2px dashed $pink
-                                        padding-right: 20px
-                                        brandon_bold(20px, false)
-                                        color: $pink
-                                    &::before
-                                        content: ''
-                                        position: absolute
-                                        top: 50%
-                                        border-top: 7px solid $pink
-                                        border-left: 5px solid transparent
-                                        border-right: 5px solid transparent
-                                        right: calc(0% + 10px)
-                                        transform: rotate(0deg) translateY(-50%)
-                                        transition: .3s ease-in-out
                             .content_flex
+                                flex: 0 0 auto
                                 .title
                                     brandon_medium(40px, false)
                                     color: $black
@@ -1911,6 +1919,11 @@ svg
                         max-width: 70%
                         position: relative
                         .studio_slide
+                            &.mob
+                                .overlay
+                                    .title
+                                        transform: translateY(0px)
+                                        transition: .3s ease-in-out
                             &.swiper-slide-active
                                 .overlay
                                     .title
@@ -7033,6 +7046,9 @@ svg
         .image
             position: relative
             flex: 0 0 20%
+            img
+                width: 100%
+                {image_default}
             &::before
                 content: ''
                 position: absolute
@@ -8919,6 +8935,22 @@ textarea::-webkit-scrollbar-thumb
     background-color: $white
     z-index: 5
     transition: .3s ease-in-out
+    &.mobile
+        #login
+            height: calc(100% - 150px)
+            overflow-y: scroll
+            overflow-x: hidden
+            padding-right: 10px
+            &::-webkit-scrollbar
+                width: 20px
+                background-color: $white
+            &::-webkit-scrollbar-track
+                box-shadow: none
+            &::-webkit-scrollbar-thumb
+                background-color: $green
+                border: 6px solid rgba(0, 0, 0, 0)
+                background-clip: padding-box
+                border-radius: 50px
     &.front
         margin-top: 91px
         transition: .3s ease-in-out
@@ -8937,7 +8969,7 @@ textarea::-webkit-scrollbar-thumb
         right: 0
         width: 100%
         max-width: 30%
-        margin: 60px auto 30px
+        margin: 30px auto 60px
         .steps
             position: relative
             margin-bottom: 40px

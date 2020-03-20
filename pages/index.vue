@@ -55,7 +55,9 @@
                         </swiper-slide>
                         <div class="swiper-pagination" slot="pagination"></div>
                     </swiper>
-                    <nuxt-link class="link_mobile" to="/buy-rides" v-if="$parent.$parent.isMobile"><span>See All Class Packages</span> <div></div><div></div><div></div></nuxt-link>
+                    <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn">See All Class Packages</nuxt-link>
+                    </div>
                 </no-ssr>
             </div>
         </section>
@@ -89,7 +91,6 @@
             </div>
         </section>
         <section id="instructors">
-            <img src="/default/home/instructor-bg.jpg" alt="ride-revolution-instructor" />
             <div class="overlay">
                 <div class="image">
                     <img src="/default/home/instructors-cover.png" alt="ride-revolution-instructor" />
@@ -123,9 +124,11 @@
                                 <div class="content_select">
                                     <div class="input">
                                         <label>Branch: </label>
-                                        <select class="select" name="studio_id" @change="getStudio($event)">
-                                            <option :value="data.id" v-for="(data, key) in studios" :key="key">{{ data.name }}</option>
-                                        </select>
+                                        <div class="select">
+                                            <select name="studio_id" @change="getStudio($event)">
+                                                <option :value="data.id" v-for="(data, key) in studios" :key="key">{{ data.name }}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="content_flex" v-if="!$parent.$parent.isMobile">
@@ -166,8 +169,8 @@
                                 </swiper>
                             </no-ssr>
                             <no-ssr v-else>
-                                <swiper :options="mobileOptions" class="default alt3">
-                                    <swiper-slide class="studio_slide" v-for="(studio, key) in studio.images" :key="key">
+                                <swiper :options="mobileStudioOptions" class="default alt3">
+                                    <swiper-slide class="studio_slide mob" v-for="(studio, key) in studio.images" :key="key">
                                         <img :src="studio.path" alt="" />
                                         <div class="overlay">
                                             <h2 class="title">{{ studio.title }}</h2>
@@ -236,6 +239,7 @@
                 mobileOptions: {
                     slidesPerView: 2,
                     spaceBetween: 30,
+                    slidesPerGroup: 2,
                     loop: true,
                     autoplay: {
                         delay: 4000,
@@ -243,7 +247,8 @@
                     },
                     pagination: {
                         el: '.swiper-pagination',
-                        clickable: true
+                        clickable: true,
+                        dynamicBullets: true
                     },
                     navigation: {
                         nextEl: '.swiper-button-next',
@@ -252,6 +257,30 @@
                     breakpoints: {
                         767: {
                             slidesPerView: 1,
+                            slidesPerGroup: 1,
+                            spaceBetween: 0,
+                            autoHeight: true
+                        }
+                    }
+                },
+                mobileStudioOptions: {
+                    slidesPerView: 2,
+                    spaceBetween: 0,
+                    slidesPerGroup: 2,
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        767: {
+                            slidesPerView: 1,
+                            slidesPerGroup: 1,
                             spaceBetween: 0,
                             autoHeight: true
                         }
@@ -264,7 +293,8 @@
                     loop: true,
                     pagination: {
                         el: '.swiper-pagination',
-                        clickable: true
+                        clickable: true,
+                        dynamicBullets: true
                     },
                     navigation: {
                         nextEl: '.swiper-button-next',
@@ -453,7 +483,11 @@
         },
         mounted () {
             const me = this
+            me.loader(true)
             me.studio = me.studios[0]
+            setTimeout( () => {
+                me.loader(false)
+            }, 500)
         },
         head () {
             return {

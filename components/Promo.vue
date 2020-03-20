@@ -46,7 +46,8 @@
                     },
                     pagination: {
                         el: '.swiper-pagination',
-                        clickable: true
+                        clickable: true,
+                        dynamicBullets: true
                     },
                     navigation: {
                         nextEl: '.swiper-button-next',
