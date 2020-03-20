@@ -2,6 +2,11 @@
 
 @media (max-width: 991px) and (min-width: 768px)
 
+    .default_btn,
+    .default_btn_out
+        width: auto
+        brandon_bold(14px, true)
+
     /**
      * Main */
     #main_container
@@ -109,6 +114,54 @@
             .tip
                 brandon_regular_italic(14px, false)
 
+    #promos
+        .promo_slide
+            img
+                width: 100%
+                height: 450px
+                object-fit: cover
+                object-position: center
+            .overlay
+                max-width: 400px
+                left: calc(0% + 5%)
+                .title
+                    brandon_bold(20px, false)
+                    line-height: 1.25
+                .description
+                    brandon_regular(14px, false)
+                .copy_wrapper
+                    margin-top: 20px
+                    .code
+                        brandon_bold(20px, false)
+                    .default_btn
+                        padding: 10px
+        .action_mobile
+            text-align: center
+            .default_btn
+                width: auto
+                margin-top: 20px
+
+    #packages
+        .content
+            max-width: calc(100% - 60px)
+            .swiper-container
+                padding-bottom: 40px
+                .package_wrapper
+                    margin: 0
+                    .package_header
+                        .title
+                            brandon_bold(24px, false)
+                        .description
+                            brandon_regular(14px, true)
+                    .default_btn_out
+                        width: auto
+        .default
+            .swiper-pagination
+                .swiper-pagination-bullet
+                    background: rgba(38, 164, 139, 0.4)
+                    &.swiper-pagination-bullet-active
+                        background: rgba(38, 164, 139, 1)
+
     #banner
         &.alt_2
             .overlay_mid
@@ -160,6 +213,12 @@
                 brandon_regular(18px, false)
                 margin-right: 0
                 margin-bottom: 20px
+
+
+
+    .default
+        .swiper-pagination
+            bottom: calc(0% + 15px) !important
 
 @media (max-width: 767px) and (min-width: 320px)
 

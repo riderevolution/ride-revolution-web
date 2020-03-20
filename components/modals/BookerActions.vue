@@ -30,8 +30,11 @@
                 const me = this
                 switch (type) {
                     case 'package':
-                        me.$store.state.bookerChoosePackageStatus = true
                         me.$store.state.bookerActionsPrompt = false
+                        me.loader(true)
+                        setTimeout(() => {
+                            me.$store.state.bookerChoosePackageStatus = true
+                        }, 500)
                         break
                     case 'cancel':
                         /**
@@ -49,8 +52,10 @@
                                                 if (me.$parent.seats[parent][child][i].temp.id == element.temp.id) {
                                                     /**
                                                      * Check if the tempseat length less than of equal to 1 */
-                                                    if (me.$parent.toSubmit.tempSeat.length <= 1 && element.guest == 0) {
+                                                    if (me.$parent.toSubmit.tempSeat.length <= 1) {
                                                         me.$parent.removeNext = true
+                                                    } else {
+                                                        me.$parent.hasGuest = false
                                                     }
                                                     /**
                                                      * If tempseat is original */
@@ -60,17 +65,29 @@
                                                     /**
                                                      * if tempseat is not original */
                                                     } else {
-                                                        me.$parent.toSubmit.bookCount--
                                                         me.$parent.tempGuestSeat = null
                                                         me.$parent.tempClassPackage = null
                                                     }
+                                                    me.$parent.toSubmit.bookCount--
                                                     /**
                                                      * delete all the temp objects connected to the id */
                                                     delete me.$parent.seats[parent][child][i].guest
                                                     delete me.$parent.seats[parent][child][i].temp
                                                     delete me.$parent.seats[parent][child][i].class_package
+                                                    if (me.$route.name == 'my-profile-manage-class-slug') {
+                                                        delete me.$parent.seats[parent][child][i].changedPackage
+                                                        delete me.$parent.seats[parent][child][i].old_class_package_id
+                                                    }
                                                     me.$parent.seats[parent][child][i].status = 'open'
                                                     me.$parent.toSubmit.tempSeat.splice(index, 1)
+
+                                                    me.$store.state.bookerActionsPrompt = false
+                                                    me.loader(true)
+                                                    setTimeout(() => {
+                                                        me.$parent.promptMessage = `You've cancelled seat number ${me.$parent.seats[parent][child][i].number}`
+                                                        me.$store.state.buyRidesPromptStatus = true
+                                                        me.loader(false)
+                                                    }, 500)
                                                 }
                                             })
                                             break
@@ -79,7 +96,6 @@
                                 }
                             })
                         })
-                        me.toggleClose()
                         break
                 }
             },
