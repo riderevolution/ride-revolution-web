@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="book_a_bike inner" v-if="loaded">
-            <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''} ${(submitted) ? 'overlay' : ''}`">
+            <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
                 <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                     <transition name="slideX">
                         <div class="flex_step" v-if="step == 1">
@@ -13,9 +13,9 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li>{{ parseScheduleRide(schedule.schedule.class_length) }} Ride</li>
-                                            <li>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</li>
-                                            <li>{{ schedule.schedule.studio.name }}</li>
+                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
                                     <div class="description">
@@ -52,22 +52,6 @@
                                                     </div>
                                                 </transition>
 
-                                                <transition name="slide">
-                                                    <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path != null" />
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path == null">
-                                                        <div class="letter">
-                                                            {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user == null)">
-                                                        <div class="letter">
-                                                            {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition>
-
                                                 <div class="seat_number">
                                                     {{ data.number }}
                                                 </div>
@@ -84,35 +68,21 @@
                                             </ul>
                                         </div>
                                         <div class="actions" v-if="!schedule.guestHere">
-                                            <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!checkPackage">Buy Rides</nuxt-link>
                                             <transition name="fade">
-                                                <div class="next_wrapper" v-if="checkPackage">
-                                                    <div class="left">
-                                                        <div class="flex package package_details">
-                                                            <div class="toggler">
-                                                                <p>Total Rides Left:</p>
-                                                                <p class="margin">{{ (classPackage != null) ? classPackage.count : 0 }}</p>
-                                                            </div>
-                                                            <div class="toggler alt">
-                                                                <p class="bold">Total Rides Used:</p>
-                                                                <p class="bold margin">{{ (classPackage != null) ? classPackage.original_package_count - classPackage.count : 0 }}</p>
-                                                            </div>
-                                                            <div class="toggler">
-                                                                <div class="picker" @click="choosePackage()">
-                                                                    {{ packageSelected }}
-                                                                    <transition name="slide">
-                                                                        <div class="package_violator" v-if="pointPackage">Choose Package Here</div>
-                                                                    </transition>
-                                                                </div>
-                                                            </div>
-                                                            <div class="toggler alt" v-if="hasGuest">
+                                                <div class="next_wrapper">
+                                                    <div class="left" v-if="hasBooked">
+                                                        <div class="flex package">
+                                                            <div class="toggler" v-if="hasGuest">
+                                                                <p>Swap seat for:</p>
                                                                 <div class="picker" @click="chooseSeat()">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right">
-                                                        <nuxt-link class="back" :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`">Back</nuxt-link>
-                                                        <div v-if="!removeNext" class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    <div class="right" v-if="!removeNext">
+                                                        <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    </div>
+                                                    <div class="right" v-if="!checkPackage">
+                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
                                                     </div>
                                                 </div>
                                             </transition>
@@ -153,12 +123,12 @@
                                     <p>{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="item">
-                                    <p>Class Package Used</p>
-                                    <p>{{ classPackage.class_package.name }}</p>
+                                    <p>Class Packages Used</p>
+                                    <p>{{ getAllTempPackages(toSubmit.tempSeat) }}</p>
                                 </div>
                                 <div class="total">
                                     <p>Consumes</p>
-                                    <p>{{ toSubmit.guestCount + 1 }} Credit/s</p>
+                                    <p>{{ toSubmit.bookCount }} Credit/s</p>
                                 </div>
                                 <div class="preview_actions">
                                     <div class="back" @click="toggleStep('prev')">Back</div>
@@ -173,7 +143,7 @@
                 <booker-assign v-if="$store.state.bookerAssignStatus" />
             </transition>
             <transition name="fade">
-                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
+                <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
             </transition>
             <transition name="fade">
                 <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
@@ -199,6 +169,9 @@
             <transition name="fade">
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
+            <transition name="fade">
+                <booker-actions :seat="dummyData" v-if="$store.state.bookerActionsPrompt" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -214,8 +187,8 @@
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BookerSuccess from '../../../../components/modals/BookerSuccess'
     import BuyPackageFirst from '../../../../components/modals/BuyPackageFirst'
+    import BookerActions from '../../../../components/modals/BookerActions'
     export default {
-        layout: 'fish',
         components: {
             BookerAssign,
             BookerChoosePackage,
@@ -226,7 +199,8 @@
             BookerAssignSuccess,
             BuyRidesPrompt,
             BookerSuccess,
-            BuyPackageFirst
+            BuyPackageFirst,
+            BookerActions
         },
         data () {
             return {
@@ -278,16 +252,16 @@
                 message: 'Cheers! Successfully added a Guest.',
                 promptMessage: '',
                 status: false,
+                tempClassPackage: null,
                 classPackage: null,
-                packageSelected: 'Please Select a Package',
-                pointPackage: false,
                 hasGuest: false,
                 seatStatus: '',
                 hasBooked: false,
                 tempGuestSeat: null,
                 tempOriginalSeat: null,
+                dummyData: null,
                 toSubmit: {
-                    guestCount: 0,
+                    bookCount: 0,
                     tempSeat: []
                 },
                 user: ''
@@ -386,36 +360,60 @@
                 })
                 return result
             },
+            getAllTempPackages (data) {
+                const me = this
+                let packages = []
+                let result = ''
+                let ctr = 0
+                data.forEach((element, index) => {
+                    if (packages.length == 0) {
+                        packages.push(element.class_package.class_package.name)
+                    } else {
+                        if (packages.indexOf(element.class_package.class_package.name) <= -1) {
+                            packages.push(element.class_package.class_package.name)
+                        }
+                    }
+                })
+                packages.forEach((element, index) => {
+                    if (ctr == 0) {
+                        result = element
+                    } else if (ctr > 0) {
+                        result += `, ${element}`
+                    }
+                    ctr++
+                })
+                return result
+            },
             submitPreview () {
                 const me = this
                 let token = me.$route.query.token
                 let formData = new FormData()
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                formData.append('class_package_id', me.classPackage.class_package.id)
-                me.loader(true)
+                me.loader(false)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    if (res.data) {
-                        me.submitted = true
-                        me.step = 0
-                        me.$store.state.buyRidesSuccessStatus = true
-                        me.$scrollTo('#content', {
-                            offset: -250
-                        })
-                    }
-                }).catch(err => {
-                    setTimeout( () => {
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorStatus = true
-                    }, 500)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
+                    console.log(res.data)
+                //     if (res.data) {
+                //         me.submitted = true
+                //         me.step = 0
+                //         me.$store.state.buyRidesSuccessStatus = true
+                //         me.$scrollTo('#content', {
+                //             offset: -250
+                //         })
+                //     }
+                // }).catch(err => {
+                //     setTimeout( () => {
+                //         me.$store.state.errorList = err.response.data.errors
+                //         me.$store.state.errorStatus = true
+                //     }, 500)
+                // }).then(() => {
+                //     setTimeout( () => {
+                //         me.loader(false)
+                //     }, 500)
                 })
             },
             toggleStep (type) {
@@ -446,15 +444,6 @@
                     me.loader(false)
                 }, 500)
             },
-            choosePackage () {
-                const me = this
-                me.loader(true)
-                setTimeout( () => {
-                    me.$store.state.bookerChoosePackageStatus = true
-                    document.body.classList.add('no_scroll')
-                    me.loader(false)
-                }, 500)
-            },
             signIn (data) {
                 const me = this
                 me.currentSeat = data
@@ -469,19 +458,10 @@
                             break
                         case 'reserved':
                         case 'reserved-guest':
-                            if (me.user.id == data.temp.id) {
-                                if (data.guest == 0) {
-                                    me.toSubmit.tempSeat.forEach((element, index) => {
-                                        if (element.temp.id == data.temp.id) {
-                                            delete data.guest
-                                            delete data.temp
-                                            data.status = 'open'
-                                            me.hasBooked = false
-                                            me.removeNext = true
-                                            me.toSubmit.tempSeat.splice(index, 1)
-                                        }
-                                    })
-                                }
+                            if (data.temp) {
+                                me.dummyData = data
+                                me.$store.state.bookerActionsPrompt = true
+                                document.body.classList.add('no_scroll')
                             } else {
                                 me.promptMessage = 'This seat is already booked or reserved by someone else.'
                                 me.$store.state.buyRidesPromptStatus = true
@@ -489,40 +469,19 @@
                             }
                             break
                         case 'open':
-                            if (me.classPackage == null) {
-                                me.pointPackage = true
-                                me.promptMessage = 'Please select a package first before booking on your preferred seat.'
-                                me.$store.state.buyRidesPromptStatus = true
+                            me.dummyData = data
+                            if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
+                                me.$store.state.bookerChoosePackageStatus = true
                                 document.body.classList.add('no_scroll')
                             } else {
-                                if (!me.hasBooked) {
-                                    data.guest = 0
-                                    data.status = 'reserved'
-                                    data.temp = me.user
-                                    me.tempOriginalSeat = data
-                                    if (me.toSubmit.tempSeat.length > 0) {
-                                        me.toSubmit.tempSeat.unshift(data)
-                                    } else {
-                                        me.toSubmit.tempSeat.push(data)
-                                    }
-                                    me.removeNext = false
-                                    me.hasBooked = true
+                                if (me.toSubmit.tempSeat.length == 5) {
+                                    me.promptMessage = "You've already reached the limit of adding guest."
+                                    me.$store.state.buyRidesPromptStatus = true
+                                    document.body.classList.add('no_scroll')
                                 } else {
-                                    if (((me.toSubmit.guestCount + 1) * me.schedule.schedule.class_credits) >= me.classPackage.count) {
-                                        me.promptMessage = "Sorry! You don't have enough rides left."
-                                        me.$store.state.buyRidesPromptStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    } else {
-                                        if (me.toSubmit.guestCount < 4) {
-                                            me.tempGuestSeat = data
-                                            me.$store.state.bookerAssignStatus = true
-                                            document.body.classList.add('no_scroll')
-                                        } else {
-                                            me.promptMessage = "You've already reached the limit of adding guest."
-                                            me.$store.state.buyRidesPromptStatus = true
-                                            document.body.classList.add('no_scroll')
-                                        }
-                                    }
+                                    me.tempGuestSeat = data
+                                    me.$store.state.bookerChoosePackageStatus = true
+                                    document.body.classList.add('no_scroll')
                                 }
                             }
                             break
@@ -535,6 +494,7 @@
             fetchSeats (id) {
                 const me = this
                 let token = me.$route.query.token
+                me.loader(true)
                 me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -542,56 +502,59 @@
                 }).then(res => {
                     if (res.data) {
                         me.user = res.data.user
-                    }
-                })
-                me.loader(true)
-                me.$axios.get(`api/scheduled-dates/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
-                            me.$router.push(`/fish-in-the-glass/manage-class/${id}?token=${token}`)
-                        }
-                        let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
-                        me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
-                        me.temp = res.data.seats
-                        me.schedule = res.data.scheduledDate
-                        me.temp.forEach((seat , index) => {
-                            switch (seat.position) {
-                                case 'left':
-                                    me.seats.left.data.push(seat)
-                                    break
-                                case 'right':
-                                    me.seats.right.data.push(seat)
-                                    break
-                                case 'bottom':
-                                    me.seats.bottom.data.push(seat)
-                                    break
-                                case 'bottom_alt':
-                                    me.seats.bottom_alt.data.push(seat)
-                                    break
-                                case 'bottom_alt_2':
-                                    me.seats.bottom_alt_2.data.push(seat)
-                                    break
+                        me.$axios.get(`api/scheduled-dates/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
                             }
-                            me.ctr++
+                        }).then(res => {
+                            if (res.data) {
+                                if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
+                                    me.$router.push(`/fish-in-the-glass/manage-class/${id}?token=${token}`)
+                                }
+                                let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
+                                me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                                me.temp = res.data.seats
+                                me.schedule = res.data.scheduledDate
+                                me.temp.forEach((seat , index) => {
+                                    switch (seat.position) {
+                                        case 'left':
+                                            me.seats.left.data.push(seat)
+                                            break
+                                        case 'right':
+                                            me.seats.right.data.push(seat)
+                                            break
+                                        case 'bottom':
+                                            me.seats.bottom.data.push(seat)
+                                            break
+                                        case 'bottom_alt':
+                                            me.seats.bottom_alt.data.push(seat)
+                                            break
+                                        case 'bottom_alt_2':
+                                            me.seats.bottom_alt_2.data.push(seat)
+                                            break
+                                    }
+                                    me.ctr++
+                                })
+                                me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+
+                                // if (!me.checkPackage) {
+                                //     me.$store.state.buyPackageFirstStatus = true
+                                //     document.body.classList.remove('no_scroll')
+                                // }
+
+                                me.loaded = true
+                            }
+                        }).catch(err => {
+                            me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                            me.loader(false)
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
                         })
-                        me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
-                        if (!me.checkPackage) {
-                            me.$store.state.buyPackageFirstStatus = true
-                            document.body.classList.remove('no_scroll')
-                        }
-                        me.loaded = true
                     }
                 }).catch(err => {
-                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                    me.loader(false)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
+                    console.log(err)
                 })
             }
         },
@@ -602,7 +565,7 @@
             me.$store.state.proTipStatus = true
             setInterval( () => {
                 if (ctr < 1) {
-                    if (!me.$store.state.isAuth && token == null && token == undefined) {
+                    if (token == null && token == undefined) {
                         me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
                     } else {
                         me.fetchSeats(me.$route.params.slug)

@@ -38,10 +38,11 @@
                 switch (me.$parent.seatStatus) {
                     case 'open':
                         if (me.$parent.classPackage == null) {
-                            document.querySelector('.package_violator').scrollIntoView({block: 'center', behavior: 'smooth'})
+                            // document.querySelector('.package_violator').scrollIntoView({block: 'center', behavior: 'smooth'})
                         }
                         break
                 }
+                me.$parent.status = false
                 me.$store.state.buyRidesPromptStatus = false
                 document.body.classList.remove('no_scroll')
             }
