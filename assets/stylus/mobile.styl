@@ -210,9 +210,27 @@
 @media (max-width: 1280px) and (min-width: 768px)
 
     .default_btn,
-    .default_btn_out
-        width: auto
+    .default_btn_out,
+    .default_btn_wht
         brandon_bold(14px, true)
+        padding: 10px 30px
+
+    .default_modal
+        .confirmation_wrapper
+            width: 400px
+            padding: 40px 20px 30px
+            .confirmation_highlight
+                brandon_bold(18px, false)
+                margin-top: 20px
+            .confirmation_title
+                brandon_bold(18px, false)
+                padding: 0
+            .confirmation_text
+                brandon_regular(16px, false)
+            .default_btn,
+            .default_btn_out
+                width: auto
+                brandon_bold(14px, true)
 
     /**
      * Main */
@@ -516,6 +534,8 @@
                 brandon_bold(22px, false)
 
     #banner
+        &.mt
+            margin-top: 74px
         &.alt_2
             .overlay_mid
                 h1
@@ -711,9 +731,9 @@
         .swiper-pagination
             bottom: calc(0% + 15px) !important
             .swiper-pagination-bullet
-                background: rgba(0, 0, 0, 0.45)
+                background: rgba(38, 164, 139, 0.4)
                 &.swiper-pagination-bullet-active
-                    background: #000
+                    background: rgba(38, 164, 139, 1)
         &.alt3
             .swiper-pagination
                 bottom: calc(0% + 15px) !important
@@ -1373,13 +1393,14 @@
                         .form_flex
                             margin-bottom: 0
         .confirmation_wrapper
-            max-width: calc(100% - 30px)
+            width: calc(100% - 60px)
             padding: 40px 20px 30px
             .confirmation_highlight
-                brandon_bold(22px, false)
+                brandon_bold(18px, false)
                 margin-top: 20px
             .confirmation_title
-                brandon_bold(22px, false)
+                brandon_bold(18px, false)
+                padding: 0
             .confirmation_text
                 brandon_regular(16px, false)
             .member_info
@@ -1530,6 +1551,11 @@
                                                     flex: 1 0 auto
 
 @media (max-width: 767px) and (min-width: 465px)
+
+    .default_modal
+        .confirmation_wrapper
+            width: 450px
+            padding: 40px 20px 30px;
 
     .default_btn,
     .default_btn_out

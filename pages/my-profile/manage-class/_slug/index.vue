@@ -442,6 +442,7 @@
                 const me = this
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
+                formData.append('update', 1)
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 // me.loader(true)
