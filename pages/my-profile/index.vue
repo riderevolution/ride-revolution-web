@@ -81,7 +81,7 @@
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.classes = []
-                                    res.data.upcomingClasses.forEach((data, index) => {
+                                    res.data.customer.upcomingClasses.forEach((data, index) => {
                                         data.toggled = false
                                         me.$refs.profileTab.classes.push(data)
                                     })
