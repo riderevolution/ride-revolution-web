@@ -2,10 +2,38 @@
 
 @media (max-width: 1440px) and (min-width: 1281px)
 
+    .default_modal
+        .confirmation_wrapper
+            width: 400px
+            padding: 40px 40px 30px
+            .confirmation_text
+                brandon_regular(16px, false)
+            .confirmation_title
+                brandon_bold(18px, false)
+                padding: 0 0 10px
+            .button_group
+                margin-top: 30px
+                &.alt_2
+                    margin-top: 15px
+
+
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_wht,
+    .default_btn_blk,
+    .default_btn_blue
         brandon_bold(12px, true)
         padding: 10px 30px
+
+    .default_btn_img
+        brandon_bold(12px, true)
+        .btn_wrapper
+            span
+                padding: 10px 30px
+                &.img
+                    padding: 10px
+                    img
+                        width: 15px
 
     .back
         brandon_medium(12px, true)
@@ -18,6 +46,10 @@
             brandon_medium(12px, false)
 
     .form_flex
+        &.with_btn
+            .form_button
+                .default_btn_out
+                    padding: 10px 30px
         &.radio
             > label
                 brandon_medium(12px, true)
@@ -90,7 +122,7 @@
                         padding-left: 10px
                 .nav_list
                     li
-                        margin: 0 15px
+                        margin: 0 20px
                         .nav_item
                             brandon_bold(12px, true)
                 .user_dropdown
@@ -100,6 +132,9 @@
                             .item_link
                                 brandon_regular(14px, false)
                                 padding: 10px 15px
+                    h3
+                        brandon_bold(14px, false)
+                        margin-left: 10px
             .nav_burger
                 flex: 0 0 35px
                 margin: 0 10px
@@ -248,6 +283,58 @@
                             brandon_bold(24px, false)
 
     .buy_rides
+        &.inner
+            #payments
+                max-width: calc(85%)
+                &.dismissed,
+                &.dismiss
+                    padding: 40px 0 60px
+                .step
+                    .header_title
+                        brandon_bold(20px, false)
+                        margin-bottom: 30px
+                    .wrapper
+                        .left
+                            padding-right: 40px
+                            .header
+                                h2
+                                    brandon_regular(16px, false)
+                            .content
+                                ul
+                                    li
+                                        brandon_regular(12px, false)
+                        .right
+                            padding-left: 40px
+                            .breakdown_list
+                                .item
+                                    p
+                                        brandon_regular(14px, false)
+                                .total
+                                    margin: 30px 0 0
+                                    p
+                                        brandon_bold(16px, false)
+                            .breakdown_actions
+                                margin: 30px 0 20px
+                    .preview_payment
+                        .preview
+                            .available
+                                .available_item
+                                    h3
+                                        brandon_regular(16px, false)
+                                    p
+                                        brandon_medium(16px, false)
+                                    .unavailable
+                                        a
+                                            brandon_medium(12px, false)
+
+                            .item
+                                h3,
+                                p
+                                    brandon_regular(16px, false)
+                            .total
+                                margin: 30px 0
+                                p
+                                    brandon_bold(16px, false)
         #digital
             .overlay
                 h2
@@ -297,6 +384,40 @@
                                     brandon_black(12px, true)
                                 .day
                                     brandon_black(40px, true)
+                    .schedule_list
+                        .header
+                            span
+                                brandon_regular(18px, false)
+                                &.label
+                                    brandon_regular(18px, false)
+                        .content
+                            .schedule
+                                padding: 20px 40px
+                                .time
+                                    brandon_bold(16px, true)
+                                .class
+                                    .image
+                                        width: 50px
+                                        height: 50px
+                                    .info
+                                        padding-left: 20px
+                                        h2
+                                            brandon_medium(14px, false)
+                                        h3
+                                            brandon_regular(14px, false)
+                                        .ride
+                                            brandon_medium(18px, false)
+                        .no_schedule
+                            p
+                                brandon_black(35px, true)
+
+    #referral
+        .wrapper
+            h2
+                brandon_bold(22px, false)
+            h3
+                brandon_regular(14px, false)
+                margin: 20px 0 40px
 
     #promos
         .promo_slide
@@ -317,12 +438,23 @@
             .package_wrapper
                 .package_header
                     .title
-                        brandon_bold(26px, false)
+                        brandon_bold(22px, false)
                     .description
-                        brandon_medium(14px, true)
+                        brandon_medium(12px, true)
                         margin: 30px 0 60px
                 .price
                     brandon_bold(16px, true)
+
+    #breadcrumb
+        padding-top: 60px
+        &.dismiss
+            padding-top: 90px
+        ul
+            li
+                .front,
+                .slash
+                    brandon_regular(12px, false)
+
     #banner
         &.mt
             margin-top: 60px
@@ -333,6 +465,9 @@
         .overlay_mid
             h1
                 brandon_bold(30px, true)
+            h2
+                brandon_bold(16px, false)
+                margin-top: 10px
         .overlay_top
             .overlay_image
                 width: 600px
@@ -769,6 +904,17 @@
                     .logo_title
                         neutra_bold(14px, true)
                         padding-left: 10px
+                .user_dropdown
+                    img
+                        width: 30px
+                        height: 30px
+                    .user_dropdown_list
+                        width: 175px
+                        top: calc(100% + 20px)
+                        .user_dropdown_item
+                            .item_link
+                                padding: 10px
+                                brandon_regular(12px, false)
             .nav_burger
                 flex: 0 0 35px
                 margin: 0 10px
@@ -808,27 +954,36 @@
                                 &:hover,
                                 &:focus
                                     &::before
-                                        right: calc(0% - 35px)
+                                        right: calc(0% - 40px)
                                 #menu
                                     width: auto
                                     height: 30px
                 .right
                     .expanded_nav_list
                         li
-                            margin-bottom: 30px
+                            margin-bottom: 15px
                             .nav_item
-                                brandon_bold(16px, true)
+                                brandon_bold(14px, true)
                     .expanded_nav_description
                         padding-top: 10px
                         .link
                             margin-bottom: 20px
                             span
                                 brandon_bold(14px, false)
-                        .social_links
-                            margin-top: 20px
+                            p
+                                brandon_regular(14px, false)
+                        p
                             brandon_regular(14px, false)
                             a
+                                brandon_bold(14px, true)
+                        .social_links
+                            margin-top: 20px
+                            h4
+                                brandon_regular(14px, false)
+                            a
                                 margin: 0 10px
+                                width: 20px
+                                height: 20px
                 .left,
                 .right
                     flex: 0 0 100%
@@ -850,6 +1005,22 @@
                     height: 100%
                     .social_links
                         margin-bottom: 20px
+                    p
+                        brandon_regular(14px, false)
+                        a
+                            brandon_bold(14px, false)
+                h3
+                    brandon_medium(14px, true)
+                .social_links
+                    h4
+                        brandon_regular(14px, false)
+                    a
+                        width: 20px
+                        height: 20px
+                ul
+                    li
+                        .footer_item
+                            brandon_regular(14px, false)
             .back_to_top
                 top: calc(0% + 50px)
                 right: calc(0% + 30px)
@@ -858,7 +1029,7 @@
             top: calc(0% + 61px)
             padding: 5px 15px
             .tip
-                brandon_regular_italic(14px, false)
+                brandon_regular_italic(12px, false)
 
     .default
         .swiper-pagination
@@ -874,6 +1045,14 @@
                     background: rgba(255, 255, 255, 0.45)
                     &.swiper-pagination-bullet-active
                         background: #fff
+
+    #breadcrumb
+        ul
+            li
+                .front,
+                .slack,
+                .crumb
+                    brandon_regular(12px, false)
 
     #promos
         background-image: url('/dotted-bg.png')
@@ -894,15 +1073,17 @@
                 max-width: 100%
                 padding: 20px 15px
                 transform: translateY(0%)
+                .header_title
+                    brandon_bold(12px, true)
                 .title
-                    brandon_bold(22px, false)
+                    brandon_bold(18px, false)
                     line-height: 1.25
                     margin: 10px 0 20px
                 .description
                     brandon_regular(14px, false)
                 .copy_wrapper
                     .code
-                        brandon_bold(26px, true)
+                        brandon_bold(22px, true)
                 &:hover
                     box-shadow: 0px 0px 30px transparent
 
@@ -915,7 +1096,7 @@
                 h2
                     display: inline-block
                     margin: 0 auto
-                    brandon_bold(22px, false)
+                    brandon_bold(18px, false)
                     line-height: 1
         .header
             padding: 20px 0 10px
@@ -934,19 +1115,26 @@
         .content
             max-width: calc(100% - 30px)
             padding-bottom: 20px
+            .action_mobile
+                flex: 0 0 100%
             .package_wrapper
                 flex: 0 0 100%
-                padding: 50px 20px
+                padding: 30px 20px
                 &.promo
                     .ribbon
                         top: calc(0% + 20px)
                         left: calc(0% - 68px)
+                        brandon_bold(12px, true)
                 .package_header
                     .title
-                        brandon_bold(26px, false)
+                        brandon_bold(22px, false)
                     .description
                         margin: 10px 0 20px
-                        brandon_medium(14px, false)
+                        brandon_medium(12px, false)
+                .price
+                    brandon_bold(14px, false)
+                .expires
+                    brandon_medium(12px, true)
             .default_btn
                 &.load
                     margin-top: 10px
@@ -976,7 +1164,7 @@
                 padding: 30px 15px 20px
                 .review_slide
                     .description
-                        brandon_regular(16px, false)
+                        brandon_regular(12px, false)
                     img
                         width: 45px
                         {image_default}
@@ -1021,7 +1209,7 @@
                             background-color: transparent
                             .overlay
                                 position: static
-                                padding: 30px 15px
+                                padding: 30px 15px 15px
                                 transform: translateY(0%)
                                 .content_select
                                     .input
@@ -1031,11 +1219,13 @@
                                         width: 100%
                                         label
                                             flex: 0 0 auto
-                                            brandon_regular(18px, false)
-                                        select
-                                            flex: 0 0 auto
-                                            width: auto
-                                            brandon_bold(18px, false)
+                                            brandon_regular(14px, false)
+                                        .select
+                                            select
+                                                flex: 0 0 auto
+                                                width: auto
+                                                brandon_bold(16px, false)
+
                         .left
                             .studio_slide
                                 .overlay
@@ -1049,7 +1239,7 @@
                             .content_flex
                                 margin: 15px
                                 .title
-                                    brandon_medium(22px, false)
+                                    brandon_medium(18px, false)
                                     margin-top: 0
                                 .description
                                     margin: 20px 0
@@ -1057,11 +1247,11 @@
                                         brandon_regular(12px, true)
                                         margin-bottom: 10px
                                     p
-                                        brandon_regular(16px, false)
+                                        brandon_regular(14px, false)
                                         margin-bottom: 5px
                                     .link
                                         a
-                                            brandon_regular(16px, false)
+                                            brandon_regular(14px, false)
                                 .default_btn
                                     margin-top: 10px
         #lets_ride
@@ -1091,7 +1281,7 @@
                     padding: 40px 0
                 .step
                     .header_title
-                        brandon_bold(20px, false)
+                        brandon_bold(18px, false)
                         margin-bottom: 15px
                     #initial_form
                         max-width: 100%
@@ -1103,13 +1293,20 @@
                             border-bottom: 1px solid #d0d0d0
                             .header
                                 h2
-                                    brandon_regular(18px, false)
+                                    brandon_regular(16px, false)
+                            .content
+                                ul
+                                    li
+                                        brandon_regular(14px, false)
                         .right
                             border-left: none
                             padding-left: 0px
                             .breakdown_list
+                                .item
+                                    p
+                                        brandon_regular(14px, false)
                                 .total
-                                    margin: 25px 0 0
+                                    margin: 20px 0 0
                                     p
                                         brandon_bold(16px, false)
                             .breakdown_actions
@@ -1129,13 +1326,13 @@
                             .item
                                 h3,
                                 p
-                                    brandon_regular(16px, false)
+                                    brandon_regular(14px, false)
                             .available
                                 .available_item
                                     h3
-                                        brandon_regular(16px, false)
+                                        brandon_regular(14px, false)
                                     p
-                                        brandon_medium(16px, false)
+                                        brandon_medium(14px, false)
                             .total
                                 margin: 25px 0
                                 p
@@ -1158,10 +1355,10 @@
             .overlay
                 margin: 0 15px
                 h2
-                    brandon_bold(28px, false)
+                    brandon_bold(20px, false)
                     line-height: 1.25
                 h3
-                    brandon_regular(16px, false)
+                    brandon_regular(14px, false)
                     margin: 10px 0 20px
                 .default_btn
                     width: auto
@@ -1251,8 +1448,10 @@
                             p
                                 brandon_black(25px, true)
         &.inner
+            #banner
+                margin-top: 30px
             #content
-                padding: 60px 0 0
+                padding: 30px 0
                 max-width: calc(100% - 20px)
                 &.fish
                     max-width: 100%
@@ -1264,6 +1463,7 @@
                 &.dismiss
                     padding: 0 0 40px
                 .main_left
+                    margin-bottom: 30px
                     .header
                         display: flex
                         flex-flow: row wrap
@@ -1273,20 +1473,41 @@
                         border-bottom: 1px solid transparent
                         h2
                             flex: 0 0 auto
-                            brandon_bold(20px, false)
+                            brandon_bold(16px, false)
                             &:first-child
                                 padding-right: 10px
                     .content
                         ul
-                            padding: 20px 0
                             max-width: 100%
+                            padding: 10px 0
+                            display: flex
+                            flex-flow: row wrap
+                            justify-content: center
                             li
-                                justify-content: center
+                                flex: 0 0 auto
+                                margin: 0 30px 10px
+                                padding: 0 5px
                                 brandon_regular(12px, false)
+                    .description
+                        padding: 0 10px 30px
+                        h3
+                            brandon_regular(12px, false)
+                            margin-bottom: 10px
+                        ul
+                            li
+                                brandon_regular(12px, false)
+                                b
+                                    brandon_bold(12px, false)
+                    .waitlisted
+                        padding: 20px 10px
+                        .label
+                            brandon_bold(16px, false)
+                        .user
+                            margin-top: 10px
                 .main_right
                     margin-left: 0
                     .content
-                        padding: 30px 0 60px
+                        padding: 30px 0
                         .seat_wrapper
                             height: 350px
                             max-width: 350px
@@ -1297,7 +1518,7 @@
                                 left: calc(50%)
                                 width: 100%
                                 h3
-                                    brandon_regular(18px, false)
+                                    brandon_regular(16px, false)
                                 h4
                                     brandon_regular_italic(12px, false)
                                     margin: 0 0 20px
@@ -1359,17 +1580,32 @@
                                             margin-right: 5px
                             .actions
                                 padding: 10px 0
-                                margin-top: 20px
+                                margin-top: 10px
                                 .next_wrapper
-                                    padding: 0 20px
+                                    padding: 10px 0
                                     .left,
                                     .right
                                         flex: 0 0 100%
                                     .left
-                                        padding: 10px 20px
+                                        padding: 10px
                                         justify-content: center
                                         .flex
                                             flex: 0 0 100%
+                                            &.package
+                                                display: flex
+                                                flex-flow: row wrap
+                                                align-items: center
+                                                justify-content: center
+                                                padding-right: 0
+                                                .toggler
+                                                    &:last-child
+                                                        margin-bottom: 15px
+                                                    .picker
+                                                        brandon_bold(12px, false)
+                                                p
+                                                    brandon_regular(12px, false)
+                                                    &.margin
+                                                        margin-left: 10px
                                             &.package,
                                             &.package_details
                                                 margin-bottom: 15px
@@ -1378,6 +1614,18 @@
                                     .right
                                         text-align: center
                                         margin-top: 0
+                                        padding: 0 10px
+                                        &.alt
+                                            display: flex
+                                            flex-flow: row wrap
+                                            align-items: center
+                                            justify-content: space-between
+                                            .default_btn
+                                                flex: 0 0 150px
+                                        .back,
+                                        .default_btn
+                                            width: auto
+                                            flex: 0 0 auto
                 .main_left,
                 .main_right
                     flex: 0 0 100%
@@ -1385,22 +1633,158 @@
                     &.form
                         .preview_book_form
                             max-width: 100%
-                            padding: 30px 20px
+                            padding: 0
                             .header_title
-                                brandon_bold(22px, false)
+                                brandon_bold(16px, false)
                                 margin-bottom: 20px
                             .preview
                                 .item
                                     h3,
                                     p
-                                        brandon_regular(18px, false)
+                                        brandon_regular(12px, false)
                                 .total
                                     margin: 20px 0
                                     p
-                                        brandon_bold(18px, false)
+                                        brandon_bold(12px, false)
                                 .preview_actions
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    justify-content: space-between
                                     .default_btn
-                                        width: 100%
+                                        flex: 0 0 150px
+                .back
+                    brandon_medium(12px, true)
+
+    .riders_guide
+        #teaser
+            padding: 40px 20px
+            text-align: center
+            h2
+                brandon_bold(20px, true)
+            p
+                brandon_regular(14px, false)
+                line-height: 1.5
+        #ready
+            padding: 20px
+            .header
+                h2
+                    brandon_bold(20px, true)
+                h3
+                    brandon_regular(14px, false)
+                    line-height: 1.5
+                    max-height: 100%
+            .content
+                max-width: 100%
+                margin: 30px auto
+                justify-content: center
+                .wrapper
+                    flex: 0 0 100%
+                    margin: 0 15px 15px
+                    &:last-child
+                        margin: 0 15px 0
+                    #ready_icon
+                        margin-bottom: 15px
+                    h2
+                        brandon_medium(14px, true)
+                    p
+                        brandon_light(14px, false)
+            .instructors
+                margin-top: 0px
+                .instructor_header
+                    h2
+                        brandon_bold(20px, true)
+                    h3
+                        brandon_regular(14px, false)
+                        line-height: 1.5
+                        max-height: 100%
+                .instructor_content
+                    .wrapper
+                        padding: 30% 0
+                        .overlay
+                            h2
+                                brandon_bold(14px, true)
+                                padding: 0 10px
+                            .action
+                                padding: 10px 10px 20px
+                        .follow
+                            brandon_medium(10px, true)
+                    .view_all
+                        position: static
+                        margin-top: 10px
+                        span
+                            brandon_bold(14px, true)
+                            margin-left: 10px
+        #getset
+            .header
+                padding: 20px
+                h2
+                    brandon_bold(20px, true)
+                p
+                    brandon_regular(14px, false)
+                    line-height: 1.5
+                    max-height: 100%
+            .content
+                .bike_wrapper
+                    svg
+                        width: 100% !important
+                        height: 200px
+        #ride_info
+            .header
+                padding: 20px 0 0
+                h2
+                    brandon_bold(20px, true)
+                p
+                    brandon_regular(14px, false)
+                    line-height: 1.5
+                    max-height: 100%
+            .content
+                max-width: 100%
+                padding: 0 20px
+                .wrapper
+                    flex: 0 0 100%
+                    margin: 0 0 20px
+                    padding: 20px
+                    h2
+                        brandon_medium(12px, true)
+                    .info
+                        margin-top: 10px
+                        .count
+                            brandon_bold(50px, false)
+                        .text
+                            brandon_light(12px, true)
+                    p
+                        brandon_regular(12px, false)
+        #cool_letgo
+            img
+                height: 150px
+            .overlay
+                h2
+                    brandon_bold(18px, false)
+                    margin-bottom: 10px
+                .default_btn
+                    width: auto
+                    brandon_medium(10px, false)
+
+    .default
+        &.alt2
+            padding-bottom: 60px
+            .swiper-button-prev,
+            .default.alt2 .swiper-container-rtl .swiper-button-next
+                left: calc(50% - 50px)
+            .swiper-button-next,
+            .default.alt2 .swiper-container-rtl .swiper-button-prev
+                right: calc(50% - 50px)
+                left: unset
+
+    .default
+        .swiper-button-prev,
+        .swiper-button-next
+            width: 35px
+            height: 35px
+            &::before,
+            &::after
+                background-size: contain
 
     /**
      * Global */
@@ -1410,10 +1794,11 @@
     .default_btn_wht
         width: 100%
         brandon_bold(12px, true)
-        padding: 12px 10px
+        padding: 10px
     .default_btn_wht_alt
         .text
-            brandon_bold(14px, true)
+            brandon_bold(12px, true)
+            padding: 10px
     .default_btn_img
         width: 100%
         brandon_bold(12px, true)
@@ -1430,18 +1815,18 @@
     .form_group
         margin-bottom: 20px
         .validation_errors
-            brandon_medium(14px, false)
+            brandon_medium(12px, false)
 
     .form_disclaimer
         &.alt
-            brandon_regular_italic(14px, false)
+            brandon_regular_italic(12px, false)
 
     .form_flex
         &.alt_2
             .form_group
                 flex: 0 0 100%
         &.with_btn
-            margin-bottom: 20px
+            margin-bottom: 15px
             &.alt
                 .form_group
                     &.qty
@@ -1456,24 +1841,31 @@
                 flex: 0 0 auto
                 .default_btn_out
                     width: 100%
-                    padding: 12px 15px
+                    padding: 10px 15px
         .form_group
             flex: 0 0 100%
-            margin-bottom: 20px
+            margin-bottom: 15px
 
     .form_radio
         label
-            brandon_regular(16px, false)
+            brandon_regular(12px, false)
             margin-left: 10px
+
+    .form_flex
+        margin-bottom: 15px
+
+    .form_group
+        label
+            brandon_medium(12px, true)
 
     .input_text,
     .input_select
-        brandon_regular(16px, false)
+        brandon_regular(12px, false)
         &.alt
-            brandon_regular(16px, true)
+            brandon_regular(12px, true)
 
     .form_disclaimer
-        brandon_regular(14px, false)
+        brandon_regular(12px, false)
 
     .default_modal_page
         #disclaimer
@@ -1500,6 +1892,11 @@
                             flex: 0 0 100%
                             margin: 0
 
+    .wrap
+        .loading
+            .text
+                brandon_bold(12px, true)
+
     .default_modal
         #default_form
             &.overlay
@@ -1508,45 +1905,65 @@
                     max-width: calc(100% - 30px)
             .modal_wrapper
                 .form_title
-                    brandon_bold(22px, false)
-                    padding: 40px 20px 30px
+                    brandon_bold(16px, false)
+                    padding: 20px
                 .modal_main_group
-                    padding: 0 20px 20px
+                    padding: 0 0 20px 10px
+                    max-height: 400px
+                    overflow-y: scroll
                     .form_custom_checkbox
                         .custom_checkbox
-                            padding: 20px 40px 20px 20px
+                            padding: 10px 20px 10px 10px
                             label
-                                brandon_bold(18px, false)
+                                brandon_bold(14px, false)
                             .info
                                 p
-                                    brandon_medium(12px, false)
+                                    brandon_medium(10px, false)
                             #check
                                 right: calc(0% + 10px)
+                                width: 20px
+                                height: 20px
                     .form_toggler
                         .form_flex
                             margin-bottom: 0
         .confirmation_wrapper
             width: calc(100% - 60px)
-            padding: 40px 20px 30px
+            padding: 20px
             .confirmation_highlight
-                brandon_bold(18px, false)
+                brandon_bold(14px, false)
                 margin-top: 20px
+            .confirmation_image
+                margin-bottom: 15px
             .confirmation_title
-                brandon_bold(18px, false)
+                brandon_bold(14px, false)
                 padding: 0
             .confirmation_text
-                brandon_regular(16px, false)
+                brandon_regular(12px, false)
             .member_info
                 margin-top: 20px
                 h2
-                    brandon_bold(25px, false)
+                    brandon_bold(14px, false)
+                h3
+                    brandon_medium(12px, true)
+                .member_image
+                    width: 60px
+                    height: 60px
+                    .overlay
+                        top: 0
+                        width: 60px
+                        height: 60px
+                        .letter
+                            brandon_bold(20px, true)
             .button_group
-                margin-top: 30px
+                margin-top: 20px
                 &.alt
                     .flex
                         flex: 0 0 100%
                 .flex
                     flex: 0 0 48.33%
+
+    .form_button
+        margin-top: 20px
 
     .default_modal_page
         #banner
@@ -1560,6 +1977,8 @@
             padding: 10px 15px
 
     #banner
+        &.mt
+            margin-top: 60px
         &.alt_2
             .overlay_mid
                 h1
@@ -1567,7 +1986,7 @@
         img
             width: 100%
         .main_image
-            height: 650px
+            height: 600px
         .overlay_top
             top: 61px
             width: 100%
@@ -1596,9 +2015,10 @@
                     padding-left: 10px
         .overlay_mid
             h1
-                brandon_bold(30px, true)
+                brandon_bold(24px, true)
             h2
-                brandon_bold(16px, false)
+                brandon_bold(14px, false)
+                margin-top: 10px
         .overlay_bottom
             justify-content: center
             max-width: calc(100% - 30px)
@@ -1607,7 +2027,7 @@
             p
                 flex: 0 0 100%
                 text-align: center
-                brandon_regular(16px, false)
+                brandon_regular(12px, false)
                 margin-right: 0
                 margin-bottom: 20px
 

@@ -25,7 +25,7 @@
                     </div>
                     <div class="form_group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="loginForm.password">
+                        <input type="password" id="password" name="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="loginForm.password">
                         <transition name="fade">
                             <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>

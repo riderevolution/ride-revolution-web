@@ -124,9 +124,11 @@
                     if (me.$parent.added != null && me.$parent.added != undefined) {
                         me.$parent.added++
                     }
+                    me.$store.state.bookerChooseSeatStatus = false
+                    me.$parent.status = true
                     setTimeout( () => {
-                        me.$store.state.bookerChooseSeatStatus = false
-                        document.body.classList.remove('no_scroll')
+                        me.$parent.promptMessage = "You've successfully swapped seats."
+                        me.$store.state.buyRidesPromptStatus = true
                         me.loader(false)
                     }, 500)
                 }
