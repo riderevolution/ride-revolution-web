@@ -355,8 +355,8 @@
                                             result += 'reserved alt'
                                         }
                                     } else {
-                                        if (seat.bookings[0].user_id == me.user.id) {
-                                            if (seat.bookings[0].is_guest == 1) {
+                                        if (seat.bookings[0].user.customer_details.user_id == me.user.id) {
+                                            if (seat.bookings[0].is_guest == 0) {
                                                 result += 'reserved alt'
                                             }
                                         } else {
@@ -445,30 +445,29 @@
                 formData.append('update', 1)
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                // me.loader(true)
+                me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    console.log(res.data)
-                //     if (res.data) {
-                //         me.submitted = true
-                //         me.step = 0
-                //         me.$store.state.buyRidesSuccessStatus = true
-                //         me.$scrollTo('#content', {
-                //             offset: -250
-                //         })
-                //     }
-                // }).catch(err => {
-                //     setTimeout( () => {
-                //         me.$store.state.errorList = err.response.data.errors
-                //         me.$store.state.errorStatus = true
-                //     }, 500)
-                // }).then(() => {
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
+                    if (res.data) {
+                        me.submitted = true
+                        me.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
+                        me.$scrollTo('#content', {
+                            offset: -250
+                        })
+                    }
+                }).catch(err => {
+                    setTimeout( () => {
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorStatus = true
+                    }, 500)
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             },
             toggleStep (type) {

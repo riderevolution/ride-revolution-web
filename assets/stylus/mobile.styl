@@ -4,16 +4,52 @@
 
     .default_btn,
     .default_btn_out
-        brandon_bold(14px, true)
+        brandon_bold(12px, true)
         padding: 10px 30px
+
+    .back
+        brandon_medium(12px, true)
 
     .form_group
         margin-bottom: 20px
+        label
+            brandon_medium(12px, true)
+        .validation_errors
+            brandon_medium(12px, false)
+
+    .form_flex
+        &.radio
+            > label
+                brandon_medium(12px, true)
+            .validation_errors
+                brandon_medium(12px, false)
+
+    .form_radio
+        label
+            brandon_medium(12px, true)
+        .validation_errors
+            brandon_medium(12px, false)
+
+    .form_check
+        label
+            brandon_medium(12px, true)
+        .validation_errors
+            brandon_medium(12px, false)
+
+    .input_text,
+    .input_select
+        brandon_regular(14px, false)
+        padding: 8px 10px
+
+    .input_link,
+    .form_disclaimer
+        brandon_regular(14px, false)
 
     .login_sign_up
         .close_icon
             top: calc(0% + 15px)
-        &.front
+        &.front,
+        &.not_front
             margin-top: 60px
             &.sticky
                 margin-top: 60px
@@ -21,10 +57,20 @@
             height: calc(100% - 150px)
             overflow-y: scroll
             overflow-x: hidden
-            padding-right: 10px
-            max-width: 50%
+            padding: 0 30px
+            max-width: 40%
+            #default_form,
+            .new_here
+                margin-top: 30px
+            .new_here
+                brandon_medium(14px, false)
+            .action
+                .default_btn_login
+                    margin: 30px 0
+                    span
+                        brandon_medium(14px, false)
             .title
-                brandon_bold(22px, false)
+                brandon_bold(18px, false)
 
     /**
      * Main */
@@ -46,7 +92,14 @@
                     li
                         margin: 0 15px
                         .nav_item
-                            brandon_bold(14px, true)
+                            brandon_bold(12px, true)
+                .user_dropdown
+                    .user_dropdown_list
+                        width: 220px
+                        .user_dropdown_item
+                            .item_link
+                                brandon_regular(14px, false)
+                                padding: 10px 15px
             .nav_burger
                 flex: 0 0 35px
                 margin: 0 10px
@@ -114,7 +167,24 @@
                 .right
                     flex: 0 0 45%
         #footer
-            padding: 60px
+            padding: 40px
+            .footer_link
+                &.alt
+                    p
+                        brandon_regular(14px, false)
+                        a
+                            brandon_bold(14px, false)
+                h3
+                    brandon_medium(14px, false)
+                ul
+                    li
+                        .footer_item
+                            brandon_regular(14px, false)
+                .social_links
+                    h4
+                        brandon_medium(14px, false)
+            .back_to_top
+                right: calc(0% - 40px)
         #pro_tip
             top: calc(0% + 61px)
             padding: 5px 15px
@@ -177,6 +247,57 @@
                         span
                             brandon_bold(24px, false)
 
+    .buy_rides
+        #digital
+            .overlay
+                h2
+                    brandon_bold(30px, false)
+                h3
+                    brandon_regular(16px, false)
+
+    .book_a_bike
+        &.landing
+            #content
+                .left
+                    padding: 30px 30px 20em
+                    .filter
+                        .wrapper
+                            &.studio_filter
+                                .group
+                                    margin-bottom: 10px
+                                    label
+                                        brandon_medium(14px, false)
+                            &.instructor_filter
+                                margin-top: 40px
+                                .autocomplete
+                                    &::before
+                                        top: calc(0% + (42px / 2))
+                                    .text
+                                        brandon_regular(14px, false)
+                                        padding: 10px 35px
+                                    .autocomplete_dropdown
+                                        .list
+                                            img
+                                                width: 30px
+                                                height: 30px
+                                            p
+                                                brandon_regular(16px, false)
+                            h3
+                                margin-bottom: 15px
+                                brandon_regular(14px, true)
+                .right
+                    padding: 30px
+                    .date_navigator
+                        .date
+                            .overlay
+                                .abbr
+                                    brandon_bold(18px, false)
+                                    margin-bottom: 15px
+                                .month
+                                    brandon_black(12px, true)
+                                .day
+                                    brandon_black(40px, true)
+
     #promos
         .promo_slide
             .overlay
@@ -184,6 +305,13 @@
                     brandon_bold(24px, false)
 
     #packages
+        &.alt
+            .header
+                h2
+                    brandon_bold(24px, true)
+                .description
+                    p
+                        brandon_regular(18px, false)
         .content
             max-width: calc(100% - 60px)
             .package_wrapper
@@ -196,10 +324,15 @@
                 .price
                     brandon_bold(16px, true)
     #banner
+        &.mt
+            margin-top: 60px
         &.alt_2
             .overlay_mid
                 h1
                     brandon_bold(26px, false)
+        .overlay_mid
+            h1
+                brandon_bold(30px, true)
         .overlay_top
             .overlay_image
                 width: 600px
