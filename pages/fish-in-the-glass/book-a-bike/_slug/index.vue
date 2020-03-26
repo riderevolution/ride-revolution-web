@@ -13,7 +13,7 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride </span></li>
                                             <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
@@ -79,10 +79,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="right" v-if="!removeNext">
-                                                        <div  class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        <div class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
+                                                    </div>
+                                                    <div class="action_mobile">
+                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
                                                     </div>
                                                 </div>
                                             </transition>
@@ -189,6 +192,7 @@
     import BuyPackageFirst from '../../../../components/modals/BuyPackageFirst'
     import BookerActions from '../../../../components/modals/BookerActions'
     export default {
+        layout: 'fish',
         components: {
             BookerAssign,
             BookerChoosePackage,

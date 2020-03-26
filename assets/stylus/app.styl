@@ -701,55 +701,39 @@ svg
                             padding: 30px 0
                             .footer
                                 .actions
-                                    @media (max-width: 767px) and (min-width: 320px)
-                                        .next_wrapper
-                                            .left
-                                                padding: 10px 0
-                                                .flex
-                                                    &.package
-                                                        display: flex
-                                                        flex-flow: row wrap
-                                                        align-items: center
-                                                        justify-content: space-between
-                                                        padding-right: 0
-                                                        .toggler
-                                                            justify-content: flex-start
-                                                            flex: 0 0 48%
-                                                            &:last-child
-                                                                margin-bottom: 15px
-                                                            &.alt
-                                                                justify-content: flex-end
-                                                            .picker
-                                                                margin-left: 0
-                                                                brandon_bold(12px, false)
-                                                        p
-                                                            brandon_regular(12px, false)
-                                                            &.margin
-                                                                margin-left: 10px
-                                            .right
-                                                display: flex
-                                                flex-flow: row wrap
-                                                align-items: center
-                                                justify-content: space-between
-                                                .back,
-                                                .default_btn
-                                                    width: auto
-                                                    flex: 0 0 auto
                                     .next_wrapper
                                         .left
+                                            padding: 10px 0
                                             .flex
-                                                display: flex
-                                                flex-flow: row wrap
-                                                align-items: center
-                                                justify-content: space-between
-                                                flex: 0 0 100%
-                                                .toggler
-                                                    justify-content: flex-start
-                                                    flex: 0 0 48%
-                                                    &.alt
-                                                        justify-content: flex-end
-                                                    .picker
-                                                        margin-left: 0
+                                                &.package
+                                                    display: flex
+                                                    flex-flow: row wrap
+                                                    align-items: center
+                                                    justify-content: space-between
+                                                    padding-right: 0
+                                                    .toggler
+                                                        justify-content: flex-start
+                                                        flex: 0 0 48%
+                                                        &:last-child
+                                                            margin-bottom: 15px
+                                                        &.alt
+                                                            justify-content: flex-end
+                                                        .picker
+                                                            margin-left: 0
+                                                            brandon_bold(12px, false)
+                                                    p
+                                                        brandon_regular(12px, false)
+                                                        &.margin
+                                                            margin-left: 10px
+                                        .right
+                                            display: flex
+                                            flex-flow: row wrap
+                                            align-items: center
+                                            justify-content: space-between
+                                            .back,
+                                            .default_btn
+                                                width: auto
+                                                flex: 0 0 auto
                     .step
                         &.form
                             .preview_book_form
@@ -1213,14 +1197,14 @@ svg
             flex: 0 0 15%
         .footer_sitemap
             flex: 0 0 100%
-            margin: 25px 0
+            margin: 20px 0
             &.toggled
                 label
                     img
                         transform: rotate(90deg)
                         transition: .3s ease-in-out
             label
-                brandon_bold(18px, false)
+                brandon_bold(14px, false)
                 color: $black
                 letter-spacing: 0.9px
                 img
@@ -2837,7 +2821,7 @@ svg
                                 position: absolute
                                 top: calc(0% - 20px)
                                 right: 0
-                                color: $black_alt
+                                color: $red
                                 text-decoration: line-through
                                 brandon_regular(14px, false)
                         .content
@@ -4908,8 +4892,10 @@ svg
                                         transform: translateY(-50%)
                                         transition: .3s ease-in-out
                                 .radio
-                                    -webkit-appearance: none
-                                    appearance: none
+                                    -webkit-appearance: none !important
+                                    -moz-appearance: none !important
+                                    -o-appearance: none !important
+                                    appearance: none !important
                                     position: absolute
                                     &:hover
                                         ~ label
@@ -8567,7 +8553,10 @@ svg
         margin-bottom: 0px
         margin-left: 20px
     .input_radio
-        -webkit-appearance: none
+        -webkit-appearance: none !important
+        -moz-appearance: none !important
+        -o-appearance: none !important
+        appearance: none !important
         cursor: pointer
         outline: none
         width: 21px
@@ -8653,7 +8642,10 @@ svg
         a
             color: $green
     .input_check
-        -webkit-appearance: none
+        -webkit-appearance: none !important
+        -moz-appearance: none !important
+        -o-appearance: none !important
+        appearance: none !important
         cursor: pointer
         outline: none
         width: 22px
