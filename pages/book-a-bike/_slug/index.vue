@@ -85,7 +85,11 @@
                                                                 <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="right" v-if="!removeNext">
+                                                        <div class="right alt" v-if="$parent.$parent.isMobile && !removeNext">
+                                                            <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
+                                                            <div class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        </div>
+                                                        <div class="right" v-if="!$parent.$parent.isMobile && !removeNext">
                                                             <div class="default_btn" @click="toggleStep('next')">Next</div>
                                                         </div>
                                                         <div class="right" v-if="!checkPackage">

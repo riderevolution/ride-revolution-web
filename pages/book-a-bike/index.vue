@@ -51,7 +51,7 @@
                 </div>
                 <div class="right">
                     <div class="date_navigator">
-                        <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(currentYear, currentMonth, result.day, key)">
+                        <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(currentYear, $moment(`${result.month}-${result.day}-${result.year}`, 'MMM-DD-YYYY').format('M'), result.day, key)">
                             <div class="overlay">
                                 <div class="abbr">{{ result.abbr }}</div>
                                 <div class="month">{{ result.month }}</div>
@@ -600,7 +600,7 @@
                         if (currentDate > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
                             currentDate = 1
                             me.currentMonth = me.currentMonth + 1
-                            if (me.currentMonth == 13) {
+                            if (me.currentMonth == 12) {
                                 me.currentMonth = 1
                                 me.currentYear = me.currentYear + 1
                             }

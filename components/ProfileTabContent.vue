@@ -972,13 +972,13 @@
                                     me.classes = []
                                     switch (category) {
                                         case 'upcoming-classes':
-                                            res.data.upcomingClasses.forEach((data, index) => {
+                                            res.data.customer.upcomingClasses.forEach((data, index) => {
                                                 data.toggled = false
                                                 me.classes.push(data)
                                             })
                                             break
                                         case 'waitlisted':
-                                            res.data.waitlisted.forEach((data, index) => {
+                                            res.data.customer.waitlisted.forEach((data, index) => {
                                                 data.toggled = false
                                                 me.classes.push(data)
                                             })

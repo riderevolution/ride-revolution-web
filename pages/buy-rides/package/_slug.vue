@@ -141,7 +141,6 @@
         data () {
             return {
                 type: '',
-                storeCredits: 0,
                 step: 1,
                 paypal: false,
                 message: '',
@@ -258,6 +257,9 @@
                         me.renderPaypal()
                         break
                 }
+                me.$scrollTo('#payments', {
+                    offset: -250
+                })
             },
             applyPromo (id) {
                 const me = this
@@ -278,6 +280,7 @@
                         setTimeout( () => {
                             me.loader(false)
                             me.$store.state.buyRidesPromptStatus = true
+                            document.body.classList.add('no_scroll')
                         }, 500)
                     })
                 }
@@ -324,14 +327,23 @@
                 me.$store.state.loginCheckerStatus = true
                 document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+            } else {
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
+                    }
+                })
             }
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get(`api/packages/web/class-packages/${params.slug}`).then(res => {
                 if (res.data) {
                     return {
-                        res: res.data.classPackage,
-                        storeCredits: (store.state.user.store_credits === null) ? 0 : store.state.user.store_credits.amount
+                        res: res.data.classPackage
                     }
                 }
             }).catch(err => {
