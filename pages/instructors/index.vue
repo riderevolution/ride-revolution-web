@@ -5,9 +5,9 @@
                 <div class="select">
                     <label class="label">
                         Specialization
-                        <div class="count">
+                        <!-- <div class="count">
                             <span>{{ count }}</span>
-                        </div>
+                        </div> -->
                     </label>
                     <div class="custom_select">
                         <div :class="`check ${(checkSpecialization) ? 'active' : ''}`">
@@ -46,14 +46,14 @@
                     <img class="main" src="/default/instructor/sample-instructor.png" />
                     <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
                     <div class="overlay">
-                        <h2>{{ data.name }}</h2>
+                        <div class="title">{{ data.name }}</div>
                         <div class="action">
                             <nuxt-link rel="canonical" to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
                             <nuxt-link rel="canonical" to="/" class="default_btn">Book A Ride</nuxt-link>
                         </div>
                     </div>
                 </div>
-                <div v-if="!checkInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
+                <div v-if="!showLoadedInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
             </div>
         </section>
     </div>
@@ -67,6 +67,7 @@
         },
         data () {
             return {
+                showLoadedInstructors: false,
                 toShow: 12,
                 count: 0,
                 toggled: false,
@@ -237,25 +238,18 @@
             populateInstructors () {
                 const me = this
                 let result = []
-                for (let i = 0; i < me.toShow; i++) {
-                    me.instructors[i].checked = true
-                    result.push(me.instructors[i])
-                }
-                return result
-            },
-            checkInstructors () {
-                const me = this
                 let count = 0
-                let result = false
-                me.instructors.forEach((data, index) => {
-                    if (data.checked) {
+                for (let i = 0; i < me.toShow; i++) {
+                    if (me.instructors[i]) {
                         count++
+                        me.instructors[i].checked = true
+                        result.push(me.instructors[i])
                     }
-                })
+                }
                 if (count == me.instructors.length) {
-                    result = true
+                    me.showLoadedInstructors = true
                 } else {
-                    result = false
+                    me.showLoadedInstructors = false
                 }
                 return result
             }
@@ -263,7 +257,7 @@
         methods: {
             loadMoreInstructors () {
                 const me = this
-                if (!me.checkInstructors) {
+                if (!me.showLoadedInstructors) {
                     me.toShow += 4
                     me.$scrollTo('.load', {
                         offset: -250
