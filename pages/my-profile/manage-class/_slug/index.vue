@@ -66,22 +66,6 @@
                                                     </div>
                                                 </transition>
 
-                                                <transition name="slide">
-                                                    <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path != null" />
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user != null) && data.bookings[0].user.customer_details.images[0].path == null">
-                                                        <div class="letter">
-                                                            {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.bookings.length > 0 && data.bookings[0].user == null)">
-                                                        <div class="letter">
-                                                            {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
-                                                        </div>
-                                                    </div>
-                                                </transition>
-
                                                 <div class="seat_number">
                                                     {{ data.number }}
                                                 </div>
@@ -105,7 +89,6 @@
                                                             <div class="flex package">
                                                                 <div class="toggler" v-if="hasGuest">
                                                                     <p>Swap seat for:</p>
-                                                                    {{ tempOriginalSeat }}
                                                                     <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
                                                                 </div>
                                                                 <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
@@ -664,6 +647,7 @@
                     document.body.classList.add('no_scroll')
                     me.loader(false)
                 }, 500)
+                me.removeNext = false
             },
             /**
              * [fetchSeats fetch all the seats]
@@ -714,6 +698,7 @@
                                 })
 
                                 me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+                                me.removeNext = true
 
                                 if (res.data.waitlisted) {
                                     me.isWaitlisted = true
@@ -726,10 +711,13 @@
                                     me.bookingID = res.data.tempSeats.booking_id
                                     me.hasBooked = true
                                     me.canSwitch = true
+                                    if (me.toSubmit.tempSeat.length > 1) {
+                                        me.hasGuest = true
+                                    }
+                                    console.log(me.toSubmit.tempSeat);
                                     me.toSubmit.tempSeat.forEach((element, index) => {
                                         if (element.guest == 0) {
                                             me.tempOriginalSeat = element
-                                            me.hasGuest = true
                                         }
                                     })
                                     Object.keys(me.seats).forEach((parent) => {

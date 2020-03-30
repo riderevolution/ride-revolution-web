@@ -498,6 +498,11 @@
                     }
                 })
                 me.toggled = true
+                setTimeout( () => {
+                    me.$scrollTo('.bike_wrapper', {
+                        offset: -250
+                    })
+                }, 250)
             },
             toggleActionHover (key) {
                 const me = this

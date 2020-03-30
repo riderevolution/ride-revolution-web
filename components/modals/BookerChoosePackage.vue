@@ -86,6 +86,7 @@
                                             me.$parent.status = true
                                             me.$parent.buyCredits = false
                                         }, 500)
+                                        me.$parent.removeNext = false
                                     }
                                 }).catch(err => {
                                     me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
@@ -117,7 +118,6 @@
                                 }
                                 me.$parent.canSwitch = true
                                 me.$parent.hasBooked = true
-                                me.$parent.removeNext = false
                                 me.$parent.status = true
                                 me.$store.state.bookerChoosePackageStatus = false
                                 me.loader(true)
