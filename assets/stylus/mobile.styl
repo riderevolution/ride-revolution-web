@@ -668,16 +668,23 @@
                         li
                             margin-bottom: 20px
                             .nav_item
-                                brandon_bold(18px, true)
+                                brandon_bold(16px, true)
                     .expanded_nav_description
                         padding-top: 10px
                         .link
                             margin-bottom: 20px
+                            p
+                                brandon_regular(12px, false)
                             span
-                                brandon_bold(16px, false)
+                                brandon_bold(12px, false)
+                        p
+                            brandon_regular(12px, false)
+                            a
+                                brandon_bold(12px, false)
                         .social_links
                             margin-top: 20px
-                            brandon_regular(16px, false)
+                            h4
+                                brandon_regular(12px, false)
                             a
                                 margin: 0 10px
                 .left,
@@ -1885,7 +1892,7 @@
                         max-height: 100%
                 .instructor_content
                     .wrapper
-                        padding: 30% 0
+                        padding: 50% 0
                         .overlay
                             h2
                                 brandon_bold(12px, true)
@@ -1895,8 +1902,10 @@
                         .follow
                             brandon_medium(10px, true)
                     .view_all
+                        display: block
+                        text-align: center
                         position: static
-                        margin-top: 10px
+                        margin-top: 20px
                         span
                             brandon_bold(12px, true)
                             margin-left: 10px
@@ -1960,14 +1969,34 @@
                         brandon_regular(12px, false)
         #cool_letgo
             img
-                height: 150px
+                width: 100%
+                height: 200px
             .overlay
                 h2
                     brandon_bold(18px, false)
                     margin-bottom: 10px
                 .default_btn
                     width: auto
-                    brandon_medium(10px, false)
+        #amenities
+            .riders_guide_video
+                .overlay
+                    #play_button
+                        width: 50px
+                        height: 50px
+            .amenities
+                padding: 40px 20px
+                h2
+                    brandon_bold(18px, true)
+                    margin-bottom: 20px
+                .content
+                    .view_all
+                        display: block
+                        text-align: center
+                        position: static
+                        margin-top: 20px
+                        span
+                            brandon_bold(12px, true)
+                            margin-left: 10px
 
     .default
         &.alt2
@@ -2220,6 +2249,8 @@
             .overlay_mid
                 h1
                     brandon_bold(26px, false)
+        .full
+            height: 200px
         img
             width: 100%
         .main_image
@@ -2396,6 +2427,13 @@
                                                     flex: 1 0 50%
                                                 &.package_details
                                                     flex: 1 0 30%
+
+        .riders_guide
+            #ready
+                .instructors
+                    .instructor_content
+                        .wrapper
+                            padding: 30% 0
 
 @media (max-width: 767px) and (min-width: 600px)
 

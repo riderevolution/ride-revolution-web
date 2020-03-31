@@ -7424,22 +7424,34 @@ svg
         flex: 0 0 80%
         left: -100px
         transition: .3s ease-in-out
+        &.mobile
+            flex: 0 0 100%
+            .controls
+                justify-content: flex-end
+                right: 0
+                height: 30px
+                background-color: transparent
         .overlay
             &.mobile
                 justify-content: center
                 .swiper-container
                     .swiper-pagination
-                        bottom: calc(0px + 65px)
+                        bottom: calc(0% + 25px)
                         .swiper-pagination-bullet
-                            background-color: rgba(255, 255 ,255, 0.5) !important
-                            border: 1px solid rgba(255, 255 ,255, 0.5) !important
+                            background-color: rgba(255, 255, 255, 0.65) !important
+                            border: 1px solid rgba(255, 255, 255, 0.65) !important
                         .swiper-pagination-bullet-active
-                            background-color: #fff !important
-                            border: 1px solid #fff !important
+                            background-color: $white !important
+                            border: 1px solid $white !important
                 .main_image
                     flex: 0 0 100%
                     text-align: center
                     position: relative
+                    padding: 40px 20px 0
+                    .image_title
+                        brandon_regular(12px, false)
+                    img
+                        height: 350px
             position: absolute
             display: flex
             flex-flow: row wrap

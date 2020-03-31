@@ -109,15 +109,8 @@
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
-                        <nuxt-link rel="canonical" to="/studios" class="view_all default_btn_wht_alt">
-                            <div class="text">
-                                <div class="border_top left"></div>
-                                <div class="border_top left alt"></div>
-                                <div class="border_top right"></div>
-                                Explore Our Studio Amenities
-                                <div class="border_bottom left"></div>
-                                <div class="border_bottom right"></div>
-                            </div>
+                        <nuxt-link rel="canonical" to="/studios" class="view_all default_btn">
+                            Explore Our Studio Amenities
                         </nuxt-link>
                     </no-ssr>
                 </div>
@@ -500,7 +493,7 @@
                 me.toggled = true
                 setTimeout( () => {
                     me.$scrollTo('.bike_wrapper', {
-                        offset: -250
+                        offset: 0
                     })
                 }, 250)
             },
