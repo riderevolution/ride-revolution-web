@@ -2070,6 +2070,62 @@
                         &.swiper-pagination-bullet-active
                             background: rgba(38, 164, 139, 1)
 
+    /**
+     * About */
+    .about
+        #content
+            padding: 20px
+            .content_wrapper
+                max-width: 100%
+                .left,
+                .right
+                    flex: 0 0 100%
+                .left
+                    .info
+                        max-width: 100%
+                        .header_title
+                            text-align: center
+                            brandon_bold(18px, false)
+                        .icons
+                            padding-top: 20px
+                            .wrapper
+                                margin-bottom: 15px
+                                .icon_left
+                                    flex: 0 0 50px
+                                    #gym_icons
+                                        height: 35px
+                                .icon_right
+                                    padding-left: 10px
+                                    .title
+                                        brandon_bold(14px, true)
+                                    .description
+                                        brandon_regular(12px, false)
+                .right
+                    margin-top: 20px
+                    text-align: center
+                    img
+                        max-width: 250px
+        #additional
+            padding: 0 20px
+            .info
+                max-width: 100%
+                p
+                    brandon_regular(12px, false)
+            .experiences
+                max-width: 100%
+                margin: 20px auto 0
+                .wrapper
+                    flex: 0 0 100%
+                    margin: 0 0 15px
+                    padding: 20px
+                    .exp_top
+                        justify-content: center
+                        .title
+                            brandon_bold(16px, true)
+                            padding-left: 10px
+                    .description
+                        brandon_regular(12px, false)
+
     #instagram_alternate
         .header
             padding: 20px 0
@@ -2715,3 +2771,12 @@
                                                     flex: 1 0 50%
                                                 &.package_details
                                                     flex: 1 0 30%
+        /**
+         * About */
+        .about
+            #additional
+                .experiences
+                    .wrapper
+                        flex: 0 0 calc(50% - 20px)
+                        margin: 0 10px 20px
+                        padding: 20px

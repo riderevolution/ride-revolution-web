@@ -1,7 +1,7 @@
 <template>
     <div class="about">
         <section id="banner" class="mt">
-            <img src="/default/about/about-banner.jpg" />
+            <img class="full" src="/default/about/about-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>About Us</h1>
@@ -52,16 +52,7 @@
                 </div>
             </div>
         </section>
-        <section id="ride_with">
-            <div class="header">
-                <div class="description">
-                    <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
-                </div>
-            </div>
-            <div class="content">
-                <instagram />
-            </div>
-        </section>
+        <instagram-alternate />
         <section id="banner" class="mt alt">
             <img src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
@@ -74,11 +65,11 @@
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
-    import Instagram from '../../components/Instagram'
+    import InstagramAlternate from '../../components/InstagramAlternate'
     export default {
         components: {
             Breadcrumb,
-            Instagram
+            InstagramAlternate
         },
         data () {
             return {
