@@ -1222,21 +1222,8 @@
             .tip
                 brandon_regular_italic(12px, false)
 
-    .default
-        .swiper-pagination
-            bottom: calc(0% + 15px) !important
-            .swiper-pagination-bullet
-                background: rgba(38, 164, 139, 0.4)
-                &.swiper-pagination-bullet-active
-                    background: rgba(38, 164, 139, 1)
-        &.alt3
-            .swiper-pagination
-                bottom: calc(0% + 15px) !important
-                .swiper-pagination-bullet
-                    background: rgba(255, 255, 255, 0.45)
-                    &.swiper-pagination-bullet-active
-                        background: #fff
-
+    /**
+     * Breadcrumb */
     #breadcrumb
         ul
             li
@@ -1245,6 +1232,8 @@
                 .crumb
                     brandon_regular(12px, false)
 
+    /**
+     * Promos */
     #promos
         background-image: url('/dotted-bg.png')
         background-color: #F7F7F7
@@ -1278,6 +1267,8 @@
                 &:hover
                     box-shadow: 0px 0px 30px transparent
 
+    /**
+     * Packages */
     #packages
         .swiper-container
             padding-bottom: 50px
@@ -1847,14 +1838,16 @@
                 .back
                     brandon_medium(12px, true)
 
+    /**
+     * Rides Guide */
     .riders_guide
         #teaser
-            padding: 40px 20px
+            padding: 20px
             text-align: center
             h2
                 brandon_bold(18px, true)
             p
-                brandon_regular(14px, false)
+                brandon_regular(12px, false)
                 line-height: 1.5
         #ready
             padding: 20px
@@ -1989,6 +1982,10 @@
                     brandon_bold(18px, true)
                     margin-bottom: 20px
                 .content
+                    .wrapper
+                        .field_image
+                            .overlay
+                                    brandon_bold(14px, true)
                     .view_all
                         display: block
                         text-align: center
@@ -1997,8 +1994,111 @@
                         span
                             brandon_bold(12px, true)
                             margin-left: 10px
+    /**
+     * Studios */
+    .studios
+        #teaser
+            padding: 20px
+            max-width: 100%
+            p
+                brandon_regular(12px, false)
+                line-height: 1.5
+        #visit
+            padding: 20px
+            h2
+                brandon_bold(18px, true)
+                margin-bottom: 20px
+            .content
+                max-width: 100%
+                .default
+                    padding-bottom: 30px
+                .wrapper
+                    h2
+                        brandon_bold(14px, true)
+                        margin-top: 10px
+                    .image
+                        .overlay
+                            padding: 0 10px 10px
+                .action_mobile
+                    text-align: center
 
+    .studio_inner
+        #teaser
+            margin-bottom: 0
+            .main_left
+                padding: 20px
+                .header
+                    text-align: center
+                    h1
+                        brandon_bold(18px, true)
+                        margin-bottom: 10px
+                    h2
+                        brandon_regular(14px, false)
+                .info
+                    margin: 15px 0
+                    p
+                        text-align: center
+                        brandon_regular(12px, false)
+                .opening
+                    .left
+                        margin-bottom: 10px
+                    .right
+                        .link
+                            justify-content: center
+                            img
+                                margin-right: 5px
+                    .left,
+                    .right
+                        flex: 0 0 100%
+                        text-align: center
+                        h3
+                            brandon_medium(12px, true)
+                        p,
+                        a
+                            brandon_regular(12px, false)
+            .main_left,
+            .main_right
+                flex: 0 0 100%
+        #images
+            padding: 20px
+            .default
+                padding-bottom: 40px
+                .swiper-pagination
+                    bottom: calc(0% + 5px)
+                    .swiper-pagination-bullet
+                        background: rgba(38, 164, 139, 0.4)
+                        &.swiper-pagination-bullet-active
+                            background: rgba(38, 164, 139, 1)
+
+    #instagram_alternate
+        .header
+            padding: 20px 0
+            .description
+                span
+                    brandon_bold(20px, false)
+    /**
+     * Global */
     .default
+        .swiper-button-prev,
+        .swiper-button-next
+            width: 35px
+            height: 35px
+            &::before,
+            &::after
+                background-size: contain
+        .swiper-pagination
+            bottom: calc(0% + 15px)
+            .swiper-pagination-bullet
+                background: rgba(38, 164, 139, 0.4)
+                &.swiper-pagination-bullet-active
+                    background: rgba(38, 164, 139, 1)
+        &.alt3
+            .swiper-pagination
+                bottom: calc(0% + 15px)
+                .swiper-pagination-bullet
+                    background: rgba(255, 255, 255, 0.45)
+                    &.swiper-pagination-bullet-active
+                        background: #fff
         &.alt2
             padding-bottom: 60px
             .swiper-button-prev,
@@ -2009,17 +2109,6 @@
                 right: calc(50% - 50px)
                 left: unset
 
-    .default
-        .swiper-button-prev,
-        .swiper-button-next
-            width: 35px
-            height: 35px
-            &::before,
-            &::after
-                background-size: contain
-
-    /**
-     * Global */
     .default_btn,
     .default_btn_out,
     .default_btn_blue,
@@ -2144,7 +2233,7 @@
                     padding: 0
                 .left
                     label
-                        brandon_medium(20px, false)
+                        brandon_medium(18px, false)
                 .right
                     display: flex
                     flex-flow: row wrap
@@ -2245,10 +2334,17 @@
     #banner
         &.mt
             margin-top: 60px
+        &.alt
+            .overlay_mid
+                h2
+                    brandon_bold(18px, false)
+                .default_btn
+                    width: auto
+                    margin-top: 15px
         &.alt_2
             .overlay_mid
                 h1
-                    brandon_bold(26px, false)
+                    brandon_bold(18px, false)
         .full
             height: 200px
         img
@@ -2370,6 +2466,21 @@
                                                     padding-right: 10px
                                                 &.package_details
                                                     flex: 1 0 auto
+    .studio_inner
+        #teaser
+            .main_left
+                .opening
+                    justify-content: center
+                    .left
+                        padding-right: 30px
+                        margin-bottom: 0
+                    .right
+                        .link
+                            justify-content: flex-start
+                    .left,
+                    .right
+                        flex: 0 0 auto
+                        text-align: unset
 
 @media (max-width: 767px) and (min-width: 465px)
 

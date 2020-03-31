@@ -5359,16 +5359,18 @@ svg
             letter-spacing: 2.5px
             margin-bottom: 25px
         .content
-            display: flex
-            flex-flow: row wrap
-            align-items: flex-start
-            justify-content: center
-            width: 100%
-            max-width: 75%
-            margin: 0 auto
+            &.desktop
+                display: flex
+                flex-flow: row wrap
+                align-items: flex-start
+                justify-content: center
+                width: 100%
+                max-width: 75%
+                margin: 0 auto
+                .wrapper
+                    flex: 0 0 calc(33.33% - 20px)
+                    margin: 0 10px
             .wrapper
-                flex: 0 0 calc(33.33% - 20px)
-                margin: 0 10px
                 h2
                     brandon_bold(22px, true)
                     color: $white
@@ -5443,88 +5445,101 @@ svg
                             .default_btn
                                 box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                                 transition: .3s ease-in-out
-    #studio_ig
-        .header
-            padding: 40px 0 30px
-            .description
-                display: flex
-                flex-flow: row wrap
-                align-items: center
-                justify-content: center
-                img
-                    margin-right: 10px
-                span
-                    brandon_bold(30px, false)
-                    color: $black
-                    letter-spacing: 0.75px
-                    padding-bottom: 5px
-/**
- * Studio Inner Page */
-.studio_inner
-    #teaser
-        padding: 80px 60px 60px
-        text-align: center
-        .header
-            h1
-                brandon_bold(50px, true)
-                color: $black
-                letter-spacing: 2.5px
-            h2
-                brandon_regular(16px, false)
-                color: $black
-                letter-spacing: 0.4px
-        .info
-            margin: 50px 0
-            p
-                brandon_regular(16px, false)
-                color: $black
-                letter-spacing: 0.4px
-        .opening
+
+#instagram_alternate
+    .header
+        padding: 40px 0 30px
+        .description
             display: flex
             flex-flow: row wrap
             align-items: center
             justify-content: center
-            .left,
-            .right
-                text-align: left
-                h3
-                    brandon_regular(14px, true)
-                    color: $black_alt2
-                    margin-bottom: 5px
-            .left
-                padding-right: 60px
-                p
-                    brandon_regular(20px, false)
-                    color: $black
-            .right
-                a
-                    brandon_regular(18px, false)
-                    color: $black
-                    transition: .3s ease-in-out
-                    &.email
-                        color: $green
-                        text-decoration: underline
-                    &:hover
-                        color: $green
-                        text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
-                        transition: .3s ease-in-out
-                .link
-                    display: flex
-                    flex-flow: row wrap
-                    align-items: center
-                    img
-                        margin-right: 15px
-    #images
+            img
+                margin-right: 10px
+            span
+                brandon_bold(30px, false)
+                color: $black
+                letter-spacing: 0.75px
+                padding-bottom: 5px
+/**
+ * Studio Inner Page */
+.studio_inner
+    #teaser
         display: flex
         flex-flow: row wrap
-        align-items: center
-        width: 100%
-        max-width: 80%
-        margin: 0 auto 50px
+        margin-bottom: 40px
+        .main_left,
+        .main_right
+            flex: 0 0 50%
+        .main_left
+            background-color: $black
+            padding: 40px
+            .header
+                h1
+                    brandon_bold(30px, true)
+                    color: $white
+                    letter-spacing: 2.5px
+                    margin-bottom: 15px
+                h2
+                    brandon_regular(16px, false)
+                    color: $white
+                    letter-spacing: 0.4px
+            .info
+                margin: 20px 0
+                p
+                    brandon_regular(16px, false)
+                    color: $white
+                    letter-spacing: 0.4px
+            .opening
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: space-between
+                .left,
+                .right
+                    flex: 0 0 47.33%
+                    text-align: left
+                    h3
+                        brandon_regular(14px, true)
+                        color: $green_alt
+                        margin-bottom: 5px
+                .left
+                    p
+                        brandon_regular(16px, false)
+                        color: $white
+                .right
+                    a
+                        brandon_regular(16px, false)
+                        color: $white
+                        transition: .3s ease-in-out
+                        &.email
+                            color: $green_alt
+                            text-decoration: underline
+                        &:hover
+                            color: $green_alt
+                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
+                    .link
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        img
+                            margin-right: 15px
+                            &.phone
+                                filter: brightness(2) contrast(0)
+    #images
+        &.desktop
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            width: 100%
+            max-width: 80%
+            margin: 0 auto 20px
+            .wrapper
+                flex: 0 0 calc(33.33% - 20px)
+                margin: 0 10px 20px
         .wrapper
             position: relative
-            flex: 0 0 calc(33.33% - 20px)
-            margin: 0 10px 20px
             cursor: pointer
             .overlay
                 position: absolute
@@ -7757,6 +7772,11 @@ svg
 /**
  * Default Slider */
 .default
+    &.swiper-container-horizontal > .swiper-pagination-bullets
+        left: 0
+        right: 0
+        bottom: calc(0% + 25px)
+.default
     .swiper-button-prev,
     .swiper-button-next
         width: 51px
@@ -7826,10 +7846,11 @@ svg
     .swiper-container-rtl .swiper-button-prev
         background-image: none
         right: calc(0% + 25px)
+    .swiper-pagination-bullets,
     .swiper-pagination
         left: 0
         right: 0
-        bottom: calc(0% + 25px) !important
+        bottom: calc(0% + 25px)
         .swiper-pagination-bullet
             margin: 0 2.5px
             background: rgba(255, 255, 255, 0.45)
