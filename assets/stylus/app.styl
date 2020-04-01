@@ -2899,9 +2899,6 @@ svg
 .news
     background-color: #f7f7f7
     &.inner
-        #banner
-            &.alt
-                margin-top: 81px
         #content
             width: 100%
             max-width: 75%
@@ -3014,13 +3011,18 @@ svg
                                 opacity: 1
                                 transition: .3s ease-in-out
         #more_things
-            width: 100%
-            max-width: calc(75% + 30px)
-            margin: 60px auto
-            display: flex
-            flex-flow: row wrap
+            &.desktop
+                width: 100%
+                max-width: calc(75% + 30px)
+                margin: 60px auto
+                display: flex
+                flex-flow: row wrap
+                h3
+                    flex: 0 0 100%
+                .news_list
+                    flex: 0 0 calc(33.33% - 30px)
+                    margin: 15px
             h3
-                flex: 0 0 100%
                 brandon_bold(36px, true)
                 color: $black
                 letter-spacing: 1.8px
@@ -3028,8 +3030,6 @@ svg
                 margin-bottom: 20px
             .news_list
                 background-color: $white
-                flex: 0 0 calc(33.33% - 30px)
-                margin: 15px
                 transform: perspective(0px) scale(1)
                 box-shadow: 0px 0px 30px transparent
                 transition: .3s ease-in-out
@@ -7497,6 +7497,8 @@ svg
                 flex: 0 0 75%
                 padding: 40px
                 transition: .3s ease-in-out
+                img
+                    height: 500px
                 .image_title
                     brandon_regular(16px, false)
                     color: $white
