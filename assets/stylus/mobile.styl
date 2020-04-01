@@ -1237,6 +1237,36 @@
     #promos
         background-image: url('/dotted-bg.png')
         background-color: #F7F7F7
+        &.alt
+            background-image: unset
+            background-color: #FFF
+            max-width: 100%
+            margin: 0 auto
+            padding: 20px
+            .promo_list
+                flex: 0 0 100%
+                margin: 0 0 20px
+                padding: 10px
+                .header_title
+                    brandon_bold(12px, true)
+                .title
+                    brandon_bold(18px, false)
+                    line-height: 1.25
+                    margin: 10px 0 20px
+                .description
+                    brandon_regular(14px, false)
+                .copy_wrapper
+                    margin-top: 15px
+                    .code
+                        flex: 0 0 45%
+                        max-width: 45%
+                        brandon_bold(18px, true)
+                    .default_btn
+                        flex: 0 0 50%
+                        padding: 10px
+            .action
+                .default_btn
+                    margin: 10px auto 0
         .swiper-container
             padding-bottom: 50px
         .promo_slide
@@ -1263,7 +1293,7 @@
                     brandon_regular(14px, false)
                 .copy_wrapper
                     .code
-                        brandon_bold(22px, true)
+                        brandon_bold(18px, true)
                 &:hover
                     box-shadow: 0px 0px 30px transparent
 
@@ -2674,12 +2704,20 @@
                                                 &.package_details
                                                     flex: 1 0 30%
 
-        .riders_guide
-            #ready
-                .instructors
-                    .instructor_content
-                        .wrapper
-                            padding: 30% 0
+    #promos
+        &.alt
+            padding: 20px 10px
+            .promo_list
+                flex: 0 0 calc(50% - 20px)
+                margin: 0 10px 20px
+                padding: 10px
+
+    .riders_guide
+        #ready
+            .instructors
+                .instructor_content
+                    .wrapper
+                        padding: 30% 0
 
 @media (max-width: 767px) and (min-width: 600px)
 

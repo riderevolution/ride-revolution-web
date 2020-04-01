@@ -1,7 +1,7 @@
 <template>
     <div class="promo_landing">
         <section id="banner" class="mt">
-            <img src="/default/promo/promo-banner.jpg" />
+            <img class="full" src="/default/promo/promo-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Ride Rev Promos</h1>
