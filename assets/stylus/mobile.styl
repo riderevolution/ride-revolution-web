@@ -2126,7 +2126,83 @@
                             padding-left: 10px
                     .description
                         brandon_regular(12px, false)
-
+    /**
+     * Ride Rewards */
+    .ride_rewards
+        #content
+            padding: 20px
+            text-align: center
+            .top
+                max-width: 100%
+                .title
+                    brandon_bold(18px, true)
+                    margin-bottom: 10px
+                .description
+                    brandon_regular(12px, false)
+            .bottom
+                margin: 20px 0 0
+                max-width: 100%
+                .header_title
+                    brandon_bold(18px, true)
+                    margin-bottom: 20px
+                .icons
+                    .wrapper
+                        flex: 0 0 100%
+                        margin-bottom: 20px
+                        .icon_bottom
+                            .description
+                                brandon_regular(14px, false)
+                        &:last-child
+                            margin-bottom: 0
+        #rewards_levels
+            padding: 20px
+            .main
+                max-width: 100%
+                .title
+                    brandon_bold(18px, true)
+                    margin-bottom: 10px
+                .description
+                    brandon_regular(12px, false)
+                .levels
+                    padding-top: 20px
+                    .wrapper
+                        border: unset
+                        margin-bottom: 20px
+                        &:last-child
+                            margin-bottom: 0
+                        .icon
+                            padding: 0 0 10px
+                            text-align: center
+                        &.green,
+                        &.red,
+                        &.black
+                            flex: 0 0 100%
+                        .info
+                            &::before,
+                            &::after
+                                content: unset
+                            .info_top
+                                padding: 10px
+                                .number
+                                    brandon_medium(40px, false)
+                                .icon_title
+                                    brandon_medium(16px, true)
+                                    line-height: 1
+                            .info_bottom
+                                padding: 10px
+                                .info_description
+                                    max-width: 100%
+                                    line-height: 1.25
+                                    p
+                                        brandon_medium(12px, false)
+                                        &.capital
+                                            brandon_medium(16px, true)
+                                            &.reg
+                                                brandon_medium(14px, false)
+                                                margin-bottom: 10px
+                                    b,
+                                    strong
+                                        brandon_bold(14px, false)
     #instagram_alternate
         .header
             padding: 20px 0
@@ -2395,6 +2471,8 @@
             .overlay_mid
                 h2
                     brandon_bold(18px, false)
+                h3
+                    brandon_light(14px, false)
                 .default_btn
                     width: auto
                     margin-top: 15px
@@ -2772,12 +2850,21 @@
                                                     flex: 1 0 50%
                                                 &.package_details
                                                     flex: 1 0 30%
-        /**
-         * About */
-        .about
-            #additional
-                .experiences
+    /**
+     * About */
+    .about
+        #additional
+            .experiences
+                .wrapper
+                    flex: 0 0 calc(50% - 20px)
+                    margin: 0 10px 20px
+                    padding: 20px
+    /**
+     * Ride Rewards */
+    .ride_rewards
+        #content
+            .bottom
+                .icons
                     .wrapper
-                        flex: 0 0 calc(50% - 20px)
-                        margin: 0 10px 20px
-                        padding: 20px
+                        flex: 0 0 calc(33.33% - 20px)
+                        margin: 0 10px

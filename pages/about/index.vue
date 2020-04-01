@@ -54,7 +54,7 @@
         </section>
         <instagram-alternate />
         <section id="banner" class="mt alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>

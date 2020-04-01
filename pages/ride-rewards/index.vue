@@ -50,7 +50,7 @@
         </section>
         <instagram-alternate />
         <section id="banner" class="alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <h3>Visit any studio to get your card now</h3>

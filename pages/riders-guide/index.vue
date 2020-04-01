@@ -132,7 +132,7 @@
             </div>
         </section>
         <section id="cool_letgo">
-            <img src="/default/riders-guide/cool-lets-go.jpg" />
+            <img class="full" src="/default/riders-guide/cool-lets-go.jpg" />
             <div class="overlay">
                 <h2>Cool! Let's go.</h2>
                 <div @click="loginUser()" class="default_btn">Create An Account</div>
