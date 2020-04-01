@@ -2,7 +2,7 @@
     <div class="refer_a_friend">
         <breadcrumb :overlay="false" />
         <section id="banner">
-            <img src="/default/buy-rides/buy-rides-banner-success.jpg" />
+            <img class="full" src="/default/buy-rides/buy-rides-banner-success.jpg" />
             <div class="overlay_mid">
                 <h1>Refer a Friend</h1>
             </div>
