@@ -1,7 +1,7 @@
 <template>
     <div class="contact_us">
         <section id="banner" class="mt">
-            <img src="/default/contact-us/contact-us-banner.jpg" />
+            <img class="full" src="/default/contact-us/contact-us-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Contact Us</h1>
@@ -44,8 +44,8 @@
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('i_agree')">{{ errors.first('i_agree') | properFormat }}</span></transition>
                         </div>
                     </div>
-                    <div class="form_flex">
-                        <vue-recaptcha sitekey="6Le_s3wUAAAAAMuN4YveR4ZNq2qaj-rkw7n1477N"></vue-recaptcha>
+                    <div class="form_flex captcha">
+                        <vue-recaptcha class="captcha" sitekey="6Le_s3wUAAAAAMuN4YveR4ZNq2qaj-rkw7n1477N"></vue-recaptcha>
                         <div class="form_button">
                             <button type="submit" class="default_btn">Send</button>
                         </div>
@@ -88,6 +88,7 @@
                                 fullscreenControl: false,
                                 scrollwheel: false
                             }"
+                            class="gmap"
                             style="width: 100%; height: 600px"
                         >
                             <GmapMarker
@@ -117,7 +118,7 @@
             </div>
         </section>
         <section id="banner" class="mt alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
@@ -249,7 +250,6 @@
                         // document.body.classList.remove('no_scroll')
                     } else {
                         me.$scrollTo('.validation_errors', {
-                            container: '#default_form',
                             offset: -250
                         })
                     }
@@ -274,6 +274,9 @@
                         element.toggled = false
                         elements.querySelector('.info').style.height = `${0}px`
                     }
+                })
+                me.$scrollTo('.gmap', {
+                    offset: 0
                 })
             }
         },

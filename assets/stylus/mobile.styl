@@ -2342,7 +2342,67 @@
                                 padding-left: 30px
                                 li
                                     brandon_light(12px, false)
-
+    /**
+     * Contact Us */
+    .contact_us
+        #content
+            .top
+                max-width: 100%
+                padding: 20px 10px
+                #default_form,
+                .right
+                    flex: 0 0 100%
+                #default_form
+                    .form_flex
+                        &.captcha
+                            justify-content: center
+                            .form_button
+                                flex: 0 0 100%
+                .right
+                    .inquiry_list
+                        margin: 10px 0
+                        display: flex
+                        flex-flow: row wrap
+                        justify-content: space-between
+                        .wrapper
+                            flex: 0 0 auto
+                            margin-bottom: 10px
+                            .title
+                                brandon_bold(14px, false)
+                                margin-bottom: 10px
+                            .link
+                                a
+                                    brandon_regular(12px, false)
+                    .connect
+                        text-align: center
+                        .connect_title
+                            margin-bottom: 10px
+                            brandon_bold(14px, true)
+                        .connect_links
+                            justify-content: center
+            .bottom
+                .left,
+                .right
+                    flex: 0 0 100%
+                .left
+                    .gmap
+                        height: 300px !important
+                .right
+                    padding: 20px
+                    .studio_item
+                        padding: 10px 0
+                        &.toggled
+                            .info
+                                margin-top: 10px
+                        .title
+                            brandon_medium(14px, true)
+                        .info
+                            .description
+                                brandon_medium(14px, false)
+                            .link
+                                padding: 5px 0
+                                a
+                                    brandon_regular(12px, false)
     #instagram_alternate
         .header
             padding: 20px 0
@@ -2430,6 +2490,9 @@
         margin-bottom: 15px
         .validation_errors
             brandon_medium(12px, false)
+        .limit_wrapper
+            .limit
+                brandon_regular(10px, false)
 
     .form_group_disclaimer
         margin-bottom: 15px
@@ -2534,7 +2597,6 @@
                         #ready_icon
                             flex: 0 0 100%
                             margin: 0
-
     .wrap
         .loading
             .text
@@ -2855,6 +2917,20 @@
                 .instructor_content
                     .wrapper
                         padding: 30% 0
+
+
+    /**
+     * Contact Us */
+    .contact_us
+        #content
+            .top
+                #default_form
+                    .form_flex
+                        &.captcha
+                            justify-content: space-between
+                            .form_button
+                                margin-top: 0
+                                flex: 0 0 auto
 
 @media (max-width: 767px) and (min-width: 600px)
 
