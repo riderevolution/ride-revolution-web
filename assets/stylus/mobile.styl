@@ -1043,6 +1043,8 @@
 
 @media (max-width: 767px) and (min-width: 320px)
 
+    /**
+     * Login/Sign up */
     .login_sign_up
         &.front,
         &.not_front
@@ -1078,7 +1080,6 @@
             &::after
                 right: calc(0% + 10px)
                 height: 20px
-
     /**
      * Main */
     #main_container
@@ -1220,6 +1221,7 @@
         #pro_tip
             top: calc(0% + 61px)
             padding: 5px 15px
+            line-height: 1
             .tip
                 brandon_regular_italic(12px, false)
     /**
@@ -1602,22 +1604,22 @@
                                     label
                                         display: block
                                         padding-left: 20px
-                                        brandon_medium(16px, false)
+                                        brandon_medium(14px, false)
                             &.instructor_filter
                                 margin-top: 30px
                                 .autocomplete
                                     .text
-                                        brandon_regular(16px, false)
+                                        brandon_regular(14px, false)
                                     .autocomplete_dropdown
                                         .list
                                             padding: 7.5px 10px
                                             img
                                                 width: 35px
                                             p
-                                                brandon_regular(16px, false)
+                                                brandon_regular(14px, false)
                             h3
                                 margin: 15px 0
-                                brandon_regular(16px, true)
+                                brandon_regular(14px, true)
                 .right
                     flex: 0 0 100%
                     padding: 0
@@ -2566,12 +2568,6 @@
             .left,
             .right
                 flex: 0 0 100%
-    #instagram_alternate
-        .header
-            padding: 20px 0
-            .description
-                span
-                    brandon_bold(16px, false)
     /**
      * Global */
     .default
@@ -2736,6 +2732,13 @@
 
     .form_disclaimer
         brandon_regular(12px, false)
+
+    #instagram_alternate
+        .header
+            padding: 20px 0
+            .description
+                span
+                    brandon_bold(16px, false)
 
     .default_modal_page
         #disclaimer
