@@ -1083,6 +1083,7 @@
      * Main */
     #main_container
         #header
+            &.instructor,
             &.not_front,
             &.front
                 .navbar
@@ -1221,7 +1222,6 @@
             padding: 5px 15px
             .tip
                 brandon_regular_italic(12px, false)
-
     /**
      * Breadcrumb */
     #breadcrumb
@@ -1231,7 +1231,6 @@
                 .slack,
                 .crumb
                     brandon_regular(12px, false)
-
     /**
      * Promos */
     #promos
@@ -1296,7 +1295,6 @@
                         brandon_bold(18px, true)
                 &:hover
                     box-shadow: 0px 0px 30px transparent
-
     /**
      * Packages */
     #packages
@@ -1350,7 +1348,6 @@
             .default_btn
                 &.load
                     margin-top: 10px
-
     /**
      * Home */
     .home
@@ -1575,7 +1572,6 @@
                     margin: 10px 0 20px
                 .default_btn
                     width: auto
-
     /**
      * Book a Bike */
     .book_a_bike
@@ -1868,7 +1864,6 @@
                                         flex: 0 0 150px
                 .back
                     brandon_medium(12px, true)
-
     /**
      * Rides Guide */
     .riders_guide
@@ -1918,7 +1913,7 @@
                     .wrapper
                         padding: 50% 0
                         .overlay
-                            h2
+                            .title
                                 brandon_bold(12px, true)
                                 padding: 0 10px
                             .action
@@ -2052,7 +2047,8 @@
                             padding: 0 10px 10px
                 .action_mobile
                     text-align: center
-
+    /**
+     * Studio Inner */
     .studio_inner
         #teaser
             margin-bottom: 0
@@ -2403,6 +2399,68 @@
                                 padding: 5px 0
                                 a
                                     brandon_regular(12px, false)
+    /**
+     * Instructor */
+    .instructors
+        margin-top: 60px
+        #breadcrumb
+            &.has_padding
+                padding-top: 83px
+        #instructors_nav
+            top: calc(0% + 60px)
+            flex-direction: column-reverse
+            .left,
+            .right
+                flex: 0 0 100%
+                width: 100%
+                padding: 10px
+                text-align: left
+            .left
+                border-right: 1px solid transparent
+                border-top: 1px solid #a0a0a0
+                &::before
+                    right: calc(0% + 10px)
+                .select
+                    .label
+                        brandon_bold(14px, false)
+            .right
+                .input
+                    display: block
+                    input
+                        display: block
+                        width: 100%
+                        brandon_regular(14px, false)
+        #instructors_content
+            padding: 20px
+            .header
+                padding: 0 0 20px
+                h1
+                    brandon_bold(18px, true)
+                .subheader
+                    margin-top: 10px
+                    h2
+                        brandon_regular(14px, false)
+                    .select
+                        select
+                            margin-left: 0
+                            brandon_regular(14px, false)
+            .content
+                padding: 0
+                margin-bottom: 0
+                .wrapper
+                    flex: 0 0 100%
+                    margin: 0 0 10px
+                    padding: 50% 0
+                    .overlay
+                        .title
+                            brandon_bold(12px, true)
+                            padding: 0 10px
+                        .action
+                            padding: 10px 10px 20px
+                    .follow
+                        brandon_medium(10px, true)
+                .load
+                    margin-top: 10px
     #instagram_alternate
         .header
             padding: 20px 0
@@ -2491,6 +2549,7 @@
         .validation_errors
             brandon_medium(12px, false)
         .limit_wrapper
+            top: calc(0% - 10px)
             .limit
                 brandon_regular(10px, false)
 
@@ -2552,7 +2611,7 @@
             margin-left: 10px
 
     .form_flex
-        margin-bottom: 15px
+        margin-bottom: 0
 
     .form_group
         &.disclaimer
@@ -2910,15 +2969,14 @@
                 flex: 0 0 calc(50% - 20px)
                 margin: 0 10px 20px
                 padding: 10px
-
+    /**
+     * Riders Guide */
     .riders_guide
         #ready
             .instructors
                 .instructor_content
                     .wrapper
                         padding: 30% 0
-
-
     /**
      * Contact Us */
     .contact_us
@@ -2931,6 +2989,21 @@
                             .form_button
                                 margin-top: 0
                                 flex: 0 0 auto
+    /**
+     * Instructor */
+    .instructors
+        #instructors_content
+            padding: 20px 10px
+            .header
+                .subheader
+                    .select
+                        select
+                            margin-left: 10px
+            .content
+                .wrapper
+                    flex: 0 0 calc(50% - 20px)
+                    margin: 10px
+                    padding: 30% 0
 
 @media (max-width: 767px) and (min-width: 600px)
 
