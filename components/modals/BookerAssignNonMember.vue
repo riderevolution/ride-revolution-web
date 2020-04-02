@@ -69,6 +69,7 @@
                                 me.$store.state.bookerAssignSuccessStatus = true
                                 me.loader(false)
                             }, 500)
+                            me.$parent.removeNext = false
                         }, 500)
                     }
                 } else {

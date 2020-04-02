@@ -38,7 +38,7 @@
                                     <img class="main" src="/default/instructor/sample-instructor.png" />
                                     <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
                                     <div class="overlay">
-                                        <h2>{{ data.name }}</h2>
+                                        <div class="title">{{ data.name }}</div>
                                         <div class="action">
                                             <nuxt-link rel="canonical" to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
                                             <nuxt-link rel="canonical" to="/" class="default_btn">Book A Ride</nuxt-link>
@@ -109,15 +109,8 @@
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
-                        <nuxt-link rel="canonical" to="/studios" class="view_all default_btn_wht_alt">
-                            <div class="text">
-                                <div class="border_top left"></div>
-                                <div class="border_top left alt"></div>
-                                <div class="border_top right"></div>
-                                Explore Our Studio Amenities
-                                <div class="border_bottom left"></div>
-                                <div class="border_bottom right"></div>
-                            </div>
+                        <nuxt-link rel="canonical" to="/studios" class="view_all default_btn">
+                            Explore Our Studio Amenities
                         </nuxt-link>
                     </no-ssr>
                 </div>
@@ -139,7 +132,7 @@
             </div>
         </section>
         <section id="cool_letgo">
-            <img src="/default/riders-guide/cool-lets-go.jpg" />
+            <img class="full" src="/default/riders-guide/cool-lets-go.jpg" />
             <div class="overlay">
                 <h2>Cool! Let's go.</h2>
                 <div @click="loginUser()" class="default_btn">Create An Account</div>
@@ -498,6 +491,11 @@
                     }
                 })
                 me.toggled = true
+                setTimeout( () => {
+                    me.$scrollTo('.bike_wrapper', {
+                        offset: 0
+                    })
+                }, 250)
             },
             toggleActionHover (key) {
                 const me = this

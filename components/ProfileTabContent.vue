@@ -146,12 +146,12 @@
                     <ul class="menu_tab">
                         <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
-                        <li :class="`menu_tab_item ${(tabCategory == 'history') ? 'active' : ''}`" @click="toggledMenuTab('history')">History</li>
+                        <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_classes" v-if="classes.length > 0">
                             <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
-                                <div class="overlay">
+                                <div class="overlay" v-if="!data.history">
                                     <div class="menu_dot" @click="toggleMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
@@ -963,7 +963,7 @@
                 switch (category) {
                     case 'upcoming':
                     case 'waitlisted':
-                    case 'history':
+                    case 'class-history':
                         category = (category == 'upcoming') ? 'upcoming-classes' : category
                         me.loader(true)
                         me.$axios.get(`api/customers/${me.$store.state.user.id}/${category}`).then(res => {
@@ -983,11 +983,12 @@
                                                 me.classes.push(data)
                                             })
                                             break
-                                        case 'history':
-                                            // res.data.waitlisted.forEach((data, index) => {
-                                            //     data.toggled = false
-                                            //     me.classes.push(data)
-                                            // })
+                                        case 'class-history':
+                                            res.data.customer.classHistory.forEach((data, index) => {
+                                                data.toggled = false
+                                                data.history = true
+                                                me.classes.push(data)
+                                            })
                                             break
                                     }
                                 }, 10)

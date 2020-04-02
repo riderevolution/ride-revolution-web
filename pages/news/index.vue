@@ -1,7 +1,7 @@
 <template>
     <div class="news">
         <section id="banner" class="mt">
-            <img src="/default/news/news-banner.jpg" />
+            <img class="full" src="/default/news/news-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>News</h1>
@@ -14,7 +14,7 @@
                     <img :src="data.path" alt="asdasdasd" />
                 </div>
                 <div class="bottom">
-                    <h3 class="title">{{ data.title }}</h3>
+                    <div class="title">{{ data.title }}</div>
                     <div class="date">{{ $moment().format('MMM DD, YYYY') }}</div>
                     <div class="description" v-line-clamp="3" v-html="data.description"></div>
                     <div class="link">Read More</div>
@@ -24,18 +24,9 @@
                 <div v-if="!showLoadedNews" class="default_btn load" @click="loadMoreNews()">Load More</div>
             </div>
         </section>
-        <section id="ride_with">
-            <div class="header">
-                <div class="description">
-                    <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
-                </div>
-            </div>
-            <div class="content">
-                <instagram />
-            </div>
-        </section>
+        <instagram-alternate />
         <section id="banner" class="mt alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
@@ -46,11 +37,11 @@
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
-    import Instagram from '../../components/Instagram'
+    import InstagramAlternate from '../../components/InstagramAlternate'
     export default {
         components: {
             Breadcrumb,
-            Instagram
+            InstagramAlternate
         },
         data () {
             return {
