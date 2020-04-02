@@ -2444,15 +2444,17 @@ svg
                         object-position: center
                         border-radius: 50%
                     .info
-                        flex: 0 0 auto
+                        flex: 1 0 30%
                         justify-content: space-between
-                        padding-left: 0
+                        padding-left: 10px
                         .start
+                            flex: 0 0 100%
                             padding-right: 20px
                             .date,
                             .time
                                 brandon_bold(14px, false)
                         .description
+                            flex: 0 0 100%
                             padding-left: 0
                             h2
                                 brandon_bold(16px, false)
@@ -2463,8 +2465,9 @@ svg
                             p
                                 brandon_regular(12px, false)
                     .default_btn_out
-                        flex: 0 0 100%
-                        margin-top: 20px
+                        flex: 1 0 20%
+                        width: auto
+                        margin-top: 0
             .wrapper
                 position: relative
                 z-index: 1

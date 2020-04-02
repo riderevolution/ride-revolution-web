@@ -2474,9 +2474,37 @@
             .left
                 width: 100%
                 flex: 0 0 100%
-                padding: 0
+                padding: 20px 0 0
                 h1
+                    text-align: center
                     brandon_bold(18px, true)
+                .specializations
+                    margin: 20px 0
+                    justify-content: center
+                    .wrapper
+                        flex: 0 0 50px
+                        h3
+                            brandon_medium(12px, true)
+                            margin-top: 5px
+                .description
+                    text-align: center
+                    margin-bottom: 20px
+                    h2
+                        brandon_bold(16px, true)
+                        margin-bottom: 10px
+                    p
+                        brandon_regular(12px, false)
+                .talents
+                    margin-bottom: 20px
+                    text-align: center
+                    p
+                        brandon_regular(14px, false)
+                .quote
+                    padding: 0
+                    text-align: center
+                    background-image: unset
+                    p
+                        brandon_regular(12px, false)
         #ride_with
             .header
                 padding: 20px 0
@@ -2508,7 +2536,6 @@
                 .default_btn
                     flex: 0 0 100%
                     margin-top: 20px
-            .content
                 .comment
                     padding: 20px 0
             .load_more
@@ -3256,3 +3283,21 @@
                     .wrapper
                         flex: 0 0 calc(33.33% - 20px)
                         margin: 0 10px
+    /**
+     * Instructors Inner */
+    .instructor_inner
+        #classes
+            .content
+                &.mobile
+                    .wrapper
+                        .info
+                            flex: 1 0 30%
+                            .start
+                                padding-left: 20px
+                                flex: 0 0 auto
+                                padding-right: 0px
+                                .date,
+                                .time
+                                    brandon_bold(16px, false)
+                            .description
+                                flex: 0 0 50%
