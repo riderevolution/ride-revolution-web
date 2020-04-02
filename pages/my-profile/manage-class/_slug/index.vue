@@ -75,7 +75,7 @@
                             </div>
                             <div class="main_right">
                                 <div class="header" v-if="!$parent.$parent.isMobile">
-                                    <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
+                                    <nuxt-link to="/my-profile" class="back">Back</nuxt-link>
                                 </div>
                                 <div class="content">
                                     <div class="seat_wrapper">
@@ -125,7 +125,11 @@
                                                                 <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="right" v-if="!removeNext">
+                                                        <div class="right alt" v-if="$parent.$parent.isMobile && !removeNext">
+                                                            <nuxt-link to="/my-profile" class="back">Back</nuxt-link>
+                                                            <div class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        </div>
+                                                        <div class="right" v-if="!$parent.$parent.isMobile && !removeNext">
                                                             <div class="default_btn" @click="toggleStep('next')">Next</div>
                                                         </div>
                                                         <div class="right" v-if="!checkPackage">

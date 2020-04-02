@@ -150,8 +150,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right">
+                                                    <div class="right" v-if="$parent.$parent.isMobile && !removeNext">
                                                         <nuxt-link class="back" :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`">Back</nuxt-link>
+                                                        <div class="default_btn" v-if="!removeNext && added != 0" @click="toggleStep('next')">Next</div>
+                                                    </div>
+                                                    <div class="right" v-if="!$parent.$parent.isMobile && !removeNext">
                                                         <div class="default_btn" v-if="!removeNext && added != 0" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>

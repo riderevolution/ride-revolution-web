@@ -100,14 +100,15 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right" v-if="!removeNext">
+                                                    <div class="right" v-if="$parent.$parent.isMobile && !removeNext">
+                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back">Back</nuxt-link>
+                                                        <div class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    </div>
+                                                    <div class="right" v-if="!$parent.$parent.isMobile && !removeNext">
                                                         <div class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
-                                                    </div>
-                                                    <div class="action_mobile">
-                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
                                                     </div>
                                                 </div>
                                             </transition>
