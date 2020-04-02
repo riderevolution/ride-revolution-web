@@ -1723,7 +1723,7 @@
                             margin: 10px auto
                             transition: .3s ease-in-out
                             .overlay_header
-                                top: calc(0% - 30px)
+                                top: 0
                                 left: calc(50%)
                                 width: 100%
                                 h3
@@ -1735,6 +1735,10 @@
                                     width: 70px
                                     height: 70px
                             .overlay_seat
+                                &.layout_2
+                                    &.left,
+                                    &.right
+                                        top: calc(0% + 20px)
                                 &.left
                                     justify-content: flex-start
                                     top: calc(0% + 20px)
@@ -1753,7 +1757,17 @@
                                         &:first-child,
                                         &:nth-child(3)
                                             top: calc(0px + 30px)
-                                &.layout_1
+                                &.layout_1,
+                                &.layout_2
+                                    &.bottom
+                                        bottom: calc(0% + 140px)
+                                    &.bottom_alt
+                                        bottom: calc(0% + 85px)
+                                        .seat
+                                            left: 0
+                                    &.bottom_alt_2
+                                        bottom: calc(0% + 30px)
+                                &.layout_3
                                     &.bottom
                                         bottom: calc(0% + 140px)
                                     &.bottom_alt
@@ -2948,7 +2962,9 @@
                                 max-width: 465px
                                 transition: .3s ease-in-out
                                 .overlay_seat
-                                    &.layout_1
+                                    &.layout_1,
+                                    &.layout_2,
+                                    &.layout_3
                                         &.bottom
                                             bottom: calc(0% + 150px)
                                         &.bottom_alt
@@ -3018,7 +3034,9 @@
                                 max-width: 465px
                                 transition: .3s ease-in-out
                                 .overlay_seat
-                                    &.layout_1
+                                    &.layout_1,
+                                    &.layout_2,
+                                    &.layout_3
                                         &.bottom
                                             bottom: calc(0% + 135px)
                                         &.bottom_alt
@@ -3228,7 +3246,9 @@
                                         width: 100px
                                         height: 100px
                                 .overlay_seat
-                                    &.layout_1
+                                    &.layout_1,
+                                    &.layout_2,
+                                    &.layout_3
                                         &.bottom
                                             bottom: calc(0% + 135px)
                                         &.bottom_alt
@@ -3237,6 +3257,10 @@
                                                 left: 0
                                         &.bottom_alt_2
                                             bottom: calc(0% + 5px)
+                                    &.layout_2
+                                        &.left,
+                                        &.right
+                                            top: calc(0% + 15px)
                                     &.left,
                                     &.right
                                         top: calc(0% + 15px)
