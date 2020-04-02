@@ -2411,6 +2411,7 @@ svg
      * Classes */
     #classes
         background-image: url(/dotted-bg.png)
+        padding-bottom: 80px
         .header
             padding: 80px 0 30px
             text-align: center
@@ -2427,8 +2428,43 @@ svg
         .content
             width: 100%
             max-width: 65%
-            margin: 20px auto 100px
+            margin: 20px auto 0
             background-color: $white
+            &.mobile
+                max-width: 100%
+                margin: 10px 0
+                .wrapper
+                    padding: 20px
+                    justify-content: space-between
+                    .main
+                        flex: 0 0 50px
+                        width: 50px
+                        height: 50px
+                        object-fit: cover
+                        object-position: center
+                        border-radius: 50%
+                    .info
+                        flex: 0 0 auto
+                        justify-content: space-between
+                        padding-left: 0
+                        .start
+                            padding-right: 20px
+                            .date,
+                            .time
+                                brandon_bold(14px, false)
+                        .description
+                            padding-left: 0
+                            h2
+                                brandon_bold(16px, false)
+                                margin-bottom: 5px
+                            .limit
+                                span
+                                    brandon_regular(12px, false)
+                            p
+                                brandon_regular(12px, false)
+                    .default_btn_out
+                        flex: 0 0 100%
+                        margin-top: 20px
             .wrapper
                 position: relative
                 z-index: 1
@@ -2455,6 +2491,9 @@ svg
                     align-items: center
                     .main
                         width: 60px
+                        height: 60px
+                        object-fit: cover
+                        object-position: center
                         border-radius: 50%
                     .description
                         padding-left: 30px
@@ -2541,7 +2580,7 @@ svg
     #comments
         width: 100%
         max-width: 65%
-        margin: 80px auto
+        margin: 80px auto 40px
         .header
             display: flex
             flex-flow: row wrap
@@ -2554,6 +2593,64 @@ svg
                 letter-spacing: 1.3px
                 color: $black
         .content
+            &.mobile
+                .comment
+                    .comment_header_mobile
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: space-between
+                        .comment_img
+                            width: 60px
+                            border-radius: 50%
+                        .comment_img_initials
+                            position: relative
+                            .background
+                                width: 60px
+                                height: 60px
+                                background-color: $black_alt2
+                                border-radius: 50%
+                            .initials
+                                position: absolute
+                                top: 50%
+                                left: 0
+                                right: 0
+                                margin: 0 auto
+                                text-align: center
+                                z-index: 1
+                                brandon_medium(16px, true)
+                                color: $white
+                                letter-spacing: 0.55px
+                                transform: translateY(-50%)
+                        .stats
+                            padding-left: 20px
+                            flex: 1 0 20%
+                            .stars
+                                margin: 5px 0
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                img
+                                    width: 20px
+                        h3
+                            brandon_regular(12px, false)
+                            color: $black_alt2
+                            letter-spacing: 0.4px
+                        .date
+                            brandon_regular(12px, false)
+                            color: $gray_alt2
+                            letter-spacing: 0.4px
+                    .comment_info_mobile
+                        .title
+                            brandon_bold(14px, false)
+                            color: $black
+                            letter-spacing: 0.55px
+                            margin: 10px 0
+                        .description
+                            brandon_regular(12px, false)
+                            color: $black
+                            letter-spacing: 0.8px
+                            line-height: 1.75
             .comment
                 padding: 40px 0
                 border-bottom: 1px solid $border_alt4
@@ -2587,8 +2684,8 @@ svg
                         letter-spacing: 0.55px
                         transform: translateY(-50%)
                 .comment_info
-                    margin-left: 30px
-                    flex: 0 0 calc(100% - 90px)
+                    padding-left: 30px
+                    flex: 1 0  50%
                     .comment_header
                         display: flex
                         flex-flow: row wrap
@@ -2612,16 +2709,16 @@ svg
                             brandon_regular(16px, false)
                             color: $black_alt2
                             letter-spacing: 0.4px
-                        h4
+                        .date
                             brandon_regular(16px, false)
                             color: $gray_alt2
                             letter-spacing: 0.4px
-                    h2
+                    .title
                         brandon_bold(22px, false)
                         color: $black
                         letter-spacing: 0.55px
                         margin: 10px 0
-                    p
+                    .description
                         brandon_regular(16px, false)
                         color: $black
                         letter-spacing: 0.8px
@@ -7043,6 +7140,9 @@ svg
             .image
                 flex: 0 0 calc(100% / 3)
         &.less_one
+            &.mobile
+                .image
+                    flex: 0 0 calc(100% / 3)
             .image
                 flex: 0 0 25%
         .image
@@ -7173,6 +7273,8 @@ svg
                 brandon_regular(40px, false)
                 text-transform: none
                 color: $white
+            .default_btn
+                margin-top: 40px
         &::before
             background-color: rgba(0, 0, 0, 0.3)
     &.alt_3

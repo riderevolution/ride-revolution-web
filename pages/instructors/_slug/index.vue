@@ -37,8 +37,8 @@
                 <h2>#RideRev <span>With Billie</span></h2>
                 <h3>This week’s upcoming classes</h3>
             </div>
-            <div class="content">
-                <div class="wrapper">
+            <div class="content" v-if="!$parent.$parent.isMobile">
+                <div class="wrapper" v-for="(n, key) in 4" :key="key">
                     <div class="start">
                         <div class="date">{{ parseDate('date', 'May 15, 2019') }}</div>
                         <div class="time">{{ parseDate('time', 'May 15, 2019 10:30 AM') }}</div>
@@ -54,64 +54,30 @@
                             <p>Shangri-la Plaza</p>
                         </div>
                     </div>
-                    <a href="javascript:void(0)" class="default_btn_out"><span>Book Now</span></a>
-                </div>
-                <div class="wrapper">
-                    <div class="start">
-                        <div class="date">{{ parseDate('date', 'May 15, 2019') }}</div>
-                        <div class="time">{{ parseDate('time', 'May 15, 2019 10:30 AM') }}</div>
-                    </div>
-                    <div class="info">
-                        <img class="main" src="/default/lets-ride/sample-ig0.jpg" />
-                        <div class="description">
-                            <h2>Billie Capistrano</h2>
-                            <div class="limit">
-                                <span>50 Minute Ride </span>
-                                <img src="/icons/info-icon.svg" />
-                            </div>
-                            <p>Shangri-la Plaza</p>
-                        </div>
-                    </div>
-                    <a href="javascript:void(0)" class="default_btn_out"><span>Waitlist</span></a>
-                </div>
-                <div class="wrapper">
-                    <div class="start">
-                        <div class="date">{{ parseDate('date', 'May 15, 2019') }}</div>
-                        <div class="time">{{ parseDate('time', 'May 15, 2019 10:30 AM') }}</div>
-                    </div>
-                    <div class="info">
-                        <img class="main" src="/default/lets-ride/sample-ig0.jpg" />
-                        <div class="description">
-                            <h2>Billie Capistrano</h2>
-                            <div class="limit">
-                                <span>50 Minute Ride </span>
-                                <img src="/icons/info-icon.svg" />
-                            </div>
-                            <p>Shangri-la Plaza</p>
-                        </div>
-                    </div>
-                    <a href="javascript:void(0)" class="default_btn_out"><span>Book Now</span></a>
-                </div>
-                <div class="wrapper">
-                    <div class="start">
-                        <div class="date">{{ parseDate('date', 'May 15, 2019') }}</div>
-                        <div class="time">{{ parseDate('time', 'May 15, 2019 10:30 AM') }}</div>
-                    </div>
-                    <div class="info">
-                        <img class="main" src="/default/lets-ride/sample-ig0.jpg" />
-                        <div class="description">
-                            <h2>Billie Capistrano</h2>
-                            <div class="limit">
-                                <span>50 Minute Ride </span>
-                                <img src="/icons/info-icon.svg" />
-                            </div>
-                            <p>Shangri-la Plaza</p>
-                        </div>
-                    </div>
-                    <a href="javascript:void(0)" class="default_btn_out"><span>Waitlist</span></a>
+                    <a href="javascript:void(0)" class="default_btn_out"><span>{{ (n <= 2) ? 'Book Now' : 'Waitlist' }}</span></a>
                 </div>
             </div>
-            <div class="preview">
+            <div class="content mobile" v-else>
+                <div class="wrapper" v-for="(n, key) in 4" :key="key">
+                    <img class="main" src="/default/lets-ride/sample-ig0.jpg" />
+                    <div class="info">
+                        <div class="start">
+                            <div class="date">{{ parseDate('date', 'May 15, 2019') }}</div>
+                            <div class="time">{{ parseDate('time', 'May 15, 2019 10:30 AM') }}</div>
+                        </div>
+                        <div class="description">
+                            <h2>Billie Capistrano</h2>
+                            <div class="limit">
+                                <span>50 Minute Ride </span>
+                                <img src="/icons/info-icon.svg" />
+                            </div>
+                            <p>Shangri-la Plaza</p>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0)" class="default_btn_out"><span>{{ (n <= 2) ? 'Book Now' : 'Waitlist' }}</span></a>
+                </div>
+            </div>
+            <!-- <div class="preview">
                 <img src="/default/instructor/class_preview.jpg" />
                 <div class="overlay">
                     <h2>Class Preview</h2>
@@ -126,14 +92,14 @@
                         </g>
                     </svg>
                 </div>
-            </div>
+            </div> -->
         </section>
         <section id="comments">
             <div class="header">
                 <h2>Here are what other riders are raving about Billie</h2>
                 <nuxt-link to="/instructors/asdasdadas/comment" class="default_btn">Write a Review</nuxt-link>
             </div>
-            <div class="content">
+            <div class="content" v-if="!$parent.$parent.isMobile">
                 <div class="comment" v-for="(data, key) in populateComment" :key="key">
                     <img class="comment_img" :src="data.path" v-if="data.hasImage" />
                     <div class="comment_img_initials" v-else>
@@ -149,25 +115,38 @@
                                     <img src="/icons/star-gray.svg" v-if="data.stars != 5" v-for="n in 5 - data.stars" />
                                 </div>
                             </div>
-                            <h4>{{ $moment('May 15, 2019').format('MMMM D, YYYY') }}</h4>
+                            <div class="date">{{ $moment('May 15, 2019').format('MMMM D, YYYY') }}</div>
                         </div>
-                        <h2>{{ data.title }}</h2>
-                        <p>{{ data.description }}</p>
+                        <div class="title">{{ data.title }}</div>
+                        <div class="description" v-html="data.description"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="content mobile" v-else>
+                <div class="comment" v-for="(data, key) in populateComment" :key="key">
+                    <div class="comment_header_mobile">
+                        <img class="comment_img" :src="data.path" v-if="data.hasImage" />
+                        <div class="comment_img_initials" v-else>
+                            <div class="background"></div>
+                            <div class="initials">CL</div>
+                        </div>
+                        <div class="stats">
+                            <h3>{{ data.name }}</h3>
+                            <div class="stars">
+                                <img src="/icons/star-green.svg" v-if="data.stars != 0" v-for="n in data.stars" />
+                                <img src="/icons/star-gray.svg" v-if="data.stars != 5" v-for="n in 5 - data.stars" />
+                            </div>
+                            <div class="date">{{ $moment('May 15, 2019').format('MMMM D, YYYY') }}</div>
+                        </div>
+                    </div>
+                    <div class="comment_info_mobile">
+                        <div class="title">{{ data.title }}</div>
+                        <div class="description" v-html="data.description"></div>
                     </div>
                 </div>
             </div>
             <div class="load_more">
                 <div v-if="!checkComments" class="default_btn load" @click="loadMoreComments()">Load More</div>
-            </div>
-        </section>
-        <section id="spotify">
-            <div class="left">
-                <img src="/icons/spotify-logo.svg" />
-                <h2>MUSIC BILLIE IS VIBING<br> RIGHT NOW</h2>
-                <p>She likes it pop with a twist. She enjoys that irregular-paced ride and loves adding<br> dance moves to that electric heart-pumping beat. Janet Jackson, Imagine Dragons,<br> Eminem, Justin Timberlake, and David Guetta are always in her playlist.</p>
-            </div>
-            <div class="right">
-                <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="100%" height="550px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             </div>
         </section>
         <section id="ride_with">
@@ -179,6 +158,16 @@
             </div>
             <div class="content">
                 <instagram :lessOne="true" />
+            </div>
+        </section>
+        <section id="spotify">
+            <div class="left">
+                <img src="/icons/spotify-logo.svg" />
+                <h2>MUSIC BILLIE IS VIBING<br> RIGHT NOW</h2>
+                <p>She likes it pop with a twist. She enjoys that irregular-paced ride and loves adding<br> dance moves to that electric heart-pumping beat. Janet Jackson, Imagine Dragons,<br> Eminem, Justin Timberlake, and David Guetta are always in her playlist.</p>
+            </div>
+            <div class="right">
+                <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="100%" height="550px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             </div>
         </section>
     </div>
