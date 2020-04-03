@@ -11,28 +11,59 @@
                                         <h2 class="date">{{ $moment(schedule.date).format('MMM DD, YYYY') }}</h2>
                                         <h2 class="time">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
                                     </div>
-                                    <div class="content">
-                                        <ul>
-                                            <li>{{ parseScheduleRide(schedule.schedule.class_length) }} Ride</li>
-                                            <li>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</li>
-                                            <li>{{ schedule.schedule.studio.name }}</li>
-                                        </ul>
-                                    </div>
-                                    <div class="description">
-                                        <h3>What can I do?</h3>
-                                        <ul>
-                                            <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
-                                            <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
-                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
-                                        </ul>
-                                    </div>
-                                    <div class="waitlisted" v-if="isWaitlisted">
-                                        <div class="label">Waitlisted</div>
-                                        <div class="user">
-                                            <div class="name">
-                                                {{ user.first_name }} {{ user.last_name }}
+                                    <div v-if="!$parent.$parent.isMobile">
+                                        <div class="content">
+                                            <ul>
+                                                <li>{{ parseScheduleRide(schedule.schedule.class_length) }} Ride</li>
+                                                <li>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</li>
+                                                <li>{{ schedule.schedule.studio.name }}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="description">
+                                            <h3>What can I do?</h3>
+                                            <ul>
+                                                <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                                <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                                <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="waitlisted" v-if="isWaitlisted">
+                                            <div class="label">Waitlisted</div>
+                                            <div class="user">
+                                                <div class="name">
+                                                    {{ user.first_name }} {{ user.last_name }}
+                                                </div>
+                                                <div class="default_btn_red" @click="cancelWaitlist()">Cancel</div>
                                             </div>
-                                            <div class="default_btn_red" @click="cancelWaitlist()">Cancel</div>
+                                        </div>
+                                    </div>
+                                    <div class="details_toggle" v-else>
+                                        <div class="toggler" @click.self="toggleDetails($event)">Show Details</div>
+                                        <div class="toggle_data">
+                                            <div class="content">
+                                                <ul>
+                                                    <li>{{ parseScheduleRide(schedule.schedule.class_length) }} Ride</li>
+                                                    <li>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</li>
+                                                    <li>{{ schedule.schedule.studio.name }}</li>
+                                                </ul>
+                                            </div>
+                                            <div class="description">
+                                                <h3>What can I do?</h3>
+                                                <ul>
+                                                    <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                                    <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                                    <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                                </ul>
+                                            </div>
+                                            <div class="waitlisted" v-if="isWaitlisted">
+                                                <div class="label">Waitlisted</div>
+                                                <div class="user">
+                                                    <div class="name">
+                                                        {{ user.first_name }} {{ user.last_name }}
+                                                    </div>
+                                                    <div class="default_btn_red" @click="cancelWaitlist()">Cancel</div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -119,8 +150,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right">
+                                                    <div class="right" v-if="$parent.$parent.isMobile && !removeNext">
                                                         <nuxt-link class="back" :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`">Back</nuxt-link>
+                                                        <div class="default_btn" v-if="!removeNext && added != 0" @click="toggleStep('next')">Next</div>
+                                                    </div>
+                                                    <div class="right" v-if="!$parent.$parent.isMobile && !removeNext">
                                                         <div class="default_btn" v-if="!removeNext && added != 0" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                 </div>

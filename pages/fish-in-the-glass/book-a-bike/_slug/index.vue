@@ -11,20 +11,42 @@
                                         <h2 class="date">{{ $moment(schedule.date).format('MMM DD, YYYY') }}</h2>
                                         <h2 class="time">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
                                     </div>
-                                    <div class="content">
-                                        <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride </span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
-                                        </ul>
+                                    <div v-if="!$parent.$parent.isMobile">
+                                        <div class="content">
+                                            <ul>
+                                                <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                                <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                                <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="description">
+                                            <h3>What can I do?</h3>
+                                            <ul>
+                                                <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                                <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                                <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="description">
-                                        <h3>What can I do?</h3>
-                                        <ul>
-                                            <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
-                                            <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
-                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
-                                        </ul>
+                                    <div class="details_toggle" v-else>
+                                        <div class="toggler" @click.self="toggleDetails($event)">Show Details</div>
+                                        <div class="toggle_data">
+                                            <div class="content">
+                                                <ul>
+                                                    <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                                    <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                                    <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="description">
+                                                <h3>What can I do?</h3>
+                                                <ul>
+                                                    <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                                    <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                                    <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -78,14 +100,15 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="right" v-if="!removeNext">
+                                                    <div class="right" v-if="$parent.$parent.isMobile && !removeNext">
+                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back">Back</nuxt-link>
+                                                        <div class="default_btn" @click="toggleStep('next')">Next</div>
+                                                    </div>
+                                                    <div class="right" v-if="!$parent.$parent.isMobile && !removeNext">
                                                         <div class="default_btn" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn">Buy Rides</nuxt-link>
-                                                    </div>
-                                                    <div class="action_mobile">
-                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
                                                     </div>
                                                 </div>
                                             </transition>
@@ -280,6 +303,17 @@
             },
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
             addClass (seat) {
                 const me = this
                 let result = ''
