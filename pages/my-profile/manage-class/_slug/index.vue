@@ -122,7 +122,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat">
+                                            <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat && !res.waitlisted">
                                                 <transition name="fade">
                                                     <div class="next_wrapper">
                                                         <div class="left" v-if="toSubmit.tempSeat.length > 0">
@@ -693,6 +693,7 @@
                 })
                 me.deleteCurrentSeat (id)
                 me.isSwitchingSeat = false
+                me.cancelSwitchingSeat = false
                 me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
                 me.status = true
                 setTimeout(() => {

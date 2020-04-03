@@ -683,6 +683,7 @@
                 })
                 me.deleteCurrentSeat (id)
                 me.isSwitchingSeat = false
+                me.cancelSwitchingSeat = false
                 me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
                 me.status = true
                 setTimeout(() => {
