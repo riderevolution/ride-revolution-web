@@ -732,7 +732,7 @@
                                     me.ctr++
                                 })
 
-                                me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
+                                me.checkPackage = 1
                                 me.removeNext = true
 
                                 if (res.data.waitlisted) {
