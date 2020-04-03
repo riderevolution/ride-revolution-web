@@ -5,7 +5,7 @@
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Contact Us</h1>
-                <h2>We’re revolutionizing Manila’s fitness industry.</h2>
+                <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
             </div>
         </section>
         <section id="content">
@@ -40,7 +40,7 @@
                     <div class="form_group">
                         <div class="form_check">
                             <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'">
-                            <label for="i_agree">I acknowledge and fully understand the terms and conditions stated above and that all information stated above are true.</label>
+                            <label for="i_agree" class="alt">I acknowledge and fully understand the terms and conditions stated above and that all information stated above are true.</label>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('i_agree')">{{ errors.first('i_agree') | properFormat }}</span></transition>
                         </div>
                     </div>

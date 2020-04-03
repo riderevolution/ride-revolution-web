@@ -1272,10 +1272,9 @@ svg
                     color: $black
                     a
                         brandon_bold(16px, false)
-                        color: $black
+                        color: $green
                         transition: .3s ease-in-out
                         &:hover
-                            color: $green
                             text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                             transition: .3s ease-in-out
             .social_links
@@ -1662,7 +1661,7 @@ svg
                     brandon_regular(20px, true)
                     letter-spacing: 0.5px
                     color: $black
-                    text-align: center
+                    text-align: right
                     strong
                         brandon_bold(30px, false)
                         letter-spacing: 0.75px
@@ -3542,7 +3541,7 @@ svg
             flex-flow: row wrap
             align-items: center
             width: 100%
-            max-width: 75%
+            max-width: 100%
             margin: 0 auto
             .left
                 flex: 0 0 55%
@@ -3597,7 +3596,7 @@ svg
         background-color: $white
         .info
             width: 100%
-            max-width: 65%
+            max-width: 90%
             margin: 0 auto
             p
                 brandon_regular(16px, false)
@@ -3607,7 +3606,7 @@ svg
             display: flex
             flex-flow: row wrap
             width: 100%
-            max-width: calc(65% + 30px)
+            max-width: calc(90% + 30px)
             margin: 40px auto 0
             .wrapper
                 flex: 0 0 calc(50% - 30px)
@@ -5803,6 +5802,37 @@ svg
                 background-color: $white
                 .left
                     flex: 0 0 20%
+                .mobile
+                    .tab_toggler
+                        &.toggled
+                            .toggler
+                                &::before
+                                    transform: translateY(-50%) rotate(180deg)
+                                    transition: .3s ease-in-out
+                            .tab_wrapper
+                                opacity: 1
+                                transition: .3s ease-in-out
+                        .toggler
+                            position: relative
+                            brandon_medium(16px, true)
+                            padding: 5px 10px
+                            color: $white
+                            background-color: $green
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 50%
+                                right: calc(0% + 10px)
+                                border-left: 7px solid transparent
+                                border-right: 7px solid transparent
+                                border-top: 7px solid $white
+                                transform: translateY(-50%) rotate(0deg)
+                                transition: .3s ease-in-out
+                        .tab_wrapper
+                            height: 0px
+                            opacity: 0
+                            overflow: hidden
+                            transition: .3s ease-in-out
                 .tab_wrapper
                     flex: 0 0 80%
                     list-style: none
@@ -7397,6 +7427,9 @@ svg
         h2
             brandon_bold(22px, false)
             color: $white
+            letter-spacing: 0.55px
+            &.alt
+                brandon_regular(20px, false)
     .overlay_top
         position: absolute
         top: 0
@@ -8811,6 +8844,8 @@ svg
         margin-bottom: 0
         margin-left: 10px
         cursor: pointer
+        &.alt
+            text-transform: unset
         span
             color: $green
         a

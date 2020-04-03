@@ -2569,6 +2569,102 @@
             .right
                 flex: 0 0 100%
     /**
+     * My Profile */
+    .my_profile
+        #content
+            .profile_tab
+                max-width: 100%
+                border-radius: 0px
+                padding: 0 20px
+                .top
+                    padding: 10px
+                    border-radius: 0px
+                    .left,
+                    .right
+                        flex: 0 0 100%
+                        .overlay
+                            position: static
+                            text-align: center
+                            .badges
+                                bottom: calc(0% - 20px)
+                                right: calc(50% + 15px)
+                                transform: translateX(50%)
+                                .first,
+                                .second
+                                    width: 60px
+                                    height: 60px
+                    .right
+                        .data
+                            .name
+                                justify-content: center
+                                margin-top: 20px
+                                brandon_medium(16px, false)
+                            .info
+                                justify-content: space-between
+                                margin: 15px 0
+                                .label
+                                    margin-right: 0
+                                    brandon_regular(14px, false)
+                                    b
+                                        brandon_medium(14px, false)
+                .bottom
+                    padding: 0
+                    .left
+                        display: none
+                    .tab_wrapper
+                        flex: 0 0 100%
+                        .tab_item
+                            flex: 0 0 100%
+                            brandon_regular(14px, false)
+                            padding: 5px 10px
+            .profile_tab_content
+                margin: 0 0 20px
+                .wrapper
+                    &.journey
+                        margin-top: 10px
+                    .profile_journey
+                        .teaser
+                            max-width: 100%
+                            padding: 0 20px
+                            .taken
+                                margin-bottom: 20px
+                                .summary
+                                    .summary_content
+                                        .class_stat
+                                            padding: 20px 0
+                                            .class_count
+                                                brandon_black(26px, true)
+                                            .class_date
+                                                brandon_regular(12px, true)
+                                        .motto
+                                            brandon_regular(12px, false)
+                                            padding-top: 20px
+                            .taken,
+                            .badges_earned
+                                flex: 0 0 100%
+                                border-radius: 0px
+                            .badges_earned
+                                .summary
+                                    .summary_content
+                                        padding: 10px 20px 20px
+                                        .left,
+                                        .right
+                                            .badge
+                                                justify-content: center
+                                                text-align: center
+                                                span
+                                                    brandon_regular(14px, false)
+                            .summary
+                                .summary_header
+                                    padding: 10px
+                                    &.alt
+                                        .icon
+                                            .description_overlay
+                                                right: calc(0% - 10px)
+                                                width: 200px
+                                    h3
+                                        brandon_bold(12px, true)
+    /**
      * Global */
     .default
         .swiper-button-prev,
@@ -2604,7 +2700,8 @@
     .default_btn,
     .default_btn_out,
     .default_btn_blue,
-    .default_btn_wht
+    .default_btn_wht,
+    .default_btn_wht_out
         width: 100%
         brandon_bold(12px, true)
         padding: 10px

@@ -925,7 +925,7 @@
                     } else if (category == 'transactions') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                     } else if (category == 'ride-rev-journey') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc(20px)`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `10px` : `20px`
                     }
                 }, 100)
             },
