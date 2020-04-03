@@ -6256,12 +6256,14 @@ svg
                         .tab_content_main
                             max-width: 100%
                             .instructor
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
-                                .wrapper
+                                &.desktop
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    .item
+                                        flex: 0 0 calc(100% / 5)
+                                .item
                                     position: relative
-                                    flex: 0 0 calc(100% / 5)
                                     background-image: url('/default/instructor/instructor-bg.svg')
                                     background-position: center
                                     background-repeat: no-repeat
@@ -6282,11 +6284,11 @@ svg
                                         z-index: 3
                                     .main
                                         position: absolute
-                                        bottom: 0
+                                        top: 0
                                         left: 0
                                         right: 0
-                                        width: 250px
-                                        height: auto
+                                        width: auto
+                                        height: 100%
                                         z-index: 1
                                         display: block
                                         margin: 0 auto

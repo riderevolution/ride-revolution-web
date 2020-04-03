@@ -2620,6 +2620,12 @@
             .profile_tab_content
                 margin: 0 0 20px
                 .wrapper
+                    .tab_content_header
+                        text-align: center
+                        &.alt2,
+                        &.alt3
+                            h2
+                                brandon_bold(12px, true)
                     &.journey
                         margin-top: 10px
                     .profile_journey
@@ -2663,6 +2669,60 @@
                                                 right: calc(0% - 10px)
                                                 width: 200px
                                     h3
+                                        brandon_bold(12px, true)
+                        .top_booked
+                            max-width: calc(100% - 40px)
+                            margin: 20px auto
+                            border-radius: 0px
+                            .tab_content_header
+                                padding: 10px
+                            .tab_content_main
+                                .instructor
+                                    .default
+                                        padding-bottom: 40px
+                                        &.swiper-container-horizontal > .swiper-pagination-bullets
+                                            bottom: calc(0% + 15px)
+                                    .item
+                                        padding: 50% 0
+                                        .overlay
+                                            width: 100%
+                                            border-radius: 0
+                                            .rides
+                                                brandon_regular(14px, false)
+                                            .info
+                                                .name
+                                                    brandon_bold(18px, false)
+                                                .num_wrapper_alt
+                                                    width: 25px
+                                                    height: 25px
+                                                    .num
+                                                        brandon_black(18px, false)
+                        .chart
+                            max-width: calc(100% - 40px)
+                            margin: 0 auto
+                            .tab_content_header
+                                padding: 10px 0 0 0
+                                h2
+                                    padding: 0 10px
+                                .tab_content_header_menu
+                                    width: 100%
+                                    .header_menu_tab_item
+                                        flex: 0 0 50%
+                                        margin-right: 0
+                                        padding: 5px 10px
+                                        brandon_bold(14px, false)
+                            .ride_chart
+                                padding: 20px 0 0 0
+                            .ride_summary
+                                padding-bottom: 20px
+                                .left
+                                    margin-bottom: 10px
+                                .left,
+                                .right
+                                    flex: 0 0 100%
+                                    .value
+                                        brandon_black(26px, true)
+                                    .label
                                         brandon_bold(12px, true)
     /**
      * Global */
