@@ -5,7 +5,7 @@
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Ride Rev Promos</h1>
-                <h2>We're revolutionizing Manila's fitness industry.</h2>
+                <h2 class="alt">We're revolutionizing Manila's fitness industry.</h2>
             </div>
         </section>
         <section id="promos" class="alt">
