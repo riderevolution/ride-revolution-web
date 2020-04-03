@@ -51,6 +51,7 @@
                     me.loader(true)
                     me.$parent.selectedSwitchSeat = temp
                     me.$parent.isSwitchingSeat = true
+                    me.$parent.cancelSwitchingSeat = true
                     setTimeout( () => {
                         me.$store.state.bookerSwitchSeatStatus = false
                         document.body.classList.remove('no_scroll')

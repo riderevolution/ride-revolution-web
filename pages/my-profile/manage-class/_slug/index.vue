@@ -113,7 +113,16 @@
                                             </ul>
                                         </div>
                                         <transition name="fade">
-                                            <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat">
+                                            <div class="actions" v-if="cancelSwitchingSeat">
+                                                <div class="next_wrapper">
+                                                    <div class="left">
+                                                        <div class="flex package">
+                                                            <div class="default_btn_red" @click="chooseSeat('cancel')"><span>Cancel Switch</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat && !res.waitlisted">
                                                 <transition name="fade">
                                                     <div class="next_wrapper">
                                                         <div class="left" v-if="toSubmit.tempSeat.length > 0">
@@ -328,6 +337,7 @@
                 isWaitlisted: false,
                 canSwitch: false,
                 isSwitchingSeat: false,
+                cancelSwitchingSeat: false,
                 selectedSwitchSeat: null
             }
         },
@@ -528,7 +538,15 @@
                             document.body.classList.add('no_scroll')
                             me.loader(false)
                         }, 500)
-                        break;
+                        break
+                    case 'cancel':
+                        setTimeout( () => {
+                            me.selectedSwitchSeat = null
+                            me.isSwitchingSeat = false
+                            me.cancelSwitchingSeat = false
+                            me.loader(false)
+                        }, 500)
+                        break
                 }
             },
             /**
@@ -675,6 +693,7 @@
                 })
                 me.deleteCurrentSeat (id)
                 me.isSwitchingSeat = false
+                me.cancelSwitchingSeat = false
                 me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
                 me.status = true
                 setTimeout(() => {
