@@ -5,11 +5,7 @@
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Rider's Guide</h1>
-<<<<<<< HEAD
                 <h2 class="alt">We don’t spin. We Ride.</h2>
-=======
-                <h2 class="atl">We don’t spin. We Ride.</h2>
->>>>>>> ca2a3ac19859bc8b6a13cd711b9fc2917a06ff31
             </div>
         </section>
         <section id="teaser">
