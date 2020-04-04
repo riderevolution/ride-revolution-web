@@ -107,6 +107,9 @@
     /**
      * Main */
     #main_container
+        #complete_profile
+            top: calc(0% + 60px)
+            padding: 5px 10px
         #header
             &.instructor,
             &.not_front,
@@ -587,7 +590,36 @@
         brandon_bold(12px, true)
         padding: 10px 20px
 
+    .form_flex_radio_alternate
+        margin-bottom: 15px
+        .radio_wrapper
+            flex: 0 0 30%
+            .form_radio
+                flex: 0 0 50%
+                .action_radio
+                    width: 20px
+                    height: 20px
+                label
+                    brandon_medium(14px, false)
+
     .default_modal
+        #health_waiver_form
+            &.overlay
+                &.alt_2
+                    &.scroll
+                        max-height: 450px
+                    .form_main_group
+                        margin-top: 10px
+                        margin-bottom: 15px
+            .modal_wrapper
+                .form_close
+                    right: 0
+                .form_title
+                    &.alt
+                        brandon_bold(18px, false)
+                        padding: 20px 10px 20px 20px
+                .modal_main_group
+                    padding: 0 10px 20px 20px
         .confirmation_wrapper
             width: 400px
             padding: 40px 20px 30px
@@ -1052,8 +1084,10 @@
             &.sticky
                 margin-top: 60px
         #login
-            max-width: calc(80% + 20px)
+            max-width: calc(90% + 20px)
             overflow-x: hidden
+            .steps
+                margin-bottom: 20px
             .title
                 brandon_bold(16px, false)
             .action
@@ -1068,6 +1102,8 @@
                 margin-top: 15px
                 brandon_medium(12px, false)
             .sign_up_header
+                &.alt
+                    margin-bottom: 20px
                 .counter
                     brandon_bold(12px, false)
             #default_form
@@ -2785,13 +2821,20 @@
         brandon_medium(12px, true)
         background-position: calc(0% + 10px) center
 
+    .form_flex_image
+        margin-bottom: 15px
+        .main_label
+            brandon_medium(10px, true)
+        label
+            brandon_medium(10px, true)
+
     .form_check
         .input_check
             width: 15px
             height: 15px
             padding-left: 15px
         label
-            brandon_medium(10px, true)
+            brandon_medium(12px, false)
         .validation_errors
             brandon_medium(12px, false)
 
@@ -2802,8 +2845,22 @@
         .validation_errors
             brandon_medium(12px, false)
 
+    .form_main_group
+        .form_header
+            margin-bottom: 15px
+            label
+                brandon_regular(16px, false)
+
     .form_group
         margin-bottom: 15px
+        .form_check
+            label
+                brandon_medium(12px, false)
+        &.weight
+            .weight_input
+                &::before
+                    brandon_regular(10px, false)
+                    right: calc(0% + 10px)
         .validation_errors
             brandon_medium(12px, false)
         .limit_wrapper
@@ -2868,6 +2925,19 @@
             brandon_regular(12px, false)
             margin-left: 10px
 
+    .form_flex_radio_alternate
+        margin-bottom: 15px
+        .radio_wrapper
+            flex: 0 0 100%
+            .form_radio
+                flex: 0 0 50%
+                justify-content: center
+                .action_radio
+                    width: 15px
+                    height: 15px
+                label
+                    brandon_medium(12px, false)
+
     .form_flex
         margin-bottom: 0
 
@@ -2876,6 +2946,10 @@
             margin-bottom: 10px
         label
             brandon_medium(10px, true)
+        .form_group_body
+            padding: 10px
+            brandon_regular(12px, false)
+            text-align: justify
 
     .input_link
         brandon_regular(12px, false)
@@ -2927,6 +3001,22 @@
                 brandon_bold(12px, true)
 
     .default_modal
+        #health_waiver_form
+            &.overlay
+                &.alt_2
+                    max-width: 100%
+                    .form_main_group
+                        margin-top: 10px
+                        margin-bottom: 15px
+            .modal_wrapper
+                .form_close
+                    right: 0
+                .form_title
+                    &.alt
+                        brandon_bold(16px, false)
+                        padding: 20px 5px 20px 20px
+                .modal_main_group
+                    padding: 0 5px 20px 20px
         #default_form
             &.overlay
                 &.alt,
@@ -3178,6 +3268,10 @@
         .confirmation_wrapper
             width: 450px
             padding: 40px 20px 30px;
+
+    .form_flex_radio_alternate
+        .radio_wrapper
+            flex: 0 0 30%
 
     .default_btn,
     .default_btn_out

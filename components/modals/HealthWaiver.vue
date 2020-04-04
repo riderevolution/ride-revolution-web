@@ -72,14 +72,14 @@
                         <div class="form_group">
                             <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`">
                                 <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'">
-                                <label for="i_agree">I acknowledge and fully understand the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> stated above and that all information stated above are true.</label>
+                                <label for="i_agree" class="alt">I acknowledge and fully understand the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> stated above and that all information stated above are true.</label>
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('health_waiver_form.i_agree') && hasReadTerms">{{ errors.first('health_waiver_form.i_agree') | properFormat }}</span></transition>
                             </div>
                         </div>
                         <div class="form_group">
                             <div class="form_check">
                                 <input type="checkbox" id="email_waiver" name="email_waiver" class="input_check" v-validate="'required'">
-                                <label for="email_waiver">Email me my Waiver</label>
+                                <label for="email_waiver" class="alt">Email me my Waiver</label>
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('health_waiver_form.email_waiver') && hasReadTerms">{{ errors.first('health_waiver_form.email_waiver') | properFormat }}</span></transition>
                             </div>
                         </div>

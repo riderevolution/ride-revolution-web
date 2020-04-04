@@ -789,6 +789,21 @@ svg
         background-color: $green
         padding: 12px 15px
         z-index: 5
+        &.mobile
+            height: calc(100% - 150px)
+            overflow-y: scroll
+            overflow-x: hidden
+            padding: 0 10px
+            &::-webkit-scrollbar
+                width: 6px
+                background-color: $white
+            &::-webkit-scrollbar-track
+                box-shadow: none
+            &::-webkit-scrollbar-thumb
+                background-color: $green
+                border: 0px solid rgba(0, 0, 0, 0)
+                background-clip: padding-box
+                border-radius: 50px
         .profile_text
             brandon_medium(14px, false)
             color: $white
@@ -8672,13 +8687,13 @@ svg
         u
             color: $black
         &::-webkit-scrollbar
-            width: 20px
+            width: 10px
             background-color: #FAFAFA
         &::-webkit-scrollbar-track
             box-shadow: none
         &::-webkit-scrollbar-thumb
             background-color: $gray
-            border: 5px solid rgba(0, 0, 0, 0)
+            border: 2px solid rgba(0, 0, 0, 0)
             background-clip: padding-box
             border-radius: 50px
     &.date
