@@ -1119,6 +1119,13 @@
     /**
      * Main */
     #main_container
+        #complete_profile
+            top: calc(0% + 60px)
+            padding: 5px
+            .profile_text
+                brandon_medium(10px, false)
+                .wrapper
+                    margin: 5px 0
         #header
             &.instructor,
             &.not_front,
@@ -1661,6 +1668,7 @@
                     padding: 0
                     .date_navigator
                         background-image: url('/dotted-bg.png')
+                        background-color: #fff
                         .date
                             flex: 0 0 calc(100% / 5)
                             padding: 10px 15px
@@ -2606,6 +2614,21 @@
                 flex: 0 0 100%
     /**
      * My Profile */
+    #default_menu
+        .mobile
+            .menu_tab
+                .menu_tab_item
+                    flex: 0 0 100%
+                    brandon_bold(12px, true)
+                    margin-right: 0
+                    padding: 5px 10px
+    .no_results
+        padding: 20px
+        .text
+            brandon_regular(20px, false)
+            margin-bottom: 20px
+        .default_btn
+            margin-top: 15px
     .my_profile
         #content
             .profile_tab
@@ -2621,6 +2644,8 @@
                         .overlay
                             position: static
                             text-align: center
+                            .overlay_letter
+                                margin: 0 auto
                             .badges
                                 bottom: calc(0% - 20px)
                                 right: calc(50% + 15px)
@@ -2654,8 +2679,60 @@
                             brandon_regular(14px, false)
                             padding: 5px 10px
             .profile_tab_content
-                margin: 0 0 20px
+                margin: 0 0 30px
                 .wrapper
+                    #default_menu
+                        .mobile
+                            .menu_tab
+                                max-width: 100%
+                        .menu_tab_content
+                            .profile_classes
+                                padding: 0
+                                .class_wrapper
+                                    flex: 0 0 100%
+                                    margin: 0
+                                    &:hover
+                                        transform: perspective(0px) scale(1)
+                                    .overlay
+                                        .menu_dot_list
+                                            width: 150px
+                                            .menu_dot_item
+                                                padding: 5px 10px
+                                                brandon_bold(12px, false)
+                                    .top
+                                        .left
+                                            flex: 0 0 40px
+                                            width: 40px
+                                            height: 40px
+                                            .date
+                                                .day
+                                                    brandon_bold(16px, false)
+                                                .month
+                                                    brandon_regular(10px, true)
+                                        .right
+                                            .title
+                                                brandon_bold(16px, false)
+                                                margin: 0 0 10px
+                                            .schedule
+                                                brandon_regular(12px, false)
+                                    .bottom
+                                        img
+                                            width: 40px
+                                            height: 40px
+                                        .right
+                                            .label
+                                                brandon_regular(12px, true)
+                                            .name
+                                                brandon_bold(14px, false)
+                                    .top,
+                                    .bottom
+                                        padding: 10px
+                    &.class
+                        margin: 10px 20px 0
+                        background-color: #fff
+                        #default_menu
+                            .menu_tab_content
+                                max-width: 100%
                     .tab_content_header
                         text-align: center
                         &.alt2,
@@ -3367,6 +3444,17 @@
                     flex: 0 0 calc(50% - 20px)
                     margin: 10px
                     padding: 30% 0
+    /**
+     * My Profile */
+    .my_profile
+        #content
+            .profile_tab_content
+                .wrapper
+                    #default_menu
+                        .menu_tab_content
+                            .profile_classes
+                                .class_wrapper
+                                    flex: 0 0 50%
 
 @media (max-width: 767px) and (min-width: 600px)
 

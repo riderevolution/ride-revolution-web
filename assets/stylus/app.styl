@@ -5820,6 +5820,7 @@ svg
                 .left
                     flex: 0 0 20%
                 .mobile
+                    flex: 0 0 100%
                     .tab_toggler
                         &.toggled
                             .toggler
@@ -5850,6 +5851,8 @@ svg
                             opacity: 0
                             overflow: hidden
                             transition: .3s ease-in-out
+                            .tab_item
+                                margin-right: 0
                 .tab_wrapper
                     flex: 0 0 80%
                     list-style: none
@@ -7922,6 +7925,37 @@ svg
 /**
  * Menu Tabs */
 #default_menu
+    .mobile
+        .menu_tab_toggler
+            &.toggled
+                .toggler
+                    &::before
+                        transform: translateY(-50%) rotate(180deg)
+                        transition: .3s ease-in-out
+                .menu_tab
+                    opacity: 1
+                    transition: .3s ease-in-out
+            .toggler
+                position: relative
+                brandon_medium(16px, true)
+                padding: 5px 10px
+                color: $white
+                background-color: $green
+                &::before
+                    content: ''
+                    position: absolute
+                    top: 50%
+                    right: calc(0% + 10px)
+                    border-left: 7px solid transparent
+                    border-right: 7px solid transparent
+                    border-top: 7px solid $white
+                    transform: translateY(-50%) rotate(0deg)
+                    transition: .3s ease-in-out
+            .menu_tab
+                height: 0px
+                opacity: 0
+                overflow: hidden
+                transition: .3s ease-in-out
     .menu_tab
         width: 100%
         display: flex
