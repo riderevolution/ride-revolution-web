@@ -143,14 +143,14 @@
                                         <label>Contact Details</label>
                                         <div class="link">
                                             <img src="/icons/email-icon.svg" />
-                                            <a href="javascript:void(0)" class="email">{{ studio.mail }}</a>
+                                            <a :href="`mailto:${studio.email}`" class="email">{{ studio.mail }}</a>
                                         </div>
                                         <div class="link">
                                             <img src="/icons/phone-icon.svg" />
-                                            <a href="javascript:void(0)">{{ studio.contact }}</a>
+                                            <a :href="`tel:${studio.contanct}`">{{ studio.contact }}</a>
                                         </div>
                                     </div>
-                                    <a href="javascript:void(0)" class="default_btn">Explore</a>
+                                    <nuxt-link to="/studios/greenbelt" class="default_btn">Explore</nuxt-link>
                                 </div>
                             </div>
                         </div>
@@ -193,14 +193,14 @@
                                     <label>Contact Details</label>
                                     <div class="link">
                                         <img src="/icons/email-icon.svg" />
-                                        <a href="javascript:void(0)" class="email">{{ studio.mail }}</a>
+                                        <a :href="`mailto:${studio.email}`" class="email">{{ studio.mail }}</a>
                                     </div>
                                     <div class="link">
                                         <img src="/icons/phone-icon.svg" />
-                                        <a href="javascript:void(0)">{{ studio.contact }}</a>
+                                        <a :href="`tel:${studio.contanct}`">{{ studio.contact }}</a>
                                     </div>
                                 </div>
-                                <a href="javascript:void(0)" class="default_btn">Explore</a>
+                                <nuxt-link to="/studios/greenbelt" class="default_btn">Explore</nuxt-link>
                             </div>
                         </div>
                     </div>

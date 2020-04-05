@@ -89,8 +89,8 @@
                             <h2>Your Top Booked Instructors</h2>
                         </div>
                         <div class="tab_content_main">
-                            <div class="instructor">
-                                <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in topInstructors" :key="key">
+                            <div class="instructor desktop" v-if="!$parent.$parent.$parent.isMobile">
+                                <div :id="`item_${key}`" class="item" v-for="(data, key) in topInstructors" :key="key">
                                     <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
                                     <img class="main" :src="data.path" />
                                     <transition name="fade">
@@ -110,6 +110,32 @@
                                         </div>
                                     </transition>
                                 </div>
+                            </div>
+                            <div class="instructor" v-else>
+                                <no-ssr>
+                                    <swiper :options="mobileOptions" class="default">
+                                        <swiper-slide :id="`item_${key}`" v-for="(data, key) in topInstructors" :key="key">
+                                            <div class="item">
+                                                <div class="cover"></div>
+                                                <img class="main" :src="data.path" />
+                                                <transition name="slide">
+                                                    <div class="overlay">
+                                                        <div class="info">
+                                                            <div class="num_wrapper_alt">
+                                                                <div class="num">
+                                                                    {{ key + 1 }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="name">{{ data.name }}</div>
+                                                        </div>
+                                                        <div class="rides">{{ data.ride }} rides</div>
+                                                    </div>
+                                                </transition>
+                                            </div>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
+                                </no-ssr>
                             </div>
                         </div>
                     </div>
@@ -143,11 +169,21 @@
         <transition name="fade">
             <div id="tab_1" class="class wrapper" v-if="category == 'classes'">
                 <div id="default_menu">
-                    <ul class="menu_tab">
+                    <ul class="menu_tab" v-if="!$parent.$parent.$parent.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
                     </ul>
+                    <div class="mobile" v-else>
+                        <div class="menu_tab_toggler">
+                            <div class="toggler" @click.self="toggleDetails($event)">Tab Menu</div>
+                            <ul class="menu_tab">
+                                <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
+                                <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
+                                <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="menu_tab_content">
                         <div class="profile_classes" v-if="classes.length > 0">
                             <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
@@ -425,6 +461,26 @@
         },
         data () {
             return {
+                mobileOptions: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        465: {
+                            slidesPerView: 1,
+                            spaceBetween: 0
+                        }
+                    }
+                },
                 violator: {
                     warning: 0,
                     shared: 0,
@@ -688,7 +744,7 @@
                             options: {
                                 plotOptions: {
                                     bar: {
-                                        columnWidth: '75%'
+                                        columnWidth: '100%'
                                     }
                                 },
                                 dataLabels: {
@@ -698,7 +754,7 @@
                                     offsetY: -10,
                                     style: {
                                         colors: ["#171717"],
-                                        fontSize: '10px',
+                                        fontSize: '8px',
                                         fontFamily: 'Brandon-Regular'
                                     }
                                 },
@@ -706,7 +762,7 @@
                                     labels: {
                                         style: {
                                             colors: ['#000'],
-                                            fontSize: '10px',
+                                            fontSize: '8px',
                                             fontFamily: 'Brandon-Regular'
                                         }
                                     },
@@ -715,7 +771,7 @@
                                     labels: {
                                         style: {
                                             colors: ['#000'],
-                                            fontSize: '10px',
+                                            fontSize: '8px',
                                             fontFamily: 'Brandon-Regular'
                                         }
                                     },
@@ -724,7 +780,7 @@
                                         offsetX: 0,
                                         style: {
                                             colors: ['#000'],
-                                            fontSize: '10px',
+                                            fontSize: '8px',
                                             cssClass: 'apexchart_uppercase'
                                         }
                                     }
@@ -828,6 +884,17 @@
             }
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
             manageClass (id) {
                 const me = this
                 me.$router.push(`/my-profile/manage-class/${id}`)
@@ -925,7 +992,7 @@
                     } else if (category == 'transactions') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                     } else if (category == 'ride-rev-journey') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc(20px)`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `10px` : `20px`
                     }
                 }, 100)
             },
