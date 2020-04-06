@@ -586,6 +586,18 @@
     /**
      * Global */
     .default_modal
+        #health_waiver_form
+            &.overlay
+                &.alt_2
+                    &.scroll
+                        max-height: 500px
+            .modal_wrapper
+                .form_title
+                    &.alt
+                        brandon_bold(18px, false)
+                        padding: 30px 30px 0
+                .modal_main_group
+                    padding: 0 30px 30px
         #default_form
             max-width: 400px
             &.overlay
@@ -647,6 +659,19 @@
 
     .back
         brandon_medium(12px, true)
+
+    .form_flex_radio_alternate
+        margin-bottom: 20px
+        .radio_wrapper
+            .form_radio
+                label
+                    brandon_bold(14px, false)
+
+    .form_main_group
+        .form_header
+            margin-bottom: 20px
+            label
+                brandon_regular(18px, false)
 
     .form_button
         margin-top: 20px
