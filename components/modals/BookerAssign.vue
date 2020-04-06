@@ -63,7 +63,19 @@
                 memberID: '',
                 nonMemberEmail: '',
                 nonMemberFirstName: '',
-                nonMemberLastName: ''
+                nonMemberLastName: '',
+                nonMember: {
+                    email: null,
+                    first_name: null,
+                    last_name: null,
+                    customer_details:  {
+                        images: [
+                            {
+                                path: null
+                            }
+                        ]
+                    }
+                },
             }
         },
         methods: {
@@ -73,10 +85,10 @@
                     if (valid) {
                         if (me.assignType == 'member') {
                             let formData = new FormData()
+                            me.loader(true)
                             formData.append('member_id', me.memberID)
                             formData.append('scheduled_date_id', me.$route.params.slug)
                             formData.append('temp_seats', JSON.stringify(me.$parent.toSubmit.tempSeat))
-                            me.loader(true)
                             me.$axios.post('api/customers/member-id-search', formData).then(res => {
                                 if (res.data) {
                                     me.$parent.customer = res.data
@@ -95,10 +107,43 @@
                                 }, 500)
                             })
                         } else {
-                            me.$parent.nonMember.email = me.nonMemberEmail
-                            me.$parent.nonMember.first_name = me.nonMemberFirstName
-                            me.$parent.nonMember.last_name = me.nonMemberLastName
-                            me.$store.state.bookerAssignNonMemberStatus = true
+                            let formData = new FormData()
+                            let checkEmail = false
+                            me.loader(true)
+                            formData.append('type', 'email')
+                            formData.append('value', me.nonMemberEmail)
+                            me.$axios.post('api/check-data-validity', formData).then(res => {
+                                if (res.data) {
+                                    if (res.data.exists) {
+                                        me.$store.state.bookerAssignStatus = false
+                                        me.$store.state.bookerAssignNonMemberErrorStatus = true
+                                    } else {
+                                        me.$parent.toSubmit.tempSeat.forEach((element, index) => {
+                                            if (element.temp.email == me.nonMemberEmail) {
+                                                checkEmail = true
+                                            }
+                                        })
+                                        if (checkEmail) {
+                                            me.$store.state.bookerAssignStatus = false
+                                            me.$store.state.bookerAssignNonMemberErrorStatus = true
+                                        } else {
+                                            me.nonMember.email = me.nonMemberEmail
+                                            me.nonMember.first_name = me.nonMemberFirstName
+                                            me.nonMember.last_name = me.nonMemberLastName
+                                            me.$parent.nonMember = me.nonMember
+                                            me.$store.state.bookerAssignNonMemberStatus = true
+                                        }
+                                    }
+                                }
+                            }).catch(err => {
+                                me.loader(false)
+                                me.$store.state.bookerAssignStatus = false
+                                me.$store.state.bookerAssignNonMemberErrorStatus = true
+                            }).then(() => {
+                                setTimeout( () => {
+                                    me.loader(false)
+                                }, 500)
+                            })
                         }
                     } else {
                         me.$scrollTo('.validation_errors', {

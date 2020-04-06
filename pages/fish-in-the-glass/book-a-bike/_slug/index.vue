@@ -64,10 +64,12 @@
                                         <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
                                             <div @click="signIn(data)" :class="`seat ${addClass(data)}`" v-for="(data, key) in seat.data" :key="key">
 
-                                                <transition name="slide">
+                                                <transition name="fade">
                                                     <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path != null)" />
+                                                </transition>
 
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path == null)">
+                                                <transition name="fade">
+                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path == null)">
                                                         <div class="letter">
                                                             {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
                                                         </div>
@@ -196,6 +198,9 @@
                 <booker-assign-member-error v-if="$store.state.bookerAssignMemberErrorStatus" />
             </transition>
             <transition name="fade">
+                <booker-assign-non-member-error v-if="$store.state.bookerAssignNonMemberErrorStatus" />
+            </transition>
+            <transition name="fade">
                 <booker-assign-non-member :email="nonMember.email" :nonMember="nonMember" :tempSeat="tempGuestSeat" v-if="$store.state.bookerAssignNonMemberStatus" />
             </transition>
             <transition name="fade">
@@ -226,6 +231,7 @@
     import BookerSwitchSeat from '../../../../components/modals/BookerSwitchSeat'
     import BookerAssignMemberPrompt from '../../../../components/modals/BookerAssignMemberPrompt'
     import BookerAssignMemberError from '../../../../components/modals/BookerAssignMemberError'
+    import BookerAssignNonMemberError from '../../../../components/modals/BookerAssignNonMemberError'
     import BookerAssignNonMember from '../../../../components/modals/BookerAssignNonMember'
     import BookerAssignSuccess from '../../../../components/modals/BookerAssignSuccess'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
@@ -243,6 +249,7 @@
             BookerSwitchSeat,
             BookerAssignMemberPrompt,
             BookerAssignMemberError,
+            BookerAssignNonMemberError,
             BookerAssignNonMember,
             BookerAssignSuccess,
             BuyRidesPrompt,

@@ -637,6 +637,7 @@
         },
         mounted () {
             const me = this
+            me.loader(true)
             me.currentDay = me.$moment().format('D')
             me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), false)
 
