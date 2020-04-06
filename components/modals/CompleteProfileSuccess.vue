@@ -25,7 +25,7 @@
                     me.$store.state.completeProfileSuccessStatus = false
                     document.body.classList.remove('no_scroll')
                 }
-                me.$store.state.completeProfilePromptStatus = false
+                me.$store.state.completeProfileStatus = false
             }
         }
     }
