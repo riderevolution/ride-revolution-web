@@ -3002,7 +3002,11 @@
                                     .top,
                                     .bottom
                                         padding: 10px
-                    &.class
+                            .profile_packages
+                                max-width: 100%
+                                padding: 0 10px
+                    &.class,
+                    &.package
                         margin: 10px 20px 0
                         background-color: #fff
                         #default_menu
@@ -3446,6 +3450,42 @@
             padding-top: 61px
         ul
             padding: 10px 15px
+
+    .default_table
+        thead
+            position: absolute
+            top: -9999999px
+            left: -9999999px
+        tbody
+            tr
+                td
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    justify-content: space-between
+                    padding: 10px
+                    &:first-child
+                        padding: 10px
+                    &::before
+                        flex: 0 0 auto
+                        content: attr(data-column) ": "
+                        brandon_bold(14px, true)
+                        color: rgba(0, 0, 0, .43)
+                    .package_info
+                        .title
+                            brandon_medium(16px, false)
+                        .count
+                            width: 25px
+                            height: 25px
+                            .overlay
+                                brandon_bold(16px, false)
+                                &.infinite
+                                    brandon_bold(22px, false)
+                    .table_menu_overlay
+                        .table_menu_dots_list
+                            .table_menu_item
+                                padding: 10px 15px
+                                brandon_bold(14px, false)
 
     #banner
         &.mt

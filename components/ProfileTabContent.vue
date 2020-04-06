@@ -231,12 +231,21 @@
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_2" class="wrapper" v-if="category == 'packages'">
+            <div id="tab_2" class="package wrapper" v-if="category == 'packages'">
                 <div id="default_menu">
-                    <ul class="menu_tab">
+                    <ul class="menu_tab" v-if="!$parent.$parent.$parent.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
                     </ul>
+                    <div class="mobile" v-else>
+                        <div class="menu_tab_toggler">
+                            <div class="toggler" @click.self="toggleDetails($event)">Tab Menu</div>
+                            <ul class="menu_tab">
+                                <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
+                                <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="menu_tab_content">
                         <div class="profile_packages">
                             <table class="default_table" v-if="packages.length > 0">
@@ -253,7 +262,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(data, key) in packages" :key="key">
-                                        <td>
+                                        <td data-column="Packages">
                                             <div class="package_info">
                                                 <div class="count">
                                                     <div :class="`overlay ${(data.class_package.class_count_unlimited == 1) ? 'infinite' : ''}`">{{ (data.class_package.class_count_unlimited == 1) ? '&#8734;' : data.class_package.class_count }}</div>
@@ -264,22 +273,28 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><div class="default">{{ parseInt(data.original_package_count) - parseInt(data.count) }}</div></td>
-                                        <td><div class="default">{{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : (parseInt(data.count) == data.original_package_count) ? parseInt(data.original_package_count) : parseInt(data.count) }}</div></td>
-                                        <td>
-                                            <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
-                                            <div class="label">Date Purchased</div>
+                                        <td data-column="Used"><div class="default">{{ parseInt(data.original_package_count) - parseInt(data.count) }}</div></td>
+                                        <td data-column="Available"><div class="default">{{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : (parseInt(data.count) == data.original_package_count) ? parseInt(data.original_package_count) : parseInt(data.count) }}</div></td>
+                                        <td data-column="Purchase">
+                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                                <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
+                                                <div class="label">Date Purchased</div>
+                                            </div>
                                         </td>
-                                        <td>
-                                            <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
-                                            <div class="label">Date Activated</div>
+                                        <td data-column="Activation">
+                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                                <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
+                                                <div class="label">Date Activated</div>
+                                            </div>
                                         </td>
-                                        <td>
-                                            <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
-                                            <div class="label violator" v-if="checkWarning(data)">{{ violator.warning }} Days Left</div>
-                                            <div class="label" v-else>Date of Expiry</div>
+                                        <td data-column="Expiry">
+                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                                <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
+                                                <div class="label violator" v-if="checkWarning(data)">{{ violator.warning }} Days Left</div>
+                                                <div class="label" v-else>Date of Expiry</div>
+                                            </div>
                                         </td>
-                                        <td>
+                                        <td data-column="Actions">
                                             <div class="table_menu_overlay">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
