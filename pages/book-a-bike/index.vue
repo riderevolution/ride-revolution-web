@@ -233,10 +233,12 @@
                 if (me.searchedInstructor != '') {
                     result = `${me.searchedInstructor}`
                     me.hasSearchedInstructor = true
-
                 } else {
+                    me.instructorID = 0
+                    me.searchedInstructor = ''
                     me.hasSearchedInstructor = false
                     result = 'all instructors '
+                    me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
                 }
                 setTimeout( () => {
                     me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {

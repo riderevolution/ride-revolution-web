@@ -26,9 +26,16 @@
                 const me = this
                 if (status) {
                     me.$store.state.completeProfileStepsStatus = true
+                } else {
+                    document.body.classList.remove('no_scroll')
                 }
                 me.$store.state.completeProfilePromptStatus = false
             }
+        },
+        mounted () {
+            const me = this
+            me.loader(false)
+            document.body.classList.add('no_scroll')
         }
     }
 </script>

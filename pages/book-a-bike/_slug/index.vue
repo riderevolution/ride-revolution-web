@@ -14,7 +14,7 @@
                                 <div>
                                     <div class="header">
                                         <h2 class="date">{{ $moment(schedule.date).format('MMM DD, YYYY') }}</h2>
-                                        <h2 class="time">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
+                                        <h2 class="date">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
                                     </div>
                                     <div v-if="!$parent.$parent.isMobile">
                                         <div class="content">
@@ -59,7 +59,7 @@
                                 <div class="header" v-if="!$parent.$parent.isMobile">
                                     <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
                                 </div>
-                                <div class="content">
+                                <div class="content" :id="`parent_${layout}`">
                                     <div class="seat_wrapper">
                                         <div class="overlay_header">
                                             <h3>Please choose your bike/s</h3>
@@ -300,6 +300,7 @@
                         ]
                     }
                 },
+                layout: 0,
                 currentSeat: [],
                 message: 'Cheers! Successfully added a Guest.',
                 promptMessage: '',
@@ -716,6 +717,7 @@
                                 if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
                                     me.$router.push(`/my-profile/manage-class/${id}`)
                                 }
+                                me.layout = res.data.scheduledDate.schedule.studio_id
                                 let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                                 me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
                                 me.temp = res.data.seats
