@@ -300,6 +300,23 @@
             #content
                 max-width: calc(100% - 60px)
                 padding: 40px 0
+                .step
+                    &.form
+                        .preview_book_form
+                            max-width: 50%
+                            .header_title
+                                brandon_bold(20px, false)
+                                margin-bottom: 20px
+                            .preview
+                                .item
+                                    padding: 10px 0
+                                    h3,
+                                    p
+                                        brandon_regular(16px, false)
+                                .total
+                                    margin: 20px 0
+                                    p
+                                        brandon_bold(16px, false)
                 .main_right
                     .header
                         padding: 20px 10px
@@ -558,7 +575,8 @@
         ul
             li
                 .front,
-                .slash
+                .slash,
+                .crumb
                     brandon_regular(12px, false)
     /**
      * Banner */
@@ -656,6 +674,14 @@
                     padding: 10px
                     img
                         width: 15px
+
+    .default_modal_page
+        #disclaimer
+            .content
+                max-width: 60%
+                .left
+                    label
+                        brandon_medium(16px, true)
 
     .back
         brandon_medium(12px, true)

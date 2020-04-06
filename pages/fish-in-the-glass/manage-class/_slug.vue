@@ -500,7 +500,9 @@
                     case 'next':
                         if (me.hasBooked) {
                             me.step = 2
-                            document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                            me.$scrollTo('.inner', {
+                                offset: 0
+                            })
                         } else {
                             me.promptMessage = 'Please select a seat first before proceeding.'
                             me.$store.state.buyRidesPromptStatus = true
@@ -509,7 +511,9 @@
                         break
                     case 'prev':
                         me.step = 1
-                        document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        me.$scrollTo('.inner', {
+                            offset: 0
+                        })
                         break
                 }
             },
