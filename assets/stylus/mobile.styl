@@ -40,7 +40,7 @@
             &.not_front,
             &.front
                 .navbar
-                    padding: 10px
+                    padding: 10px 10px 10px 30px
             .navbar
                 flex: 1 0 70%
                 .logo
@@ -57,6 +57,7 @@
                 .user_dropdown
                     .user_dropdown_list
                         width: 220px
+                        top: calc(100% + 15px)
                         .user_dropdown_item
                             .item_link
                                 brandon_regular(14px, false)
@@ -76,15 +77,15 @@
             overflow-x: hidden
             &.sticky
                 .logo
-                    padding: 10px 15px
+                    padding: 10px 30px
                 .close_icon
-                    top: calc(0% + 15px)
+                    top: calc(0% + 10px)
                     right: 0
             .close_icon
-                top: calc(0% + 15px)
+                top: calc(0% + 10px)
                 right: 0
             .logo
-                padding: 10px 15px
+                padding: 10px 30px
                 img
                     width: 30px
                 .logo_title
@@ -92,7 +93,7 @@
                     padding-left: 10px
                     letter-spacing: 3px
             .content
-                padding: 20px 15px
+                padding: 20px 30px
                 .left
                     margin-bottom: 30px
                     .expanded_main_list
@@ -118,15 +119,24 @@
                                 brandon_bold(14px, true)
                     .expanded_nav_description
                         padding-top: 10px
+                        p
+                            brandon_regular(14px, false)
+                            a
+                                brandon_bold(14px, false)
                         .link
                             margin-bottom: 20px
+                            p
+                                brandon_regular(14px, false)
                             span
                                 brandon_bold(14px, false)
                         .social_links
                             margin-top: 20px
-                            brandon_regular(14px, false)
+                            h4
+                                brandon_regular(14px, false)
                             a
                                 margin: 0 10px
+                                width: 20px
+                                height: 20px
                 .left,
                 .right
                     flex: 0 0 45%
@@ -151,7 +161,7 @@
                 right: calc(0% - 40px)
         #pro_tip
             top: calc(0% + 61px)
-            padding: 5px 15px
+            padding: 5px 30px
             .tip
                 brandon_regular_italic(14px, false)
     /**
@@ -288,7 +298,59 @@
     .book_a_bike
         &.inner
             #content
-                max-width: calc(90% + 30px)
+                max-width: calc(100% - 60px)
+                padding: 40px 0
+                .main_right
+                    .header
+                        padding: 10px
+                    .content
+                        padding: 10px 0
+                        .seat_wrapper
+                            max-width: 800px
+                            .overlay_header
+                                top: calc(0% + 40px)
+                                h3
+                                    brandon_regular(20px, false)
+                                h4
+                                    margin: 5px 0 40px
+                                img
+                                    width: 75px
+                                    height: 75px
+                            .overlay_seat
+                                &.left
+                                    left: calc(0% + 25px)
+                                &.right
+                                    right: calc(0% + 58px)
+                                &.bottom,
+                                &.bottom_alt,
+                                &.bottom_alt_2
+                                    .seat
+                                        flex: 0 0 calc(10% - 25px)
+                                        margin: 11px
+                        .footer
+                            .actions
+                                padding: 20px 40px
+                                margin-top: 20px
+                .main_left
+                    .header
+                        padding: 10px
+                        .date
+                            brandon_bold(18px, true)
+                    .content
+                        ul
+                            padding: 20px 10px
+                            li
+                                brandon_regular(14px, false)
+                    .description
+                        padding: 0 10px 20px
+                        h3
+                            brandon_regular(14px, false)
+                            margin-bottom: 10px
+                        ul
+                            li
+                                brandon_regular(14px, false)
+                                b
+                                    brandon_bold(14px, false)
         &.landing
             #content
                 .left
@@ -1745,7 +1807,7 @@
                         justify-content: center
                         padding: 20px 0 0
                         border-bottom: 1px solid transparent
-                        h2
+                        .date
                             flex: 0 0 auto
                             brandon_bold(16px, false)
                             &:first-child
@@ -3586,7 +3648,7 @@
                         padding: 0
                     .main_left
                         .header
-                            h2
+                            .date
                                 brandon_bold(24px, flase)
                         .content
                             ul

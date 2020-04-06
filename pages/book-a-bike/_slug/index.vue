@@ -14,7 +14,7 @@
                                 <div>
                                     <div class="header">
                                         <h2 class="date">{{ $moment(schedule.date).format('MMM DD, YYYY') }}</h2>
-                                        <h2 class="time">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
+                                        <h2 class="date">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
                                     </div>
                                     <div v-if="!$parent.$parent.isMobile">
                                         <div class="content">
