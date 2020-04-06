@@ -255,6 +255,7 @@
                 step: 1,
                 type: 1,
                 loaded: false,
+                webApp: true,
                 removeNext: false,
                 submitted: false,
                 customer: null,

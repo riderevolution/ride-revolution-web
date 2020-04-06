@@ -586,24 +586,52 @@
     /**
      * Global */
     .default_modal
+        #default_form
+            max-width: 400px
+            &.overlay
+                &.alt,
+                &.alt_2
+                    max-width: 400px
+            .modal_wrapper
+                .form_title
+                    brandon_bold(18px, false)
+                    padding: 30px
+                .modal_main_group
+                    padding: 0 30px 30px
         .confirmation_wrapper
             width: 400px
-            padding: 40px 40px 30px
+            padding: 30px
             .confirmation_text
                 brandon_regular(16px, false)
             .confirmation_title
                 brandon_bold(18px, false)
                 padding: 0 0 10px
+            .confirmation_highlight
+                brandon_bold(18px, false)
+                margin-top: 20px
             .button_group
-                margin-top: 30px
+                margin-top: 20px
                 &.alt_2
                     margin-top: 15px
+            .member_info
+                margin-top: 20px
+                h2
+                    brandon_bold(24px, false)
+                .member_image
+                    width: 80px
+                    height: 80px
+                    .overlay
+                        width: 80px
+                        height: 80px
+                        .letter
+                            brandon_bold(20px, true)
 
     .default_btn,
     .default_btn_out,
     .default_btn_wht,
     .default_btn_blk,
-    .default_btn_blue
+    .default_btn_blue,
+    .default_btn_red
         brandon_bold(12px, true)
         padding: 10px 30px
 
@@ -620,6 +648,21 @@
     .back
         brandon_medium(12px, true)
 
+    .form_button
+        margin-top: 20px
+
+    .form_custom_checkbox
+        .custom_checkbox
+            padding: 15px 50px 15px 15px
+            label
+                brandon_bold(14px, false)
+            .info
+                p
+                    brandon_medium(10px, true)
+            #check
+                width: 25px
+                height: 25px
+
     .form_group
         margin-bottom: 20px
         label
@@ -628,6 +671,7 @@
             brandon_medium(12px, false)
 
     .form_flex
+        margin-bottom: 20px
         &.with_btn
             .form_button
                 .default_btn_out
@@ -655,9 +699,19 @@
         brandon_regular(14px, false)
         padding: 8px 10px
 
+    .input_text
+        &.alt
+            brandon_regular(14px, false)
+            padding: 8px 10px
+
     .input_link,
     .form_disclaimer
         brandon_regular(14px, false)
+
+    .wrap
+        .loading
+            .text
+                brandon_bold(14px, true)
 
 @media (max-width: 1280px) and (min-width: 768px)
 

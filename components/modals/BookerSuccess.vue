@@ -4,7 +4,6 @@
             <img src="/default/buy-rides/buy-rides-banner-success.jpg" />
             <div class="overlay_mid">
                 <h1>Yay! You successfully booked a ride. You’re all set!!</h1>
-                <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/book-a-bike?token=${$route.query.token}` : '/book-a-bike'}`" class="default_btn">Book a Bike</nuxt-link>
             </div>
         </section>
         <section id="disclaimer">
