@@ -260,7 +260,7 @@
                 if (!me.showLoadedInstructors) {
                     me.toShow += 4
                     me.$scrollTo('.load', {
-                        offset: -250
+                        offset: 0
                     })
                 }
             },

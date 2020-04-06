@@ -4,13 +4,13 @@
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
             <div class="confirmation_image">
-                <img src="/default/meme/success-meme.jpg"/>
+                <img src="/default/meme/error-meme.jpg" />
             </div>
             <div class="confirmation_text">
-                Success! You have completed your profile.
+                Sorry the email address you've entered is already existing. Please try another email.
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn" @click.once="toggleClose(true)">Got It!</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose(true)">Try Again</div>
             </div>
         </div>
     </div>
@@ -22,10 +22,12 @@
             toggleClose (status) {
                 const me = this
                 if (status) {
-                    me.$store.state.completeProfileSuccessStatus = false
+                    me.$store.state.bookerAssignStatus = true
+                    me.$store.state.bookerAssignNonMemberErrorStatus = false
+                } else {
+                    me.$store.state.bookerAssignNonMemberErrorStatus = false
                     document.body.classList.remove('no_scroll')
                 }
-                me.$store.state.completeProfileStatus = false
             }
         }
     }

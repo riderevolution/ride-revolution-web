@@ -156,24 +156,27 @@
         mounted () {
             const me = this
             let token = me.$cookies.get('token')
+            me.loader(true)
             if (token == null || token == undefined) {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             } else {
-                let ctr = 0
-                let timer = setInterval( () => {
-                    if (ctr > 1) {
-                        me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
-                        me.first_name = me.$store.state.user.first_name.charAt(0)
-                        me.last_name = me.$store.state.user.last_name.charAt(0)
-                        if (me.$store.state.user.new_user == 1) {
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.storeCredits = (res.data.user.store_credits === null) ? 0 : res.data.user.store_credits.amount
+                        me.first_name = res.data.user.first_name.charAt(0)
+                        me.last_name = res.data.user.last_name.charAt(0)
+                        if (res.data.user.new_user == 1) {
                             me.$store.state.completeProfileStatus = true
                         }
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
                     }
-                    ctr++
-                }, 500)
-                if (ctr > 4) {
-                    clearInterval(timer)
-                }
+                })
             }
         }
     }

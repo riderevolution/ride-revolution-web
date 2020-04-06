@@ -24,6 +24,7 @@ const createStore = () => {
             buyRidesPromptStatus: false,
             bookerAssignSuccessStatus: false,
             bookerAssignNonMemberStatus: false,
+            bookerAssignNonMemberErrorStatus: false,
             bookerAssignMemberErrorStatus: false,
             bookerAssignMemberPromptStatus: false,
             bookerChooseSeatStatus: false,
