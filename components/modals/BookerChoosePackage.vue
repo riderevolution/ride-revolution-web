@@ -5,7 +5,7 @@
                 <div class="modal_wrapper">
                     <h2 class="form_title">Please choose where we will deduct your credits.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group">
+                    <div class="modal_main_group alt">
                         <div class="form_custom_checkbox">
                             <div :id="`package_${key}`" :class="`custom_checkbox ${(data.class_package.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
                                 <label>{{ data.class_package.name }}</label>
