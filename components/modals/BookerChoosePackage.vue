@@ -131,7 +131,7 @@
                                  * check if the temp has class_package */
                                 if (me.tempSeat.class_package) {
                                     /**
-                                     * Update the package if the use choose package */
+                                     * Update the package if the user choose package */
                                     if (me.tempSeat.temp) {
                                         let hasSamePackage = false
                                         me.$parent.toSubmit.tempSeat.forEach((element, index) => {
@@ -183,6 +183,7 @@
                                                         }
                                                         me.$store.state.bookerChoosePackageStatus = false
                                                         document.body.classList.remove('no_scroll')
+                                                        me.$parent.removeNext = false
                                                     /**
                                                     * for original booker guest */
                                                     } else {
@@ -192,6 +193,7 @@
                                                         me.$parent.toSubmit.tempSeat.push(newTemp)
                                                         me.$store.state.bookerChoosePackageStatus = false
                                                         document.body.classList.remove('no_scroll')
+                                                        me.$parent.removeNext = false
                                                     }
                                                 }
                                             })

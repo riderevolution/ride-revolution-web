@@ -90,6 +90,38 @@
                 temp[index2].status = b
                 return temp
             },
+            swapPackageObjects (index1, index2) {
+                const me = this
+                let temp = me.seatNumbers
+                var b = temp[index1].class_package
+                temp[index1].class_package = temp[index2].class_package
+                temp[index2].class_package = b
+                return temp
+            },
+            swapChangedPackageObjects (index1, index2) {
+                const me = this
+                let temp = me.seatNumbers
+                var b = temp[index1].changedPackage
+                temp[index1].changedPackage = temp[index2].changedPackage
+                temp[index2].changedPackage = b
+                return temp
+            },
+            swapOldPackageObjects (index1, index2) {
+                const me = this
+                let temp = me.seatNumbers
+                var b = temp[index1].old_class_package_id
+                temp[index1].old_class_package_id = temp[index2].old_class_package_id
+                temp[index2].old_class_package_id = b
+                return temp
+            },
+            swapOrigBookerObjects (index1, index2) {
+                const me = this
+                let temp = me.seatNumbers
+                var b = temp[index1].original_booker_id
+                temp[index1].original_booker_id = temp[index2].original_booker_id
+                temp[index2].original_booker_id = b
+                return temp
+            },
             submissionSuccess () {
                 const me = this
                 let tempSeat = null
@@ -99,6 +131,10 @@
                     tempSeat = me.swapGuestObjects(me.firstSeatIndex, me.secondSeatIndex)
                     tempSeat = me.swapTempObjects(me.firstSeatIndex, me.secondSeatIndex)
                     tempSeat = me.swapStatusObjects(me.firstSeatIndex, me.secondSeatIndex)
+                    tempSeat = me.swapPackageObjects(me.firstSeatIndex, me.secondSeatIndex)
+                    // tempSeat = me.swapChangedPackageObjects(me.firstSeatIndex, me.secondSeatIndex)
+                    // tempSeat = me.swapOldPackageObjects(me.firstSeatIndex, me.secondSeatIndex)
+                    // tempSeat = me.swapOrigBookerObjects(me.firstSeatIndex, me.secondSeatIndex)
 
                     tempSeat.forEach((element, index) => {
                         if (element.guest == 0) {
@@ -142,13 +178,17 @@
             toggleSeat (data, unique) {
                 const me = this
                 if (me.seatCtr < 2) {
-                    me.secondSeatID = data.id
-                    me.secondSeatIndex = unique
-                    me.seatCtr++
+                    if (me.firstSeatID != data.id) {
+                        me.secondSeatID = data.id
+                        me.secondSeatIndex = unique
+                        me.seatCtr++
+                    }
                 } else {
-                    me.firstSeatID = data.id
-                    me.firstSeatIndex = unique
-                    me.seatCtr--
+                    if (data.id != me.secondSeatID) {
+                        me.firstSeatID = data.id
+                        me.firstSeatIndex = unique
+                        me.seatCtr--
+                    }
                 }
                 if (me.seatCtr == 2) {
                     me.hasSelectedTwo = true

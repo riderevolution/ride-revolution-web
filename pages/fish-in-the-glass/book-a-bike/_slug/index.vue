@@ -643,6 +643,8 @@
                                     delete seats[parent][child][i].temp
                                     delete seats[parent][child][i].guest
                                     delete seats[parent][child][i].class_package
+                                    delete seats[parent][child][i].changedPackage
+                                    delete seats[parent][child][i].old_class_package_id
                                 }
                             }
                         }
@@ -674,6 +676,10 @@
                                     me.seats[parent][child][i].guest = firstSeat.guest
                                     me.seats[parent][child][i].class_package = firstSeat.class_package
                                     me.seats[parent][child][i].temp = firstSeat.temp
+                                    if (firstSeat.old_class_package_id) {
+                                        me.seats[parent][child][i].changedPackage = firstSeat.changedPackage
+                                        me.seats[parent][child][i].old_class_package_id = firstSeat.old_class_package_id
+                                    }
                                     if (me.seats[parent][child][i].guest == 0) {
                                         me.tempOriginalSeat = me.seats[parent][child][i]
                                         if (me.toSubmit.tempSeat.length > 0) {
