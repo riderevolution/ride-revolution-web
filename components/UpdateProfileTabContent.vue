@@ -166,9 +166,9 @@
                                 <div :class="`toggle ${(subscribed) ? 'active' : ''}`"></div>
                             </div>
                         </div>
-                        <div class="form_inline_group">
+                        <div class="form_inline_group" @click="toggleChangePassword()">
                             <label>Change Password</label>
-                            <div class="form_arrow" @click="toggleChangePassword()"><svg id="arrow" xmlns="http://www.w3.org/2000/svg" width="11.46" height="20.09" viewBox="0 0 11.46 20.09"> <path class="path" d="M9324.543,3625.279l8.631,8.631c.007.007-8.631,8.631-8.631,8.631" transform="translate(-9323.128 -3623.865)"/> </svg></div>
+                            <div class="form_arrow"><svg id="arrow" xmlns="http://www.w3.org/2000/svg" width="11.46" height="20.09" viewBox="0 0 11.46 20.09"> <path class="path" d="M9324.543,3625.279l8.631,8.631c.007.007-8.631,8.631-8.631,8.631" transform="translate(-9323.128 -3623.865)"/> </svg></div>
                         </div>
                     </div>
                     <div class="form_button">

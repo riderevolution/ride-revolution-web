@@ -3195,7 +3195,7 @@
                     border-right: 1px solid transparent
                     border-bottom: 1px solid #edeef0
                     h1
-                        brandon_bold(16px, false)
+                        brandon_bold(18px, false)
                         text-align: center
                         margin-bottom: 15px
                     .side_menu
@@ -3227,6 +3227,10 @@
                 .left,
                 .right
                     flex: 0 0 100%
+    .deactivate_account
+        #content
+            max-width: calc(100% - 30px)
+            margin: 20px auto
     /**
      * Global */
     .default
@@ -3289,6 +3293,14 @@
         brandon_medium(12px, true)
         background-position: calc(0% + 10px) center
 
+    .form_inline_group
+        &:last-child
+            margin-bottom: 15px
+        padding: 0
+        label
+            brandon_regular(14px, false)
+            padding: 10px 0
+
     .form_flex_image
         margin-bottom: 15px
         .main_label
@@ -3296,7 +3308,30 @@
         label
             brandon_medium(10px, true)
 
+    .form_radio_group
+        .form_radio
+            margin-bottom: 15px
+
+    .form_main_group
+        .form_header
+            h1
+                brandon_bold(18px, false)
+                margin-bottom: 10px
+            h2
+                brandon_regular(12px, false)
+
     .form_check
+        &.toggler
+            .toggle
+                left: calc(0% - 40px)
+                width: 40px
+                height: 25px
+                &.active
+                    &::before
+                        left: calc(100% - 24px)
+                &::before
+                    width: 22px
+                    height: 22px
         .input_check
             width: 15px
             height: 15px
@@ -3321,6 +3356,10 @@
 
     .form_group
         margin-bottom: 15px
+        &.select
+            .select
+                &::before
+                    right: calc(0% + 10px)
         &.date
             .input_text
                 padding: 5px 10px
@@ -3355,6 +3394,15 @@
                 padding: 10px 20px
 
     .form_flex
+        &.alt
+            justify-content: space-between
+            .form_button
+                flex: 0 0 47.33%
+                &.margin
+                    margin-left: 0
+                .default_btn_red,
+                .default_btn
+                    width: 100%
         &.radio
             margin-bottom: 15px
             label
@@ -3549,7 +3597,7 @@
                     brandon_regular(12px, false)
                     padding: 10px
                 .modal_main_group
-                    padding: 0 20px 10px
+                    padding: 0 10px 20px
                     &.alt
                         max-height: 400px
                         overflow-y: scroll
