@@ -8,6 +8,9 @@
             <complete-profile-success v-if="$store.state.completeProfileSuccessStatus" />
         </transition>
         <transition name="fade">
+            <error-prompt v-if="$store.state.errorPromptStatus" />
+        </transition>
+        <transition name="fade">
             <loader v-if="$store.state.isLoading" />
         </transition>
     </div>
@@ -16,11 +19,13 @@
     import CompleteProfileSteps from '../components/modals/CompleteProfileSteps'
     import CompleteProfileSuccess from '../components/modals/CompleteProfileSuccess'
     import Loader from '../components/modals/Loader'
+    import ErrorPrompt from '../components/modals/ErrorPrompt'
     export default {
         components: {
             CompleteProfileSteps,
             CompleteProfileSuccess,
-            Loader
+            Loader,
+            ErrorPrompt
         },
         data () {
             return {

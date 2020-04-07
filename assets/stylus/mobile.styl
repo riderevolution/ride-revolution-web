@@ -511,8 +511,68 @@
                         brandon_regular(14px, false)
                 .talents
                     margin-bottom: 20px
+                    p
+                        brandon_regular(18px, false)
                 .quote
-                    padding: 20px 0 0 40px
+                    padding: 0 0 0 40px
+                    p
+                        brandon_regular(14px, false)
+        #classes
+            padding-bottom: 50px
+            .header
+                padding: 30px 0 20px
+                h2
+                    brandon_bold(40px, true)
+                h3
+                    brandon_regular(20px, false)
+            .content
+                margin: 10px auto 0
+                .wrapper
+                    padding: 20px 30px
+                    .start
+                        .date,
+                        .time
+                            brandon_bold(16px, false)
+                    .info
+                        .description
+                            h2
+                                brandon_bold(16px, false)
+        #comments
+            margin: 30px auto
+            .header
+                h2
+                    brandon_bold(20px, true)
+            .content
+                .comment
+                    padding: 30px 0
+                    .comment_info
+                        .comment_header
+                            .date
+                                brandon_regular(14px, false)
+                        .title
+                            brandon_bold(18px, false)
+                        .description
+                            brandon_regular(14px, false)
+            .load_more
+                .load
+                    margin: 30px auto 0
+        #ride_with
+            .header
+                padding: 30px 0
+                h2
+                    brandon_bold(40px, true)
+                .description
+                    span
+                        brandon_bold(20px, false)
+        #spotify
+            .left
+                padding: 60px 0 0 60px
+                h2
+                    brandon_bold(20px, false)
+                    margin: 30px auto
+            .right
+                iframe
+                    height: 400px
     /**
      * Studios */
     .studios
@@ -1977,7 +2037,20 @@
                 .main_right
                     margin-left: 0
                     .content
-                        padding: 30px 0
+                        padding: 30px 0 10px
+                        &#parent_2
+                            .seat_wrapper
+                                height: 275px
+                                .overlay_seat
+                                    &.layout_2
+                                        &.bottom
+                                            bottom: calc(0% + 70px)
+                                        &.bottom_alt
+                                            bottom: calc(0% + 20px)
+                                            .seat
+                                                left: 0
+                                        &.bottom_alt_2
+                                            bottom: calc(0% + 30px)
                         .seat_wrapper
                             height: 350px
                             max-width: 350px
@@ -2052,10 +2125,11 @@
                                         transform: translateY(50%)
                         .footer
                             .legends
+                                padding: 0 5px
                                 ul
                                     li
                                         brandon_medium(10px, true)
-                                        margin: 0 15px 0 0
+                                        margin: 0 10px 0 0
                                         &:last-child
                                             margin: 0
                                         span
@@ -2849,7 +2923,7 @@
             .profile_tab
                 max-width: 100%
                 border-radius: 0px
-                padding: 0 20px
+                padding: 0 15px
                 .top
                     padding: 10px
                     border-radius: 0px
@@ -2894,8 +2968,12 @@
                             brandon_regular(14px, false)
                             padding: 5px 10px
             .profile_tab_content
-                margin: 0 0 30px
+                margin: 0
                 .wrapper
+                    .profile_transactions
+                        padding: 10px
+                        border-radius: 0px
+                        margin: 10px 0 30px
                     #default_menu
                         .mobile
                             .menu_tab
@@ -2942,14 +3020,36 @@
                                     .top,
                                     .bottom
                                         padding: 10px
-                    &.class
-                        margin: 10px 20px 0
+                            .profile_packages
+                                max-width: 100%
+                                padding: 0 10px
+                    &.default
+                        max-width: calc(100% - 30px)
+                    &.with_allowance
+                        margin: 10px 15px 0
+                    &.class,
+                    &.package
+                        margin: 10px 15px 0
                         background-color: #fff
                         #default_menu
                             .menu_tab_content
                                 max-width: 100%
                     .tab_content_header
                         text-align: center
+                        max-width: 100%
+                        margin: 0 auto 10px
+                        .with_info
+                            h2
+                                brandon_bold(12px, true)
+                        &.alt
+                            justify-content: center
+                            margin: 0 auto 15px
+                            .total
+                                brandon_regular(12px, false)
+                                .count
+                                    brandon_bold(12px, false)
+                            h2
+                                brandon_bold(12px, true)
                         &.alt2,
                         &.alt3
                             h2
@@ -2959,7 +3059,7 @@
                     .profile_journey
                         .teaser
                             max-width: 100%
-                            padding: 0 20px
+                            padding: 0 15px
                             .taken
                                 margin-bottom: 20px
                                 .summary
@@ -2999,7 +3099,7 @@
                                     h3
                                         brandon_bold(12px, true)
                         .top_booked
-                            max-width: calc(100% - 40px)
+                            max-width: calc(100% - 30px)
                             margin: 20px auto
                             border-radius: 0px
                             .tab_content_header
@@ -3026,7 +3126,7 @@
                                                     .num
                                                         brandon_black(18px, false)
                         .chart
-                            max-width: calc(100% - 40px)
+                            max-width: calc(100% - 30px)
                             margin: 0 auto
                             .tab_content_header
                                 padding: 10px 0 0 0
@@ -3089,7 +3189,8 @@
     .default_btn_out,
     .default_btn_blue,
     .default_btn_wht,
-    .default_btn_wht_out
+    .default_btn_wht_out,
+    .default_btn_red
         width: 100%
         brandon_bold(12px, true)
         padding: 10px
@@ -3293,6 +3394,17 @@
                 brandon_bold(12px, true)
 
     .default_modal
+        &.alt
+            .confirmation_wrapper
+                &.alt
+                    width: calc(100% - 60px)
+                    .button_group
+                        flex-flow: row wrap
+                        .flex
+                            flex: 0 0 100%
+                            margin-bottom: 10px
+                            &:last-child
+                                margin-bottom: 0
         #health_waiver_form
             &.overlay
                 &.alt_2
@@ -3340,6 +3452,15 @@
         .confirmation_wrapper
             width: calc(100% - 60px)
             padding: 20px
+            .form_close
+                width: 15px
+                height: 15px
+                top: 5px
+                right: 5px
+                &::before,
+                &::after
+                    height: 15px
+                    right: 4px
             .confirmation_highlight
                 brandon_bold(14px, false)
                 margin-top: 20px
@@ -3367,7 +3488,8 @@
                             brandon_bold(20px, true)
             .button_group
                 margin-top: 20px
-                &.alt
+                &.alt,
+                &.alt_2
                     .flex
                         flex: 0 0 100%
                 .flex
@@ -3386,6 +3508,47 @@
             padding-top: 61px
         ul
             padding: 10px 15px
+
+    .default_table
+        thead
+            position: absolute
+            top: -9999999px
+            left: -9999999px
+        tbody
+            tr
+                td
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    justify-content: space-between
+                    padding: 10px 5px
+                    .default
+                        brandon_regular(14px, false)
+                        text-align: right
+                        &.bold
+                            brandon_bold(14px, false)
+                    &:first-child
+                        padding: 10px 5px
+                    &::before
+                        flex: 0 0 auto
+                        content: attr(data-column) ": "
+                        brandon_bold(14px, true)
+                        color: rgba(0, 0, 0, .43)
+                    .package_info
+                        .title
+                            brandon_medium(16px, false)
+                        .count
+                            width: 25px
+                            height: 25px
+                            .overlay
+                                brandon_bold(16px, false)
+                                &.infinite
+                                    brandon_bold(22px, false)
+                    .table_menu_overlay
+                        .table_menu_dots_list
+                            .table_menu_item
+                                padding: 10px 15px
+                                brandon_bold(14px, false)
 
     #banner
         &.mt
@@ -3500,6 +3663,18 @@
                 #content
                     .main_right
                         .content
+                            &#parent_2
+                                .seat_wrapper
+                                    .overlay_seat
+                                        &.layout_2
+                                            &.bottom
+                                                bottom: calc(0% + 60px)
+                                            &.bottom_alt
+                                                bottom: calc(0% + 10px)
+                                                .seat
+                                                    left: 0
+                                            &.bottom_alt_2
+                                                bottom: calc(0% + 30px)
                             .seat_wrapper
                                 max-width: 465px
                                 transition: .3s ease-in-out
@@ -3789,6 +3964,19 @@
                                 brandon_regular(14px, false)
                     .main_right
                         .content
+                            &#parent_2
+                                .seat_wrapper
+                                    height: 325px
+                                    .overlay_seat
+                                        &.layout_2
+                                            &.bottom
+                                                bottom: calc(0% + 65px)
+                                            &.bottom_alt
+                                                bottom: calc(0%)
+                                                .seat
+                                                    left: 0
+                                            &.bottom_alt_2
+                                                bottom: calc(0% + 30px)
                             .seat_wrapper
                                 max-width: 600px
                                 height: 380px

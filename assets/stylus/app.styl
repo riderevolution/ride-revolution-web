@@ -2514,6 +2514,7 @@ svg
                         object-position: center
                         border-radius: 50%
                     .description
+                        flex: 1 0 auto
                         padding-left: 30px
                         h2
                             brandon_bold(20px, false)
@@ -7820,6 +7821,8 @@ svg
         background-color: $white
         tr
             border-bottom: 1px solid #E5E5E5
+            &:last-child
+                border-bottom: 1px solid transparent
             td
                 padding: 20px 0
                 .package_info

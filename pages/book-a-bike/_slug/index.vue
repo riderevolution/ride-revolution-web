@@ -486,9 +486,10 @@
                         })
                     }
                 }).catch(err => {
+                    document.body.classList.add('no_scroll')
                     setTimeout( () => {
                         me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorStatus = true
+                        me.$store.state.errorPromptStatus = true
                     }, 500)
                 }).then(() => {
                     setTimeout( () => {
