@@ -1384,6 +1384,7 @@
             #default_form
                 margin-top: 20px
         .close_icon
+            top: calc(0% + 10px)
             right: calc(0% + 10px)
             width: 20px
             height: 20px
@@ -2968,7 +2969,7 @@
                             brandon_regular(14px, false)
                             padding: 5px 10px
             .profile_tab_content
-                margin: 0
+                margin: 0 0 30px
                 .wrapper
                     .profile_transactions
                         padding: 10px
@@ -3041,6 +3042,11 @@
                         .with_info
                             h2
                                 brandon_bold(12px, true)
+                            .description_overlay
+                                width: 250px
+                                left: 50%
+                                transform: translateX(-50%)
+                                brandon_regular(10px, false)
                         &.alt
                             justify-content: center
                             margin: 0 auto 15px
@@ -3054,6 +3060,34 @@
                         &.alt3
                             h2
                                 brandon_bold(12px, true)
+                    .tab_content_main
+                        max-width: 100%
+                        .profile_gift_cards
+                            padding-bottom: 0
+                            .gift_card_wrapper
+                                flex: 0 0 100%
+                                margin: 0 0 20px
+                                .top
+                                    .overlay
+                                        .label
+                                            brandon_medium(10px, true)
+                                .bottom
+                                    .details
+                                        brandon_regular(12px, false)
+                                        padding: 15px 30px
+                                    .package_info
+                                        justify-content: center
+                                        .name
+                                            text-align: center
+                                            flex: 0 0 100%
+                                            brandon_medium(14px, false)
+                                            margin-bottom: 10px
+                                            .violator
+                                                brandon_regular(12px, false)
+                                        .default_btn
+                                            width: 100%
+                                            brandon_bold(12px, true)
+                                            padding: 10px
                     &.journey
                         margin-top: 10px
                     .profile_journey
@@ -3246,6 +3280,10 @@
 
     .form_group
         margin-bottom: 15px
+        &.date
+            .input_text
+                padding: 5px 10px
+                brandon_regular(12px, false)
         .form_check
             label
                 brandon_medium(12px, false)
@@ -3277,6 +3315,7 @@
 
     .form_flex
         &.radio
+            margin-bottom: 15px
             label
                 brandon_medium(10px, true)
             .validation_errors
@@ -3290,6 +3329,7 @@
                 .form_group,
                 .form_button
                     flex: 0 0 100%
+                    margin-right: 0
                 .form_button
                     .default_btn
                         margin-top: 10px
@@ -3344,6 +3384,13 @@
             brandon_regular(12px, false)
             text-align: justify
 
+    .form_flex_image
+        .input_image_label
+            width: 75px
+            height: 75px
+            .label
+                brandon_medium(12px, true)
+
     .input_link
         brandon_regular(12px, false)
 
@@ -3366,7 +3413,7 @@
 
     .default_modal_page
         #disclaimer
-            padding: 4em 20px
+            padding: 4em 10px
             .content
                 max-width: 100%
                 .left,
@@ -3408,7 +3455,9 @@
         #health_waiver_form
             &.overlay
                 &.alt_2
-                    max-width: 100%
+                    max-width: calc(100% - 30px)
+                    &.scroll
+                        max-height: 400px
                     .form_main_group
                         margin-top: 10px
                         margin-bottom: 15px
@@ -3418,22 +3467,38 @@
                 .form_title
                     &.alt
                         brandon_bold(16px, false)
-                        padding: 20px 5px 20px 20px
+                        padding: 20px 5px 20px 10px
                 .modal_main_group
-                    padding: 0 5px 20px 20px
+                    padding: 0 5px 20px 10px
         #default_form
             &.overlay
                 &.alt,
                 &.alt_2
                     max-width: calc(100% - 30px)
             .modal_wrapper
+                .form_close
+                    width: 15px
+                    height: 15px
+                    top: 5px
+                    right: 5px
+                    &::before,
+                    &::after
+                        height: 15px
+                        right: 4px
                 .form_title
                     brandon_bold(16px, false)
                     padding: 20px
+                    &.alt
+                        brandon_bold(16px, false)
+                        padding: 20px 10px 0
+                .form_subtitle
+                    brandon_regular(12px, false)
+                    padding: 10px
                 .modal_main_group
-                    padding: 0 0 20px 10px
-                    max-height: 400px
-                    overflow-y: scroll
+                    padding: 0 20px 10px
+                    &.alt
+                        max-height: 400px
+                        overflow-y: scroll
                     .form_custom_checkbox
                         .custom_checkbox
                             padding: 10px 20px 10px 10px
@@ -3451,7 +3516,7 @@
                             margin-bottom: 0
         .confirmation_wrapper
             width: calc(100% - 60px)
-            padding: 20px
+            padding: 20px 10px
             .form_close
                 width: 15px
                 height: 15px
@@ -3653,7 +3718,10 @@
 @media (max-width: 767px) and (min-width: 425px)
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_red
         width: auto
         padding: 12px 15px
 
@@ -3741,7 +3809,10 @@
             flex: 0 0 30%
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_red
         width: auto
         padding: 10px 20px
 
@@ -3845,6 +3916,10 @@
                             .profile_classes
                                 .class_wrapper
                                     flex: 0 0 50%
+                    .tab_content_main
+                        .profile_gift_cards
+                            .gift_card_wrapper
+                                flex: 0 0 50%
 
 @media (max-width: 767px) and (min-width: 600px)
 
@@ -3859,7 +3934,11 @@
                         margin: 10px 0 20px
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_wht_out,
+    .default_btn_red
         width: auto
         padding: 10px 20px
 
@@ -4070,3 +4149,18 @@
                                     brandon_bold(16px, false)
                             .description
                                 flex: 0 0 50%
+    /**
+     * My Profile */
+    .my_profile
+        #content
+            .profile_tab
+                .top
+                    .right
+                        .data
+                            .name
+                                justify-content: flex-start
+                            .info
+                                justify-content: flex-start
+                                margin: 15px 0
+                                .label
+                                    margin-right: 10px

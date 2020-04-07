@@ -5,7 +5,7 @@
                 <div class="modal_wrapper">
                     <h2 class="form_title">Add a guest</h2>
                     <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group">
+                    <div class="modal_main_group alt">
                         <div class="form_flex">
                             <div class="form_radio">
                                 <input type="radio" id="member" value="member" name="assign_type" class="input_radio" checked v-model="assignType">

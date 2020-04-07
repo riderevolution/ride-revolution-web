@@ -5,7 +5,7 @@
                 <div class="modal_wrapper">
                     <h2 class="form_title alt">One last thing, please sign our health waiver.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group">
+                    <div class="modal_main_group alt">
                         <div class="form_main_group">
                             <div class="form_group">
                                 <transition name="slide"><span class="validation_errors" v-if="error">Please choose yes or no</span></transition>

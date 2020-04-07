@@ -5,7 +5,7 @@
                 <div class="modal_wrapper">
                     <h2 class="form_title">Which seat would you like to switch?</h2>
                     <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group">
+                    <div class="modal_main_group alt">
                         <div class="form_custom_checkbox">
                             <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.id == selectedID) ? 'active' : ''}`" v-for="(seat, key) in seatNumbers" :key="key" @click="toggleSeat(seat, key)">
                                 <label>Bike No. {{ seat.number }}</label>

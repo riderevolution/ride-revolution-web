@@ -15,7 +15,7 @@
                                         <div class="class_date">In 1 Year and 2 Months</div>
                                     </div>
                                     <div class="motto">
-                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lennon
+                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lemon
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                         </div>
                         <div class="ride_chart">
                             <no-ssr>
-                                <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
+                                <apexchart :options="chartOptions" :series="series"></apexchart>
                             </no-ssr>
                         </div>
                         <div class="ride_summary">
@@ -1015,7 +1015,7 @@
                 setTimeout( () => {
                     let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
                     if (category == 'gift-cards') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `calc((${popUpWidth}px) - (${parentWidth}px))` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                     } else if (category == 'ride-rev-journey') {
