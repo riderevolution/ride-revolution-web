@@ -11,9 +11,9 @@
         <section id="content">
             <div class="left">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <br><br>
+                <br>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <br><br>
+                <br>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
             <div class="right">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </section>
-        <section id="more_things">
+        <section id="more_things" class="desktop" v-if="!$parent.$parent.isMobile">
             <h3>More Things to Read...</h3>
             <nuxt-link :to="`/news/${convertToSlug(data.title)}`" class="news_list" v-for="(data, key) in news" :key="key">
                 <div class="top">
@@ -41,8 +41,32 @@
                 <nuxt-link to="/news" rel="canonical" class="default_btn">See All Articles</nuxt-link>
             </div>
         </section>
-        <section id="banner" class="alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+        <section id="more_things" v-else>
+            <h3>More Things to Read...</h3>
+            <no-ssr>
+                <swiper :options="mobileOptions" class="default">
+                    <swiper-slide  v-for="(data, key) in news" :key="key">
+                        <nuxt-link :to="`/news/${convertToSlug(data.title)}`" class="news_list">
+                            <div class="top">
+                                <img :src="data.path" alt="asdasdasd" />
+                            </div>
+                            <div class="bottom">
+                                <div class="title">{{ data.title }}</div>
+                                <div class="date">{{ $moment().format('MMM DD, YYYY') }}</div>
+                                <div class="description" v-line-clamp="3" v-html="data.description"></div>
+                                <div class="link">Read More</div>
+                            </div>
+                        </nuxt-link>
+                    </swiper-slide>
+                    <div class="swiper-pagination" slot="pagination"></div>
+                </swiper>
+            </no-ssr>
+            <div class="action">
+                <nuxt-link to="/news" rel="canonical" class="default_btn">See All Articles</nuxt-link>
+            </div>
+        </section>
+        <section id="banner" class="mt alt">
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
@@ -64,6 +88,34 @@
         },
         data () {
             return {
+                mobileOptions: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                    loop: true,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 2,
+                            spaceBetween: 20
+                        },
+                        450: {
+                            slidesPerView: 1,
+                            spaceBetween: 0
+                        }
+                    }
+                },
                 news: [
                     {
                         path: '/default/news/news-inner-banner.jpg',

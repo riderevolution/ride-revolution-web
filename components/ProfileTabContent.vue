@@ -89,8 +89,8 @@
                             <h2>Your Top Booked Instructors</h2>
                         </div>
                         <div class="tab_content_main">
-                            <div class="instructor">
-                                <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in topInstructors" :key="key">
+                            <div class="instructor desktop" v-if="!$parent.$parent.$parent.isMobile">
+                                <div :id="`item_${key}`" class="item" v-for="(data, key) in topInstructors" :key="key">
                                     <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
                                     <img class="main" :src="data.path" />
                                     <transition name="fade">
@@ -110,6 +110,32 @@
                                         </div>
                                     </transition>
                                 </div>
+                            </div>
+                            <div class="instructor" v-else>
+                                <no-ssr>
+                                    <swiper :options="mobileOptions" class="default">
+                                        <swiper-slide :id="`item_${key}`" v-for="(data, key) in topInstructors" :key="key">
+                                            <div class="item">
+                                                <div class="cover"></div>
+                                                <img class="main" :src="data.path" />
+                                                <transition name="slide">
+                                                    <div class="overlay">
+                                                        <div class="info">
+                                                            <div class="num_wrapper_alt">
+                                                                <div class="num">
+                                                                    {{ key + 1 }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="name">{{ data.name }}</div>
+                                                        </div>
+                                                        <div class="rides">{{ data.ride }} rides</div>
+                                                    </div>
+                                                </transition>
+                                            </div>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
+                                </no-ssr>
                             </div>
                         </div>
                     </div>
@@ -143,15 +169,25 @@
         <transition name="fade">
             <div id="tab_1" class="class wrapper" v-if="category == 'classes'">
                 <div id="default_menu">
-                    <ul class="menu_tab">
+                    <ul class="menu_tab" v-if="!$parent.$parent.$parent.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
-                        <li :class="`menu_tab_item ${(tabCategory == 'history') ? 'active' : ''}`" @click="toggledMenuTab('history')">History</li>
+                        <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
                     </ul>
+                    <div class="mobile" v-else>
+                        <div class="menu_tab_toggler">
+                            <div class="toggler" @click.self="toggleDetails($event)">Tab Menu</div>
+                            <ul class="menu_tab">
+                                <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
+                                <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
+                                <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="menu_tab_content">
                         <div class="profile_classes" v-if="classes.length > 0">
                             <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
-                                <div class="overlay">
+                                <div class="overlay" v-if="!data.history">
                                     <div class="menu_dot" @click="toggleMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
@@ -195,12 +231,21 @@
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_2" class="wrapper" v-if="category == 'packages'">
+            <div id="tab_2" class="package wrapper" v-if="category == 'packages'">
                 <div id="default_menu">
-                    <ul class="menu_tab">
+                    <ul class="menu_tab" v-if="!$parent.$parent.$parent.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
                     </ul>
+                    <div class="mobile" v-else>
+                        <div class="menu_tab_toggler">
+                            <div class="toggler" @click.self="toggleDetails($event)">Tab Menu</div>
+                            <ul class="menu_tab">
+                                <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
+                                <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="menu_tab_content">
                         <div class="profile_packages">
                             <table class="default_table" v-if="packages.length > 0">
@@ -217,7 +262,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(data, key) in packages" :key="key">
-                                        <td>
+                                        <td data-column="Packages">
                                             <div class="package_info">
                                                 <div class="count">
                                                     <div :class="`overlay ${(data.class_package.class_count_unlimited == 1) ? 'infinite' : ''}`">{{ (data.class_package.class_count_unlimited == 1) ? '&#8734;' : data.class_package.class_count }}</div>
@@ -228,22 +273,28 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><div class="default">{{ parseInt(data.original_package_count) - parseInt(data.count) }}</div></td>
-                                        <td><div class="default">{{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : (parseInt(data.count) == data.original_package_count) ? parseInt(data.original_package_count) : parseInt(data.count) }}</div></td>
-                                        <td>
-                                            <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
-                                            <div class="label">Date Purchased</div>
+                                        <td data-column="Used"><div class="default">{{ parseInt(data.original_package_count) - parseInt(data.count) }}</div></td>
+                                        <td data-column="Available"><div class="default">{{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : (parseInt(data.count) == data.original_package_count) ? parseInt(data.original_package_count) : parseInt(data.count) }}</div></td>
+                                        <td data-column="Purchase">
+                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                                <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
+                                                <div class="label">Date Purchased</div>
+                                            </div>
                                         </td>
-                                        <td>
-                                            <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
-                                            <div class="label">Date Activated</div>
+                                        <td data-column="Activation">
+                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                                <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
+                                                <div class="label">Date Activated</div>
+                                            </div>
                                         </td>
-                                        <td>
-                                            <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
-                                            <div class="label violator" v-if="checkWarning(data)">{{ violator.warning }} Days Left</div>
-                                            <div class="label" v-else>Date of Expiry</div>
+                                        <td data-column="Expiry">
+                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                                <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
+                                                <div class="label violator" v-if="checkWarning(data)">{{ violator.warning }} Days Left</div>
+                                                <div class="label" v-else>Date of Expiry</div>
+                                            </div>
                                         </td>
-                                        <td>
+                                        <td data-column="Actions">
                                             <div class="table_menu_overlay">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
@@ -298,15 +349,21 @@
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in pendingTransactions" :key="key">
-                                <td><div class="default">{{ data.date }}</div></td>
-                                <td><div class="default" v-for="(child, key) in data.products" :key="key">{{ child.name }}({{ child.qty }})</div></td>
-                                <td>
+                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Products">
+                                    <div>
+                                        <div class="default" v-for="(child, key) in data.products" :key="key">
+                                            {{ child.name }}({{ child.qty }})
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-column="Branch">
                                     <div class="default">{{ data.branch }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Total Price">
                                     <div class="default bold">Php {{ data.total_price }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Payment Status">
                                     <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
@@ -329,15 +386,21 @@
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in paidTransactions" :key="key">
-                                <td><div class="default">{{ data.date }}</div></td>
-                                <td><div class="default" v-for="(child, key) in data.products" :key="key">{{ child.name }}({{ child.qty }})</div></td>
-                                <td>
+                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Products">
+                                    <div>
+                                        <div class="default" v-for="(child, key) in data.products" :key="key">
+                                            {{ child.name }}({{ child.qty }})
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-column="Branch">
                                     <div class="default">{{ data.branch }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Total Price">
                                     <div class="default bold">Php {{ data.total_price }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Payment Status">
                                     <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
@@ -425,6 +488,26 @@
         },
         data () {
             return {
+                mobileOptions: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        465: {
+                            slidesPerView: 1,
+                            spaceBetween: 0
+                        }
+                    }
+                },
                 violator: {
                     warning: 0,
                     shared: 0,
@@ -688,7 +771,7 @@
                             options: {
                                 plotOptions: {
                                     bar: {
-                                        columnWidth: '75%'
+                                        columnWidth: '100%'
                                     }
                                 },
                                 dataLabels: {
@@ -698,7 +781,7 @@
                                     offsetY: -10,
                                     style: {
                                         colors: ["#171717"],
-                                        fontSize: '10px',
+                                        fontSize: '8px',
                                         fontFamily: 'Brandon-Regular'
                                     }
                                 },
@@ -706,7 +789,7 @@
                                     labels: {
                                         style: {
                                             colors: ['#000'],
-                                            fontSize: '10px',
+                                            fontSize: '8px',
                                             fontFamily: 'Brandon-Regular'
                                         }
                                     },
@@ -715,7 +798,7 @@
                                     labels: {
                                         style: {
                                             colors: ['#000'],
-                                            fontSize: '10px',
+                                            fontSize: '8px',
                                             fontFamily: 'Brandon-Regular'
                                         }
                                     },
@@ -724,7 +807,7 @@
                                         offsetX: 0,
                                         style: {
                                             colors: ['#000'],
-                                            fontSize: '10px',
+                                            fontSize: '8px',
                                             cssClass: 'apexchart_uppercase'
                                         }
                                     }
@@ -828,6 +911,17 @@
             }
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
             manageClass (id) {
                 const me = this
                 me.$router.push(`/my-profile/manage-class/${id}`)
@@ -925,7 +1019,7 @@
                     } else if (category == 'transactions') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                     } else if (category == 'ride-rev-journey') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc(20px)`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `10px` : `20px`
                     }
                 }, 100)
             },
@@ -963,7 +1057,7 @@
                 switch (category) {
                     case 'upcoming':
                     case 'waitlisted':
-                    case 'history':
+                    case 'class-history':
                         category = (category == 'upcoming') ? 'upcoming-classes' : category
                         me.loader(true)
                         me.$axios.get(`api/customers/${me.$store.state.user.id}/${category}`).then(res => {
@@ -983,11 +1077,12 @@
                                                 me.classes.push(data)
                                             })
                                             break
-                                        case 'history':
-                                            // res.data.waitlisted.forEach((data, index) => {
-                                            //     data.toggled = false
-                                            //     me.classes.push(data)
-                                            // })
+                                        case 'class-history':
+                                            res.data.customer.classHistory.forEach((data, index) => {
+                                                data.toggled = false
+                                                data.history = true
+                                                me.classes.push(data)
+                                            })
                                             break
                                     }
                                 }, 10)

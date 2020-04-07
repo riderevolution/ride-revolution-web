@@ -32,6 +32,10 @@
                 me.$store.state.buyPackageFirstStatus = false
                 document.body.classList.remove('no_scroll')
             }
+        },
+        mounted () {
+            const me = this
+            document.body.classList.add('no_scroll')
         }
     }
 </script>

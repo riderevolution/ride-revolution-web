@@ -71,6 +71,7 @@
                             me.$store.state.bookerAssignSuccessStatus = true
                             me.loader(false)
                         }, 500)
+                        me.$parent.removeNext = false
                     }
                 } else {
                     me.$store.state.bookerAssignMemberPromptStatus = false

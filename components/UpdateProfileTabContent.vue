@@ -48,19 +48,8 @@
                     <div class="form_flex">
                         <div class="form_group date">
                             <label for="birth_date">Birthdate <span>*</span></label>
-                            <no-ssr>
-                                <vc-date-picker
-                                :is-required="true"
-                                v-model="profileOverview.birth_date"
-                                :nav-visibility="'visible'"
-                                :input-props='{
-                                    class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
-                                    id: "birth_date",
-                                    name: "birth_date",
-                                    readonly: true
-                                    }'
-                                    />
-                            </no-ssr>
+                            <input type="date" name="birth_date" autocomplete="off" class="input_text" v-validate="'required'" v-model="profileOverview.birth_date">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">{{ errors.first('register_process_form.birth_date') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="contact_number">Contact Number <span>*</span></label>
@@ -429,32 +418,39 @@
         },
         mounted () {
             const me = this
-            let ctr = 0
-            setInterval( () => {
-                if (ctr < 1) {
-                    me.profileOverview.image_id = (me.$store.state.user.customer_details.images[0].path != null) ? me.$store.state.user.customer_details.images[0].id : 0
-                    me.profileOverview.first_name = me.$store.state.user.first_name
-                    me.profileOverview.last_name = me.$store.state.user.last_name
-                    me.profileOverview.email = me.$store.state.user.email
-                    me.profileOverview.birth_date = new Date(me.$store.state.user.customer_details.co_birthdate)
-                    me.profileOverview.contact_number = me.$store.state.user.customer_details.co_contact_number
-                    me.profileOverview.sex = me.$store.state.user.customer_details.co_sex
-                    me.profileOverview.shoe_size = me.$store.state.user.customer_details.co_shoe_size
-                    me.profileOverview.what_do_you_do = me.$store.state.user.customer_details.profession
-
-                    me.address.personal_address_1 = me.$store.state.user.customer_details.pa_address_1
-                    me.address.personal_address_2 = me.$store.state.user.customer_details.pa_address_2
-                    me.address.personal_city = me.$store.state.user.customer_details.pa_city
-                    me.address.billing_address_1 = me.$store.state.user.customer_details.ba_address_1
-                    me.address.billing_address_2 = me.$store.state.user.customer_details.ba_address_2
-                    me.address.billing_city = me.$store.state.user.customer_details.ba_city
-
-                    me.previewImage = (me.$store.state.user.customer_details.images[0].path != null) ? true : false
-                    me.subscribed = (me.$store.state.user.newsletter_subscription) ? true : false
-                    ctr++
-                }
-            }, 500)
             me.getHeight()
+            let token = me.$cookies.get('token')
+            me.loader(true)
+            me.$axios.get('api/check-token', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    me.profileOverview.image_id = (res.data.user.customer_details.images[0].path != null) ? res.data.user.customer_details.images[0].id : 0
+                    me.profileOverview.first_name = res.data.user.first_name
+                    me.profileOverview.last_name = res.data.user.last_name
+                    me.profileOverview.email = res.data.user.email
+                    me.profileOverview.birth_date = res.data.user.customer_details.co_birthdate
+                    me.profileOverview.contact_number = res.data.user.customer_details.co_contact_number
+                    me.profileOverview.sex = res.data.user.customer_details.co_sex
+                    me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
+                    me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
+
+                    me.address.personal_address_1 = res.data.user.customer_details.pa_address_1
+                    me.address.personal_address_2 = res.data.user.customer_details.pa_address_2
+                    me.address.personal_city = res.data.user.customer_details.pa_city
+                    me.address.billing_address_1 = res.data.user.customer_details.ba_address_1
+                    me.address.billing_address_2 = res.data.user.customer_details.ba_address_2
+                    me.address.billing_city = res.data.user.customer_details.ba_city
+
+                    me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
+                    me.subscribed = (res.data.user.newsletter_subscription) ? true : false
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                }
+            })
         },
         beforeMount () {
             window.addEventListener('load', this.getHeight)

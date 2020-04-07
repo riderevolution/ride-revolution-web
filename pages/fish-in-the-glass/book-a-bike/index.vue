@@ -190,6 +190,7 @@
             return {
                 schedule: [],
                 type: 0,
+                webApp: true,
                 message: '',
                 status: false,
                 loaded: false,

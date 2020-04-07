@@ -7,7 +7,7 @@
                 <breadcrumb :overlay="true" />
                 <div class="overlay_mid">
                     <h1>Book a Bike</h1>
-                    <h2>See you in the studio!</h2>
+                    <h2 class="alt">See you in the studio!</h2>
                 </div>
             </section>
             <section id="content">
@@ -233,10 +233,12 @@
                 if (me.searchedInstructor != '') {
                     result = `${me.searchedInstructor}`
                     me.hasSearchedInstructor = true
-
                 } else {
+                    me.instructorID = 0
+                    me.searchedInstructor = ''
                     me.hasSearchedInstructor = false
                     result = 'all instructors '
+                    me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
                 }
                 setTimeout( () => {
                     me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {
@@ -287,6 +289,7 @@
                 const me = this
                 let token = me.$cookies.get('token')
                 event.preventDefault()
+                me.loader(true)
                 if (me.$store.state.user.new_user == 0) {
                     if (data.hasUser && token != null && token != undefined) {
                         switch (type) {
@@ -297,12 +300,15 @@
                                     }
                                 }).then(res => {
                                     if (res.data) {
-                                        if (res.data.userPackagesCount > 0) {
-                                            me.$router.push(`/book-a-bike/${data.id}`)
-                                        } else {
-                                            me.$store.state.buyPackageFirstStatus = true
-                                            document.body.classList.remove('no_scroll')
-                                        }
+                                        setTimeout( () => {
+                                            me.loader(false)
+                                            if (res.data.userPackagesCount > 0) {
+                                                me.$router.push(`/book-a-bike/${data.id}`)
+                                            } else {
+                                                me.$store.state.buyPackageFirstStatus = true
+                                                document.body.classList.remove('no_scroll')
+                                            }
+                                        }, 500)
                                     }
                                 }).catch(err => {
                                     console.log(err)
@@ -310,7 +316,6 @@
                                 break
                             case 'waitlist':
                                 me.schedule = data
-                                me.loader(true)
                                 setTimeout( () => {
                                     me.$store.state.bookerChoosePackageStatus = true
                                     document.body.classList.add('no_scroll')
@@ -632,6 +637,7 @@
         },
         mounted () {
             const me = this
+            me.loader(true)
             me.currentDay = me.$moment().format('D')
             me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), false)
 

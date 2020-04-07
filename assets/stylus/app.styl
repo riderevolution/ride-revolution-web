@@ -208,7 +208,7 @@ svg
     &.full
         width: 100%
     &:hover
-        box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+        box-shadow: 0px 0px 20px rgba(38, 164, 139, 0.75)
         transition: .3s ease-in-out
 
 .default_btn_wht
@@ -230,7 +230,7 @@ svg
     &.mb
         margin-bottom: 15px
     &:hover
-        box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.75)
+        box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.75)
         transition: .3s ease-in-out
 
 .default_btn_blue
@@ -257,7 +257,7 @@ svg
     &.mb
         margin-bottom: 15px
     &:hover
-        box-shadow: 0px 0px 30px rgba(59, 183, 242, 0.75)
+        box-shadow: 0px 0px 20px rgba(59, 183, 242, 0.75)
         transition: .3s ease-in-out
 
 .default_btn_wht_alt
@@ -726,10 +726,11 @@ svg
                                                         &.margin
                                                             margin-left: 10px
                                         .right
-                                            display: flex
-                                            flex-flow: row wrap
-                                            align-items: center
-                                            justify-content: space-between
+                                            &.alt
+                                                display: flex
+                                                flex-flow: row wrap
+                                                align-items: center
+                                                justify-content: space-between
                                             .back,
                                             .default_btn
                                                 width: auto
@@ -788,6 +789,21 @@ svg
         background-color: $green
         padding: 12px 15px
         z-index: 5
+        &.mobile
+            height: calc(100% - 150px)
+            overflow-y: scroll
+            overflow-x: hidden
+            padding: 0 10px
+            &::-webkit-scrollbar
+                width: 6px
+                background-color: $white
+            &::-webkit-scrollbar-track
+                box-shadow: none
+            &::-webkit-scrollbar-thumb
+                background-color: $green
+                border: 0px solid rgba(0, 0, 0, 0)
+                background-clip: padding-box
+                border-radius: 50px
         .profile_text
             brandon_medium(14px, false)
             color: $white
@@ -1271,10 +1287,9 @@ svg
                     color: $black
                     a
                         brandon_bold(16px, false)
-                        color: $black
+                        color: $green
                         transition: .3s ease-in-out
                         &:hover
-                            color: $green
                             text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                             transition: .3s ease-in-out
             .social_links
@@ -1661,7 +1676,7 @@ svg
                     brandon_regular(20px, true)
                     letter-spacing: 0.5px
                     color: $black
-                    text-align: center
+                    text-align: right
                     strong
                         brandon_bold(30px, false)
                         letter-spacing: 0.75px
@@ -2089,7 +2104,7 @@ svg
                             width: 100%
                             display: flex
                             flex-flow: row wrap
-                            align-items: centerw
+                            align-items: center
                             padding: 30px 40px
                             brandon_medium(20px, true)
                             color: $black
@@ -2298,7 +2313,7 @@ svg
                     left: 0
                     width: 100%
                     z-index: 2
-                    h2
+                    .title
                         brandon_bold(20px, true)
                         color: $white
                         letter-spacing: 1px
@@ -2411,6 +2426,7 @@ svg
      * Classes */
     #classes
         background-image: url(/dotted-bg.png)
+        padding-bottom: 80px
         .header
             padding: 80px 0 30px
             text-align: center
@@ -2427,8 +2443,46 @@ svg
         .content
             width: 100%
             max-width: 65%
-            margin: 20px auto 100px
+            margin: 20px auto 0
             background-color: $white
+            &.mobile
+                max-width: 100%
+                margin: 10px 0
+                .wrapper
+                    padding: 20px
+                    justify-content: space-between
+                    .main
+                        flex: 0 0 50px
+                        width: 50px
+                        height: 50px
+                        object-fit: cover
+                        object-position: center
+                        border-radius: 50%
+                    .info
+                        flex: 1 0 30%
+                        justify-content: space-between
+                        padding-left: 10px
+                        .start
+                            flex: 0 0 100%
+                            padding-right: 20px
+                            .date,
+                            .time
+                                brandon_bold(14px, false)
+                        .description
+                            flex: 0 0 100%
+                            padding-left: 0
+                            h2
+                                brandon_bold(16px, false)
+                                margin-bottom: 5px
+                            .limit
+                                span
+                                    brandon_regular(12px, false)
+                            p
+                                brandon_regular(12px, false)
+                    .default_btn_out
+                        flex: 1 0 20%
+                        width: auto
+                        margin-top: 0
             .wrapper
                 position: relative
                 z-index: 1
@@ -2455,8 +2509,12 @@ svg
                     align-items: center
                     .main
                         width: 60px
+                        height: 60px
+                        object-fit: cover
+                        object-position: center
                         border-radius: 50%
                     .description
+                        flex: 1 0 auto
                         padding-left: 30px
                         h2
                             brandon_bold(20px, false)
@@ -2541,7 +2599,7 @@ svg
     #comments
         width: 100%
         max-width: 65%
-        margin: 80px auto
+        margin: 80px auto 40px
         .header
             display: flex
             flex-flow: row wrap
@@ -2554,6 +2612,64 @@ svg
                 letter-spacing: 1.3px
                 color: $black
         .content
+            &.mobile
+                .comment
+                    .comment_header_mobile
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: space-between
+                        .comment_img
+                            width: 60px
+                            border-radius: 50%
+                        .comment_img_initials
+                            position: relative
+                            .background
+                                width: 60px
+                                height: 60px
+                                background-color: $black_alt2
+                                border-radius: 50%
+                            .initials
+                                position: absolute
+                                top: 50%
+                                left: 0
+                                right: 0
+                                margin: 0 auto
+                                text-align: center
+                                z-index: 1
+                                brandon_medium(16px, true)
+                                color: $white
+                                letter-spacing: 0.55px
+                                transform: translateY(-50%)
+                        .stats
+                            padding-left: 20px
+                            flex: 1 0 20%
+                            .stars
+                                margin: 5px 0
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                img
+                                    width: 20px
+                        h3
+                            brandon_regular(12px, false)
+                            color: $black_alt2
+                            letter-spacing: 0.4px
+                        .date
+                            brandon_regular(12px, false)
+                            color: $gray_alt2
+                            letter-spacing: 0.4px
+                    .comment_info_mobile
+                        .title
+                            brandon_bold(14px, false)
+                            color: $black
+                            letter-spacing: 0.55px
+                            margin: 10px 0
+                        .description
+                            brandon_regular(12px, false)
+                            color: $black
+                            letter-spacing: 0.8px
+                            line-height: 1.75
             .comment
                 padding: 40px 0
                 border-bottom: 1px solid $border_alt4
@@ -2587,8 +2703,8 @@ svg
                         letter-spacing: 0.55px
                         transform: translateY(-50%)
                 .comment_info
-                    margin-left: 30px
-                    flex: 0 0 calc(100% - 90px)
+                    padding-left: 30px
+                    flex: 1 0  50%
                     .comment_header
                         display: flex
                         flex-flow: row wrap
@@ -2612,16 +2728,16 @@ svg
                             brandon_regular(16px, false)
                             color: $black_alt2
                             letter-spacing: 0.4px
-                        h4
+                        .date
                             brandon_regular(16px, false)
                             color: $gray_alt2
                             letter-spacing: 0.4px
-                    h2
+                    .title
                         brandon_bold(22px, false)
                         color: $black
                         letter-spacing: 0.55px
                         margin: 10px 0
-                    p
+                    .description
                         brandon_regular(16px, false)
                         color: $black
                         letter-spacing: 0.8px
@@ -2899,12 +3015,9 @@ svg
 .news
     background-color: #f7f7f7
     &.inner
-        #banner
-            &.alt
-                margin-top: 81px
         #content
             width: 100%
-            max-width: 75%
+            max-width: 90%
             margin: 60px auto
             display: flex
             flex-flow: row wrap
@@ -3014,13 +3127,18 @@ svg
                                 opacity: 1
                                 transition: .3s ease-in-out
         #more_things
-            width: 100%
-            max-width: calc(75% + 30px)
-            margin: 60px auto
-            display: flex
-            flex-flow: row wrap
+            &.desktop
+                width: 100%
+                max-width: calc(90% + 30px)
+                margin: 60px auto
+                display: flex
+                flex-flow: row wrap
+                h3
+                    flex: 0 0 100%
+                .news_list
+                    flex: 0 0 calc(33.33% - 30px)
+                    margin: 15px
             h3
-                flex: 0 0 100%
                 brandon_bold(36px, true)
                 color: $black
                 letter-spacing: 1.8px
@@ -3028,8 +3146,6 @@ svg
                 margin-bottom: 20px
             .news_list
                 background-color: $white
-                flex: 0 0 calc(33.33% - 30px)
-                margin: 15px
                 transform: perspective(0px) scale(1)
                 box-shadow: 0px 0px 30px transparent
                 transition: .3s ease-in-out
@@ -3045,6 +3161,8 @@ svg
                         brandon_bold(20px, true)
                         color: $black
                         letter-spacing: 0.5px
+                        margin-left: 0
+                        margin-bottom: 0
                     .date
                         brandon_light(16px, false)
                         letter-spacing: 0.8px
@@ -3069,7 +3187,7 @@ svg
                     margin: 40px auto 0
     #content
         width: 100%
-        max-width: calc(75% + 30px)
+        max-width: calc(90% + 30px)
         margin: 60px auto
         display: flex
         flex-flow: row wrap
@@ -3441,7 +3559,7 @@ svg
             flex-flow: row wrap
             align-items: center
             width: 100%
-            max-width: 75%
+            max-width: 100%
             margin: 0 auto
             .left
                 flex: 0 0 55%
@@ -3496,7 +3614,7 @@ svg
         background-color: $white
         .info
             width: 100%
-            max-width: 65%
+            max-width: 90%
             margin: 0 auto
             p
                 brandon_regular(16px, false)
@@ -3506,7 +3624,7 @@ svg
             display: flex
             flex-flow: row wrap
             width: 100%
-            max-width: calc(65% + 30px)
+            max-width: calc(90% + 30px)
             margin: 40px auto 0
             .wrapper
                 flex: 0 0 calc(50% - 30px)
@@ -3549,7 +3667,7 @@ svg
                 letter-spacing: 0.9px
         .bottom
             width: 100%
-            max-width: 50%
+            max-width: 75%
             margin: 80px auto 0
             text-align: center
             .header_title
@@ -3588,7 +3706,7 @@ svg
         padding: 60px 0
         .main
             width: 100%
-            max-width: 75%
+            max-width: 90%
             margin: 0 auto
             text-align: center
             .title
@@ -3679,7 +3797,7 @@ svg
                             padding: 30px 0
                             .info_description
                                 width: 100%
-                                max-width: 65%
+                                max-width: 75%
                                 margin: 0 auto
                                 p
                                     brandon_medium(15px, false)
@@ -3706,7 +3824,8 @@ svg
  * Riders Guide */
 .riders_guide
     #teaser
-        padding: 120px
+        text-align: center
+        padding: 60px 120px
         h2
             brandon_bold(60px, true)
             color: $black
@@ -3881,7 +4000,7 @@ svg
                         left: 0
                         width: 100%
                         z-index: 2
-                        h2
+                        .title
                             brandon_bold(20px, true)
                             color: $white
                             letter-spacing: 1px
@@ -3969,7 +4088,7 @@ svg
             align-items: center
             justify-content: center
             width: 100%
-            max-width: 60%
+            max-width: 90%
             margin: 0 auto
             padding-bottom: 80px
             .bike_wrapper
@@ -4155,7 +4274,7 @@ svg
             background-size: cover
             background-position: center
             background-repeat: no-repeat
-            padding: 10em 100px 8em
+            padding: 10em 60px 8em
             &::before
                 content: ''
                 position: absolute
@@ -4416,18 +4535,50 @@ svg
                 background-color: $white
             .main_left
                 flex: 0 0 25%
+                .details_toggle
+                    margin-top: 10px
+                    .toggler
+                        position: relative
+                        brandon_medium(14px, true)
+                        background-color: $green
+                        color: $white
+                        background-color: $green
+                        padding: 10px 20px
+                        &::before
+                            content: ''
+                            position: absolute
+                            top: 50%
+                            right: calc(0% + 20px)
+                            border-left: 7px solid transparent
+                            border-right: 7px solid transparent
+                            border-top: 7px solid $white
+                            transform: translateY(-50%) rotate(0deg)
+                            transition: .3s ease-in-out
+                    &.toggled
+                        .toggler
+                            &::before
+                                transform: translateY(-50%) rotate(180deg)
+                                transition: .3s ease-in-out
+                        .toggle_data
+                            opacity: 1
+                            transition: .3s ease-in-out
+                    .toggle_data
+                        height: 0px
+                        overflow: hidden
+                        opacity: 0
+                        transition: .3s ease-in-out
                 .header
                     text-align: center
                     padding: 20px
                     border-bottom: 1px solid $border_alt
-                    h2
+                    .date
                         brandon_bold(26px, true)
                         color: $black
                 .content
+                    text-align: center
                     ul
                         list-style: none
-                        width: 100%
-                        max-width: 200px
+                        display: inline-block
                         margin: 0 auto
                         padding: 30px 20px
                         li
@@ -4494,6 +4645,9 @@ svg
                     border-bottom: 1px solid $border_alt
                 .content
                     padding: 30px 0
+                    &#parent_2
+                        .seat_wrapper
+                            height: 550px
                     .seat_wrapper
                         position: relative
                         width: 100%
@@ -4637,9 +4791,9 @@ svg
                                 &.right
                                     top: calc(0% + 40px)
                                 &.bottom
-                                    bottom: calc(0% + 190px)
+                                    bottom: calc(0% + 130px)
                                 &.bottom_alt
-                                    bottom: calc(0% + 80px)
+                                    bottom: calc(0% + 30px)
                                     .seat
                                         left: calc(0% - 40px)
                             &.layout_3
@@ -4853,7 +5007,7 @@ svg
                         &::after
                             content: ''
                             position: absolute
-                            top: calc(50% - 1px)
+                            top: 50%
                             left: 50%
                             width: 100%
                             height: 2px
@@ -5358,16 +5512,18 @@ svg
             letter-spacing: 2.5px
             margin-bottom: 25px
         .content
-            display: flex
-            flex-flow: row wrap
-            align-items: center
-            justify-content: center
-            width: 100%
-            max-width: 75%
-            margin: 0 auto
+            &.desktop
+                display: flex
+                flex-flow: row wrap
+                align-items: flex-start
+                justify-content: center
+                width: 100%
+                max-width: 75%
+                margin: 0 auto
+                .wrapper
+                    flex: 0 0 calc(33.33% - 20px)
+                    margin: 0 10px
             .wrapper
-                flex: 0 0 calc(33.33% - 20px)
-                margin: 0 10px
                 h2
                     brandon_bold(22px, true)
                     color: $white
@@ -5442,88 +5598,101 @@ svg
                             .default_btn
                                 box-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
                                 transition: .3s ease-in-out
-    #studio_ig
-        .header
-            padding: 40px 0 30px
-            .description
-                display: flex
-                flex-flow: row wrap
-                align-items: center
-                justify-content: center
-                img
-                    margin-right: 10px
-                span
-                    brandon_bold(30px, false)
-                    color: $black
-                    letter-spacing: 0.75px
-                    padding-bottom: 5px
-/**
- * Studio Inner Page */
-.studio_inner
-    #teaser
-        padding: 80px 60px 60px
-        text-align: center
-        .header
-            h1
-                brandon_bold(50px, true)
-                color: $black
-                letter-spacing: 2.5px
-            h2
-                brandon_regular(16px, false)
-                color: $black
-                letter-spacing: 0.4px
-        .info
-            margin: 50px 0
-            p
-                brandon_regular(16px, false)
-                color: $black
-                letter-spacing: 0.4px
-        .opening
+
+#instagram_alternate
+    .header
+        padding: 40px 0 30px
+        .description
             display: flex
             flex-flow: row wrap
             align-items: center
             justify-content: center
-            .left,
-            .right
-                text-align: left
-                h3
-                    brandon_regular(14px, true)
-                    color: $black_alt2
-                    margin-bottom: 5px
-            .left
-                padding-right: 60px
-                p
-                    brandon_regular(20px, false)
-                    color: $black
-            .right
-                a
-                    brandon_regular(18px, false)
-                    color: $black
-                    transition: .3s ease-in-out
-                    &.email
-                        color: $green
-                        text-decoration: underline
-                    &:hover
-                        color: $green
-                        text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
-                        transition: .3s ease-in-out
-                .link
-                    display: flex
-                    flex-flow: row wrap
-                    align-items: center
-                    img
-                        margin-right: 15px
-    #images
+            img
+                margin-right: 10px
+            span
+                brandon_bold(30px, false)
+                color: $black
+                letter-spacing: 0.75px
+                padding-bottom: 5px
+/**
+ * Studio Inner Page */
+.studio_inner
+    #teaser
         display: flex
         flex-flow: row wrap
-        align-items: center
-        width: 100%
-        max-width: 80%
-        margin: 0 auto 50px
+        margin-bottom: 40px
+        .main_left,
+        .main_right
+            flex: 0 0 50%
+        .main_left
+            background-color: $black
+            padding: 40px
+            .header
+                h1
+                    brandon_bold(30px, true)
+                    color: $white
+                    letter-spacing: 2.5px
+                    margin-bottom: 15px
+                h2
+                    brandon_regular(16px, false)
+                    color: $white
+                    letter-spacing: 0.4px
+            .info
+                margin: 20px 0
+                p
+                    brandon_regular(16px, false)
+                    color: $white
+                    letter-spacing: 0.4px
+            .opening
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: space-between
+                .left,
+                .right
+                    flex: 0 0 47.33%
+                    text-align: left
+                    h3
+                        brandon_regular(14px, true)
+                        color: $green_alt
+                        margin-bottom: 5px
+                .left
+                    p
+                        brandon_regular(16px, false)
+                        color: $white
+                .right
+                    a
+                        brandon_regular(16px, false)
+                        color: $white
+                        transition: .3s ease-in-out
+                        &.email
+                            color: $green_alt
+                            text-decoration: underline
+                        &:hover
+                            color: $green_alt
+                            text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                            transition: .3s ease-in-out
+                    .link
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        img
+                            margin-right: 15px
+                            &.phone
+                                filter: brightness(2) contrast(0)
+    #images
+        &.desktop
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            width: 100%
+            max-width: 80%
+            margin: 0 auto 20px
+            .wrapper
+                flex: 0 0 calc(33.33% - 20px)
+                margin: 0 10px 20px
         .wrapper
             position: relative
-            flex: 0 0 calc(33.33% - 20px)
-            margin: 0 10px 20px
             cursor: pointer
             .overlay
                 position: absolute
@@ -5654,6 +5823,40 @@ svg
                 background-color: $white
                 .left
                     flex: 0 0 20%
+                .mobile
+                    flex: 0 0 100%
+                    .tab_toggler
+                        &.toggled
+                            .toggler
+                                &::before
+                                    transform: translateY(-50%) rotate(180deg)
+                                    transition: .3s ease-in-out
+                            .tab_wrapper
+                                opacity: 1
+                                transition: .3s ease-in-out
+                        .toggler
+                            position: relative
+                            brandon_medium(16px, true)
+                            padding: 5px 10px
+                            color: $white
+                            background-color: $green
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 50%
+                                right: calc(0% + 10px)
+                                border-left: 7px solid transparent
+                                border-right: 7px solid transparent
+                                border-top: 7px solid $white
+                                transform: translateY(-50%) rotate(0deg)
+                                transition: .3s ease-in-out
+                        .tab_wrapper
+                            height: 0px
+                            opacity: 0
+                            overflow: hidden
+                            transition: .3s ease-in-out
+                            .tab_item
+                                margin-right: 0
                 .tab_wrapper
                     flex: 0 0 80%
                     list-style: none
@@ -6077,12 +6280,14 @@ svg
                         .tab_content_main
                             max-width: 100%
                             .instructor
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
-                                .wrapper
+                                &.desktop
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    .item
+                                        flex: 0 0 calc(100% / 5)
+                                .item
                                     position: relative
-                                    flex: 0 0 calc(100% / 5)
                                     background-image: url('/default/instructor/instructor-bg.svg')
                                     background-position: center
                                     background-repeat: no-repeat
@@ -6103,11 +6308,11 @@ svg
                                         z-index: 3
                                     .main
                                         position: absolute
-                                        bottom: 0
+                                        top: 0
                                         left: 0
                                         right: 0
-                                        width: 250px
-                                        height: auto
+                                        width: auto
+                                        height: 100%
                                         z-index: 1
                                         display: block
                                         margin: 0 auto
@@ -6636,7 +6841,7 @@ svg
         display: flex
         flex-flow: row wrap
         width: 100%
-        max-width: calc(75% + 30px)
+        max-width: calc(90% + 30px)
         margin: 60px auto
         .action
             flex: 0 0 100%
@@ -7027,6 +7232,9 @@ svg
             .image
                 flex: 0 0 calc(100% / 3)
         &.less_one
+            &.mobile
+                .image
+                    flex: 0 0 calc(100% / 3)
             .image
                 flex: 0 0 25%
         .image
@@ -7157,6 +7365,8 @@ svg
                 brandon_regular(40px, false)
                 text-transform: none
                 color: $white
+            .default_btn
+                margin-top: 40px
         &::before
             background-color: rgba(0, 0, 0, 0.3)
     &.alt_3
@@ -7206,7 +7416,7 @@ svg
             height: 500px
         .overlay_mid
             width: 100%
-            max-width: 75%
+            max-width: 90%
             margin: 0 auto
             text-align: left
             top: unset
@@ -7243,6 +7453,9 @@ svg
         h2
             brandon_bold(22px, false)
             color: $white
+            letter-spacing: 0.55px
+            &.alt
+                brandon_regular(20px, false)
     .overlay_top
         position: absolute
         top: 0
@@ -7423,22 +7636,34 @@ svg
         flex: 0 0 80%
         left: -100px
         transition: .3s ease-in-out
+        &.mobile
+            flex: 0 0 100%
+            .controls
+                justify-content: flex-end
+                right: 0
+                height: 30px
+                background-color: transparent
         .overlay
             &.mobile
                 justify-content: center
                 .swiper-container
                     .swiper-pagination
-                        bottom: calc(0px + 65px)
+                        bottom: calc(0% + 25px)
                         .swiper-pagination-bullet
-                            background-color: rgba(255, 255 ,255, 0.5) !important
-                            border: 1px solid rgba(255, 255 ,255, 0.5) !important
+                            background-color: rgba(255, 255, 255, 0.65) !important
+                            border: 1px solid rgba(255, 255, 255, 0.65) !important
                         .swiper-pagination-bullet-active
-                            background-color: #fff !important
-                            border: 1px solid #fff !important
+                            background-color: $white !important
+                            border: 1px solid $white !important
                 .main_image
                     flex: 0 0 100%
                     text-align: center
                     position: relative
+                    padding: 40px 20px 0
+                    .image_title
+                        brandon_regular(12px, false)
+                    img
+                        height: 350px
             position: absolute
             display: flex
             flex-flow: row wrap
@@ -7469,6 +7694,8 @@ svg
                 flex: 0 0 75%
                 padding: 40px
                 transition: .3s ease-in-out
+                img
+                    height: 500px
                 .image_title
                     brandon_regular(16px, false)
                     color: $white
@@ -7594,6 +7821,8 @@ svg
         background-color: $white
         tr
             border-bottom: 1px solid #E5E5E5
+            &:last-child
+                border-bottom: 1px solid transparent
             td
                 padding: 20px 0
                 .package_info
@@ -7702,6 +7931,37 @@ svg
 /**
  * Menu Tabs */
 #default_menu
+    .mobile
+        .menu_tab_toggler
+            &.toggled
+                .toggler
+                    &::before
+                        transform: translateY(-50%) rotate(180deg)
+                        transition: .3s ease-in-out
+                .menu_tab
+                    opacity: 1
+                    transition: .3s ease-in-out
+            .toggler
+                position: relative
+                brandon_medium(16px, true)
+                padding: 5px 10px
+                color: $white
+                background-color: $green
+                &::before
+                    content: ''
+                    position: absolute
+                    top: 50%
+                    right: calc(0% + 10px)
+                    border-left: 7px solid transparent
+                    border-right: 7px solid transparent
+                    border-top: 7px solid $white
+                    transform: translateY(-50%) rotate(0deg)
+                    transition: .3s ease-in-out
+            .menu_tab
+                height: 0px
+                opacity: 0
+                overflow: hidden
+                transition: .3s ease-in-out
     .menu_tab
         width: 100%
         display: flex
@@ -7743,6 +8003,11 @@ svg
 
 /**
  * Default Slider */
+.default
+    &.swiper-container-horizontal > .swiper-pagination-bullets
+        left: 0
+        right: 0
+        bottom: calc(0% + 25px)
 .default
     .swiper-button-prev,
     .swiper-button-next
@@ -7813,10 +8078,11 @@ svg
     .swiper-container-rtl .swiper-button-prev
         background-image: none
         right: calc(0% + 25px)
+    .swiper-pagination-bullets,
     .swiper-pagination
         left: 0
         right: 0
-        bottom: calc(0% + 25px) !important
+        bottom: calc(0% + 25px)
         .swiper-pagination-bullet
             margin: 0 2.5px
             background: rgba(255, 255, 255, 0.45)
@@ -8410,7 +8676,7 @@ svg
     margin-bottom: 20px
     .form_disclaimer
         display: flex
-        align-items: flex-start
+        align-items: center
         sf_pro_regular(14px)
         color: $gray
         text-align: left
@@ -8461,13 +8727,13 @@ svg
         u
             color: $black
         &::-webkit-scrollbar
-            width: 20px
+            width: 10px
             background-color: #FAFAFA
         &::-webkit-scrollbar-track
             box-shadow: none
         &::-webkit-scrollbar-thumb
             background-color: $gray
-            border: 5px solid rgba(0, 0, 0, 0)
+            border: 2px solid rgba(0, 0, 0, 0)
             background-clip: padding-box
             border-radius: 50px
     &.date
@@ -8637,6 +8903,8 @@ svg
         margin-bottom: 0
         margin-left: 10px
         cursor: pointer
+        &.alt
+            text-transform: unset
         span
             color: $green
         a
@@ -8828,9 +9096,10 @@ textarea::-webkit-scrollbar-thumb
             margin-bottom: 0
         label
             display: block
-            margin-bottom: 10px
+            padding-bottom: 10px
             brandon_bold(20px, false)
             color: $black
+            cursor: pointer
             transition: .3s ease-in-out
         .info
             display: flex
@@ -8932,15 +9201,15 @@ textarea::-webkit-scrollbar-thumb
             height: calc(100% - 150px)
             overflow-y: scroll
             overflow-x: hidden
-            padding-right: 10px
+            padding: 0 10px
             &::-webkit-scrollbar
-                width: 20px
+                width: 6px
                 background-color: $white
             &::-webkit-scrollbar-track
                 box-shadow: none
             &::-webkit-scrollbar-thumb
                 background-color: $green
-                border: 6px solid rgba(0, 0, 0, 0)
+                border: 0px solid rgba(0, 0, 0, 0)
                 background-clip: padding-box
                 border-radius: 50px
     &.front
@@ -9049,20 +9318,20 @@ textarea::-webkit-scrollbar-thumb
                 border-radius: 2px
                 margin: 40px 0
                 cursor: pointer
-                box-shadow: 0px 0px 30px transparent
+                box-shadow: 0px 0px 20px transparent
                 transition: .3s ease-in-out
                 &.alt
                     background-color: #4688F1
                     transition: .3s ease-in-out
                     &:hover
-                        box-shadow: 0px 0px 30px rgba(70, 136, 241, 0.75)
+                        box-shadow: 0px 0px 20px rgba(70, 136, 241, 0.75)
                         transition: .3s ease-in-out
                 span
                     margin-left: 10px
                     brandon_medium(16px, false)
                     color: $white
                 &:hover
-                    box-shadow: 0px 0px 30px rgba(58, 89, 156, 0.75)
+                    box-shadow: 0px 0px 20px rgba(58, 89, 156, 0.75)
                     transition: .3s ease-in-out
         .divider
             position: relative

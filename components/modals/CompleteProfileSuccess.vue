@@ -1,5 +1,5 @@
 <template>
-    <div class="default_modal">
+    <div class="default_modal alt">
         <div class="background" @click.once="toggleClose(false)"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
@@ -25,7 +25,7 @@
                     me.$store.state.completeProfileSuccessStatus = false
                     document.body.classList.remove('no_scroll')
                 }
-                me.$store.state.completeProfilePromptStatus = false
+                me.$store.state.completeProfileStatus = false
             }
         }
     }

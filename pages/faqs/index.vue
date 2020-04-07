@@ -1,11 +1,11 @@
 <template>
     <div class="faqs">
         <section id="banner" class="mt">
-            <img src="/default/faqs/faq-banner.jpg" />
+            <img class="full" src="/default/faqs/faq-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Faqs</h1>
-                <h2>We’re revolutionizing Manila’s fitness industry.</h2>
+                <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
             </div>
         </section>
         <section id="content">
@@ -28,7 +28,7 @@
             </div>
         </section>
         <section id="banner" class="mt alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
@@ -62,22 +62,22 @@
                 faqs: [
                     {
                         title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b> <br><br> <ul> <li> Sample Text </li> <li> Sample Text </li> </ul>',
+                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b> <br><br> <ul> <li> Sample Text </li> <li> Sample Text </li> </ul>',
                         toggled: false
                     },
                     {
                         title: 'Ride Rewards July 2018',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b>',
+                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b>',
                         toggled: false
                     },
                     {
                         title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b>',
+                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b>',
                         toggled: false
                     },
                     {
                         title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br><br> <b>Sample</b>',
+                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b>',
                         toggled: false
                     }
                 ]

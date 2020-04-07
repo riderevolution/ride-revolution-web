@@ -1,11 +1,11 @@
 <template>
     <div class="ride_rewards">
         <section id="banner" class="mt">
-            <img src="/default/ride-rewards/ride-rewards-banner.jpg" />
+            <img class="full" src="/default/ride-rewards/ride-rewards-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Ride Rewards</h1>
-                <h2>We’re revolutionizing Manila’s fitness industry.</h2>
+                <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
             </div>
         </section>
         <section id="content">
@@ -48,18 +48,9 @@
                 </div>
             </div>
         </section>
-        <section id="ride_with">
-            <div class="header">
-                <div class="description">
-                    <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
-                </div>
-            </div>
-            <div class="content">
-                <instagram />
-            </div>
-        </section>
+        <instagram-alternate />
         <section id="banner" class="alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <h3>Visit any studio to get your card now</h3>
@@ -71,11 +62,11 @@
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
-    import Instagram from '../../components/Instagram'
+    import InstagramAlternate from '../../components/InstagramAlternate'
     export default {
         components: {
             Breadcrumb,
-            Instagram
+            InstagramAlternate
         },
         data () {
             return {

@@ -37,39 +37,37 @@
                 if (status) {
                     if (me.email != null) {
                         me.loader(true)
-                        setTimeout( () => {
-                            me.loader(true)
-                            Object.keys(me.$parent.seats).forEach((parent) => {
-                                Object.keys(me.$parent.seats[parent]).forEach((child) => {
-                                    if (child == 'data') {
-                                        for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
-                                            if (me.$parent.seats[parent][child][i].id == me.tempSeat.id) {
-                                                me.$parent.seats[parent][child][i].guest = 2
-                                                me.$parent.seats[parent][child][i].status = 'reserved-guest'
-                                                me.$parent.seats[parent][child][i].temp = me.nonMember
-                                                me.$parent.seats[parent][child][i].class_package = me.$parent.tempClassPackage
-                                                me.$parent.seats[parent][child][i].original_booker_id = me.$parent.user.id
-                                                break
-                                            }
+                        Object.keys(me.$parent.seats).forEach((parent) => {
+                            Object.keys(me.$parent.seats[parent]).forEach((child) => {
+                                if (child == 'data') {
+                                    for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
+                                        if (me.$parent.seats[parent][child][i].id == me.tempSeat.id) {
+                                            me.$parent.seats[parent][child][i].guest = 2
+                                            me.$parent.seats[parent][child][i].status = 'reserved-guest'
+                                            me.$parent.seats[parent][child][i].temp = me.nonMember
+                                            me.$parent.seats[parent][child][i].class_package = me.$parent.tempClassPackage
+                                            me.$parent.seats[parent][child][i].original_booker_id = me.$parent.user.id
+                                            break
                                         }
                                     }
-                                })
+                                }
                             })
-                            me.$parent.toSubmit.bookCount++
-                            me.$parent.toSubmit.tempSeat.push(me.tempSeat)
-                            me.$parent.tempGuestSeat = null
-                            me.$parent.tempClassPackage = null
-                            me.$parent.hasGuest = true
-                            if (me.$parent.added != null && me.$parent.added != undefined) {
-                                me.$parent.added++
-                            }
-                            setTimeout( () => {
-                                me.$store.state.bookerAssignStatus = false
-                                me.$store.state.bookerAssignNonMemberStatus = false
-                                me.$store.state.bookerAssignSuccessStatus = true
-                                me.loader(false)
-                            }, 500)
+                        })
+                        me.$parent.toSubmit.bookCount++
+                        me.$parent.toSubmit.tempSeat.push(me.tempSeat)
+                        me.$parent.tempGuestSeat = null
+                        me.$parent.tempClassPackage = null
+                        me.$parent.hasGuest = true
+                        if (me.$parent.added != null && me.$parent.added != undefined) {
+                            me.$parent.added++
+                        }
+                        setTimeout( () => {
+                            me.$store.state.bookerAssignStatus = false
+                            me.$store.state.bookerAssignNonMemberStatus = false
+                            me.$store.state.bookerAssignSuccessStatus = true
+                            me.loader(false)
                         }, 500)
+                        me.$parent.removeNext = false
                     }
                 } else {
                     me.$store.state.bookerAssignNonMemberStatus = false

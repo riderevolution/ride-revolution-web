@@ -14,22 +14,44 @@
                                 <div>
                                     <div class="header">
                                         <h2 class="date">{{ $moment(schedule.date).format('MMM DD, YYYY') }}</h2>
-                                        <h2 class="time">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
+                                        <h2 class="date">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
                                     </div>
-                                    <div class="content">
-                                        <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
-                                        </ul>
+                                    <div v-if="!$parent.$parent.isMobile">
+                                        <div class="content">
+                                            <ul>
+                                                <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                                <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                                <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="description">
+                                            <h3>What can I do?</h3>
+                                            <ul>
+                                                <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                                <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                                <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="description">
-                                        <h3>What can I do?</h3>
-                                        <ul>
-                                            <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
-                                            <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
-                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
-                                        </ul>
+                                    <div class="details_toggle" v-else>
+                                        <div class="toggler" @click.self="toggleDetails($event)">Show Details</div>
+                                        <div class="toggle_data">
+                                            <div class="content">
+                                                <ul>
+                                                    <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                                    <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                                    <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="description">
+                                                <h3>What can I do?</h3>
+                                                <ul>
+                                                    <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                                    <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
+                                                    <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +59,7 @@
                                 <div class="header" v-if="!$parent.$parent.isMobile">
                                     <nuxt-link to="/book-a-bike" class="back">Back</nuxt-link>
                                 </div>
-                                <div class="content">
+                                <div class="content" :id="`parent_${layout}`">
                                     <div class="seat_wrapper">
                                         <div class="overlay_header">
                                             <h3>Please choose your bike/s</h3>
@@ -47,10 +69,12 @@
                                         <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
                                             <div @click="signIn(data)" :class="`seat ${addClass(data)}`" v-for="(data, key) in seat.data" :key="key">
 
-                                                <transition name="slide">
+                                                <transition name="fade">
                                                     <img class="seat_image" :src="data.temp.customer_details.images[0].path" v-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path != null)" />
+                                                </transition>
 
-                                                    <div class="overlay" v-else-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path == null)">
+                                                <transition name="fade">
+                                                    <div class="overlay" v-if="!$parent.$parent.isMobile && (data.temp && data.temp.customer_details.images[0].path == null)">
                                                         <div class="letter">
                                                             {{ data.temp.first_name.charAt(0) }}{{ data.temp.last_name.charAt(0) }}
                                                         </div>
@@ -73,6 +97,15 @@
                                             </ul>
                                         </div>
                                         <transition name="fade">
+                                            <div class="actions" v-if="cancelSwitchingSeat">
+                                                <div class="next_wrapper">
+                                                    <div class="left">
+                                                        <div class="flex package">
+                                                            <div class="default_btn_red" @click="chooseSeat('cancel')"><span>Cancel Switch</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat">
                                                 <transition name="fade">
                                                     <div class="next_wrapper">
@@ -170,6 +203,9 @@
                 <booker-assign-member-error v-if="$store.state.bookerAssignMemberErrorStatus" />
             </transition>
             <transition name="fade">
+                <booker-assign-non-member-error v-if="$store.state.bookerAssignNonMemberErrorStatus" />
+            </transition>
+            <transition name="fade">
                 <booker-assign-non-member :email="nonMember.email" :nonMember="nonMember" :tempSeat="tempGuestSeat" v-if="$store.state.bookerAssignNonMemberStatus" />
             </transition>
             <transition name="fade">
@@ -200,6 +236,7 @@
     import BookerSwitchSeat from '../../../components/modals/BookerSwitchSeat'
     import BookerAssignMemberPrompt from '../../../components/modals/BookerAssignMemberPrompt'
     import BookerAssignMemberError from '../../../components/modals/BookerAssignMemberError'
+    import BookerAssignNonMemberError from '../../../components/modals/BookerAssignNonMemberError'
     import BookerAssignNonMember from '../../../components/modals/BookerAssignNonMember'
     import BookerAssignSuccess from '../../../components/modals/BookerAssignSuccess'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
@@ -216,6 +253,7 @@
             BookerSwitchSeat,
             BookerAssignMemberPrompt,
             BookerAssignMemberError,
+            BookerAssignNonMemberError,
             BookerAssignNonMember,
             BookerAssignSuccess,
             BuyRidesPrompt,
@@ -269,6 +307,7 @@
                         ]
                     }
                 },
+                layout: 0,
                 currentSeat: [],
                 message: 'Cheers! Successfully added a Guest.',
                 promptMessage: '',
@@ -287,6 +326,7 @@
                 user: '',
                 canSwitch: false,
                 isSwitchingSeat: false,
+                cancelSwitchingSeat: false,
                 selectedSwitchSeat: null
             }
         },
@@ -299,6 +339,17 @@
             },
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
             /**
              * [addClass description]
              * @param {[type]} seat [description]
@@ -451,7 +502,9 @@
                     case 'next':
                         if (me.hasBooked) {
                             me.step = 2
-                            document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                            me.$scrollTo('.inner', {
+                                offset: 0
+                            })
                         } else {
                             me.promptMessage = 'Please select a seat first before proceeding.'
                             me.$store.state.buyRidesPromptStatus = true
@@ -460,7 +513,9 @@
                         break
                     case 'prev':
                         me.step = 1
-                        document.querySelector('.book_a_bike.inner').scrollIntoView({block: 'center', behavior: 'smooth'})
+                        me.$scrollTo('.inner', {
+                            offset: 0
+                        })
                         break
                 }
             },
@@ -485,7 +540,15 @@
                             document.body.classList.add('no_scroll')
                             me.loader(false)
                         }, 500)
-                        break;
+                        break
+                    case 'cancel':
+                        setTimeout( () => {
+                            me.selectedSwitchSeat = null
+                            me.isSwitchingSeat = false
+                            me.cancelSwitchingSeat = false
+                            me.loader(false)
+                        }, 500)
+                        break
                 }
             },
             /**
@@ -632,6 +695,7 @@
                 })
                 me.deleteCurrentSeat (id)
                 me.isSwitchingSeat = false
+                me.cancelSwitchingSeat = false
                 me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
                 me.status = true
                 setTimeout(() => {
@@ -664,6 +728,7 @@
                                 if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
                                     me.$router.push(`/my-profile/manage-class/${id}`)
                                 }
+                                me.layout = res.data.scheduledDate.schedule.studio_id
                                 let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                                 me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
                                 me.temp = res.data.seats

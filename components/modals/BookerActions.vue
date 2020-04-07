@@ -96,6 +96,7 @@
                                 }
                             })
                         })
+                        me.$parent.removeNext = false
                         break
                 }
             },

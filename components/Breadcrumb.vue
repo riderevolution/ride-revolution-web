@@ -4,7 +4,7 @@
 			<li v-for="(crumb, key) in crumbs" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 				<nuxt-link itemprop="item" :to="crumb.url">
 					<span itemprop="name" v-if="crumb.url == '/'" class="front">Homepage</span>
-					<span v-else itemprop="name" class="crumb">{{ crumb.NAME }}</span>
+					<span v-else itemprop="name" class="crumb">{{ (crumb.NAME == 'faqs') ? 'FAQS' : crumb.NAME }}</span>
 					<meta itemprop="position" :content="key + 1" />
 				</nuxt-link>
 				<span class="slash">

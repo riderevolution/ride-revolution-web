@@ -35,13 +35,25 @@
                 </div>
                 <div class="bottom">
                     <div class="left"></div>
-                    <ul class="tab_wrapper">
+                    <ul class="tab_wrapper" v-if="!$parent.$parent.isMobile">
                         <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
                         <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
                         <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
                         <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
                         <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
                     </ul>
+                    <div class="mobile" v-else>
+                        <div class="tab_toggler">
+                            <div class="toggler" @click.self="toggleDetails($event)">Menu</div>
+                            <ul class="tab_wrapper">
+                                <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
+                                <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
+                                <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
+                                <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
+                                <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <profile-tab-content ref="profileTab" :category="category" />
@@ -71,6 +83,17 @@
             }
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
             toggleTab (key, category) {
                 const me = this
                 me.category = category
@@ -133,24 +156,27 @@
         mounted () {
             const me = this
             let token = me.$cookies.get('token')
+            me.loader(true)
             if (token == null || token == undefined) {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             } else {
-                let ctr = 0
-                let timer = setInterval( () => {
-                    if (ctr > 1) {
-                        me.storeCredits = (me.$store.state.user.store_credits === null) ? 0 : me.$store.state.user.store_credits.amount
-                        me.first_name = me.$store.state.user.first_name.charAt(0)
-                        me.last_name = me.$store.state.user.last_name.charAt(0)
-                        if (me.$store.state.user.new_user == 1) {
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.storeCredits = (res.data.user.store_credits === null) ? 0 : res.data.user.store_credits.amount
+                        me.first_name = res.data.user.first_name.charAt(0)
+                        me.last_name = res.data.user.last_name.charAt(0)
+                        if (res.data.user.new_user == 1) {
                             me.$store.state.completeProfileStatus = true
                         }
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
                     }
-                    ctr++
-                }, 500)
-                if (ctr > 4) {
-                    clearInterval(timer)
-                }
+                })
             }
         }
     }

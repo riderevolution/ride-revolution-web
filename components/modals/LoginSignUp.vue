@@ -172,18 +172,8 @@
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group date">
                         <label for="birth_date">Birthdate <span>*</span></label>
-                        <no-ssr>
-                            <vc-date-picker
-                            :is-required="true"
-                            v-model="signUpForm.birth_date"
-                            :input-props='{
-                                    class: "vc-appearance-none vc-w-full vc-py-2 vc-px-3 vc-text-gray-800 vc-bg-white input_text",
-                                    id: "birth_date",
-                                    name: "birth_date",
-                                    readonly: true
-                                }'
-                                />
-                        </no-ssr>
+                        <input type="date" name="birth_date" autocomplete="off" class="input_text" v-validate="'required'">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">{{ errors.first('register_process_form.birth_date') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group select">
                         <label for="what_do_you_do">What do you do <span>*</span></label>
@@ -251,7 +241,7 @@
                     <div class="form_group">
                         <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`">
                             <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'" v-model="signUpForm.iAgree">
-                            <label for="i_agree">I agree to the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> and Ride Revolution’s <a target="_blank" href="/privacy-policy">Privacy Policy</a>.</label>
+                            <label for="i_agree" class="alt">I agree to the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> and Ride Revolution’s <a target="_blank" href="/privacy-policy">Privacy Policy</a>.</label>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ errors.first('register_process_form.i_agree') | properFormat }}</span></transition>
                         </div>
                     </div>
