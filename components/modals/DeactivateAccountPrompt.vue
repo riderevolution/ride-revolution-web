@@ -1,5 +1,5 @@
 <template>
-    <div class="default_modal">
+    <div class="default_modal alt">
         <div class="background" @click.once="toggleClose(false)"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
@@ -12,7 +12,7 @@
             </div>
             <div class="button_group">
                 <div class="flex default_btn_red" @click.once="toggleClose(false)"><span>Cancel</span></div>
-                <div class="flex default_btn" @click.once="toggleClose(true)">Deactivate</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose(true)">Deactivate</div>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
                         setTimeout( () => {
                             me.loader(false)
                         }, 500)
-                        me.validateToken()
+                        me.logout()
                     })
                 } else {
                     me.$store.state.deactivateAccountPromptStatus = false
