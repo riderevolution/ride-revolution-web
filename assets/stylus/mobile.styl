@@ -2968,7 +2968,7 @@
                             brandon_regular(14px, false)
                             padding: 5px 10px
             .profile_tab_content
-                margin: 0
+                margin: 0 0 30px
                 .wrapper
                     .profile_transactions
                         padding: 10px
@@ -3060,11 +3060,12 @@
                             h2
                                 brandon_bold(12px, true)
                     .tab_content_main
+                        max-width: 100%
                         .profile_gift_cards
-                            padding-bottom: 20px
+                            padding-bottom: 0
                             .gift_card_wrapper
                                 flex: 0 0 100%
-                                margin: 0 0 15px
+                                margin: 0 0 20px
                                 .top
                                     .overlay
                                         .label
@@ -3073,6 +3074,19 @@
                                     .details
                                         brandon_regular(12px, false)
                                         padding: 15px 30px
+                                    .package_info
+                                        justify-content: center
+                                        .name
+                                            text-align: center
+                                            flex: 0 0 100%
+                                            brandon_medium(14px, false)
+                                            margin-bottom: 10px
+                                            .violator
+                                                brandon_regular(12px, false)
+                                        .default_btn
+                                            width: 100%
+                                            brandon_bold(12px, true)
+                                            padding: 10px
                     &.journey
                         margin-top: 10px
                     .profile_journey
@@ -3672,7 +3686,11 @@
 @media (max-width: 767px) and (min-width: 425px)
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_wht_out,
+    .default_btn_red
         width: auto
         padding: 12px 15px
 
@@ -3760,7 +3778,11 @@
             flex: 0 0 30%
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_wht_out,
+    .default_btn_red
         width: auto
         padding: 10px 20px
 
@@ -3864,6 +3886,10 @@
                             .profile_classes
                                 .class_wrapper
                                     flex: 0 0 50%
+                    .tab_content_main
+                        .profile_gift_cards
+                            .gift_card_wrapper
+                                flex: 0 0 50%
 
 @media (max-width: 767px) and (min-width: 600px)
 
@@ -3878,7 +3904,11 @@
                         margin: 10px 0 20px
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_wht_out,
+    .default_btn_red
         width: auto
         padding: 10px 20px
 

@@ -15,7 +15,7 @@
                                         <div class="class_date">In 1 Year and 2 Months</div>
                                     </div>
                                     <div class="motto">
-                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lennon
+                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lemon
                                     </div>
                                 </div>
                             </div>
