@@ -949,7 +949,7 @@
                     }
                 }).then(res => {
                     if (res.data) {
-                        me.user = res.data
+                        me.user = res.data.user
                         let interval = setInterval( () => {
                             if (document.getElementById(`tab_${me.unique}`)) {
                                 me.height = document.getElementById(`tab_${me.unique}`).scrollHeight

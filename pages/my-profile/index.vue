@@ -175,11 +175,11 @@
                         if (res.data.user.new_user == 1) {
                             me.$store.state.completeProfileStatus = true
                         }
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
                     }
                 })
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
             }
         }
     }
