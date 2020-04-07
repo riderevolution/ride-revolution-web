@@ -3186,6 +3186,47 @@
                                         brandon_black(26px, true)
                                     .label
                                         brandon_bold(12px, true)
+    .update_profile
+        #content
+            flex-flow: row wrap
+            .side_menu_tab
+                .left
+                    padding: 20px
+                    border-right: 1px solid transparent
+                    border-bottom: 1px solid #edeef0
+                    h1
+                        brandon_bold(16px, false)
+                        text-align: center
+                        margin-bottom: 15px
+                    .side_menu
+                        padding: 0
+                        .side_menu_item
+                            margin-bottom: 10px
+                            &:hover,
+                            &.active
+                                .item
+                                    border-right: 2px solid transparent
+                            .item
+                                brandon_regular(14px, false)
+                .right
+                    .update_profile_tab_content
+                        .wrapper
+                            padding: 20px
+                            &.address
+                                padding: 0 20px
+                                #default_form
+                                    .form_main_group
+                                        padding: 20px 0 10px
+                                        &.alt
+                                            padding: 20px 0 10px
+                                    .form_button
+                                        padding: 10px 0 20px
+                            #default_form
+                                .form_button
+                                    padding-top: 20px
+                .left,
+                .right
+                    flex: 0 0 100%
     /**
      * Global */
     .default
@@ -3390,6 +3431,19 @@
             height: 75px
             .label
                 brandon_medium(12px, true)
+            .preview_flex_image_wrapper
+                img
+                    width: 75px
+                    height: 75px
+        .sub_label
+            padding-left: 20px
+            .text
+                brandon_regular(16px, false)
+                margin-bottom: 5px
+            .default_btn_blue
+                margin-top: 5px
+                padding: 5px
+                brandon_bold(10px, true)
 
     .input_link
         brandon_regular(12px, false)
@@ -3517,6 +3571,8 @@
         .confirmation_wrapper
             width: calc(100% - 60px)
             padding: 20px 10px
+            &.image
+                padding: 30% 80px
             .form_close
                 width: 15px
                 height: 15px
