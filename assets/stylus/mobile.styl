@@ -2037,7 +2037,20 @@
                 .main_right
                     margin-left: 0
                     .content
-                        padding: 30px 0
+                        padding: 30px 0 10px
+                        &#parent_2
+                            .seat_wrapper
+                                height: 275px
+                                .overlay_seat
+                                    &.layout_2
+                                        &.bottom
+                                            bottom: calc(0% + 70px)
+                                        &.bottom_alt
+                                            bottom: calc(0% + 20px)
+                                            .seat
+                                                left: 0
+                                        &.bottom_alt_2
+                                            bottom: calc(0% + 30px)
                         .seat_wrapper
                             height: 350px
                             max-width: 350px
@@ -2112,10 +2125,11 @@
                                         transform: translateY(50%)
                         .footer
                             .legends
+                                padding: 0 5px
                                 ul
                                     li
                                         brandon_medium(10px, true)
-                                        margin: 0 15px 0 0
+                                        margin: 0 10px 0 0
                                         &:last-child
                                             margin: 0
                                         span
@@ -2954,7 +2968,7 @@
                             brandon_regular(14px, false)
                             padding: 5px 10px
             .profile_tab_content
-                margin: 0 
+                margin: 0
                 .wrapper
                     .profile_transactions
                         padding: 10px
@@ -3011,6 +3025,8 @@
                                 padding: 0 10px
                     &.default
                         max-width: calc(100% - 30px)
+                    &.with_allowance
+                        margin: 10px 15px 0
                     &.class,
                     &.package
                         margin: 10px 15px 0
@@ -3020,6 +3036,11 @@
                                 max-width: 100%
                     .tab_content_header
                         text-align: center
+                        max-width: 100%
+                        margin: 0 auto 10px
+                        .with_info
+                            h2
+                                brandon_bold(12px, true)
                         &.alt
                             justify-content: center
                             margin: 0 auto 15px
@@ -3168,7 +3189,8 @@
     .default_btn_out,
     .default_btn_blue,
     .default_btn_wht,
-    .default_btn_wht_out
+    .default_btn_wht_out,
+    .default_btn_red
         width: 100%
         brandon_bold(12px, true)
         padding: 10px
@@ -3372,6 +3394,17 @@
                 brandon_bold(12px, true)
 
     .default_modal
+        &.alt
+            .confirmation_wrapper
+                &.alt
+                    width: calc(100% - 60px)
+                    .button_group
+                        flex-flow: row wrap
+                        .flex
+                            flex: 0 0 100%
+                            margin-bottom: 10px
+                            &:last-child
+                                margin-bottom: 0
         #health_waiver_form
             &.overlay
                 &.alt_2
@@ -3419,6 +3452,15 @@
         .confirmation_wrapper
             width: calc(100% - 60px)
             padding: 20px
+            .form_close
+                width: 15px
+                height: 15px
+                top: 5px
+                right: 5px
+                &::before,
+                &::after
+                    height: 15px
+                    right: 4px
             .confirmation_highlight
                 brandon_bold(14px, false)
                 margin-top: 20px
@@ -3446,7 +3488,8 @@
                             brandon_bold(20px, true)
             .button_group
                 margin-top: 20px
-                &.alt
+                &.alt,
+                &.alt_2
                     .flex
                         flex: 0 0 100%
                 .flex

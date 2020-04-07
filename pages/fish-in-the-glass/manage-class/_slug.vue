@@ -9,7 +9,7 @@
                                 <div>
                                     <div class="header">
                                         <h2 class="date">{{ $moment(schedule.date).format('MMM DD, YYYY') }}</h2>
-                                        <h2 class="time">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
+                                        <h2 class="date">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</h2>
                                     </div>
                                     <div v-if="!$parent.$parent.isMobile">
                                         <div class="content">
@@ -353,6 +353,17 @@
             },
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
             /**
              * [addClass description]
              * @param {[type]} seat [description]
@@ -491,9 +502,10 @@
                         })
                     }
                 }).catch(err => {
+                    document.body.classList.add('no_scroll')
                     setTimeout( () => {
                         me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorStatus = true
+                        me.$store.state.errorPromptStatus = true
                     }, 500)
                 }).then(() => {
                     setTimeout( () => {

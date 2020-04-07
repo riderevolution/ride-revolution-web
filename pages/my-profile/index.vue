@@ -159,6 +159,9 @@
             me.loader(true)
             if (token == null || token == undefined) {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
             } else {
                 me.$axios.get('api/check-token', {
                     headers: {

@@ -1015,7 +1015,7 @@
                 setTimeout( () => {
                     let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
                     if (category == 'gift-cards') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `calc((${popUpWidth}px) - (${parentWidth}px))` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                     } else if (category == 'ride-rev-journey') {
