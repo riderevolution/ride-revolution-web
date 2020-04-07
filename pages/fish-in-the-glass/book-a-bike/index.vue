@@ -166,9 +166,6 @@
             <transition name="fade">
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
-            <transition name="fade">
-                <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
-            </transition>
         </div>
     </transition>
 </template>
@@ -177,14 +174,12 @@
     import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../../components/modals/CompleteProfilePrompt'
     import BuyPackageFirst from '../../../components/modals/BuyPackageFirst'
-    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     export default {
         layout: 'fish',
         components: {
             BookerChoosePackage,
             CompleteProfilePrompt,
-            BuyPackageFirst,
-            BuyRidesPrompt
+            BuyPackageFirst
         },
         data () {
             return {

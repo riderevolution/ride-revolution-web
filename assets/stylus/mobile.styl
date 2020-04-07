@@ -3041,6 +3041,11 @@
                         .with_info
                             h2
                                 brandon_bold(12px, true)
+                            .description_overlay
+                                width: 250px
+                                left: 50%
+                                transform: translateX(-50%)
+                                brandon_regular(10px, false)
                         &.alt
                             justify-content: center
                             margin: 0 auto 15px
@@ -3054,6 +3059,20 @@
                         &.alt3
                             h2
                                 brandon_bold(12px, true)
+                    .tab_content_main
+                        .profile_gift_cards
+                            padding-bottom: 20px
+                            .gift_card_wrapper
+                                flex: 0 0 100%
+                                margin: 0 0 15px
+                                .top
+                                    .overlay
+                                        .label
+                                            brandon_medium(10px, true)
+                                .bottom
+                                    .details
+                                        brandon_regular(12px, false)
+                                        padding: 15px 30px
                     &.journey
                         margin-top: 10px
                     .profile_journey
