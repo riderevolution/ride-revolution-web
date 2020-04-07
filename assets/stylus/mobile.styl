@@ -2909,7 +2909,7 @@
             .profile_tab
                 max-width: 100%
                 border-radius: 0px
-                padding: 0 20px
+                padding: 0 15px
                 .top
                     padding: 10px
                     border-radius: 0px
@@ -2954,8 +2954,12 @@
                             brandon_regular(14px, false)
                             padding: 5px 10px
             .profile_tab_content
-                margin: 0 0 30px
+                margin: 0 
                 .wrapper
+                    .profile_transactions
+                        padding: 10px
+                        border-radius: 0px
+                        margin: 10px 0 30px
                     #default_menu
                         .mobile
                             .menu_tab
@@ -3005,15 +3009,26 @@
                             .profile_packages
                                 max-width: 100%
                                 padding: 0 10px
+                    &.default
+                        max-width: calc(100% - 30px)
                     &.class,
                     &.package
-                        margin: 10px 20px 0
+                        margin: 10px 15px 0
                         background-color: #fff
                         #default_menu
                             .menu_tab_content
                                 max-width: 100%
                     .tab_content_header
                         text-align: center
+                        &.alt
+                            justify-content: center
+                            margin: 0 auto 15px
+                            .total
+                                brandon_regular(12px, false)
+                                .count
+                                    brandon_bold(12px, false)
+                            h2
+                                brandon_bold(12px, true)
                         &.alt2,
                         &.alt3
                             h2
@@ -3023,7 +3038,7 @@
                     .profile_journey
                         .teaser
                             max-width: 100%
-                            padding: 0 20px
+                            padding: 0 15px
                             .taken
                                 margin-bottom: 20px
                                 .summary
@@ -3063,7 +3078,7 @@
                                     h3
                                         brandon_bold(12px, true)
                         .top_booked
-                            max-width: calc(100% - 40px)
+                            max-width: calc(100% - 30px)
                             margin: 20px auto
                             border-radius: 0px
                             .tab_content_header
@@ -3090,7 +3105,7 @@
                                                     .num
                                                         brandon_black(18px, false)
                         .chart
-                            max-width: calc(100% - 40px)
+                            max-width: calc(100% - 30px)
                             margin: 0 auto
                             .tab_content_header
                                 padding: 10px 0 0 0
@@ -3463,9 +3478,14 @@
                     flex-flow: row wrap
                     align-items: center
                     justify-content: space-between
-                    padding: 10px
+                    padding: 10px 5px
+                    .default
+                        brandon_regular(14px, false)
+                        text-align: right
+                        &.bold
+                            brandon_bold(14px, false)
                     &:first-child
-                        padding: 10px
+                        padding: 10px 5px
                     &::before
                         flex: 0 0 auto
                         content: attr(data-column) ": "

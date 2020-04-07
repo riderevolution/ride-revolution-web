@@ -349,15 +349,21 @@
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in pendingTransactions" :key="key">
-                                <td><div class="default">{{ data.date }}</div></td>
-                                <td><div class="default" v-for="(child, key) in data.products" :key="key">{{ child.name }}({{ child.qty }})</div></td>
-                                <td>
+                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Products">
+                                    <div>
+                                        <div class="default" v-for="(child, key) in data.products" :key="key">
+                                            {{ child.name }}({{ child.qty }})
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-column="Branch">
                                     <div class="default">{{ data.branch }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Total Price">
                                     <div class="default bold">Php {{ data.total_price }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Payment Status">
                                     <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
@@ -380,15 +386,21 @@
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in paidTransactions" :key="key">
-                                <td><div class="default">{{ data.date }}</div></td>
-                                <td><div class="default" v-for="(child, key) in data.products" :key="key">{{ child.name }}({{ child.qty }})</div></td>
-                                <td>
+                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Products">
+                                    <div>
+                                        <div class="default" v-for="(child, key) in data.products" :key="key">
+                                            {{ child.name }}({{ child.qty }})
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-column="Branch">
                                     <div class="default">{{ data.branch }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Total Price">
                                     <div class="default bold">Php {{ data.total_price }}</div>
                                 </td>
-                                <td>
+                                <td data-column="Payment Status">
                                     <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
