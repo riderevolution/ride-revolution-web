@@ -24,7 +24,7 @@
                 if (status) {
                     if (me.$parent.webApp) {
                         let token = me.$route.query.token
-                        me.$router.push(`/fish-in-the-glass/buy-rides#package?token=${token}`)
+                        me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}#package`)
                     } else {
                         me.$router.push('/buy-rides#package')
                     }

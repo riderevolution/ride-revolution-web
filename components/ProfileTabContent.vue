@@ -15,7 +15,7 @@
                                         <div class="class_date">In 1 Year and 2 Months</div>
                                     </div>
                                     <div class="motto">
-                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lennon
+                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lemon
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                         </div>
                         <div class="ride_chart">
                             <no-ssr>
-                                <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
+                                <apexchart :options="chartOptions" :series="series"></apexchart>
                             </no-ssr>
                         </div>
                         <div class="ride_summary">
@@ -192,7 +192,7 @@
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
                                             <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)">Manage Class</li>
-                                            <li class="menu_dot_item red" @click="toggleCancel(data.scheduled_date_id)">Cancel Class</li>
+                                            <li class="menu_dot_item red" @click="toggleCancel(data)">Cancel Class</li>
                                         </ul>
                                     </transition>
                                 </div>
@@ -488,6 +488,8 @@
         },
         data () {
             return {
+                user: null,
+                tempBooking: null,
                 mobileOptions: {
                     slidesPerView: 2,
                     spaceBetween: 30,
@@ -940,15 +942,30 @@
             getHeight () {
                 const me = this
                 let ctr = 0
-                let interval = setInterval( () => {
-                    if (document.getElementById(`tab_${me.unique}`)) {
-                        me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
+                let token = me.$cookies.get('token')
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
-                    ctr++
-                }, 500)
-                if (ctr > 2) {
-                    clearInterval(interval)
-                }
+                }).then(res => {
+                    if (res.data) {
+                        me.user = res.data.user
+                        let interval = setInterval( () => {
+                            if (document.getElementById(`tab_${me.unique}`)) {
+                                me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
+                            }
+                            ctr++
+                        }, 500)
+                        if (ctr > 2) {
+                            clearInterval(interval)
+                        }
+                    }
+                }).catch(err => {
+                    setTimeout( () => {
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    }, 500)
+                })
             },
             checkWarning (data) {
                 const me = this
@@ -961,8 +978,9 @@
                     return false
                 }
             },
-            toggleCancel () {
+            toggleCancel (data) {
                 const me = this
+                me.tempBooking = data
                 me.$store.state.cancelClassStatus = true
                 document.body.classList.add('no_scroll')
             },
@@ -1015,7 +1033,7 @@
                 setTimeout( () => {
                     let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
                     if (category == 'gift-cards') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                     } else if (category == 'ride-rev-journey') {
@@ -1060,7 +1078,7 @@
                     case 'class-history':
                         category = (category == 'upcoming') ? 'upcoming-classes' : category
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$store.state.user.id}/${category}`).then(res => {
+                        me.$axios.get(`api/customers/${me.user.id}/${category}`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.classes = []
@@ -1088,8 +1106,10 @@
                                 }, 10)
                             }
                         }).catch((err) => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
+                            setTimeout( () => {
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }, 500)
                         }).then(() => {
                             setTimeout( () => {
                                 me.loader(false)

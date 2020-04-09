@@ -172,7 +172,7 @@
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group date">
                         <label for="birth_date">Birthdate <span>*</span></label>
-                        <input type="date" name="birth_date" autocomplete="off" class="input_text" v-validate="'required'">
+                        <input type="date" name="birth_date" autocomplete="off" class="input_text" v-model="signUpForm.birth_date" v-validate="'required'">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">{{ errors.first('register_process_form.birth_date') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group select">
@@ -277,7 +277,7 @@
                     first_name: 'Deither',
                     last_name: 'Corpuz',
                     contact_number: '09085532912',
-                    birth_date: new Date(),
+                    birth_date: this.$moment().format('YYYY-MM-DD'),
                     what_do_you_do: '',
                     sex: '',
                     iAgree: ''

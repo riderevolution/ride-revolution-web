@@ -5,7 +5,7 @@
                 <div class="modal_wrapper">
                     <h2 class="form_title">Which seat would you like to swap?</h2>
                     <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group">
+                    <div class="modal_main_group alt">
                         <div class="form_custom_checkbox">
                             <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.id == firstSeatID) ? 'active' : (seat.id == secondSeatID ? 'active' : '')}`" v-for="(seat, key) in seatNumbers" :key="key" @click="toggleSeat(seat, key)">
                                 <label>Bike No. {{ seat.number }}</label>
@@ -16,7 +16,7 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>{{ (seat.guest == 0) ? 'Me' : `${seat.temp.first_name} ${seat.temp.last_name}` }}</p>
+                                    <p>{{ (seat.temp.guest == 0) ? 'Me' : `${seat.temp.customer.first_name} ${seat.temp.customer.last_name}` }}</p>
                                 </div>
                             </div>
                         </div>
@@ -48,20 +48,6 @@
             }
         },
         methods: {
-            /**
-             * [swapGuestObjects swap temp seat guest value]
-             * @param  {[int]} index1 [first selected seat]
-             * @param  {[int]} index2 [second selected seat]
-             * @return {[object]}        [updated tempSeat object]
-             */
-            swapGuestObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].guest
-                temp[index1].guest = temp[index2].guest
-                temp[index2].guest = b
-                return temp
-            },
             /**
              * [swapTempObjects swap temp seat temp object]
              * @param  {[int]} index1 [first selected seat]
@@ -96,12 +82,11 @@
                 if (me.secondSeatID) {
                     me.loader(true)
 
-                    tempSeat = me.swapGuestObjects(me.firstSeatIndex, me.secondSeatIndex)
                     tempSeat = me.swapTempObjects(me.firstSeatIndex, me.secondSeatIndex)
                     tempSeat = me.swapStatusObjects(me.firstSeatIndex, me.secondSeatIndex)
 
                     tempSeat.forEach((element, index) => {
-                        if (element.guest == 0) {
+                        if (element.temp.guest == 0) {
                             me.$parent.tempOriginalSeat = element
                         }
                     })
@@ -132,6 +117,7 @@
                         me.loader(false)
                     }, 500)
                     me.$parent.removeNext = false
+                    console.log(me.$parent.toSubmit.tempSeat);
                 }
             },
             /**
@@ -142,13 +128,17 @@
             toggleSeat (data, unique) {
                 const me = this
                 if (me.seatCtr < 2) {
-                    me.secondSeatID = data.id
-                    me.secondSeatIndex = unique
-                    me.seatCtr++
+                    if (me.firstSeatID != data.id) {
+                        me.secondSeatID = data.id
+                        me.secondSeatIndex = unique
+                        me.seatCtr++
+                    }
                 } else {
-                    me.firstSeatID = data.id
-                    me.firstSeatIndex = unique
-                    me.seatCtr--
+                    if (data.id != me.secondSeatID) {
+                        me.firstSeatID = data.id
+                        me.firstSeatIndex = unique
+                        me.seatCtr--
+                    }
                 }
                 if (me.seatCtr == 2) {
                     me.hasSelectedTwo = true
@@ -163,7 +153,7 @@
         mounted () {
             const me = this
             me.seatNumbers.forEach((element, index) => {
-                if (element.guest == 0) {
+                if (element.temp.guest == 0) {
                     me.firstSeatID = element.id
                     me.firstSeatIndex = index
                 }

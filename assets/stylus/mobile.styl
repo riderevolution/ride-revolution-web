@@ -1384,6 +1384,7 @@
             #default_form
                 margin-top: 20px
         .close_icon
+            top: calc(0% + 10px)
             right: calc(0% + 10px)
             width: 20px
             height: 20px
@@ -2037,7 +2038,20 @@
                 .main_right
                     margin-left: 0
                     .content
-                        padding: 30px 0
+                        padding: 30px 0 10px
+                        &#parent_2
+                            .seat_wrapper
+                                height: 275px
+                                .overlay_seat
+                                    &.layout_2
+                                        &.bottom
+                                            bottom: calc(0% + 70px)
+                                        &.bottom_alt
+                                            bottom: calc(0% + 20px)
+                                            .seat
+                                                left: 0
+                                        &.bottom_alt_2
+                                            bottom: calc(0% + 30px)
                         .seat_wrapper
                             height: 350px
                             max-width: 350px
@@ -2112,10 +2126,11 @@
                                         transform: translateY(50%)
                         .footer
                             .legends
+                                padding: 0 5px
                                 ul
                                     li
                                         brandon_medium(10px, true)
-                                        margin: 0 15px 0 0
+                                        margin: 0 10px 0 0
                                         &:last-child
                                             margin: 0
                                         span
@@ -2954,7 +2969,7 @@
                             brandon_regular(14px, false)
                             padding: 5px 10px
             .profile_tab_content
-                margin: 0 
+                margin: 0 0 30px
                 .wrapper
                     .profile_transactions
                         padding: 10px
@@ -3011,6 +3026,8 @@
                                 padding: 0 10px
                     &.default
                         max-width: calc(100% - 30px)
+                    &.with_allowance
+                        margin: 10px 15px 0
                     &.class,
                     &.package
                         margin: 10px 15px 0
@@ -3020,6 +3037,16 @@
                                 max-width: 100%
                     .tab_content_header
                         text-align: center
+                        max-width: 100%
+                        margin: 0 auto 10px
+                        .with_info
+                            h2
+                                brandon_bold(12px, true)
+                            .description_overlay
+                                width: 250px
+                                left: 50%
+                                transform: translateX(-50%)
+                                brandon_regular(10px, false)
                         &.alt
                             justify-content: center
                             margin: 0 auto 15px
@@ -3033,6 +3060,34 @@
                         &.alt3
                             h2
                                 brandon_bold(12px, true)
+                    .tab_content_main
+                        max-width: 100%
+                        .profile_gift_cards
+                            padding-bottom: 0
+                            .gift_card_wrapper
+                                flex: 0 0 100%
+                                margin: 0 0 20px
+                                .top
+                                    .overlay
+                                        .label
+                                            brandon_medium(10px, true)
+                                .bottom
+                                    .details
+                                        brandon_regular(12px, false)
+                                        padding: 15px 30px
+                                    .package_info
+                                        justify-content: center
+                                        .name
+                                            text-align: center
+                                            flex: 0 0 100%
+                                            brandon_medium(14px, false)
+                                            margin-bottom: 10px
+                                            .violator
+                                                brandon_regular(12px, false)
+                                        .default_btn
+                                            width: 100%
+                                            brandon_bold(12px, true)
+                                            padding: 10px
                     &.journey
                         margin-top: 10px
                     .profile_journey
@@ -3131,6 +3186,51 @@
                                         brandon_black(26px, true)
                                     .label
                                         brandon_bold(12px, true)
+    .update_profile
+        #content
+            flex-flow: row wrap
+            .side_menu_tab
+                .left
+                    padding: 20px
+                    border-right: 1px solid transparent
+                    border-bottom: 1px solid #edeef0
+                    h1
+                        brandon_bold(18px, false)
+                        text-align: center
+                        margin-bottom: 15px
+                    .side_menu
+                        padding: 0
+                        .side_menu_item
+                            margin-bottom: 10px
+                            &:hover,
+                            &.active
+                                .item
+                                    border-right: 2px solid transparent
+                            .item
+                                brandon_regular(14px, false)
+                .right
+                    .update_profile_tab_content
+                        .wrapper
+                            padding: 20px
+                            &.address
+                                padding: 0 20px
+                                #default_form
+                                    .form_main_group
+                                        padding: 20px 0 10px
+                                        &.alt
+                                            padding: 20px 0 10px
+                                    .form_button
+                                        padding: 10px 0 20px
+                            #default_form
+                                .form_button
+                                    padding-top: 20px
+                .left,
+                .right
+                    flex: 0 0 100%
+    .deactivate_account
+        #content
+            max-width: calc(100% - 30px)
+            margin: 20px auto
     /**
      * Global */
     .default
@@ -3168,7 +3268,8 @@
     .default_btn_out,
     .default_btn_blue,
     .default_btn_wht,
-    .default_btn_wht_out
+    .default_btn_wht_out,
+    .default_btn_red
         width: 100%
         brandon_bold(12px, true)
         padding: 10px
@@ -3192,6 +3293,14 @@
         brandon_medium(12px, true)
         background-position: calc(0% + 10px) center
 
+    .form_inline_group
+        &:last-child
+            margin-bottom: 15px
+        padding: 0
+        label
+            brandon_regular(14px, false)
+            padding: 10px 0
+
     .form_flex_image
         margin-bottom: 15px
         .main_label
@@ -3199,7 +3308,30 @@
         label
             brandon_medium(10px, true)
 
+    .form_radio_group
+        .form_radio
+            margin-bottom: 15px
+
+    .form_main_group
+        .form_header
+            h1
+                brandon_bold(18px, false)
+                margin-bottom: 10px
+            h2
+                brandon_regular(12px, false)
+
     .form_check
+        &.toggler
+            .toggle
+                left: calc(0% - 40px)
+                width: 40px
+                height: 25px
+                &.active
+                    &::before
+                        left: calc(100% - 24px)
+                &::before
+                    width: 22px
+                    height: 22px
         .input_check
             width: 15px
             height: 15px
@@ -3224,6 +3356,14 @@
 
     .form_group
         margin-bottom: 15px
+        &.select
+            .select
+                &::before
+                    right: calc(0% + 10px)
+        &.date
+            .input_text
+                padding: 5px 10px
+                brandon_regular(12px, false)
         .form_check
             label
                 brandon_medium(12px, false)
@@ -3254,7 +3394,17 @@
                 padding: 10px 20px
 
     .form_flex
+        &.alt
+            justify-content: space-between
+            .form_button
+                flex: 0 0 47.33%
+                &.margin
+                    margin-left: 0
+                .default_btn_red,
+                .default_btn
+                    width: 100%
         &.radio
+            margin-bottom: 15px
             label
                 brandon_medium(10px, true)
             .validation_errors
@@ -3268,6 +3418,7 @@
                 .form_group,
                 .form_button
                     flex: 0 0 100%
+                    margin-right: 0
                 .form_button
                     .default_btn
                         margin-top: 10px
@@ -3322,6 +3473,26 @@
             brandon_regular(12px, false)
             text-align: justify
 
+    .form_flex_image
+        .input_image_label
+            width: 75px
+            height: 75px
+            .label
+                brandon_medium(12px, true)
+            .preview_flex_image_wrapper
+                img
+                    width: 75px
+                    height: 75px
+        .sub_label
+            padding-left: 20px
+            .text
+                brandon_regular(16px, false)
+                margin-bottom: 5px
+            .default_btn_blue
+                margin-top: 5px
+                padding: 5px
+                brandon_bold(10px, true)
+
     .input_link
         brandon_regular(12px, false)
 
@@ -3344,7 +3515,7 @@
 
     .default_modal_page
         #disclaimer
-            padding: 4em 20px
+            padding: 4em 10px
             .content
                 max-width: 100%
                 .left,
@@ -3372,10 +3543,23 @@
                 brandon_bold(12px, true)
 
     .default_modal
+        &.alt
+            .confirmation_wrapper
+                &.alt
+                    width: calc(100% - 60px)
+                    .button_group
+                        flex-flow: row wrap
+                        .flex
+                            flex: 0 0 100%
+                            margin-bottom: 10px
+                            &:last-child
+                                margin-bottom: 0
         #health_waiver_form
             &.overlay
                 &.alt_2
-                    max-width: 100%
+                    max-width: calc(100% - 30px)
+                    &.scroll
+                        max-height: 400px
                     .form_main_group
                         margin-top: 10px
                         margin-bottom: 15px
@@ -3385,22 +3569,38 @@
                 .form_title
                     &.alt
                         brandon_bold(16px, false)
-                        padding: 20px 5px 20px 20px
+                        padding: 20px 5px 20px 10px
                 .modal_main_group
-                    padding: 0 5px 20px 20px
+                    padding: 0 5px 20px 10px
         #default_form
             &.overlay
                 &.alt,
                 &.alt_2
                     max-width: calc(100% - 30px)
             .modal_wrapper
+                .form_close
+                    width: 15px
+                    height: 15px
+                    top: 5px
+                    right: 5px
+                    &::before,
+                    &::after
+                        height: 15px
+                        right: 4px
                 .form_title
                     brandon_bold(16px, false)
                     padding: 20px
+                    &.alt
+                        brandon_bold(16px, false)
+                        padding: 20px 10px 0
+                .form_subtitle
+                    brandon_regular(12px, false)
+                    padding: 10px
                 .modal_main_group
-                    padding: 0 0 20px 10px
-                    max-height: 400px
-                    overflow-y: scroll
+                    padding: 0 10px 20px
+                    &.alt
+                        max-height: 400px
+                        overflow-y: scroll
                     .form_custom_checkbox
                         .custom_checkbox
                             padding: 10px 20px 10px 10px
@@ -3418,7 +3618,18 @@
                             margin-bottom: 0
         .confirmation_wrapper
             width: calc(100% - 60px)
-            padding: 20px
+            padding: 20px 10px
+            &.image
+                padding: 30% 80px
+            .form_close
+                width: 15px
+                height: 15px
+                top: 5px
+                right: 5px
+                &::before,
+                &::after
+                    height: 15px
+                    right: 4px
             .confirmation_highlight
                 brandon_bold(14px, false)
                 margin-top: 20px
@@ -3446,7 +3657,8 @@
                             brandon_bold(20px, true)
             .button_group
                 margin-top: 20px
-                &.alt
+                &.alt,
+                &.alt_2
                     .flex
                         flex: 0 0 100%
                 .flex
@@ -3610,7 +3822,10 @@
 @media (max-width: 767px) and (min-width: 425px)
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_red
         width: auto
         padding: 12px 15px
 
@@ -3620,6 +3835,18 @@
                 #content
                     .main_right
                         .content
+                            &#parent_2
+                                .seat_wrapper
+                                    .overlay_seat
+                                        &.layout_2
+                                            &.bottom
+                                                bottom: calc(0% + 60px)
+                                            &.bottom_alt
+                                                bottom: calc(0% + 10px)
+                                                .seat
+                                                    left: 0
+                                            &.bottom_alt_2
+                                                bottom: calc(0% + 30px)
                             .seat_wrapper
                                 max-width: 465px
                                 transition: .3s ease-in-out
@@ -3686,7 +3913,10 @@
             flex: 0 0 30%
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_red
         width: auto
         padding: 10px 20px
 
@@ -3790,6 +4020,10 @@
                             .profile_classes
                                 .class_wrapper
                                     flex: 0 0 50%
+                    .tab_content_main
+                        .profile_gift_cards
+                            .gift_card_wrapper
+                                flex: 0 0 50%
 
 @media (max-width: 767px) and (min-width: 600px)
 
@@ -3804,7 +4038,11 @@
                         margin: 10px 0 20px
 
     .default_btn,
-    .default_btn_out
+    .default_btn_out,
+    .default_btn_blue,
+    .default_btn_wht,
+    .default_btn_wht_out,
+    .default_btn_red
         width: auto
         padding: 10px 20px
 
@@ -3909,6 +4147,19 @@
                                 brandon_regular(14px, false)
                     .main_right
                         .content
+                            &#parent_2
+                                .seat_wrapper
+                                    height: 325px
+                                    .overlay_seat
+                                        &.layout_2
+                                            &.bottom
+                                                bottom: calc(0% + 65px)
+                                            &.bottom_alt
+                                                bottom: calc(0%)
+                                                .seat
+                                                    left: 0
+                                            &.bottom_alt_2
+                                                bottom: calc(0% + 30px)
                             .seat_wrapper
                                 max-width: 600px
                                 height: 380px
@@ -4002,3 +4253,18 @@
                                     brandon_bold(16px, false)
                             .description
                                 flex: 0 0 50%
+    /**
+     * My Profile */
+    .my_profile
+        #content
+            .profile_tab
+                .top
+                    .right
+                        .data
+                            .name
+                                justify-content: flex-start
+                            .info
+                                justify-content: flex-start
+                                margin: 15px 0
+                                .label
+                                    margin-right: 10px

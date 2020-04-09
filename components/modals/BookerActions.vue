@@ -8,7 +8,7 @@
             </div>
             <div class="button_group">
                 <div class="flex default_btn_wht" @click.once="toggleAction('package')">Choose Package</div>
-                <div class="flex default_btn_red" @click.once="toggleAction('cancel')">Cancel Seat</div>
+                <div class="flex default_btn_red" @click.once="toggleAction('cancel')">Remove Seat</div>
             </div>
         </div>
     </div>

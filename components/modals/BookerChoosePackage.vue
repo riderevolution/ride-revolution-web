@@ -5,7 +5,7 @@
                 <div class="modal_wrapper">
                     <h2 class="form_title">Please choose where we will deduct your credits.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group">
+                    <div class="modal_main_group alt">
                         <div class="form_custom_checkbox">
                             <div :id="`package_${key}`" :class="`custom_checkbox ${(data.class_package.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
                                 <label>{{ data.class_package.name }}</label>
@@ -103,11 +103,12 @@
                         /**
                          * Check if has temp */
                         if (me.tempSeat != null) {
-                            if (!me.tempSeat.guest && !me.$parent.hasBooked) {
-                                newTemp.guest = 0
+                            if (!me.tempSeat.temp && !me.$parent.hasBooked) {
+                                newTemp.temp = {}
                                 newTemp.status = 'reserved'
-                                newTemp.temp = me.$parent.user
-                                newTemp.class_package = me.selectedClassPackage
+                                newTemp.temp.guest = 0
+                                newTemp.temp.class_package = me.selectedClassPackage
+                                newTemp.temp.customer = me.$parent.user
                                 me.$parent.tempOriginalSeat = newTemp
                                 me.$parent.toSubmit.bookCount++
                                 if (me.$parent.toSubmit.tempSeat.length > 0) {
@@ -129,21 +130,21 @@
                             } else {
                                 /**
                                  * check if the temp has class_package */
-                                if (me.tempSeat.class_package) {
+                                if (me.tempSeat.temp && me.tempSeat.temp.class_package) {
                                     /**
-                                     * Update the package if the use choose package */
+                                     * Update the package if the user choose package */
                                     if (me.tempSeat.temp) {
                                         let hasSamePackage = false
                                         me.$parent.toSubmit.tempSeat.forEach((element, index) => {
                                             /**
                                              * Check all packages except the selected */
-                                            if (me.tempSeat.temp.id != element.temp.id) {
+                                            if (me.tempSeat.temp.customer.id != element.temp.customer.id) {
                                                 /**
                                                 * if has the same package */
-                                                if (me.selectedClassPackage.class_package_id == element.class_package.class_package_id) {
+                                                if (me.selectedClassPackage.class_package_id == (element.temp && element.temp.class_package.class_package_id)) {
                                                     /**
                                                     * check the package count */
-                                                    if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) >= element.class_package.count) {
+                                                    if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) > element.temp.class_package.count) {
                                                         hasSamePackage = true
                                                     }
                                                 }
@@ -151,30 +152,30 @@
                                         })
                                         if (!hasSamePackage) {
                                             me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                                if (me.tempSeat.temp.id == element.temp.id) {
-                                                    let tempClassPackage = newTemp.class_package
+                                                if (me.tempSeat.temp.customer.id == element.temp.customer.id) {
+                                                    let tempClassPackage = newTemp.temp.class_package
                                                     /**
                                                      * Check if the the user changed package */
                                                     if (me.$route.name == 'my-profile-manage-class-slug') {
-                                                        if (newTemp.old_class_package_id) {
-                                                            if (newTemp.old_class_package_id != me.selectedClassPackage.class_package_id) {
-                                                                newTemp.changedPackage = true
-                                                                newTemp.old_class_package_id = tempClassPackage.class_package_id
+                                                        if (newTemp.temp.old_class_package_id) {
+                                                            if (newTemp.temp.old_class_package_id != me.selectedClassPackage.class_package_id) {
+                                                                newTemp.temp.changedPackage = true
+                                                                newTemp.temp.old_class_package_id = tempClassPackage.class_package_id
                                                             } else {
-                                                               delete newTemp.changedPackage
-                                                               delete newTemp.old_class_package_id
+                                                                delete newTemp.temp.changedPackage
+                                                                delete newTemp.temp.old_class_package_id
                                                             }
                                                         } else {
-                                                            if (newTemp.class_package.class_package_id != me.selectedClassPackage.class_package_id) {
-                                                                newTemp.changedPackage = true
-                                                                newTemp.old_class_package_id = tempClassPackage.class_package_id
+                                                            if (newTemp.temp.class_package.class_package_id != me.selectedClassPackage.class_package_id) {
+                                                                newTemp.temp.changedPackage = true
+                                                                newTemp.temp.old_class_package_id = tempClassPackage.class_package_id
                                                             }
                                                         }
                                                     }
                                                     /**
                                                     * for original booker */
-                                                    if (element.guest == 0) {
-                                                        newTemp.class_package = me.selectedClassPackage
+                                                    if (element.temp.guest == 0) {
+                                                        newTemp.temp.class_package = me.selectedClassPackage
                                                         me.$parent.toSubmit.tempSeat.splice(index, 1)
                                                         if (me.$parent.toSubmit.tempSeat.length > 0) {
                                                             me.$parent.toSubmit.tempSeat.unshift(newTemp)
@@ -183,15 +184,17 @@
                                                         }
                                                         me.$store.state.bookerChoosePackageStatus = false
                                                         document.body.classList.remove('no_scroll')
+                                                        me.$parent.removeNext = false
                                                     /**
                                                     * for original booker guest */
                                                     } else {
-                                                        newTemp.class_package = me.selectedClassPackage
+                                                        newTemp.temp.class_package = me.selectedClassPackage
                                                         me.$parent.tempClassPackage = me.selectedClassPackage
                                                         me.$parent.toSubmit.tempSeat.splice(index, 1)
                                                         me.$parent.toSubmit.tempSeat.push(newTemp)
                                                         me.$store.state.bookerChoosePackageStatus = false
                                                         document.body.classList.remove('no_scroll')
+                                                        me.$parent.removeNext = false
                                                     }
                                                 }
                                             })
@@ -206,8 +209,8 @@
                                     /**
                                      * Check if the package has rides left */
                                     me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                        if (me.selectedClassPackage.class_package_id == element.class_package.class_package_id) {
-                                            if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) >= element.class_package.count) {
+                                        if (me.selectedClassPackage.class_package_id == (element.temp && element.temp.class_package.class_package_id)) {
+                                            if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) > element.temp.class_package.count) {
                                                 hasGuestSamePackage = true
                                             }
                                         }
@@ -282,8 +285,8 @@
                                     }
                                 } else {
                                     if (me.$parent.tempGuestSeat == null) {
-                                        me.selectedClassPackage = me.tempSeat.class_package
-                                        me.selectedPackage = me.tempSeat.class_package.class_package_id
+                                        me.selectedClassPackage = me.tempSeat.temp.class_package
+                                        me.selectedPackage = me.tempSeat.temp.class_package.class_package_id
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (me.classPackages[i].count > 0) {
