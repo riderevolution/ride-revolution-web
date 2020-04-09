@@ -47,11 +47,12 @@
                                 if (child == 'data') {
                                     for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
                                         if (me.$parent.seats[parent][child][i].id == me.tempSeat.id) {
-                                            me.$parent.seats[parent][child][i].guest = 1
                                             me.$parent.seats[parent][child][i].status = 'reserved-guest'
-                                            me.$parent.seats[parent][child][i].temp = me.customer
-                                            me.$parent.seats[parent][child][i].class_package = me.$parent.tempClassPackage
-                                            me.$parent.seats[parent][child][i].original_booker_id = me.$parent.user.id
+                                            me.$parent.seats[parent][child][i].temp = {}
+                                            me.$parent.seats[parent][child][i].temp.guest = 1
+                                            me.$parent.seats[parent][child][i].temp.customer = me.customer
+                                            me.$parent.seats[parent][child][i].temp.class_package = me.$parent.tempClassPackage
+                                            me.$parent.seats[parent][child][i].temp.original_booker_id = me.$parent.user.id
                                             break
                                         }
                                     }

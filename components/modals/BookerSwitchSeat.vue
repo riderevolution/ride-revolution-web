@@ -16,7 +16,7 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>{{ (seat.guest == 0) ? 'Me' : `${seat.temp.first_name} ${seat.temp.last_name}` }}</p>
+                                    <p>{{ (seat.temp.guest == 0) ? 'Me' : `${seat.temp.customer.first_name} ${seat.temp.customer.last_name}` }}</p>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
         mounted () {
             const me = this
             me.seatNumbers.forEach((element, index) => {
-                if (element.guest == 0) {
+                if (element.temp.guest == 0) {
                     me.selected = element
                     me.selectedID = element.id
                 }
