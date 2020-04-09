@@ -135,7 +135,7 @@
             <img class="full" src="/default/riders-guide/cool-lets-go.jpg" />
             <div class="overlay">
                 <h2>Cool! Let's go.</h2>
-                <div @click="loginUser()" class="default_btn">Create An Account</div>
+                <div @click="loginUser()" class="default_btn">{{ ($cookies.get('token') ? 'Check My Profile' : 'Create An Account') }}</div>
             </div>
         </section>
         <transition name="fade">
@@ -463,8 +463,13 @@
         methods: {
             loginUser () {
                 const me = this
-                me.$store.state.loginSignUpStatus = true
-                document.body.classList.add('no_scroll')
+                let token = me.$cookies.get('token')
+                if (token) {
+                    me.$router.push('/my-profile')
+                } else {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                }
             },
             openGallery(key) {
                 const me = this

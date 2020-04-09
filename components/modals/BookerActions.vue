@@ -49,17 +49,10 @@
                                             me.$parent.toSubmit.tempSeat.forEach((element, index) => {
                                                 /**
                                                  * Check if seat and temp seat has same id */
-                                                if (me.$parent.seats[parent][child][i].temp.id == element.temp.id) {
-                                                    /**
-                                                     * Check if the tempseat length less than of equal to 1 */
-                                                    if (me.$parent.toSubmit.tempSeat.length <= 1) {
-                                                        me.$parent.removeNext = true
-                                                    } else {
-                                                        me.$parent.hasGuest = false
-                                                    }
+                                                if (me.$parent.seats[parent][child][i].id == element.id) {
                                                     /**
                                                      * If tempseat is original */
-                                                    if (element.guest == 0) {
+                                                    if (element.temp.guest == 0) {
                                                         me.$parent.hasBooked = false
                                                         me.$parent.tempOriginalSeat = null
                                                     /**
@@ -71,15 +64,18 @@
                                                     me.$parent.toSubmit.bookCount--
                                                     /**
                                                      * delete all the temp objects connected to the id */
-                                                    delete me.$parent.seats[parent][child][i].guest
                                                     delete me.$parent.seats[parent][child][i].temp
-                                                    delete me.$parent.seats[parent][child][i].class_package
-                                                    if (me.$route.name == 'my-profile-manage-class-slug') {
-                                                        delete me.$parent.seats[parent][child][i].changedPackage
-                                                        delete me.$parent.seats[parent][child][i].old_class_package_id
-                                                    }
                                                     me.$parent.seats[parent][child][i].status = 'open'
                                                     me.$parent.toSubmit.tempSeat.splice(index, 1)
+
+                                                    /**
+                                                     * Check if the tempseat length less than of equal to 1 */
+                                                    if (me.$parent.toSubmit.tempSeat.length == 0) {
+                                                        me.$parent.removeNext = true
+                                                    }
+                                                    if (me.$parent.toSubmit.tempSeat.length == 1) {
+                                                        me.$parent.hasGuest = false
+                                                    }
 
                                                     me.$store.state.bookerActionsPrompt = false
                                                     me.loader(true)

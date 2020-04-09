@@ -583,7 +583,7 @@
         #visit
             padding: 30px 0
             h2
-                brandon_bold(30px, true)
+                brandon_bold(40px, true)
             .content
                 .wrapper
                     h2
@@ -593,6 +593,15 @@
                 .description
                     span
                         brandon_bold(24px, false)
+    /**
+     * Riders Guide */
+    .riders_guide
+        #teaser
+            padding: 30px 0
+            h2
+                brandon_bold(40px, true)
+            p
+                brandon_regular(14px, false)
     /**
      * Referral */
     #referral
@@ -686,6 +695,10 @@
     /**
      * Global */
     .default_modal
+        &.alt
+            .confirmation_wrapper
+                &.alt
+                    width: 500px
         #health_waiver_form
             &.overlay
                 &.alt_2
@@ -732,6 +745,9 @@
                 .member_image
                     width: 80px
                     height: 80px
+                    img
+                        width: 80px
+                        height: 80px
                     .overlay
                         width: 80px
                         height: 80px
