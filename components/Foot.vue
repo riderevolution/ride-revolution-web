@@ -3,7 +3,7 @@
         <div class="logo">
             <img src="/footer-logo.svg" />
         </div>
-        <a class="footer_sitemap" @click="toggleSitemap()" v-if="$parent.isMobile">
+        <a class="footer_sitemap" @click="toggleSitemap()" v-if="isMobile">
             <label>Show Sitemap <img src="/icons/back-arrow-icon.svg" /></label>
         </a>
         <div class="footer_link">
@@ -40,13 +40,18 @@
         </div>
         <div class="back_to_top" @click="backToTop()">
             <img src="/icons/back-to-top-icon.svg" />
-            <span v-if="!$parent.isMobile">Back to Top</span>
+            <span v-if="isMobile">Back to Top</span>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        data () {
+            return {
+                isMobile: false
+            }
+        },
         methods: {
             toggleSitemap () {
                 const me = this
@@ -74,7 +79,29 @@
             },
             backToTop () {
                 window.scrollTo({ top: 0, behavior: 'smooth' })
+            },
+            onResize() {
+                const me = this
+                if (document.documentElement && document.documentElement.clientWidth) {
+                    if (document.documentElement.clientWidth <= 1024) {
+                        me.isMobile = true
+                    } else {
+                        me.isMobile = false
+                    }
+                }
             }
+        },
+        mounted () {
+            const me = this
+            me.onResize()
+        },
+        beforeMount () {
+            window.addEventListener('load', this.onResize)
+            window.addEventListener('resize', this.onResize)
+        },
+        beforeDestroy () {
+            window.removeEventListener('resize', this.onResize)
+            window.removeEventListener('load', this.onResize)
         }
     }
 </script>
