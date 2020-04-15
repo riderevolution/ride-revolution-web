@@ -522,7 +522,7 @@
             .header
                 padding: 30px 0 20px
                 h2
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 h3
                     brandon_regular(20px, false)
             .content
@@ -562,7 +562,7 @@
             .header
                 padding: 30px 0
                 h2
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 .description
                     span
                         brandon_bold(20px, false)
@@ -601,14 +601,14 @@
         #teaser
             padding: 40px 0
             h2
-                brandon_bold(40px, true)
+                brandon_bold(35px, true)
             p
                 brandon_regular(16px, false)
         #ready
             padding: 40px
             .header
                 h2
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 h3
                     brandon_regular(16px, false)
             .content
@@ -633,7 +633,7 @@
             .header
                 padding: 40px 0 30px
                 h2
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 p
                     brandon_regular(16px, false)
             .content
@@ -647,6 +647,8 @@
         #amenities
             .amenities
                 padding: 80px 40px
+                h2
+                    brandon_bold(35px, true)
                 .content
                     .wrapper
                         .field_image
@@ -656,7 +658,7 @@
             .header
                 padding: 40px 0 0
                 h2
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
             .content
                 padding-bottom: 40px
                 max-width: calc(75% + 60px)
@@ -679,20 +681,50 @@
             .top
                 max-width: 75%
                 .title
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 .description
                     brandon_regular(16px, false)
             .bottom
                 margin: 40px auto 0
                 .header_title
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
         #rewards_levels
             padding: 40px 0
             .main
                 .title
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 .description
                     brandon_regular(16px, false)
+    /**
+     * News */
+    .news
+        #content
+            margin: 40px auto
+            max-width: calc(90% + 60px)
+            .news_list
+                .bottom
+                    .title
+                        brandon_bold(16px, true)
+                    .date,
+                    .description
+                        brandon_light(14px, false)
+        &.inner
+            #content
+                margin: 40px auto
+                max-width: calc(90% + 40px)
+            #more_things
+                h3
+                    brandon_bold(35px, true)
+                &.desktop
+                    margin: 40px auto
+                    max-width: calc(90% + 60px)
+                    .news_list
+                        .bottom
+                            .title
+                                brandon_bold(16px, true)
+                            .date,
+                            .description
+                                brandon_light(14px, false)
     /**
      * Referral */
     #referral
@@ -770,10 +802,14 @@
     /**
      * Banner */
     #banner
+        &.alt_4
+            .overlay_mid
+                h1
+                    brandon_bold(35px, false)
         &.alt
             .overlay_mid
                 h2
-                    brandon_bold(40px, false)
+                    brandon_bold(35px, false)
         &.mt
             margin-top: 60px
         &.alt_2
@@ -782,7 +818,7 @@
                     brandon_bold(26px, false)
         .overlay_mid
             h1
-                brandon_bold(40px, true)
+                brandon_bold(35px, true)
             h2
                 brandon_bold(18px, false)
                 margin-top: 10px
