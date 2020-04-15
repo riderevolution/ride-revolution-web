@@ -2,8 +2,8 @@
     <transition name="fade">
         <div class="book_a_bike landing" v-if="loaded">
             <section id="banner" class="mt">
-                <img src="/default/book-a-bike/book-a-bike-banner.jpg" v-if="!$parent.$parent.isMobile" />
-                <img src="/default/book-a-bike/book-a-bike-banner-mobile.jpg" v-else />
+                <img class="full" src="/default/book-a-bike/book-a-bike-banner.jpg" v-if="!$parent.$parent.isMobile" />
+                <img class="full" src="/default/book-a-bike/book-a-bike-banner-mobile.jpg" v-else />
                 <breadcrumb :overlay="true" />
                 <div class="overlay_mid">
                     <h1>Book a Bike</h1>

@@ -1,7 +1,8 @@
 <template>
     <div class="studios">
         <section id="banner" class="mt">
-            <img class="full" src="/default/studio/studios-bg.jpg" />
+            <img class="full" src="/default/studio/studios-bg.jpg" v-if="!$parent.$parent.isMobile" />
+            <img class="full" src="/default/studio/studios-bg-mobile.jpg" v-else />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Studios</h1>
@@ -55,7 +56,7 @@
         </section>
         <instagram-alternate />
         <section id="banner" class="alt">
-            <img src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>

@@ -1,8 +1,8 @@
 <template>
     <div :class="`buy_rides ${hasHash}`">
         <section id="banner" class="mt">
-            <img src="/default/buy-rides/buy-rides-banner.jpg" v-if="!$parent.$parent.isMobile" />
-            <img src="/default/buy-rides/buy-rides-banner-mobile.jpg" v-else />
+            <img class="full" src="/default/buy-rides/buy-rides-banner.jpg" v-if="!$parent.$parent.isMobile" />
+            <img class="full" src="/default/buy-rides/buy-rides-banner-mobile.jpg" v-else />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Buy Rides and Credits</h1>

@@ -79,7 +79,7 @@
             </no-ssr>
         </section>
         <section id="banner" class="alt">
-            <img src="/default/studio/inner/book-a-ride.jpg" />
+            <img class="full" src="/default/studio/inner/book-a-ride.jpg" />
             <div class="overlay_mid">
                 <h2>See all this up close!</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
