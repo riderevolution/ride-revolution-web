@@ -40,7 +40,7 @@
         </div>
         <div class="back_to_top" @click="backToTop()">
             <img src="/icons/back-to-top-icon.svg" />
-            <span v-if="isMobile">Back to Top</span>
+            <span v-if="!isMobile">Back to Top</span>
         </div>
     </div>
 </template>
