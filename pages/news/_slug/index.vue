@@ -1,7 +1,7 @@
 <template>
     <div class="news inner">
         <section id="banner" class="mt alt_4">
-            <img src="/default/news/news-inner-banner.jpg" />
+            <img class="full" src="/default/news/news-inner-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>{{ replacer($route.params.slug) }}</h1>
@@ -66,7 +66,7 @@
             </div>
         </section>
         <section id="banner" class="mt alt">
-            <img class="full" src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/news/book-a-bike.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
@@ -118,17 +118,17 @@
                 },
                 news: [
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-1.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.'
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-2.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.'
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-3.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.'
                     }
