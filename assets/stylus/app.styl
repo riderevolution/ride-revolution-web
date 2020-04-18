@@ -1526,6 +1526,7 @@ svg
                                 opacity: 0
                                 transition: .3s ease-in-out .05s
                             &:hover,
+                            &.nuxt-link-active,
                             &.nuxt-link-exact-active
                                 color: $green
                                 text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
@@ -2228,7 +2229,8 @@ svg
                 position: relative
                 flex: 0 0 calc(25% - 20px)
                 margin: 10px
-                background-image: url('/default/instructor/instructor-bg.svg')
+                // background-image: url('/default/instructor/instructor-bg.svg')
+                background-color: $green
                 background-position: center
                 background-repeat: no-repeat
                 background-size: cover
@@ -3915,7 +3917,8 @@ svg
                 position: relative
                 .wrapper
                     position: relative
-                    background-image: url('/default/instructor/instructor-bg.svg')
+                    // background-image: url('/default/instructor/instructor-bg.svg')
+                    background-color: $green
                     background-position: center
                     background-repeat: no-repeat
                     background-size: cover
@@ -4287,7 +4290,7 @@ svg
             h2
                 position: relative
                 text-align: center
-                brandon_bold(42px, false)
+                brandon_bold(40px, true)
                 color: $white
                 margin-bottom: 40px
             .content
@@ -4395,7 +4398,7 @@ svg
             h2
                 position: relative
                 text-align: center
-                brandon_bold(42px, false)
+                brandon_bold(40px, false)
                 color: $white
                 margin-bottom: 40px
 /**
@@ -7368,7 +7371,7 @@ svg
             .default_btn
                 margin-top: 40px
         &::before
-            background-color: rgba(0, 0, 0, 0.3)
+            background-color: rgba(0, 0, 0, 0.6)
     &.alt_3
         .overlay_mid
             top: 35%
@@ -7413,7 +7416,7 @@ svg
     &.alt_4
         img
             width: 100%
-            height: 500px
+            height: 400px
         .overlay_mid
             width: 100%
             max-width: 90%

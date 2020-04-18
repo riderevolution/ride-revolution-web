@@ -1,7 +1,7 @@
 <template>
     <div class="refer_a_friend">
         <section id="banner" class="mt">
-            <img class="full" src="/default/buy-rides/buy-rides-banner-success.jpg" />
+            <img class="full" src="/default/refer-a-friend/refer-a-friend-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Refer a Friend</h1>

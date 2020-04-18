@@ -118,7 +118,7 @@
             </div>
         </section>
         <section id="banner" class="mt alt">
-            <img class="full" src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/contact-us/book-a-bike.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>

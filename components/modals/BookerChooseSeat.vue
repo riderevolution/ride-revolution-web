@@ -16,7 +16,7 @@
                                     </g>
                                 </svg>
                                 <div class="info">
-                                    <p>{{ (seat.guest == 0) ? 'Me' : `${seat.temp.first_name} ${seat.temp.last_name}` }}</p>
+                                    <p>{{ (seat.temp.guest == 0) ? 'Me' : `${seat.temp.customer.first_name} ${seat.temp.customer.last_name}` }}</p>
                                 </div>
                             </div>
                         </div>
@@ -49,20 +49,6 @@
         },
         methods: {
             /**
-             * [swapGuestObjects swap temp seat guest value]
-             * @param  {[int]} index1 [first selected seat]
-             * @param  {[int]} index2 [second selected seat]
-             * @return {[object]}        [updated tempSeat object]
-             */
-            swapGuestObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].guest
-                temp[index1].guest = temp[index2].guest
-                temp[index2].guest = b
-                return temp
-            },
-            /**
              * [swapTempObjects swap temp seat temp object]
              * @param  {[int]} index1 [first selected seat]
              * @param  {[int]} index2 [second selected seat]
@@ -90,54 +76,17 @@
                 temp[index2].status = b
                 return temp
             },
-            swapPackageObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].class_package
-                temp[index1].class_package = temp[index2].class_package
-                temp[index2].class_package = b
-                return temp
-            },
-            swapChangedPackageObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].changedPackage
-                temp[index1].changedPackage = temp[index2].changedPackage
-                temp[index2].changedPackage = b
-                return temp
-            },
-            swapOldPackageObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].old_class_package_id
-                temp[index1].old_class_package_id = temp[index2].old_class_package_id
-                temp[index2].old_class_package_id = b
-                return temp
-            },
-            swapOrigBookerObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].original_booker_id
-                temp[index1].original_booker_id = temp[index2].original_booker_id
-                temp[index2].original_booker_id = b
-                return temp
-            },
             submissionSuccess () {
                 const me = this
                 let tempSeat = null
                 if (me.secondSeatID) {
                     me.loader(true)
 
-                    tempSeat = me.swapGuestObjects(me.firstSeatIndex, me.secondSeatIndex)
                     tempSeat = me.swapTempObjects(me.firstSeatIndex, me.secondSeatIndex)
                     tempSeat = me.swapStatusObjects(me.firstSeatIndex, me.secondSeatIndex)
-                    tempSeat = me.swapPackageObjects(me.firstSeatIndex, me.secondSeatIndex)
-                    // tempSeat = me.swapChangedPackageObjects(me.firstSeatIndex, me.secondSeatIndex)
-                    // tempSeat = me.swapOldPackageObjects(me.firstSeatIndex, me.secondSeatIndex)
-                    // tempSeat = me.swapOrigBookerObjects(me.firstSeatIndex, me.secondSeatIndex)
 
                     tempSeat.forEach((element, index) => {
-                        if (element.guest == 0) {
+                        if (element.temp.guest == 0) {
                             me.$parent.tempOriginalSeat = element
                         }
                     })
@@ -203,7 +152,7 @@
         mounted () {
             const me = this
             me.seatNumbers.forEach((element, index) => {
-                if (element.guest == 0) {
+                if (element.temp.guest == 0) {
                     me.firstSeatID = element.id
                     me.firstSeatIndex = index
                 }

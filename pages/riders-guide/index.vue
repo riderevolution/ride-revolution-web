@@ -1,7 +1,7 @@
 <template>
     <div class="riders_guide">
         <section id="banner" class="mt">
-            <img class="full" src="/default/riders-guide/riders-guide.jpg" />
+            <img class="full" src="/default/riders-guide/riders-guide-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
                 <h1>Rider's Guide</h1>
@@ -35,7 +35,7 @@
                             <swiper-slide class="wrapper" :id="`item_${key}`" v-for="(data, key) in instructors" :key="key" @mouseover.native="toggleActionHover(key)" @mouseleave.native="toggleActionLeave(key)">
                                 <div :id="`ins_${key}`">
                                     <a class="follow" href="javascript:void(0)"><img src="/icons/ig-white-icon.svg" /><span>Follow</span></a>
-                                    <img class="main" src="/default/instructor/sample-instructor.png" />
+                                    <img class="main" :src="`/default/instructor/instructor-${key + 1}.png`" />
                                     <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
                                     <div class="overlay">
                                         <div class="title">{{ data.name }}</div>
@@ -135,7 +135,7 @@
             <img class="full" src="/default/riders-guide/cool-lets-go.jpg" />
             <div class="overlay">
                 <h2>Cool! Let's go.</h2>
-                <div @click="loginUser()" class="default_btn">Create An Account</div>
+                <div @click="loginUser()" class="default_btn">{{ ($store.state.isAuth) ? 'Check My Profile' : 'Create An Account' }}</div>
             </div>
         </section>
         <transition name="fade">
@@ -463,8 +463,13 @@
         methods: {
             loginUser () {
                 const me = this
-                me.$store.state.loginSignUpStatus = true
-                document.body.classList.add('no_scroll')
+                let token = me.$cookies.get('token')
+                if (token) {
+                    me.$router.push('/my-profile')
+                } else {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                }
             },
             openGallery(key) {
                 const me = this

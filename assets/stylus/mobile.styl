@@ -522,11 +522,12 @@
             .header
                 padding: 30px 0 20px
                 h2
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 h3
                     brandon_regular(20px, false)
             .content
                 margin: 10px auto 0
+                max-width: 75%
                 .wrapper
                     padding: 20px 30px
                     .start
@@ -539,6 +540,7 @@
                                 brandon_bold(16px, false)
         #comments
             margin: 30px auto
+            max-width: 75%
             .header
                 h2
                     brandon_bold(20px, true)
@@ -560,7 +562,7 @@
             .header
                 padding: 30px 0
                 h2
-                    brandon_bold(40px, true)
+                    brandon_bold(35px, true)
                 .description
                     span
                         brandon_bold(20px, false)
@@ -578,12 +580,13 @@
     .studios
         #teaser
             padding: 30px 0
+            max-width: 75%
             p
                 brandon_regular(14px, false)
         #visit
             padding: 30px 0
             h2
-                brandon_bold(30px, true)
+                brandon_bold(40px, true)
             .content
                 .wrapper
                     h2
@@ -593,6 +596,341 @@
                 .description
                     span
                         brandon_bold(24px, false)
+    /**
+     * Riders Guide */
+    .riders_guide
+        #teaser
+            padding: 40px 0
+            h2
+                brandon_bold(35px, true)
+            p
+                brandon_regular(16px, false)
+        #ready
+            padding: 40px
+            .header
+                h2
+                    brandon_bold(35px, true)
+                h3
+                    brandon_regular(16px, false)
+            .content
+                .wrapper
+                    h2
+                        brandon_medium(18px, true)
+                    p
+                        brandon_light(16px, false)
+            .instructors
+                .instructor_content
+                    .wrapper
+                        .overlay
+                            .title
+                                brandon_bold(14px, true)
+                                padding: 0 10px
+                            .action
+                                padding: 20px 10px 10px
+                    .view_all
+                        span
+                            brandon_bold(14px, true)
+        #getset
+            .header
+                padding: 40px 0 30px
+                h2
+                    brandon_bold(35px, true)
+                p
+                    brandon_regular(16px, false)
+            .content
+                padding-bottom: 40px
+                .steps
+                    .wrapper
+                        h2
+                            brandon_regular(18px, false)
+                            b
+                                brandon_bold(18px, false)
+        #amenities
+            .amenities
+                padding: 80px 40px
+                h2
+                    brandon_bold(35px, true)
+                .content
+                    .wrapper
+                        .field_image
+                            .overlay
+                                brandon_bold(18px, true)
+        #ride_info
+            .header
+                padding: 40px 0 0
+                h2
+                    brandon_bold(35px, true)
+            .content
+                padding-bottom: 40px
+                max-width: calc(75% + 60px)
+                .wrapper
+                    .info
+                        .count
+                            brandon_bold(70px, false)
+                        .text
+                            brandon_light(24px, true)
+    /**
+     * About */
+    .about
+        #additional
+            padding: 40px 0
+    /**
+     * Ride Rewards */
+    .ride_rewards
+        #content
+            padding: 40px 0
+            .top
+                max-width: 75%
+                .title
+                    brandon_bold(35px, true)
+                .description
+                    brandon_regular(16px, false)
+            .bottom
+                margin: 40px auto 0
+                .header_title
+                    brandon_bold(35px, true)
+        #rewards_levels
+            padding: 40px 0
+            .main
+                .title
+                    brandon_bold(35px, true)
+                .description
+                    brandon_regular(16px, false)
+    /**
+     * News */
+    .news
+        #content
+            margin: 40px auto
+            max-width: calc(90% + 60px)
+            .news_list
+                .bottom
+                    .title
+                        brandon_bold(16px, true)
+                    .date,
+                    .description
+                        brandon_light(14px, false)
+        &.inner
+            #content
+                margin: 40px auto
+                max-width: calc(90% + 40px)
+            #more_things
+                h3
+                    brandon_bold(35px, true)
+                &.desktop
+                    margin: 40px auto
+                    max-width: calc(90% + 60px)
+                    .news_list
+                        .bottom
+                            .title
+                                brandon_bold(16px, true)
+                            .date,
+                            .description
+                                brandon_light(14px, false)
+    /**
+     * FAQS */
+    .faqs
+        #content
+            .top
+                padding: 40px 0
+                max-width: calc(65% + 60px)
+                .header_title
+                    brandon_bold(35px, true)
+                .icons
+                    .wrapper
+                        .title
+                            brandon_regular(16px, false)
+            .bottom
+                .faqs_list
+                    max-width: 65%
+                    padding: 40px 0
+                    .wrapper
+                        .title
+                            brandon_bold(18px, true)
+                        .description
+                            b
+                                brandon_medium(16px, true)
+                            p
+                                brandon_light(16px, false)
+                            ul
+                                li
+                                    brandon_light(16px, false)
+    /**
+     * Contact Us */
+    .contact_us
+        #content
+            .top
+                padding: 40px 0
+                max-width: 80%
+                .right
+                    .inquiry_list
+                        .wrapper
+                            margin-bottom: 20px
+                            .title
+                                brandon_bold(16px, false)
+                                margin-bottom: 10px
+                            .link
+                                a
+                                    brandon_regular(16px, false)
+                    .connect_title
+                        brandon_bold(16px, true)
+            .bottom
+                .left
+                    .gmap
+                        height: 500px !important
+                .right
+                    .studio_item
+                        padding: 10px 0
+                        .title
+                            brandon_medium(16px, true)
+                        .info
+                            .description
+                                brandon_medium(14px, false)
+                            .link
+                                a
+                                    brandon_regular(14px, false)
+    /**
+     * My Profile */
+    .my_profile
+        #content
+            .profile_tab
+                max-width: calc(100% - 60px)
+                .top
+                    .right
+                        .data
+                            .name
+                                brandon_bold(26px, false)
+                            .info
+                                .label
+                                    brandon_regular(14px, false)
+                .bottom
+                    .tab_wrapper
+                        .tab_item
+                            brandon_regular(16px, false)
+                            margin-right: 20px
+            .profile_tab_content
+                .wrapper
+                    &.class
+                        #default_menu
+                            .menu_tab_content
+                                max-width: calc(100% - 30px)
+                    &.default
+                        max-width: calc(100% - 60px)
+                    .profile_transactions
+                        padding: 20px
+                    #default_menu
+                        .menu_tab
+                            max-width: calc(100% - 60px)
+                        .menu_tab_content
+                            .profile_classes
+                                .class_wrapper
+                                    .top
+                                        .right
+                                            .title
+                                                brandon_bold(22px, false)
+                                        .left
+                                            flex: 0 0 50px
+                                            width: 50px
+                                            height: 50px
+                                            .date
+                                                .day
+                                                    brandon_bold(22px, false)
+                            .profile_packages
+                                max-width: calc(100% - 60px)
+                    .tab_content_header
+                        max-width: calc(100% - 60px)
+                        &.alt
+                            h2
+                                brandon_bold(16px, true)
+                            .total
+                                brandon_regular(16px, false)
+                                .count
+                                    brandon_bold(16px, false)
+                        &.alt3
+                            .tab_content_header_menu
+                                .header_menu_tab_item
+                                    brandon_bold(14px, true)
+                        .with_info
+                            h2
+                                brandon_bold(16px, true)
+                    .tab_content_main
+                        max-width: calc(100% - 30px)
+                        .profile_gift_cards
+                            .gift_card_wrapper
+                                .bottom
+                                    .package_info
+                                        .name
+                                            brandon_medium(18px, false)
+                    .profile_journey
+                        .teaser
+                            max-width: calc(100% - 60px)
+                            .taken
+                                .summary
+                                    .summary_content
+                                        .class_stat
+                                            .class_count
+                                                brandon_black(40px, true)
+                            .badges_earned
+                                .summary
+                                    .summary_content
+                                        padding: 20px 30px
+                        .top_booked
+                            max-width: calc(100% - 60px)
+                            .tab_content_main
+                                .instructor
+                                    .item
+                                        .num_wrapper
+                                            width: 40px
+                                            height: 40px
+                                            .num
+                                                brandon_black(20px, false)
+                                        .overlay
+                                            .info
+                                                .num_wrapper_alt
+                                                    width: 35px
+                                                    height: 35px
+                                                    .num
+                                                        brandon_black(20px, false)
+                                                .name
+                                                    brandon_bold(18px, false)
+                                            .rides
+                                                brandon_regular(14px, false)
+                        .chart
+                            max-width: calc(100% - 60px)
+                            .ride_summary
+                                .left,
+                                .right
+                                    .value
+                                        brandon_black(35px, true)
+    #default_menu
+        .menu_tab
+            .menu_tab_item
+                brandon_bold(14px, true)
+                margin-right: 20px
+    .default_table
+        tbody
+            tr
+                td
+                    .package_info
+                        .title
+                            brandon_bold(18px, false)
+    .update_profile
+        #content
+            .side_menu_tab
+                .left
+                    padding: 60px 0 60px 60px
+                    h1
+                        brandon_bold(20px, false)
+                    .side_menu
+                        .side_menu_item
+                            .item
+                                brandon_regular(16px, false)
+                .right
+                    .update_profile_tab_content
+                        .wrapper
+                            padding: 60px
+    .deactivate_account
+        #content
+            max-width: 85%
     /**
      * Referral */
     #referral
@@ -605,6 +943,13 @@
     /**
      * Promos */
     #promos
+        &.alt
+            .promo_list
+                .title
+                    brandon_bold(24px, false)
+                .copy_wrapper
+                    .code
+                        brandon_bold(24px, true)
         .promo_slide
             .overlay
                 .title
@@ -663,6 +1008,14 @@
     /**
      * Banner */
     #banner
+        &.alt_4
+            .overlay_mid
+                h1
+                    brandon_bold(35px, false)
+        &.alt
+            .overlay_mid
+                h2
+                    brandon_bold(35px, false)
         &.mt
             margin-top: 60px
         &.alt_2
@@ -671,21 +1024,31 @@
                     brandon_bold(26px, false)
         .overlay_mid
             h1
-                brandon_bold(30px, true)
+                brandon_bold(35px, true)
             h2
-                brandon_bold(16px, false)
+                brandon_bold(18px, false)
                 margin-top: 10px
                 &.alt
-                    brandon_regular(16px, false)
+                    brandon_regular(18px, false)
         .overlay_top
             .overlay_image
                 width: 600px
         .overlay_bottom
             p
-                brandon_regular(16px, false)
+                brandon_regular(18px, false)
+    /**
+     * Instragram */
+    #instagram_alternate
+        .header
+            padding: 20px 0
+
     /**
      * Global */
     .default_modal
+        &.alt
+            .confirmation_wrapper
+                &.alt
+                    width: 500px
         #health_waiver_form
             &.overlay
                 &.alt_2
@@ -732,6 +1095,9 @@
                 .member_image
                     width: 80px
                     height: 80px
+                    img
+                        width: 80px
+                        height: 80px
                     .overlay
                         width: 80px
                         height: 80px
@@ -743,7 +1109,8 @@
     .default_btn_wht,
     .default_btn_blk,
     .default_btn_blue,
-    .default_btn_red
+    .default_btn_red,
+    .default_btn_wht_out
         brandon_bold(12px, true)
         padding: 10px 30px
 
@@ -1348,6 +1715,14 @@
         #login
             max-width: 50%
 
+    /**
+     * Main */
+    #main_container
+        #footer
+            .footer_link
+                height: 100%
+                margin: 20px 0
+
 @media (max-width: 767px) and (min-width: 320px)
 
     /**
@@ -1384,13 +1759,13 @@
             #default_form
                 margin-top: 20px
         .close_icon
-            top: calc(0% + 10px)
-            right: calc(0% + 10px)
+            top: calc(0% + 5px)
+            right: calc(0% + 5px)
             width: 20px
             height: 20px
             &::before,
             &::after
-                right: calc(0% + 10px)
+                right: calc(0% + 5px)
                 height: 20px
     /**
      * Main */
@@ -1875,8 +2250,6 @@
 
         #banner
             margin-top: 61px
-            img
-                height: 250px
         #packages
             background-image: url('/dotted-bg.png')
         #digital
@@ -1898,8 +2271,6 @@
     .book_a_bike
         #banner
             margin-top: 61px
-            img
-                height: 250px
         &.landing
             #content
                 .left
@@ -3737,7 +4108,7 @@
                     brandon_bold(16px, false)
         &.alt_4
             img
-                height: 200px
+                height: 250px
             .overlay_mid
                 top: 50%
                 max-width: 100%
@@ -3748,7 +4119,7 @@
                     brandon_light_italic(12px, false)
                     margin-top: 5px
         .full
-            height: 200px
+            height: 250px
         img
             width: 100%
         .main_image
