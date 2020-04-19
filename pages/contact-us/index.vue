@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="form_flex captcha">
-                        <vue-recaptcha class="captcha" sitekey="6Le_s3wUAAAAAMuN4YveR4ZNq2qaj-rkw7n1477N"></vue-recaptcha>
+                        <vue-recaptcha class="captcha" sitekey="6Ld4_doUAAAAACiRAQf1JQlro_fxvTSZxgxi5jxk"></vue-recaptcha>
                         <div class="form_button">
                             <button type="submit" class="default_btn">Send</button>
                         </div>
