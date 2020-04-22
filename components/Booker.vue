@@ -893,6 +893,10 @@
                 }
             }
         },
+        mounted () {
+            const me = this
+            me.onResize()
+        },
         beforeMount () {
             window.addEventListener('load', this.onResize)
             window.addEventListener('resize', this.onResize)
