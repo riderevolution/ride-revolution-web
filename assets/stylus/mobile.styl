@@ -2204,6 +2204,7 @@
     .news
         &.inner
             #content
+                padding: 40px 40px 20px
                 max-width: 100%
                 margin: 0 auto
                 flex-direction: column-reverse
@@ -2213,7 +2214,7 @@
                     width: 100%
                 .left
                     p
-                        brandon_regular(12px, false)
+                        brandon_regular(14px, false)
                         line-height: 1.5
                 .right
                     text-align: center
@@ -2226,18 +2227,17 @@
             #more_things
                 max-width: 100%
                 margin: 0 auto
-                padding: 10px 20px 20px
+                padding: 20px 40px
                 h3
                     text-align: center
                     margin: 0 0 10px
-                    brandon_bold(18px, true)
+                    brandon_bold(24px, true)
                 .default
                     padding-bottom: 40px
                 .news_list
-                    margin: 0 0 20px
                     .bottom
                         .title
-                            brandon_bold(12px, true)
+                            brandon_bold(14px, true)
                         .date
                             brandon_light(12px, false)
                         .description
@@ -2254,13 +2254,13 @@
         #content
             max-width: 100%
             margin: 0 auto
-            padding: 20px
+            padding: 40px 20px 20px
             .news_list
-                flex: 0 0 100%
-                margin: 0 0 20px
+                flex: 0 0 calc(33.33% - 20px)
+                margin: 10px
                 .bottom
                     .title
-                        brandon_bold(12px, true)
+                        brandon_bold(14px, true)
                     .date
                         brandon_light(12px, false)
                     .description
@@ -2276,12 +2276,11 @@
         #content
             .top
                 max-width: 100%
-                padding: 20px
+                padding: 40px
                 .header_title
-                    brandon_bold(18px, true)
+                    brandon_bold(36px, true)
                 .icons
                     .wrapper
-                        flex: 0 0 100%
                         margin: 0 15px
                         #numbering
                             height: 80px
@@ -2290,10 +2289,10 @@
             .bottom
                 .faqs_list
                     max-width: 100%
-                    padding: 20px
+                    padding: 40px
                     .wrapper
                         .title
-                            brandon_bold(14px, true)
+                            brandon_bold(18px, true)
                             padding: 10px 0
                             margin-bottom: 10px
                             .toggler
@@ -2302,29 +2301,26 @@
                             padding: 0 10px
                             b,
                             strong
-                                brandon_medium(12px, true)
+                                brandon_medium(14px, true)
                             p
-                                brandon_light(12px, false)
+                                brandon_light(14px, false)
                             ul
                                 padding-left: 30px
                                 li
-                                    brandon_light(12px, false)
+                                    brandon_light(14px, false)
     /**
      * Contact Us */
     .contact_us
         #content
             .top
                 max-width: 100%
-                padding: 20px 10px
-                #default_form,
-                .right
-                    flex: 0 0 100%
+                padding: 40px 40px 20px
                 #default_form
                     .form_flex
                         &.captcha
-                            justify-content: center
+                            justify-content: space-between
                             .form_button
-                                flex: 0 0 100%
+                                margin-top: 0
                 .right
                     .inquiry_list
                         margin: 10px 0
@@ -2333,20 +2329,17 @@
                         justify-content: space-between
                         .wrapper
                             flex: 0 0 auto
-                            margin-bottom: 10px
+                            margin-bottom: 20px
                             .title
                                 brandon_bold(14px, false)
                                 margin-bottom: 10px
                             .link
                                 a
-                                    brandon_regular(12px, false)
+                                    brandon_regular(14px, false)
                     .connect
-                        text-align: center
                         .connect_title
                             margin-bottom: 10px
                             brandon_bold(14px, true)
-                        .connect_links
-                            justify-content: center
             .bottom
                 .left,
                 .right
@@ -2355,21 +2348,21 @@
                     .gmap
                         height: 300px !important
                 .right
-                    padding: 20px
+                    padding: 40px
                     .studio_item
                         padding: 10px 0
                         &.toggled
                             .info
                                 margin-top: 10px
                         .title
-                            brandon_medium(14px, true)
+                            brandon_medium(16px, true)
                         .info
                             .description
                                 brandon_medium(14px, false)
                             .link
                                 padding: 5px 0
                                 a
-                                    brandon_regular(12px, false)
+                                    brandon_regular(14px, false)
     /**
      * Instructor */
     .instructors
@@ -3060,6 +3053,11 @@
     #banner
         &.mt
             margin-top: 74px
+        &.alt_4
+            .overlay_mid
+                max-width: calc(100% - 30px)
+                h1
+                    brandon_bold(26px, false)
         &.alt_2
             .overlay_mid
                 h1
