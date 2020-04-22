@@ -1,7 +1,7 @@
 <template>
     <div class="default_modal_page">
         <section id="banner" class="alt_2">
-            <img src="/default/buy-rides/buy-rides-banner-success.jpg" />
+            <img class="full" src="/default/book-a-bike/book-a-bike-success-banner.jpg" />
             <div class="overlay_mid">
                 <h1>Yay! You successfully booked a ride. You’re all set!!</h1>
             </div>

@@ -43,7 +43,7 @@
             <div class="content">
                 <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in populateInstructors" :key="key" @mouseover="toggleActionHover(key)" @mouseleave="toggleActionLeave(key)">
                     <a class="follow" href="javascript:void(0)"><img src="/icons/ig-white-icon.svg" /><span>Follow</span></a>
-                    <img class="main" :src="`/default/instructor/instructor-${key + 1}.png`" />
+                    <img class="main" :src="data.path" />
                     <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
                     <div class="overlay">
                         <div class="title">{{ data.name }}</div>
@@ -119,68 +119,119 @@
                 ],
                 instructors: [
                     {
+                        name: 'Bea',
+                        path: '/default/instructor/instructor-bea.png',
+                        checked: true
+                    },
+                    {
                         name: 'Billie',
+                        path: '/default/instructor/instructor-billie.png',
                         checked: true
                     },
                     {
-                        name: 'Bianca',
+                        name: 'Edd',
+                        path: '/default/instructor/instructor-edd.png',
                         checked: true
                     },
                     {
-                        name: 'Niqui',
+                        name: 'EG',
+                        path: '/default/instructor/instructor-eg.png',
                         checked: true
                     },
                     {
-                        name: 'Wanda',
+                        name: 'Ella',
+                        path: '/default/instructor/instructor-ella.png',
                         checked: true
                     },
                     {
-                        name: 'Maxo',
-                        checked: true
-                    },
-                    {
-                        name: 'Jeff',
+                        name: 'France',
+                        path: '/default/instructor/instructor-france.png',
                         checked: true
                     },
                     {
                         name: 'Gelo',
+                        path: '/default/instructor/instructor-gelo.png',
                         checked: true
                     },
                     {
-                        name: 'Vicky',
+                        name: 'Hanz',
+                        path: '/default/instructor/instructor-hanz.png',
                         checked: true
                     },
                     {
-                        name: 'Amanda',
+                        name: 'Hanz',
+                        path: '/default/instructor/instructor-hanz.png',
                         checked: true
                     },
                     {
                         name: 'Jasper',
+                        path: '/default/instructor/instructor-jasper.png',
                         checked: true
                     },
                     {
-                        name: 'Nicole',
+                        name: 'Jeff',
+                        path: '/default/instructor/instructor-jeff.png',
                         checked: true
                     },
                     {
-                        name: 'Antonette',
+                        name: 'JP',
+                        path: '/default/instructor/instructor-jp.png',
                         checked: true
                     },
                     {
-                        name: 'Billie',
-                        checked: false
+                        name: 'Kat',
+                        path: '/default/instructor/instructor-kat.png',
+                        checked: true
                     },
                     {
-                        name: 'Bianca',
-                        checked: false
+                        name: 'Keith',
+                        path: '/default/instructor/instructor-keith.png',
+                        checked: true
+                    },
+                    {
+                        name: 'Kylee',
+                        path: '/default/instructor/instructor-kylee.png',
+                        checked: true
+                    },
+                    {
+                        name: 'Meng',
+                        path: '/default/instructor/instructor-meng.png',
+                        checked: true
+                    },
+                    {
+                        name: 'Miguel',
+                        path: '/default/instructor/instructor-miguel.png',
+                        checked: true
+                    },
+                    {
+                        name: 'My',
+                        path: '/default/instructor/instructor-my.png',
+                        checked: true
+                    },
+                    {
+                        name: 'Nicolete',
+                        path: '/default/instructor/instructor-nicolete.png',
+                        checked: true
+                    },
+                    {
+                        name: 'Nikki',
+                        path: '/default/instructor/instructor-nikki.png',
+                        checked: true
                     },
                     {
                         name: 'Niqui',
-                        checked: false
+                        path: '/default/instructor/instructor-niqui.png',
+                        checked: true
+                    },
+                    {
+                        name: 'Vinny',
+                        path: '/default/instructor/instructor-vinny.png',
+                        checked: true
                     },
                     {
                         name: 'Wanda',
-                        checked: false
+                        path: '/default/instructor/instructor-wanda.png',
+                        checked: true
                     },
                 ]
             }
