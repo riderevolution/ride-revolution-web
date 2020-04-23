@@ -527,32 +527,32 @@
                 tabChartCategory: 'monthly',
                 topInstructors: [
                     {
-                        path: '/default/instructor/sample-instructor.png',
+                        path: '/default/instructor/instructor-bea.png',
+                        name: 'Bea',
+                        ride: 20,
+                        hovered: false
+                    },
+                    {
+                        path: '/default/instructor/instructor-billie.png',
                         name: 'Billie',
                         ride: 20,
                         hovered: false
                     },
                     {
-                        path: '/default/instructor/sample-instructor.png',
-                        name: 'Billie',
+                        path: '/default/instructor/instructor-kat.png',
+                        name: 'Kat',
                         ride: 20,
                         hovered: false
                     },
                     {
-                        path: '/default/instructor/sample-instructor.png',
-                        name: 'Billie',
+                        path: '/default/instructor/instructor-jp.png',
+                        name: 'JP',
                         ride: 20,
                         hovered: false
                     },
                     {
-                        path: '/default/instructor/sample-instructor.png',
-                        name: 'Billie',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/sample-instructor.png',
-                        name: 'Billie',
+                        path: '/default/instructor/instructor-eg.png',
+                        name: 'EG',
                         ride: 20,
                         hovered: false
                     }

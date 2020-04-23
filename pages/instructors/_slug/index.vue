@@ -29,7 +29,7 @@
                     <p>Use your mental strength to beat the person<br> you were yesterday! <span class="green">#RideRevWithBilly</span></p>
                 </div>
             </div>
-            <div class="right" style="background-image: url('/default/instructor/instructor-3.png');">
+            <div class="right" style="background-image: url('/default/instructor/instructor-vinny.png');">
             </div>
         </section>
         <section id="classes">

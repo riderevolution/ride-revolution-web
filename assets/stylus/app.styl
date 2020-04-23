@@ -2662,6 +2662,7 @@ svg
                             color: $gray_alt2
                             letter-spacing: 0.4px
                     .comment_info_mobile
+                        flex: 0 0 100%
                         .title
                             brandon_bold(14px, false)
                             color: $black
@@ -7545,19 +7546,31 @@ svg
         z-index: 0
         width: 100%
         height: 100%
-        background-color: rgba(0, 0, 0, 0.6)
+        background-color: rgba(0, 0, 0, 0.4)
 
 /**
  * Default Referral */
 #referral
+    position: relative
     background-image: linear-gradient(110deg, $blue, $green)
     padding: 8em 0
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 0
+        width: 100%
+        height: 100%
+        background-color: rgba(0, 0, 0, 0.4)
     &.alt
         background-image: url(/default/book-a-bike/book-a-bike-banner.jpg)
         background-repeat: no-repeat
         background-position: center
         background-size: cover
     .wrapper
+        position: relative
+        z-index: 1
         text-align: center
         h2
             brandon_bold(26px, false)
