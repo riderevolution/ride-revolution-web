@@ -53,7 +53,9 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="!showLoadedInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
+                <div class="action">
+                    <div v-if="!showLoadedInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
+                </div>
             </div>
         </section>
     </div>
