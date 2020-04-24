@@ -117,7 +117,6 @@
                         me.loader(false)
                     }, 500)
                     me.$parent.removeNext = false
-                    console.log(me.$parent.toSubmit.tempSeat);
                 }
             },
             /**

@@ -26,7 +26,7 @@
         </section>
         <instagram-alternate />
         <section id="banner" class="mt alt">
-            <img class="full" src="/default/studio/book-a-ride.jpg" />
+            <img class="full" src="/default/news/book-a-bike.jpg" />
             <div class="overlay_mid">
                 <h2>Begin your fitness journey with us.</h2>
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
@@ -49,61 +49,55 @@
                 showLoadedNews: false,
                 news: [
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-1.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-2.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-3.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-4.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-5.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-6.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-7.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-8.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false
                     },
                     {
-                        path: '/default/news/news-inner-banner.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-banner.jpg',
+                        path: '/default/news/news-inner-9.jpg',
                         title: 'Ride Revolution awarded best indoor cycling studio',
                         description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
                         checked: false

@@ -287,6 +287,7 @@
         },
         data () {
             return {
+                res: [],
                 isMobile: false,
                 step: 1,
                 type: 1,
@@ -527,33 +528,35 @@
                 const me = this
                 let token = (!me.inApp) ? me.$cookies.get('token') : me.$route.query.token
                 let formData = new FormData()
+                if (me.manage) {
+                    formData.append('update', 1)
+                }
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                // me.loader(true)
+                me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    console.log(res.data);
-                //     if (res.data) {
-                //         me.submitted = true
-                //         me.step = 0
-                //         me.$store.state.buyRidesSuccessStatus = true
-                //         me.$scrollTo('#content', {
-                //             offset: -250
-                //         })
-                //     }
-                // }).catch(err => {
-                //     document.body.classList.add('no_scroll')
-                //     setTimeout( () => {
-                //         me.$store.state.errorList = err.response.data.errors
-                //         me.$store.state.errorPromptStatus = true
-                //     }, 500)
-                // }).then(() => {
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
+                    if (res.data) {
+                        me.submitted = true
+                        me.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
+                        me.$scrollTo('#content', {
+                            offset: -250
+                        })
+                    }
+                }).catch(err => {
+                    document.body.classList.add('no_scroll')
+                    setTimeout( () => {
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    }, 500)
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             },
             toggleStep (type) {
@@ -732,7 +735,7 @@
                                 }
                                 if (me.seats[parent][child][i].id == secondSeat.id) {
                                     me.seats[parent][child][i].temp = {}
-                                    me.seats[parent][child][i].temp.status = firstSeat.temp.status
+                                    me.seats[parent][child][i].status = firstSeat.status
                                     me.seats[parent][child][i].temp.guest = firstSeat.temp.guest
                                     me.seats[parent][child][i].temp.class_package = firstSeat.temp.class_package
                                     me.seats[parent][child][i].temp.customer = firstSeat.temp.customer
@@ -800,6 +803,7 @@
                                 me.layout = res.data.scheduledDate.schedule.studio_id
                                 let layout = `layout_${res.data.scheduledDate.schedule.studio_id}`
                                 me.seats = { left: { position: 'left', layout: layout, data: [] }, right: { position: 'right', layout: layout, data: [] }, bottom: { position: 'bottom', layout: layout, data: [] }, bottom_alt: { position: 'bottom_alt', layout: layout, data: [] }, bottom_alt_2: { position: 'bottom_alt_2', layout: layout, data: [] }, }
+                                me.res = res.data
                                 me.temp = res.data.seats
                                 me.schedule = res.data.scheduledDate
                                 me.temp.forEach((seat , index) => {
@@ -881,13 +885,17 @@
             onResize() {
                 const me = this
                 if (document.documentElement && document.documentElement.clientWidth) {
-                    if (document.documentElement.clientWidth <= 1280) {
+                    if (document.documentElement.clientWidth <= 1025) {
                         me.isMobile = true
                     } else {
                         me.isMobile = false
                     }
                 }
             }
+        },
+        mounted () {
+            const me = this
+            me.onResize()
         },
         beforeMount () {
             window.addEventListener('load', this.onResize)
