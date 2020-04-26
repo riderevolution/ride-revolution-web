@@ -188,11 +188,11 @@
                     <div class="form_flex radio">
                         <label>Sex <span>*</span></label>
                         <div class="form_radio">
-                            <input type="radio" id="female" value="female" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
+                            <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
                             <label for="female">Female</label>
                         </div>
                         <div class="form_radio">
-                            <input type="radio" id="male" value="male" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
+                            <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
                             <label for="male">Male</label>
                         </div>
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.sex')">{{ errors.first('register_process_form.sex') | properFormat }}</span></transition>
