@@ -20,8 +20,8 @@
             </div>
             <div class="bottom">
                 <div class="faqs_list">
-                    <div :id="`item_${key}`" :class="`wrapper ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in faqs" :key="key" @click="toggleFAQ(key)">
-                        <div class="title">{{ data.title }} <span class="toggler"></span></div>
+                    <div :id="`faq_item_${key}`" :class="`wrapper ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in res" :key="key" @click="toggleFAQ(key)">
+                        <div class="title">{{ data.name }} <span class="toggler"></span></div>
                         <div class="description" v-html="data.description"></div>
                     </div>
                  </div>
@@ -59,36 +59,15 @@
                         description: 'Choose your class time and reserve your bike. You can also book for up to 3 friends.'
                     }
                 ],
-                faqs: [
-                    {
-                        title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b> <br><br> <ul> <li> Sample Text </li> <li> Sample Text </li> </ul>',
-                        toggled: false
-                    },
-                    {
-                        title: 'Ride Rewards July 2018',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b>',
-                        toggled: false
-                    },
-                    {
-                        title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b>',
-                        toggled: false
-                    },
-                    {
-                        title: 'Ride Rewards Revamp',
-                        description: '<b>Sample</b><br><br><p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p> <br> <b>Sample</b>',
-                        toggled: false
-                    }
-                ]
+                res: []
             }
         },
         methods: {
             toggleFAQ (key) {
                 const me = this
-                let target = document.getElementById(`item_${key}`)
-                me.faqs.forEach((element, index) => {
-                    let elements = document.getElementById(`item_${index}`)
+                let target = document.getElementById(`faq_item_${key}`)
+                me.res.forEach((element, index) => {
+                    let elements = document.getElementById(`faq_item_${index}`)
                     if (key == index) {
                         if (element.toggled) {
                             element.toggled = false
@@ -103,6 +82,26 @@
                     }
                 })
             }
+        },
+        async mounted () {
+            const me = this
+            me.loader(true)
+            await me.$axios.get('api/web/faqs').then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        res.data.faqs.forEach((faq, index) => {
+                            faq.toggled = false
+                            me.res.push(faq)
+                        })
+                    }, 500)
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
         }
     }
 </script>

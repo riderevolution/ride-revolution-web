@@ -3221,6 +3221,19 @@
     /**
      * Main */
     #main_container
+        #header
+            &.instructor
+                .navbar
+                    .nav_list
+                        li
+                            .nav_item
+                                brandon_bold(14px, true)
+            .navbar
+                .nav_list
+                    li
+                        margin: 0 15px
+                        .nav_item
+                            brandon_bold(14px, true)
         #footer
             .footer_link
                 height: 100%
@@ -4656,6 +4669,21 @@
                 .select
                     .label
                         brandon_bold(14px, false)
+                    .custom_select
+                        .check
+                            label
+                                padding: 10px
+                                brandon_medium(12px, false)
+                                &.label
+                                    padding: 10px
+                                    brandon_medium(12px, false)
+                                img
+                                    width: auto
+                                    height: 25px
+                                span
+                                    padding-left: 10px
+                            input
+                                right: calc(0% + 10px)
             .right
                 .input
                     display: block
@@ -4686,7 +4714,7 @@
                     padding: 50% 0
                     .overlay
                         .title
-                            brandon_bold(12px, true)
+                            brandon_bold(14px, true)
                             padding: 0 10px
                         .action
                             padding: 10px 10px 20px
