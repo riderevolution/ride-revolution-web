@@ -4,13 +4,13 @@
             <div @mouseenter="swiperEvent('stop')" @mouseleave="swiperEvent('start')">
                 <swiper :options="promoOptions" ref="swiper" class="default">
                     <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
-                        <img :src="data.path" alt="" />
+                        <img :src="data.images[0].path" :alt="data.images[0].alt" />
                         <div class="overlay">
                             <h2 class="header_title" v-line-clamp="3">Ride Rev Promo</h2>
-                            <h3 class="title">{{ data.title }}</h3>
+                            <h3 class="title">{{ data.name }}</h3>
                             <div class="description" v-line-clamp="lineClamp" v-html="data.description"></div>
                             <div class="copy_wrapper" v-if="data.hasCode">
-                                <input class="code" :id="`code_${key}`" :value="data.code" />
+                                <input class="code" :id="`code_${key}`" :value="data.promo_code" />
                                 <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
                             </div>
                         </div>
@@ -61,41 +61,7 @@
                         }
                     }
                 },
-                res: [
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'ASD1231'
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'HGJ23A'
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'JHSHAI23'
-                    }
-                ]
+                res: []
             }
         },
         methods: {
@@ -128,13 +94,35 @@
                 }
             }
         },
-        mounted () {
+        async mounted () {
             const me = this
-            if (me.$parent.$parent.$parent.isMobile) {
-                me.lineClamp = 3
-            } else {
-                me.lineClamp = 4
-            }
+            me.loader(true)
+            await me.$axios.get('api/web/promos').then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        if (me.$parent.$parent.$parent.isMobile) {
+                            me.lineClamp = 3
+                        } else {
+                            me.lineClamp = 4
+                        }
+                        console.log(res.data.promos);
+                        res.data.promos.forEach((promo, index) => {
+                            if (promo.promo_code) {
+                                promo.hasCode = true
+                            } else {
+                                promo.hasCode = false
+                            }
+                            me.res.push(promo)
+                        })
+                    }, 500)
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
         }
     }
 </script>
