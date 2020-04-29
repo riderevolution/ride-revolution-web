@@ -299,6 +299,23 @@
                 }, 200)
                 document.body.classList.add('no_scroll')
             }
+        },
+        async mounted () {
+            const me = this
+            me.loader(true)
+            await me.$axios.get(`api/web/studio-slug/${me.$route.params.slug}`).then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        console.log(res.data);
+                    }, 500)
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
         }
     }
 </script>
