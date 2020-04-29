@@ -26,15 +26,15 @@
                 </div>
             </div>
             <div class="content" v-if="!$parent.$parent.isMobile">
-                <nuxt-link :to="`/buy-rides/package/${convertToSlug(data.title)}`" :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
-                    <div class="ribbon" v-if="data.has_promo">Promo</div>
+                <nuxt-link :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
+                    <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                     <div class="package_header">
-                        <h2 class="title">{{ data.title }}</h2>
-                        <div class="description" v-line-clamp="3" v-html="data.description"></div>
+                        <h2 class="title">{{ data.name }}</h2>
+                        <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                     </div>
-                    <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
-                    <div class="price">Php {{ totalItems(data.price) }}</div>
-                    <div class="expires">{{ data.expire }}</div>
+                    <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
+                    <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
+                    <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
                     <div class="default_btn_out"><span>Buy Now</span></div>
                 </nuxt-link>
             </div>
@@ -42,15 +42,15 @@
                 <no-ssr>
                     <swiper :options="mobileOptions" class="default">
                         <swiper-slide class="slider" v-for="(data, key) in packages" :key="key">
-                            <nuxt-link :class="`package_wrapper ${(data.has_promo) ? 'promo' : ''}`" :to="`/buy-rides/package/${convertToSlug(data.title)}`">
-                                <div class="ribbon" v-if="data.has_promo">Promo</div>
+                            <nuxt-link :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`">
+                                <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                                 <div class="package_header">
-                                    <h2 class="title">{{ data.title }}</h2>
-                                    <div class="description" v-line-clamp="3" v-html="data.description"></div>
+                                    <h2 class="title">{{ data.name }}</h2>
+                                    <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                                 </div>
-                                <div class="discounted_price" v-if="data.has_promo">Php {{ totalItems(data.discounted_price) }}</div>
-                                <div class="price">Php {{ totalItems(data.price) }}</div>
-                                <div class="expires">{{ data.expire }}</div>
+                                <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
+                                <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
+                                <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
                                 <div class="default_btn_out"><span>Buy Now</span></div>
                             </nuxt-link>
                         </swiper-slide>
@@ -312,52 +312,7 @@
                         prevEl: '.swiper-button-prev'
                     }
                 },
-                packages: [
-                    {
-                        title: 'Trial Class',
-                        description: '<p>1 class included<br /> First Timers Only</p>',
-                        price: '500',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days'
-                    },
-                    {
-                        title: 'First Timer Package',
-                        description: '<p>UNLIMITED RIDES VALID<br /> FOR ONLY 2 WEEKS</p>',
-                        price: '1800',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days'
-                    },
-                    {
-                        title: 'Single Class',
-                        description: '<p>1 CLASS INCLUDED</p>',
-                        price: '5000',
-                        has_promo: false,
-                        expire: 'Expires in 45 Days'
-                    },
-                    {
-                        title: '10 Class Package',
-                        description: '<p>10 CLASSES INCLUDED<br /> + 1 BARE MANILA CLASS</p>',
-                        price: '500',
-                        has_promo: false,
-                        expire: 'Expires in 30 Days'
-                    },
-                    {
-                        title: '20 Class Package',
-                        description: '<p>20 CLASSES INCLUDED<br /> + 2 BARE MANILA CLASS</p>',
-                        discounted_price: '17000',
-                        price: '15000',
-                        has_promo: true,
-                        expire: 'Expires in 6 Months'
-                    },
-                    {
-                        title: 'Monthly Unlimited Class Package',
-                        description: '<p>UNLIMITED CLASS RIDES<br /> + 3 BARE MANILA CLASSES AND<br /> FREE FOOD AND DRINKS</p>',
-                        discounted_price: '22500',
-                        price: '20000',
-                        has_promo: true,
-                        expire: 'Expires in 1 Year'
-                    },
-                ],
+                packages: [],
                 reviews: [
                     {
                         description: '<p>My instructors know my capabilities and push me to my limit every single class.</p>',
@@ -482,13 +437,23 @@
                 })
             }
         },
-        mounted () {
+        async mounted () {
             const me = this
             me.loader(true)
-            me.studio = me.studios[0]
-            setTimeout( () => {
-                me.loader(false)
-            }, 500)
+            await me.$axios.get('api/web/home').then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        me.packages = res.data.classPackages
+                        me.studio = me.studios[0]
+                    }, 500)
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
         },
         head () {
             return {

@@ -10,11 +10,11 @@
         </section>
         <section id="promos" class="alt">
             <div class="promo_list" v-for="(data, key) in populatePromos" :key="key">
-                <h2 class="header_title" v-line-clamp="3">Ride Rev Promo</h2>
-                <h3 class="title">{{ data.title }}</h3>
-                <div class="description" v-line-clamp="4" v-html="data.description"></div>
+                <h2 class="header_title">Ride Rev Promo</h2>
+                <h3 class="title">{{ data.name }}</h3>
+                <div class="description" v-html="data.description"></div>
                 <div class="copy_wrapper" v-if="data.hasCode">
-                    <input class="code" :id="`code_${key}`" :value="data.code" />
+                    <input class="code" :id="`code_${key}`" :value="data.promo_code" />
                     <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
                 </div>
             </div>
@@ -34,69 +34,7 @@
         data () {
             return {
                 toShow: 6,
-                promos: [
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false,
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'ASD1231',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'HGJ23A',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false,
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'JHSHAI23',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'HGJ23A',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false,
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'JHSHAI23',
-                        checked: false
-                    }
-                ]
+                res: []
             }
         },
         computed: {
@@ -104,9 +42,9 @@
                 const me = this
                 let result = []
                 for (let i = 0; i < me.toShow; i++) {
-                    if (me.promos[i]) {
-                        me.promos[i].checked = true
-                        result.push(me.promos[i])
+                    if (me.res[i]) {
+                        me.res[i].checked = true
+                        result.push(me.res[i])
                     }
                 }
                 return result
@@ -115,12 +53,12 @@
                 const me = this
                 let count = 0
                 let result = false
-                me.promos.forEach((data, index) => {
+                me.res.forEach((data, index) => {
                     if (data.checked) {
                         count++
                     }
                 })
-                if (count == me.promos.length) {
+                if (count == me.res.length) {
                     result = true
                 } else {
                     result = false
@@ -151,6 +89,31 @@
                     }, 1000)
                 }
             }
+        },
+        async mounted () {
+            const me = this
+            me.loader(true)
+            await me.$axios.get('api/web/promos').then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        res.data.promos.forEach((promo, index) => {
+                            if (promo.promo_code) {
+                                promo.hasCode = true
+                            } else {
+                                promo.hasCode = false
+                            }
+                            promo.checked = false
+                            me.res.push(promo)
+                        })
+                    }, 500)
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
         }
     }
 </script>

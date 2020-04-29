@@ -6,8 +6,8 @@
                     <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
                         <img :src="data.images[0].path" :alt="data.images[0].alt" />
                         <div class="overlay">
-                            <h2 class="header_title" v-line-clamp="3">Ride Rev Promo</h2>
-                            <h3 class="title">{{ data.name }}</h3>
+                            <h2 class="header_title">Ride Rev Promo</h2>
+                            <h3 class="title" v-line-clamp="3">{{ data.name }}</h3>
                             <div class="description" v-line-clamp="lineClamp" v-html="data.description"></div>
                             <div class="copy_wrapper" v-if="data.hasCode">
                                 <input class="code" :id="`code_${key}`" :value="data.promo_code" />
@@ -105,7 +105,6 @@
                         } else {
                             me.lineClamp = 4
                         }
-                        console.log(res.data.promos);
                         res.data.promos.forEach((promo, index) => {
                             if (promo.promo_code) {
                                 promo.hasCode = true
