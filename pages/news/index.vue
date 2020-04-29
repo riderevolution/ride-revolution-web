@@ -9,14 +9,14 @@
             </div>
         </section>
         <section id="content">
-            <nuxt-link :to="`/news/${convertToSlug(data.title)}`" class="news_list" v-if="data.checked" v-for="(data, key) in populateNews" :key="key">
+            <nuxt-link :to="`/news/${data.slug}`" class="news_list" v-if="data.checked" v-for="(data, key) in populateNews" :key="key">
                 <div class="top">
-                    <img :src="data.path" alt="asdasdasd" />
+                    <img :src="data.images[0].path_resized" :alt="data.images[0].alt" />
                 </div>
                 <div class="bottom">
-                    <div class="title">{{ data.title }}</div>
-                    <div class="date">{{ $moment().format('MMM DD, YYYY') }}</div>
-                    <div class="description" v-line-clamp="3" v-html="data.description"></div>
+                    <div class="title">{{ data.name }}</div>
+                    <div class="date">{{ $moment(data.date_published).format('MMM DD, YYYY') }}</div>
+                    <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                     <div class="link">Read More</div>
                 </div>
             </nuxt-link>
@@ -47,62 +47,7 @@
             return {
                 toShow: 6,
                 showLoadedNews: false,
-                news: [
-                    {
-                        path: '/default/news/news-inner-1.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-2.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-3.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-4.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-5.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-6.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-7.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-8.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    },
-                    {
-                        path: '/default/news/news-inner-9.jpg',
-                        title: 'Ride Revolution awarded best indoor cycling studio',
-                        description: 'We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online.',
-                        checked: false
-                    }
-                ]
+                res: []
             }
         },
         computed: {
@@ -111,13 +56,13 @@
                 let result = []
                 let count = 0
                 for (let i = 0; i < me.toShow; i++) {
-                    if (me.news[i]) {
+                    if (me.res[i]) {
                         count++
-                        me.news[i].checked = true
-                        result.push(me.news[i])
+                        me.res[i].checked = true
+                        result.push(me.res[i])
                     }
                 }
-                if (count == me.news.length) {
+                if (count == me.res.length) {
                     me.showLoadedNews = true
                 } else {
                     me.showLoadedNews = false
@@ -135,6 +80,26 @@
                     })
                 }
             }
+        },
+        async mounted () {
+            const me = this
+            me.loader(true)
+            await me.$axios.get('api/web/news').then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        res.data.news.forEach((item, index) => {
+                            item.checked = false
+                            me.res.push(item)
+                        })
+                    }, 500)
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
         }
     }
 </script>
