@@ -21,7 +21,7 @@
             <div class="header">
                 <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">packages</h2>
                 <div class="description">
-                    <p>Start your revolution! Purchase a class before you book a bike. You have <span class="red">30 days</span> to activate your class package.</p>
+                    <p>Start your revolution here! Purchase a class package so you can get credits to book a class.</p>
                     <nuxt-link class="link" to="/buy-rides" v-if="!$parent.$parent.isMobile"><span>See All Class Packages</span> <div></div><div></div><div></div></nuxt-link>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="header">
                 <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">reviews</h2>
                 <div class="description">
-                    <p><strong>We’ve heard things like…</strong></p>
+                    <p><strong>Here’s what our Riders had to say...</strong></p>
                 </div>
             </div>
             <div class="content">
@@ -97,14 +97,14 @@
                     <img src="/default/home/instructors-cover.png" alt="ride-revolution-instructor" />
                 </div>
                 <div class="info" v-if="!$parent.$parent.isMobile">
-                    <h2 class="title">Train With The Best</h2>
-                    <div class="description">We have the most exciting instructors to allow you to lose <br> yourself, let's go and have fun.</div>
+                    <h2 class="title">Ride with the Best.</h2>
+                    <div class="description">Our awesome instructors will keep you engaged with their positive energy, choreography, and catchy tunes to push you towards your best self.</div>
                     <nuxt-link rel="canonical" to="/instructors" class="default_btn">Meet our Instructors</nuxt-link>
                 </div>
                 <div class="info mobile" v-else>
                     <img src="/default/home/instructor-mobile.svg" />
-                    <h2 class="title">Train With The Best</h2>
-                    <div class="description">We have the most exciting instructors to allow you to lose yourself, let's go and have fun.</div>
+                    <h2 class="title">Ride with the Best.</h2>
+                    <div class="description">Our awesome instructors will keep you engaged with their positive energy, choreography, and catchy tunes to push you towards your best self.</div>
                     <nuxt-link rel="canonical" to="/instructors" class="default_btn">Meet our Instructors</nuxt-link>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <div class="header">
                 <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">studios</h2>
                 <div class="description">
-                    <p><strong>Explore Our Studios</strong></p>
+                    <p><strong>Explore our studio locations.</strong></p>
                     <nuxt-link rel="canonical" to="/studios" class="default_btn">See All</nuxt-link>
                 </div>
             </div>
