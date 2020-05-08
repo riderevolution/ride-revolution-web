@@ -142,8 +142,9 @@
                     }
                 ],
                 meta: [
-                    { hid: 'og:title', property: 'og:title', content: `${me.res.title}` },
-                    { hid: 'og:description', property: 'og:description', content: `${me.res.subtitle}` },
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
                     { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
                     { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
                     { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
