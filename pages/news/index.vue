@@ -1,53 +1,53 @@
 <template>
-    <div class="news">
-        <section id="banner" class="mt">
-            <img class="full" src="/default/news/news-banner.jpg" />
-            <breadcrumb :overlay="true" />
-            <div class="overlay_mid">
-                <h1>News</h1>
-                <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
-            </div>
-        </section>
-        <section id="content">
-            <nuxt-link :to="`/news/${data.slug}`" class="news_list" v-if="data.checked" v-for="(data, key) in populateNews" :key="key">
-                <div class="top">
-                    <img :src="data.images[0].path_resized" :alt="data.images[0].alt" />
+    <transition name="fade">
+        <div class="news" v-if="loaded">
+            <section id="banner" class="mt">
+                <img class="full" src="/default/news/news-banner.jpg" />
+                <breadcrumb :overlay="true" />
+                <div class="overlay_mid">
+                    <h1>{{ res.title }}</h1>
+                    <h2 class="alt" v-html="res.subtitle"></h2>
                 </div>
-                <div class="bottom">
-                    <div class="title">{{ data.name }}</div>
-                    <div class="date">{{ $moment(data.date_published).format('MMM DD, YYYY') }}</div>
-                    <div class="description" v-line-clamp="3" v-html="data.summary"></div>
-                    <div class="link">Read More</div>
+            </section>
+            <section id="content">
+                <nuxt-link :to="`/news/${data.slug}`" class="news_list" v-if="data.checked" v-for="(data, key) in populateNews" :key="key">
+                    <div class="top">
+                        <img :src="data.images[0].path_resized" :alt="data.images[0].alt" />
+                    </div>
+                    <div class="bottom">
+                        <div class="title">{{ data.name }}</div>
+                        <div class="date">{{ $moment(data.date_published).format('MMM DD, YYYY') }}</div>
+                        <div class="description" v-line-clamp="3" v-html="data.summary"></div>
+                        <div class="link">Read More</div>
+                    </div>
+                </nuxt-link>
+                <div class="action">
+                    <div v-if="!showLoadedNews" class="default_btn load" @click="loadMoreNews()">Load More</div>
                 </div>
-            </nuxt-link>
-            <div class="action">
-                <div v-if="!showLoadedNews" class="default_btn load" @click="loadMoreNews()">Load More</div>
-            </div>
-        </section>
-        <instagram-alternate />
-        <section id="banner" class="mt alt">
-            <img class="full" src="/default/news/book-a-bike.jpg" />
-            <div class="overlay_mid">
-                <h2>Begin your fitness journey with us.</h2>
-                <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
-            </div>
-        </section>
-    </div>
+            </section>
+            <instagram-alternate />
+            <book-a-bike-banner />
+        </div>
+    </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
     import InstagramAlternate from '../../components/InstagramAlternate'
+    import BookABikeBanner from '../../components/BookABikeBanner'
     export default {
         components: {
             Breadcrumb,
-            InstagramAlternate
+            InstagramAlternate,
+            BookABikeBanner
         },
         data () {
             return {
+                loaded: false,
                 toShow: 6,
                 showLoadedNews: false,
-                res: []
+                res: [],
+                news: []
             }
         },
         computed: {
@@ -56,13 +56,13 @@
                 let result = []
                 let count = 0
                 for (let i = 0; i < me.toShow; i++) {
-                    if (me.res[i]) {
+                    if (me.news[i]) {
                         count++
-                        me.res[i].checked = true
-                        result.push(me.res[i])
+                        me.news[i].checked = true
+                        result.push(me.news[i])
                     }
                 }
-                if (count == me.res.length) {
+                if (count == me.news.length) {
                     me.showLoadedNews = true
                 } else {
                     me.showLoadedNews = false
@@ -83,23 +83,50 @@
         },
         async mounted () {
             const me = this
-            me.loader(true)
-            await me.$axios.get('api/web/news').then(res => {
-                if (res.data) {
-                    setTimeout( () => {
-                        res.data.news.forEach((item, index) => {
-                            item.checked = false
-                            me.res.push(item)
-                        })
-                    }, 500)
-                }
-            }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
-            }).then(() => {
+            document.body.classList.add('no_click')
+            if (me.$store.state.isLoading) {
                 setTimeout( () => {
-                    me.loader(false)
+                    document.body.classList.remove('no_click')
+                    me.$store.state.isLoading = false
                 }, 500)
+            }
+        },
+        async asyncData ({ $axios, params, error, store }) {
+            let tempNews = []
+            store.state.isLoading = true
+            const { data } = await $axios.get(`api/web/news`)
+            data.news.forEach((news, index) => {
+                news.checked = false
+                tempNews.push(news)
             })
+            return {
+                res: data.pageSetting,
+                news: tempNews,
+                loaded: true
+            }
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>

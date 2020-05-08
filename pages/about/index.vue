@@ -44,13 +44,7 @@
                 </div>
             </section>
             <instagram-alternate />
-            <section id="banner" class="mt alt">
-                <img class="full" src="/default/about/book-a-bike.jpg" />
-                <div class="overlay_mid">
-                    <h2>Start your Fitness Revolution with Us.</h2>
-                    <nuxt-link to="/book-a-bike" class="default_btn">Book a Ride</nuxt-link>
-                </div>
-            </section>
+            <book-a-bike-banner />
         </div>
     </transition>
 </template>
@@ -58,10 +52,12 @@
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
     import InstagramAlternate from '../../components/InstagramAlternate'
+    import BookABikeBanner from '../../components/BookABikeBanner'
     export default {
         components: {
             Breadcrumb,
-            InstagramAlternate
+            InstagramAlternate,
+            BookABikeBanner
         },
         data () {
             return {
