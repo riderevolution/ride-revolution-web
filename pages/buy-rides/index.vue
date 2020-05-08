@@ -10,11 +10,11 @@
         <section id="packages" class="alt">
             <div class="header">
                 <h2>
-                    Choose Your Class Packages
+                    Select your class package.
                     <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$parent.$parent.isMobile" />
                 </h2>
                 <div class="description" v-if="!$parent.$parent.isMobile">
-                    <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
+                    <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
                 </div>
                 <transition name="slide">
                     <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoPackages">
@@ -88,9 +88,9 @@
         <section id="digital">
             <img class="full" src="/default/buy-rides/send-digital-bg.jpg" />
             <div class="overlay">
-                <h2>Share this experience with your loved ones!</h2>
-                <h3>For anyone who wants to be their best.</h3>
-                <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Send a Digital Gift Card</nuxt-link>
+                <h2>Share a ride with your loved ones.</h2>
+                <h3>Experience Ride Revolution together!</h3>
+                <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Send a Gift Card</nuxt-link>
             </div>
         </section>
     </div>
