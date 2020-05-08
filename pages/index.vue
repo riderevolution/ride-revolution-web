@@ -153,7 +153,7 @@
                                             </div>
                                             <div class="link">
                                                 <img src="/icons/phone-icon.svg" v-if="studio.phone" />
-                                                <a :href="`tel:${studio.phone}`">{{ studio.phone }}</a>
+                                                <a :href="`tel:02-${studio.phone}`">(02) {{ studio.phone }}</a>
                                             </div>
                                         </div>
                                         <nuxt-link :to="`/studios/${studio.slug}`" class="default_btn">Explore</nuxt-link>
@@ -207,7 +207,7 @@
                                         </div>
                                         <div class="link">
                                             <img src="/icons/phone-icon.svg" v-if="studio.phone" />
-                                            <a :href="`tel:${studio.phone}`">{{ studio.phone }}</a>
+                                            <a :href="`tel:02-${studio.phone}`">(02) {{ studio.phone }}</a>
                                         </div>
                                     </div>
                                     <nuxt-link to="/studios/greenbelt" class="default_btn">Explore</nuxt-link>
