@@ -14,23 +14,23 @@
                     <div class="form_flex">
                         <div class="form_group">
                             <label for="first_name">First Name <span>*</span></label>
-                            <input type="text" name="first_name" autocomplete="off" class="input_text" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="first_name" autocomplete="off" v-model="form.first_name" class="input_text" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('first_name')">{{ errors.first('first_name') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="last_name">Last Name <span>*</span></label>
-                            <input type="text" name="last_name" autocomplete="off" class="input_text" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="last_name" autocomplete="off" v-model="form.last_name" class="input_text" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('last_name')">{{ errors.first('last_name') | properFormat }}</span></transition>
                         </div>
                     </div>
                     <div class="form_group">
                         <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                        <input type="text" id="email" name="email" class="input_text" v-model="form.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">{{ errors.first('email') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="message">Message <span>*</span></label>
-                        <textarea name="message" class="input_text" rows="5" maxlength="1000" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$', max: 1000}"></textarea>
+                        <textarea name="message" class="input_text" rows="5" maxlength="1000" v-model="form.message" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$', max: 1000}"></textarea>
                         <div class="limit_wrapper">
                             <div class="limit"><span class="count">{{ count }}</span> characters left</div>
                             <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="form_group">
                         <div class="form_check">
-                            <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'">
+                            <input type="checkbox" id="i_agree" name="i_agree" class="input_check" :checked="form.i_agree == 1" v-validate="'required'">
                             <label for="i_agree" class="alt">I acknowledge and fully understand the terms and conditions stated above and that all information stated above are true.</label>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('i_agree')">{{ errors.first('i_agree') | properFormat }}</span></transition>
                         </div>
@@ -124,15 +124,20 @@
                 <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
             </div>
         </section>
+        <transition name="fade">
+            <contact-us-prompt v-if="$store.state.contactUsPromptStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import ContactUsPrompt from '../../components/modals/ContactUsPrompt'
     import VueRecaptcha from 'vue-recaptcha'
     export default {
         components: {
             Breadcrumb,
+            ContactUsPrompt,
             VueRecaptcha
         },
         data () {
@@ -196,7 +201,14 @@
                         mail: 'hello@riderev.com',
                         contact: '(02) 798-7447'
                     }
-                ]
+                ],
+                form: {
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    message: '',
+                    i_agree: 0
+                }
             }
         },
         filters: {
@@ -244,10 +256,43 @@
             submissionSuccess () {
                 const me = this
                 me.$validator.validateAll().then(valid => {
-                    if (valid) {
-                        // me.$router.push('/my-profile')
-                        // me.$store.state.loginSignUpStatus = false
-                        // document.body.classList.remove('no_scroll')
+                    if (valid && grecaptcha.getResponse().length) {
+                        let captcha = grecaptcha.getResponse()
+                        me.loader(true)
+                        me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
+                            let formData = new FormData(document.getElementById('default_form'))
+                            if (verify) {
+                                me.$axios.post(`api/inquiries`, formData).then(res => {
+        							if (res.data) {
+                                    	setTimeout(() => {
+        									me.$store.state.contactUsPromptStatus = true
+        					                document.body.classList.add('no_scroll')
+                                    	}, 500)
+        							}
+                                }).catch(err => {
+                                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                                }).then(() => {
+                                    setTimeout( () => {
+        								me.form.first_name = ''
+        								me.form.last_name = ''
+        								me.form.email = ''
+        								me.form.message = ''
+                                        me.form.i_agree = 0
+                                        me.count = 1000
+        								me.errors.clear()
+        								me.$nextTick(() => {
+        									me.$validator.reset()
+        								})
+                                    }, 500)
+                                })
+                            }
+                        }).catch(err => {
+                            me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 1000)
+                        })
                     } else {
                         me.$scrollTo('.validation_errors', {
                             offset: -250
