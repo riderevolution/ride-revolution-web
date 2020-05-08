@@ -3,14 +3,14 @@
         <div class="home" v-if="loaded">
             <section id="banner">
                 <h1>Ride Revolution</h1>
-                <img class="main_image" src="default/home/home-banner.jpg" alt="ride-revolution" />
+                <img class="main_image" :src="res.banners[0].path" :alt="res.banners[0].alt" />
                 <div class="overlay_top">
                     <img class="overlay_image" src="default/home/stronger-together.svg" alt="ride-revolution" v-if="!$parent.$parent.isMobile" />
                     <img class="overlay_image" src="default/home/home-banner-mobile.svg" alt="ride-revolution" v-else />
                     <div class="overlay_child" v-if="!$parent.$parent.isMobile"> <svg id="play_icon" xmlns="http://www.w3.org/2000/svg" width="94" height="93" viewBox="0 0 94 93"> <g transform="translate(-864 -325)"> <g transform="translate(868 329)"> <path class="play" d="M806.695,422.713,787.279,411.3v22.829Z" transform="translate(-752.454 -380.462)" /> <path class="border" d="M819.75,455.351a42.252,42.252,0,1,1-51.864-66.715" transform="translate(-751.456 -379.831)" /> <path class="border" d="M834.187,441.3a42.306,42.306,0,0,1-6.325,9.807" transform="translate(-753.584 -381.298)" /> <path class="border" d="M778.942,382.525a42.283,42.283,0,0,1,56.253,50.6" transform="translate(-752.222 -379.579)" /> </g> <rect class="rect" width="94" height="93" transform="translate(864 325)" /> </g> </svg> <div class="label">Play Video</div> </div>
                 </div>
                 <div class="overlay_bottom">
-                    <p>The revolution begins with you. Join our high intensity, low impact, full body workout on a bike, led by passionate and charismatic instructors.</p>
+                    <p>{{ res.subtitle }}</p>
                     <nuxt-link to="/about" rel="canonical" class="default_btn">About Us</nuxt-link>
                     <div class="scroll_mobile" v-if="$parent.$parent.isMobile">
                         <img src="/icons/scroll-down.svg" @click="scrollDown()" />
@@ -191,7 +191,7 @@
                                     <h2 class="title">{{ studio.name }}</h2>
                                     <div class="description">
                                         <label>Opening Hours</label>
-                                        <div class="opening" v-html="studio.opening"></div>
+                                        <div class="opening" v-html="studio.opening_hours"></div>
                                     </div>
                                 </div>
                                 <div class="content_flex" v-if="$parent.$parent.isMobile">
@@ -199,11 +199,15 @@
                                         <label>Contact Details</label>
                                         <div class="link">
                                             <img src="/icons/email-icon.svg" />
-                                            <a :href="`mailto:${studio.email}`" class="email">{{ studio.mail }}</a>
+                                            <a :href="`mailto:${studio.contact_email_address}`" class="email">{{ studio.contact_email_address }}</a>
                                         </div>
                                         <div class="link">
-                                            <img src="/icons/phone-icon.svg" />
-                                            <a :href="`tel:${studio.contact}`">{{ studio.contact }}</a>
+                                            <img src="/icons/phone-icon.svg" v-if="studio.contact_number" />
+                                            <a :href="`tel:${studio.contact_number}`">{{ studio.contact_number }}</a>
+                                        </div>
+                                        <div class="link">
+                                            <img src="/icons/phone-icon.svg" v-if="studio.phone" />
+                                            <a :href="`tel:${studio.phone}`">{{ studio.phone }}</a>
                                         </div>
                                     </div>
                                     <nuxt-link to="/studios/greenbelt" class="default_btn">Explore</nuxt-link>
@@ -242,7 +246,16 @@
         data () {
             return {
                 loaded: false,
-                res: [],
+                res: [
+                    {
+                        banners: [
+                            {
+                                path: '',
+                                alt: ''
+                            }
+                        ]
+                    }
+                ],
                 studio: [
                     {
                         albums: [
@@ -369,30 +382,40 @@
                 })
             }
         },
-        async mounted () {
-            const me = this
-            me.loader(true)
-            await me.$axios.get('api/web/home').then(res => {
-                console.log(res.data);
-                if (res.data) {
-                    setTimeout( () => {
-                        me.studio = res.data.studios[0]
-                        me.studios = res.data.studios
-                        me.packages = res.data.classPackages
-                        me.loaded = true
-                    }, 500)
-                }
-            }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
-            }).then(() => {
-                setTimeout( () => {
-                    me.loader(false)
-                }, 500)
-            })
+        asyncData ({ $axios, params, error }) {
+            return $axios.get('api/web/home')
+                .then(res => {
+                    return {
+                        res: res.data.home,
+                        studio: res.data.studios[0],
+                        studios: res.data.studios,
+                        packages: res.data.classPackages,
+                        loaded: true
+                    }
+                }).catch(err => {
+                    error({ statusCode: 403, message: 'Page not found' })
+                })
         },
         head () {
+            const me = this
+            let host = process.env.baseUrl
             return {
-                title: 'Home | Ride Revolution',
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.subtitle}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
             }
         }
     }
