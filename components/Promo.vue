@@ -4,7 +4,8 @@
             <div @mouseenter="swiperEvent('stop')" @mouseleave="swiperEvent('start')">
                 <swiper :options="promoOptions" ref="swiper" class="default">
                     <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
-                        <img :src="data.images[0].path" :alt="data.images[0].alt" />
+                        <img :src="data.images[0].path" :alt="data.images[0].alt" v-if="data.images" />
+                        <img :src="data.banners[0].path" :alt="data.banners[0].alt" v-else />
                         <div class="overlay">
                             <h2 class="header_title">Ride Rev Promo</h2>
                             <h3 class="title" v-line-clamp="3">{{ data.name }}</h3>
@@ -100,6 +101,7 @@
             await me.$axios.get('api/web/promos').then(res => {
                 if (res.data) {
                     setTimeout( () => {
+                        console.log(res.data);
                         if (me.$parent.$parent.$parent.isMobile) {
                             me.lineClamp = 3
                         } else {
@@ -113,10 +115,14 @@
                             }
                             me.res.push(promo)
                         })
+                        res.data.promoAnnouncements.forEach((promo, index) => {
+                            promo.hasCode = false
+                            me.res.push(promo)
+                        })
                     }, 500)
                 }
             }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
+                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             }).then(() => {
                 setTimeout( () => {
                     me.loader(false)
