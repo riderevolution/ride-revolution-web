@@ -1,47 +1,45 @@
 <template>
-    <div class="faqs">
-        <section id="banner" class="mt">
-            <img class="full" src="/default/faqs/faq-banner.jpg" />
-            <breadcrumb :overlay="true" />
-            <div class="overlay_mid">
-                <h1>Faqs</h1>
-                <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
-            </div>
-        </section>
-        <section id="content">
-            <div class="top">
-                <h3 class="header_title">Booking a ride is easy</h3>
-                <div class="icons">
-                    <div class="wrapper" v-for="(data, key) in numbers" :key="key">
-                        <div v-html="data.path"></div>
-                        <div class="title">{{ data.description }}</div>
+    <transition name="fade">
+        <div class="faqs" v-if="loaded">
+            <section id="banner" class="mt">
+                <img class="full" src="/default/faqs/faq-banner.jpg" />
+                <breadcrumb :overlay="true" />
+                <div class="overlay_mid">
+                    <h1>Faqs</h1>
+                    <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
+                </div>
+            </section>
+            <section id="content">
+                <div class="top">
+                    <h3 class="header_title">How do I book a ride?</h3>
+                    <div class="icons">
+                        <div class="wrapper" v-for="(data, key) in numbers" :key="key">
+                            <div v-html="data.path"></div>
+                            <div class="title">{{ data.description }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="bottom">
-                <div class="faqs_list">
-                    <div :id="`faq_item_${key}`" :class="`wrapper ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in res" :key="key" @click="toggleFAQ(key)">
-                        <div class="title">{{ data.name }} <span class="toggler"></span></div>
-                        <div class="description" v-html="data.description"></div>
-                    </div>
-                 </div>
-            </div>
-        </section>
-        <section id="banner" class="mt alt">
-            <img class="full" src="/default/faqs/book-a-bike.jpg" />
-            <div class="overlay_mid">
-                <h2>Begin your fitness journey with us.</h2>
-                <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
-            </div>
-        </section>
-    </div>
+                <div class="bottom">
+                    <div class="faqs_list">
+                        <div :id="`faq_item_${key}`" :class="`wrapper ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in faqs" :key="key" @click="toggleFAQ(key)">
+                            <div class="title">{{ data.name }} <span class="toggler"></span></div>
+                            <div class="description" v-html="data.description"></div>
+                        </div>
+                     </div>
+                </div>
+            </section>
+            <book-a-bike-banner />
+        </div>
+    </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import BookABikeBanner from '../../components/BookABikeBanner'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            BookABikeBanner
         },
         data () {
             return {
@@ -56,17 +54,19 @@
                     },
                     {
                         path: '<svg id="numbering" xmlns="http://www.w3.org/2000/svg" width="179.025" height="172" viewBox="0 0 179.025 172"> <g transform="translate(-162 -502)"> <path class="stroke stroke_1" d="M20245.178-18893.389h80.66" transform="translate(-20044 19487.48)" /> <path class="stroke stroke_1" d="M20245.178-18893.389h92.1" transform="translate(-20047 19499.48)" /> <path class="stroke stroke_1" d="M20245.178-18893.389h16" transform="translate(-19958 19487.48)" /> <path class="stroke stroke_1" d="M20255.176-18893.389h11.18" transform="translate(-19952.178 19499.48)" /> <path class="stroke stroke_2" d="M20245.18-18893.908h107.838" transform="translate(-20047.178 19513)" /> <path class="stroke stroke_2" d="M20245.178-18893.908h29.848" transform="translate(-19934 19513)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h96.66" transform="translate(-20042 19467)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h96.66" transform="translate(-20044 19477)" /> <path class="stroke stroke_3" d="M20245.178-18893.908h22.211" transform="translate(-19940 19467)" /> <path class="stroke stroke_3" d="M20245.176-18893.908h19.586" transform="translate(-19942 19477)" /> <text class="stroke_4" transform="translate(162 628)"> <tspan x="0" y="0">3</tspan> <tspan x="0" y="36"></tspan> </text> </g> </svg>',
-                        description: 'Choose your class time and reserve your bike. You can also book for up to 3 friends.'
+                        description: 'Choose your class time and reserve your bike. You can also book bikes for up to 4 friends.'
                     }
                 ],
-                res: []
+                loaded: false,
+                res: [],
+                faqs: []
             }
         },
         methods: {
             toggleFAQ (key) {
                 const me = this
                 let target = document.getElementById(`faq_item_${key}`)
-                me.res.forEach((element, index) => {
+                me.faqs.forEach((element, index) => {
                     let elements = document.getElementById(`faq_item_${index}`)
                     if (key == index) {
                         if (element.toggled) {
@@ -85,23 +85,50 @@
         },
         async mounted () {
             const me = this
-            me.loader(true)
-            await me.$axios.get('api/web/faqs').then(res => {
-                if (res.data) {
-                    setTimeout( () => {
-                        res.data.faqs.forEach((faq, index) => {
-                            faq.toggled = false
-                            me.res.push(faq)
-                        })
-                    }, 500)
-                }
-            }).catch(err => {
-                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-            }).then(() => {
+            document.body.classList.add('no_click')
+            if (me.$store.state.isLoading) {
                 setTimeout( () => {
-                    me.loader(false)
+                    document.body.classList.remove('no_click')
+                    me.$store.state.isLoading = false
                 }, 500)
+            }
+        },
+        async asyncData ({ $axios, params, error, store }) {
+            let tempFAQS = []
+            store.state.isLoading = true
+            const { data } = await $axios.get(`api/web/faqs`)
+            data.faqs.forEach((faq, index) => {
+                faq.toggled = false
+                tempFAQS.push(faq)
             })
+            return {
+                res: data.pageSetting,
+                faqs: tempFAQS,
+                loaded: true
+            }
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>
