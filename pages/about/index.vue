@@ -1,66 +1,58 @@
 <template>
-    <div class="about">
-        <section id="banner" class="mt">
-            <img class="full" src="/default/about/about-banner.jpg" />
-            <breadcrumb :overlay="true" />
-            <div class="overlay_mid">
-                <h1>About Us</h1>
-                <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
-            </div>
-        </section>
-        <section id="content">
-            <div class="content_wrapper">
-                <div class="left">
-                    <img src="/default/about/stronger-together.svg" />
-                    <div class="info">
-                        <div class="header_title">A workout for your body, a Revolution for your lifestyle.</div>
-                        <div class="icons">
-                            <div class="wrapper" v-for="(data, key) in icons" :key="key">
-                                <div class="icon_left" v-html="data.path"></div>
-                                <div class="icon_right">
-                                    <div class="title">{{ data.title }}</div>
-                                    <div class="description">{{ data.description }}</div>
+    <transition name="fade">
+        <div class="about" v-if="loaded">
+            <section id="banner" class="mt">
+                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
+                <breadcrumb :overlay="true" />
+                <div class="overlay_mid">
+                    <h1>{{ res.title }}</h1>
+                    <h2 class="alt" v-html="res.subtitle"></h2>
+                </div>
+            </section>
+            <section id="content">
+                <div class="content_wrapper">
+                    <div class="left">
+                        <img src="/default/about/stronger-together.svg" />
+                        <div class="info">
+                            <div class="header_title" v-html="res.teaser_title"></div>
+                            <div class="icons">
+                                <div class="wrapper" v-for="(data, key) in icons" :key="key">
+                                    <div class="icon_left" v-html="data.path"></div>
+                                    <div class="icon_right">
+                                        <div class="title">{{ data.title }}</div>
+                                        <div class="description">{{ data.description }}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="right">
-                    <img src="/default/about/about-us-stronger.png" />
-                </div>
-            </div>
-        </section>
-        <section id="additional">
-            <div class="info">
-                <p>We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online. At Ride Revolution we’re not building gyms, we’re building experiences.</p>
-                <br>
-                <p>Our workout is specifically designed to strengthen the body’s core, tone muscles and burn maximum calories. Light hand weights are used to target the upper body, giving you a true full body workout.</p>
-                <br>
-                <p>We use cleated shoes to increase the connection between the leg and the bike, engaging the hamstrings and glute muscles resulting in lean, toned legs – and no big thighs!</p>
-                <br>
-                <p>Every class is set to a specific and personalized playlist, created by the instructor. The music is your guide through your 50-minute journey, helping to push your body and metabolism out of its comfort zone. Our aim is simple – to allow you to lose yourself, let go and have fun.</p>
-                <br>
-                <p>For those who desire, we offer performance tracking in our classes. Through the data consoles on our bikes, we can track your power, calories burned, RPM, distance and heart rate. A report will be emailed to you after class and you can also track your progress by logging into our website.</p>
-            </div>
-            <div class="experiences">
-                <div class="wrapper" v-for="(data, key) in experiences" :key="key">
-                    <div class="exp_top">
-                        <div class="icon" v-html="data.path"></div>
-                        <div class="title">{{ data.title }}</div>
+                    <div class="right">
+                        <img src="/default/about/about-us-stronger.png" />
                     </div>
-                    <div class="description" v-html="data.description"></div>
                 </div>
-            </div>
-        </section>
-        <instagram-alternate />
-        <section id="banner" class="mt alt">
-            <img class="full" src="/default/about/book-a-bike.jpg" />
-            <div class="overlay_mid">
-                <h2>Start your Fitness Revolution with Us.</h2>
-                <nuxt-link to="/book-a-bike" class="default_btn">Book a Ride</nuxt-link>
-            </div>
-        </section>
-    </div>
+            </section>
+            <section id="additional">
+                <div class="info" v-html="res.teaser_description"></div>
+                <div class="experiences">
+                    <div class="wrapper" v-for="(data, key) in experiences" :key="key">
+                        <div class="exp_top">
+                            <div class="icon" v-html="data.path"></div>
+                            <div class="title">{{ data.title }}</div>
+                        </div>
+                        <div class="description" v-html="data.description"></div>
+                    </div>
+                </div>
+            </section>
+            <instagram-alternate />
+            <section id="banner" class="mt alt">
+                <img class="full" src="/default/about/book-a-bike.jpg" />
+                <div class="overlay_mid">
+                    <h2>Start your Fitness Revolution with Us.</h2>
+                    <nuxt-link to="/book-a-bike" class="default_btn">Book a Ride</nuxt-link>
+                </div>
+            </section>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -73,6 +65,8 @@
         },
         data () {
             return {
+                loaded: false,
+                res: [],
                 icons: [
                     {
                         title: '45 mins',
@@ -114,12 +108,49 @@
                 ]
             }
         },
-        methods: {
-
-        },
-        mounted () {
+        async mounted () {
             const me = this
-
+            document.body.classList.add('no_click')
+            if (me.$store.state.isLoading) {
+                setTimeout( () => {
+                    document.body.classList.remove('no_click')
+                    me.$store.state.isLoading = false
+                }, 500)
+            }
+        },
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/page-settings/about`)
+                .then(res => {
+                    store.state.isLoading = true
+                    return {
+                        res: res.data.pageSettings,
+                        loaded: true
+                    }
+                }).catch(err => {
+                    error({ statusCode: 403, message: 'Page not found' })
+                })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.subtitle}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>
