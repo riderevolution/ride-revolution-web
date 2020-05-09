@@ -1,76 +1,66 @@
 <template>
-    <div class="studios">
-        <section id="banner" class="mt">
-            <img class="full" src="/default/studio/studios-banner.jpg" />
-            <breadcrumb :overlay="true" />
-            <div class="overlay_mid">
-                <h1>Studios</h1>
-            </div>
-        </section>
-        <section id="teaser">
-            <p>We offer a pay-as-you train model – no contracts, no commitments. Buy your classes and book a bike online. At Ride Revolution we’re not building gyms, we’re building experiences.</p>
-            <p>&nbsp;</p>
-            <p>Our workout is specifically designed to strengthen the body’s core, tone muscles and burn maximum calories. Light hand weights are used to target the upper body, giving you a true full body workout.</p>
-            <p>&nbsp;</p>
-            <p>We use cleated shoes to increase the connection between the leg and the bike, engaging the hamstrings and glute muscles resulting in lean, toned legs – and no big thighs!</p>
-            <p>&nbsp;</p>
-            <p>Every class is set to a specific and personalized playlist, created by the instructor. The music is your guide through your 50-minute journey, helping to push your body and metabolism out of its comfort zone. Our aim is simple – to allow you to lose yourself, let go and have fun. For those who desire, we offer performance tracking in our classes. Through the data consoles on our bikes, we can track your power, calories burned, RPM, distance and heart rate. A report will be emailed to you after class and you can also track your progress by logging into our website.</p>
-        </section>
-        <section id="visit">
-            <h2>Visit our Studios</h2>
-            <div class="content desktop" v-if="!$parent.$parent.isMobile">
-                <nuxt-link rel="canonical" :to="`/studios/${data.slug}`" class="wrapper" v-for="(data, key) in res" :key="key">
-                    <div class="image">
-                        <img :src="data.images[0].path" />
-                        <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
-                        <div class="overlay">
-                            <div class="default_btn">Explore</div>
+    <transition name="fade">
+        <div class="studios" v-if="loaded">
+            <section id="banner" class="mt">
+                <img class="full" :src="res.banners[0].path" />
+                <breadcrumb :overlay="true" />
+                <div class="overlay_mid">
+                    <h1>{{ res.title }}</h1>
+                </div>
+            </section>
+            <section id="teaser" v-html="res.subtitle"></section>
+            <section id="visit">
+                <h2>Visit our Studios</h2>
+                <div class="content desktop" v-if="!$parent.$parent.isMobile">
+                    <nuxt-link rel="canonical" :to="`/studios/${data.slug}`" class="wrapper" v-for="(data, key) in studios" :key="key">
+                        <div class="image">
+                            <img :src="data.images[0].path" />
+                            <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
+                            <div class="overlay">
+                                <div class="default_btn">Explore</div>
+                            </div>
                         </div>
-                    </div>
-                    <h2>{{ data.name }}, {{ data.city }}</h2>
-                </nuxt-link>
-            </div>
-            <div class="content" v-else>
-                <no-ssr>
-                    <swiper :options="mobileOptions" class="default">
-                        <swiper-slide class="wrapper" v-for="(data, key) in res" :key="key">
-                            <nuxt-link rel="canonical" :to="`/studios/${data.slug}`">
-                                <div class="image">
-                                    <img :src="data.images[0].path" />
-                                    <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
-                                    <div class="overlay">
-                                        <div class="default_btn">Explore</div>
+                        <h2>{{ data.name }}, {{ data.city }}</h2>
+                    </nuxt-link>
+                </div>
+                <div class="content" v-else>
+                    <no-ssr>
+                        <swiper :options="mobileOptions" class="default">
+                            <swiper-slide class="wrapper" v-for="(data, key) in studios" :key="key">
+                                <nuxt-link rel="canonical" :to="`/studios/${data.slug}`">
+                                    <div class="image">
+                                        <img :src="data.images[0].path" />
+                                        <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
+                                        <div class="overlay">
+                                            <div class="default_btn">Explore</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <h2>{{ data.name }}, {{ data.city }}</h2>
-                            </nuxt-link>
-                        </swiper-slide>
-                        <div class="swiper-pagination" slot="pagination"></div>
-                    </swiper>
-                    <div class="action_mobile" v-if="$parent.$parent.isMobile">
-                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn">See All Class Packages</nuxt-link>
-                    </div>
-                </no-ssr>
-            </div>
-        </section>
-        <instagram-alternate />
-        <section id="banner" class="alt">
-            <img class="full" src="/default/studio/book-a-bike.jpg" />
-            <div class="overlay_mid">
-                <h2>Begin your fitness journey with us.</h2>
-                <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
-            </div>
-        </section>
-    </div>
+                                    <h2>{{ data.name }}, {{ data.city }}</h2>
+                                </nuxt-link>
+                            </swiper-slide>
+                            <div class="swiper-pagination" slot="pagination"></div>
+                        </swiper>
+                        <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                            <nuxt-link rel="canonical" to="/buy-rides" class="default_btn">See All Class Packages</nuxt-link>
+                        </div>
+                    </no-ssr>
+                </div>
+            </section>
+            <instagram-alternate />
+            <book-a-bike-banner />
+        </div>
+    </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
     import InstagramAlternate from '../../components/InstagramAlternate'
+    import BookABikeBanner from '../../components/BookABikeBanner'
     export default {
         components: {
             Breadcrumb,
-            InstagramAlternate
+            InstagramAlternate,
+            BookABikeBanner
         },
         data () {
             return {
@@ -102,25 +92,56 @@
                         }
                     }
                 },
+                loaded: false,
+                studios: [],
                 res: []
             }
         },
         async mounted () {
             const me = this
-            me.loader(true)
-            await me.$axios.get('api/web/studios').then(res => {
-                if (res.data) {
-                    setTimeout( () => {
-                        me.res = res.data.studios
-                    }, 500)
-                }
-            }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
-            }).then(() => {
+            document.body.classList.add('no_click')
+            if (me.$store.state.isLoading) {
                 setTimeout( () => {
-                    me.loader(false)
+                    document.body.classList.remove('no_click')
+                    me.$store.state.isLoading = false
                 }, 500)
-            })
+            }
+        },
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/web/studios`)
+                .then(res => {
+                    store.state.isLoading = true
+                    return {
+                        res: res.data.pageSetting,
+                        studios: res.data.studios,
+                        loaded: true
+                    }
+                }).catch(err => {
+                    error({ statusCode: 403, message: 'Page not found' })
+                })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>

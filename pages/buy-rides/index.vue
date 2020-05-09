@@ -19,7 +19,7 @@
                 <transition name="slide">
                     <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoPackages">
                         <div class="pointer"></div>
-                        <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
+                        <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
                     </div>
                 </transition>
             </div>
@@ -55,12 +55,12 @@
                     <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'store-credits')" v-if="$parent.$parent.isMobile" />
                 </h2>
                 <div class="description" v-if="!$parent.$parent.isMobile">
-                    <p>Use your store credits to purchase class packages and products.</p>
+                    <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
                 </div>
                 <transition name="slide">
                     <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoStoreCredits">
                         <div class="pointer"></div>
-                        <p>Use your store credits to purchase class packages and products.</p>
+                        <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
                     </div>
                 </transition>
             </div>
