@@ -1,94 +1,77 @@
 <template>
-    <div class="studio_inner">
-        <breadcrumb />
-        <section id="teaser">
-            <div class="main_left">
-                <div class="header">
-                    <h1>{{ replacer($route.params.slug) }}, Makati</h1>
-                    <h2>Unit GD107 North Wing, EDSA cor. Shaw Blvd. Mandaluyong City, Metro Manila, Philippines</h2>
-                </div>
-                <div class="info">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna<br> aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
-                </div>
-                <div class="opening">
-                    <div class="left">
-                        <h3>Opening Hours</h3>
-                        <p>Monday to Friday: 7AM - 9:30PM</p>
-                        <p>Weekends &amp; Holidays: 8AM - 5PM</p>
+    <transition name="fade">
+        <div class="studio_inner" v-if="loaded">
+            <breadcrumb />
+            <section id="teaser">
+                <div class="main_left">
+                    <div class="header">
+                        <h1>{{ res.name }}, {{ res.city }}</h1>
+                        <h2>{{ res.address_line_1 }}, {{ res.city }}, {{ res.state }}, {{ res.country }}</h2>
                     </div>
-                    <div class="right">
-                        <h3>Contact Details</h3>
-                        <div class="link">
-                            <img src="/icons/email-icon.svg" />
-                            <a href="javascript:void(0)" class="email">shang@riderevolution.com</a>
+                    <div class="info" v-html="res.description"></div>
+                    <div class="opening">
+                        <div class="left">
+                            <h3>Opening Hours</h3>
+                            <div v-html="res.opening_hours"></div>
                         </div>
-                        <div class="link">
-                            <img class="phone" src="/icons/phone-icon.svg" />
-                            <a href="javascript:void(0)">0977 827 7433</a>
+                        <div class="right">
+                            <h3>Contact Details</h3>
+                            <div class="link">
+                                <img src="/icons/email-icon.svg" />
+                                <a :href="`mailto:${res.contact_email_address}`" class="email">{{ res.contact_email_address }}</a>
+                            </div>
+                            <div class="link" v-if="res.contact_number">
+                                <img src="/icons/phone-icon.svg" />
+                                <a :href="`tel:${res.contact_number}`">{{ res.contact_number }}</a>
+                            </div>
+                            <div class="link" v-if="res.phone">
+                                <img src="/icons/phone-icon.svg" />
+                                <a :href="`tel:02-${res.phone}`">(02) {{ res.phone }}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="main_right">
+                <div class="main_right">
+                    <div class="map" v-html="res.google_embed"></div>
+                </div>
+            </section>
+            <section id="images" class="desktop" v-if="!$parent.$parent.isMobile">
+                <div :id="`studio_${key}`" class="wrapper" v-for="(data, key) in studioImages" :key="key" @click="openGallery(key)">
+                    <div class="field_image">
+                        <img class="image_responsive" :src="data.images[0].path" />
+                        <h2 class="overlay">
+                            {{ data.name }}
+                        </h2>
+                    </div>
+                </div>
+            </section>
+            <section id="images" v-else>
                 <no-ssr>
-                    <GmapMap
-                        :center="{lat:14.5529068, lng:121.0206284}"
-                        :zoom="15"
-                        :options="{
-                            zoomControl: true,
-                            scaleControl: false,
-                            streetViewControl: false,
-                            rotateControl: false,
-                            fullscreenControl: false,
-                            scrollwheel: false
-                        }"
-                        style="width: 100%; height: 400px"
-                    >
-                        <GmapMarker
-                            :position="{lat:14.5529068, lng:121.0206284}"
-                            :clickable="true"
-                        >
-                        </GmapMarker>
-                    </GmapMap>
+                    <swiper :options="mobileOptions" class="default">
+                        <swiper-slide :id="`studio_${key}`" class="wrapper" v-for="(data, key) in studioImages" :key="key" @click.native="openGallery(key)">
+                            <div class="field_image">
+                                <img class="image_responsive" :src="data.images[0].path" />
+                                <h2 class="overlay">
+                                    {{ data.name }}
+                                </h2>
+                            </div>
+                        </swiper-slide>
+                        <div class="swiper-pagination" slot="pagination"></div>
+                    </swiper>
                 </no-ssr>
-            </div>
-        </section>
-        <section id="images" class="desktop" v-if="!$parent.$parent.isMobile">
-            <div :id="`studio_${key}`" class="wrapper" v-for="(data, key) in studioImages" :key="key" @click="openGallery(key)">
-                <div class="field_image">
-                    <img class="image_responsive" :src="data.images[0].path" />
-                    <h2 class="overlay">
-                        {{ data.name }}
-                    </h2>
+            </section>
+            <section id="banner" class="alt">
+                <img class="full" src="/default/studio/inner/book-a-ride.jpg" />
+                <div class="overlay_mid">
+                    <h2>See all this up close!</h2>
+                    <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
                 </div>
-            </div>
-        </section>
-        <section id="images" v-else>
-            <no-ssr>
-                <swiper :options="mobileOptions" class="default">
-                    <swiper-slide :id="`studio_${key}`" class="wrapper" v-for="(data, key) in studioImages" :key="key" @click.native="openGallery(key)">
-                        <div class="field_image">
-                            <img class="image_responsive" :src="data.images[0].path" />
-                            <h2 class="overlay">
-                                {{ data.name }}
-                            </h2>
-                        </div>
-                    </swiper-slide>
-                    <div class="swiper-pagination" slot="pagination"></div>
-                </swiper>
-            </no-ssr>
-        </section>
-        <section id="banner" class="alt">
-            <img class="full" src="/default/studio/inner/book-a-ride.jpg" />
-            <div class="overlay_mid">
-                <h2>See all this up close!</h2>
-                <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
-            </div>
-        </section>
-        <transition name="fade">
-            <gallery ref="gallery" :images="imagesToSend" v-if="showGallery" />
-        </transition>
-    </div>
+            </section>
+            <transition name="fade">
+                <gallery ref="gallery" :images="imagesToSend" v-if="showGallery" />
+            </transition>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -131,161 +114,9 @@
                 },
                 showGallery: false,
                 imagesToSend: null,
-                studioImages: [
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner6.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner5.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner4.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner3.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner2.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner1.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner9.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner8.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner7.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner8.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner7.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner6.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner1.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner2.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner3.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner7.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner6.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner5.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner5.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner4.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner3.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner4.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner3.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner2.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    },
-                    {
-                        name: 'Spinning Studio',
-                        images: [
-                            {
-                                path: '/default/studio/inner/studio-inner2.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner3.jpg',
-                                title: 'Sample'
-                            },
-                            {
-                                path: '/default/studio/inner/studio-inner4.jpg',
-                                title: 'Sample'
-                            },
-                        ]
-                    }
-                ]
+                loaded: false,
+                res: [],
+                studioImages: []
             }
         },
         methods: {
@@ -302,20 +133,49 @@
         },
         async mounted () {
             const me = this
-            me.loader(true)
-            await me.$axios.get(`api/web/studio-slug/${me.$route.params.slug}`).then(res => {
-                if (res.data) {
-                    setTimeout( () => {
-                        console.log(res.data);
-                    }, 500)
-                }
-            }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
-            }).then(() => {
+            document.body.classList.add('no_click')
+            if (me.$store.state.isLoading) {
                 setTimeout( () => {
-                    me.loader(false)
+                    document.body.classList.remove('no_click')
+                    me.$store.state.isLoading = false
                 }, 500)
-            })
+            }
+        },
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/web/studio-slug/${params.slug}`)
+                .then(res => {
+                    store.state.isLoading = true
+                    return {
+                        res: res.data.studio,
+                        studioImages: res.data.studio.albums,
+                        loaded: true
+                    }
+                }).catch(err => {
+                    error({ statusCode: 403, message: 'Page not found' })
+                })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.name} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.images[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.images[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>

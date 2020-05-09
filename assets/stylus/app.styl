@@ -5637,6 +5637,10 @@ svg
         .main_left,
         .main_right
             flex: 0 0 50%
+        .main_right
+            .map
+                iframe
+                    height: 400px
         .main_left
             background-color: $black
             padding: 40px
@@ -5659,7 +5663,7 @@ svg
             .opening
                 display: flex
                 flex-flow: row wrap
-                align-items: center
+                align-items: flex-start
                 justify-content: space-between
                 .left,
                 .right

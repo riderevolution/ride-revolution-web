@@ -84,19 +84,19 @@
                             <div class="title">{{ data.name }}</div>
                             <div class="info">
                                 <div class="description">
-                                    {{ studio.address_line_1 }}, {{ studio.city }}, {{ studio.state }}, {{ studio.country }}
+                                    {{ data.address_line_1 }}, {{ data.city }}, {{ data.state }}, {{ data.country }}
                                 </div>
                                 <div class="link">
                                     <img src="/icons/email-icon-alt.svg" />
-                                    <a :href="`mailto:${studio.contact_email_address}`" class="email">{{ studio.contact_email_address }}</a>
+                                    <a :href="`mailto:${data.contact_email_address}`" class="email">{{ data.contact_email_address }}</a>
                                 </div>
-                                <div class="link" v-if="studio.contact_number">
+                                <div class="link" v-if="data.contact_number">
                                     <img src="/icons/phone-icon-alt.svg" />
-                                    <a :href="`tel:${studio.contact_number}`">{{ studio.contact_number }}</a>
+                                    <a :href="`tel:${data.contact_number}`">{{ data.contact_number }}</a>
                                 </div>
-                                <div class="link" v-if="studio.phone">
+                                <div class="link" v-if="data.phone">
                                     <img src="/icons/phone-icon-alt.svg" />
-                                    <a :href="`tel:02-${studio.phone}`">(02) {{ studio.phone }}</a>
+                                    <a :href="`tel:02-${data.phone}`">(02) {{ data.phone }}</a>
                                 </div>
                             </div>
                         </div>
