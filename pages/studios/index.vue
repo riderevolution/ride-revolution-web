@@ -10,7 +10,7 @@
             </section>
             <section id="teaser" v-html="res.subtitle"></section>
             <section id="visit">
-                <h2>Visit our Studios</h2>
+                <h2>Check out our Studios</h2>
                 <div class="content desktop" v-if="!$parent.$parent.isMobile">
                     <nuxt-link rel="canonical" :to="`/studios/${data.slug}`" class="wrapper" v-for="(data, key) in studios" :key="key">
                         <div class="image">

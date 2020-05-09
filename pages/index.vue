@@ -147,12 +147,12 @@
                                                 <img src="/icons/email-icon.svg" />
                                                 <a :href="`mailto:${studio.contact_email_address}`" class="email">{{ studio.contact_email_address }}</a>
                                             </div>
-                                            <div class="link">
-                                                <img src="/icons/phone-icon.svg" v-if="studio.contact_number" />
+                                            <div class="link" v-if="studio.contact_number">
+                                                <img src="/icons/phone-icon.svg"/>
                                                 <a :href="`tel:${studio.contact_number}`">{{ studio.contact_number }}</a>
                                             </div>
-                                            <div class="link">
-                                                <img src="/icons/phone-icon.svg" v-if="studio.phone" />
+                                            <div class="link" v-if="studio.phone">
+                                                <img src="/icons/phone-icon.svg"/>
                                                 <a :href="`tel:02-${studio.phone}`">(02) {{ studio.phone }}</a>
                                             </div>
                                         </div>
@@ -201,12 +201,12 @@
                                             <img src="/icons/email-icon.svg" />
                                             <a :href="`mailto:${studio.contact_email_address}`" class="email">{{ studio.contact_email_address }}</a>
                                         </div>
-                                        <div class="link">
-                                            <img src="/icons/phone-icon.svg" v-if="studio.contact_number" />
+                                        <div class="link" v-if="studio.contact_number">
+                                            <img src="/icons/phone-icon.svg"/>
                                             <a :href="`tel:${studio.contact_number}`">{{ studio.contact_number }}</a>
                                         </div>
-                                        <div class="link">
-                                            <img src="/icons/phone-icon.svg" v-if="studio.phone" />
+                                        <div class="link" v-if="studio.phone">
+                                            <img src="/icons/phone-icon.svg"/>
                                             <a :href="`tel:02-${studio.phone}`">(02) {{ studio.phone }}</a>
                                         </div>
                                     </div>
