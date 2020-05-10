@@ -1,8 +1,7 @@
 <template>
     <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
         <div class="wrapper">
-            <h2>Don’t ride alone. Refer a friend and get Php 200 for every friend you refer.</h2>
-            <h3>Your friends get Php 200 and you get Php 200 after their first purchase. Enter your email address to start referring.</h3>
+            <div v-html="subtitle"></div>
             <div class="link" v-if="isWebBased">
                 <label>Referral Link</label>
                 <a class="refer_link" href="http://riderev/refer-a-friend">http://riderev/refer-a-friend</a>
@@ -24,6 +23,11 @@
 
 <script>
     export default {
+        props: {
+            subtitle: {
+                default: '<h2>Don’t ride alone. Refer a friend and get Php 200 for every friend you refer.</h2><h3>Your friends get Php 200 and you get Php 200 after their first purchase. Enter your email address to start referring.</h3>'
+            }
+        },
         data () {
             return {
                 isWebBased: false
