@@ -27,13 +27,12 @@
                     <li><nuxt-link class="nav_item" to="/contact-us" @click.native="toggleNavbarExpanded()">Contact Us</nuxt-link></li>
                 </ul>
                 <div class="expanded_nav_description">
-                    <div class="link">
+                    <a class="link" href="https://open.spotify.com/user/riderevolution?si=7P28kqLpS2WnOa3-NOj3ug" target="_blank">
                         <p>We got an awesome playlist!</p>
                         <img src="/icons/spotify-icon.svg" />
                         <span>Listen Now</span>
-                    </div>
-                    <p>Email an expert at <a href="javascript:void(0)">hello@riderev.com</a></p>
-                    <p>or call/text us at <a href="javascript:void(0)">(02) 798-7447</a></p>
+                    </a>
+                    <p>Email an expert at <a href="mailto:hello@riderevolution.ph">hello@riderevolution.ph</a></p>
                     <div class="social_links">
                         <h4>Follow Us</h4>
                         <a href="javascript:void(0)" class="fb">fb</a>
