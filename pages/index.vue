@@ -380,7 +380,21 @@
                         me.studio = data
                     }
                 })
+            },
+            async initial () {
+                const me = this
+                me.loader(true)
+                setTimeout( () => {
+                    me.loaded = true
+                    me.loader(false)
+                }, 500)
             }
+        },
+        async mounted () {
+            const me = this
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
         },
         asyncData ({ $axios, params, error }) {
             return $axios.get('api/web/home')
@@ -389,8 +403,7 @@
                         res: res.data.home,
                         studio: res.data.studios[0],
                         studios: res.data.studios,
-                        packages: res.data.classPackages,
-                        loaded: true
+                        packages: res.data.classPackages
                     }
                 }).catch(err => {
                     error({ statusCode: 403, message: 'Page not found' })

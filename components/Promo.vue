@@ -97,7 +97,6 @@
         },
         async mounted () {
             const me = this
-            me.loader(true)
             await me.$axios.get('api/web/promos').then(res => {
                 if (res.data) {
                     setTimeout( () => {
@@ -122,10 +121,6 @@
                 }
             }).catch(err => {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-            }).then(() => {
-                setTimeout( () => {
-                    me.loader(false)
-                }, 500)
             })
         }
     }

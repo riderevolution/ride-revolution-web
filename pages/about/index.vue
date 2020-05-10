@@ -104,27 +104,31 @@
                 ]
             }
         },
-        async mounted () {
-            const me = this
-            document.body.classList.add('no_click')
-            if (me.$store.state.isLoading) {
+        methods: {
+            async initial () {
+                const me = this
+                me.loader(true)
                 setTimeout( () => {
-                    document.body.classList.remove('no_click')
-                    me.$store.state.isLoading = false
+                    me.loaded = true
+                    me.loader(false)
                 }, 500)
             }
         },
+        async mounted () {
+            const me = this
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
+        },
         asyncData ({ $axios, params, error, store }) {
             return $axios.get(`api/page-settings/about`)
-                .then(res => {
-                    store.state.isLoading = true
-                    return {
-                        res: res.data.pageSettings,
-                        loaded: true
-                    }
-                }).catch(err => {
-                    error({ statusCode: 403, message: 'Page not found' })
-                })
+            .then(res => {
+                return {
+                    res: res.data.pageSettings
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            })
         },
         head () {
             const me = this

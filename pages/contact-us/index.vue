@@ -270,36 +270,40 @@
                 me.$scrollTo('.gmap', {
                     offset: 0
                 })
+            },
+            async initial () {
+                const me= this
+                me.loader(true)
+                setTimeout( () => {
+                    let tempStudios = []
+                    me.studios.forEach((studio, index) => {
+                        studio.toggled = false
+                        tempStudios.push(studio)
+                    })
+                    me.studios = tempStudios
+                    me.studio = tempStudios[0]
+                    me.loaded = true
+                    me.loader(false)
+                }, 500)
             }
         },
         async mounted () {
             const me = this
-            document.body.classList.add('no_click')
-            if (me.$store.state.isLoading) {
-                setTimeout( () => {
-                    document.body.classList.remove('no_click')
-                    me.$store.state.isLoading = false
-                    me.normalizedRadius = 15 - 3 * 2
-                    me.circumference = me.normalizedRadius * 2 * Math.PI
-                    me.dashOffset = me.circumference
-                }, 500)
-            }
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
         },
-        async asyncData ({ $axios, params, error, store }) {
-            let tempStudios = []
-            store.state.isLoading = true
-            const { data } = await $axios.get(`api/inquiries`)
-            data.studios.forEach((studio, index) => {
-                studio.toggled = false
-                tempStudios.push(studio)
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/inquiries`)
+            .then(res => {
+                return {
+                    res: res.data.pageSetting,
+                    studios: res.data.studios,
+                    studio: res.data.studios[0]
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
             })
-            console.log({ data });
-            return {
-                res: data.pageSetting,
-                studios: tempStudios,
-                studio: tempStudios[0],
-                loaded: true
-            }
         },
         head () {
             const me = this

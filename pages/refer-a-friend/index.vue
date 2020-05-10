@@ -1,14 +1,16 @@
 <template>
-    <div class="refer_a_friend">
-        <section id="banner" class="mt">
-            <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
-            <breadcrumb :overlay="true" />
-            <div class="overlay_mid">
-                <h1>{{ res.title }}</h1>
-            </div>
-        </section>
-        <referral :subtitle="res.subtitle" />
-    </div>
+    <transition name="fade">
+        <div class="refer_a_friend" v-if="loaded">
+            <section id="banner" class="mt">
+                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
+                <breadcrumb :overlay="true" />
+                <div class="overlay_mid">
+                    <h1>{{ res.title }}</h1>
+                </div>
+            </section>
+            <referral :subtitle="res.subtitle" />
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -25,24 +27,27 @@
                 loaded: false
             }
         },
-        async mounted () {
-            const me = this
-            document.body.classList.add('no_click')
-            if (me.$store.state.isLoading) {
+        methods: {
+            async initial () {
+                const me = this
+                me.loader(true)
                 setTimeout( () => {
-                    document.body.classList.remove('no_click')
-                    me.$store.state.isLoading = false
+                    me.loaded = true
+                    me.loader(false)
                 }, 500)
             }
+        },
+        async mounted () {
+            const me = this
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
         },
         asyncData ({ $axios, params, error, store }) {
             return $axios.get(`api/page-settings/refer-a-friend`)
                 .then(res => {
-                    store.state.isLoading = true
-                    console.log(res.data);
                     return {
-                        res: res.data.pageSettings,
-                        loaded: true
+                        res: res.data.pageSettings
                     }
                 }).catch(err => {
                     error({ statusCode: 403, message: 'Page not found' })

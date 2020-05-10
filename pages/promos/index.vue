@@ -38,7 +38,8 @@
                 loaded: false,
                 toShow: 6,
                 res: [],
-                promos: []
+                promos: [],
+                promoAnnouncements: []
             }
         },
         computed: {
@@ -92,41 +93,49 @@
                         element.nextElementSibling.innerHTML = 'Copy Code'
                     }, 1000)
                 }
+            },
+            async initial () {
+                const me = this
+                let tempPromos = []
+                me.loader(true)
+                setTimeout( () => {
+                    me.promos.forEach((promo, index) => {
+                        if (promo.promo_code) {
+                            promo.hasCode = true
+                        } else {
+                            promo.hasCode = false
+                        }
+                        promo.checked = false
+                        tempPromos.push(promo)
+                    })
+                    me.promoAnnouncements.forEach((promo, index) => {
+                        promo.hasCode = false
+                        promo.checked = false
+                        tempPromos.push(promo)
+                    })
+                    me.promos = tempPromos
+                    me.loaded = true
+                    me.loader(false)
+                }, 500)
             }
         },
         async mounted () {
             const me = this
-            document.body.classList.add('no_click')
-            if (me.$store.state.isLoading) {
-                setTimeout( () => {
-                    document.body.classList.remove('no_click')
-                    me.$store.state.isLoading = false
-                }, 500)
-            }
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
         },
-        async asyncData ({ $axios, params, error, store }) {
-            let tempPromos = []
-            store.state.isLoading = true
-            const { data } = await $axios.get(`api/web/promos`)
-            data.promos.forEach((promo, index) => {
-                if (promo.promo_code) {
-                    promo.hasCode = true
-                } else {
-                    promo.hasCode = false
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/web/promos`)
+            .then(res => {
+                return {
+                    res: res.data.promoPageSetting,
+                    promos: res.data.promos,
+                    promoAnnouncements: res.data.promoAnnouncements
                 }
-                promo.checked = false
-                tempPromos.push(promo)
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
             })
-            data.promoAnnouncements.forEach((promo, index) => {
-                promo.hasCode = false
-                promo.checked = false
-                tempPromos.push(promo)
-            })
-            return {
-                res: data.promoPageSetting,
-                promos: tempPromos,
-                loaded: true
-            }
         },
         head () {
             const me = this

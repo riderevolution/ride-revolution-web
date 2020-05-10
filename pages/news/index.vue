@@ -79,31 +79,38 @@
                         offset: -250
                     })
                 }
+            },
+            async initial () {
+                const me = this
+                let tempNews = []
+                me.loader(true)
+                setTimeout( () => {
+                    me.news.forEach((news, index) => {
+                        news.checked = false
+                        tempNews.push(news)
+                    })
+                    me.news = tempNews
+                    me.loaded = true
+                    me.loader(false)
+                }, 500)
             }
         },
         async mounted () {
             const me = this
-            document.body.classList.add('no_click')
-            if (me.$store.state.isLoading) {
-                setTimeout( () => {
-                    document.body.classList.remove('no_click')
-                    me.$store.state.isLoading = false
-                }, 500)
-            }
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
         },
-        async asyncData ({ $axios, params, error, store }) {
-            let tempNews = []
-            store.state.isLoading = true
-            const { data } = await $axios.get(`api/web/news`)
-            data.news.forEach((news, index) => {
-                news.checked = false
-                tempNews.push(news)
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/web/news`)
+            .then(res => {
+                return {
+                    res: res.data.pageSetting,
+                    news: res.data.news
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
             })
-            return {
-                res: data.pageSetting,
-                news: tempNews,
-                loaded: true
-            }
         },
         head () {
             const me = this

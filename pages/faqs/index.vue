@@ -81,31 +81,38 @@
                         elements.querySelector('.description').style.height = `${0}px`
                     }
                 })
+            },
+            async initial () {
+                const me = this
+                let tempFAQS = []
+                me.loader(true)
+                setTimeout( () => {
+                    me.faqs.forEach((faq, index) => {
+                        faq.toggled = false
+                        tempFAQS.push(faq)
+                    })
+                    me.faqs = tempFAQS
+                    me.loaded = true
+                    me.loader(false)
+                }, 500)
             }
         },
         async mounted () {
             const me = this
-            document.body.classList.add('no_click')
-            if (me.$store.state.isLoading) {
-                setTimeout( () => {
-                    document.body.classList.remove('no_click')
-                    me.$store.state.isLoading = false
-                }, 500)
-            }
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
         },
-        async asyncData ({ $axios, params, error, store }) {
-            let tempFAQS = []
-            store.state.isLoading = true
-            const { data } = await $axios.get(`api/web/faqs`)
-            data.faqs.forEach((faq, index) => {
-                faq.toggled = false
-                tempFAQS.push(faq)
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/web/faqs`)
+            .then(res => {
+                return {
+                    res: res.data.pageSetting,
+                    faqs: res.data.faqs
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
             })
-            return {
-                res: data.pageSetting,
-                faqs: tempFAQS,
-                loaded: true
-            }
         },
         head () {
             const me = this
