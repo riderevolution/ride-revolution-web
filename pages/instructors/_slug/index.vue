@@ -69,7 +69,21 @@
                                 <p>{{ data.schedule.studio.name }}</p>
                             </div>
                         </div>
-                        <a href="javascript:void(0)" class="default_btn_out"><span>{{ (n <= 2) ? 'Book Now' : 'Waitlist' }}</span></a>
+                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.availableSeatsCount > 0 && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                            <span>Book Now</span>
+                        </nuxt-link>
+                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.availableSeatsCount <= 0 && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                            <span>Waitlist</span>
+                        </div>
+                        <div class="btn default_btn_out disabled" v-else-if="data.isWaitlisted">
+                            <span>Waitlisted</span>
+                        </div>
+                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.bookedHere || data.guestHere">
+                            <span>Manage Class</span>
+                        </nuxt-link>
+                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!$store.state.isAuth">
+                            <span>Book Now</span>
+                        </div>
                     </div>
                 </div>
                 <!-- <div class="preview">
@@ -91,7 +105,7 @@
             </section>
             <section id="comments">
                 <div class="header">
-                    <h2>Here are what other riders are raving about Billie</h2>
+                    <h2>Here are what other riders are raving about {{ res.first_name }}</h2>
                     <nuxt-link to="/instructors/asdasdadas/comment" class="default_btn">Write a Review</nuxt-link>
                 </div>
                 <div class="content" v-if="!$parent.$parent.isMobile">
@@ -148,7 +162,7 @@
                 <div class="header">
                     <h2>#RideWith{{ res.first_name }}</h2>
                     <div class="description">
-                        <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@billiecapis</span>
+                        <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>{{ res.instructor_details.instagram_name }}</span>
                     </div>
                 </div>
                 <div class="content">
@@ -380,7 +394,6 @@
                 const me = this
                 me.loader(true)
                 setTimeout( () => {
-                    console.log(me.scheduledDates);
                     me.loaded = true
                     me.loader(false)
                 }, 500)
