@@ -1,13 +1,13 @@
 <template>
     <div class="instructors">
         <section id="instructors_nav">
-            <div :class="`left ${(toggled) ? 'active' : ''}`" @click="toggleSpecialization()" v-click-outside="outsideSpecialization">
+            <!-- <div :class="`left ${(toggled) ? 'active' : ''}`" @click="toggleSpecialization()" v-click-outside="outsideSpecialization">
                 <div class="select">
                     <label class="label">
                         Specialization
-                        <!-- <div class="count">
+                        <div class="count">
                             <span>{{ count }}</span>
-                        </div> -->
+                        </div>
                     </label>
                     <div class="custom_select">
                         <div :class="`check ${(checkSpecialization) ? 'active' : ''}`">
@@ -20,8 +20,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="right">
+            </div> -->
+            <div class="right full">
                 <div class="input">
                     <input type="text" name="search" placeholder="Search for an instructor">
                 </div>

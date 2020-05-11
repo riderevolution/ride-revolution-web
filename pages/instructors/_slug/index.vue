@@ -4,30 +4,13 @@
         <section id="info">
             <div class="left">
                 <h1>Billie Capistrano</h1>
-                <div class="specializations">
-                    <div class="wrapper">
-                        <img src="/default/specialization/drill-sergeant.svg" />
-                        <h3>Drill Sergeant</h3>
-                    </div>
-                    <div class="wrapper">
-                        <img src="/default/specialization/speed-freak.svg" />
-                        <h3>Speed Freak</h3>
-                    </div>
-                    <div class="wrapper">
-                        <img src="/default/specialization/coachella-afterparty.svg" />
-                        <h3>Coachella Afterparty</h3>
-                    </div>
-                </div>
+                <!-- <div class="specializations"> <div class="wrapper"> <img src="/default/specialization/drill-sergeant.svg" /> <h3>Drill Sergeant</h3> </div> <div class="wrapper"> <img src="/default/specialization/speed-freak.svg" /> <h3>Speed Freak</h3> </div> <div class="wrapper"> <img src="/default/specialization/coachella-afterparty.svg" /> <h3>Coachella Afterparty</h3> </div> </div> -->
                 <div class="description">
                     <h2>Inspiring. Passionate. Vivacious</h2>
                     <p>Arguably the most likable woman in fitness, Billies’s energy is electric. Expect verv, passion and soul. With a focus on functional and athletic fitness, Tiago will push you closer to those goals. You will never know your limits unless you push yourself to them.</p>
                 </div>
-                <div class="talents">
-                    <p>Specialization: ACE Certified, Calisthenics, Yoga</p>
-                </div>
-                <div class="quote">
-                    <p>Use your mental strength to beat the person<br> you were yesterday! <span class="green">#RideRevWithBilly</span></p>
-                </div>
+                <!-- <div class="talents"> <p>Specialization: ACE Certified, Calisthenics, Yoga</p> </div> -->
+                <!-- <div class="quote"> <p>Use your mental strength to beat the person<br> you were yesterday! <span class="green">#RideRevWithBilly</span></p> </div> -->
             </div>
             <div class="right" style="background-image: url('/default/instructor/instructor-vinny.png');">
             </div>

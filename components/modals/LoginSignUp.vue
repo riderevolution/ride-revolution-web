@@ -71,7 +71,7 @@
         </transition>
         <transition name="fade">
             <section id="login" v-if="signUp && signUpStep == 0">
-                <h2 class="title">Congratulations on starting your health and fitness journey! You’ve come to the right place.</h2>
+                <h2 class="title">Ready to start your Revolution? You’ve come to the right place.</h2>
                 <div class="action">
                     <div class="default_btn_login">
                         <img src="/icons/fb-login.svg" />
