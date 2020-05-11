@@ -25,7 +25,7 @@
                         <p>{{ data.description }}</p>
                     </div>
                 </div>
-                <div class="instructors">
+                <div class="instructors" v-if="instructors.length > 0">
                     <div class="instructor_header">
                         <h2>Choose an instructor that fits your vibe.</h2>
                         <h3>Our instructors curate their own playlists. Each one creates a unique experience in the bike room. Make sure to try each of their classes to see which one you enjoy the most. But we bet you’ll love em’ all!</h3>
@@ -94,7 +94,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="amenities">
+                <div class="amenities" v-if="studioImages.length > 0">
                     <h2>Amenities</h2>
                     <div class="content">
                         <no-ssr>
