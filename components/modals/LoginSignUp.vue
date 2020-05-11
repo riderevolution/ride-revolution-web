@@ -53,7 +53,7 @@
         <transition name="fade">
             <section id="login" v-if="forgotPassword">
                 <h2 class="title">Forgot your password?</h2>
-                <h3 class="subtitle">Just leave it to us. Please enter your email address where we can send your new password.</h3>
+                <h3 class="subtitle">Don’t worry! Just enter your email address and we’ll send you a recovery email.</h3>
                 <form id="default_form" data-vv-scope="forgot_form" @submit.prevent="submissionForgotSuccess()">
                     <div class="form_group">
                         <label for="email">E-mail</label>
