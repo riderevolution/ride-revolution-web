@@ -1,99 +1,101 @@
 <template>
-    <div :class="`buy_rides ${hasHash}`">
-        <section id="banner" class="mt">
-            <img class="full" src="/default/buy-rides/buy-rides-banner.jpg" />
-            <breadcrumb :overlay="true" />
-            <div class="overlay_mid">
-                <h1>Buy Rides and Credits</h1>
-            </div>
-        </section>
-        <section id="packages" class="alt">
-            <div class="header">
-                <h2>
-                    Select your class package.
-                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$parent.$parent.isMobile" />
-                </h2>
-                <div class="description" v-if="!$parent.$parent.isMobile">
-                    <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
+    <transition name="fade">
+        <div :class="`buy_rides ${hasHash}`" v-if="loaded">
+            <section id="banner" class="mt">
+                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
+                <breadcrumb :overlay="true" />
+                <div class="overlay_mid">
+                    <h1>{{ res.title }}</h1>
                 </div>
-                <transition name="slide">
-                    <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoPackages">
-                        <div class="pointer"></div>
+            </section>
+            <section id="packages" class="alt">
+                <div class="header">
+                    <h2>
+                        Select your class package.
+                        <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$parent.$parent.isMobile" />
+                    </h2>
+                    <div class="description" v-if="!$parent.$parent.isMobile">
                         <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
                     </div>
-                </transition>
-            </div>
-            <div class="content" id="package">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
-                    <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
-                    <div class="package_header">
-                        <h2 class="title">{{ data.name }}</h2>
-                        <div class="description" v-line-clamp="3" v-html="data.summary"></div>
-                    </div>
-                    <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
-                    <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
-                    <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
-                    <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
-                    <div class="default_btn_wht_alt green" v-else>
-                        <div class="text">
-                            <div class="border_top left"></div>
-                            <div class="border_top left alt"></div>
-                            <div class="border_top right"></div>
-                            <span>Buy Now</span>
-                            <div class="border_bottom left"></div>
-                            <div class="border_bottom right"></div>
+                    <transition name="slide">
+                        <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoPackages">
+                            <div class="pointer"></div>
+                            <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
                         </div>
-                    </div>
-                </nuxt-link>
-            </div>
-        </section>
-        <promo />
-        <section id="packages" class="container alt">
-            <div class="header">
-                <h2>
-                    Buy Store Credits
-                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'store-credits')" v-if="$parent.$parent.isMobile" />
-                </h2>
-                <div class="description" v-if="!$parent.$parent.isMobile">
-                    <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
+                    </transition>
                 </div>
-                <transition name="slide">
-                    <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoStoreCredits">
-                        <div class="pointer"></div>
+                <div class="content" id="package">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                        <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
+                        <div class="package_header">
+                            <h2 class="title">{{ data.name }}</h2>
+                            <div class="description" v-line-clamp="3" v-html="data.summary"></div>
+                        </div>
+                        <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
+                        <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
+                        <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
+                        <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
+                        <div class="default_btn_wht_alt green" v-else>
+                            <div class="text">
+                                <div class="border_top left"></div>
+                                <div class="border_top left alt"></div>
+                                <div class="border_top right"></div>
+                                <span>Buy Now</span>
+                                <div class="border_bottom left"></div>
+                                <div class="border_bottom right"></div>
+                            </div>
+                        </div>
+                    </nuxt-link>
+                </div>
+            </section>
+            <promo />
+            <section id="packages" class="container alt">
+                <div class="header">
+                    <h2>
+                        Buy Store Credits
+                        <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'store-credits')" v-if="$parent.$parent.isMobile" />
+                    </h2>
+                    <div class="description" v-if="!$parent.$parent.isMobile">
                         <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
                     </div>
-                </transition>
-            </div>
-            <div class="content" id="storecredits">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`)" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
-                    <div class="package_header alt">
-                        <h2 class="title">{{ data.name }}</h2>
-                    </div>
-                    <div class="price">Php {{ totalItems(data.amount) }}</div>
-                    <div class="expires">No Expiry</div>
-                    <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
-                    <div class="default_btn_wht_alt green" v-else>
-                        <div class="text">
-                            <div class="border_top left"></div>
-                            <div class="border_top left alt"></div>
-                            <div class="border_top right"></div>
-                            <span>Buy Now</span>
-                            <div class="border_bottom left"></div>
-                            <div class="border_bottom right"></div>
+                    <transition name="slide">
+                        <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoStoreCredits">
+                            <div class="pointer"></div>
+                            <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
                         </div>
-                    </div>
-                </nuxt-link>
-            </div>
-        </section>
-        <section id="digital">
-            <img class="full" src="/default/buy-rides/send-digital-bg.jpg" />
-            <div class="overlay">
-                <h2>Share a ride with your loved ones.</h2>
-                <h3>Experience Ride Revolution together!</h3>
-                <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Send a Gift Card</nuxt-link>
-            </div>
-        </section>
-    </div>
+                    </transition>
+                </div>
+                <div class="content" id="storecredits">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`)" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
+                        <div class="package_header alt">
+                            <h2 class="title">{{ data.name }}</h2>
+                        </div>
+                        <div class="price">Php {{ totalItems(data.amount) }}</div>
+                        <div class="expires">No Expiry</div>
+                        <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
+                        <div class="default_btn_wht_alt green" v-else>
+                            <div class="text">
+                                <div class="border_top left"></div>
+                                <div class="border_top left alt"></div>
+                                <div class="border_top right"></div>
+                                <span>Buy Now</span>
+                                <div class="border_bottom left"></div>
+                                <div class="border_bottom right"></div>
+                            </div>
+                        </div>
+                    </nuxt-link>
+                </div>
+            </section>
+            <section id="digital">
+                <img class="full" src="/default/buy-rides/send-digital-bg.jpg" />
+                <div class="overlay">
+                    <h2>Share a ride with your loved ones.</h2>
+                    <h3>Experience Ride Revolution together!</h3>
+                    <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Send a Gift Card</nuxt-link>
+                </div>
+            </section>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -106,6 +108,7 @@
         },
         data () {
             return {
+                loaded: false,
                 res: [],
                 toShowPackages: 3,
                 toShowStoreCredits: 3,
@@ -217,28 +220,31 @@
                         break
                 }
             },
-            fetchData () {
+            async initial () {
                 const me = this
                 me.loader(true)
-                me.packages = me.res.classPackages
-                me.credits = me.res.storeCredits
-                me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
-                me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
                 setTimeout( () => {
+                    me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
+                    me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
+                    me.loaded = true
                     me.loader(false)
                 }, 500)
             }
         },
-        mounted() {
+        async mounted() {
             const me = this
-            setTimeout( () => {
-                me.fetchData()
+            await setTimeout( () => {
+                me.initial()
             }, 10)
         },
-        async asyncData ({ $axios, params, store, error }) {
-            return await $axios.get('api/packages/for-buy-rides').then(res => {
+        asyncData ({ $axios, params, store, error }) {
+            return $axios.get('api/packages/for-buy-rides').then(res => {
                 if (res.data) {
-                    return { res: res.data }
+                    return {
+                        res: res.data.pageSetting,
+                        packages: res.data.classPackages,
+                        credits: res.data.storeCredits
+                    }
                 }
             }).catch(err => {
                 error({ statusCode: 403, message: 'Page not found' })
