@@ -406,7 +406,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    </table>
                 </div>
             </div>
         </transition>
@@ -427,28 +426,36 @@
                     </div>
                 </div>
                 <div class="tab_content_main">
-                    <div class="profile_gift_cards">
+                    <div class="profile_gift_cards" v-if="giftCards.length > 0">
                         <div class="gift_card_wrapper" v-for="(data, key) in giftCards" :key="key">
                             <div class="top">
-                                <img :src="data.path" />
+                                <img src="/sample-gift.png" />
                                 <div class="overlay">
-                                    <img class="gift_img" src="/sample-image-booker.png" v-if="data.from.has_image" />
+                                    <img class="gift_img" :src="data.fromUser.images[0].path" v-if="data.fromUser.images[0].path != null" />
                                     <div class="initials" v-else>
-                                        <div class="name">{{ data.from.initials }}</div>
+                                        <div class="name">{{ data.fromUser.first_name.charAt(0) }}{{ data.fromUser.last_name.charAt(0) }}</div>
                                     </div>
-                                    <div class="label">From {{ data.from.name }}</div>
+                                    <div class="label">From {{ data.fromUser.first_name }} {{ data.fromUser.last_name }}</div>
                                 </div>
                             </div>
                             <div class="bottom">
-                                <div class="details" v-html="data.details" v-line-clamp="3"></div>
+                                <div class="details">
+                                    <b>{{ data.title }}</b>
+                                    <p>{{ data.personal_message }}</p>
+                                </div>
                                 <div class="package_info">
                                     <div class="name">
-                                        {{ data.package.name }}
-                                        <div class="violator" v-if="data.has_violator">You still have this package</div>
+                                        {{ data.gift_card.class_package.name }}
                                     </div>
-                                    <div :class="`default_btn ${(data.has_violator) ? 'disabled' : ''}`" @click="toggleRedeem()">Use Now</div>
+                                    <div class="default_btn" @click="toggleRedeem(data)">Use Now</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="no_results" v-else>
+                        <div class="text">You don't have any gift cards.</div>
+                        <div class="logo">
+                            <img src="/footer-logo.svg" />
                         </div>
                     </div>
                 </div>
@@ -458,13 +465,13 @@
             <cancel-class v-if="$store.state.cancelClassStatus" :type="type" />
         </transition>
         <transition name="fade">
-            <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" />
+            <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
             <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" />
         </transition>
         <transition name="fade">
-            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" />
+            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" :giftCard="giftCardTemp" />
         </transition>
     </div>
 </template>
@@ -492,6 +499,7 @@
                 totalPendingPayment: 0,
                 user: null,
                 tempBooking: null,
+                giftCardTemp: [],
                 mobileOptions: {
                     slidesPerView: 2,
                     spaceBetween: 30,
@@ -563,47 +571,7 @@
                 packages: [],
                 pendingTransactions: [],
                 paidTransactions: [],
-                giftCards: [
-                    {
-                        from: {
-                            has_image: true,
-                            initials: 'JD',
-                            name: 'Juan Dela Cruz'
-                        },
-                        path: '/sample-gift.png',
-                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
-                        has_violator: false,
-                        package: {
-                            name: '10-Class Package'
-                        }
-                    },
-                    {
-                        from: {
-                            has_image: true,
-                            initials: 'JD',
-                            name: 'Juan Dela Cruz'
-                        },
-                        path: '/sample-gift2.png',
-                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
-                        has_violator: false,
-                        package: {
-                            name: '10-Class Package'
-                        }
-                    },
-                    {
-                        from: {
-                            has_image: false,
-                            initials: 'JD',
-                            name: 'Juan Dela Cruz'
-                        },
-                        path: '/sample-gift2.png',
-                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
-                        has_violator: true,
-                        package: {
-                            name: '10-Class Package'
-                        }
-                    }
-                ],
+                giftCards: [],
                 series: [
                     {
                         name: 'Ride Count',
@@ -786,8 +754,9 @@
                 me.$store.state.shareTransferPackageStatus = true
                 document.body.classList.add('no_scroll')
             },
-            toggleRedeem () {
+            toggleRedeem (data) {
                 const me = this
+                me.giftCardTemp = data
                 me.$store.state.redeemGiftCardStatus = true
                 document.body.classList.add('no_scroll')
             },

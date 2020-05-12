@@ -9,11 +9,11 @@
             <div class="confirmation_image">
                 <img src="/sample-gift.png" />
                 <div class="overlay">
-                    <img class="gift_img" src="/sample-image-booker.png" />
-                    <!-- <div class="initials" v-else>
-                        <div class="name">{{ data.from.initials }}</div>
-                    </div> -->
-                    <div class="label">From Juan</div>
+                    <img class="gift_img" :src="giftCard.fromUser.images[0].path" v-if="giftCard.fromUser.images[0].path != null" />
+                    <div class="initials" v-else>
+                        <div class="name">{{ giftCard.fromUser.first_name.charAt(0) }}{{ giftCard.fromUser.last_name.charAt(0) }}</div>
+                    </div>
+                    <div class="label">From {{ giftCard.fromUser.first_name }} {{ giftCard.fromUser.last_name }}</div>
                 </div>
             </div>
             <div class="button_group alt">
@@ -25,12 +25,18 @@
 
 <script>
     export default {
+        props: {
+            giftCard: {
+                default: null
+            }
+        },
         methods: {
             toggleClose (status) {
                 const me = this
                 if (status) {
                     me.$store.state.redeemGiftCardSuccessStatus = false
                     document.body.classList.remove('no_scroll')
+                    me.$parent.giftCardTemp = []
                 }
             }
         }

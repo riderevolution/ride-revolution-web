@@ -174,6 +174,27 @@
                             }, 500)
                         })
                         break
+                    case 'gift-cards':
+                        me.loader(true)
+                        me.$axios.get(`api/customers/${me.$store.state.user.id}/gift-cards?forWebBooking=1`).then(res => {
+                            console.log(res.data);
+                            if (res.data) {
+                                setTimeout( () => {
+                                    me.$refs.profileTab.giftCards = []
+                                    res.data.customer.giftCards.forEach((data, index) => {
+                                        me.$refs.profileTab.giftCards.push(data)
+                                    })
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                        break
                 }
                 setTimeout( () => {
                     me.$refs.profileTab.getHeight()
