@@ -327,7 +327,7 @@
                         <h2>My Pending Transactions ({{ totalItems(pendingTransactions.length) }})</h2>
                         <div class="total">
                             Total Due
-                            <span class="count">Php 105.00</span>
+                            <span class="count">Php {{ totalCount(totalPendingPayment) }}</span>
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'transactions')" />
                             <transition name="slide">
                                 <div class="description_overlay" v-if="showInfoTransactions">
@@ -342,29 +342,29 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Products</th>
-                                <th>Branch</th>
+                                <th>Studio</th>
                                 <th>Total Price</th>
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in pendingTransactions" :key="key">
-                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
                                     <div>
-                                        <div class="default" v-for="(child, key) in data.products" :key="key">
-                                            {{ child.name }}({{ child.qty }})
+                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
+                                            {{ child.product_variant.product.name }}({{ child.quantity }})
                                         </div>
                                     </div>
                                 </td>
-                                <td data-column="Branch">
-                                    <div class="default">{{ data.branch }}</div>
+                                <td data-column="Studio">
+                                    <div class="default">{{ data.studio.name }}</div>
                                 </td>
                                 <td data-column="Total Price">
-                                    <div class="default bold">Php {{ data.total_price }}</div>
+                                    <div class="default bold">Php {{ totalCount(data.total) }}</div>
                                 </td>
                                 <td data-column="Payment Status">
-                                    <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
+                                    <div :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -372,39 +372,40 @@
                 </div>
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
-                        <h2>My Closed Transactions</h2>
+                        <h2>My Paid Transactions ({{ totalItems(paidTransactions.length) }})</h2>
                     </div>
                     <table class="default_table">
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Products</th>
-                                <th>Branch</th>
+                                <th>Studio</th>
                                 <th>Total Price</th>
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in paidTransactions" :key="key">
-                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
                                     <div>
-                                        <div class="default" v-for="(child, key) in data.products" :key="key">
-                                            {{ child.name }}({{ child.qty }})
+                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
+                                            {{ child.product_variant.product.name }}({{ child.quantity }})
                                         </div>
                                     </div>
                                 </td>
-                                <td data-column="Branch">
-                                    <div class="default">{{ data.branch }}</div>
+                                <td data-column="Studio">
+                                    <div class="default">{{ data.studio.name }}</div>
                                 </td>
                                 <td data-column="Total Price">
-                                    <div class="default bold">Php {{ data.total_price }}</div>
+                                    <div class="default bold">Php {{ totalCount(data.total) }}</div>
                                 </td>
                                 <td data-column="Payment Status">
-                                    <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
+                                    <div :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
                         </tbody>
+                    </table>
                     </table>
                 </div>
             </div>
@@ -488,6 +489,7 @@
         },
         data () {
             return {
+                totalPendingPayment: 0,
                 user: null,
                 tempBooking: null,
                 mobileOptions: {
@@ -559,166 +561,8 @@
                 ],
                 classes: [],
                 packages: [],
-                pendingTransactions: [
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            },
-                            {
-                                name: 'Fitbar',
-                                qty: 2
-                            },
-                            {
-                                name: 'Pure Nectar Cashew Milk',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '450.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    }
-                ],
-                paidTransactions: [
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            },
-                            {
-                                name: 'Fitbar',
-                                qty: 2
-                            },
-                            {
-                                name: 'Pure Nectar Cashew Milk',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '450.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            },
-                            {
-                                name: 'Fitbar',
-                                qty: 2
-                            },
-                            {
-                                name: 'Pure Nectar Cashew Milk',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '450.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    }
-                ],
+                pendingTransactions: [],
+                paidTransactions: [],
                 giftCards: [
                     {
                         from: {
@@ -913,6 +757,14 @@
             }
         },
         methods: {
+            countVariantQty (items) {
+                const me = this
+                let ctr = 0
+                items.forEach((item, index) => {
+                    ctr += parseInt(item.quantity)
+                })
+                return ctr
+            },
             toggleDetails (event) {
                 const me = this
                 let target = event.target

@@ -148,6 +148,32 @@
                             }, 500)
                         })
                         break
+                    case 'transactions':
+                        me.loader(true)
+                        me.$axios.get(`api/customers/${me.$store.state.user.id}/transactions?forWeb=1`).then(res => {
+                            if (res.data) {
+                                setTimeout( () => {
+                                    me.$refs.profileTab.pendingTransactions = []
+                                    me.$refs.profileTab.paidTransactions = []
+                                    res.data.customer.payments.forEach((data, index) => {
+                                        if (data.status == 'pending') {
+                                            me.$refs.profileTab.pendingTransactions.push(data)
+                                        } else {
+                                            me.$refs.profileTab.paidTransactions.push(data)
+                                        }
+                                    })
+                                    me.$refs.profileTab.totalPendingPayment = res.data.customer.totalPendingPayments
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                        break
                 }
                 setTimeout( () => {
                     me.$refs.profileTab.getHeight()
@@ -171,6 +197,7 @@
                     }
                 }).then(res => {
                     if (res.data) {
+                        console.log(res.data);
                         me.storeCredits = (res.data.user.store_credits === null) ? 0 : res.data.user.store_credits.amount
                         me.first_name = res.data.user.first_name.charAt(0)
                         me.last_name = res.data.user.last_name.charAt(0)

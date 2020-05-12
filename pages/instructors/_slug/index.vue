@@ -13,7 +13,7 @@
                 </div>
                 <div class="right" :style="`background-image: url('${res.instructor_details.gallery[0].path}');`"></div>
             </section>
-            <section id="classes">
+            <section id="classes" v-if="scheduledDates.length > 0">
                 <div class="header">
                     <h2>#RideRev <span>With {{ res.first_name }}</span></h2>
                     <h3>This week’s upcoming classes</h3>
@@ -102,6 +102,15 @@
                         </svg>
                     </div>
                 </div> -->
+            </section>
+            <section id="classes" v-else>
+                <div class="header">
+                    <h2>#RideRev <span>With {{ res.first_name }}</span></h2>
+                    <h3>This week’s upcoming classes</h3>
+                </div>
+                <div class="no_results">
+                    <p>NO CLASSES FOR THIS WEEK</p>
+                </div>
             </section>
             <section id="comments">
                 <div class="header">
