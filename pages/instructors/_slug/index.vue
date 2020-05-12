@@ -15,7 +15,7 @@
             </section>
             <section id="classes">
                 <div class="header">
-                    <h2>#RideRev <span>With Billie</span></h2>
+                    <h2>#RideRev <span>With {{ res.first_name }}</span></h2>
                     <h3>This week’s upcoming classes</h3>
                 </div>
                 <div class="content" v-if="!$parent.$parent.isMobile">
@@ -35,16 +35,16 @@
                                 <p>{{ data.schedule.studio.name }}</p>
                             </div>
                         </div>
-                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.availableSeatsCount > 0 && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.availableSeatsCount > 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
                             <span>Book Now</span>
                         </nuxt-link>
-                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.availableSeatsCount <= 0 && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.availableSeatsCount <= 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
                             <span>Waitlist</span>
                         </div>
-                        <div class="btn default_btn_out disabled" v-else-if="data.isWaitlisted">
+                        <div class="btn default_btn_out disabled" v-else-if="$store.state.isAuth && data.isWaitlisted">
                             <span>Waitlisted</span>
                         </div>
-                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.bookedHere || data.guestHere">
+                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="$store.state.isAuth && data.bookedHere || data.guestHere">
                             <span>Manage Class</span>
                         </nuxt-link>
                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!$store.state.isAuth">
@@ -69,16 +69,16 @@
                                 <p>{{ data.schedule.studio.name }}</p>
                             </div>
                         </div>
-                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.availableSeatsCount > 0 && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.availableSeatsCount > 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
                             <span>Book Now</span>
                         </nuxt-link>
-                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.availableSeatsCount <= 0 && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.availableSeatsCount <= 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
                             <span>Waitlist</span>
                         </div>
-                        <div class="btn default_btn_out disabled" v-else-if="data.isWaitlisted">
+                        <div class="btn default_btn_out disabled" v-else-if="$store.state.isAuth && data.isWaitlisted">
                             <span>Waitlisted</span>
                         </div>
-                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.bookedHere || data.guestHere">
+                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="$store.state.isAuth && data.bookedHere || data.guestHere">
                             <span>Manage Class</span>
                         </nuxt-link>
                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!$store.state.isAuth">
@@ -211,7 +211,21 @@
         data () {
             return {
                 type: 0,
-                res: [],
+                res: {
+                    first_name: '-',
+                    last_name: '-',
+                    instructor_details: {
+                        meta_title: 'sample',
+                        meta_keywords: 'sample',
+                        meta_description: 'sample',
+                        gallery: [
+                            {
+                                path: '',
+                                alt: ''
+                            }
+                        ]
+                    }
+                },
                 scheduledDates: [],
                 schedule: [],
                 loaded: false,
@@ -322,6 +336,7 @@
                 let token = me.$cookies.get('token')
                 event.preventDefault()
                 me.loader(true)
+                console.log(data);
                 if (me.$store.state.user.new_user == 0) {
                     if (token != null && token != undefined) {
                         switch (type) {
@@ -390,35 +405,52 @@
                         break
                 }
             },
-            async initial () {
+            initial () {
                 const me = this
+                let token = me.$cookies.get('token')
                 me.loader(true)
-                setTimeout( () => {
-                    me.loaded = true
-                    me.loader(false)
-                }, 500)
+                if (token != null || token != undefined) {
+                    me.$axios.get(`api/web/instructors/${me.$route.params.slug}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data) {
+                            setTimeout( () => {
+                                me.res = res.data.instructor,
+                                me.scheduledDates = res.data.scheduledDates
+                                me.loaded = true
+                            }, 500)
+                        }
+                    }).catch(err => {
+                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                    })
+                } else {
+                    me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
+                        if (res.data) {
+                            setTimeout( () => {
+                                me.res = res.data.instructor,
+                                me.scheduledDates = res.data.scheduledDates
+                                me.loaded = true
+                            }, 500)
+                        }
+                    }).catch(err => {
+                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                    })
+                }
             }
         },
-        async mounted () {
+        mounted () {
             const me = this
-            await setTimeout( () => {
-                me.initial()
-            }, 10)
-        },
-        asyncData ({ $axios, params, error, req }) {
-            let token = req.headers.cookie.split('token=')[1]
-            return $axios.get(`api/web/instructors/${params.slug}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(res => {
-                return {
-                    res: res.data.instructor,
-                    scheduledDates: res.data.scheduledDates
-                }
-            }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
-            })
+            me.initial()
         },
         head () {
             const me = this
