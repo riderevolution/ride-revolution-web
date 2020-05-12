@@ -468,10 +468,10 @@
             <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
-            <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" />
+            <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
-            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" :giftCard="giftCardTemp" />
+            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" />
         </transition>
     </div>
 </template>
