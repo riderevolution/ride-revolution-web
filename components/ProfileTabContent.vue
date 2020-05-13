@@ -645,7 +645,7 @@
                     dataLabels: {
                         enabled: true,
                         formatter: function (val) {
-                            return `${val} rides`
+                            return `${val}`
                         },
                         offsetY: -15,
                         style: {
@@ -717,7 +717,7 @@
                     tooltip: {
                         y: {
                             formatter: function (val) {
-                                return val + " rides"
+                                return val
                             }
                         }
                     }
