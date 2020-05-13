@@ -286,7 +286,6 @@
                                         labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
                                     }
                                     me.$refs.profileTab.chartOptions.xaxis.categories = labels
-                                    console.log(me.$refs.profileTab.rideRevJourney);
                                 }, 10)
                             }
                         }).catch((err) => {
