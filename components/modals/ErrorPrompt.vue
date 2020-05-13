@@ -23,6 +23,7 @@
                     me.$store.state.errorPromptStatus = false
                     document.body.classList.remove('no_scroll')
                 }
+                me.$store.state.errorOverlayPromptStatus = false
             }
         }
     }

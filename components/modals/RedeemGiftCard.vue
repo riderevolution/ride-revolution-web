@@ -10,7 +10,7 @@
                         <div class="form_flex with_btn alt_2">
                             <div class="form_group">
                                 <label for="pin">Pin <span>*</span></label>
-                                <input type="text" name="pin" autocomplete="off" placeholder="Enter your pin number" class="input_text" v-validate="'required|numeric|min:4|max:12'">
+                                <input type="text" name="pin" autocomplete="off" placeholder="Enter your pin number" class="input_text" v-validate="'required|numeric|min:2|max:12'">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('pin')">{{ errors.first('pin') | properFormat }}</span></transition>
                             </div>
                             <div class="form_button alt">
