@@ -98,7 +98,6 @@
             const me = this
             await me.$axios.get('api/web/promos').then(res => {
                 if (res.data) {
-                    console.log(res.data);
                     setTimeout( () => {
                         if (me.$parent.$parent.$parent.isMobile) {
                             me.lineClamp = 3
