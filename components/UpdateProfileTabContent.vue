@@ -424,11 +424,9 @@
                     me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
                     me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
 
-                    me.address.personal_address_1 = res.data.user.customer_details.pa_address_1
-                    me.address.personal_address_2 = res.data.user.customer_details.pa_address_2
+                    me.address.personal_address = res.data.user.customer_details.pa_address
                     me.address.personal_city = res.data.user.customer_details.pa_city
-                    me.address.billing_address_1 = res.data.user.customer_details.ba_address_1
-                    me.address.billing_address_2 = res.data.user.customer_details.ba_address_2
+                    me.address.billing_address = res.data.user.customer_details.ba_address
                     me.address.billing_city = res.data.user.customer_details.ba_city
 
                     me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
