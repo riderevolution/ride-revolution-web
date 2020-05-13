@@ -79,7 +79,8 @@
                 category: 'ride-rev-journey',
                 storeCredits: 0,
                 first_name: '',
-                last_name: ''
+                last_name: '',
+                user: []
             }
         },
         methods: {
@@ -100,7 +101,7 @@
                 switch (category) {
                     case 'classes':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$store.state.user.id}/upcoming-classes`).then(res => {
+                        me.$axios.get(`api/customers/${me.user.id}/upcoming-classes`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.classes = []
@@ -124,7 +125,7 @@
                         break
                     case 'packages':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$store.state.user.id}/packages?forWeb=1`).then(res => {
+                        me.$axios.get(`api/customers/${me.user.id}/packages?forWeb=1`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.packages = []
@@ -150,7 +151,7 @@
                         break
                     case 'transactions':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$store.state.user.id}/transactions?forWeb=1`).then(res => {
+                        me.$axios.get(`api/customers/${me.user.id}/transactions?forWeb=1`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.pendingTransactions = []
@@ -176,7 +177,7 @@
                         break
                     case 'gift-cards':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$store.state.user.id}/gift-cards?forWebBooking=1`).then(res => {
+                        me.$axios.get(`api/customers/${me.user.id}/gift-cards?forWebBooking=1`).then(res => {
                             console.log(res.data);
                             if (res.data) {
                                 setTimeout( () => {
@@ -218,7 +219,7 @@
                     }
                 }).then(res => {
                     if (res.data) {
-                        console.log(res.data);
+                        me.user = res.data.user
                         me.storeCredits = (res.data.user.store_credits === null) ? 0 : res.data.user.store_credits.amount
                         me.first_name = res.data.user.first_name.charAt(0)
                         me.last_name = res.data.user.last_name.charAt(0)
