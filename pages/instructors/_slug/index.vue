@@ -4,7 +4,11 @@
             <breadcrumb />
             <section id="info">
                 <div class="left">
-                    <h1>{{ res.first_name }} {{ res.last_name }}</h1>
+                    <h1>
+                        {{ res.first_name }} {{ res.last_name }}
+                        <p v-if="res.instructor_details.position">{{ res.instructor_details.position }}</p>
+                    </h1>
+                    <div class="specializations"></div>
                     <!-- <div class="specializations"> <div class="wrapper"> <img src="/default/specialization/drill-sergeant.svg" /> <h3>Drill Sergeant</h3> </div> <div class="wrapper"> <img src="/default/specialization/speed-freak.svg" /> <h3>Speed Freak</h3> </div> <div class="wrapper"> <img src="/default/specialization/coachella-afterparty.svg" /> <h3>Coachella Afterparty</h3> </div> </div> -->
                     <div class="description" v-html="res.instructor_details.description"></div>
                     <!-- <div class="talents"> <p>Specialization: ACE Certified, Calisthenics, Yoga</p> </div> -->
