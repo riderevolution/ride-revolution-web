@@ -103,6 +103,27 @@
                 const me = this
                 me.category = category
                 switch (category) {
+                    case 'ride-rev-journey':
+                        me.loader(true)
+                        me.$axios.get(`api/customers/${me.user.id}/ride-rev-journey`).then(res => {
+                            if (res.data) {
+                                setTimeout( () => {
+                                    res.data.customer.rideRevJourney.topInstructors.forEach((instructor, index) => {
+                                        instructor.hovered = false
+                                    })
+                                    me.$refs.profileTab.rideRevJourney = res.data.customer.rideRevJourney
+                                    me.$refs.profileTab.usertoNow = me.$moment(res.data.customer.created_at).toNow()
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                        break
                     case 'classes':
                         me.loader(true)
                         me.$axios.get(`api/customers/${me.user.id}/upcoming-classes`).then(res => {
@@ -234,6 +255,9 @@
                                 me.loaded = true
                                 setTimeout( () => {
                                     me.componentLoaded = true
+                                    res.data.customer.rideRevJourney.topInstructors.forEach((instructor, index) => {
+                                        instructor.hovered = false
+                                    })
                                     me.$refs.profileTab.rideRevJourney = res.data.customer.rideRevJourney
                                     me.$refs.profileTab.usertoNow = me.$moment(res.data.customer.created_at).toNow()
                                     console.log(me.$refs.profileTab.rideRevJourney);

@@ -511,38 +511,6 @@
                 unique: 0,
                 tabCategory: '',
                 tabChartCategory: 'monthly',
-                topInstructors: [
-                    {
-                        path: '/default/instructor/instructor-bea.png',
-                        name: 'Bea',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-billie.png',
-                        name: 'Billie',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-kat.png',
-                        name: 'Kat',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-jp.png',
-                        name: 'JP',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-eg.png',
-                        name: 'EG',
-                        ride: 20,
-                        hovered: false
-                    }
-                ],
                 classes: [],
                 packages: [],
                 pendingTransactions: [],
@@ -728,12 +696,8 @@
             populateTopInstructors () {
                 const me = this
                 let result = []
-                let ctr = 0
-                let tempCtr = 0
                 me.rideRevJourney.topInstructors.forEach((data, index) => {
-                    data.hovered = false
                     result.push(data)
-                    ctr++
                 })
                 return result
             }
