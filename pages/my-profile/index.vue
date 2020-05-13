@@ -1,61 +1,63 @@
 <template>
-    <div class="my_profile">
+    <div class="my_profile" v-if="loaded">
         <breadcrumb :overlay="false" />
         <transition name="slide">
             <complete-profile v-if="$store.state.completeProfileStatus" />
         </transition>
         <section id="content">
             <h1 class="no_font">My Profile</h1>
-            <div class="profile_tab">
-                <div class="top">
-                    <div class="left">
-                        <div class="overlay">
-                            <img class="profile_img" :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
-                            <div class="overlay_letter" v-else>
-                                <div class="letter">
-                                    {{ first_name }}{{ last_name }}
+            <transition name="fade">
+                <div class="profile_tab">
+                    <div class="top">
+                        <div class="left">
+                            <div class="overlay">
+                                <img class="profile_img" :src="`${(user.customer_details.images[0].path != null) ? user.customer_details.images[0].path : '' }`" v-if="user.customer_details.images[0].path != null" />
+                                <div class="overlay_letter" v-else>
+                                    <div class="letter">
+                                        {{ first_name }}{{ last_name }}
+                                    </div>
+                                </div>
+                                <div class="badges">
+                                    <div class="first"><img src="/sample-badge-2.svg" /></div>
+                                    <div class="second"><img src="/sample-badge.svg" /></div>
                                 </div>
                             </div>
-                            <div class="badges">
-                                <div class="first"><img src="/sample-badge-2.svg" /></div>
-                                <div class="second"><img src="/sample-badge.svg" /></div>
+                        </div>
+                        <div class="right">
+                            <div class="data">
+                                <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div>
+                                <div class="info">
+                                    <div class="label">Username <b>{{ user.member_id }}</b></div>
+                                    <div class="label">Store Credits <b>{{ storeCredits }}</b></div>
+                                </div>
+                            </div>
+                            <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="user.new_user == 0"><span>Update Profile</span></nuxt-link>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="left"></div>
+                        <ul class="tab_wrapper" v-if="!$parent.$parent.isMobile">
+                            <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
+                            <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
+                            <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
+                            <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
+                            <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
+                        </ul>
+                        <div class="mobile" v-else>
+                            <div class="tab_toggler">
+                                <div class="toggler" @click.self="toggleDetails($event)">Menu</div>
+                                <ul class="tab_wrapper">
+                                    <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
+                                    <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
+                                    <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
+                                    <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
+                                    <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="right">
-                        <div class="data">
-                            <div class="name"><h2>{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div>
-                            <div class="info">
-                                <div class="label">Username <b>{{ $store.state.user.member_id }}</b></div>
-                                <div class="label">Store Credits <b>{{ storeCredits }}</b></div>
-                            </div>
-                        </div>
-                        <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="$store.state.user.new_user == 0"><span>Update Profile</span></nuxt-link>
-                    </div>
                 </div>
-                <div class="bottom">
-                    <div class="left"></div>
-                    <ul class="tab_wrapper" v-if="!$parent.$parent.isMobile">
-                        <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
-                        <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
-                        <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
-                        <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
-                        <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
-                    </ul>
-                    <div class="mobile" v-else>
-                        <div class="tab_toggler">
-                            <div class="toggler" @click.self="toggleDetails($event)">Menu</div>
-                            <ul class="tab_wrapper">
-                                <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
-                                <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
-                                <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
-                                <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
-                                <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </transition>
             <profile-tab-content ref="profileTab" :category="category" />
         </section>
         <referral />
@@ -76,6 +78,8 @@
         },
         data () {
             return {
+                loaded: false,
+                componentLoaded: false,
                 category: 'ride-rev-journey',
                 storeCredits: 0,
                 first_name: '',
@@ -178,7 +182,6 @@
                     case 'gift-cards':
                         me.loader(true)
                         me.$axios.get(`api/customers/${me.user.id}/gift-cards?forWebBooking=1`).then(res => {
-                            console.log(res.data);
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.giftCards = []
@@ -226,11 +229,26 @@
                         if (res.data.user.new_user == 1) {
                             me.$store.state.completeProfileStatus = true
                         }
+                        me.$axios.get(`api/customers/${me.user.id}/ride-rev-journey`).then(res => {
+                            if (res.data) {
+                                me.loaded = true
+                                setTimeout( () => {
+                                    me.componentLoaded = true
+                                    me.$refs.profileTab.rideRevJourney = res.data.customer.rideRevJourney
+                                    me.$refs.profileTab.usertoNow = me.$moment(res.data.customer.created_at).toNow()
+                                    console.log(me.$refs.profileTab.rideRevJourney);
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
                     }
                 })
-                setTimeout( () => {
-                    me.loader(false)
-                }, 500)
             }
         }
     }

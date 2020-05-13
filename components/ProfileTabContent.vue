@@ -1,5 +1,5 @@
 <template>
-    <div class="profile_tab_content" :style="`height: ${height}px`">
+    <div class="profile_tab_content" :style="`height: ${height}px`" v-if="$parent.componentLoaded">
         <transition name="fade">
             <div id="tab_0" class="journey wrapper" v-if="category == 'ride-rev-journey'">
                 <div class="profile_journey">
@@ -11,19 +11,17 @@
                                 </div>
                                 <div class="summary_content">
                                     <div class="class_stat">
-                                        <div class="class_count">115 Classes</div>
-                                        <div class="class_date">In 1 Year and 2 Months</div>
+                                        <div class="class_count">{{ rideRevJourney.classesTaken }} {{ (rideRevJourney.classesTaken <= 1) ? 'Class' : 'Classes' }}</div>
+                                        <div class="class_date">{{ usertoNow }}</div>
                                     </div>
-                                    <div class="motto">
-                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lemon
-                                    </div>
+                                    <div class="motto" v-if="rideRevJourney.classesTaken >= 10">{{ checkRideCount(rideRevJourney.classesTaken) }}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="badges_earned">
                             <div class="summary">
                                 <div class="summary_header alt">
-                                    <h3>Badges You've Earned, Woohoo!</h3>
+                                    <h3>Here are the RR badges you’ve earned!</h3>
                                     <div class="icon">
                                         <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'ride-rev-journey')" />
                                         <transition name="slide">
@@ -36,48 +34,15 @@
                                 </div>
                                 <div class="summary_content">
                                     <div class="left">
-                                        <div class="badge">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                            <p></p>
-                                        </div>
-                                        <div class="badge">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
+                                        <div :class="`badge ${(badge.progress >= badge.target) ? '' : 'disabled'}`" v-for="(badge, key) in badgeLeft" :key="key">
+                                            <img :src="badge.badge_image" />
+                                            <span>{{ badge.description }}</span>
                                         </div>
                                     </div>
                                     <div class="right">
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
+                                        <div :class="`badge ${(badge.progress >= badge.target) ? '' : 'disabled'}`" v-for="(badge, key) in badgeRight" :key="key">
+                                            <img :src="badge.badge_image" />
+                                            <span>{{ badge.description }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -496,6 +461,11 @@
         },
         data () {
             return {
+                rideRevJourney: {
+                    badges: [],
+                    classesTaken: 0
+                },
+                usertoNow: this.$moment().toNow(),
                 totalPendingPayment: 0,
                 user: null,
                 tempBooking: null,
@@ -724,7 +694,45 @@
                 }
             }
         },
+        computed: {
+            badgeLeft () {
+                const me = this
+                let badge = []
+                let ctr = 0
+                me.rideRevJourney.badges.forEach((data, index) => {
+                    if (ctr < 5) {
+                        badge.push(data)
+                        ctr++
+                    }
+                })
+                return badge
+            },
+            badgeRight () {
+                const me = this
+                let badge = []
+                let ctr = 0
+                me.rideRevJourney.badges.forEach((data, index) => {
+                    if (ctr >= 5) {
+                        badge.push(data)
+                    }
+                    ctr++
+                })
+                return badge
+            }
+        },
         methods: {
+            checkRideCount (count) {
+                const me = this
+                if (count >= 10 && count <= 19) {
+                    return 'You’re making great progress. Let’s keep riding on this journey together.'
+                } else if (count >= 20 && count <= 49) {
+                    return 'Did you ever think a stationary bike could take you so far? Let’s keep working on your Revolution!'
+                } else if (count >= 50 && count <= 99) {
+                    return 'Wow you are dedicated to your Revolution! Keep it up!'
+                } else if (count >= 100) {
+                    return 'You made it to 100! We’re proud to have shared 100 rides with you. To a hundred more and beyond!'
+                }
+            },
             countVariantQty (items) {
                 const me = this
                 let ctr = 0
