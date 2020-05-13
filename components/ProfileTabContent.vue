@@ -49,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="top_booked">
+                    <div class="top_booked" v-if="rideRevJourney.topInstructors.length > 0">
                         <div class="tab_content_header alt2">
                             <h2>Your Top Booked Instructors</h2>
                         </div>
@@ -77,13 +77,14 @@
                                     </transition>
                                 </div>
                             </div>
-                            <!-- <div class="instructor" v-else>
+                            <div class="instructor" v-else>
                                 <no-ssr>
                                     <swiper :options="mobileOptions" class="default">
-                                        <swiper-slide :id="`item_${key}`" v-for="(data, key) in topInstructors" :key="key">
+                                        <swiper-slide :id="`item_${key}`" v-for="(data, key) in populateTopInstructors" :key="key">
                                             <div class="item">
                                                 <div class="cover"></div>
-                                                <img class="main" :src="data.path" />
+                                                <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
+                                                <img class="main" src="/logo.svg" :alt="data.instructor_details.slug" v-else />
                                                 <transition name="slide">
                                                     <div class="overlay">
                                                         <div class="info">
@@ -92,9 +93,9 @@
                                                                     {{ key + 1 }}
                                                                 </div>
                                                             </div>
-                                                            <div class="name">{{ data.name }}</div>
+                                                            <div class="name">{{ data.instructor_details.nickname }}</div>
                                                         </div>
-                                                        <div class="rides">{{ data.ride }} rides</div>
+                                                        <div class="rides">{{ data.bookCount }} rides</div>
                                                     </div>
                                                 </transition>
                                             </div>
@@ -102,7 +103,7 @@
                                         <div class="swiper-pagination" slot="pagination"></div>
                                     </swiper>
                                 </no-ssr>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                     <div class="chart">
@@ -115,7 +116,7 @@
                         </div>
                         <div class="ride_chart">
                             <no-ssr>
-                                <apexchart :options="chartOptions" :series="series"></apexchart>
+                                <apexchart :key="graphKey" :options="chartOptions" :series="series"></apexchart>
                             </no-ssr>
                         </div>
                         <div class="ride_summary">
@@ -471,6 +472,7 @@
                     topInstructors: [],
                     weeklyRideCount: {}
                 },
+                graphKey: 0,
                 usertoNow: this.$moment().toNow(),
                 totalPendingPayment: 0,
                 user: null,
@@ -580,7 +582,6 @@
                     colors: ['#9E558B'],
                     plotOptions: {
                         bar: {
-                            columnWidth: '45%',
                             dataLabels: {
                                 position: 'top'
                             },
@@ -931,7 +932,37 @@
             },
             toggledChartMenuTab (category) {
                 const me = this
+                let tempLabels = []
                 me.tabChartCategory = category
+                switch (category) {
+                    case 'weekly':
+                        me.series[0].data = me.rideRevJourney.weeklyRideCount.series.data
+                        let currentDay = me.$moment().day()
+                        tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
+                        for (let i = 0; i < 13; i++) {
+                            currentDay = currentDay - 1
+                            if (currentDay < 0) {
+                                currentDay = 6
+                            }
+                            tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
+                        }
+                        me.chartOptions.xaxis.categories = tempLabels
+                        break
+                    case 'monthly':
+                        me.series[0].data = me.rideRevJourney.monthlyRideCount.series.data
+                        let currentMonth = me.$moment().month() + 1
+                        tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                        for (let i = 0; i < 11; i++) {
+                            currentMonth = currentMonth - 1
+                            if (currentMonth == 0) {
+                                currentMonth = 12
+                            }
+                            tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                        }
+                        me.chartOptions.xaxis.categories = tempLabels
+                        break
+                }
+                me.graphKey += 1
             },
             toggleOverlays (e) {
                 const me = this

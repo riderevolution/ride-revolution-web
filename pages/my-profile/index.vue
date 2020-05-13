@@ -112,7 +112,20 @@
                                         instructor.hovered = false
                                     })
                                     me.$refs.profileTab.rideRevJourney = res.data.customer.rideRevJourney
+                                    me.$refs.profileTab.series[0].data = res.data.customer.rideRevJourney.monthlyRideCount.series.data
                                     me.$refs.profileTab.usertoNow = me.$moment(res.data.customer.created_at).toNow()
+                                    me.$refs.profileTab.tabChartCategory = 'monthly'
+                                    let currentMonth = me.$moment().month() + 1
+                                    let labels = []
+                                    labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                                    for (let i = 0; i < 11; i++) {
+                                        currentMonth = currentMonth - 1
+                                        if (currentMonth == 0) {
+                                            currentMonth = 12
+                                        }
+                                        labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                                    }
+                                    me.$refs.profileTab.chartOptions.xaxis.categories = labels
                                 }, 10)
                             }
                         }).catch((err) => {
@@ -259,7 +272,20 @@
                                         instructor.hovered = false
                                     })
                                     me.$refs.profileTab.rideRevJourney = res.data.customer.rideRevJourney
+                                    me.$refs.profileTab.series[0].data = res.data.customer.rideRevJourney.monthlyRideCount.series.data
                                     me.$refs.profileTab.usertoNow = me.$moment(res.data.customer.created_at).toNow()
+                                    me.$refs.profileTab.tabChartCategory = 'monthly'
+                                    let currentMonth = me.$moment().month() + 1
+                                    let labels = []
+                                    labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                                    for (let i = 0; i < 11; i++) {
+                                        currentMonth = currentMonth - 1
+                                        if (currentMonth == 0) {
+                                            currentMonth = 12
+                                        }
+                                        labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                                    }
+                                    me.$refs.profileTab.chartOptions.xaxis.categories = labels
                                     console.log(me.$refs.profileTab.rideRevJourney);
                                 }, 10)
                             }
