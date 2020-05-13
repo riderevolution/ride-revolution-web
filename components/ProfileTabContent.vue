@@ -55,9 +55,10 @@
                         </div>
                         <div class="tab_content_main">
                             <div class="instructor desktop" v-if="!$parent.$parent.$parent.isMobile">
-                                <div :id="`item_${key}`" class="item" v-for="(data, key) in topInstructors" :key="key">
+                                <div :id="`item_${key}`" class="item" v-for="(data, key) in populateTopInstructors" :key="key">
                                     <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
-                                    <img class="main" :src="data.path" />
+                                    <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
+                                    <img class="main" src="/logo.svg" :alt="data.instructor_details.slug" v-else />
                                     <transition name="fade">
                                         <div class="num_wrapper" v-if="!data.hovered"><div class="num">{{ key + 1 }}</div></div>
                                     </transition>
@@ -69,14 +70,14 @@
                                                         {{ key + 1 }}
                                                     </div>
                                                 </div>
-                                                <div class="name">{{ data.name }}</div>
+                                                <div class="name">{{ data.instructor_details.nickname }}</div>
                                             </div>
-                                            <div class="rides">{{ data.ride }} rides</div>
+                                            <div class="rides">{{ data.bookCount }} rides</div>
                                         </div>
                                     </transition>
                                 </div>
                             </div>
-                            <div class="instructor" v-else>
+                            <!-- <div class="instructor" v-else>
                                 <no-ssr>
                                     <swiper :options="mobileOptions" class="default">
                                         <swiper-slide :id="`item_${key}`" v-for="(data, key) in topInstructors" :key="key">
@@ -101,7 +102,7 @@
                                         <div class="swiper-pagination" slot="pagination"></div>
                                     </swiper>
                                 </no-ssr>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="chart">
@@ -119,11 +120,11 @@
                         </div>
                         <div class="ride_summary">
                             <div class="left">
-                                <div class="value">35</div>
+                                <div class="value">{{ rideRevJourney.ridesForThePast30Days }}</div>
                                 <div class="label">Rides in the past 30 days</div>
                             </div>
                             <div class="right">
-                                <div class="value">Thurs 6:30 PM</div>
+                                <div class="value">{{ (rideRevJourney.favoriteTimeSlot == null) ? 'N/A' : $moment(rideRevJourney.favoriteTimeSlot, 'hh:mm A').format('h:mm A') }}</div>
                                 <div class="label">Favorite Timeslot</div>
                             </div>
                         </div>
@@ -463,7 +464,12 @@
             return {
                 rideRevJourney: {
                     badges: [],
-                    classesTaken: 0
+                    classesTaken: 0,
+                    favoriteTimeSlot: null,
+                    monthlyRideCount: {},
+                    ridesForThePast30Days: 0,
+                    topInstructors: [],
+                    weeklyRideCount: {}
                 },
                 usertoNow: this.$moment().toNow(),
                 totalPendingPayment: 0,
@@ -718,6 +724,18 @@
                     ctr++
                 })
                 return badge
+            },
+            populateTopInstructors () {
+                const me = this
+                let result = []
+                let ctr = 0
+                let tempCtr = 0
+                me.rideRevJourney.topInstructors.forEach((data, index) => {
+                    data.hovered = false
+                    result.push(data)
+                    ctr++
+                })
+                return result
             }
         },
         methods: {
@@ -822,7 +840,7 @@
                 const me = this
                 switch (type) {
                     case 'in':
-                        me.topInstructors.forEach((data, index) => {
+                        me.rideRevJourney.topInstructors.forEach((data, index) => {
                             if (key == index) {
                                 document.getElementById(`item_${index}`).classList.add('hovered')
                                 data.hovered = true
@@ -833,7 +851,7 @@
                         })
                         break
                     case 'out':
-                        me.topInstructors.forEach((data, index) => {
+                        me.rideRevJourney.topInstructors.forEach((data, index) => {
                             if (key == index) {
                                 document.getElementById(`item_${index}`).classList.remove('hovered')
                                 data.hovered = false
