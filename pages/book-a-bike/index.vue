@@ -229,19 +229,18 @@
             checkSearchedInstructor () {
                 const me = this
                 let result = ''
-                let id = (me.studioID == 0) ? '' : me.studioID
                 if (me.searchedInstructor != '') {
                     result = `${me.searchedInstructor}`
                     me.hasSearchedInstructor = true
                 } else {
-                    me.instructorID = 0
+                    me.instructorID = (me.$route.query.i) ? me.$route.query.i : 0
                     me.searchedInstructor = ''
                     me.hasSearchedInstructor = false
                     result = 'all instructors '
                     me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
                 }
                 setTimeout( () => {
-                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1&studio_id=${id}` : `?forWeb=1&studio_id=${id}`}`).then(res => {
+                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {
                         if (res.data) {
                             me.instructors = res.data.instructors
                         }
@@ -406,7 +405,7 @@
                 let id = (me.studioID == 0) ? '' : me.studioID
                 /**
                  * Fetch all instructors */
-                me.$axios.get(`api/instructors?enabled=1&studio_id=${id}`).then(res => {
+                me.$axios.get(`api/instructors?enabled=1`).then(res => {
                     if (res.data) {
                         me.instructors = res.data.instructors.data
                     }
@@ -647,7 +646,7 @@
         },
         mounted () {
             const me = this
-            let id = (me.studioID == 0) ? '' : me.studioID
+            me.instructorID = (me.$route.query.i) ? me.$route.query.i : 0
             me.loader(true)
             /**
              * Fetch all studios */
@@ -660,7 +659,7 @@
             })
             /**
              * Fetch all instructors */
-            me.$axios.get(`api/instructors?enabled=1&studio_id=${id}`).then(res => {
+            me.$axios.get(`api/instructors?enabled=1`).then(res => {
                 if (res.data) {
                     me.instructors = res.data.instructors.data
                 }
@@ -668,7 +667,7 @@
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             })
             me.currentDay = me.$moment().format('D')
-            me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), false)
+            me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), (me.$route.query.i) ? true : false)
             setTimeout( () => {
                 me.populateClasses()
             }, 10)

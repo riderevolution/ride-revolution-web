@@ -52,7 +52,7 @@
                             <div class="title">{{ data.instructor_details.nickname }}</div>
                             <div class="action">
                                 <nuxt-link rel="canonical" :to="`/instructors/${data.instructor_details.slug}`" class="default_btn_wht mb">See Profile</nuxt-link>
-                                <nuxt-link rel="canonical" to="/" class="default_btn">Book A Ride</nuxt-link>
+                                <nuxt-link rel="canonical" :to="`/book-a-bike?i=${data.id}`" class="default_btn">Book A Ride</nuxt-link>
                             </div>
                         </div>
                     </div>
