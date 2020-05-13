@@ -117,41 +117,6 @@
                         }
                     }
                 },
-                promos: [
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'ASD1231'
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'HGJ23A'
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'JHSHAI23'
-                    }
-                ],
                 packages: [],
                 credits: []
             }
