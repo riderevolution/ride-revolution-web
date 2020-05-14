@@ -396,7 +396,7 @@
                     <div class="profile_gift_cards" v-if="giftCards.length > 0">
                         <div class="gift_card_wrapper" v-for="(data, key) in giftCards" :key="key">
                             <div class="top">
-                                <img src="/sample-gift.png" />
+                                <img :src="data.images[0].path" :alt="data.images[0].alt" />
                                 <div class="overlay">
                                     <img class="gift_img" :src="data.fromUser.images[0].path" v-if="data.fromUser.images[0].path != null" />
                                     <div class="initials" v-else>
@@ -412,7 +412,8 @@
                                 </div>
                                 <div class="package_info">
                                     <div class="name">
-                                        {{ data.gift_card.class_package.name }}
+                                        {{ data.gift_card.class_package.name }}<br />
+                                        <div class="disclaimer" v-html="data.gift_card.class_package.summary"></div>
                                     </div>
                                     <div class="default_btn" @click="toggleRedeem(data)">Use Now</div>
                                 </div>

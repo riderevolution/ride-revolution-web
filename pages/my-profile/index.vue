@@ -218,6 +218,7 @@
                         me.loader(true)
                         me.$axios.get(`api/customers/${me.user.id}/gift-cards?forWebBooking=1`).then(res => {
                             if (res.data) {
+                                console.log(res.data);
                                 setTimeout( () => {
                                     me.$refs.profileTab.giftCards = []
                                     res.data.customer.giftCards.forEach((data, index) => {
