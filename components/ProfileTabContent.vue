@@ -381,7 +381,7 @@
                 <div class="tab_content_header">
                     <div class="with_info">
                         <h2>
-                            Gift Cards send to me
+                            Gift Cards sent to me
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'gift-cards')" />
                         </h2>
                         <transition name="slide">
