@@ -249,6 +249,29 @@
             }).catch(err => {
                 error({ statusCode: 403, message: 'Page not found' })
             })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>

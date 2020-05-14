@@ -405,7 +405,6 @@
                     me.loader(true)
                     me.$axios.post('api/apply-promo', formData).then(res => {
                         if (res.data) {
-                            console.log(res.data.classPackage);
                             me.selectedPackage = res.data.classPackage
                             me.promoApplied = true
                             me.message = 'Cheers! You’ve entered a valid promo code.'

@@ -485,6 +485,29 @@
             }).catch(err => {
                 error({ statusCode: 403, message: 'Page not found' })
             })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Digital Gift Card | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `test` },
+                    { hid: 'og:description', property: 'og:description', content: `test` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `test` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${host}/logo.svg` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `digital-gift-card` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>
