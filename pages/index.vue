@@ -3,7 +3,7 @@
         <div class="home" v-if="loaded">
             <section id="banner">
                 <h1>Ride Revolution</h1>
-                <img class="main_image" :src="res.banners[0].path" :alt="res.banners[0].alt" />
+                <img class="main_image" :data-src="res.banners[0].path" :alt="res.banners[0].alt" v-lazy-load />
                 <div class="overlay_top">
                     <img class="overlay_image" src="default/home/stronger-together.svg" alt="ride-revolution" v-if="!$parent.$parent.isMobile" />
                     <img class="overlay_image" src="default/home/home-banner-mobile.svg" alt="ride-revolution" v-else />

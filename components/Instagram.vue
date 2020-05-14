@@ -2,13 +2,13 @@
     <div id="instagram">
         <div :class="`image_wrapper ${(lessOne) ? (isMobile ? 'mobile less_one' : 'less_one') : (isMobile ? 'mobile' : '')}`">
             <a href="javascript:void(0)" class="image" v-for="(n, key) in 5" :key="key" v-if="!lessOne && !isMobile">
-                <img :src="`/default/lets-ride/sample-ig${key}.jpg`" />
+                <img :data-src="`/default/lets-ride/sample-ig${key}.jpg`" v-lazy-load />
             </a>
             <a href="javascript:void(0)" class="image" v-for="(n, key) in 4" :key="key" v-if="lessOne && !isMobile">
-                <img :src="`/default/lets-ride/sample-ig${key}.jpg`" />
+                <img :data-src="`/default/lets-ride/sample-ig${key}.jpg`" v-lazy-load />
             </a>
             <a href="javascript:void(0)" class="image" v-for="(n, key) in 3" :key="key" v-if="isMobile">
-                <img :src="`/default/lets-ride/sample-ig${key}.jpg`" />
+                <img :data-src="`/default/lets-ride/sample-ig${key}.jpg`" v-lazy-load />
             </a>
         </div>
     </div>

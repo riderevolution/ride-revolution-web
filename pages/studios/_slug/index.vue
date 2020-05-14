@@ -6,7 +6,7 @@
                 <div class="main_left">
                     <div class="header">
                         <h1>{{ res.name }}, {{ res.city }}</h1>
-                        <h2>{{ res.address_line_1 }}, {{ res.city }}, {{ res.state }}, {{ res.country }}</h2>
+                        <h2>{{ res.address }}, {{ res.city }}, {{ res.state }}, {{ res.country }}</h2>
                     </div>
                     <div class="info" v-html="res.description"></div>
                     <div class="opening">
@@ -21,11 +21,11 @@
                                 <a :href="`mailto:${res.contact_email_address}`" class="email">{{ res.contact_email_address }}</a>
                             </div>
                             <div class="link" v-if="res.contact_number">
-                                <img src="/icons/phone-icon.svg" />
+                                <img src="/icons/phone-icon-alt.svg" />
                                 <a :href="`tel:${res.contact_number}`">{{ res.contact_number }}</a>
                             </div>
                             <div class="link" v-if="res.phone">
-                                <img src="/icons/phone-icon.svg" />
+                                <img src="/icons/phone-icon-alt.svg" />
                                 <a :href="`tel:02-${res.phone}`">(02) {{ res.phone }}</a>
                             </div>
                         </div>

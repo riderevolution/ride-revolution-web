@@ -434,6 +434,7 @@
              * Get Schedule of specific date */
             toggleDate (year, month, day, unique) {
                 const me = this
+                me.loader(true)
                 me.currentDay = day
                 let elements = document.querySelectorAll('.date_navigator .date')
                 document.getElementById(`date_${unique}`).classList.add('active')
@@ -458,7 +459,9 @@
                     }).then(res => {
                         if (res.data) {
                             me.populateResSchedules(res.data)
-                            me.loaded = true
+                            if (!me.loaded) {
+                                me.loaded = true
+                            }
                         }
                     }).catch(err => {
                         me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
@@ -476,7 +479,9 @@
                     }).then(res => {
                         if (res.data) {
                             me.populateResSchedules(res.data)
-                            me.loaded = true
+                            if (!me.loaded) {
+                                me.loaded = true
+                            }
                         }
                     }).catch(err => {
                         me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
@@ -605,28 +610,30 @@
                 me.last = currentDate
                 me.currentMonth = parseInt(me.$moment().format('M'))
                 me.currentYear = parseInt(me.$moment().format('YYYY'))
-                    for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
-                        if (currentDate > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
-                            currentDate = 1
-                            me.currentMonth = me.currentMonth + 1
-                            if (me.currentMonth == 13) {
-                                me.currentMonth = 1
-                                me.currentYear = me.currentYear + 1
-                            }
+                for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
+                    if (currentDate > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
+                        currentDate = 1
+                        me.currentMonth = me.currentMonth + 1
+                        if (me.currentMonth == 13) {
+                            me.currentMonth = 1
+                            me.currentYear = me.currentYear + 1
                         }
-                        me.results.push({
-                            abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('ddd'),
-                            month: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('MMM'),
-                            day: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('D'),
-                            value: currentDate
-                        })
-                        currentDate++
-                        me.current = currentDate
-                        me.isPrev = false
                     }
-                setTimeout( () => {
-                    me.loader(false)
-                }, 500)
+                    me.results.push({
+                        abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('ddd'),
+                        month: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('MMM'),
+                        day: me.$moment(`${me.currentYear}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('D'),
+                        value: currentDate
+                    })
+                    currentDate++
+                    me.current = currentDate
+                    me.isPrev = false
+                }
+                if (check) {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                }
             },
             toggleOverlays (e) {
                 const me = this
@@ -664,7 +671,7 @@
             me.currentDay = me.$moment().format('D')
             me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), false)
             setTimeout( () => {
-                me.populateClasses()
+                me.populateClasses(false)
             }, 10)
         },
         beforeMount () {

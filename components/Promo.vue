@@ -4,7 +4,7 @@
             <div @mouseenter="swiperEvent('stop')" @mouseleave="swiperEvent('start')">
                 <swiper :options="promoOptions" ref="swiper" class="default">
                     <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
-                        <img :src="data.banners[0].path" :alt="data.banners[0].alt" />
+                        <img :data-src="data.banners[0].path" :alt="data.banners[0].alt" v-lazy-load />
                         <div class="overlay">
                             <h2 class="header_title">Ride Rev Promo</h2>
                             <h3 class="title" v-line-clamp="3">{{ data.name }}</h3>

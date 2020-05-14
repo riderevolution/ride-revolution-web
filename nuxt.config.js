@@ -78,7 +78,10 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    ['nuxt-lazy-load', {
+      directiveOnly: true
+    }]
   ],
 
   robots: {
@@ -92,11 +95,11 @@ export default {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: (process.env.NODE_ENV == "development") ? 'http://api.riderevolution.test' : 'https://api-riderev.designbluemanila.ph',
+    baseURL: (process.env.NODE_ENV == "development") ? 'http://dc3e5bdf.ngrok.io' : 'https://api-riderev.designbluemanila.ph',
     credentials: false
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'http://riderev.designbluemanila.ph'
+    baseUrl: process.env.BASE_URL || 'https://riderev.designbluemanila.ph'
   },
   /*
   ** Build configuration
