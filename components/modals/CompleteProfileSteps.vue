@@ -76,14 +76,9 @@
                         <h2 class="title">Tell us about your personal address</h2>
                     </div>
                     <div class="form_group">
-                        <label for="personal_address_1">Address 1 <span>*</span></label>
-                        <input type="text" name="personal_address_1" autocomplete="off" class="input_text" placeholder="Enter your address 1" v-model="completeProfile.personal_address_1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.personal_address_1')">{{ errors.first('complete_profile_2_form.personal_address_1') | properFormat }}</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="personal_address_2">Address 2 (Optional)</label>
-                        <input type="text" name="personal_address_2" autocomplete="off" class="input_text" placeholder="Enter your address 2" v-model="completeProfile.personal_address_2" v-validate="{regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.personal_address_2')">{{ errors.first('complete_profile_2_form.personal_address_2') | properFormat }}</span></transition>
+                        <label for="personal_address">Address <span>*</span></label>
+                        <input type="text" name="personal_address" autocomplete="off" class="input_text" placeholder="Enter your address 1" v-model="completeProfile.personal_address" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.personal_address')">{{ errors.first('complete_profile_2_form.personal_address') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="personal_city">City <span>*</span></label>
@@ -114,14 +109,9 @@
                             </div>
                         </div>
                         <div class="form_group">
-                            <label for="billing_address_1">Address 1 <span>*</span></label>
-                            <input type="text" name="billing_address_1" autocomplete="off" class="input_text" v-model="completeProfile.billing_address_1" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_1')">{{ errors.first('address_form.billing_address_1') | properFormat }}</span></transition>
-                        </div>
-                        <div class="form_group">
-                            <label for="billing_address_2">Address 2 (Optional)</label>
-                            <input type="text" name="billing_address_2" autocomplete="off" class="input_text" v-model="completeProfile.billing_address_2" placeholder="Enter your address 2" v-validate="{regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_2')">{{ errors.first('address_form.billing_address_2') | properFormat }}</span></transition>
+                            <label for="billing_address">Address <span>*</span></label>
+                            <input type="text" name="billing_address" autocomplete="off" class="input_text" v-model="completeProfile.billing_address" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address')">{{ errors.first('address_form.billing_address') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="billing_city">City <span>*</span></label>
@@ -156,11 +146,9 @@
                 height: 0,
                 completeProfileStep: 1,
                 completeProfile: {
-                    personal_address_1: '',
-                    personal_address_2: '',
+                    personal_address: '',
                     personal_city: '',
-                    billing_address_1: '',
-                    billing_address_2: '',
+                    billing_address: '',
                     billing_city: ''
                 }
             }
@@ -217,8 +205,7 @@
         methods: {
             copyPersonalAddress () {
                 const me = this
-                me.completeProfile.billing_address_1 = me.completeProfile.personal_address_1
-                me.completeProfile.billing_address_2 = me.completeProfile.personal_address_2
+                me.completeProfile.billing_address = me.completeProfile.personal_address
                 me.completeProfile.billing_city = me.completeProfile.personal_city
             },
             getFile (event) {

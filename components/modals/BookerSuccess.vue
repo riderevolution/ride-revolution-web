@@ -3,7 +3,7 @@
         <section id="banner" class="alt_2">
             <img class="full" src="/default/book-a-bike/book-a-bike-success-banner.jpg" />
             <div class="overlay_mid">
-                <h1>Yay! You successfully booked a ride. You’re all set!!</h1>
+                <h1>You’ve successfully booked a ride! See you in the studio!</h1>
             </div>
         </section>
         <section id="disclaimer">

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            contactUsPromptStatus: false,
             bookerSwitchSeatStatus: false,
             bookerActionsPrompt: false,
             waitlistPrompt: false,
@@ -37,6 +38,7 @@ const createStore = () => {
             proTipStatus: false,
             loginSignUpStatus: false,
             isExpanded: false,
+            errorOverlayPromptStatus: false,
             errorPromptStatus: false,
             errorList: [],
             isAuth: false,
@@ -47,6 +49,7 @@ const createStore = () => {
             isLoading: false,
             token: '',
             customerID: 0,
+            lastRoute: '',
             user: {
                 first_name: '',
                 last_name: '',

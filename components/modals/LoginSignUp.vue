@@ -53,7 +53,7 @@
         <transition name="fade">
             <section id="login" v-if="forgotPassword">
                 <h2 class="title">Forgot your password?</h2>
-                <h3 class="subtitle">Just leave it to us. Please enter your email address where we can send your new password.</h3>
+                <h3 class="subtitle">Don’t worry! Just enter your email address and we’ll send you a recovery email.</h3>
                 <form id="default_form" data-vv-scope="forgot_form" @submit.prevent="submissionForgotSuccess()">
                     <div class="form_group">
                         <label for="email">E-mail</label>
@@ -71,7 +71,7 @@
         </transition>
         <transition name="fade">
             <section id="login" v-if="signUp && signUpStep == 0">
-                <h2 class="title">Congratulations on starting your health and fitness journey! You’ve come to the right place.</h2>
+                <h2 class="title">Ready to start your Revolution? You’ve come to the right place.</h2>
                 <div class="action">
                     <div class="default_btn_login">
                         <img src="/icons/fb-login.svg" />
@@ -126,7 +126,7 @@
         <transition name="fade">
             <section id="login" v-if="signUpProcess && signUpStep == 1">
                 <div class="sign_up_header">
-                    <h2 class="title">A few more things</h2>
+                    <h2 class="title">A few more things...</h2>
                     <div class="counter">1/3</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
@@ -166,7 +166,7 @@
         <transition name="fade">
             <section id="login" v-if="signUpProcess && signUpStep == 2">
                 <div class="sign_up_header">
-                    <h2 class="title">Almost there, Mark!</h2>
+                    <h2 class="title">Almost there, {{ signUpForm.first_name }}!</h2>
                     <div class="counter">2/3</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
@@ -282,7 +282,7 @@
                     sex: '',
                     iAgree: ''
                 },
-                professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Compute', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
+                professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
                 hasReadTerms: false,
                 signUpStep: null,
                 loginForm: {

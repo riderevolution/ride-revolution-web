@@ -19,11 +19,11 @@
                                         </ul>
                                     </div>
                                     <div class="description">
-                                        <h3>What can I do?</h3>
+                                        <h3>What else can I do?</h3>
                                         <ul>
-                                            <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
-                                            <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
-                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                            <li><b>Add a guest.</b> You can book for up to 4 more people using the same account. Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                            <li><b>Switch Seats.</b> You can switch any of your booked seats as long as there are vacant bikes available.</li>
+                                            <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you’d like to use for this class.</li>
                                         </ul>
                                     </div>
                                     <div class="waitlisted" v-if="isWaitlisted">
@@ -47,11 +47,11 @@
                                             </ul>
                                         </div>
                                         <div class="description">
-                                            <h3>What can I do?</h3>
+                                            <h3>What else can I do?</h3>
                                             <ul>
-                                                <li><b>Add a guest.</b> You can add up to 4 persons (depending on the class package you use). Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
-                                                <li><b>Switch Seats.</b> You can switch your seat and your guests' seat if there are vacant bikes.</li>
-                                                <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you'd like to use for this class.</li>
+                                                <li><b>Add a guest.</b> You can book for up to 4 more people using the same account. Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
+                                                <li><b>Switch Seats.</b> You can switch any of your booked seats as long as there are vacant bikes available.</li>
+                                                <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you’d like to use for this class.</li>
                                             </ul>
                                         </div>
                                         <div class="waitlisted" v-if="isWaitlisted">

@@ -1,5 +1,5 @@
 <template>
-    <div class="profile_tab_content" :style="`height: ${height}px`">
+    <div class="profile_tab_content" :style="`height: ${height}px`" v-if="$parent.componentLoaded">
         <transition name="fade">
             <div id="tab_0" class="journey wrapper" v-if="category == 'ride-rev-journey'">
                 <div class="profile_journey">
@@ -11,88 +11,54 @@
                                 </div>
                                 <div class="summary_content">
                                     <div class="class_stat">
-                                        <div class="class_count">115 Classes</div>
-                                        <div class="class_date">In 1 Year and 2 Months</div>
+                                        <div class="class_count">{{ rideRevJourney.classesTaken }} {{ (rideRevJourney.classesTaken <= 1) ? 'Class' : 'Classes' }}</div>
+                                        <div class="class_date">{{ usertoNow }}</div>
                                     </div>
-                                    <div class="motto">
-                                        “You may say I’m a dreamer, but I’m not the only one.” - John Lemon
-                                    </div>
+                                    <div class="motto" v-if="rideRevJourney.classesTaken >= 10">{{ checkRideCount(rideRevJourney.classesTaken) }}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="badges_earned">
                             <div class="summary">
                                 <div class="summary_header alt">
-                                    <h3>Badges You've Earned, Woohoo!</h3>
+                                    <h3>Here are the RR badges you’ve earned!</h3>
                                     <div class="icon">
                                         <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'ride-rev-journey')" />
                                         <transition name="slide">
                                             <div class="description_overlay" v-if="showInfoBadges">
                                                 <div class="pointer"></div>
-                                                <p>To show how much we love you, we will give you <b>30-Class Package</b> for free if you complete all 10 badges.</p>
+                                                <p>As a reward, we’re giving you a FREE 20-Class Package and a limited edition Ride Revolution bottle when you earn all 10 badges!</p>
                                             </div>
                                         </transition>
                                     </div>
                                 </div>
                                 <div class="summary_content">
                                     <div class="left">
-                                        <div class="badge">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                            <p></p>
-                                        </div>
-                                        <div class="badge">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
+                                        <div :class="`badge ${(badge.progress >= badge.target) ? '' : 'disabled'}`" v-for="(badge, key) in badgeLeft" :key="key">
+                                            <img :src="badge.badge_image" />
+                                            <span>{{ badge.description }}</span>
                                         </div>
                                     </div>
                                     <div class="right">
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
-                                        </div>
-                                        <div class="badge disabled">
-                                            <img src="/sample-badge.svg" />
-                                            <span>Ride back to back classes</span>
+                                        <div :class="`badge ${(badge.progress >= badge.target) ? '' : 'disabled'}`" v-for="(badge, key) in badgeRight" :key="key">
+                                            <img :src="badge.badge_image" />
+                                            <span>{{ badge.description }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="top_booked">
+                    <div class="top_booked" v-if="rideRevJourney.topInstructors.length > 0">
                         <div class="tab_content_header alt2">
                             <h2>Your Top Booked Instructors</h2>
                         </div>
                         <div class="tab_content_main">
                             <div class="instructor desktop" v-if="!$parent.$parent.$parent.isMobile">
-                                <div :id="`item_${key}`" class="item" v-for="(data, key) in topInstructors" :key="key">
+                                <div :id="`item_${key}`" class="item" v-for="(data, key) in populateTopInstructors" :key="key">
                                     <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
-                                    <img class="main" :src="data.path" />
+                                    <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
+                                    <img class="main" src="/logo.svg" :alt="data.instructor_details.slug" v-else />
                                     <transition name="fade">
                                         <div class="num_wrapper" v-if="!data.hovered"><div class="num">{{ key + 1 }}</div></div>
                                     </transition>
@@ -104,9 +70,9 @@
                                                         {{ key + 1 }}
                                                     </div>
                                                 </div>
-                                                <div class="name">{{ data.name }}</div>
+                                                <div class="name">{{ data.instructor_details.nickname }}</div>
                                             </div>
-                                            <div class="rides">{{ data.ride }} rides</div>
+                                            <div class="rides">{{ data.bookCount }} rides</div>
                                         </div>
                                     </transition>
                                 </div>
@@ -114,10 +80,11 @@
                             <div class="instructor" v-else>
                                 <no-ssr>
                                     <swiper :options="mobileOptions" class="default">
-                                        <swiper-slide :id="`item_${key}`" v-for="(data, key) in topInstructors" :key="key">
+                                        <swiper-slide :id="`item_${key}`" v-for="(data, key) in populateTopInstructors" :key="key">
                                             <div class="item">
                                                 <div class="cover"></div>
-                                                <img class="main" :src="data.path" />
+                                                <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
+                                                <img class="main" src="/logo.svg" :alt="data.instructor_details.slug" v-else />
                                                 <transition name="slide">
                                                     <div class="overlay">
                                                         <div class="info">
@@ -126,9 +93,9 @@
                                                                     {{ key + 1 }}
                                                                 </div>
                                                             </div>
-                                                            <div class="name">{{ data.name }}</div>
+                                                            <div class="name">{{ data.instructor_details.nickname }}</div>
                                                         </div>
-                                                        <div class="rides">{{ data.ride }} rides</div>
+                                                        <div class="rides">{{ data.bookCount }} rides</div>
                                                     </div>
                                                 </transition>
                                             </div>
@@ -149,16 +116,16 @@
                         </div>
                         <div class="ride_chart">
                             <no-ssr>
-                                <apexchart :options="chartOptions" :series="series"></apexchart>
+                                <apexchart :key="graphKey" :options="chartOptions" :series="series"></apexchart>
                             </no-ssr>
                         </div>
                         <div class="ride_summary">
                             <div class="left">
-                                <div class="value">35</div>
+                                <div class="value">{{ rideRevJourney.ridesForThePast30Days }}</div>
                                 <div class="label">Rides in the past 30 days</div>
                             </div>
                             <div class="right">
-                                <div class="value">Thurs 6:30 PM</div>
+                                <div class="value">{{ (rideRevJourney.favoriteTimeSlot == null) ? 'N/A' : $moment(rideRevJourney.favoriteTimeSlot, 'hh:mm A').format('h:mm A') }}</div>
                                 <div class="label">Favorite Timeslot</div>
                             </div>
                         </div>
@@ -327,7 +294,7 @@
                         <h2>My Pending Transactions ({{ totalItems(pendingTransactions.length) }})</h2>
                         <div class="total">
                             Total Due
-                            <span class="count">Php 105.00</span>
+                            <span class="count">Php {{ totalCount(totalPendingPayment) }}</span>
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'transactions')" />
                             <transition name="slide">
                                 <div class="description_overlay" v-if="showInfoTransactions">
@@ -342,29 +309,29 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Products</th>
-                                <th>Branch</th>
+                                <th>Studio</th>
                                 <th>Total Price</th>
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in pendingTransactions" :key="key">
-                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
                                     <div>
-                                        <div class="default" v-for="(child, key) in data.products" :key="key">
-                                            {{ child.name }}({{ child.qty }})
+                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
+                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }} ({{ child.quantity }})
                                         </div>
                                     </div>
                                 </td>
-                                <td data-column="Branch">
-                                    <div class="default">{{ data.branch }}</div>
+                                <td data-column="Studio">
+                                    <div class="default">{{ data.studio.name }}</div>
                                 </td>
                                 <td data-column="Total Price">
-                                    <div class="default bold">Php {{ data.total_price }}</div>
+                                    <div class="default bold">Php {{ totalCount(data.total) }}</div>
                                 </td>
                                 <td data-column="Payment Status">
-                                    <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
+                                    <div :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -372,36 +339,36 @@
                 </div>
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
-                        <h2>My Closed Transactions</h2>
+                        <h2>My Paid Transactions ({{ totalItems(paidTransactions.length) }})</h2>
                     </div>
                     <table class="default_table">
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Products</th>
-                                <th>Branch</th>
+                                <th>Studio</th>
                                 <th>Total Price</th>
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(data, key) in paidTransactions" :key="key">
-                                <td data-column="Date"><div class="default">{{ data.date }}</div></td>
+                                <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
                                     <div>
-                                        <div class="default" v-for="(child, key) in data.products" :key="key">
-                                            {{ child.name }}({{ child.qty }})
+                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
+                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }} ({{ child.quantity }})
                                         </div>
                                     </div>
                                 </td>
-                                <td data-column="Branch">
-                                    <div class="default">{{ data.branch }}</div>
+                                <td data-column="Studio">
+                                    <div class="default">{{ data.studio.name }}</div>
                                 </td>
                                 <td data-column="Total Price">
-                                    <div class="default bold">Php {{ data.total_price }}</div>
+                                    <div class="default bold">Php {{ totalCount(data.total) }}</div>
                                 </td>
                                 <td data-column="Payment Status">
-                                    <div :class="`label ${(data.is_paid) ? 'violator paid' : 'violator pending'}`">{{ (data.is_paid) ? 'Paid' : 'Pending' }}</div>
+                                    <div :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -414,7 +381,7 @@
                 <div class="tab_content_header">
                     <div class="with_info">
                         <h2>
-                            Gift Cards send to me
+                            Gift Cards sent to me
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'gift-cards')" />
                         </h2>
                         <transition name="slide">
@@ -426,28 +393,37 @@
                     </div>
                 </div>
                 <div class="tab_content_main">
-                    <div class="profile_gift_cards">
+                    <div class="profile_gift_cards" v-if="giftCards.length > 0">
                         <div class="gift_card_wrapper" v-for="(data, key) in giftCards" :key="key">
                             <div class="top">
-                                <img :src="data.path" />
+                                <img :src="data.images[0].path" :alt="data.images[0].alt" />
                                 <div class="overlay">
-                                    <img class="gift_img" src="/sample-image-booker.png" v-if="data.from.has_image" />
+                                    <img class="gift_img" :src="data.fromUser.images[0].path" v-if="data.fromUser.images[0].path != null" />
                                     <div class="initials" v-else>
-                                        <div class="name">{{ data.from.initials }}</div>
+                                        <div class="name">{{ data.fromUser.first_name.charAt(0) }}{{ data.fromUser.last_name.charAt(0) }}</div>
                                     </div>
-                                    <div class="label">From {{ data.from.name }}</div>
+                                    <div class="label">From {{ data.fromUser.first_name }} {{ data.fromUser.last_name }}</div>
                                 </div>
                             </div>
                             <div class="bottom">
-                                <div class="details" v-html="data.details" v-line-clamp="3"></div>
+                                <div class="details">
+                                    <b>{{ data.title }}</b>
+                                    <p>{{ data.personal_message }}</p>
+                                </div>
                                 <div class="package_info">
                                     <div class="name">
-                                        {{ data.package.name }}
-                                        <div class="violator" v-if="data.has_violator">You still have this package</div>
+                                        {{ data.gift_card.class_package.name }}<br />
+                                        <div class="violator" v-html="data.gift_card.class_package.gift_card_description"></div>
                                     </div>
-                                    <div :class="`default_btn ${(data.has_violator) ? 'disabled' : ''}`" @click="toggleRedeem()">Use Now</div>
+                                    <div class="default_btn" @click="toggleRedeem(data)">Use Now</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="no_results" v-else>
+                        <div class="text">You don't have any gift cards.</div>
+                        <div class="logo">
+                            <img src="/footer-logo.svg" />
                         </div>
                     </div>
                 </div>
@@ -457,10 +433,10 @@
             <cancel-class v-if="$store.state.cancelClassStatus" :type="type" />
         </transition>
         <transition name="fade">
-            <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" />
+            <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
-            <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" />
+            <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
             <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" />
@@ -488,8 +464,21 @@
         },
         data () {
             return {
+                rideRevJourney: {
+                    badges: [],
+                    classesTaken: 0,
+                    favoriteTimeSlot: null,
+                    monthlyRideCount: {},
+                    ridesForThePast30Days: 0,
+                    topInstructors: [],
+                    weeklyRideCount: {}
+                },
+                graphKey: 0,
+                usertoNow: this.$moment().toNow(),
+                totalPendingPayment: 0,
                 user: null,
                 tempBooking: null,
+                giftCardTemp: [],
                 mobileOptions: {
                     slidesPerView: 2,
                     spaceBetween: 30,
@@ -525,241 +514,11 @@
                 unique: 0,
                 tabCategory: '',
                 tabChartCategory: 'monthly',
-                topInstructors: [
-                    {
-                        path: '/default/instructor/instructor-bea.png',
-                        name: 'Bea',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-billie.png',
-                        name: 'Billie',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-kat.png',
-                        name: 'Kat',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-jp.png',
-                        name: 'JP',
-                        ride: 20,
-                        hovered: false
-                    },
-                    {
-                        path: '/default/instructor/instructor-eg.png',
-                        name: 'EG',
-                        ride: 20,
-                        hovered: false
-                    }
-                ],
                 classes: [],
                 packages: [],
-                pendingTransactions: [
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            },
-                            {
-                                name: 'Fitbar',
-                                qty: 2
-                            },
-                            {
-                                name: 'Pure Nectar Cashew Milk',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '450.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: false,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    }
-                ],
-                paidTransactions: [
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            },
-                            {
-                                name: 'Fitbar',
-                                qty: 2
-                            },
-                            {
-                                name: 'Pure Nectar Cashew Milk',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '450.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            },
-                            {
-                                name: 'Fitbar',
-                                qty: 2
-                            },
-                            {
-                                name: 'Pure Nectar Cashew Milk',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '450.00'
-                    },
-                    {
-                        date: 'Apr 4, 2019, 10:00 AM',
-                        products: [
-                            {
-                                name: 'Hope in a Bottle',
-                                qty: 2
-                            }
-                        ],
-                        is_paid: true,
-                        branch: 'Greenbelt',
-                        total_price: '70.00'
-                    }
-                ],
-                giftCards: [
-                    {
-                        from: {
-                            has_image: true,
-                            initials: 'JD',
-                            name: 'Juan Dela Cruz'
-                        },
-                        path: '/sample-gift.png',
-                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
-                        has_violator: false,
-                        package: {
-                            name: '10-Class Package'
-                        }
-                    },
-                    {
-                        from: {
-                            has_image: true,
-                            initials: 'JD',
-                            name: 'Juan Dela Cruz'
-                        },
-                        path: '/sample-gift2.png',
-                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
-                        has_violator: false,
-                        package: {
-                            name: '10-Class Package'
-                        }
-                    },
-                    {
-                        from: {
-                            has_image: false,
-                            initials: 'JD',
-                            name: 'Juan Dela Cruz'
-                        },
-                        path: '/sample-gift2.png',
-                        details: '<b>Happy Birthday</b><p>You’re turning 30 bro but I look much older than you wth!</p>',
-                        has_violator: true,
-                        package: {
-                            name: '10-Class Package'
-                        }
-                    }
-                ],
+                pendingTransactions: [],
+                paidTransactions: [],
+                giftCards: [],
                 series: [
                     {
                         name: 'Ride Count',
@@ -824,7 +583,6 @@
                     colors: ['#9E558B'],
                     plotOptions: {
                         bar: {
-                            columnWidth: '45%',
                             dataLabels: {
                                 position: 'top'
                             },
@@ -833,7 +591,7 @@
                     dataLabels: {
                         enabled: true,
                         formatter: function (val) {
-                            return `${val} rides`
+                            return `${val}`
                         },
                         offsetY: -15,
                         style: {
@@ -905,14 +663,68 @@
                     tooltip: {
                         y: {
                             formatter: function (val) {
-                                return val + " rides"
+                                return val
                             }
                         }
                     }
                 }
             }
         },
+        computed: {
+            badgeLeft () {
+                const me = this
+                let badge = []
+                let ctr = 0
+                me.rideRevJourney.badges.forEach((data, index) => {
+                    if (ctr < 5) {
+                        badge.push(data)
+                        ctr++
+                    }
+                })
+                return badge
+            },
+            badgeRight () {
+                const me = this
+                let badge = []
+                let ctr = 0
+                me.rideRevJourney.badges.forEach((data, index) => {
+                    if (ctr >= 5) {
+                        badge.push(data)
+                    }
+                    ctr++
+                })
+                return badge
+            },
+            populateTopInstructors () {
+                const me = this
+                let result = []
+                me.rideRevJourney.topInstructors.forEach((data, index) => {
+                    result.push(data)
+                })
+                return result
+            }
+        },
         methods: {
+            checkRideCount (count) {
+                const me = this
+                if (count >= 10 && count <= 19) {
+                    return 'You’re making great progress. Let’s keep riding on this journey together.'
+                } else if (count >= 20 && count <= 49) {
+                    return 'Did you ever think a stationary bike could take you so far? Let’s keep working on your Revolution!'
+                } else if (count >= 50 && count <= 99) {
+                    return 'Wow you are dedicated to your Revolution! Keep it up!'
+                } else if (count >= 100) {
+                    return 'You made it to 100! We’re proud to have shared 100 rides with you. To a hundred more and beyond!'
+                }
+            },
+            countVariantQty (items) {
+                const me = this
+                let ctr = 0
+                items.forEach((item, index) => {
+                    ctr += parseInt(item.quantity)
+                })
+                return ctr
+            },
             toggleDetails (event) {
                 const me = this
                 let target = event.target
@@ -934,8 +746,9 @@
                 me.$store.state.shareTransferPackageStatus = true
                 document.body.classList.add('no_scroll')
             },
-            toggleRedeem () {
+            toggleRedeem (data) {
                 const me = this
+                me.giftCardTemp = data
                 me.$store.state.redeemGiftCardStatus = true
                 document.body.classList.add('no_scroll')
             },
@@ -993,7 +806,7 @@
                 const me = this
                 switch (type) {
                     case 'in':
-                        me.topInstructors.forEach((data, index) => {
+                        me.rideRevJourney.topInstructors.forEach((data, index) => {
                             if (key == index) {
                                 document.getElementById(`item_${index}`).classList.add('hovered')
                                 data.hovered = true
@@ -1004,7 +817,7 @@
                         })
                         break
                     case 'out':
-                        me.topInstructors.forEach((data, index) => {
+                        me.rideRevJourney.topInstructors.forEach((data, index) => {
                             if (key == index) {
                                 document.getElementById(`item_${index}`).classList.remove('hovered')
                                 data.hovered = false
@@ -1120,7 +933,37 @@
             },
             toggledChartMenuTab (category) {
                 const me = this
+                let tempLabels = []
                 me.tabChartCategory = category
+                switch (category) {
+                    case 'weekly':
+                        me.series[0].data = me.rideRevJourney.weeklyRideCount.series.data
+                        let currentDay = me.$moment().day()
+                        tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
+                        for (let i = 0; i < 13; i++) {
+                            currentDay = currentDay - 1
+                            if (currentDay < 0) {
+                                currentDay = 6
+                            }
+                            tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
+                        }
+                        me.chartOptions.xaxis.categories = tempLabels
+                        break
+                    case 'monthly':
+                        me.series[0].data = me.rideRevJourney.monthlyRideCount.series.data
+                        let currentMonth = me.$moment().month() + 1
+                        tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                        for (let i = 0; i < 11; i++) {
+                            currentMonth = currentMonth - 1
+                            if (currentMonth == 0) {
+                                currentMonth = 12
+                            }
+                            tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                        }
+                        me.chartOptions.xaxis.categories = tempLabels
+                        break
+                }
+                me.graphKey += 1
             },
             toggleOverlays (e) {
                 const me = this

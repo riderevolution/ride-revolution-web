@@ -8,7 +8,7 @@
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div v-if="step == 1">
-                        <form id="initial_form" @submit.prevent="submit()">
+                        <form id="initial_form">
                             <div class="form_content alt">
                                 <div class="form_header">
                                     <h1 class="header_title">Buy a Digital Gift Card</h1>
@@ -16,7 +16,7 @@
                                 <div class="form_group select disclaimer">
                                     <div class="select">
                                         <select class="input_select" name="class_package" v-validate="'required'" v-model="form.classPackage" @change="getPackage($event)">
-                                            <option value="0" disabled selected>Please select a class package</option>
+                                            <option value="" disabled selected>Please select a class package</option>
                                             <option :value="data.id" v-for="(data, key) in classPackages">{{ data.name }}</option>
                                         </select>
                                     </div>
@@ -40,7 +40,7 @@
                                     <div class="select">
                                         <select class="input_select" name="title" v-validate="'required'" @change="getTitle($event)" v-model="form.title">
                                             <option value="" disabled selected>Please select a title</option>
-                                            <option value="birthday">Birthday!</option>
+                                            <option :value="predefinedTitle.title" v-for="(predefinedTitle, key) in predefinedTitles" :key="key">{{ predefinedTitle.title }}</option>
                                             <option value="other">Other</option>
                                         </select>
                                     </div>
@@ -198,7 +198,7 @@
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
         <transition name="fade">
-            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" />
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :title="'You’ve successfully sent a giftcard!'" />
         </transition>
     </div>
 </template>
@@ -217,6 +217,7 @@
         },
         data () {
             return {
+                user: [],
                 count: 200,
                 dashOffset: 0,
                 normalizedRadius: 0,
@@ -230,7 +231,7 @@
                 promo: false,
                 other: false,
                 form: {
-                    classPackage: '0',
+                    classPackage: '',
                     to: '',
                     from: '',
                     title: '',
@@ -244,15 +245,21 @@
                 },
                 res: [],
                 classPackages: [],
+                predefinedTitles: [],
                 selectedPackage: null
             }
         },
         filters: {
-            properFormat: function (value) {
+            properFormat (value) {
                 let newValue = value.split('The ')[1].split(' field')[0].split('[]')
                 if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
+                    let nextValue = newValue[0].split('_')
+                    if (nextValue.length > 1) {
+                        newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
+                    } else {
+                        newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                    }
+                } else {
                     newValue = value.split('The ')[1].split(' field')[0].split('_')
                     if (newValue.length > 1) {
                         let firstValue = ''
@@ -275,24 +282,29 @@
                     message = message[1]
                     return `The ${newValue} field${message}`
                 } else {
-                    return `The ${newValue}`
+					if (message[0].split('file').length > 1) {
+                        message = message[0].split('file')[1]
+                        return `The ${newValue} field${message}`
+                    } else {
+                        return `The ${newValue}`
+                    }
                 }
             }
         },
         methods: {
-            submit () {
-                const me = this
-            },
             paymentSuccess (data, paypal_details = null) {
                 const me = this
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
                 formData.append('type', 'digital-gift-card')
-                formData.append('class_package_id', data.id)
-                formData.append('price', data.package_price)
+                formData.append('class_package_id', me.selectedPackage.id)
+                formData.append('price', me.selectedPackage.package_price)
                 formData.append('digital_gift_card_form', JSON.stringify(me.form))
                 formData.append('quantity', 1)
                 formData.append('payment_method', me.type)
+                formData.append('promo_code', me.form.promo)
+                formData.append('discount', me.form.discount)
+                formData.append('total', me.form.total)
                 if (paypal_details != null) {
                     formData.append('paypal_details', paypal_details)
                 }
@@ -303,17 +315,16 @@
                     }
                 }).then(res => {
                     if (res.data) {
-                        console.log(res.data);
-                        // me.$store.state.buyRidesSuccessStatus = true
+                        me.$store.state.buyRidesSuccessStatus = true
                     }
-                // }).catch(err => {
-                //     me.$store.state.errorList = err.response.data.errors
-                //     me.$store.state.errorPromptStatus = true
-                // }).then(() => {
-                //     me.step = 0
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    me.step = 0
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             },
             computeTotal (total) {
@@ -348,10 +359,16 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        me.step = 2
-                        me.$scrollTo('#payments', {
-                            offset: -250
-                        })
+                        if (me.form.recipientEmail == me.user.email) {
+                            document.body.classList.add('no_scroll')
+                            me.$store.state.errorList = ['You cannot send an email to yourself.']
+                            me.$store.state.errorPromptStatus = true
+                        } else {
+                            me.step = 2
+                            me.$scrollTo('#payments', {
+                                offset: -250
+                            })
+                        }
                     } else {
                         me.$scrollTo('.validation_errors', {
                             offset: -250
@@ -364,6 +381,8 @@
                 let target = event.target
                 if (target.value == 'other') {
                     me.other = true
+                } else {
+                    me.other = false
                 }
             },
             stepBack () {
@@ -372,7 +391,7 @@
                     me.step = 1
                     me.paypal = false
                 } else if (me.step == 3) {
-                    me.step = 1
+                    me.step = 2
                     me.paypal = false
                 }
             },
@@ -380,14 +399,18 @@
                 const me = this
                 me.type = type
                 switch (type) {
-                    case 'store-credit':
+                    case 'store-credits':
                         me.step = 3
                         break
-                    case 'credit':
+                    case 'paypal':
                         me.step = 3
                         me.paypal = true
+                        me.renderPaypal()
                         break
                 }
+                me.$scrollTo('#payments', {
+                    offset: -250
+                })
             },
             applyPromo (id) {
                 const me = this
@@ -398,7 +421,8 @@
                     me.loader(true)
                     me.$axios.post('api/apply-promo', formData).then(res => {
                         if (res.data) {
-                            me.classPackages = res.data.classPackage
+                            console.log(res.data.classPackage);
+                            me.selectedPackage = res.data.classPackage
                             me.promoApplied = true
                             me.message = 'Cheers! You’ve entered a valid promo code.'
                         }
@@ -431,7 +455,7 @@
                         },
                         onApprove: function(data, actions) {
                           // This function captures the funds from the transaction.
-                            me.loader(true)
+                            // me.loader(true)
                             return actions.order.capture().then(function(details) {
                                 me.paymentSuccess(me.res, JSON.stringify(details))
                             })
@@ -442,18 +466,32 @@
         },
         mounted () {
             const me = this
-            me.normalizedRadius = 15 - 3 * 2
-            me.circumference = me.normalizedRadius * 2 * Math.PI
-            me.dashOffset = me.circumference
-            me.$store.state.proTipStatus = true
-            setTimeout( () => {
-                me.classPackages = me.res.classPackages
-            }, 10)
             let token = me.$cookies.get('token')
+
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
                 me.$store.state.loginCheckerStatus = true
                 document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+            } else {
+                me.normalizedRadius = 15 - 3 * 2
+                me.circumference = me.normalizedRadius * 2 * Math.PI
+                me.dashOffset = me.circumference
+                me.$store.state.proTipStatus = true
+                me.$axios.get('api/extras/gift-card-titles').then(res => {
+                    me.predefinedTitles = res.data.giftCardTitles
+                })
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.user = res.data.user
+                    }
+                })
+                setTimeout( () => {
+                    me.classPackages = me.res.classPackages
+                }, 10)
             }
         },
         async asyncData ({ $axios, params, store, error }) {
@@ -467,6 +505,29 @@
             }).catch(err => {
                 error({ statusCode: 403, message: 'Page not found' })
             })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Digital Gift Card | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `test` },
+                    { hid: 'og:description', property: 'og:description', content: `test` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `test` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${host}/logo.svg` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `digital-gift-card` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>
