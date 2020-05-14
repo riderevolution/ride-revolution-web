@@ -276,9 +276,9 @@
             },
             async initial () {
                 const me= this
+                let tempStudios = []
                 me.loader(true)
                 setTimeout( () => {
-                    let tempStudios = []
                     me.studios.forEach((studio, index) => {
                         studio.toggled = false
                         tempStudios.push(studio)
