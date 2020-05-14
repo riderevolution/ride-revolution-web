@@ -231,7 +231,7 @@
             <booker-assign-success :message="message" v-if="$store.state.bookerAssignSuccessStatus" />
         </transition>
         <transition name="fade">
-            <buy-rides-prompt :message="promptMessage" v-if="$store.state.buyRidesPromptStatus" :status="status" />
+            <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" />
         </transition>
         <transition name="fade">
             <booker-success v-if="$store.state.buyRidesSuccessStatus" />
@@ -255,7 +255,7 @@
     import BookerAssignNonMemberError from './modals/BookerAssignNonMemberError'
     import BookerAssignNonMember from './modals/BookerAssignNonMember'
     import BookerAssignSuccess from './modals/BookerAssignSuccess'
-    import BuyRidesPrompt from './modals/BuyRidesPrompt'
+    import BookerPrompt from './modals/BookerPrompt'
     import BookerSuccess from './modals/BookerSuccess'
     import BuyPackageFirst from './modals/BuyPackageFirst'
     import BookerActions from './modals/BookerActions'
@@ -280,7 +280,7 @@
             BookerAssignNonMemberError,
             BookerAssignNonMember,
             BookerAssignSuccess,
-            BuyRidesPrompt,
+            BookerPrompt,
             BookerSuccess,
             BuyPackageFirst,
             BookerActions
@@ -380,7 +380,7 @@
                     if (res.data) {
                         me.promptMessage = 'You have been successfully removed from the waitlist.'
                         document.body.classList.add('no_scroll')
-                        me.$store.state.buyRidesPromptStatus = true
+                        me.$store.state.bookerPromptStatus = true
                         setTimeout( () => {
                             if (!me.inApp) {
                                 me.$router.push('/my-profile')
@@ -570,7 +570,7 @@
                             })
                         } else {
                             me.promptMessage = 'Please select a seat first before proceeding.'
-                            me.$store.state.buyRidesPromptStatus = true
+                            me.$store.state.bookerPromptStatus = true
                             document.body.classList.add('no_scroll')
                         }
                         break
@@ -627,7 +627,7 @@
                         case 'blocked':
                         case 'comp':
                             me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
-                            me.$store.state.buyRidesPromptStatus = true
+                            me.$store.state.bookerPromptStatus = true
                             document.body.classList.add('no_scroll')
                             break
                         case 'reserved':
@@ -638,7 +638,7 @@
                                 document.body.classList.add('no_scroll')
                             } else {
                                 me.promptMessage = 'This seat is already booked or reserved by someone else.'
-                                me.$store.state.buyRidesPromptStatus = true
+                                me.$store.state.bookerPromptStatus = true
                                 document.body.classList.add('no_scroll')
                             }
                             break
@@ -656,7 +656,7 @@
                                 } else {
                                     if (me.toSubmit.tempSeat.length == 5) {
                                         me.promptMessage = "You've already reached the limit of adding guest."
-                                        me.$store.state.buyRidesPromptStatus = true
+                                        me.$store.state.bookerPromptStatus = true
                                         document.body.classList.add('no_scroll')
                                     } else {
                                         me.tempGuestSeat = data
@@ -765,7 +765,7 @@
                 me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
                 me.status = true
                 setTimeout(() => {
-                    me.$store.state.buyRidesPromptStatus = true
+                    me.$store.state.bookerPromptStatus = true
                     document.body.classList.add('no_scroll')
                     me.loader(false)
                 }, 500)

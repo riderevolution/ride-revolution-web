@@ -3,9 +3,6 @@
         <div class="background" @click.once="toggleClose(false)"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
-            <div class="confirmation_image">
-                <img src="/default/meme/error-meme.jpg" />
-            </div>
             <div class="confirmation_text">
                 Sorry the email address you've entered is already existing. Please try another email.
             </div>
