@@ -84,7 +84,7 @@
                             <div class="title">{{ data.name }}</div>
                             <div class="info">
                                 <div class="description">
-                                    {{ data.address_line_1 }}, {{ data.city }}, {{ data.state }}, {{ data.country }}
+                                    {{ data.address }}, {{ data.city }}, {{ data.state }}, {{ data.country }}
                                 </div>
                                 <div class="link">
                                     <img src="/icons/email-icon-alt.svg" />
