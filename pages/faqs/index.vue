@@ -21,7 +21,7 @@
                 </div>
                 <div class="bottom">
                     <div class="faqs_list">
-                        <div :id="`faq_item_${key}`" :class="`wrapper ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in faqs" :key="key" @click="toggleFAQ(key)">
+                        <div :id="`faq_item_${key}`" class="wrapper" v-for="(data, key) in faqs" :key="key" @click="toggleFAQ(key)">
                             <div class="title">{{ data.name }} <span class="toggler"></span></div>
                             <div class="description" v-html="data.description"></div>
                         </div>
@@ -71,13 +71,16 @@
                     if (key == index) {
                         if (element.toggled) {
                             element.toggled = false
+                            elements.classList.remove('toggled')
                             target.querySelector('.description').style.height = `${0}px`
                         } else {
                             element.toggled = true
+                            elements.classList.add('toggled')
                             target.querySelector('.description').style.height = `${target.querySelector('.description').scrollHeight}px`
                         }
                     } else {
                         element.toggled = false
+                        elements.classList.remove('toggled')
                         elements.querySelector('.description').style.height = `${0}px`
                     }
                 })

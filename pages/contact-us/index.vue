@@ -80,7 +80,7 @@
                         <div class="gmap" style="width: 100%; height: 600px" v-html="studio.google_embed"></div>
                     </div>
                     <div class="right">
-                        <div :id="`item_${key}`" :class="`studio_item ${(data.toggled) ? 'toggled' : ''}`" v-for="(data, key) in studios" :key="key" @click="toggleStudio(data, key)">
+                        <div :id="`item_${key}`" class="studio_item" v-for="(data, key) in studios" :key="key" @click="toggleStudio(data, key)">
                             <div class="title">{{ data.name }}</div>
                             <div class="info">
                                 <div class="description">
@@ -257,13 +257,16 @@
                     if (key == index) {
                         if (element.toggled) {
                             element.toggled = false
+                            elements.classList.remove('toggled')
                             target.querySelector('.info').style.height = `${0}px`
                         } else {
                             element.toggled = true
+                            elements.classList.add('toggled')
                             target.querySelector('.info').style.height = `${target.querySelector('.info').scrollHeight}px`
                         }
                     } else {
                         element.toggled = false
+                        elements.classList.remove('toggled')
                         elements.querySelector('.info').style.height = `${0}px`
                     }
                 })
