@@ -314,6 +314,7 @@
                                 }
                             }
                         } else {
+                            me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
                             me.$store.state.completeProfilePromptStatus = true
                         }
                     }

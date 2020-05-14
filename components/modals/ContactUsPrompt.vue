@@ -4,7 +4,7 @@
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose()"></div>
             <div class="confirmation_text">
-                {{ message }}
+                Thank you for submitting an inquiry. We will get in touch with you
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn_wht" @click.once="toggleClose()">Confirm</div>
@@ -15,16 +15,10 @@
 
 <script>
     export default {
-        props: {
-            message: {
-                type: String,
-                default: null
-            }
-        },
         methods: {
             toggleClose () {
                 const me = this
-                me.$store.state.bookerAssignSuccessStatus = false
+                me.$store.state.contactUsPromptStatus = false
                 document.body.classList.remove('no_scroll')
             }
         }

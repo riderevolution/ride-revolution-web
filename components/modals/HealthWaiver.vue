@@ -187,6 +187,9 @@
                         }).then(res => {
                             me.$store.state.completeProfileHealthStatus = false
                             me.$store.state.completeProfileStepsStatus = false
+                            if (me.$store.state.lastRoute != '') {
+                                me.$router.push(me.$store.state.lastRoute)
+                            }
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true

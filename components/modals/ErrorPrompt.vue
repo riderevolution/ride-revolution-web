@@ -17,8 +17,13 @@
         methods: {
             toggleClose () {
                 const me = this
-                me.$store.state.errorPromptStatus = false
-                document.body.classList.remove('no_scroll')
+                if (me.$store.state.errorOverlayPromptStatus) {
+                    me.$store.state.errorPromptStatus = false
+                } else {
+                    me.$store.state.errorPromptStatus = false
+                    document.body.classList.remove('no_scroll')
+                }
+                me.$store.state.errorOverlayPromptStatus = false
             }
         }
     }

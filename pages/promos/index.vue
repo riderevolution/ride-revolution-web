@@ -1,28 +1,30 @@
 <template>
-    <div class="promo_landing">
-        <section id="banner" class="mt">
-            <img class="full" src="/default/promo/promo-banner.jpg" />
-            <breadcrumb :overlay="true" />
-            <div class="overlay_mid">
-                <h1>Ride Rev Promos</h1>
-                <h2 class="alt">We're revolutionizing Manila's fitness industry.</h2>
-            </div>
-        </section>
-        <section id="promos" class="alt">
-            <div class="promo_list" v-for="(data, key) in populatePromos" :key="key">
-                <h2 class="header_title" v-line-clamp="3">Ride Rev Promo</h2>
-                <h3 class="title">{{ data.title }}</h3>
-                <div class="description" v-line-clamp="4" v-html="data.description"></div>
-                <div class="copy_wrapper" v-if="data.hasCode">
-                    <input class="code" :id="`code_${key}`" :value="data.code" />
-                    <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
+    <transition name="fade">
+        <div class="promo_landing" v-if="loaded">
+            <section id="banner" class="mt">
+                <img class="full" src="/default/promo/promo-banner.jpg" />
+                <breadcrumb :overlay="true" />
+                <div class="overlay_mid">
+                    <h1>Ride Rev Promos</h1>
+                    <h2 class="alt">We're revolutionizing Manila's fitness industry.</h2>
                 </div>
-            </div>
-            <div class="action">
-                <div v-if="!checkPromos" class="default_btn load" @click="loadMorePromos()">Load More</div>
-            </div>
-        </section>
-    </div>
+            </section>
+            <section id="promos" class="alt">
+                <div class="promo_list" v-for="(data, key) in populatePromos" :key="key">
+                    <h2 class="header_title">Ride Rev Promo</h2>
+                    <h3 class="title">{{ data.name }}</h3>
+                    <div class="description" v-html="data.description"></div>
+                    <div class="copy_wrapper" v-if="data.hasCode">
+                        <input class="code" :id="`code_${key}`" :value="data.promo_code" />
+                        <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
+                    </div>
+                </div>
+                <div class="action">
+                    <div v-if="!checkPromos" class="default_btn load" @click="loadMorePromos()">Load More</div>
+                </div>
+            </section>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -33,70 +35,11 @@
         },
         data () {
             return {
+                loaded: false,
                 toShow: 6,
-                promos: [
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false,
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'ASD1231',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'HGJ23A',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false,
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'JHSHAI23',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'HGJ23A',
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Complete all 20 milestone badges to get an exclusive prize from us!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. tempor incididunt ut labore et dolore incididunt ut labore et',
-                        hasCode: false,
-                        checked: false
-                    },
-                    {
-                        path: '/default/promo/sample-image.jpg',
-                        title: 'Get 1,500 Pesos Discount on your Ride!*',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore. sed do eiusmod tempor incididunt ut labore et dolore incididunt ut labore et dolore.',
-                        hasCode: true,
-                        code: 'JHSHAI23',
-                        checked: false
-                    }
-                ]
+                res: [],
+                promos: [],
+                promoAnnouncements: []
             }
         },
         computed: {
@@ -150,6 +93,71 @@
                         element.nextElementSibling.innerHTML = 'Copy Code'
                     }, 1000)
                 }
+            },
+            async initial () {
+                const me = this
+                let tempPromos = []
+                me.loader(true)
+                setTimeout( () => {
+                    me.promos.forEach((promo, index) => {
+                        if (promo.promo_code) {
+                            promo.hasCode = true
+                        } else {
+                            promo.hasCode = false
+                        }
+                        promo.checked = false
+                        tempPromos.push(promo)
+                    })
+                    me.promoAnnouncements.forEach((promo, index) => {
+                        promo.hasCode = false
+                        promo.checked = false
+                        tempPromos.push(promo)
+                    })
+                    me.promos = tempPromos
+                    me.loaded = true
+                    me.loader(false)
+                }, 500)
+            }
+        },
+        async mounted () {
+            const me = this
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
+        },
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/web/promos`)
+            .then(res => {
+                return {
+                    res: res.data.promoPageSetting,
+                    promos: res.data.promos,
+                    promoAnnouncements: res.data.promoAnnouncements
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.res.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.res.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
             }
         }
     }

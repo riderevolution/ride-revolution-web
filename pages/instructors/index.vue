@@ -1,64 +1,71 @@
 <template>
-    <div class="instructors">
-        <section id="instructors_nav">
-            <div :class="`left ${(toggled) ? 'active' : ''}`" @click="toggleSpecialization()" v-click-outside="outsideSpecialization">
-                <div class="select">
-                    <label class="label">
-                        Specialization
-                        <!-- <div class="count">
-                            <span>{{ count }}</span>
-                        </div> -->
-                    </label>
-                    <div class="custom_select">
-                        <div :class="`check ${(checkSpecialization) ? 'active' : ''}`">
-                            <label for="specialization_all">All Specializations</label>
-                            <input type="checkbox" id="specialization_all" name="select_all" value="0" :checked="checkSpecialization" @change="toggleAllSpecialization($event)">
-                        </div>
-                        <div :class="`check ${(data.checked) ? 'active' : ''}`" v-for="(data, key) in specializations" :key="key">
-                            <label class="label" :for="`specialization_${key}`"><img :src="data.path" /><span>{{ data.name }}</span></label>
-                            <input type="checkbox" :id="`specialization_${key}`" name="specialization[]" v-model="data.checked" @change="getSpecialization($event, key)">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="right">
-                <div class="input">
-                    <input type="text" name="search" placeholder="Search for an instructor">
-                </div>
-            </div>
-        </section>
-        <breadcrumb :hasPadding="true" />
-        <section id="instructors_content">
-            <div class="header">
-                <h1>Instructors</h1>
-                <div class="subheader">
-                    <h2>Show instructors by</h2>
+    <transition name="fade">
+        <div class="instructors" v-if="loaded">
+            <section id="instructors_nav">
+                <!-- <div :class="`left ${(toggled) ? 'active' : ''}`" @click="toggleSpecialization()" v-click-outside="outsideSpecialization">
                     <div class="select">
-                        <select name="sort">
-                            <option :value="convertToSlug(data.name)" v-for="(data, key) in sorts" :key="key" :selected="(key == 2) ? true : false">{{ data.name }}</option>
-                        </select>
+                        <label class="label">
+                            Specialization
+                            <div class="count">
+                                <span>{{ count }}</span>
+                            </div>
+                        </label>
+                        <div class="custom_select">
+                            <div :class="`check ${(checkSpecialization) ? 'active' : ''}`">
+                                <label for="specialization_all">All Specializations</label>
+                                <input type="checkbox" id="specialization_all" name="select_all" value="0" :checked="checkSpecialization" @change="toggleAllSpecialization($event)">
+                            </div>
+                            <div :class="`check ${(data.checked) ? 'active' : ''}`" v-for="(data, key) in specializations" :key="key">
+                                <label class="label" :for="`specialization_${key}`"><img :src="data.path" /><span>{{ data.name }}</span></label>
+                                <input type="checkbox" :id="`specialization_${key}`" name="specialization[]" v-model="data.checked" @change="getSpecialization($event, key)">
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="right full">
+                    <div class="input">
+                        <input type="text" autocomplete="off" name="q" v-model="form.q" placeholder="Search for an instructor" @keyup="searchInstructor()">
                     </div>
                 </div>
-            </div>
-            <div class="content">
-                <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in populateInstructors" :key="key" @mouseover="toggleActionHover(key)" @mouseleave="toggleActionLeave(key)">
-                    <a class="follow" href="javascript:void(0)"><img src="/icons/ig-white-icon.svg" /><span>Follow</span></a>
-                    <img class="main" :src="data.path" />
-                    <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
-                    <div class="overlay">
-                        <div class="title">{{ data.name }}</div>
-                        <div class="action">
-                            <nuxt-link rel="canonical" to="/instructors/asdasd" class="default_btn_wht mb">See Profile</nuxt-link>
-                            <nuxt-link rel="canonical" to="/" class="default_btn">Book A Ride</nuxt-link>
+            </section>
+            <breadcrumb :hasPadding="true" />
+            <section id="instructors_content">
+                <div class="header">
+                    <h1>{{ res.title }}</h1>
+                    <div v-if="res.subtitle">{{ res.subtitle }}</div>
+                    <div class="subheader">
+                        <h2>Show instructors by</h2>
+                        <div class="select">
+                            <select name="sort" v-model="form.sort_by" @change="searchInstructor()">
+                                <option :value="data.value" v-for="(data, key) in sorts" :key="key" :selected="(key == 2) ? true : false">{{ data.name }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <div class="action">
-                    <div v-if="!showLoadedInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
+                <div class="content" v-if="instructors.length > 0">
+                    <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in populateInstructors" :key="key" @mouseover="toggleActionHover(key)" @mouseleave="toggleActionLeave(key)">
+                        <a class="follow" :href="data.instructor_details.instagram" target="_blank"><img src="/icons/ig-white-icon.svg" /><span>Follow</span></a>
+                        <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
+                        <img class="main" src="/logo.svg" :alt="data.instructor_details.slug" v-else />
+                        <svg id="stripe" xmlns="http://www.w3.org/2000/svg" width="97.432" height="115.914" viewBox="0 0 97.432 115.914"> <g transform="translate(0.53 0.53)"> <g transform="translate(0 0)"> <line class="border" x1="33.924" y2="34.37" transform="translate(16.619 21.021)" /> <line class="border" x1="58.028" y2="58.028" transform="translate(30.755 13.488)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(70.036 2.329)" /> <line class="border" x1="18.747" y2="18.747" transform="translate(12.008 54.554)" /> <line class="border" x1="59.707" y2="59.684" /> </g> <path class="border" d="M-95.6,47.944-48.945,0" transform="translate(99.627 66.91)" /> <line class="border" x1="11.606" y2="11.606" transform="translate(84.766 22.416)" /> <line class="border" x1="25.059" y2="25.197" transform="translate(2.125 2.775)" /> <line class="border" x1="25.889" y2="25.889" transform="translate(18.703 0.097)" /> <line class="border" x1="29.46" y2="29.46" transform="translate(39.683 11.256)" /> </g> </svg>
+                        <div class="overlay">
+                            <div class="title">{{ data.instructor_details.nickname }}</div>
+                            <div class="action">
+                                <nuxt-link rel="canonical" :to="`/instructors/${data.instructor_details.slug}`" class="default_btn_wht mb">See Profile</nuxt-link>
+                                <nuxt-link rel="canonical" :to="`/book-a-bike?i=${data.id}`" class="default_btn">Book A Ride</nuxt-link>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action">
+                        <div v-if="!showLoadedInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </div>
+                <div class="no_results" v-else>
+                    <p>NO RESULTS, PLEASE TRY AGAIN </p>
+                </div>
+            </section>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -69,6 +76,8 @@
         },
         data () {
             return {
+                res: [],
+                loaded: false,
                 showLoadedInstructors: false,
                 toShow: 12,
                 count: 0,
@@ -107,135 +116,27 @@
                 ],
                 sorts: [
                     {
-                        name: 'A-Z'
+                        name: 'A-Z',
+                        value: 'a-z'
                     },
                     {
-                        name: 'Z-A'
+                        name: 'Z-A',
+                        value: 'z-a'
                     },
                     {
-                        name: 'Ride Rev Recommendation'
+                        name: 'Ride Rev Recommendation',
+                        value: 'recommended'
                     },
                     {
-                        name: 'New Instructors'
+                        name: 'New Instructors',
+                        value: 'new'
                     },
                 ],
-                instructors: [
-                    {
-                        name: 'Bea',
-                        path: '/default/instructor/instructor-bea.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Billie',
-                        path: '/default/instructor/instructor-billie.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Edd',
-                        path: '/default/instructor/instructor-edd.png',
-                        checked: true
-                    },
-                    {
-                        name: 'EG',
-                        path: '/default/instructor/instructor-eg.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Ella',
-                        path: '/default/instructor/instructor-ella.png',
-                        checked: true
-                    },
-                    {
-                        name: 'France',
-                        path: '/default/instructor/instructor-france.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Gelo',
-                        path: '/default/instructor/instructor-gelo.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Hanz',
-                        path: '/default/instructor/instructor-hanz.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Hanz',
-                        path: '/default/instructor/instructor-hanz.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Jasper',
-                        path: '/default/instructor/instructor-jasper.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Jeff',
-                        path: '/default/instructor/instructor-jeff.png',
-                        checked: true
-                    },
-                    {
-                        name: 'JP',
-                        path: '/default/instructor/instructor-jp.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Kat',
-                        path: '/default/instructor/instructor-kat.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Keith',
-                        path: '/default/instructor/instructor-keith.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Kylee',
-                        path: '/default/instructor/instructor-kylee.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Meng',
-                        path: '/default/instructor/instructor-meng.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Miguel',
-                        path: '/default/instructor/instructor-miguel.png',
-                        checked: true
-                    },
-                    {
-                        name: 'My',
-                        path: '/default/instructor/instructor-my.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Nicolete',
-                        path: '/default/instructor/instructor-nicolete.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Nikki',
-                        path: '/default/instructor/instructor-nikki.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Niqui',
-                        path: '/default/instructor/instructor-niqui.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Vinny',
-                        path: '/default/instructor/instructor-vinny.png',
-                        checked: true
-                    },
-                    {
-                        name: 'Wanda',
-                        path: '/default/instructor/instructor-wanda.png',
-                        checked: true
-                    },
-                ]
+                form: {
+                    q: '',
+                    sort_by: 'recommended'
+                },
+                instructors: []
             }
         },
         computed: {
@@ -324,6 +225,85 @@
             toggleSpecialization () {
                 const me = this
                 me.toggled ^= true
+            },
+            searchInstructor () {
+                const me = this
+                let formData = new FormData()
+                formData.append('q', me.form.q)
+                formData.append('sort_by', me.form.sort_by)
+                me.loader(true)
+                me.$axios.post(`api/web/instructors/search`, formData).then(res => {
+                    if (res.data) {
+                        let tempInstructors = []
+                        setTimeout( () => {
+                            res.data.instructors.forEach((instructor, index) => {
+                                instructor.checked = false
+                                tempInstructors.push(instructor)
+                            })
+                            me.instructors = tempInstructors
+                        }, 500)
+                    }
+                }).catch(err => {
+                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
+            async initial () {
+                const me = this
+                let tempInstructors = []
+                me.loader(true)
+                setTimeout( () => {
+                    me.instructors.forEach((instructor, index) => {
+                        instructor.checked = false
+                        tempInstructors.push(instructor)
+                    })
+                    me.instructors = tempInstructors
+                    me.loaded = true
+                    me.loader(false)
+                }, 500)
+            }
+        },
+        async mounted () {
+            const me = this
+            await setTimeout( () => {
+                me.initial()
+            }, 10)
+        },
+        asyncData ({ $axios, params, error, store }) {
+            return $axios.get(`api/web/instructors?sort_by=recommended`)
+            .then(res => {
+                return {
+                    res: res.data.pageSetting,
+                    instructors: res.data.instructors
+                }
+            }).catch(err => {
+                error({ statusCode: 403, message: 'Page not found' })
+            })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.res.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${host}/logo.svg` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `instructors` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
             }
         }
     }
