@@ -413,7 +413,7 @@
                                 <div class="package_info">
                                     <div class="name">
                                         {{ data.gift_card.class_package.name }}<br />
-                                        <div class="disclaimer" v-html="data.gift_card.class_package.summary"></div>
+                                        <div class="violator" v-html="data.gift_card.class_package.gift_card_description"></div>
                                     </div>
                                     <div class="default_btn" @click="toggleRedeem(data)">Use Now</div>
                                 </div>
