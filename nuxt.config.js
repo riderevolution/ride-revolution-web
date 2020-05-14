@@ -22,7 +22,7 @@ export default {
       { src: 'https://apis.google.com/js/platform.js', async: true, defer: true },
       { src: 'https://connect.facebook.net/en_US/sdk.js' },
       { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: true, defer: true },
-      { src: 'https://www.paypal.com/sdk/js?client-id=AZ0wEMysFjb0VvF8II46HHsx6fLzAZD5-r0Pn_mopzG8Kyz-Ylzm7HDyFb_oG2tm8j16l-0HLIUhPLiX&disable-funding=credit,card' },
+      { src: 'https://www.paypal.com/sdk/js?client-id=AZ0wEMysFjb0VvF8II46HHsx6fLzAZD5-r0Pn_mopzG8Kyz-Ylzm7HDyFb_oG2tm8j16l-0HLIUhPLiX&disable-funding=credit,card&currency=PHP&buyer-country=PH' },
     ],
     htmlAttrs: {
       lang: 'en'
@@ -92,7 +92,7 @@ export default {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: (process.env.NODE_ENV == "development") ? 'http://api.riderevolution.test' : 'http://api-riderev.designbluemanila.ph',
+    baseURL: (process.env.NODE_ENV == "development") ? 'http://api.riderevolution.test' : 'https://api-riderev.designbluemanila.ph',
     credentials: false
   },
   env: {
