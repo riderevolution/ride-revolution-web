@@ -224,7 +224,7 @@
                         <p>
                             <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
                         </p>
-                        <a href="https://www.instagram.com/" target="_blank" class="default_btn">Follow Now</a>
+                        <a href="https://www.instagram.com/riderevolution" target="_blank" class="default_btn">Follow Now</a>
                     </div>
                 </div>
                 <div class="content">
