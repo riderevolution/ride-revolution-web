@@ -15,6 +15,7 @@
     "apexcharts": "^3.19.0",
     "cross-env": "^5.2.0",
     "nuxt": "^2.12.2",
+    "nuxt-lazy-load": "^1.2.2",
     "url-breadcrumb": "^1.0.2",
     "v-calendar": "^1.0.6",
     "v-click-outside": "^2.1.3",
