@@ -49,6 +49,7 @@ const createStore = () => {
             isLoading: false,
             token: '',
             customerID: 0,
+            lastRoute: '',
             user: {
                 first_name: '',
                 last_name: '',

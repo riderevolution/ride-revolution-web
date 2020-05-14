@@ -324,6 +324,7 @@
                         }
                     }
                 } else {
+                    me.$store.state.lastRoute = `/book-a-bike/${data.id}`
                     me.$store.state.completeProfilePromptStatus = true
                 }
             },
