@@ -98,7 +98,7 @@ export default {
     credentials: false
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'http://api-riderev.designbluemanila.ph'
+    baseUrl: process.env.BASE_URL || 'http://riderev.designbluemanila.ph'
   },
   /*
   ** Build configuration
