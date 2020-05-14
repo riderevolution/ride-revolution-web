@@ -8,17 +8,30 @@
                     <h1>{{ res.title }}</h1>
                 </div>
             </section>
-            <referral :subtitle="res.subtitle" />
+            <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
+                <div class="wrapper">
+                    <div v-html="res.subtitle"></div>
+                    <form id="default_form" @submit.prevent="submissionSuccess()">
+                        <div class="form_flex with_btn">
+                            <div class="form_group">
+                                <input type="email" id="email" name="email" class="input_text email" autocomplete="off" placeholder="Enter your email address" v-validate="'required|email'">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">The email field is required</span></transition>
+                            </div>
+                            <div class="form_button">
+                                <button type="submit" class="default_btn"><span>Send Referral Link</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
         </div>
     </transition>
 </template>
 
 <script>
-    import Referral from '../../components/Referral'
     import Breadcrumb from '../../components/Breadcrumb'
     export default {
         components: {
-            Referral,
             Breadcrumb
         },
         data () {
@@ -28,6 +41,18 @@
             }
         },
         methods: {
+            submissionSuccess () {
+                const me = this
+                me.$validator.validateAll().then(valid => {
+                    if (valid) {
+                    } else {
+                        me.$scrollTo('.validation_errors', {
+                            container: '#referral',
+							offset: -250
+						})
+                    }
+                })
+            },
             async initial () {
                 const me = this
                 me.loader(true)

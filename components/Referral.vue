@@ -25,7 +25,7 @@
     export default {
         props: {
             subtitle: {
-                default: '<h2>Don’t ride alone. Refer a friend and get Php 200 for every friend you refer.</h2><h3>Your friends get Php 200 and you get Php 200 after their first purchase. Enter your email address to start referring.</h3>'
+                default: '<h2>Refer a friend, get a free ride!</h2><h3>Earn a single class for referrals who buy our 2-week unlimited first-timer package. Enter your email below to start referring!</h3>'
             }
         },
         data () {

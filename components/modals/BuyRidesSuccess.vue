@@ -3,7 +3,7 @@
         <section id="banner" class="alt_2">
             <img class="full" src="/default/buy-rides/buy-rides-success-banner.jpg" />
             <div class="overlay_mid">
-                <h1>Yay, you’re all set. Let’s ride!</h1>
+                <h1>{{ title }}</h1>
                 <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/book-a-bike?token=${$route.query.token}` : '/book-a-bike'}`" class="default_btn">Book a Bike</nuxt-link>
             </div>
         </section>
@@ -14,6 +14,11 @@
 <script>
     import Referral from '../Referral'
     export default {
+        props: {
+            title: {
+                default: 'Yay, you’re all set. Let’s ride!'
+            }
+        },
         components: {
             Referral
         }

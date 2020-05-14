@@ -244,22 +244,22 @@
                     },
                     {
                         title: '<b>Step 2:</b> Set the distance of your seat to the bike handles',
-                        description: '<p>Loosen the knob below your seat by turning it counter-clockwise. Once loose, pull the knob back and adjust seat height until it’s level with your hip bone. Release the knob and tighten. Repeat the process to adjust the height of your bike handles using the knob in front. The best power position comes from having the handlebars the same level as the seat (you should see a numeric indicator on the bike). </p><br /><p>If you have a back problem, a beginner, or pregnant, keep the handlebars above the seat height.*</p',
+                        description: '<p>To do this, loosen the knob behind your seat by turning it counter-clockwise. Once loose, adjust the seat forward or back so that you can fit the length of your forearm plus three fingers between your seat and handlebar. Lock it into place by turning the knob clockwise. </p>',
                         toggled: false
                     },
                     {
-                        title: '<b>Step 3:</b> Get familiar with the handle numbers.',
-                        description: '<p>Loosen the knob below your seat by turning it counter-clockwise. Once loose, pull the knob back and adjust seat height until it’s level with your hip bone. Release the knob and tighten. Repeat the process to adjust the height of your bike handles using the knob in front. The best power position comes from having the handlebars the same level as the seat (you should see a numeric indicator on the bike). </p><br /><p>If you have a back problem, a beginner, or pregnant, keep the handlebars above the seat height.*</p',
+                        title: '<b>Step 3:</b> Mount your bike and clip your shoes to the pedals',
+                        description: '<p>Press down on the resistance knob to fully stop your pedals from moving. Then properly align the bike clip with your cleats. Once you feel and hear the clipping sound, you are safe and ready to ride.</p>',
                         toggled: false
                     },
                     {
-                        title: '<b>Step 4:</b> Clip your shoes to your bike.',
-                        description: '<p>Loosen the knob below your seat by turning it counter-clockwise. Once loose, pull the knob back and adjust seat height until it’s level with your hip bone. Release the knob and tighten. Repeat the process to adjust the height of your bike handles using the knob in front. The best power position comes from having the handlebars the same level as the seat (you should see a numeric indicator on the bike). </p><br /><p>If you have a back problem, a beginner, or pregnant, keep the handlebars above the seat height.*</p',
+                        title: '<b>Step 4:</b> Get familiar with the handle numbers',
+                        description: '<p>We have four positions - first, second, third and fourth position. The instructor will help guide you in the beginning of the class. </p>',
                         toggled: false
                     },
                     {
                         title: '<b>Step 5:</b> Set the level of your resistance knob.',
-                        description: '<p>Loosen the knob below your seat by turning it counter-clockwise. Once loose, pull the knob back and adjust seat height until it’s level with your hip bone. Release the knob and tighten. Repeat the process to adjust the height of your bike handles using the knob in front. The best power position comes from having the handlebars the same level as the seat (you should see a numeric indicator on the bike). </p><br /><p>If you have a back problem, a beginner, or pregnant, keep the handlebars above the seat height.*</p',
+                        description: '<p>The resistance knob determines the resistance level of your pedals. Turning it left makes it lighter, and right makes it heavier. It is used to adjust the amount of weight you need to train your legs depending on the track, choreography, and routine.</p><br /><p>In order to ensure you have a safe ride, we never ride at zero. So make sure you have at least (2) full turns to the right. The instructors will guide you on when to adjust it as you go along.</p>',
                         toggled: false
                     },
                 ],

@@ -126,7 +126,7 @@
         <transition name="fade">
             <section id="login" v-if="signUpProcess && signUpStep == 1">
                 <div class="sign_up_header">
-                    <h2 class="title">A few more things</h2>
+                    <h2 class="title">A few more things...</h2>
                     <div class="counter">1/3</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
@@ -166,7 +166,7 @@
         <transition name="fade">
             <section id="login" v-if="signUpProcess && signUpStep == 2">
                 <div class="sign_up_header">
-                    <h2 class="title">Almost there, Mark!</h2>
+                    <h2 class="title">Almost there, {{ signUpForm.first_name }}!</h2>
                     <div class="counter">2/3</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">

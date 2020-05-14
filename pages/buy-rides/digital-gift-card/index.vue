@@ -198,7 +198,7 @@
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
         <transition name="fade">
-            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" />
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :title="'You’ve successfully sent a giftcard!'" />
         </transition>
     </div>
 </template>
