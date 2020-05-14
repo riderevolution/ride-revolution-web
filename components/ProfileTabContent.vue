@@ -320,7 +320,7 @@
                                 <td data-column="Products">
                                     <div>
                                         <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            {{ child.product_variant.product.name }}({{ child.quantity }})
+                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }} ({{ child.quantity }})
                                         </div>
                                     </div>
                                 </td>
@@ -357,7 +357,7 @@
                                 <td data-column="Products">
                                     <div>
                                         <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            {{ child.product_variant.product.name }}({{ child.quantity }})
+                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }} ({{ child.quantity }})
                                         </div>
                                     </div>
                                 </td>

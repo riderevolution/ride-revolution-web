@@ -16,7 +16,7 @@
                                 <div class="form_group select disclaimer">
                                     <div class="select">
                                         <select class="input_select" name="class_package" v-validate="'required'" v-model="form.classPackage" @change="getPackage($event)">
-                                            <option value="0" disabled selected>Please select a class package</option>
+                                            <option value="" disabled selected>Please select a class package</option>
                                             <option :value="data.id" v-for="(data, key) in classPackages">{{ data.name }}</option>
                                         </select>
                                     </div>
@@ -217,6 +217,7 @@
         },
         data () {
             return {
+                user: [],
                 count: 200,
                 dashOffset: 0,
                 normalizedRadius: 0,
@@ -230,7 +231,7 @@
                 promo: false,
                 other: false,
                 form: {
-                    classPackage: '0',
+                    classPackage: '',
                     to: '',
                     from: '',
                     title: '',
@@ -301,27 +302,29 @@
                 formData.append('digital_gift_card_form', JSON.stringify(me.form))
                 formData.append('quantity', 1)
                 formData.append('payment_method', me.type)
+                formData.append('promo_code', me.form.promo)
+                formData.append('discount', me.form.discount)
+                formData.append('total', me.form.total)
                 if (paypal_details != null) {
                     formData.append('paypal_details', paypal_details)
                 }
-                // me.loader(true)
+                me.loader(true)
                 me.$axios.post('api/web/pay', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        console.log(res.data);
-                        // me.$store.state.buyRidesSuccessStatus = true
+                        me.$store.state.buyRidesSuccessStatus = true
                     }
-                // }).catch(err => {
-                //     me.$store.state.errorList = err.response.data.errors
-                //     me.$store.state.errorPromptStatus = true
-                // }).then(() => {
-                //     me.step = 0
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    me.step = 0
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             },
             computeTotal (total) {
@@ -356,10 +359,16 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        me.step = 2
-                        me.$scrollTo('#payments', {
-                            offset: -250
-                        })
+                        if (me.form.recipientEmail == me.user.email) {
+                            document.body.classList.add('no_scroll')
+                            me.$store.state.errorList = ['You cannot send an email to yourself.']
+                            me.$store.state.errorPromptStatus = true
+                        } else {
+                            me.step = 2
+                            me.$scrollTo('#payments', {
+                                offset: -250
+                            })
+                        }
                     } else {
                         me.$scrollTo('.validation_errors', {
                             offset: -250
@@ -457,21 +466,32 @@
         },
         mounted () {
             const me = this
-            me.normalizedRadius = 15 - 3 * 2
-            me.circumference = me.normalizedRadius * 2 * Math.PI
-            me.dashOffset = me.circumference
-            me.$store.state.proTipStatus = true
-            me.$axios.get('api/extras/gift-card-titles').then(res => {
-                me.predefinedTitles = res.data.giftCardTitles
-            })
-            setTimeout( () => {
-                me.classPackages = me.res.classPackages
-            }, 10)
             let token = me.$cookies.get('token')
+
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
                 me.$store.state.loginCheckerStatus = true
                 document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+            } else {
+                me.normalizedRadius = 15 - 3 * 2
+                me.circumference = me.normalizedRadius * 2 * Math.PI
+                me.dashOffset = me.circumference
+                me.$store.state.proTipStatus = true
+                me.$axios.get('api/extras/gift-card-titles').then(res => {
+                    me.predefinedTitles = res.data.giftCardTitles
+                })
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.user = res.data.user
+                    }
+                })
+                setTimeout( () => {
+                    me.classPackages = me.res.classPackages
+                }, 10)
             }
         },
         async asyncData ({ $axios, params, store, error }) {

@@ -32,11 +32,11 @@
             <h3>Let's Stay in Touch</h3>
             <div class="social_links">
                 <h4>Follow Us</h4>
-                <a href="javascript:void(0)" class="fb">fb</a>
-                <a href="javascript:void(0)" class="ig">ig</a>
+                <a href="https://www.facebook.com/riderevolutionph" target="_blank" class="fb">fb</a>
+                <a href="https://www.instagram.com/riderevolution" target="_blank" class="ig">ig</a>
             </div>
-            <p>Email an expert at <a href="javascript:void(0)">hello@riderev.com</a></p>
-            <p>or call/text us at <a href="javascript:void(0)">(02) 798-7447</a></p>
+            <p>Email an expert at <a href="mailto:hello@riderevolution.ph">hello@riderevolution.ph</a></p>
+            <!-- <p>or call/text us at <a href="tel:02-798-7447">(02) 798-7447</a></p> -->
         </div>
         <div class="back_to_top" @click="backToTop()">
             <img src="/icons/back-to-top-icon.svg" />

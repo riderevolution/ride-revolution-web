@@ -192,6 +192,7 @@
                         me.$axios.get(`api/customers/${me.user.id}/transactions?forWeb=1`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
+                                    console.log(res.data);
                                     me.$refs.profileTab.pendingTransactions = []
                                     me.$refs.profileTab.paidTransactions = []
                                     res.data.customer.payments.forEach((data, index) => {

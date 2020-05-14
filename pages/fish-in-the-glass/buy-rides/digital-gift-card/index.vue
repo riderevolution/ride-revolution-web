@@ -294,27 +294,29 @@
                 formData.append('digital_gift_card_form', JSON.stringify(me.form))
                 formData.append('quantity', 1)
                 formData.append('payment_method', me.type)
+                formData.append('promo_code', me.form.promo)
+                formData.append('discount', me.form.discount)
+                formData.append('total', me.form.total)
                 if (paypal_details != null) {
                     formData.append('paypal_details', paypal_details)
                 }
-                // me.loader(true)
+                me.loader(true)
                 me.$axios.post('api/web/pay', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
                     if (res.data) {
-                        console.log(res.data);
-                        // me.$store.state.buyRidesSuccessStatus = true
+                        me.$store.state.buyRidesSuccessStatus = true
                     }
-                // }).catch(err => {
-                //     me.$store.state.errorList = err.response.data.errors
-                //     me.$store.state.errorPromptStatus = true
-                // }).then(() => {
-                //     me.step = 0
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    me.step = 0
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             },
             computeTotal (total) {

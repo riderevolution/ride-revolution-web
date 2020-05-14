@@ -58,19 +58,19 @@
                                 <div class="title">{{ data.title }}</div>
                                 <div class="link">
                                     <img src="/icons/email-icon.svg" />
-                                    <a href="javascript:void(0)" class="email">{{ data.mail }}</a>
+                                    <a :href="`mailto:${data.email}`" class="email">{{ data.mail }}</a>
                                 </div>
                                 <div class="link">
                                     <img src="/icons/phone-icon.svg" />
-                                    <a href="javascript:void(0)">{{ data.contact }}</a>
+                                    <a :href="`tel:${data.contact}`">{{ data.contact }}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="connect">
                             <p class="connect_title">Connect With Us</p>
                             <div class="connect_links">
-                                <a href="javascript:void(0)" class="fb">fb</a>
-                                <a href="javascript:void(0)" class="ig">ig</a>
+                                <a href="https://www.facebook.com/riderevolutionph" target="_blank" class="fb">fb</a>
+                                <a href="https://www.instagram.com/riderevolution" target="_blank" class="ig">ig</a>
                             </div>
                         </div>
                     </div>
