@@ -90,31 +90,36 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        let token = me.$cookies.get('token')
-                        let formData = new FormData(document.getElementById('default_form'))
-                        me.$axios.post('api/refer-a-frined', fornData, {
-                            headers: {
-                                Authorization: `Bearer ${token}`
-                            }
-                        }).then(res => {
-                            if (res.data) {
+                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                        if (token != null && token != undefined) {
+                            let formData = new FormData(document.getElementById('default_form'))
+                            me.$axios.post('api/refer-a-frined', fornData, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(res => {
+                                if (res.data) {
+                                    setTimeout( () => {
+                                        console.log(res.data);
+                                    }, 500)
+                                }
+                            }).catch(err => {
+                                document.body.classList.add('no_scroll')
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }).then(() => {
                                 setTimeout( () => {
-                                    console.log(res.data);
+                                    me.form.email = ''
+                                    me.errors.clear()
+                                    me.$nextTick(() => {
+                                        me.$validator.reset()
+                                    })
                                 }, 500)
-                            }
-                        }).catch(err => {
+                            })
+                        } else {
+                            me.$store.state.loginCheckerStatus = true
                             document.body.classList.add('no_scroll')
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.form.email = ''
-                                me.errors.clear()
-                                me.$nextTick(() => {
-                                    me.$validator.reset()
-                                })
-                            }, 500)
-                        })
+                        }
                     } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#referral',
