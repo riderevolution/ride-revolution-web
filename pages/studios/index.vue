@@ -8,7 +8,7 @@
                     <h1>{{ res.title }}</h1>
                 </div>
             </section>
-            <section id="teaser" v-html="res.subtitle"></section>
+            <section id="teaser" v-html="res.subtitle" v-if="res.subtitle"></section>
             <section id="visit">
                 <h2>Check out our Studios</h2>
                 <div class="content desktop" v-if="!$parent.$parent.isMobile">

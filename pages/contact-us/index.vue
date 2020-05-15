@@ -5,8 +5,8 @@
                 <img class="full" src="/default/contact-us/contact-us-banner.jpg" />
                 <breadcrumb :overlay="true" />
                 <div class="overlay_mid">
-                    <h1>Contact Us</h1>
-                    <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
+                    <h1>{{ res.title }}</h1>
+                    <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
                 </div>
             </section>
             <section id="content">

@@ -8,7 +8,7 @@
                         <div class="overlay">
                             <h2 class="header_title">Ride Rev Promo</h2>
                             <h3 class="title" v-line-clamp="3">{{ data.name }}</h3>
-                            <div class="description" v-line-clamp="lineClamp" v-html="data.description"></div>
+                            <div class="description" v-html="data.description"></div>
                             <div class="copy_wrapper" v-if="data.hasCode">
                                 <input class="code" :id="`code_${key}`" :value="data.promo_code" />
                                 <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
