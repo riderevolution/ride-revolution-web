@@ -3,9 +3,9 @@
         <div class="background" @click.once="toggleClose()"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose()"></div>
-            <div class="confirmation_image">
+            <!-- <div class="confirmation_image">
                 <img src="/default/meme/yehey-meme.jpg" />
-            </div>
+            </div> -->
             <div class="confirmation_text">
                 Sent! We greatly appreciate your feedback.
             </div>

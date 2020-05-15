@@ -3,10 +3,10 @@
         <div class="background" @click.once="toggleClose(false)"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
-            <div class="confirmation_image">
+            <!-- <div class="confirmation_image">
                 <img src="/default/meme/before-cancel-meme.jpg" v-if="type == 1"/>
                 <img src="/default/meme/cancelled-meme.jpg" v-else/>
-            </div>
+            </div> -->
             <div class="confirmation_text" v-if="type == 1">
                 Are you sure you want to cancel this class?
             </div>

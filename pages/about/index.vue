@@ -6,7 +6,7 @@
                 <breadcrumb :overlay="true" />
                 <div class="overlay_mid">
                     <h1>{{ res.title }}</h1>
-                    <h2 class="alt" v-html="res.subtitle"></h2>
+                    <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
                 </div>
             </section>
             <section id="content">

@@ -4,14 +4,14 @@
             <img class="full" src="/default/ride-rewards/ride-rewards-banner.jpg" />
             <breadcrumb :overlay="true" />
             <div class="overlay_mid">
-                <h1>Ride Rewards</h1>
-                <h2 class="alt">We’re revolutionizing Manila’s fitness industry.</h2>
+                <h1>{{ res.title }}</h1>
+                <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
             </div>
         </section>
         <section id="content">
             <div class="top">
-                <div class="title">What is Ride Rewards?</div>
-                <div class="description">Ride classes and earn RR Points(RRP), which can be redeemed to purchase RR classes or merchandise. Birthday treats, promos, perks and exclusive events awaits for Ride Rewards members!</div>
+                <div class="title">{{ res.teaser_title }}</div>
+                <div class="description" v-html="res.teaser_description" v-if="res.teaser_description"></div>
             </div>
             <div class="bottom">
                 <div class="header_title">How it Works</div>
