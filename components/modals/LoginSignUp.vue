@@ -270,13 +270,13 @@
                 checkEmailValidity: false,
                 checkUsernameValidity: false,
                 signUpForm: {
-                    email: 'dthrcrpz@gmail.com',
-                    password: 'password',
-                    password_confirmation: 'password',
-                    username: 'USERNAME',
-                    first_name: 'Deither',
-                    last_name: 'Corpuz',
-                    contact_number: '09085532912',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                    username: '',
+                    first_name: '',
+                    last_name: '',
+                    contact_number: '',
                     birth_date: this.$moment().format('YYYY-MM-DD'),
                     what_do_you_do: '',
                     sex: '',
@@ -295,11 +295,16 @@
             }
         },
         filters: {
-            properFormat: function (value) {
+            properFormat (value) {
                 let newValue = value.split('The ')[1].split(' field')[0].split('[]')
                 if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
+                    let nextValue = newValue[0].split('_')
+                    if (nextValue.length > 1) {
+                        newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
+                    } else {
+                        newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                    }
+                } else {
                     newValue = value.split('The ')[1].split(' field')[0].split('_')
                     if (newValue.length > 1) {
                         let firstValue = ''
@@ -322,7 +327,12 @@
                     message = message[1]
                     return `The ${newValue} field${message}`
                 } else {
-                    return `The ${newValue}`
+					if (message[0].split('file').length > 1) {
+                        message = message[0].split('file')[1]
+                        return `The ${newValue} field${message}`
+                    } else {
+                        return `The ${newValue}`
+                    }
                 }
             }
         },
