@@ -138,6 +138,7 @@
                 setTimeout( () => {
                     document.body.classList.remove('no_click')
                     me.$store.state.isLoading = false
+                    document.querySelector('#teaser .main_right .map iframe').style.height = `${document.querySelector('#teaser .main_left').scrollHeight}px`
                 }, 500)
             }
         },
