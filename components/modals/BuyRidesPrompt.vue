@@ -3,10 +3,10 @@
         <div class="background" @click.once="toggleClose(($parent.buyCredits) ? 0 : null)"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(($parent.buyCredits) ? 0 : null)"></div>
-            <div class="confirmation_image">
+            <!-- <div class="confirmation_image">
                 <img src="/default/meme/cancelled-meme.jpg" v-if="!status" />
                 <img src="/default/meme/success-meme.jpg" v-else />
-            </div>
+            </div> -->
             <div class="confirmation_text">
                 {{ message }}
             </div>

@@ -3,9 +3,9 @@
         <div class="background" @click.once="toggleClose(false)"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
-            <div class="confirmation_image">
+            <!-- <div class="confirmation_image">
                 <img src="/default/meme/error-meme.jpg" />
-            </div>
+            </div> -->
             <div class="confirmation_text">
                 Sorry we don’t recognize that member ID. Please make sure all characters are correct.
             </div>
