@@ -82,6 +82,7 @@
                                                     setTimeout(() => {
                                                         me.$parent.promptMessage = `You've cancelled seat number ${me.$parent.seats[parent][child][i].number}`
                                                         me.$store.state.buyRidesPromptStatus = true
+                                                        document.body.classList.remove('no_scroll')
                                                         me.loader(false)
                                                     }, 500)
                                                 }

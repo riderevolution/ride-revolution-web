@@ -125,6 +125,7 @@
                                 setTimeout(() => {
                                     me.$parent.promptMessage = "You've successfully booked for this seat."
                                     me.$store.state.buyRidesPromptStatus = true
+                                    document.body.classList.remove('no_scroll')
                                     me.loader(false)
                                 }, 500)
                             } else {
