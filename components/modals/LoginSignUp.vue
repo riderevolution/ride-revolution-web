@@ -472,12 +472,19 @@
                 me.$validator.validateAll('register_process_form').then(valid => {
                     if (valid) {
                         me.loader(true)
+                        if (me.$cookies.get('referrer_member_id') != null 
+                            || me.$cookies.get('referrer_member_id') != undefined) {
+                            me.signUpForm['referrer_member_id'] = me.$cookies.get('referrer_member_id')
+                        } else {
+                            me.signUpForm['referrer_member_id'] = null
+                        }
                         me.$axios.post('api/user/register', me.signUpForm).then(res => {
                             let token = res.data.token
                             me.$cookies.set('token', token, '7d')
                             me.$store.state.isAuth = true
                             me.$store.state.loginSignUpStatus = false
                             document.body.classList.remove('no_scroll')
+                            me.$cookies.remove('referrer_member_id')
                             me.$router.push('/my-profile')
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
@@ -654,6 +661,15 @@
         mounted () {
             const me = this
             me.windowLoginScroll()
+            setTimeout(() => {
+                if (me.$cookies.get('referrer_member_id') != null || me.$cookies.get('referrer_member_id') != undefined) {
+                    me.signUp = true
+                    me.signUpStep = 0
+                } else {
+                    me.signUp = false
+                    me.signUpStep = null
+                }
+            }, 100)
         },
         beforeMount () {
             window.addEventListener('load', this.windowLoginScroll)
