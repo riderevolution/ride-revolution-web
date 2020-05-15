@@ -112,7 +112,7 @@
                                 <div class="swiper-button-next" slot="button-next"></div>
                             </swiper>
                             <nuxt-link rel="canonical" to="/studios" class="view_all default_btn">
-                                Explore Our Studio Amenities
+                                Explore our Amenities
                             </nuxt-link>
                         </no-ssr>
                     </div>
