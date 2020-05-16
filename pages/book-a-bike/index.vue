@@ -2,11 +2,11 @@
     <transition name="fade">
         <div class="book_a_bike landing" v-if="loaded">
             <section id="banner" class="mt">
-                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
+                <img class="full" :src="setting.banners[0].path" :alt="setting.banners[0].alt" />
                 <breadcrumb :overlay="true" />
                 <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                    <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
+                    <h1>{{ setting.title }}</h1>
+                    <h2 class="alt" v-html="setting.subtitle" v-if="setting.subtitle"></h2>
                 </div>
             </section>
             <section id="content">
