@@ -197,7 +197,19 @@
         },
         data () {
             return {
-                setting: [],
+                setting: {
+                    title: 'Book a Bike',
+                    subtitle: '',
+                    meta_title: '',
+                    meta_keywords: '',
+                    meta_description: '',
+                    banners: [
+                        {
+                            path: null,
+                            alt: ''
+                        }
+                    ]
+                },
                 schedule: [],
                 type: 0,
                 message: '',
@@ -688,6 +700,29 @@
         },
         beforeDestroy () {
             document.removeEventListener('click', this.toggleOverlays)
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.setting.title} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.setting.meta_title}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.setting.meta_description}` },
+                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.setting.meta_keywords}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:image', property: 'og:image', content: `${me.setting.banners[0].path}` },
+                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.setting.banners[0].alt}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>
