@@ -32,7 +32,7 @@
             <section id="instructors_content">
                 <div class="header">
                     <h1>{{ res.title }}</h1>
-                    <div v-if="res.subtitle">{{ res.subtitle }}</div>
+                    <div v-if="res.subtitle" v-html="res.subtitle"></div>
                     <div class="subheader">
                         <h2>Show instructors by</h2>
                         <div class="select">

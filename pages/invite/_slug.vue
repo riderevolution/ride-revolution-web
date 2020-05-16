@@ -15,22 +15,31 @@
 		},
 		methods: {
 			validateMemberID () {
+				const me = this
+				me.loader(true)
 				let member_id = this.$route.params.slug
-				this.$axios.post('api/extras/validate-member-id', {
+				me.$axios.post('api/extras/validate-member-id', {
 					member_id: member_id
 				}).then(res => {
 					this.$cookies.set('referrer_member_id', member_id)
 					setTimeout(() => {
 						this.$store.state.loginSignUpStatus = true
-					}, 100)
+					}, 500)
 				}).catch(err => {
 					this.$store.state.loginSignUpStatus = false
-					console.log(err)
+					document.body.classList.add('no_scroll')
+					me.$store.state.errorList = err.response.data.errors
+					me.$store.state.errorPromptStatus = true
+				}).then(() => {
+					setTimeout( () => {
+						me.loader(false)
+					}, 500)
 				})
 			}
 		},
 		mounted () {
-			this.validateMemberID()
+			const me = this
+			me.validateMemberID()
 		}
 	}
 </script>
