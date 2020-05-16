@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
+    import BuyRidesPrompt from './modals/BuyRidesPrompt'
     export default {
         components: {
             BuyRidesPrompt
