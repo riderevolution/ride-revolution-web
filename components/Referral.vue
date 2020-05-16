@@ -18,11 +18,18 @@
                 </div>
             </form>
         </div>
+        <transition name="fade">
+            <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
+        </transition>
     </section>
 </template>
 
 <script>
+    import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
     export default {
+        components: {
+            BuyRidesPrompt
+        },
         props: {
             subtitle: {
                 default: '<h2>Refer a friend, get a free ride!</h2><h3>Earn a single class for referrals who buy our 2-week unlimited first-timer package. Enter your email below to start referring!</h3>'
@@ -33,7 +40,8 @@
                 isWebBased: false,
                 form: {
                     email: ''
-                }
+                },
+                message: ''
             }
         },
         filters: {
@@ -86,14 +94,16 @@
                         let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
                         if (token != null && token != undefined) {
                             let formData = new FormData(document.getElementById('default_form'))
-                            me.$axios.post('api/refer-a-frined', fornData, {
+                            me.$axios.post('api/refer-a-friend', formData, {
                                 headers: {
                                     Authorization: `Bearer ${token}`
                                 }
                             }).then(res => {
                                 if (res.data) {
                                     setTimeout( () => {
-                                        console.log(res.data);
+                                        me.message = `You have been successfully invited ${me.form.email}.`
+                                        me.$store.state.buyRidesPromptStatus = false
+                                        document.body.classList.remove('no_scroll')
                                     }, 500)
                                 }
                             }).catch(err => {
