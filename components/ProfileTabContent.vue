@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chart">
+                    <div :class="`chart ${(rideRevJourney.topInstructors.length <= 0) ? 'margin' : ''}`">
                         <div class="tab_content_header alt3">
                             <h2>HOW MANY TIMES YOU’VE RIDEN WITH RIDE REV</h2>
                             <ul class="tab_content_header_menu">
@@ -264,7 +264,7 @@
                                         </td>
                                         <td data-column="Actions">
                                             <div class="table_menu_overlay">
-                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
+                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-if="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
                                                         <li class="table_menu_item" @click="togglePackage(data, 'share')">Share Package</li>

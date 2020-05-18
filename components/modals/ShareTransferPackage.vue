@@ -102,7 +102,8 @@
                                     }
                                 }).catch(err => {
                                     me.$store.state.errorList = err.response.data.errors
-                                    me.$store.state.errorStatus = true
+                                    me.$store.state.errorOverlayPromptStatus = true
+                                    me.$store.state.errorPromptStatus = true
                                 }).then(() => {
                                     setTimeout( () => {
                                         me.loader(false)
