@@ -9,8 +9,8 @@
                     <div class="modal_main_group">
                         <div class="form_flex with_btn alt_2">
                             <div class="form_group">
-                                <label for="receiver_id">Recipients Username<span>*</span></label>
-                                <input type="text" name="receiver_id" autocomplete="off" placeholder="Enter your recipients username" class="input_text" v-validate="'required|numeric|min:4|max:12'">
+                                <label for="receiver_id">Recipients Username <span>*</span></label>
+                                <input type="text" name="receiver_id" v-model="form.receiver_id" autocomplete="off" placeholder="Enter your recipients username" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9]*$'}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('receiver_id')">{{ errors.first('receiver_id') | properFormat }}</span></transition>
                             </div>
                             <div class="form_button alt">
@@ -33,6 +33,13 @@
             },
             data: {
                 default: null
+            }
+        },
+        data () {
+            return {
+                form: {
+                    sender_id: ''
+                }
             }
         },
         filters: {
@@ -72,26 +79,40 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                    //     let token = me.$cookies.get('token')
-                    //     me.loader(true)
-                    //     me.$axios.post(`api/user/update-password`, me.form, {
-                    //         headers: {
-                    //             Authorization: `Bearer ${token}`
-                    //         }
-                    //     }).then(res => {
-                    //         me.$store.state.changePasswordStatus = false
-                    //         me.$store.state.buyRidesPromptStatus = true
-                    //         me.$parent.message = "You've successfully changed your password."
-                    //     }).catch(err => {
-                    //         me.$store.state.errorList = err.response.data.errors
-                    //         me.$store.state.errorPromptStatus = true
-                    //     }).then(() => {
-                    //         setTimeout( () => {
-                    //             me.loader(false)
-                    //         }, 500)
-                    //         me.validateToken()
-                    //     })
-                    // } else {
+                        let token = me.$cookies.get('token')
+                        me.$axios.get('api/check-token', {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            if (res.data) {
+                                me.loader(true)
+                                let formData = new FormData()
+                                formData.append('sender_id', res.data.user.id)
+                                formData.append('class_package_id', me.data.class_package.id)
+                                formData.append('receiver_id', me.form.receiver_id)
+                                me.$axios.post(`api/packages/class-packages/${me.category}`, formData).then(res => {
+                                    if (res.data) {
+                                        setTimeout( () => {
+                                            me.$store.state.shareTransferPackageStatus = false
+                                            me.$parent.promptMessage = `You have successfully ${(me.category == 'share') ? 'shared' : 'transferred'} your package.`
+                                            me.$store.state.bookerPromptStatus = true
+                                            me.$parent.$parent.toggleTab(2, 'packages')
+                                        }, 500)
+                                    }
+                                }).catch(err => {
+                                    me.$store.state.errorList = err.response.data.errors
+                                    me.$store.state.errorStatus = true
+                                }).then(() => {
+                                    setTimeout( () => {
+                                        me.loader(false)
+                                    }, 500)
+                                })
+                            }
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
 							offset: -250
