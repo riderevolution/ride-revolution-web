@@ -281,25 +281,33 @@
                     }
                 }).then(res => {
                     if (res.data) {
+                        let user = res.data
                         if (res.data.user.new_user == 0) {
                             if (data.hasUser && token != null && token != undefined) {
                                 switch (type) {
                                     case 'book':
-                                        me.$axios.get('api/check-token', {
-                                            headers: {
-                                                Authorization: `Bearer ${token}`
-                                            }
-                                        }).then(res => {
+                                    me.loader(true)
+                                        let formData = new FormData()
+                                        formData.append('scheduled_date_id', data.id)
+                                        formData.append('type', 'booking')
+                                        me.$axios.post('api/schedules/validate', formData).then(res => {
                                             if (res.data) {
-                                                if (res.data.userPackagesCount > 0) {
-                                                    me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
-                                                } else {
-                                                    me.$store.state.buyPackageFirstStatus = true
-                                                    document.body.classList.remove('no_scroll')
-                                                }
+                                                setTimeout( () => {
+                                                    if (user.userPackagesCount > 0) {
+                                                        me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
+                                                    } else {
+                                                        me.$store.state.buyPackageFirstStatus = true
+                                                        document.body.classList.remove('no_scroll')
+                                                    }
+                                                }, 500)
                                             }
                                         }).catch(err => {
-                                            console.log(err)
+                                            me.$store.state.errorList = err.response.data.errors
+                                            me.$store.state.errorPromptStatus = true
+                                        }).then(() => {
+                                            setTimeout( () => {
+                                                me.loader(false)
+                                            }, 500)
                                         })
                                         break
                                     case 'waitlist':

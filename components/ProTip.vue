@@ -25,7 +25,6 @@
             me.$axios.get('api/pro-tips/random').then((res) => {
                 if (res.data) {
                     me.res = res.data.proTip[0]
-                    console.log(res.data);
                 }
             })
         }

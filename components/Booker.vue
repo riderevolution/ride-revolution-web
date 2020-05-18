@@ -234,7 +234,7 @@
             <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" />
         </transition>
         <transition name="fade">
-            <booker-success v-if="$store.state.buyRidesSuccessStatus" />
+            <booker-success v-if="$store.state.buyRidesSuccessStatus" :data="instructor" />
         </transition>
         <transition name="fade">
             <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
@@ -287,6 +287,7 @@
         },
         data () {
             return {
+                instructor: {},
                 res: [],
                 isMobile: false,
                 step: 1,
@@ -533,6 +534,7 @@
                 }
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
+                formData.append('total_credit_count', me.toSubmit.bookCount)
                 me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
@@ -806,6 +808,7 @@
                                 me.res = res.data
                                 me.temp = res.data.seats
                                 me.schedule = res.data.scheduledDate
+                                me.instructor = me.schedule.schedule.instructor_schedules[0].user
                                 me.temp.forEach((seat , index) => {
                                     switch (seat.position) {
                                         case 'left':
@@ -838,7 +841,7 @@
 
                                     if (res.data.tempSeats != null) {
                                         me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                                        me.toSubmit.bookCount = me.parser(res.data.tempSeats.data).length
+                                        // me.toSubmit.bookCount = me.parser(res.data.tempSeats.data).length
                                         // package_id = res.data.tempSeats.class_package_id
                                         me.bookingID = res.data.tempSeats.booking_id
                                         me.hasBooked = true

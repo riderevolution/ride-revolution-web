@@ -43,23 +43,48 @@
                     document.body.classList.remove('no_scroll')
                 } else {
                     if (status) {
-                        me.loader(true)
-                        me.$axios.delete(`api/bookings/${me.$parent.tempBooking.id}`).then(res => {
+                        let token = me.$cookies.get('token')
+                        me.$axios.get('api/check-token', {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
                             if (res.data) {
-                                me.$store.state.cancelClassStatus = false
-                                setTimeout( () => {
-                                    me.$parent.toggleCancelled()
-                                }, 500)
+                                let user = res.data
+                                let formData = new FormData()
+                                formData.append('scheduled_date_id', me.$parent.tempBooking.scheduled_date_id)
+                                formData.append('type', 'cancel')
+                                me.$axios.post('api/schedules/validate', formData).then(res => {
+                                    if (res.data) {
+                                        me.loader(true)
+                                        me.$axios.delete(`api/bookings/${me.$parent.tempBooking.id}`).then(res => {
+                                            if (res.data) {
+                                                me.$store.state.cancelClassStatus = false
+                                                setTimeout( () => {
+                                                    me.$parent.toggleCancelled()
+                                                }, 500)
+                                            }
+                                        }).catch(err => {
+                                            setTimeout( () => {
+                                                me.$store.state.errorList = err.response.data.errors
+                                                me.$store.state.errorPromptStatus = true
+                                                me.$store.state.errorOverlayPromptStatus = true
+                                            }, 500)
+                                        }).then(() => {
+                                            setTimeout( () => {
+                                                me.loader(false)
+                                            }, 500)
+                                        })
+                                    }
+                                }).catch(err => {
+                                    me.$store.state.cancelClassStatus = false
+                                    me.$store.state.errorList = err.response.data.errors
+                                    me.$store.state.errorPromptStatus = true
+                                    me.$store.state.errorOverlayPromptStatus = true
+                                })
                             }
                         }).catch(err => {
-                            setTimeout( () => {
-                                me.$store.state.errorList = err.response.data.errors
-                                me.$store.state.errorPromptStatus = true
-                            }, 500)
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
+                            console.log(err)
                         })
                     } else {
                         me.$store.state.cancelClassStatus = false

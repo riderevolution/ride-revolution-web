@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chart">
+                    <div :class="`chart ${(rideRevJourney.topInstructors.length <= 0) ? 'margin' : ''}`">
                         <div class="tab_content_header alt3">
                             <h2>HOW MANY TIMES YOU’VE RIDEN WITH RIDE REV</h2>
                             <ul class="tab_content_header_menu">
@@ -236,7 +236,8 @@
                                                 </div>
                                                 <div class="title">
                                                     {{ data.class_package.name }}
-                                                    <!-- <div :class="`violator ${data.violator.class}`" v-if="data.violator != null">{{ data.violator.title }}</div> -->
+                                                    <div class="violator shared" v-if="data.sharedto_user_id != null && !data.sharedby_user">Shared to {{ data.sharedto_user.first_name }} {{ data.sharedto_user.last_name }}</div>
+                                                    <div class="violator shared_with_me" v-if="data.sharedto_user_id != null && data.sharedby_user">Shared by {{ data.sharedby_user.first_name }} {{ data.sharedby_user.last_name }}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -263,11 +264,11 @@
                                         </td>
                                         <td data-column="Actions">
                                             <div class="table_menu_overlay">
-                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
+                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-if="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                        <li class="table_menu_item" @click="togglePackage('share')">Share Package</li>
-                                                        <li class="table_menu_item" @click="togglePackage('transfer')">Transfer Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'share')">Share Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
                                                     </ul>
                                                 </transition>
                                             </div>
@@ -439,7 +440,10 @@
             <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
-            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" />
+            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" :data="shareTransferPackage" />
+        </transition>
+        <transition name="fade">
+            <booker-prompt v-if="$store.state.bookerPromptStatus" :message="promptMessage" />
         </transition>
     </div>
 </template>
@@ -449,12 +453,14 @@
     import RedeemGiftCard from './modals/RedeemGiftCard'
     import RedeemGiftCardSuccess from './modals/RedeemGiftCardSuccess'
     import ShareTransferPackage from './modals/ShareTransferPackage'
+    import BookerPrompt from './modals/BookerPrompt'
     export default {
         components: {
             CancelClass,
             RedeemGiftCard,
             RedeemGiftCardSuccess,
-            ShareTransferPackage
+            ShareTransferPackage,
+            BookerPrompt
         },
         props: {
             category: {
@@ -464,6 +470,7 @@
         },
         data () {
             return {
+                promptMessage: '',
                 rideRevJourney: {
                     badges: [],
                     classesTaken: 0,
@@ -473,6 +480,7 @@
                     topInstructors: [],
                     weeklyRideCount: {}
                 },
+                shareTransferPackage: [],
                 graphKey: 0,
                 usertoNow: this.$moment().toNow(),
                 totalPendingPayment: 0,
@@ -740,9 +748,10 @@
                 const me = this
                 me.$router.push(`/my-profile/manage-class/${id}`)
             },
-            togglePackage (category) {
+            togglePackage (data, category) {
                 const me = this
                 me.packageCategory = category
+                me.shareTransferPackage = data
                 me.$store.state.shareTransferPackageStatus = true
                 document.body.classList.add('no_scroll')
             },

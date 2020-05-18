@@ -36,6 +36,19 @@
                     ctr++
                 }
             }, 250)
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Manage Class | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'nofollow',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ]
+            }
         }
     }
 </script>

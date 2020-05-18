@@ -87,6 +87,11 @@
                 user: []
             }
         },
+        watch: {
+            $route (to, from){
+
+            }
+        },
         methods: {
             toggleDetails (event) {
                 const me = this
@@ -240,6 +245,9 @@
                     me.$refs.profileTab.getHeight()
                     me.$refs.profileTab.unique = key
                 }, 10)
+                setTimeout( () => {
+                    me.$store.state.fromManageClass = false
+                }, 500)
             }
         },
         mounted () {
@@ -265,39 +273,48 @@
                         if (res.data.user.new_user == 1) {
                             me.$store.state.completeProfileStatus = true
                         }
-                        me.$axios.get(`api/customers/${me.user.id}/ride-rev-journey`).then(res => {
-                            if (res.data) {
-                                me.loaded = true
-                                setTimeout( () => {
-                                    me.componentLoaded = true
-                                    res.data.customer.rideRevJourney.topInstructors.forEach((instructor, index) => {
-                                        instructor.hovered = false
-                                    })
-                                    me.$refs.profileTab.rideRevJourney = res.data.customer.rideRevJourney
-                                    me.$refs.profileTab.series[0].data = res.data.customer.rideRevJourney.monthlyRideCount.series.data
-                                    me.$refs.profileTab.usertoNow = me.$moment(res.data.customer.created_at).toNow()
-                                    me.$refs.profileTab.tabChartCategory = 'monthly'
-                                    let currentMonth = me.$moment().month() + 1
-                                    let labels = []
-                                    labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
-                                    for (let i = 0; i < 11; i++) {
-                                        currentMonth = currentMonth - 1
-                                        if (currentMonth == 0) {
-                                            currentMonth = 12
-                                        }
-                                        labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
-                                    }
-                                    me.$refs.profileTab.chartOptions.xaxis.categories = labels
-                                }, 10)
-                            }
-                        }).catch((err) => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
+                        if (me.$store.state.fromManageClass) {
+                            me.loaded = true
                             setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
-                        })
+                                me.componentLoaded = true
+                                me.category = 'classes'
+                                me.toggleTab(1, 'classes')
+                            }, 10)
+                        } else {
+                            me.$axios.get(`api/customers/${me.user.id}/ride-rev-journey`).then(res => {
+                                if (res.data) {
+                                    me.loaded = true
+                                    setTimeout( () => {
+                                        me.componentLoaded = true
+                                        res.data.customer.rideRevJourney.topInstructors.forEach((instructor, index) => {
+                                            instructor.hovered = false
+                                        })
+                                        me.$refs.profileTab.rideRevJourney = res.data.customer.rideRevJourney
+                                        me.$refs.profileTab.series[0].data = res.data.customer.rideRevJourney.monthlyRideCount.series.data
+                                        me.$refs.profileTab.usertoNow = me.$moment(res.data.customer.created_at).toNow()
+                                        me.$refs.profileTab.tabChartCategory = 'monthly'
+                                        let currentMonth = me.$moment().month() + 1
+                                        let labels = []
+                                        labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                                        for (let i = 0; i < 11; i++) {
+                                            currentMonth = currentMonth - 1
+                                            if (currentMonth == 0) {
+                                                currentMonth = 12
+                                            }
+                                            labels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                                        }
+                                        me.$refs.profileTab.chartOptions.xaxis.categories = labels
+                                    }, 10)
+                                }
+                            }).catch((err) => {
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }).then(() => {
+                                setTimeout( () => {
+                                    me.loader(false)
+                                }, 500)
+                            })
+                        }
                     }
                 })
             }

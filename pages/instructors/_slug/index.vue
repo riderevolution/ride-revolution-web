@@ -360,15 +360,30 @@
                                     }
                                 }).then(res => {
                                     if (res.data) {
-                                        setTimeout( () => {
-                                            me.loader(false)
-                                            if (res.data.userPackagesCount > 0) {
-                                                me.$router.push(`/book-a-bike/${data.id}`)
-                                            } else {
-                                                me.$store.state.buyPackageFirstStatus = true
-                                                document.body.classList.remove('no_scroll')
+                                        let user = res.data
+                                        let formData = new FormData()
+                                        formData.append('scheduled_date_id', data.id)
+                                        formData.append('type', 'booking')
+                                        me.$axios.post('api/schedules/validate', formData).then(res => {
+                                            if (res.data) {
+                                                console.log(res.data);
+                                                setTimeout( () => {
+                                                    if (user.userPackagesCount > 0) {
+                                                        me.$router.push(`/book-a-bike/${data.id}`)
+                                                    } else {
+                                                        me.$store.state.buyPackageFirstStatus = true
+                                                        document.body.classList.remove('no_scroll')
+                                                    }
+                                                }, 500)
                                             }
-                                        }, 500)
+                                        }).catch(err => {
+                                            me.$store.state.errorList = err.response.data.errors
+                                            me.$store.state.errorPromptStatus = true
+                                        }).then(() => {
+                                            setTimeout( () => {
+                                                me.loader(false)
+                                            }, 500)
+                                        })
                                     }
                                 }).catch(err => {
                                     console.log(err)

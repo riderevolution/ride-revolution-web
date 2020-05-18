@@ -79,6 +79,10 @@
                 if (to.path == '/buy-rides/package' || to.path == '/buy-rides/store-credit') {
                     me.$router.push('/buy-rides')
                 }
+                if (to.path == '/my-profile/manage-class') {
+                    me.$router.push('/my-profile')
+                    me.$store.state.fromManageClass = true
+                }
             }
         },
         methods: {
