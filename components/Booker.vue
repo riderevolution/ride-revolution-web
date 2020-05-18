@@ -534,6 +534,7 @@
                 }
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
+                formData.append('total_credit_count', me.toSubmit.bookCount)
                 me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
@@ -840,7 +841,7 @@
 
                                     if (res.data.tempSeats != null) {
                                         me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                                        me.toSubmit.bookCount = me.parser(res.data.tempSeats.data).length
+                                        // me.toSubmit.bookCount = me.parser(res.data.tempSeats.data).length
                                         // package_id = res.data.tempSeats.class_package_id
                                         me.bookingID = res.data.tempSeats.booking_id
                                         me.hasBooked = true
