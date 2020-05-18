@@ -234,7 +234,7 @@
             <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" />
         </transition>
         <transition name="fade">
-            <booker-success v-if="$store.state.buyRidesSuccessStatus" />
+            <booker-success v-if="$store.state.buyRidesSuccessStatus" :data="instructor" />
         </transition>
         <transition name="fade">
             <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
@@ -287,6 +287,7 @@
         },
         data () {
             return {
+                instructor: {},
                 res: [],
                 isMobile: false,
                 step: 1,
@@ -806,6 +807,7 @@
                                 me.res = res.data
                                 me.temp = res.data.seats
                                 me.schedule = res.data.scheduledDate
+                                me.instructor = me.schedule.schedule.instructor_schedules[0].user
                                 me.temp.forEach((seat , index) => {
                                     switch (seat.position) {
                                         case 'left':

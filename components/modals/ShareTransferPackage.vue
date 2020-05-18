@@ -4,14 +4,14 @@
             <form id="default_form" class="overlay alt_2" @submit.prevent="submissionSuccess()">
                 <div class="modal_wrapper">
                     <h2 class="form_title alt">{{ (category == 'transfer') ? 'Transfer' : 'Share' }} Class Package</h2>
-                    <h3 class="form_subtitle">You are about to share your <b>[package]</b>. Please input the recipient's member ID.</h3>
+                    <h3 class="form_subtitle">You are about to {{ category }} your <b>{{ data.class_package.name }}</b>. Please input the recipient's member ID.</h3>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_flex with_btn alt_2">
                             <div class="form_group">
-                                <label for="recipients_member_id">Recipients Member ID <span>*</span></label>
-                                <input type="text" name="recipients_member_id" autocomplete="off" placeholder="Enter your recipients member id" class="input_text" v-validate="'required|numeric|min:4|max:12'">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('recipients_member_id')">{{ errors.first('recipients_member_id') | properFormat }}</span></transition>
+                                <label for="receiver_id">Recipients Username<span>*</span></label>
+                                <input type="text" name="receiver_id" autocomplete="off" placeholder="Enter your recipients username" class="input_text" v-validate="'required|numeric|min:4|max:12'">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('receiver_id')">{{ errors.first('receiver_id') | properFormat }}</span></transition>
                             </div>
                             <div class="form_button alt">
                                 <button type="submit" class="default_btn">{{ (category == 'transfer') ? 'Transfer' : 'Share' }}</button>
@@ -30,6 +30,9 @@
             category: {
                 type: String,
                 default: 'transfer'
+            },
+            data: {
+                default: null
             }
         },
         filters: {

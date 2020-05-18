@@ -266,8 +266,8 @@
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                        <li class="table_menu_item" @click="togglePackage('share')">Share Package</li>
-                                                        <li class="table_menu_item" @click="togglePackage('transfer')">Transfer Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'share')">Share Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
                                                     </ul>
                                                 </transition>
                                             </div>
@@ -439,7 +439,7 @@
             <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
-            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" />
+            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" :data="shareTransferPackage" />
         </transition>
     </div>
 </template>
@@ -473,6 +473,7 @@
                     topInstructors: [],
                     weeklyRideCount: {}
                 },
+                shareTransferPackage: [],
                 graphKey: 0,
                 usertoNow: this.$moment().toNow(),
                 totalPendingPayment: 0,
@@ -740,9 +741,10 @@
                 const me = this
                 me.$router.push(`/my-profile/manage-class/${id}`)
             },
-            togglePackage (category) {
+            togglePackage (data, category) {
                 const me = this
                 me.packageCategory = category
+                me.shareTransferPackage = data
                 me.$store.state.shareTransferPackageStatus = true
                 document.body.classList.add('no_scroll')
             },

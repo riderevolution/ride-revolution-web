@@ -56,6 +56,7 @@
                         me.$store.state.bookerSwitchSeatStatus = false
                         document.body.classList.remove('no_scroll')
                         me.loader(false)
+                        me.$parent.removeNext = false
                     }, 500)
                 }
             },
