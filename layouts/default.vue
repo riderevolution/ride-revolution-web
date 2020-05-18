@@ -81,6 +81,7 @@
                 }
                 if (to.path == '/my-profile/manage-class') {
                     me.$router.push('/my-profile')
+                    me.$store.state.fromManageClass = true
                 }
             }
         },
