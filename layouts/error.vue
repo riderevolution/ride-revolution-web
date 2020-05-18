@@ -21,6 +21,15 @@
 <script>
 	export default {
 		props: ['error'],
-		layout: 'default'
+		layout: 'default',
+        watch:{
+            $route (to, from){
+                const me = this
+                me.validateToken()
+                if (to.path == '/my-profile/manage-class') {
+                    me.$router.push('/my-profile')
+                }
+            }
+        }
 	}
 </script>

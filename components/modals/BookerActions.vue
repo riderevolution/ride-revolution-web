@@ -57,11 +57,13 @@
                                                         me.$parent.tempOriginalSeat = null
                                                     /**
                                                      * if tempseat is not original */
-                                                    } else {
+                                                 } else { 
                                                         me.$parent.tempGuestSeat = null
                                                         me.$parent.tempClassPackage = null
                                                     }
-                                                    me.$parent.toSubmit.bookCount--
+                                                    if (me.$parent.toSubmit.bookCount > 0) {
+                                                        me.$parent.toSubmit.bookCount--
+                                                    }
                                                     /**
                                                      * delete all the temp objects connected to the id */
                                                     delete me.$parent.seats[parent][child][i].temp
