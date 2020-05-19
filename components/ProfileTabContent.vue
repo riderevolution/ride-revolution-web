@@ -159,7 +159,7 @@
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
                                             <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)">Manage Class</li>
-                                            <li class="menu_dot_item red" @click="toggleCancel(data)">Cancel Class</li>
+                                            <li class="menu_dot_item red" @click="toggleCancel(data)" v-if="data.status != 'reserved-guest'">Cancel Class</li>
                                         </ul>
                                     </transition>
                                 </div>

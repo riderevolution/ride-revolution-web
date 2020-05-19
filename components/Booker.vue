@@ -426,6 +426,7 @@
                         break
                     case 'reserved':
                     case 'reserved-guest':
+                    case 'signed-in':
                         if (seat.temp) {
                             if (seat.temp.guest != 0) {
                                 result += 'reserved-guest'
@@ -792,6 +793,7 @@
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
+                            console.log(me.parser(res.data.tempSeats.data));
                             if (res.data) {
                                 if (!me.manage) {
                                     if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
