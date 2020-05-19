@@ -1014,7 +1014,7 @@ svg
             flex-flow: row wrap
             align-items: center
             justify-content: space-between
-            flex: 0 0 95%
+            flex: 1 0 50%
             border-right: 0.5px solid $border_alt3
             padding: 15px 30px
             transition: .2s linear
@@ -1451,7 +1451,7 @@ svg
                 neutra_bold(22px, true)
                 line-height: 1.25
                 color: $black
-                letter-spacing: 5px
+                letter-spacing: 3px
                 padding-left: 20px
                 transition: .3s ease-in-out
         .content
@@ -2397,6 +2397,7 @@ svg
                             transition: .3s ease-in-out
 .instructor_inner
     #info
+        position: relative
         display: flex
         flex-flow: row wrap
         align-items: center
@@ -2413,7 +2414,7 @@ svg
                 display: flex
                 flex-flow: row wrap
                 align-items: flex-start
-                margin: 50px 0
+                margin: 10px 0
                 .wrapper
                     flex: 0 0 100px
                     text-align: center
@@ -2432,13 +2433,15 @@ svg
                 h2
                     brandon_bold(32px, false)
                     color: $black
-                    margin-bottom: 40px
+                    margin-bottom: 10px
                     letter-spacing: 1.6px
                 p
                     brandon_regular(16px, false)
                     color: $black
                     line-height: 2
                     letter-spacing: 0.4px
+                    width: 100%
+                    max-width: 75%
             .talents
                 margin-bottom: 50px
                 p
@@ -2457,12 +2460,45 @@ svg
                     line-height: 2
                     letter-spacing: 0.8px
         .right
+            position: relative
             animation: slide_from_right 1.5s
             flex: 0 0 40%
             padding: 22.5% 0
             background-repeat: no-repeat
             background-position: center
             background-size: contain
+        .view_gallery
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: flex-start
+            position: absolute
+            top: calc(0% + 20px)
+            right: calc(0% + 40px)
+            cursor: pointer
+            .view_image
+                .square
+                    fill: $green
+                    stroke: $green
+                    stroke-width: 1
+                    transition: .3s ease-in-out
+                .square_alt
+                    fill: transparent
+                    stroke: $green
+                    stroke-width: 1
+                    transition: .3s ease-in-out
+            span
+                margin-left: 10px
+                brandon_bold(18px, false)
+                color: $green
+            &:hover
+                .view_image
+                    .square_alt
+                        fill: $green
+                        transition: .3s ease-in-out
+                span
+                    text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.8)
+                    transition: .3s ease-in-out
     /**
      * Classes */
     #classes
@@ -4398,7 +4434,7 @@ svg
             display: flex
             flex-flow: row wrap
             width: 100%
-            max-width: calc(50% + 60px)
+            max-width: calc(60% + 60px)
             margin: 0 auto
             padding-bottom: 80px
             .wrapper

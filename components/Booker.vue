@@ -426,6 +426,7 @@
                         break
                     case 'reserved':
                     case 'reserved-guest':
+                    case 'signed-in':
                         if (seat.temp) {
                             if (seat.temp.guest != 0) {
                                 result += 'reserved-guest'
@@ -624,57 +625,63 @@
                 const me = this
                 me.currentSeat = data
                 me.seatStatus = data.status
-                if (me.checkPackage == 1) {
-                    switch (data.status) {
-                        case 'blocked':
-                        case 'comp':
-                            me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
-                            me.$store.state.bookerPromptStatus = true
-                            document.body.classList.add('no_scroll')
-                            break
-                        case 'reserved':
-                        case 'reserved-guest':
-                            if (data.temp) {
-                                me.dummyData = data
-                                me.$store.state.bookerActionsPrompt = true
-                                document.body.classList.add('no_scroll')
-                            } else {
-                                me.promptMessage = 'This seat is already booked or reserved by someone else.'
+                if (me.schedule.guestHere) {
+                    me.promptMessage = 'Sorry! A guest cannot manage/change this class.'
+                    me.$store.state.bookerPromptStatus = true
+                    document.body.classList.add('no_scroll')
+                } else {
+                    if (me.checkPackage == 1) {
+                        switch (data.status) {
+                            case 'blocked':
+                            case 'comp':
+                                me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
                                 me.$store.state.bookerPromptStatus = true
                                 document.body.classList.add('no_scroll')
-                            }
-                            break
-                        case 'open':
-                            me.dummyData = data
-                            if (me.isSwitchingSeat) {
-                                me.switchSeatData (me.selectedSwitchSeat, data)
-                            } else {
-                                if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
-                                    me.loader(true)
-                                    setTimeout(() => {
-                                        me.$store.state.bookerChoosePackageStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    }, 500)
+                                break
+                            case 'reserved':
+                            case 'reserved-guest':
+                                if (data.temp) {
+                                    me.dummyData = data
+                                    me.$store.state.bookerActionsPrompt = true
+                                    document.body.classList.add('no_scroll')
                                 } else {
-                                    if (me.toSubmit.tempSeat.length == 5) {
-                                        me.promptMessage = "You've already reached the limit of adding guest."
-                                        me.$store.state.bookerPromptStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    } else {
-                                        me.tempGuestSeat = data
+                                    me.promptMessage = 'This seat is already booked or reserved by someone else.'
+                                    me.$store.state.bookerPromptStatus = true
+                                    document.body.classList.add('no_scroll')
+                                }
+                                break
+                            case 'open':
+                                me.dummyData = data
+                                if (me.isSwitchingSeat) {
+                                    me.switchSeatData (me.selectedSwitchSeat, data)
+                                } else {
+                                    if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
                                         me.loader(true)
                                         setTimeout(() => {
                                             me.$store.state.bookerChoosePackageStatus = true
                                             document.body.classList.add('no_scroll')
                                         }, 500)
+                                    } else {
+                                        if (me.toSubmit.tempSeat.length == 5) {
+                                            me.promptMessage = "You've already reached the limit of adding guest."
+                                            me.$store.state.bookerPromptStatus = true
+                                            document.body.classList.add('no_scroll')
+                                        } else {
+                                            me.tempGuestSeat = data
+                                            me.loader(true)
+                                            setTimeout(() => {
+                                                me.$store.state.bookerChoosePackageStatus = true
+                                                document.body.classList.add('no_scroll')
+                                            }, 500)
+                                        }
                                     }
                                 }
-                            }
-                            break
+                                break
+                        }
+                    } else {
+                        me.$store.state.buyPackageFirstStatus = true
+                        document.body.classList.remove('no_scroll')
                     }
-                } else {
-                    me.$store.state.buyPackageFirstStatus = true
-                    document.body.classList.remove('no_scroll')
                 }
             },
             /**

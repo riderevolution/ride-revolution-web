@@ -1,6 +1,6 @@
 @import 'fonts'
 
-@media (max-width: 1440px) and (min-width: 1281px)
+@media (max-width: 1660px) and (min-width: 1281px)
 
     .form_button
         &.alt
@@ -4749,12 +4749,17 @@
      * Instructors Inner */
     .instructor_inner
         #info
-            padding: 20px
+            padding: 30px 20px 20px
             flex-direction: column-reverse
             .right
                 width: 100%
                 flex: 0 0 100%
                 padding: 50% 0
+            .view_gallery
+                top: calc(0% + 10px)
+                right: calc(0% + 10px)
+                span
+                    brandon_bold(14px, false)
             .left
                 width: 100%
                 flex: 0 0 100%
@@ -4777,6 +4782,7 @@
                         brandon_bold(16px, true)
                         margin-bottom: 10px
                     p
+                        max-width: 100%
                         brandon_regular(12px, false)
                 .talents
                     margin-bottom: 20px

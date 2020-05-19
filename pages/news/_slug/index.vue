@@ -111,7 +111,16 @@
                     }
                 },
                 loaded: false,
-                res: [],
+                res: [
+                    {
+                        banners: [
+                            {
+                                path: '',
+                                alt: ''
+                            }
+                        ]
+                    }
+                ],
                 related_news: []
             }
         },
