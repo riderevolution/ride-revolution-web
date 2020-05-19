@@ -282,7 +282,7 @@
                     }
                 })
                 me.$scrollTo('.gmap', {
-                    offset: 0
+                    offset: -100
                 })
             },
             async initial () {
