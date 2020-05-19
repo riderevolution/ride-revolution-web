@@ -2397,6 +2397,7 @@ svg
                             transition: .3s ease-in-out
 .instructor_inner
     #info
+        position: relative
         display: flex
         flex-flow: row wrap
         align-items: center
@@ -2466,11 +2467,38 @@ svg
             background-repeat: no-repeat
             background-position: center
             background-size: contain
-            .default_btn_blue
-                position: absolute
-                padding: 15px 20px
-                top: calc(0% + 5px)
-                right: calc(0% + 5px)
+        .view_gallery
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: flex-start
+            position: absolute
+            top: calc(0% + 20px)
+            right: calc(0% + 40px)
+            cursor: pointer
+            .view_image
+                .square
+                    fill: $green
+                    stroke: $green
+                    stroke-width: 1
+                    transition: .3s ease-in-out
+                .square_alt
+                    fill: transparent
+                    stroke: $green
+                    stroke-width: 1
+                    transition: .3s ease-in-out
+            span
+                margin-left: 10px
+                brandon_bold(18px, false)
+                color: $green
+            &:hover
+                .view_image
+                    .square_alt
+                        fill: $green
+                        transition: .3s ease-in-out
+                span
+                    text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.8)
+                    transition: .3s ease-in-out
     /**
      * Classes */
     #classes

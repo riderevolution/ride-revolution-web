@@ -15,7 +15,28 @@
                     <!-- <div class="quote"> <p>Use your mental strength to beat the person<br> you were yesterday! <span class="green">#RideRevWithBilly</span></p> </div> -->
                 </div>
                 <div class="right" :style="`background-image: url('${res.instructor_details.gallery[0].path}');`">
-                    <div class="default_btn_blue" @click="openGallery(res.instructor_details)">View All Photos</div>
+                    <div class="view_gallery" @click="openGallery(res.instructor_details)" v-if="!$parent.$parent.isMobile">
+                        <svg class="view_image" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <g transform="translate(-1164.5 -208.5)">
+                                <rect width="7" height="7" transform="translate(1165 209)" class="square" />
+                                <rect width="7" height="7" transform="translate(1165 219)" class="square" />
+                                <rect width="7" height="7" transform="translate(1175 209)" class="square" />
+                                <rect width="7" height="7" transform="translate(1175 219)" class="square_alt" />
+                            </g>
+                        </svg>
+                        <span>View Photos</span>
+                    </div>
+                </div>
+                <div class="view_gallery" @click="openGallery(res.instructor_details)" v-if="$parent.$parent.isMobile">
+                    <svg class="view_image" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g transform="translate(-1164.5 -208.5)">
+                            <rect width="7" height="7" transform="translate(1165 209)" class="square" />
+                            <rect width="7" height="7" transform="translate(1165 219)" class="square" />
+                            <rect width="7" height="7" transform="translate(1175 209)" class="square" />
+                            <rect width="7" height="7" transform="translate(1175 219)" class="square_alt" />
+                        </g>
+                    </svg>
+                    <span>View Photos</span>
                 </div>
             </section>
             <section id="classes" v-if="scheduledDates.length > 0">
