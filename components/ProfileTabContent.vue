@@ -326,7 +326,7 @@
                                     </div>
                                 </td>
                                 <td data-column="Studio">
-                                    <div class="default">{{ data.studio.name }}</div>
+                                    <div class="default">{{ (data.studio) ? data.studio.name : 'Website/App' }}</div>
                                 </td>
                                 <td data-column="Total Price">
                                     <div class="default bold">Php {{ totalCount(data.total) }}</div>
@@ -363,7 +363,7 @@
                                     </div>
                                 </td>
                                 <td data-column="Studio">
-                                    <div class="default">{{ data.studio.name }}</div>
+                                    <div class="default">{{ (data.studio) ? data.studio.name : 'Website/App' }}</div>
                                 </td>
                                 <td data-column="Total Price">
                                     <div class="default bold">Php {{ totalCount(data.total) }}</div>
