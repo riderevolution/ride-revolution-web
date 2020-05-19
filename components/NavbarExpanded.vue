@@ -19,7 +19,7 @@
             <div class="right">
                 <ul class="expanded_nav_list">
                     <li><nuxt-link class="nav_item" to="/about" @click.native="toggleNavbarExpanded()">About</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/ride-rewards" @click.native="toggleNavbarExpanded()">Ride Rewards</nuxt-link></li>
+                    <!-- <li><nuxt-link class="nav_item" to="/ride-rewards" @click.native="toggleNavbarExpanded()">Ride Rewards</nuxt-link></li> -->
                     <li><nuxt-link class="nav_item" to="/promos" @click.native="toggleNavbarExpanded()">Promos</nuxt-link></li>
                     <li><nuxt-link class="nav_item" to="/news" @click.native="toggleNavbarExpanded()">News</nuxt-link></li>
                     <li><nuxt-link class="nav_item" to="/faqs" @click.native="toggleNavbarExpanded()">Faqs</nuxt-link></li>

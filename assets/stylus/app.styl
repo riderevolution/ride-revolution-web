@@ -1014,7 +1014,7 @@ svg
             flex-flow: row wrap
             align-items: center
             justify-content: space-between
-            flex: 0 0 95%
+            flex: 1 0 50%
             border-right: 0.5px solid $border_alt3
             padding: 15px 30px
             transition: .2s linear
@@ -2413,7 +2413,7 @@ svg
                 display: flex
                 flex-flow: row wrap
                 align-items: flex-start
-                margin: 50px 0
+                margin: 10px 0
                 .wrapper
                     flex: 0 0 100px
                     text-align: center
@@ -2432,13 +2432,15 @@ svg
                 h2
                     brandon_bold(32px, false)
                     color: $black
-                    margin-bottom: 40px
+                    margin-bottom: 10px
                     letter-spacing: 1.6px
                 p
                     brandon_regular(16px, false)
                     color: $black
                     line-height: 2
                     letter-spacing: 0.4px
+                    width: 100%
+                    max-width: 75%
             .talents
                 margin-bottom: 50px
                 p
@@ -2457,12 +2459,18 @@ svg
                     line-height: 2
                     letter-spacing: 0.8px
         .right
+            position: relative
             animation: slide_from_right 1.5s
             flex: 0 0 40%
             padding: 22.5% 0
             background-repeat: no-repeat
             background-position: center
             background-size: contain
+            .default_btn_blue
+                position: absolute
+                padding: 15px 20px
+                top: calc(0% + 5px)
+                right: calc(0% + 5px)
     /**
      * Classes */
     #classes

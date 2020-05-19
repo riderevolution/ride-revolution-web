@@ -13,9 +13,10 @@
                     <div class="description" v-html="res.instructor_details.description"></div>
                     <!-- <div class="talents"> <p>Specialization: ACE Certified, Calisthenics, Yoga</p> </div> -->
                     <!-- <div class="quote"> <p>Use your mental strength to beat the person<br> you were yesterday! <span class="green">#RideRevWithBilly</span></p> </div> -->
-                    <div class="default_btn" @click="openGallery(res.instructor_details)">View All Photos</div>
                 </div>
-                <div class="right" :style="`background-image: url('${res.instructor_details.gallery[0].path}');`"></div>
+                <div class="right" :style="`background-image: url('${res.instructor_details.gallery[0].path}');`">
+                    <div class="default_btn_blue" @click="openGallery(res.instructor_details)">View All Photos</div>
+                </div>
             </section>
             <section id="classes" v-if="scheduledDates.length > 0">
                 <div class="header">
