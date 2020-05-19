@@ -191,7 +191,7 @@
                 amenitiesOptions: {
                     slidesPerView: 4,
                     spaceBetween: 30,
-                    loop: true,
+                    loop: (this.hasManyInstructor) ? true : false,
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
@@ -322,7 +322,7 @@
                 me.toggled = true
                 setTimeout( () => {
                     me.$scrollTo('.bike_wrapper', {
-                        offset: 0
+                        offset: -100
                     })
                 }, 250)
             },

@@ -77,7 +77,7 @@
                 </div>
                 <div class="bottom">
                     <div class="left">
-                        <div class="gmap" style="width: 100%; height: 600px" v-html="studio.google_embed"></div>
+                        <div class="gmap" v-html="studio.google_embed"></div>
                     </div>
                     <div class="right">
                         <div :id="`item_${key}`" class="studio_item" v-for="(data, key) in studios" :key="key" @click="toggleStudio(data, key)">
@@ -273,6 +273,7 @@
                             element.toggled = true
                             elements.classList.add('toggled')
                             target.querySelector('.info').style.height = `${target.querySelector('.info').scrollHeight}px`
+                            document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
                         }
                     } else {
                         element.toggled = false
