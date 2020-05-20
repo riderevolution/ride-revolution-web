@@ -799,6 +799,7 @@
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
+                            console.log(res.data);
                             if (res.data) {
                                 if (!me.manage) {
                                     if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {

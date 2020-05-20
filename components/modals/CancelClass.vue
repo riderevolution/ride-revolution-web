@@ -51,13 +51,19 @@
                         }).then(res => {
                             if (res.data) {
                                 let user = res.data
+                                let url = ''
                                 let formData = new FormData()
                                 formData.append('scheduled_date_id', me.$parent.tempBooking.scheduled_date_id)
                                 formData.append('type', 'cancel')
+                                if (me.$parent.tabCategory == 'upcoming') {
+                                    url = `api/bookings/${me.$parent.tempBooking.id}`
+                                } else if (me.$parent.tabCategory == 'waitlisted') {
+                                    url = `api/waitlists/${me.$parent.tempBooking.id}`
+                                }
                                 me.$axios.post('api/schedules/validate', formData).then(res => {
                                     if (res.data) {
                                         me.loader(true)
-                                        me.$axios.delete(`api/bookings/${me.$parent.tempBooking.id}`).then(res => {
+                                        me.$axios.delete(`${url}`).then(res => {
                                             if (res.data) {
                                                 me.$store.state.cancelClassStatus = false
                                                 setTimeout( () => {
