@@ -20,7 +20,7 @@
                 <form id="default_form" data-vv-scope="login_form" @submit.prevent="submissionLoginSuccess()">
                     <div class="form_group">
                         <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="loginForm.email">
+                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="loginForm.email">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.email')">{{ errors.first('login_form.email') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group">
@@ -57,7 +57,7 @@
                 <form id="default_form" data-vv-scope="forgot_form" @submit.prevent="submissionForgotSuccess()">
                     <div class="form_group">
                         <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="forgotPasswordForm.email">
+                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="forgotPasswordForm.email">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ errors.first('forgot_form.email') | properFormat }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
@@ -88,7 +88,7 @@
                 <form id="default_form" data-vv-scope="register_form">
                     <div class="form_group">
                         <label for="email">E-mail</label>
-                        <input type="text" @input="checkValidity('email', $event)" id="email" name="email" class="input_text" v-model="signUpForm.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9|\u00f1|\@|\.]*$'}">
+                        <input type="text" @input="checkValidity('email', $event)" id="email" name="email" class="input_text" v-model="signUpForm.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.email') && !checkEmailValidity">{{ errors.first('register_form.email') | properFormat }}</span></transition>
                         <transition name="slide"><span class="validation_errors" v-if="checkEmailValidity">Email address is already taken</span></transition>
                     </div>
@@ -472,7 +472,7 @@
                 me.$validator.validateAll('register_process_form').then(valid => {
                     if (valid) {
                         me.loader(true)
-                        if (me.$cookies.get('referrer_member_id') != null 
+                        if (me.$cookies.get('referrer_member_id') != null
                             || me.$cookies.get('referrer_member_id') != undefined) {
                             me.signUpForm['referrer_member_id'] = me.$cookies.get('referrer_member_id')
                         } else {
