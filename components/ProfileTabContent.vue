@@ -258,7 +258,7 @@
                                         <td data-column="Expiry">
                                             <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
-                                                <div class="label violator" v-if="checkWarning(data)">{{ violator.warning }} Days Left</div>
+                                                <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
                                                 <div class="label" v-else>Date of Expiry</div>
                                             </div>
                                         </td>
@@ -789,17 +789,19 @@
                     }, 500)
                 })
             },
-            checkWarning (data) {
-                const me = this
-                let expiry = me.$moment(data.class_package.computed_expiration_date)
-                let current = me.$moment()
-                if (parseInt(expiry.diff(current, 'days')) <= 15) {
-                    me.violator.warning = expiry.diff(current, 'days')
-                    return true
-                } else {
-                    return false
-                }
-            },
+            // checkWarning (data) {
+            //     const me = this
+            //     let result = false
+            //     let expiry = me.$moment(data.class_package.computed_expiration_date)
+            //     let current = me.$moment()
+            //     if (parseInt(expiry.diff(current, 'days')) <= 15) {
+            //         me.violator.warning = expiry.diff(current, 'days')
+            //         result = true
+            //     } else {
+            //         result = false
+            //     }
+            //     return result
+            // },
             toggleCancel (data) {
                 const me = this
                 me.tempBooking = data
