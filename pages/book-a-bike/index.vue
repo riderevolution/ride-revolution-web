@@ -312,29 +312,41 @@
                                     }
                                 }).then(res => {
                                     if (res.data) {
-                                        let user = res.data
+                                        let user = res.data.user
                                         let formData = new FormData()
+                                        let hasPackages = false
                                         formData.append('scheduled_date_id', data.id)
                                         formData.append('type', 'booking')
                                         me.$axios.post('api/schedules/validate', formData).then(res => {
                                             if (res.data) {
-                                                console.log(res.data);
-                                                setTimeout( () => {
-                                                    if (user.userPackagesCount > 0) {
-                                                        me.$router.push(`/book-a-bike/${data.id}`)
-                                                    } else {
-                                                        me.$store.state.buyPackageFirstStatus = true
-                                                        document.body.classList.remove('no_scroll')
+                                                me.$axios.get(`api/customers/${user.id}/packages?forWeb=1`).then(res => {
+                                                    if (res.data) {
+                                                        setTimeout( () => {
+                                                            res.data.customer.user_package_counts.forEach((data, index) => {
+                                                                if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
+                                                                    hasPackages = true
+                                                                }
+                                                            })
+                                                            if (hasPackages) {
+                                                                me.$router.push(`/book-a-bike/${data.id}`)
+                                                            } else {
+                                                                me.$store.state.buyPackageFirstStatus = true
+                                                                document.body.classList.remove('no_scroll')
+                                                            }
+                                                        }, 500)
                                                     }
-                                                }, 500)
+                                                }).catch(err => {
+                                                    me.$store.state.errorList = err.response.data.errors
+                                                    me.$store.state.errorPromptStatus = true
+                                                }).then(() => {
+                                                    setTimeout( () => {
+                                                        me.loader(false)
+                                                    }, 500)
+                                                })
                                             }
                                         }).catch(err => {
                                             me.$store.state.errorList = err.response.data.errors
                                             me.$store.state.errorPromptStatus = true
-                                        }).then(() => {
-                                            setTimeout( () => {
-                                                me.loader(false)
-                                            }, 500)
                                         })
                                     }
                                 }).catch(err => {

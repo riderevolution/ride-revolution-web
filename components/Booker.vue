@@ -234,7 +234,7 @@
             <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" />
         </transition>
         <transition name="fade">
-            <booker-success v-if="!$store.state.buyRidesSuccessStatus" :data="instructor" />
+            <booker-success v-if="$store.state.buyRidesSuccessStatus" :data="instructor" />
         </transition>
         <transition name="fade">
             <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
