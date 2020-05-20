@@ -113,7 +113,8 @@
                     me.$parent.status = true
                     setTimeout( () => {
                         me.$parent.promptMessage = "You've successfully swapped seats."
-                        me.$store.state.buyRidesPromptStatus = true
+                        me.$store.state.bookerPromptStatus = true
+                        document.body.classList.remove('no_scroll')
                         me.loader(false)
                     }, 500)
                     me.$parent.removeNext = false

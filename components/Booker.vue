@@ -799,7 +799,6 @@
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
-                            console.log(res.data);
                             if (res.data) {
                                 if (!me.manage) {
                                     if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
@@ -849,7 +848,7 @@
 
                                     if (res.data.tempSeats != null) {
                                         me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                                        // me.toSubmit.bookCount = me.parser(res.data.tempSeats.data).length
+                                        // me.tempBookCount = me.parser(res.data.tempSeats.data).length
                                         // package_id = res.data.tempSeats.class_package_id
                                         me.bookingID = res.data.tempSeats.booking_id
                                         me.hasBooked = true

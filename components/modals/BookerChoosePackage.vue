@@ -81,7 +81,7 @@
                                         me.$store.state.bookerChoosePackageStatus = false
                                         me.$parent.getAllSchedules(me.$parent.currentYear, me.$parent.currentMonth, me.$parent.currentDay, false)
                                         setTimeout( () => {
-                                            me.$store.state.buyRidesPromptStatus = true
+                                            me.$store.state.bookerPromptStatus = true
                                             me.$parent.message = "You've successfully added as waitlist in this class."
                                             me.$parent.status = true
                                             me.$parent.buyCredits = false
@@ -124,7 +124,7 @@
                                 me.loader(true)
                                 setTimeout(() => {
                                     me.$parent.promptMessage = "You've successfully booked for this seat."
-                                    me.$store.state.buyRidesPromptStatus = true
+                                    me.$store.state.bookerPromptStatus = true
                                     document.body.classList.remove('no_scroll')
                                     me.loader(false)
                                 }, 500)
@@ -136,6 +136,7 @@
                                      * Update the package if the user choose package */
                                     if (me.tempSeat.temp) {
                                         let hasSamePackage = false
+                                        let ctr = 0
                                         me.$parent.toSubmit.tempSeat.forEach((element, index) => {
                                             /**
                                              * Check all packages except the selected */
@@ -143,9 +144,12 @@
                                                 /**
                                                 * if has the same package */
                                                 if (me.selectedClassPackage.class_package_id == (element.temp && element.temp.class_package.class_package_id)) {
+                                                    ctr++
+                                                    let existingCount = element.temp.class_package.count
+                                                    let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                     /**
                                                     * check the package count */
-                                                    if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) > element.temp.class_package.count) {
+                                                    if (resultsWhenDeducted <= 0) {
                                                         hasSamePackage = true
                                                     }
                                                 }
@@ -202,16 +206,20 @@
                                         } else {
                                             me.$store.state.bookerChoosePackageStatus = false
                                             me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
-                                            me.$store.state.buyRidesPromptStatus = true
+                                            me.$store.state.bookerPromptStatus = true
                                         }
                                     }
                                 } else {
                                     let hasGuestSamePackage = false
+                                    let ctr = 0
                                     /**
                                      * Check if the package has rides left */
                                     me.$parent.toSubmit.tempSeat.forEach((element, index) => {
                                         if (me.selectedClassPackage.class_package_id == (element.temp && element.temp.class_package.class_package_id)) {
-                                            if ((me.$parent.toSubmit.bookCount * me.$parent.schedule.schedule.class_credits) > element.temp.class_package.count) {
+                                            ctr++
+                                            let existingCount = element.temp.class_package.count
+                                            let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
+                                            if (resultsWhenDeducted <= 0) {
                                                 hasGuestSamePackage = true
                                             }
                                         }
@@ -226,7 +234,7 @@
                                         me.$parent.tempGuestSeat = null
                                         me.$store.state.bookerChoosePackageStatus = false
                                         me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
-                                        me.$store.state.buyRidesPromptStatus = true
+                                        me.$store.state.bookerPromptStatus = true
                                     }
                                 }
                             }
@@ -312,7 +320,7 @@
                                         me.$parent.buyCredits = true
                                         break
                                 }
-                                me.$store.state.buyRidesPromptStatus = true
+                                me.$store.state.bookerPromptStatus = true
                             }
                         }
                     })
