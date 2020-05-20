@@ -57,7 +57,7 @@
                                                         me.$parent.tempOriginalSeat = null
                                                     /**
                                                      * if tempseat is not original */
-                                                 } else { 
+                                                 } else {
                                                         me.$parent.tempGuestSeat = null
                                                         me.$parent.tempClassPackage = null
                                                     }
@@ -83,7 +83,7 @@
                                                     me.loader(true)
                                                     setTimeout(() => {
                                                         me.$parent.promptMessage = `You've cancelled seat number ${me.$parent.seats[parent][child][i].number}`
-                                                        me.$store.state.buyRidesPromptStatus = true
+                                                        me.$store.state.bookerPromptStatus = true
                                                         document.body.classList.remove('no_scroll')
                                                         me.loader(false)
                                                     }, 500)

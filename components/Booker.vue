@@ -848,7 +848,7 @@
 
                                     if (res.data.tempSeats != null) {
                                         me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                                        // me.toSubmit.bookCount = me.parser(res.data.tempSeats.data).length
+                                        // me.tempBookCount = me.parser(res.data.tempSeats.data).length
                                         // package_id = res.data.tempSeats.class_package_id
                                         me.bookingID = res.data.tempSeats.booking_id
                                         me.hasBooked = true
@@ -876,7 +876,7 @@
                                         })
                                     }
                                 }
-
+                                console.log(me.toSubmit.tempSeat);
                                 me.loaded = true
                             }
                         }).catch(err => {
