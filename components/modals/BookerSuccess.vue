@@ -9,7 +9,7 @@
         <section id="disclaimer">
             <div class="content">
                 <div class="left">
-                    <img src="/default/meme/watching-you-meme.jpg" />
+                    <!-- <img src="/default/meme/watching-you-meme.jpg" /> -->
                     <label>Please be 10 minutes early</label>
                 </div>
                 <div class="right">
