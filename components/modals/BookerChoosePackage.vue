@@ -299,7 +299,7 @@
                                         me.selectedClassPackage = me.tempSeat.temp.class_package
                                         me.selectedPackage = me.tempSeat.temp.class_package.class_package_id
                                         me.tempSelectedPackage = me.tempSeat.temp.class_package.class_package_id
-                                        me.notSelectedPackage = false
+                                        me.notSelectedPackage = true
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (me.classPackages[i].count > 0) {
