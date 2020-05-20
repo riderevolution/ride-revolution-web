@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form_button">
+                        <div class="form_button" v-if="notSelectedPackage">
                             <button type="submit" class="default_btn">Select</button>
                         </div>
                     </div>
@@ -50,7 +50,9 @@
                 classPackages: [],
                 classPackage: [],
                 selectedClassPackage: null,
-                selectedPackage: 0
+                selectedPackage: 0,
+                tempSelectedPackage: 0,
+                notSelectedPackage: true
             }
         },
         methods: {
@@ -162,19 +164,9 @@
                                                     /**
                                                      * Check if the the user changed package */
                                                     if (me.$route.name == 'my-profile-manage-class-slug') {
-                                                        if (newTemp.temp.old_class_package_id) {
-                                                            if (newTemp.temp.old_class_package_id != me.selectedClassPackage.class_package_id) {
-                                                                newTemp.temp.changedPackage = true
-                                                                newTemp.temp.old_class_package_id = tempClassPackage.class_package_id
-                                                            } else {
-                                                                delete newTemp.temp.changedPackage
-                                                                delete newTemp.temp.old_class_package_id
-                                                            }
-                                                        } else {
-                                                            if (newTemp.temp.class_package.class_package_id != me.selectedClassPackage.class_package_id) {
-                                                                newTemp.temp.changedPackage = true
-                                                                newTemp.temp.old_class_package_id = tempClassPackage.class_package_id
-                                                            }
+                                                        if (!element.temp.old_class_package_id) {
+                                                            newTemp.temp.changedPackage = 1
+                                                            newTemp.temp.old_class_package_id = element.temp.class_package.class_package_id
                                                         }
                                                     }
                                                     /**
@@ -246,7 +238,12 @@
                 const me = this
                 me.active = false
                 me.selectedClassPackage = data
-                me.selectedPackage = data.class_package.id
+                if (me.tempSelectedPackage == data.class_package.id) {
+                    me.notSelectedPackage = false
+                } else {
+                    me.notSelectedPackage = true
+                    me.selectedPackage = data.class_package.id
+                }
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
                     if (element.count > 0) {
@@ -293,6 +290,7 @@
                                         if (me.classPackages[i].count > 0) {
                                             me.selectedClassPackage = me.classPackages[i]
                                             me.selectedPackage = me.classPackages[i].class_package.id
+                                            me.tempSelectedPackage = me.classPackages[i].class_package.id
                                             break
                                         }
                                     }
@@ -300,11 +298,15 @@
                                     if (me.$parent.tempGuestSeat == null) {
                                         me.selectedClassPackage = me.tempSeat.temp.class_package
                                         me.selectedPackage = me.tempSeat.temp.class_package.class_package_id
+                                        me.tempSelectedPackage = me.tempSeat.temp.class_package.class_package_id
+                                        me.notSelectedPackage = false
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (me.classPackages[i].count > 0) {
                                                 me.selectedClassPackage = me.classPackages[i]
                                                 me.selectedPackage = me.classPackages[i].class_package.id
+                                                me.tempSelectedPackage = me.classPackages[i].class_package.id
+                                                me.notSelectedPackage = false
                                                 break
                                             }
                                         }
