@@ -5204,6 +5204,11 @@
                 right: calc(50% - 50px)
                 left: unset
 
+    .default_btn_wht
+        &.ml
+            margin-left: 0
+            margin-top: 15px
+
     .default_btn,
     .default_btn_out,
     .default_btn_blue,
@@ -5477,6 +5482,8 @@
                         #ready_icon
                             flex: 0 0 100%
                             margin: 0
+            .bottom
+                max-width: 100%
     .wrap
         .loading
             .text
@@ -5760,6 +5767,11 @@
                                 padding: 12px 15px
 
 @media (max-width: 767px) and (min-width: 425px)
+
+    .default_btn_wht
+        &.ml
+            margin-left: 15px
+            margin-top: 0
 
     .default_btn,
     .default_btn_out,

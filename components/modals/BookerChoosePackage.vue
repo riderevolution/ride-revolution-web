@@ -299,18 +299,21 @@
                                         me.selectedClassPackage = me.tempSeat.temp.class_package
                                         me.selectedPackage = me.tempSeat.temp.class_package.class_package_id
                                         me.tempSelectedPackage = me.tempSeat.temp.class_package.class_package_id
-                                        me.notSelectedPackage = true
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (me.classPackages[i].count > 0) {
                                                 me.selectedClassPackage = me.classPackages[i]
                                                 me.selectedPackage = me.classPackages[i].class_package.id
                                                 me.tempSelectedPackage = me.classPackages[i].class_package.id
-                                                me.notSelectedPackage = false
                                                 break
                                             }
                                         }
                                     }
+                                }
+                                /**
+                                 * Check if the the user changed package */
+                                if (me.$route.name == 'my-profile-manage-class-slug') {
+                                    me.notSelectedPackage = false
                                 }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
