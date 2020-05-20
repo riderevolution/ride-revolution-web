@@ -275,7 +275,11 @@
                     me.$axios.get(`api/customers/${id}/packages${(me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') ? `?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}` : ''}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
-                                me.classPackages = res.data.customer.user_package_counts
+                                res.data.customer.user_package_counts.forEach((data, index) => {
+                                    if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
+                                        me.classPackages.push(data)
+                                    }
+                                })
                                 if (me.$parent.tempOriginalSeat == null) {
                                     for (let i = 0; i < me.classPackages.length; i++) {
                                         if (me.classPackages[i].count > 0) {
