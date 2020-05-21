@@ -117,6 +117,7 @@
                             me.loader(true)
                             formData.append('type', 'email')
                             formData.append('value', me.nonMemberEmail)
+                            formData.append('scheduled_date_id', me.$route.params.slug)
                             me.$axios.post('api/check-data-validity', formData).then(res => {
                                 if (res.data) {
                                     if (res.data.exists) {
