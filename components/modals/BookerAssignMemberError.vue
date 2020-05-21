@@ -7,7 +7,7 @@
                 <img src="/default/meme/error-meme.jpg" />
             </div> -->
             <div class="confirmation_text">
-                Sorry we don’t recognize that member ID. Please make sure all characters are correct.
+                Sorry it's either the member is already booked on this class or we don't recognize the member ID. Please make sure all characters are correct.
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn_wht" @click.once="toggleClose(true)">Try Again</div>
