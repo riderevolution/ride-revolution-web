@@ -318,6 +318,7 @@
                                         }).catch(err => {
                                             me.$store.state.errorList = err.response.data.errors
                                             me.$store.state.errorPromptStatus = true
+                                            me.loader(false)
                                         })
                                         break
                                     case 'waitlist':
