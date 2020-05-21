@@ -85,11 +85,16 @@
                     if (valid) {
                         if (me.assignType == 'member') {
                             let formData = new FormData()
+                            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
                             me.loader(true)
                             formData.append('member_id', me.memberID)
                             formData.append('scheduled_date_id', me.$route.params.slug)
                             formData.append('temp_seats', JSON.stringify(me.$parent.toSubmit.tempSeat))
-                            me.$axios.post('api/customers/member-id-search', formData).then(res => {
+                            me.$axios.post('api/customers/member-id-search', formData, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then(res => {
                                 if (res.data) {
                                     me.$parent.customer = res.data
                                     setTimeout( () => {
@@ -119,7 +124,7 @@
                                         me.$store.state.bookerAssignNonMemberErrorStatus = true
                                     } else {
                                         me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                            if (element.temp.email == me.nonMemberEmail) {
+                                            if (element.temp.customer.email == me.nonMemberEmail) {
                                                 checkEmail = true
                                             }
                                         })

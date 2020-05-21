@@ -238,12 +238,16 @@
                 const me = this
                 me.active = false
                 me.selectedClassPackage = data
-                if (me.tempSelectedPackage == data.class_package.id) {
-                    me.notSelectedPackage = false
-                } else {
-                    me.notSelectedPackage = true
-                    me.selectedPackage = data.class_package.id
+                /**
+                 * Check if the the user changed package */
+                if (me.$route.name == 'my-profile-manage-class-slug') {
+                    if (me.tempSelectedPackage == data.class_package.id) {
+                        me.notSelectedPackage = false
+                    } else {
+                        me.notSelectedPackage = true
+                    }
                 }
+                me.selectedPackage = data.class_package.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
                     if (element.count > 0) {
@@ -313,7 +317,11 @@
                                 /**
                                  * Check if the the user changed package */
                                 if (me.$route.name == 'my-profile-manage-class-slug') {
-                                    me.notSelectedPackage = false
+                                    if (me.classPackages.length > 0) {
+                                        me.notSelectedPackage = true
+                                    } else {
+                                        me.notSelectedPackage = false
+                                    }
                                 }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
