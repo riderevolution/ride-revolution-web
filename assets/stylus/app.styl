@@ -6339,7 +6339,7 @@ svg
                                 .summary_content
                                     display: flex
                                     flex-flow: row wrap
-                                    align-items: center
+                                    align-items: flex-start
                                     padding: 20px 60px
                                     .left,
                                     .right
@@ -6349,6 +6349,7 @@ svg
                                             display: flex
                                             flex-flow: row wrap
                                             align-items: center
+                                            margin-bottom: 10px
                                             &.disabled
                                                 filter: grayscale(1)
                                                 img
@@ -6362,6 +6363,7 @@ svg
                                             span
                                                 brandon_regular(16px, false)
                                                 color: $black
+                                                padding-left: 5px
                     .top_booked
                         width: 100%
                         max-width: 90%
@@ -9682,10 +9684,14 @@ textarea::-webkit-scrollbar-thumb
             color: $black
             padding: 0 0 20px
             text-align: center
+            &.alt
+                padding: 0
         .confirmation_text
             brandon_regular(20px, false)
             color: $black
             text-align: center
+            &.alt
+                padding: 0 0 20px
             .error
                 color: $red
         .confirmation_highlight
@@ -9695,6 +9701,12 @@ textarea::-webkit-scrollbar-thumb
             margin-top: 30px
         .confirmation_image
             margin-bottom: 30px
+            &.alt
+                img
+                    width: 100%
+                    height: 200px
+                    object-fit: contain
+                    object-position: center
             img
                 width: 100%
                 {image_default}
@@ -9749,6 +9761,8 @@ textarea::-webkit-scrollbar-thumb
             &.alt
                 flex: 0 0 auto
                 justify-content: center
+                .flex
+                    flex: 0 0 auto
             &.alt_2
                 margin-top: 25px
                 flex: 0 0 auto

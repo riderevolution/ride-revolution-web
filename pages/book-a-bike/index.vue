@@ -76,7 +76,7 @@
                         <div v-if="!$parent.$parent.isMobile && res.schedules.length > 0">
                             <div class="content">
                                 <div class="schedule" v-for="(data, key) in res.schedules" :key="key">
-                                    <div class="time">{{ data.schedule.start_time }}</div>
+                                    <div class="time">{{ $moment(data.schedule.start_time, 'hh:mm A').format('h:mm A') }}</div>
                                     <div class="class">
                                         <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                         <div class="info">
@@ -122,10 +122,10 @@
                                 <a class="schedule" v-for="(data, key) in res.schedules" :key="key">
                                     <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     <div class="info">
-                                        <div class="time">{{ data.schedule.start_time }}</div>
+                                        <div class="time">{{ $moment(data.schedule.start_time).format('h:mm A') }}</div>
                                         <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
                                         <div class="ride">
-                                            <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
+                                            <p>{{ parseScheduleRide(data.schedule.class_length_formatted) }} Ride</p>
                                             <div class="info_icon">
                                                 <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
                                                 <transition name="slideAltY">
@@ -288,10 +288,10 @@
                 let hour = time.split(':')[0]
                 let minutes = time.split(':')[1]
                 if (hour != 0) {
-                    result += me.$moment(time, 'H:m').format('HH') + (hour > 1) ? ' Hours' : ' Hour'
-                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                    result += `${me.$moment(time, 'h:m').format('h')} ${(hour > 1) ? 'Hours ' : 'Hour '}`
+                    result += me.$moment(time, 'h:m').format('mm') + ' Minutes'
                 } else {
-                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                    result += me.$moment(time, 'h:m').format('mm') + ' Minutes'
                 }
                 return result
             },

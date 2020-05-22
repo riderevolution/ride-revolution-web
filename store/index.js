@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            badgePromptStatus: false,
             fromManageClass: false,
             bookerPromptStatus: false,
             contactUsPromptStatus: false,

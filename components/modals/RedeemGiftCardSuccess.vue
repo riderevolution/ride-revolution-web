@@ -7,7 +7,7 @@
                 Congratulations! You successfully redeemed your gift card.
             </div>
             <div class="confirmation_image">
-                <img src="/sample-gift.png" />
+                <img :src="giftCard.images[0].path" />
                 <div class="overlay">
                     <img class="gift_img" :src="giftCard.fromUser.images[0].path" v-if="giftCard.fromUser.images[0].path != null" />
                     <div class="initials" v-else>
@@ -36,7 +36,7 @@
                 me.$store.state.redeemGiftCardSuccessStatus = false
                 document.body.classList.remove('no_scroll')
                 me.$parent.giftCardTemp = []
-                me.$parent.toggleTab(4, 'gift-cards')
+                me.$parent.$parent.toggleTab(4, 'gift-cards')
             }
         }
     }

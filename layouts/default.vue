@@ -30,6 +30,9 @@
         <transition name="fade">
             <image-viewer v-if="$store.state.imageViewerStatus" />
         </transition>
+        <transition name="fade">
+            <badge-prompt v-if="$store.state.badgePromptStatus" />
+        </transition>
     </div>
 </template>
 <script>
@@ -44,6 +47,7 @@
     import ForgotPasswordSuccess from '../components/modals/ForgotPasswordSuccess'
     import ErrorPrompt from '../components/modals/ErrorPrompt'
     import ImageViewer from '../components/modals/ImageViewer'
+    import BadgePrompt from '../components/modals/BadgePrompt'
     export default {
         components: {
             NavbarExpanded,
@@ -56,6 +60,7 @@
             ForgotPasswordSuccess,
             ErrorPrompt,
             ImageViewer,
+            BadgePrompt,
             Loader
         },
         data () {

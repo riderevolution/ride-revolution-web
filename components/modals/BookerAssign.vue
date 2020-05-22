@@ -19,7 +19,7 @@
                         <div class="form_toggler" v-if="assignType == 'member'">
                             <div class="form_group">
                                 <label for="member_id">Username</label>
-                                <input type="text" id="member_id" name="member_id" class="input_text alt" autocomplete="off" placeholder="Please enter a username" v-validate="{required: true, regex: '^[a-zA-Z0-9]*$'}" v-model="memberID">
+                                <input type="text" id="member_id" name="member_id" class="input_text" autocomplete="off" placeholder="Please enter a username" v-validate="{required: true, regex: '^[a-zA-Z0-9]*$', max: 15}" v-model="memberID">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('member_id')">The member id field is required</span></transition>
                             </div>
                         </div>
