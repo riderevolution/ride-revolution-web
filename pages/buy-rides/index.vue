@@ -91,7 +91,7 @@
                 <div class="overlay">
                     <h2>Share a ride with your loved ones.</h2>
                     <h3>Experience Ride Revolution together!</h3>
-                    <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Send a Gift Card</nuxt-link>
+                    <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Buy a Gift Card</nuxt-link>
                 </div>
             </section>
         </div>
