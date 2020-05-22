@@ -67,7 +67,7 @@
                 <div class="header">
                     <h2 :class="`image_bg ${($parent.$parent.isMobile) ? 'mobile' : ''}`">reviews</h2>
                     <div class="description">
-                        <p><strong>Here’s what our Riders had to say...</strong></p>
+                        <p><strong>Here’s what our riders had to say...</strong></p>
                     </div>
                 </div>
                 <div class="content">
@@ -165,9 +165,9 @@
                                     <swiper :options="studioOptions" class="default">
                                         <swiper-slide class="studio_slide" v-for="(studio_image, key) in studio.albums[0].images" :key="key">
                                             <img :src="studio_image.path" :alt="studio_image.alt" />
-                                            <div class="overlay">
+                                            <!-- <div class="overlay">
                                                 <h2 class="title">{{ studio_image.title }}</h2>
-                                            </div>
+                                            </div> -->
                                         </swiper-slide>
                                         <div class="swiper-pagination" slot="pagination"></div>
                                         <div class="swiper-button-prev" slot="button-prev" v-if="!$parent.$parent.isMobile"></div>
@@ -178,9 +178,9 @@
                                     <swiper :options="mobileStudioOptions" class="default alt3">
                                         <swiper-slide class="studio_slide mob" v-for="(studio_image, key) in studio.albums[0].images" :key="key">
                                             <img :src="studio_image.path" :alt="studio_image.alt" />
-                                            <div class="overlay">
+                                            <!-- <div class="overlay">
                                                 <h2 class="title">{{ studio_image.title }}</h2>
-                                            </div>
+                                            </div> -->
                                         </swiper-slide>
                                         <div class="swiper-pagination" slot="pagination"></div>
                                         <div class="swiper-button-prev" slot="button-prev" v-if="!$parent.$parent.isMobile"></div>

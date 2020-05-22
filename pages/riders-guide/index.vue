@@ -239,7 +239,7 @@
                 ],
                 getSetSteps: [
                     {
-                        title: '<b>Step 1:</b> Set the height of your seat.',
+                        title: '<b>Step 1:</b> Set the height of your seat and bike handles.',
                         description: '<p>Loosen the knob below your seat by turning it counter-clockwise. Once loose, pull the knob back and adjust seat height until it’s level with your hip bone. Release the knob and tighten. Repeat the process to adjust the height of your bike handles using the knob in front. The best power position comes from having the handlebars the same level as the seat (you should see a numeric indicator on the bike). </p><br /><p>If you have a back problem, a beginner, or pregnant, keep the handlebars above the seat height.*</p>',
                         toggled: false
                     },
@@ -266,7 +266,7 @@
                 ],
                 icons: [
                     {
-                        title: 'Fill up that fuel',
+                        title: 'Fill up with Ride Fuel',
                         description: 'Make sure to eat well before your ride. We recommend you eat at least (1) hour before class. You’re gonna need that energy.',
                         path: '<svg xmlns="http://www.w3.org/2000/svg" width="85.499" height="85.5" viewBox="0 0 85.499 85.5"> <g transform="translate(-244 -1028)"> <g transform="translate(80.61 765.114)"> <path class="icon_1" d="M209.738,285.886v8.169a10.2,10.2,0,0,1-10.174,10.174h0a10.2,10.2,0,0,1-10.174-10.174v-8.169" transform="translate(0 0)" /> <line class="icon_1" y2="38.619" transform="translate(199.564 285.886)" /> <path class="icon_1" d="M211.514,307.064h-6.021c-1.869-18.064,7.059-21.178,7.059-21.178v38.619" transform="translate(10.474 0)" /> </g> <g transform="translate(-354 -235)"> <path class="icon_2" d="M819.75,455.351a42.252,42.252,0,1,1-51.864-66.715" transform="translate(-152.956 883.669)" /> <path class="icon_2" d="M834.187,441.3a42.306,42.306,0,0,1-6.325,9.807" transform="translate(-155.084 882.202)" /> <path class="icon_2" d="M778.942,382.525a42.283,42.283,0,0,1,56.253,50.6" transform="translate(-153.722 883.921)" /> </g> </g> </svg>'
                     },

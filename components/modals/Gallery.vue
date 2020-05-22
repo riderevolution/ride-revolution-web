@@ -5,7 +5,7 @@
                 <button type="button" class="left_arrow" @click="prev()"></button>
                 <div class="main_image" v-for="(data, key) in images" :key="key" v-if="key == activeThumb">
                     <img id="main_image" class="image_responsive" :src="data.path" />
-                    <h2 id="main_title" class="image_title">{{ data.title }}</h2>
+                    <!-- <h2 id="main_title" class="image_title">{{ data.title }}</h2> -->
                 </div>
                 <button type="button" class="right_arrow" @click="next()"></button>
             </div>
@@ -16,7 +16,7 @@
                         <swiper-slide class="slide" v-for="(data, key) in images" :key="key" >
                             <div class="main_image">
                                 <img id="main_image" class="image_responsive" :src="data.path" />
-                                <h2 id="main_title" class="image_title">{{ data.title }}</h2>
+                                <!-- <h2 id="main_title" class="image_title">{{ data.title }}</h2> -->
                             </div>
                         </swiper-slide>
                     </swiper>
