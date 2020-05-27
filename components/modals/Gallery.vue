@@ -163,7 +163,7 @@
                 let me = this
                 let thumbs = document.querySelectorAll('.thumb .thumb_image')
                 let mainParent = document.querySelector('.main .main_image')
-                document.querySelector('.main #main_title').innerHTML = me.images[key].title
+                // document.querySelector('.main #main_title').innerHTML = me.images[key].title
                 document.querySelector('.main #main_image').src = me.images[key].path
                 thumbs.forEach((thumb, index) => {
                     if (key == index) {
