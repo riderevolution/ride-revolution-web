@@ -355,7 +355,8 @@
                 canSwitch: false,
                 isSwitchingSeat: false,
                 cancelSwitchingSeat: false,
-                selectedSwitchSeat: null
+                selectedSwitchSeat: null,
+                webApp: false
             }
         },
         computed: {
@@ -894,6 +895,11 @@
             },
             onResize() {
                 const me = this
+                if (me.$route.query.token) {
+                    me.webApp = true
+                } else {
+                    me.webApp = false
+                }
                 if (document.documentElement && document.documentElement.clientWidth) {
                     if (document.documentElement.clientWidth <= 1025) {
                         me.isMobile = true
