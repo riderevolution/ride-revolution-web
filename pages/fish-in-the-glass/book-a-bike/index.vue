@@ -281,12 +281,12 @@
                     }
                 }).then(res => {
                     if (res.data) {
-                        let user = res.data
+                        let user = res.data.user
                         if (res.data.user.new_user == 0) {
                             if (data.hasUser && token != null && token != undefined) {
                                 switch (type) {
                                     case 'book':
-                                    me.loader(true)
+                                        me.loader(true)
                                         let formData = new FormData()
                                         formData.append('scheduled_date_id', data.id)
                                         formData.append('type', 'booking')
