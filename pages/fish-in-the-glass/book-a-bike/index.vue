@@ -287,6 +287,7 @@
                                 switch (type) {
                                     case 'book':
                                         me.loader(true)
+                                        let hasPackages = false
                                         let formData = new FormData()
                                         formData.append('scheduled_date_id', data.id)
                                         formData.append('type', 'booking')
@@ -620,7 +621,7 @@
             },
             /**
              * Populate Calendar */
-            populateClasses () {
+            populateClasses (check) {
                 const me = this
                 me.results = []
                 me.loader(true)
