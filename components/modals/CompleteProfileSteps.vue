@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('back')">Back</div>
+                        <div class="backa"></div>
                         <div class="form_button">
                             <button type="button" class="default_btn full" @click="toggleStep('proceed')">Looks Good</button>
                         </div>
