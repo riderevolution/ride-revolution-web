@@ -151,7 +151,7 @@
                                                     let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                     /**
                                                     * check the package count */
-                                                    if (resultsWhenDeducted <= 0) {
+                                                    if (resultsWhenDeducted < 0) {
                                                         hasSamePackage = true
                                                     }
                                                 }
@@ -211,7 +211,7 @@
                                             ctr++
                                             let existingCount = element.temp.class_package.count
                                             let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
-                                            if (resultsWhenDeducted <= 0) {
+                                            if (resultsWhenDeducted < 0) {
                                                 hasGuestSamePackage = true
                                             }
                                         }
