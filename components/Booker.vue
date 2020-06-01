@@ -192,7 +192,7 @@
                             </div>
                             <div class="total">
                                 <p>Consumes</p>
-                                <p>{{ toSubmit.bookCount }} Credit/s</p>
+                                <p>{{ toSubmit.bookCount * schedule.schedule.class_credits }} Credit/s</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="back" @click="toggleStep('prev')">Back</div>
