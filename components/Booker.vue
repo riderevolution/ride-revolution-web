@@ -877,7 +877,6 @@
                                         })
                                     }
                                 }
-                                console.log(me.toSubmit.tempSeat);
                                 me.loaded = true
                             }
                         }).catch(err => {

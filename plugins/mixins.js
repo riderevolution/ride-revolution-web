@@ -88,6 +88,7 @@ Vue.mixin({
             }).then(res => {
                 // wala
             }).catch(err => {
+                this.loader(false)
                 console.log(err)
             }).then(() => {
                 this.$cookies.remove('token')
