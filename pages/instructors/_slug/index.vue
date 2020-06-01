@@ -141,7 +141,7 @@
             <section id="comments">
                 <div class="header">
                     <h2>Here are what other riders are raving about {{ res.first_name }}</h2>
-                    <nuxt-link to="/instructors/asdasdadas/comment" class="default_btn">Write a Review</nuxt-link>
+                    <nuxt-link :to="`/instructors/${res.instructor_details.slug}/comment`" class="default_btn">Write a Review</nuxt-link>
                 </div>
                 <div class="content" v-if="!$parent.$parent.isMobile">
                     <div class="comment" v-for="(data, key) in populateComment" :key="key">
@@ -371,7 +371,6 @@
                 let token = me.$cookies.get('token')
                 event.preventDefault()
                 me.loader(true)
-                console.log(data);
                 if (me.$store.state.user.new_user == 0) {
                     if (token != null && token != undefined) {
                         switch (type) {
@@ -468,7 +467,7 @@
                     }).then(res => {
                         if (res.data) {
                             setTimeout( () => {
-                                me.res = res.data.instructor,
+                                me.res = res.data.instructor
                                 me.scheduledDates = res.data.scheduledDates
                                 me.loaded = true
                             }, 500)
@@ -484,7 +483,7 @@
                     me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
                         if (res.data) {
                             setTimeout( () => {
-                                me.res = res.data.instructor,
+                                me.res = res.data.instructor
                                 me.scheduledDates = res.data.scheduledDates
                                 me.loaded = true
                             }, 500)

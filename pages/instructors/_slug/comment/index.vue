@@ -1,85 +1,94 @@
 <template>
-    <div class="comment">
-        <breadcrumb :overlay="false" />
-        <transition name="slide">
-            <pro-tip v-if="$store.state.proTipStatus" />
-        </transition>
-        <section id="content">
-            <form id="default_form" @submit.prevent="submissionSuccess()" enctype="multipart/form-data">
-                <div class="form_main_group">
-                    <div class="form_header">
-                        <h1>What do you think of {{ replacer($route.params.slug) }}?</h1>
-                    </div>
-                    <div class="form_group">
-                        <label>Tap a star to Rate</label>
-                        <div class="form_star">
-                            <img :class="`${(data.tapped) ? 'fade_in' : 'fade_out'}`" :src="`${(data.tapped) ? '/icons/star-green.svg' : '/icons/star-gray.svg'}`" v-for="(data, key) in stars" :key="key" @click="tapStar(data, key)" />
+    <transition name="fade">
+        <div class="comment" v-if="loaded">
+            <breadcrumb :overlay="false" />
+            <transition name="slide">
+                <pro-tip v-if="$store.state.proTipStatus" />
+            </transition>
+            <section id="content">
+                <form id="default_form" @submit.prevent="submissionSuccess()" enctype="multipart/form-data">
+                    <div class="form_main_group">
+                        <div class="form_header">
+                            <h1>What do you think of {{ res.first_name }} {{ res.last_name }}?</h1>
                         </div>
-                    </div>
-                    <div class="form_group">
-                        <label for="title">Title <span>*</span></label>
-                        <input type="text" name="title" autocomplete="off" class="input_text" placeholder="Enter your title" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ errors.first('title') | properFormat }}</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="your_review">Your Review <span>*</span></label>
-                        <textarea name="your_review" class="input_text" rows="5" maxlength="500" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$', max: 500}"></textarea>
-                        <div class="limit_wrapper">
-                            <div class="limit"><span class="count">{{ count }}</span> characters left</div>
-                            <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
-                        </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('your_review')">{{ errors.first('your_review') | properFormat }}</span></transition>
-                    </div>
-                    <div class="form_image">
-                        <input type="file" class="input_image" id="image" name="image[]" multiple ref="file" @change="getFile($event)" v-validate="'required|size:1000|image|ext:jpeg,jpg,png'" required>
-                        <label class="input_image_label" for="image">
-                            <div class="label">
-                                <img src="/icons/uploaded-icon.svg" /> <span>Upload Photos</span>
-                            </div>
-                            <div class="disclaimer_wrapper">
-                                <div class="disclaimer">Image size limit: 1MB</div>
-                                <div class="disclaimer alt">Upload limit: 3 photos</div>
-                            </div>
-                        </label>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('image[]')">{{ errors.first('image[]') | properFormat }}</span></transition>
-                    </div>
-                    <transition name="fade">
-                        <div class="preview_image_wrapper" id="preview_image_wrapper" v-if="previewImage">
-                            <div class="preview" v-for="(data, key) in populateImages" :key="key">
-                                <div class="image_close" @click="removeImage(key)"></div>
-                                <img :id="`preview_image_${key}`" src="" />
+                        <div class="form_group">
+                            <label>Tap a star to Rate</label>
+                            <div class="form_star">
+                                <img :class="`${(data.tapped) ? 'fade_in' : 'fade_out'}`" :src="`${(data.tapped) ? '/icons/star-green.svg' : '/icons/star-gray.svg'}`" v-for="(data, key) in stars" :key="key" @click="tapStar(data, key)" />
                             </div>
                         </div>
-                    </transition>
-                    <div class="form_flex">
-                        <vue-recaptcha sitekey="6Le_s3wUAAAAAMuN4YveR4ZNq2qaj-rkw7n1477N"></vue-recaptcha>
-                        <div class="form_button">
-                            <button type="submit" class="default_btn">Submit</button>
+                        <div class="form_group">
+                            <label for="title">Title <span>*</span></label>
+                            <input type="text" name="title" autocomplete="off" class="input_text" placeholder="Enter your title" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ errors.first('title') | properFormat }}</span></transition>
+                        </div>
+                        <div class="form_group">
+                            <label for="your_review">Your Review <span>*</span></label>
+                            <textarea name="your_review" class="input_text" rows="5" maxlength="500" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\'|\!|\?|\&|\:]*$', max: 500}"></textarea>
+                            <div class="limit_wrapper">
+                                <div class="limit"><span class="count">{{ count }}</span> characters left</div>
+                                <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
+                            </div>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('your_review')">{{ errors.first('your_review') | properFormat }}</span></transition>
+                        </div>
+                        <div class="form_image">
+                            <input type="file" class="input_image" id="image" name="image[]" multiple ref="file" @change="getFile($event)" v-validate="'required|size:1000|image|ext:jpeg,jpg,png'" required>
+                            <label class="input_image_label" for="image">
+                                <div class="label">
+                                    <img src="/icons/uploaded-icon.svg" /> <span>Upload Photos</span>
+                                </div>
+                                <div class="disclaimer_wrapper">
+                                    <div class="disclaimer">Image size limit: 1MB</div>
+                                    <div class="disclaimer alt">Upload limit: 3 photos</div>
+                                </div>
+                            </label>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('image[]')">{{ errors.first('image[]') | properFormat }}</span></transition>
+                        </div>
+                        <transition name="fade">
+                            <div class="preview_image_wrapper" id="preview_image_wrapper" v-if="previewImage">
+                                <div class="preview" v-for="(data, key) in populateImages" :key="key">
+                                    <div class="image_close" @click="removeImage(key)"></div>
+                                    <img :id="`preview_image_${key}`" src="" />
+                                </div>
+                            </div>
+                        </transition>
+                        <div class="form_flex">
+                            <vue-recaptcha sitekey="6Ld4_doUAAAAACiRAQf1JQlro_fxvTSZxgxi5jxk"></vue-recaptcha>
+                            <div class="form_button">
+                                <button type="submit" class="default_btn">Submit</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </section>
-        <transition name="fade">
-            <comment-success v-if="$store.state.commentSuccessStatus" />
-        </transition>
-    </div>
+                </form>
+            </section>
+            <transition name="fade">
+                <comment-success v-if="$store.state.commentSuccessStatus" />
+            </transition>
+            <transition name="fade">
+                <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+            </transition>
+        </div>
+    </transition>
 </template>
 
 <script>
     import ProTip from '../../../../components/ProTip'
     import Breadcrumb from '../../../../components/Breadcrumb'
     import CommentSuccess from '../../../../components/modals/CommentSuccess'
+    import CompleteProfilePrompt from '../../../../components/modals/CompleteProfilePrompt'
     import VueRecaptcha from 'vue-recaptcha'
     export default {
         components: {
             ProTip,
             Breadcrumb,
             CommentSuccess,
+            CompleteProfilePrompt,
             VueRecaptcha
         },
         data () {
             return {
+                res: [],
+                loaded: false,
                 count: 500,
                 dashOffset: 0,
                 normalizedRadius: 0,
@@ -226,27 +235,98 @@
             submissionSuccess () {
                 const me = this
                 me.$validator.validateAll().then(valid => {
-                    if (valid) {
-                        me.$store.state.commentSuccessStatus = true
-                        document.body.classList.add('no_scroll')
-                        // me.$router.push('/my-profile')
-                        // me.$store.state.loginSignUpStatus = false
-                        // document.body.classList.remove('no_scroll')
+                    if (valid && grecaptcha.getResponse().length) {
+                        let captcha = grecaptcha.getResponse()
+                        // me.loader(true)
+                        me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
+                            if (verify) {
+                                let formData = new FormData(document.getElementById('default_form'))
+                                let token = me.$cookies.get('token')
+                                formData.append('instructor_id', me.res.id)
+                                formData.append('rating', me.form.stars)
+
+                                me.$axios.post('api/reviews', formData, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }).then(res => {
+                                    setTimeout( () => {
+                                        console.log(res.data);
+                                        // me.$store.state.commentSuccessStatus = true
+                                        // document.body.classList.add('no_scroll')
+                                        // me.$router.push('/my-profile')
+                                        // me.$store.state.loginSignUpStatus = false
+                                        // document.body.classList.remove('no_scroll')
+                                    }, 500)
+                                }).catch(err => {
+                                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                                }).then(() => {
+                                    setTimeout( () => {
+                                        me.loader(false)
+                                    }, 500)
+                                })
+                            }
+                        }).catch(err => {
+                            me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
                     } else {
                         me.$scrollTo('.validation_errors', {
-                            container: '#default_form',
                             offset: -250
                         })
                     }
+                })
+            },
+            initial () {
+                const me = this
+                me.loader(true)
+                let token = me.$cookies.get('token')
+                me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
+                    if (res.data) {
+                        setTimeout( () => {
+                            me.res = res.data.instructor
+                            me.normalizedRadius = 15 - 3 * 2
+                            me.circumference = me.normalizedRadius * 2 * Math.PI
+                            me.dashOffset = me.circumference
+                            me.$store.state.proTipStatus = true
+
+                            me.loaded = true
+                            if (token != null && token != undefined) {
+                                me.$axios.get('api/check-token', {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }).then(res => {
+                                    if (res.data.user.new_user == 0) {
+                                    } else {
+                                        me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
+                                        me.$store.state.completeProfilePromptStatus = true
+                                    }
+                                }).catch(err => {
+                                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                                    me.loader(false)
+                                })
+                            } else {
+                                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                                me.loader(false)
+                            }
+                        }, 500)
+                    }
+                }).catch(err => {
+                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             }
         },
         mounted () {
             const me = this
-            me.normalizedRadius = 15 - 3 * 2
-            me.circumference = me.normalizedRadius * 2 * Math.PI
-            me.dashOffset = me.circumference
-            me.$store.state.proTipStatus = true
+            me.initial()
         }
     }
 </script>

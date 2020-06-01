@@ -1,8 +1,8 @@
 <template>
     <div class="default_modal">
-        <div class="background" @click.once="toggleClose(false)"></div>
+        <div class="background"></div>
         <div class="confirmation_wrapper">
-            <div class="form_close" @click="toggleClose(false)"></div>
+            <!-- <div class="form_close" @click="toggleClose(false)"></div> -->
             <!-- <div class="confirmation_image">
                 <img src="/default/meme/oops-complete-meme.jpg" />
             </div> -->
