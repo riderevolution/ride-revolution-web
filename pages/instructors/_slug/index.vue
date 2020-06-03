@@ -145,21 +145,20 @@
                 </div>
                 <div class="content" v-if="!$parent.$parent.isMobile">
                     <div class="comment" v-for="(data, key) in populateComment" :key="key">
-                        <img class="comment_img" :src="data.path" v-if="data.hasImage" />
-                        <div class="comment_img_initials" v-else>
+                        <div class="comment_img_initials">
                             <div class="background"></div>
-                            <div class="initials">CL</div>
+                            <div class="initials">{{ data.author.charAt(0) }}{{ data.author.charAt(1) }}</div>
                         </div>
                         <div class="comment_info">
                             <div class="comment_header">
                                 <div class="stats">
-                                    <h3>{{ data.name }}</h3>
+                                    <h3>{{ data.author }}</h3>
                                     <div class="stars">
-                                        <img src="/icons/star-green.svg" v-if="data.stars != 0" v-for="n in data.stars" />
-                                        <img src="/icons/star-gray.svg" v-if="data.stars != 5" v-for="n in 5 - data.stars" />
+                                        <img src="/icons/star-green.svg" v-if="data.rating != 0" v-for="n in data.rating" />
+                                        <img src="/icons/star-gray.svg" v-if="data.rating != 5" v-for="n in 5 - data.rating" />
                                     </div>
                                 </div>
-                                <div class="date">{{ $moment('May 15, 2019').format('MMMM D, YYYY') }}</div>
+                                <div class="date">{{ $moment(data.review_date).format('MMMM D, YYYY') }}</div>
                             </div>
                             <div class="title">{{ data.title }}</div>
                             <div class="description" v-html="data.description"></div>
@@ -169,18 +168,17 @@
                 <div class="content mobile" v-else>
                     <div class="comment" v-for="(data, key) in populateComment" :key="key">
                         <div class="comment_header_mobile">
-                            <img class="comment_img" :src="data.path" v-if="data.hasImage" />
-                            <div class="comment_img_initials" v-else>
+                            <div class="comment_img_initials">
                                 <div class="background"></div>
-                                <div class="initials">CL</div>
+                                <div class="initials">{{ data.author.charAt(0) }}{{ data.author.charAt(1) }}</div>
                             </div>
                             <div class="stats">
-                                <h3>{{ data.name }}</h3>
+                                <h3>{{ data.author }}</h3>
                                 <div class="stars">
-                                    <img src="/icons/star-green.svg" v-if="data.stars != 0" v-for="n in data.stars" />
-                                    <img src="/icons/star-gray.svg" v-if="data.stars != 5" v-for="n in 5 - data.stars" />
+                                    <img src="/icons/star-green.svg" v-if="data.rating != 0" v-for="n in data.rating" />
+                                    <img src="/icons/star-gray.svg" v-if="data.rating != 5" v-for="n in 5 - data.rating" />
                                 </div>
-                                <div class="date">{{ $moment('May 15, 2019').format('MMMM D, YYYY') }}</div>
+                                <div class="date">{{ $moment(data.review_date).format('MMMM D, YYYY') }}</div>
                             </div>
                         </div>
                         <div class="comment_info_mobile">
@@ -268,59 +266,7 @@
                 imagesToSend: null,
                 toShow: 4,
                 count: 0,
-                comments: [
-                    {
-                        path: '/default/lets-ride/sample-ig0.jpg',
-                        hasImage: true,
-                        name: 'Charlie Tayah',
-                        title: 'I absolutely love her class!',
-                        description: 'In vitae turpis massa sed elementum tempus. Praesent tristique magna sit amet purus gravida quis. Egestas maecenas pharetra convallis posuere morbi leo urna molestie at.',
-                        stars: 4,
-                        checked: true
-                    },
-                    {
-                        hasImage: false,
-                        name: 'Charlie Tayah',
-                        title: 'I absolutely love her class!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..',
-                        stars: 3,
-                        checked: true
-                    },
-                    {
-                        path: '/default/lets-ride/sample-ig0.jpg',
-                        hasImage: true,
-                        name: 'Charlie Tayah',
-                        title: 'I absolutely love her class!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..',
-                        stars: 0,
-                        checked: true
-                    },
-                    {
-                        hasImage: false,
-                        name: 'Charlie Tayah',
-                        title: 'I absolutely love her class!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..',
-                        stars: 2,
-                        checked: true
-                    },
-                    {
-                        path: '/default/lets-ride/sample-ig0.jpg',
-                        hasImage: true,
-                        name: 'Charlie Tayah',
-                        title: 'I absolutely love her class!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..',
-                        stars: 5,
-                        checked: false
-                    },
-                    {
-                        hasImage: false,
-                        name: 'Charlie Tayah',
-                        title: 'I absolutely love her class!',
-                        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..',
-                        stars: 1,
-                        checked: false
-                    },
-                ]
+                comments: []
             }
         },
         computed: {
@@ -468,6 +414,7 @@
                         if (res.data) {
                             setTimeout( () => {
                                 me.res = res.data.instructor
+                                me.comments = me.res.reviews
                                 me.scheduledDates = res.data.scheduledDates
                                 me.loaded = true
                             }, 500)

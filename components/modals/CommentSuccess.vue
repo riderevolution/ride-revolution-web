@@ -23,7 +23,7 @@
                 const me = this
                 me.$store.state.commentSuccessStatus = false
                 document.body.classList.remove('no_scroll')
-                me.$router.push('/instructors/asdasdsad')
+                me.$router.push(`/instructors/${me.$route.params.slug}`)
             }
         }
     }
