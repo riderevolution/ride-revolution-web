@@ -31,7 +31,7 @@
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('your_review')">{{ errors.first('your_review') | properFormat }}</span></transition>
                         </div>
-                        <div class="form_image">
+                        <!-- <div class="form_image">
                             <input type="file" class="input_image" id="image" name="image[]" multiple ref="file" @change="getFile($event)" v-validate="'required|size:1000|image|ext:jpeg,jpg,png'" required>
                             <label class="input_image_label" for="image">
                                 <div class="label">
@@ -51,7 +51,7 @@
                                     <img :id="`preview_image_${key}`" src="" />
                                 </div>
                             </div>
-                        </transition>
+                        </transition> -->
                         <div class="form_flex">
                             <vue-recaptcha sitekey="6Ld4_doUAAAAACiRAQf1JQlro_fxvTSZxgxi5jxk"></vue-recaptcha>
                             <div class="form_button">
@@ -155,63 +155,63 @@
             }
         },
         computed: {
-            populateImages () {
-                const me = this
-                let result
-                result = me.images
-                return result
-            }
+            // populateImages () {
+            //     const me = this
+            //     let result
+            //     result = me.images
+            //     return result
+            // }
         },
         methods: {
-            removeImage (key) {
-                const me = this
-                let tempList = Array.from(me.images)
-                let index = tempList.indexOf(key)
-                if (index == -1) {
-                    tempList.splice(key, 1)
-                    me.images = tempList
-                    for (let i = 0; i < me.images.length; i++) {
-                        let reader = new FileReader()
-                        reader.onload = function () {
-                            let image = document.getElementById(`preview_image_${i}`)
-                            image.src = reader.result
-                        }
-                        reader.readAsDataURL(me.images[i])
-                    }
-                }
-            },
-            getFile (event, key) {
-                const me = this
-                let element = event.target
-                me.$store.state.errorList = []
-                if (element.files.length > 0 && element.files.length <= 3) {
-                    me.previewImage = true
-                    if (me.images.length != 3) {
-                        for (let i = 0; i < element.files.length; i++) {
-                            if (me.images.length != 3) {
-                                me.images.push(element.files[i])
-                                for (let j = 0; j < me.images.length; j++) {
-                                    let reader = new FileReader()
-                                    reader.onload = function () {
-                                        let image = document.getElementById(`preview_image_${j}`)
-                                        image.src = reader.result
-                                    }
-                                    reader.readAsDataURL(me.images[j])
-                                }
-                            } else {
-                                me.$store.state.errorList = ['Sorry! The upload limit is only 3.']
-                                me.$store.state.errorPromptStatus = true
-                            }
-                        }
-                    } else {
-                        me.$store.state.errorList = ['Sorry! The upload limit is only 3.']
-                        me.$store.state.errorPromptStatus = true
-                    }
-                } else {
-                    me.$store.state.errorList = ['Sorry! The upload limit is only 3.']
-                    me.$store.state.errorPromptStatus = true
-                }
-            },
+            // removeImage (key) {
+            //     const me = this
+            //     let tempList = Array.from(me.images)
+            //     let index = tempList.indexOf(key)
+            //     if (index == -1) {
+            //         tempList.splice(key, 1)
+            //         me.images = tempList
+            //         for (let i = 0; i < me.images.length; i++) {
+            //             let reader = new FileReader()
+            //             reader.onload = function () {
+            //                 let image = document.getElementById(`preview_image_${i}`)
+            //                 image.src = reader.result
+            //             }
+            //             reader.readAsDataURL(me.images[i])
+            //         }
+            //     }
+            // },
+            // getFile (event, key) {
+            //     const me = this
+            //     let element = event.target
+            //     me.$store.state.errorList = []
+            //     if (element.files.length > 0 && element.files.length <= 3) {
+            //         me.previewImage = true
+            //         if (me.images.length != 3) {
+            //             for (let i = 0; i < element.files.length; i++) {
+            //                 if (me.images.length != 3) {
+            //                     me.images.push(element.files[i])
+            //                     for (let j = 0; j < me.images.length; j++) {
+            //                         let reader = new FileReader()
+            //                         reader.onload = function () {
+            //                             let image = document.getElementById(`preview_image_${j}`)
+            //                             image.src = reader.result
+            //                         }
+            //                         reader.readAsDataURL(me.images[j])
+            //                     }
+            //                 } else {
+            //                     me.$store.state.errorList = ['Sorry! The upload limit is only 3.']
+            //                     me.$store.state.errorPromptStatus = true
+            //                 }
+            //             }
+            //         } else {
+            //             me.$store.state.errorList = ['Sorry! The upload limit is only 3.']
+            //             me.$store.state.errorPromptStatus = true
+            //         }
+            //     } else {
+            //         me.$store.state.errorList = ['Sorry! The upload limit is only 3.']
+            //         me.$store.state.errorPromptStatus = true
+            //     }
+            // },
             tapStar (data, key) {
                 const me = this
                 me.form.stars = key + 1
@@ -237,7 +237,7 @@
                 me.$validator.validateAll().then(valid => {
                     if (valid && grecaptcha.getResponse().length) {
                         let captcha = grecaptcha.getResponse()
-                        // me.loader(true)
+                        me.loader(true)
                         me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
                             if (verify) {
                                 let formData = new FormData(document.getElementById('default_form'))
@@ -251,15 +251,11 @@
                                     }
                                 }).then(res => {
                                     setTimeout( () => {
-                                        console.log(res.data);
-                                        // me.$store.state.commentSuccessStatus = true
-                                        // document.body.classList.add('no_scroll')
-                                        // me.$router.push('/my-profile')
-                                        // me.$store.state.loginSignUpStatus = false
-                                        // document.body.classList.remove('no_scroll')
+                                        me.$store.state.commentSuccessStatus = true
+                                        document.body.classList.add('no_scroll')
                                     }, 500)
                                 }).catch(err => {
-                                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                                 }).then(() => {
                                     setTimeout( () => {
                                         me.loader(false)
@@ -267,7 +263,7 @@
                                 })
                             }
                         }).catch(err => {
-                            me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                            me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                         }).then(() => {
                             setTimeout( () => {
                                 me.loader(false)
@@ -306,7 +302,7 @@
                                         me.$store.state.completeProfilePromptStatus = true
                                     }
                                 }).catch(err => {
-                                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                                     me.loader(false)
                                 })
                             } else {
@@ -316,7 +312,7 @@
                         }, 500)
                     }
                 }).catch(err => {
-                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                 }).then(() => {
                     setTimeout( () => {
                         me.loader(false)
