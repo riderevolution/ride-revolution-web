@@ -32,6 +32,20 @@
                 isMobile: false
             }
         },
+        watch:{
+            $route (to, from){
+                const me = this
+                document.body.classList.remove('no_scroll')
+                me.$store.state.completeProfileStepsStatus = false
+                me.$store.state.completeProfileStatus = false
+                me.$store.state.proTipStatus = false
+                me.$store.state.changePasswordStatus = false
+                me.$store.state.forgotPasswordSuccessStatus = false
+                me.$store.state.loginSignUpStatus = false
+                me.$store.state.buyRidesSuccessStatus = false
+                me.$store.state.buyRidesPromptStatus = false
+            }
+        },
         methods: {
             onResize() {
                 const me = this

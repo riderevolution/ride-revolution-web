@@ -482,10 +482,10 @@
                 let hour = time.split(':')[0]
                 let minutes = time.split(':')[1]
                 if (hour != 0) {
-                    result += me.$moment(time, 'H:m').format('HH') + (hour > 1) ? ' Hours' : ' Hour'
-                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                    result += `${me.$moment(time, 'h:m').format('h')} ${(hour > 1) ? 'Hours ' : 'Hour '}`
+                    result += me.$moment(time, 'h:m').format('mm') + ' Minutes'
                 } else {
-                    result += me.$moment(time, 'H:m').format('mm') + ' Minutes'
+                    result += me.$moment(time, 'h:m').format('mm') + ' Minutes'
                 }
                 return result
             },

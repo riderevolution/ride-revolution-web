@@ -125,7 +125,7 @@
                                 me.$store.state.bookerChoosePackageStatus = false
                                 me.loader(true)
                                 setTimeout(() => {
-                                    me.$parent.promptMessage = "You've successfully booked for this seat."
+                                    me.$parent.promptMessage = "Seat selected."
                                     me.$store.state.bookerPromptStatus = true
                                     document.body.classList.remove('no_scroll')
                                     me.loader(false)
