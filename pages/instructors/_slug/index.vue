@@ -431,6 +431,7 @@
                         if (res.data) {
                             setTimeout( () => {
                                 me.res = res.data.instructor
+                                me.comments = me.res.reviews
                                 me.scheduledDates = res.data.scheduledDates
                                 me.loaded = true
                             }, 500)
