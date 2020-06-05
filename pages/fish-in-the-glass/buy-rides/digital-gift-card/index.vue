@@ -461,7 +461,7 @@
             setTimeout( () => {
                 me.classPackages = me.res.classPackages
             }, 10)
-            let token = me.$cookies.get('token')
+            let token = me.$route.query.token
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
                 me.$store.state.loginCheckerStatus = true
                 document.body.classList.add('no_scroll')
