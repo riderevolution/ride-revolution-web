@@ -25,7 +25,7 @@
                     <div class="sign_up_header alt">
                         <h2 class="title">Complete your profile</h2>
                     </div>
-                    <div class="form_flex_image">
+                    <div class="form_flex_image" v-if="!$route.query.token">
                         <label class="main_label">Profile Picture</label>
                         <div class="flex_image">
                             <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'size:1000|image|ext:jpeg,jpg,png'">
