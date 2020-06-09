@@ -43,12 +43,12 @@
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ errors.first('title') | properFormat }}</span></transition>
                                 </div>
                                 <div class="form_group" v-if="other">
-                                    <input type="text" name="other_title" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9_ ]*$', max: 50}" placeholder="Enter your own title" v-model="form.other">
+                                    <input type="text" name="other_title" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9\-_ |\'|\,|\.|\?|\!|\:|\;|\&]*$', max: 50}" placeholder="Enter your own title" v-model="form.other">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('other_title')">{{ errors.first('other_title') | properFormat }}</span></transition>
                                 </div>
                                 <div class="form_group">
                                     <label for="personal_message">Personal Message <span>*</span></label>
-                                    <textarea name="personal_message" class="input_text" rows="5" maxlength="200" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$', max: 200}" v-model="form.message"></textarea>
+                                    <textarea name="personal_message" class="input_text" rows="5" maxlength="200" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9\-_ |\'|\,|\.|\?|\!|\@|\:|\;|\&|\r|\n|\u00f1]*$', max: 200}" v-model="form.message"></textarea>
                                     <div class="limit_wrapper">
                                         <div class="limit"><span class="count">{{ count }}</span> characters left</div>
                                         <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
@@ -286,7 +286,7 @@
         methods: {
             paymentSuccess (data, paypal_details = null) {
                 const me = this
-                let token = me.$cookies.get('token')
+                let token = me.$route.query.token
                 let formData = new FormData()
                 formData.append('type', 'digital-gift-card')
                 formData.append('class_package_id', me.selectedPackage.id)

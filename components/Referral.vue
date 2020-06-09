@@ -4,7 +4,7 @@
             <div v-html="subtitle"></div>
             <div class="link" v-if="isWebBased">
                 <label>Referral Link</label>
-                <a class="refer_link" href="http://riderev/refer-a-friend">http://riderev/refer-a-friend</a>
+                <div class="refer_link">{{ form.referralLink }}</div>
             </div>
             <form id="default_form" @submit.prevent="submissionSuccess()">
                 <div class="form_flex with_btn">
@@ -39,7 +39,8 @@
             return {
                 isWebBased: false,
                 form: {
-                    email: ''
+                    email: '',
+                    referralLink: ''
                 },
                 message: ''
             }
@@ -92,6 +93,7 @@
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
                         let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                        me.loader(true)
                         if (token != null && token != undefined) {
                             let formData = new FormData(document.getElementById('default_form'))
                             me.$axios.post('api/refer-a-friend', formData, {
@@ -130,12 +132,37 @@
 						})
                     }
                 })
+            },
+            initial () {
+                const me = this
+                me.loader(true)
+                let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                me.$axios.post('api/referral-link', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        setTimeout( () => {
+                            me.form.referralLink = res.data.link
+                        }, 500)
+                    }
+                }).catch(err => {
+                    document.body.classList.add('no_scroll')
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
             }
         },
         mounted () {
             const me = this
             if (me.$route.fullPath.match(/\bfish-in-the-glass/ig)) {
                 me.isWebBased = true
+                me.initial()
             } else {
                 me.isWebBased = false
             }
