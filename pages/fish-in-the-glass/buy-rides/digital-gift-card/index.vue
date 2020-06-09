@@ -308,12 +308,12 @@
                 }).then(res => {
                     if (res.data) {
                         me.$store.state.buyRidesSuccessStatus = true
+                        me.step = 0
                     }
                 }).catch(err => {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
                 }).then(() => {
-                    me.step = 0
                     setTimeout( () => {
                         me.loader(false)
                     }, 500)
