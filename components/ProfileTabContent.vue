@@ -586,7 +586,13 @@
                     ],
                     chart: {
                         type: 'bar',
-                        height: 350
+                        height: 350,
+                        toolbar: {
+                            show: true
+                        },
+                        zoom: {
+                            enabled: true
+                        }
                     },
                     colors: ['#9E558B'],
                     plotOptions: {
