@@ -13,7 +13,7 @@
                                 <div v-if="!isMobile">
                                     <div class="content">
                                         <ul>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
                                             <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
@@ -41,7 +41,7 @@
                                     <div class="toggle_data">
                                         <div class="content">
                                             <ul>
-                                                <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ parseScheduleRide(schedule.schedule.class_length) }} Ride <img class="info" src="/icons/info-booker-icon.svg" /></span></li>
+                                                <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
                                                 <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
                                                 <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                             </ul>

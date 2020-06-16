@@ -4667,7 +4667,10 @@ svg
                     text-align: center
                     ul
                         list-style: none
-                        display: inline-block
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: center
                         margin: 0 auto
                         padding: 30px 20px
                         li
@@ -4680,18 +4683,14 @@ svg
                             letter-spacing: .24px
                             span
                                 position: relative
-                                .icon
-                                    position: absolute
-                                    top: 50%
-                                    left: calc(0% - 30px)
-                                    transform: translateY(-50%)
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
                                 .info
                                     position: absolute
                                     top: 50%
                                     right: calc(0% - 20px)
                                     transform: translateY(-50%)
-                            &:last-child
-                                margin-bottom: 0
                 .description
                     text-align: left
                     padding: 0 30px 30px
