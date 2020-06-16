@@ -306,7 +306,7 @@
                 formData.append('discount', me.form.discount)
                 formData.append('total', me.form.total)
                 if (paypal_details != null) {
-                    formData.append('paypal_details', paypal_details)
+                    formData.append('paypal_details', JSON.stringify(paypal_details))
                 }
                 me.loader(true)
                 me.$axios.post('api/web/pay', formData, {
