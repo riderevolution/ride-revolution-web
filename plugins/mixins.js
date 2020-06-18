@@ -2,6 +2,60 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
+        payment (page, paypal_details, type) {
+            const me = this
+            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+            let formData = new FormData()
+            switch (type) {
+                case 'class-package':
+                    formData.append('type', 'class-package')
+                    formData.append('class_package_id', page.res.id)
+                    formData.append('price', page.res.package_price)
+                    formData.append('promo_code', page.form.promo)
+                    formData.append('quantity', 1)
+                    formData.append('discount', page.form.discount)
+                    break
+                case 'store-credit':
+                    formData.append('type', 'store-credit')
+                    formData.append('store_credit_id', page.res.id)
+                    formData.append('price', page.res.amount)
+                    formData.append('quantity', page.form.quantity)
+                    break
+                case 'digital-gift-card':
+                    formData.append('type', 'digital-gift-card')
+                    formData.append('class_package_id', page.selectedPackage.id)
+                    formData.append('price', page.selectedPackage.package_price)
+                    formData.append('digital_gift_card_form', JSON.stringify(page.form))
+                    formData.append('quantity', 1)
+                    formData.append('promo_code', page.form.promo)
+                    formData.append('discount', page.form.discount)
+                    break;
+            }
+            formData.append('total', page.form.total)
+            formData.append('payment_method', page.type)
+            if (paypal_details != null) {
+                formData.append('paypal_details', JSON.stringify(paypal_details))
+            }
+            me.loader(true)
+            me.$axios.post('api/web/pay', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    me.$store.state.buyRidesSuccessStatus = true
+                }
+            }).catch(err => {
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
+            }).then(() => {
+                page.step = 0
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+                me.validateToken()
+            })
+        },
         sharer (type) {
             let link = location.href
             let shareLink = ''

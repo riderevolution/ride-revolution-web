@@ -172,7 +172,7 @@
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
-                                <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess(selectedPackage)">Pay Now</div>
+                                <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paypal'">
                                 <p>Note: Paypal account not needed</p>
@@ -284,40 +284,9 @@
             }
         },
         methods: {
-            paymentSuccess (data, paypal_details = null) {
+            paymentSuccess () {
                 const me = this
-                let token = me.$route.query.token
-                let formData = new FormData()
-                formData.append('type', 'digital-gift-card')
-                formData.append('class_package_id', me.selectedPackage.id)
-                formData.append('price', me.selectedPackage.package_price)
-                formData.append('digital_gift_card_form', JSON.stringify(me.form))
-                formData.append('quantity', 1)
-                formData.append('payment_method', me.type)
-                formData.append('promo_code', me.form.promo)
-                formData.append('discount', me.form.discount)
-                formData.append('total', me.form.total)
-                if (paypal_details != null) {
-                    formData.append('paypal_details', paypal_details)
-                }
-                me.loader(true)
-                me.$axios.post('api/web/pay', formData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        me.$store.state.buyRidesSuccessStatus = true
-                        me.step = 0
-                    }
-                }).catch(err => {
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                })
+                me.payment(me, null, 'digital-gift-card')
             },
             computeTotal (total) {
                 const me = this
@@ -442,7 +411,7 @@
                           // This function captures the funds from the transaction.
                             // me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.paymentSuccess(me.res, JSON.stringify(details))
+                                me.payment(me, JSON.stringify(details), 'digital-gift-card')
                             })
                         }
                     }).render('#paypal-button-container')

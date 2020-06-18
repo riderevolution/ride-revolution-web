@@ -56,9 +56,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="action">
-                        <div v-if="!showLoadedInstructors" class="default_btn load" @click="loadMoreInstructors()">Load More</div>
-                    </div>
+                    <div class="action load"></div>
                 </div>
                 <div class="no_results" v-else>
                     <p>NO RESULTS, PLEASE TRY AGAIN </p>
@@ -77,9 +75,10 @@
         data () {
             return {
                 res: [],
+                loadMore: false,
                 loaded: false,
                 showLoadedInstructors: false,
-                toShow: 12,
+                toShow: 8,
                 count: 0,
                 toggled: false,
                 specializations: [
@@ -179,12 +178,15 @@
         methods: {
             loadMoreInstructors () {
                 const me = this
-                if (!me.showLoadedInstructors) {
-                    me.toShow += 4
-                    me.$scrollTo('.load', {
-                        offset: 0
-                    })
-                }
+                me.loader(true)
+                setTimeout( () => {
+                    if (!me.showLoadedInstructors) {
+                        me.toShow += 4
+                        me.loadMore = false
+                        document.body.classList.remove('no_scroll')
+                    }
+                    me.loader(false)
+                }, 500)
             },
             toggleActionHover (key) {
                 const me = this
@@ -264,6 +266,33 @@
                     me.loaded = true
                     me.loader(false)
                 }, 500)
+            },
+            windowScroll() {
+                const me = this
+                let elements = [
+                    '.action.load'
+                ]
+
+                /**
+                 * Scroll Effect */
+                elements.forEach((element, index) => {
+                    let selector = document.querySelector(`${element}`)
+                    if (selector) {
+                        let bounding = selector.getBoundingClientRect()
+                        if (bounding.bottom > 0 &&
+                            bounding.right > 0 &&
+                            bounding.left < (window.innerWidth || document.documentElement.clientWidth) &&
+                            bounding.top < (window.innerHeight || document.documentElement.clientHeight)) {
+                            setTimeout(() => {
+                                if (!me.loadMore && !me.showLoadedInstructors) {
+                                    document.body.classList.add('no_scroll')
+                                    me.loadMoreInstructors()
+                                    me.loadMore = true
+                                }
+                            }, 500)
+                        }
+                    }
+                })
             }
         },
         async mounted () {
@@ -271,6 +300,12 @@
             await setTimeout( () => {
                 me.initial()
             }, 10)
+        },
+        beforeMount () {
+            window.addEventListener('scroll', this.windowScroll)
+        },
+        beforeDestroy () {
+            window.removeEventListener('scroll', this.windowScroll)
         },
         asyncData ({ $axios, params, error, store }) {
             return $axios.get(`api/web/instructors?sort_by=recommended`)

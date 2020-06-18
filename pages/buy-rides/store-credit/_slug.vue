@@ -78,6 +78,7 @@
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>Php {{ totalCount(form.total) }}</p>
+                                <a href="javascript:void(0)" @click="paymaya()">wewew</a>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
@@ -175,41 +176,41 @@
             }
         },
         methods: {
-            computeTotal (total) {
-                const me = this
-                me.form.total = total
-                return me.totalCount(total)
-            },
-            paymentSuccess (data, paypal_details) {
+            paymaya () {
                 const me = this
                 let token = me.$cookies.get('token')
                 let formData = new FormData()
                 formData.append('type', 'store-credit')
-                formData.append('store_credit_id', data.id)
-                formData.append('price', data.amount)
+                formData.append('store_credit_id', me.res.id)
+                formData.append('price', me.res.amount)
                 formData.append('quantity', me.form.quantity)
                 formData.append('total', me.form.total)
-                formData.append('payment_method', me.type)
-                formData.append('paypal_details', paypal_details)
-                me.loader(true)
-                me.$axios.post('api/web/pay', formData, {
+                formData.append('payment_method', 'paymaya')
+
+                me.$axios.post('api/paymaya', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    if (res.data) {
-                        me.$store.state.buyRidesSuccessStatus = true
-                    }
-                }).catch(err => {
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
-                }).then(() => {
-                    me.step = 0
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                    me.validateToken()
+                    console.log(res.data)
+                //     if (res.data) {
+                //         me.$store.state.buyRidesSuccessStatus = true
+                //     }
+                // }).catch(err => {
+                //     me.$store.state.errorList = err.response.data.errors
+                //     me.$store.state.errorPromptStatus = true
+                // }).then(() => {
+                //     me.step = 0
+                //     setTimeout( () => {
+                //         me.loader(false)
+                //     }, 500)
+                //     me.validateToken()
                 })
+            },
+            computeTotal (total) {
+                const me = this
+                me.form.total = total
+                return me.totalCount(total)
             },
             stepBack () {
                 const me = this
@@ -284,7 +285,7 @@
                           // This function captures the funds from the transaction.
                             me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.paymentSuccess(me.res, JSON.stringify(details))
+                                me.payment(me, JSON.stringify(details), 'store-credit')
                             })
                         }
                     }).render('#paypal-button-container')

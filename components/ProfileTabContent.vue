@@ -224,7 +224,7 @@
                                         <th>Purchase</th>
                                         <th>Activation</th>
                                         <th>Expiry</th>
-                                        <th>Actions</th>
+                                        <th v-if="tabCategory != 'expired'">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -262,7 +262,7 @@
                                                 <div class="label" v-else>Date of Expiry</div>
                                             </div>
                                         </td>
-                                        <td data-column="Actions">
+                                        <td data-column="Actions" v-if="!data.expired">
                                             <div class="table_menu_overlay">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-if="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
@@ -345,7 +345,7 @@
                     <table class="default_table">
                         <thead>
                             <tr>
-                                <th>Date</th>
+                                <th>Date &amp; time</th>
                                 <th>Products</th>
                                 <th>Studio</th>
                                 <th>Total Price</th>
@@ -586,7 +586,13 @@
                     ],
                     chart: {
                         type: 'bar',
-                        height: 350
+                        height: 350,
+                        toolbar: {
+                            show: true
+                        },
+                        zoom: {
+                            enabled: true
+                        }
                     },
                     colors: ['#9E558B'],
                     plotOptions: {
@@ -859,7 +865,11 @@
                     if (category == 'gift-cards') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
+                        if (!me.$parent.$parent.$parent.isMobile) {
+                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 0px)`
+                        } else {
+                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
+                        }
                     } else if (category == 'ride-rev-journey') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `10px` : `20px`
                     }
@@ -934,6 +944,53 @@
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
                             }, 500)
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                        break
+                    case 'active':
+                        me.loader(true)
+                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages?forWeb=1`).then(res => {
+                            if (res.data) {
+                                setTimeout( () => {
+                                    me.packages = []
+                                    res.data.customer.user_package_counts.forEach((data, index) => {
+                                        if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
+                                            data.toggled = false
+                                            data.expired = false
+                                            me.packages.push(data)
+                                        }
+                                    })
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                        break
+                    case 'expired':
+                        me.loader(true)
+                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages?forWeb=1`).then(res => {
+                            if (res.data) {
+                                setTimeout( () => {
+                                    me.packages = []
+                                    res.data.customer.user_package_counts.forEach((data, index) => {
+                                        if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) <= 0) {
+                                            data.expired = true
+                                            me.packages.push(data)
+                                        }
+                                    })
+                                }, 10)
+                            }
+                        }).catch((err) => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
                         }).then(() => {
                             setTimeout( () => {
                                 me.loader(false)
