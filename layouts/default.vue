@@ -150,11 +150,14 @@
                 //Check if browser is Edge
                 else if (browser[0] == 'Edge' && parseInt(browser[1]) < 16) {
                     me.triggerChecking()
+                } else {
+                    me.$store.state.showComplianceStatus = true
                 }
             },
             triggerChecking () {
                 const me = this
                 me.$store.state.checkBrowserStatus = true
+                me.$store.state.showComplianceStatus = false
                 document.body.classList.add('no_scroll')
             },
             proceed () {
@@ -163,6 +166,7 @@
                     maxAge: 1000 * 60 * 60 * 24 * 7
                 })
                 me.$store.state.checkBrowserStatus = false
+                me.$store.state.showComplianceStatus = true
                 document.body.classList.remove('no_scroll')
             },
             agree () {
@@ -176,8 +180,11 @@
                 const me = this
                 if (me.$cookies.get('agreeCompliance') != null || me.$cookies.get('agreeCompliance') != undefined) {
                     me.$store.state.showComplianceStatus = false
+                }
+                if (me.$cookies.get('checkBrowser') == null || me.$cookies.get('checkBrowser') == undefined) {
+                    me.checkBrowser()
                 } else {
-                    me.$store.state.showComplianceStatus = true
+                    me.$store.state.checkBrowserStatus = false
                 }
                 if (document.documentElement && document.documentElement.clientWidth) {
                     if (document.documentElement.clientWidth <= 1025) {
@@ -192,11 +199,6 @@
         mounted () {
             const me = this
             me.onResize()
-            if (me.$cookies.get('checkBrowser') == null || me.$cookies.get('checkBrowser') == undefined) {
-                me.checkBrowser()
-            } else {
-                me.$store.state.checkBrowserStatus = false
-            }
             me.validateToken()
         },
         beforeMount () {
