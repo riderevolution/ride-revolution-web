@@ -7564,10 +7564,11 @@ svg
                 brandon_regular(20px, false)
     .overlay_top
         position: absolute
-        top: 0
+        top: 50%
         left: 0
         width: 100%
         z-index: 1
+        transform: translateY(-50%)
         .overlay_image
             width: 920px
             animation: slide_from_left 1.5s
@@ -7626,6 +7627,13 @@ svg
         margin: 0 auto
         z-index: 1
         animation: slide_from_left 1.5s
+        .overlay_flex
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: center
+            .default_btn
+                margin-right: 20px
         p
             flex: 0 0 55%
             brandon_regular(20px, false)
@@ -9253,12 +9261,14 @@ textarea::-webkit-scrollbar-thumb
     background-color: $green
     box-shadow: 0 3px 5px rgba(0,0,0,.5)
     p
-        flex: 0 0 70%
+        flex: 1 0 10%
         brandon_medium(16px, false)
         color: $white
         a
             color: $white
     .default_btn
+        flex: 0 0 auto
+        margin-left: 10px
         width: auto
 
 .modal_disclaimer
@@ -9694,6 +9704,16 @@ textarea::-webkit-scrollbar-thumb
         background-color: $white
         padding: 80px 80px 60px
         transform: translate(-50%, -50%)
+        &.video
+            width: 100%
+            max-width: 900px
+            padding: 0
+            background-color: #000
+            iframe
+                width: 100%
+                height: 600px
+                object-fit: cover
+                border: none
         &.image
             background-color: transparent
             padding: 15% 80px

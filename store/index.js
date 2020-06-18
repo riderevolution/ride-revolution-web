@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            videoPrompt: false,
             showComplianceStatus: false,
             checkBrowserStatus: false,
             badgePromptStatus: false,

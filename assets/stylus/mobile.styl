@@ -1046,7 +1046,9 @@
                     brandon_regular(18px, false)
         .overlay_top
             .overlay_image
-                width: 600px
+                width: 920px
+            .overlay_child
+                right: calc(50% - 35%)
         .overlay_bottom
             p
                 brandon_regular(18px, false)
@@ -3129,6 +3131,10 @@
         .confirmation_wrapper
             width: 400px
             padding: 40px 20px 30px
+            &.video
+                max-width: 700px
+                iframe
+                    height: 450px
             &.alt
                 width: 400px
             .confirmation_highlight
@@ -3240,21 +3246,13 @@
                 width: 750px
                 height: auto
                 object-fit: contain
-                animation: slide_from_top 1.5s
             .overlay_child
-                margin-top: 50px
-                display: flex
-                flex-flow: row wrap
-                align-items: center
-                justify-content: center
-                position: static
-                transform: translateY(-50%) translateX(0)
-                animation: slide_from_top 1.5s
-                #play_icon
-                    width: 35px
-                    height: 35px
+                position: absolute
+                right: calc(50% - 45%)
+                display: block
+                margin-top: 0
                 .label
-                    brandon_medium(24px, true)
+                    brandon_medium(20px, true)
                     letter-spacing: 1.6px
                     margin-top: 0
                     padding-left: 10px
@@ -3332,14 +3330,43 @@
                         .right
                             padding-left: 40px
 
+    #banner
+        &.mt
+            margin-top: 74px
+        &.alt_4
+            .overlay_mid
+                max-width: calc(100% - 30px)
+                h1
+                    brandon_bold(26px, false)
+        &.alt_2
+            .overlay_mid
+                h1
+                    brandon_bold(36px, false)
+        &.alt
+            .overlay_mid
+                h2
+                    brandon_bold(36px, false)
+        img
+            width: 100%
+            &.full
+                height: 300px
+        .main_image
+            height: 700px
+        .overlay_top
+            top: 74px
+            width: 100%
+            transform: translateY(0%)
+            text-align: left
+
 @media (max-width: 767px) and (min-width: 320px)
 
     .accept_cookies
         padding: 15px
+        text-align: center
         p,
-        .default_btn
+        .default_btn_wht
             flex: 0 0 100%
-        .default_btn
+        .default_btn_wht
             margin-top: 15px
             width: 100%
 
@@ -5674,6 +5701,10 @@
         .confirmation_wrapper
             width: calc(100% - 60px)
             padding: 20px 10px
+            &.video
+                max-width: calc(100% - 20px)
+                iframe
+                    height: 300px
             &.image
                 padding: 30% 80px
             .form_close
@@ -5848,7 +5879,7 @@
             p
                 flex: 0 0 100%
                 text-align: center
-                brandon_regular(12px, false)
+                brandon_regular(14px, false)
                 margin-right: 0
                 margin-bottom: 20px
 
@@ -5982,7 +6013,11 @@
     .default_modal
         .confirmation_wrapper
             width: 450px
-            padding: 40px 20px 30px;
+            padding: 40px 20px 30px
+            &.video
+                max-width: 450px
+                iframe
+                    height: 300px
 
     .form_flex_radio_alternate
         .radio_wrapper
