@@ -188,7 +188,7 @@
                 formData.append('quantity', me.form.quantity)
                 formData.append('total', me.form.total)
                 formData.append('payment_method', me.type)
-                formData.append('paypal_details', paypal_details)
+                formData.append('paypal_details', JSON.stringify(paypal_details))
                 me.loader(true)
                 me.$axios.post('api/web/pay', formData, {
                     headers: {
