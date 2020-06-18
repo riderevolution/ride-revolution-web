@@ -54,7 +54,7 @@
                             <h2>Your Top Booked Instructors</h2>
                         </div>
                         <div class="tab_content_main">
-                            <div class="instructor desktop" v-if="!$$store.state.isMobile">
+                            <div class="instructor desktop" v-if="!$store.state.isMobile">
                                 <div :id="`item_${key}`" class="item" v-for="(data, key) in populateTopInstructors" :key="key">
                                     <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
                                     <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
@@ -136,7 +136,7 @@
         <transition name="fade">
             <div id="tab_1" class="class wrapper" v-if="category == 'classes'">
                 <div id="default_menu">
-                    <ul class="menu_tab" v-if="!$$store.state.isMobile">
+                    <ul class="menu_tab" v-if="!$store.state.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
@@ -200,7 +200,7 @@
         <transition name="fade">
             <div id="tab_2" class="package wrapper" v-if="category == 'packages'">
                 <div id="default_menu">
-                    <ul class="menu_tab" v-if="!$$store.state.isMobile">
+                    <ul class="menu_tab" v-if="!$store.state.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
                     </ul>

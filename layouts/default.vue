@@ -13,7 +13,7 @@
                 </div>
             </div>
         </transition>
-        <transition name="fade">
+        <transition name="slideAlt">
             <div class="accept_cookies" v-if="$store.state.showComplianceStatus">
                 <p>This site uses cookies to store information in your computer.<br> By using our site, you accept the terms of our <nuxt-link to="/privacy-policy">Privacy Statement</nuxt-link> pursuant to the Data Privacy Act of 2012.</p>
                 <div class="default_btn_wht" @click="agree()"><span>OK, I Agree</span></div>

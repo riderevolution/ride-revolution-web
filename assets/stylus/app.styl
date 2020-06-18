@@ -7911,6 +7911,7 @@ svg
                     height: 150px
                     border: 3px solid #fff
                     opacity: .5
+                    object-position: top
                     transition: .3s ease-in-out
                 &.active
                 &:hover,
@@ -9237,6 +9238,29 @@ textarea::-webkit-scrollbar-thumb
 
 /**
  * Default Modal **/
+.accept_cookies
+    display: flex
+    flex-flow: row wrap
+    align-items: center
+    justify-content: space-between
+    position: fixed
+    padding: 15px 50px
+    width: 100%
+    bottom: 0
+    right: 0
+    left: 0
+    z-index: 100
+    background-color: $green
+    box-shadow: 0 3px 5px rgba(0,0,0,.5)
+    p
+        flex: 0 0 70%
+        brandon_medium(16px, false)
+        color: $white
+        a
+            color: $white
+    .default_btn
+        width: auto
+
 .modal_disclaimer
     position: fixed
     width: 100%
