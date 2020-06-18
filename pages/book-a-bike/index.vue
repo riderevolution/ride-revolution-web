@@ -534,7 +534,7 @@
                             }
                         }
                     }).catch(err => {
-                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                         me.loader(false)
                     }).then(() => {
                         setTimeout( () => {
