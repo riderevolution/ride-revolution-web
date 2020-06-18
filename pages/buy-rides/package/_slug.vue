@@ -99,7 +99,7 @@
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
-                                <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess(res)">Pay Now</div>
+                                <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paypal'">
                                 <p>Note: Paypal account not needed</p>
@@ -192,40 +192,9 @@
             }
         },
         methods: {
-            paymentSuccess (data, paypal_details = null) {
+            paymentSuccess () {
                 const me = this
-                let token = me.$cookies.get('token')
-                let formData = new FormData()
-                formData.append('type', 'class-package')
-                formData.append('class_package_id', data.id)
-                formData.append('price', data.package_price)
-                formData.append('promo_code', me.form.promo)
-                formData.append('quantity', 1)
-                formData.append('discount', me.form.discount)
-                formData.append('total', me.form.total)
-                formData.append('payment_method', me.type)
-                if (paypal_details != null) {
-                    formData.append('paypal_details', JSON.stringify(paypal_details))
-                }
-                me.loader(true)
-                me.$axios.post('api/web/pay', formData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        me.$store.state.buyRidesSuccessStatus = true
-                    }
-                }).catch(err => {
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
-                }).then(() => {
-                    me.step = 0
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                    me.validateToken()
-                })
+                me.payment(me, null, 'class-package')
             },
             computeTotal (total) {
                 const me = this
@@ -312,7 +281,7 @@
                           // This function captures the funds from the transaction.
                             me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.paymentSuccess(me.res, JSON.stringify(details))
+                                me.payment(me, JSON.stringify(details), 'class-package')
                             })
                         }
                     }).render('#paypal-button-container')

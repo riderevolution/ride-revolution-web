@@ -345,7 +345,7 @@
                     <table class="default_table">
                         <thead>
                             <tr>
-                                <th>Date</th>
+                                <th>Date &amp; time</th>
                                 <th>Products</th>
                                 <th>Studio</th>
                                 <th>Total Price</th>
@@ -865,7 +865,11 @@
                     if (category == 'gift-cards') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
+                        if (!me.$parent.$parent.$parent.isMobile) {
+                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 0px)`
+                        } else {
+                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
+                        }
                     } else if (category == 'ride-rev-journey') {
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `10px` : `20px`
                     }
@@ -945,6 +949,12 @@
                                 me.loader(false)
                             }, 500)
                         })
+                        break
+                    case 'active':
+
+                        break
+                    case 'expired':
+
                         break
                 }
             },
