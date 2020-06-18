@@ -11,7 +11,7 @@
             </section>
             <section id="content">
                 <div class="left">
-                    <div class="filter_accordion" v-if="$parent.$parent.isMobile">
+                    <div class="filter_accordion" v-if="$store.state.isMobile">
                         <label>Filter</label>
                         <div class="toggler" @click="toggleFilter($event)"></div>
                     </div>
@@ -57,12 +57,12 @@
                                 <div class="day">{{ result.day }}</div>
                             </div>
                         </div>
-                        <div class="date_controls" v-if="!$parent.$parent.isMobile">
+                        <div class="date_controls" v-if="!$store.state.isMobile">
                             <div class="prev" @click="generatePrevClasses()"></div>
                             <div class="next" @click="generateNextClasses()"></div>
                         </div>
                     </div>
-                    <div class="date_controls_mobile" v-if="$parent.$parent.isMobile">
+                    <div class="date_controls_mobile" v-if="$store.state.isMobile">
                         <div class="prev" @click="generatePrevClasses()"></div>
                         <div class="next" @click="generateNextClasses()"></div>
                     </div>
@@ -73,7 +73,7 @@
                             <span>with</span>
                             <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
                         </div>
-                        <div v-if="!$parent.$parent.isMobile && res.schedules.length > 0">
+                        <div v-if="!$store.state.isMobile && res.schedules.length > 0">
                             <div class="content">
                                 <div class="schedule" v-for="(data, key) in res.schedules" :key="key">
                                     <div class="time">{{ $moment(data.schedule.start_time, 'hh:mm A').format('h:mm A') }}</div>
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-else-if="$parent.$parent.isMobile && res.schedules.length > 0">
+                        <div v-else-if="$store.state.isMobile && res.schedules.length > 0">
                             <div class="content_mobile">
                                 <a class="schedule" v-for="(data, key) in res.schedules" :key="key">
                                     <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
@@ -557,10 +557,10 @@
                 const me = this
                 if (me.isPrev) {
                     me.isPrev = false
-                    me.current = me.current + (!me.$parent.$parent.isMobile ? 8 : 6)
+                    me.current = me.current + (!me.$store.state.isMobile ? 8 : 6)
                 }
                 me.results = []
-                for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
+                for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
                     if (me.current > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
                         me.current = me.current - me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()
                         me.currentMonth = me.currentMonth + 1
@@ -582,10 +582,10 @@
                 const me = this
                 if (!me.isPrev) {
                     me.isPrev = true
-                    me.current = me.current - (!me.$parent.$parent.isMobile ? 8 : 6)
+                    me.current = me.current - (!me.$store.state.isMobile ? 8 : 6)
                 }
                 me.results = []
-                for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
+                for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
                     if (me.current <= 0) {
                         me.currentMonth = me.currentMonth - 1
                         if (me.currentMonth == 0) {
@@ -618,7 +618,7 @@
                     }
                     me.populateResults(me.current, 'prev')
                     me.current--
-                    if (i == (!me.$parent.$parent.isMobile ? 6 : 4)) {
+                    if (i == (!me.$store.state.isMobile ? 6 : 4)) {
                         me.last = me.current
                     }
                 }
@@ -660,7 +660,7 @@
                 me.last = currentDate
                 me.currentMonth = parseInt(me.$moment().format('M'))
                 me.currentYear = parseInt(me.$moment().format('YYYY'))
-                for (let i = 0; i < (!me.$parent.$parent.isMobile ? 7 : 5); i++) {
+                for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
                     if (currentDate > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
                         currentDate = 1
                         me.currentMonth = me.currentMonth + 1

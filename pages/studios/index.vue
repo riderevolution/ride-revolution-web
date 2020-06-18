@@ -11,7 +11,7 @@
             <section id="teaser" v-html="res.subtitle" v-if="res.subtitle"></section>
             <section id="visit">
                 <h2>Check out our Studios</h2>
-                <div class="content desktop" v-if="!$parent.$parent.isMobile">
+                <div class="content desktop" v-if="!$store.state.isMobile">
                     <nuxt-link rel="canonical" :to="`/studios/${data.slug}`" class="wrapper" v-for="(data, key) in studios" :key="key">
                         <div class="image">
                             <img :src="data.images[0].path" />
@@ -40,7 +40,7 @@
                             </swiper-slide>
                             <div class="swiper-pagination" slot="pagination"></div>
                         </swiper>
-                        <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                        <div class="action_mobile" v-if="$store.state.isMobile">
                             <nuxt-link rel="canonical" to="/buy-rides" class="default_btn">See All Class Packages</nuxt-link>
                         </div>
                     </no-ssr>

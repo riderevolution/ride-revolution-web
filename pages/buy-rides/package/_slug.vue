@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
+                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
                                 <div class="action_mobile" v-else>
                                     <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
@@ -97,7 +97,7 @@
                                 <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
                                 <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                             </div>
@@ -109,7 +109,7 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$parent.$parent.isMobile">
+                            <div class="action_mobile" @click="stepBack()" v-if="$store.state.isMobile">
                                 <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                             </div>
                         </div>

@@ -4,13 +4,13 @@
             <div class="header">
                 <h2>
                     Select your class package.
-                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$parent.$parent.isMobile" />
+                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$store.state.isMobile" />
                 </h2>
-                <div class="description" v-if="!$parent.$parent.isMobile">
+                <div class="description" v-if="!$store.state.isMobile">
                     <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
                 </div>
                 <transition name="slide">
-                    <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoPackages">
+                    <div class="description_overlay" v-if="$store.state.isMobile && showInfoPackages">
                         <div class="pointer"></div>
                         <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
                     </div>
@@ -26,7 +26,7 @@
                     <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
                     <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
                     <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
-                    <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
+                    <div class="default_btn_out" v-if="!$store.state.isMobile"><span>Buy Now</span></div>
                     <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
                             <div class="border_top left"></div>
@@ -44,13 +44,13 @@
             <div class="header">
                 <h2>
                     Buy Store Credits
-                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'store-credits')" v-if="$parent.$parent.isMobile" />
+                    <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'store-credits')" v-if="$store.state.isMobile" />
                 </h2>
-                <div class="description" v-if="!$parent.$parent.isMobile">
+                <div class="description" v-if="!$store.state.isMobile">
                     <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
                 </div>
                 <transition name="slide">
-                    <div class="description_overlay" v-if="$parent.$parent.isMobile && showInfoStoreCredits">
+                    <div class="description_overlay" v-if="$store.state.isMobile && showInfoStoreCredits">
                         <div class="pointer"></div>
                         <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
                     </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="price">Php {{ totalItems(data.amount) }}</div>
                     <div class="expires">No Expiry</div>
-                    <div class="default_btn_out" v-if="!$parent.$parent.isMobile"><span>Buy Now</span></div>
+                    <div class="default_btn_out" v-if="!$store.state.isMobile"><span>Buy Now</span></div>
                     <div class="default_btn_wht_alt green" v-else>
                         <div class="text">
                             <div class="border_top left"></div>
@@ -262,8 +262,8 @@
                 me.loader(true)
                 me.packages = me.res.classPackages
                 me.credits = me.res.storeCredits
-                me.toShowPackages = (me.$parent.$parent.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
-                me.toShowStoreCredits = (me.$parent.$parent.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
+                me.toShowPackages = (me.$store.state.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
+                me.toShowStoreCredits = (me.$store.state.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
                 setTimeout( () => {
                     me.loader(false)
                 }, 500)

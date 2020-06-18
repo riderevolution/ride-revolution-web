@@ -131,7 +131,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
                                 <div class="action_mobile" @click="stepBack()" v-else>
                                     <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                                 </div>
@@ -174,7 +174,7 @@
                                 <p>Php {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }}</p>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
                                 <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                             </div>
@@ -186,7 +186,7 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$parent.$parent.isMobile">
+                            <div class="action_mobile" @click="stepBack()" v-if="$store.state.isMobile">
                                 <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                             </div>
                         </div>

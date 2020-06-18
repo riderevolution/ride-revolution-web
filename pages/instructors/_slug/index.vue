@@ -15,7 +15,7 @@
                     <!-- <div class="quote"> <p>Use your mental strength to beat the person<br> you were yesterday! <span class="green">#RideRevWithBilly</span></p> </div> -->
                 </div>
                 <div class="right" :style="`background-image: url('${res.instructor_details.gallery[0].path}');`">
-                    <div class="view_gallery" @click="openGallery(res.instructor_details)" v-if="!$parent.$parent.isMobile">
+                    <div class="view_gallery" @click="openGallery(res.instructor_details)" v-if="!$store.state.isMobile">
                         <svg class="view_image" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                             <g transform="translate(-1164.5 -208.5)">
                                 <rect width="7" height="7" transform="translate(1165 209)" class="square" />
@@ -27,7 +27,7 @@
                         <span>View Photos</span>
                     </div>
                 </div>
-                <div class="view_gallery" @click="openGallery(res.instructor_details)" v-if="$parent.$parent.isMobile">
+                <div class="view_gallery" @click="openGallery(res.instructor_details)" v-if="$store.state.isMobile">
                     <svg class="view_image" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                         <g transform="translate(-1164.5 -208.5)">
                             <rect width="7" height="7" transform="translate(1165 209)" class="square" />
@@ -44,7 +44,7 @@
                     <h2>#RideRev <span>With {{ res.first_name }}</span></h2>
                     <h3>This week’s upcoming classes</h3>
                 </div>
-                <div class="content" v-if="!$parent.$parent.isMobile">
+                <div class="content" v-if="!$store.state.isMobile">
                     <div class="wrapper" v-for="(data, key) in scheduledDates" :key="key">
                         <div class="start">
                             <div class="date">{{ parseDate('date', data.date) }}</div>
@@ -143,7 +143,7 @@
                     <h2>Here are what other riders are raving about {{ res.first_name }}</h2>
                     <nuxt-link :to="`/instructors/${res.instructor_details.slug}/comment`" class="default_btn">Write a Review</nuxt-link>
                 </div>
-                <div class="content" v-if="!$parent.$parent.isMobile">
+                <div class="content" v-if="!$store.state.isMobile">
                     <div class="comment" v-for="(data, key) in populateComment" :key="key">
                         <div class="comment_img_initials">
                             <div class="background"></div>

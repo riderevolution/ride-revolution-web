@@ -1242,6 +1242,12 @@
 
 @media (max-width: 1280px) and (min-width: 768px)
 
+    .form_flex
+        &.with_btn
+            .form_button
+                .default_btn_out
+                    padding: 10px
+
     #breadcrumb
         padding-top: 74px
         &.dismiss
@@ -1453,6 +1459,45 @@
     /**
      * Buy Rides */
     .buy_rides
+        &.inner
+            #payments
+                max-width: calc(90% + 30px)
+                .step
+                    .wrapper
+                        .left
+                            flex: 0 0 40%
+                            padding-right: 30px
+                            .header
+                                h2
+                                    brandon_regular(18px, false)
+                            .content
+                                ul
+                                    li
+                                        brandon_regular(14px, false)
+                        .right
+                            flex: 0 0 60%
+                            padding-left: 30px
+                &.dismiss
+                    padding: 40px 0 60px
+                .default_btn_img
+                    .btn_wrapper
+                        span
+                            font-size: 12px
+                            padding: 10px 30px
+                            &.img
+                                padding: 10px
+                                img
+                                    width: 15px
+                .default_btn_blk
+                    padding: 10px 30px
+                    font-size: 12px
+                .preview_payment
+                    .default_btn_blue
+                        font-size: 12px
+                        padding: 10px 30px
+                .default_modal_page
+                    .default_btn
+                        width: unset
         #digital
             img
                 width: 100%
@@ -2820,13 +2865,16 @@
                             .badges_earned
                                 .summary
                                     .summary_content
+                                        flex-flow: row wrap
+                                        align-items: flex-start
                                         padding: 10px 20px
                                         .left,
                                         .right
                                             .badge
-                                                justify-content: center
+                                                justify-content: flex-start
                                                 text-align: center
                                                 span
+                                                    margin-left: 10px
                                                     brandon_regular(14px, false)
                             .summary
                                 .summary_header
@@ -3269,6 +3317,18 @@
             .package_wrapper
                 flex: 0 0 calc(33.33% - 20px)
 
+    /**
+     * Buy Rides */
+    .buy_rides
+        &.inner
+            #payments
+                .step
+                    .wrapper
+                        .left
+                            padding-right: 40px
+                        .right
+                            padding-left: 40px
+
 @media (max-width: 767px) and (min-width: 320px)
 
     #banner
@@ -3277,6 +3337,17 @@
                 .default_btn
                     margin-top: 20px
                     width: auto
+
+    /**
+     * Browser Compatibility */
+    .modal_disclaimer
+        .overlay
+            right: 0
+            left: 0
+            transform: translate(0%, -50%)
+            padding: 20px
+            p
+                max-width: 100%
 
     /**
      * Login/Sign up */
@@ -3576,6 +3647,7 @@
             padding-bottom: 20px
             .action_mobile
                 flex: 0 0 100%
+                text-align: center
             .package_wrapper
                 flex: 0 0 100%
                 padding: 30px 20px
@@ -3666,6 +3738,7 @@
                         .right
                             background-color: transparent
                             .overlay
+                                align-items: center
                                 position: static
                                 padding: 30px 15px 15px
                                 transform: translateY(0%)
@@ -3735,6 +3808,16 @@
      * Buy Rides */
     .buy_rides
         &.inner
+            .form_flex
+                &.with_btn
+                    .form_button
+                        .default_btn_out
+                            padding: 5px 15px
+            .default_btn_img
+                .btn_wrapper
+                    span
+                        &:last-child
+                            padding: 10px
             #payments
                 max-width: calc(100% - 30px)
                 &.dismiss,
@@ -3798,6 +3881,9 @@
                                 margin: 25px 0
                                 p
                                     brandon_bold(16px, false)
+                            .preview_actions
+                                #paypal-button-container
+                                    width: 100%
                             .paypal_disclaimer
                                 text-align: center
                                 .wrapper
@@ -5062,13 +5148,16 @@
                                 .summary
                                     .summary_content
                                         padding: 10px 20px 20px
+                                        flex-flow: column
+                                        align-items: flex-start
                                         .left,
                                         .right
                                             .badge
-                                                justify-content: center
+                                                justify-content: flex-start
                                                 text-align: center
                                                 span
                                                     brandon_regular(14px, false)
+                                                    margin-left: 10px
                             .summary
                                 .summary_header
                                     padding: 10px
@@ -5708,7 +5797,7 @@
         .main_image
             height: 600px
         .overlay_top
-            top: 61px
+            top: calc(61px + 33px)
             width: 100%
             transform: translateY(0%)
             .overlay_image
@@ -5772,6 +5861,15 @@
                             .default_btn
                                 width: auto
                                 padding: 12px 15px
+
+    .basic_page
+        #content
+            .top
+                h1
+                    brandon_bold(18px, true)
+            .bottom
+                padding-top: 10px
+                max-width: calc(100% - 30px)
 
 @media (max-width: 767px) and (min-width: 425px)
 
@@ -6017,6 +6115,13 @@
             flex: 0 0 48.33%
             margin-bottom: 30px
 
+    .default_modal_page
+        #disclaimer
+            .content
+                .left
+                    img
+                        width: 100%
+
     .default_modal
         #default_form
             .modal_wrapper
@@ -6222,6 +6327,15 @@
     /**
      * My Profile */
     .my_profile
+        #content
+            .profile_tab_content
+                .wrapper
+                    &.profile_journey
+                        .teaser
+                            .badges_earned
+                                .summary
+                                    .summary_content
+                                        flex-flow: row wrap
         #content
             .profile_tab
                 .top

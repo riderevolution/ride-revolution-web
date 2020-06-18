@@ -47,14 +47,14 @@
                                     </div>
                                 </div>
                                 <div class="breakdown_actions alt">
-                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$parent.$parent.isMobile">Back</nuxt-link>
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="action_mobile" v-if="$parent.$parent.isMobile">
+                                <div class="action_mobile" v-if="$store.state.isMobile">
                                     <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 <a href="javascript:void(0)" @click="paymaya()">wewew</a>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
                             </div>
                             <div class="paypal_disclaimer">
@@ -92,7 +92,7 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$parent.$parent.isMobile">
+                            <div class="action_mobile" @click="stepBack()" v-if="$store.state.isMobile">
                                 <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                             </div>
                         </div>

@@ -36,7 +36,7 @@
                     </div>
                     <div class="bottom">
                         <div class="left"></div>
-                        <ul class="tab_wrapper" v-if="!$parent.$parent.isMobile">
+                        <ul class="tab_wrapper" v-if="!$store.state.isMobile">
                             <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
                             <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
                             <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>

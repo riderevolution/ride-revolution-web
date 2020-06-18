@@ -35,7 +35,7 @@
                     <div class="map" v-html="res.google_embed"></div>
                 </div>
             </section>
-            <section id="images" class="desktop" v-if="!$parent.$parent.isMobile">
+            <section id="images" class="desktop" v-if="!$store.state.isMobile">
                 <div :id="`studio_${key}`" class="wrapper" v-for="(data, key) in studioImages" :key="key" @click="openGallery(key)">
                     <div class="field_image">
                         <img class="image_responsive" :src="data.images[0].path" />

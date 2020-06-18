@@ -49,7 +49,6 @@ export default {
   css: [
       '~/assets/stylus/app.styl',
       '~/assets/stylus/mobile.styl',
-      '~/assets/stylus/edcel.styl',
       '~/assets/stylus/fonts.styl'
   ],
   /*

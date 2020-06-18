@@ -14,13 +14,12 @@
                 <li><nuxt-link rel="canonical" to="/book-a-bike" class="footer_item">Book a Bike</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/instructors" class="footer_item">Instructors</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/studios" class="footer_item">Studio</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/ride-rewards" class="footer_item">Ride Rewards</nuxt-link></li>
+                <li><nuxt-link rel="canonical" to="/faqs" class="footer_item">FAQ's</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link">
             <h3>Services</h3>
             <ul>
-                <li><nuxt-link rel="canonical" to="/faqs" class="footer_item">FAQ's</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/news" class="footer_item">News</nuxt-link></li>
                 <li><nuxt-link rel="canonical" to="/promos" class="footer_item">Promos</nuxt-link></li>

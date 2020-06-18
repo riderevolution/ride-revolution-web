@@ -42,7 +42,7 @@
                                         <p>Php {{ totalCount(form.total) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions alt" v-if="!$parent.$parent.isMobile">
+                                <div class="breakdown_actions alt" v-if="!$store.state.isMobile">
                                     <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
@@ -81,7 +81,7 @@
                                 <p>Php {{ totalCount(form.total) }}</p>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
                             </div>
                             <div class="paypal_disclaimer">
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="back_wrapper">
-                                <div class="back" @click="stepBack()" v-if="$parent.$parent.isMobile"><span>Back</span></div>
+                                <div class="back" @click="stepBack()" v-if="$store.state.isMobile"><span>Back</span></div>
                             </div>
                         </div>
                     </div>

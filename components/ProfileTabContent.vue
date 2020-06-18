@@ -54,7 +54,7 @@
                             <h2>Your Top Booked Instructors</h2>
                         </div>
                         <div class="tab_content_main">
-                            <div class="instructor desktop" v-if="!$parent.$parent.$parent.isMobile">
+                            <div class="instructor desktop" v-if="!$$store.state.isMobile">
                                 <div :id="`item_${key}`" class="item" v-for="(data, key) in populateTopInstructors" :key="key">
                                     <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
                                     <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
@@ -136,7 +136,7 @@
         <transition name="fade">
             <div id="tab_1" class="class wrapper" v-if="category == 'classes'">
                 <div id="default_menu">
-                    <ul class="menu_tab" v-if="!$parent.$parent.$parent.isMobile">
+                    <ul class="menu_tab" v-if="!$$store.state.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
@@ -200,7 +200,7 @@
         <transition name="fade">
             <div id="tab_2" class="package wrapper" v-if="category == 'packages'">
                 <div id="default_menu">
-                    <ul class="menu_tab" v-if="!$parent.$parent.$parent.isMobile">
+                    <ul class="menu_tab" v-if="!$$store.state.isMobile">
                         <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
                     </ul>
@@ -244,19 +244,19 @@
                                         <td data-column="Used"><div class="default">{{ parseInt(data.original_package_count) - parseInt(data.count) }}</div></td>
                                         <td data-column="Available"><div class="default">{{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : (parseInt(data.count) == data.original_package_count) ? parseInt(data.original_package_count) : parseInt(data.count) }}</div></td>
                                         <td data-column="Purchase">
-                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                            <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
                                                 <div class="label">Date Purchased</div>
                                             </div>
                                         </td>
                                         <td data-column="Activation">
-                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                            <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
                                                 <div class="label">Date Activated</div>
                                             </div>
                                         </td>
                                         <td data-column="Expiry">
-                                            <div :class="`${(!$parent.$parent.$parent.isMobile) ? '' : 'mobile'}`">
+                                            <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
                                                 <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
                                                 <div class="label" v-else>Date of Expiry</div>
@@ -863,15 +863,15 @@
                 setTimeout( () => {
                     let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
                     if (category == 'gift-cards') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$store.state.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
-                        if (!me.$parent.$parent.$parent.isMobile) {
+                        if (!me.$store.state.isMobile) {
                             target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 0px)`
                         } else {
                             target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                         }
                     } else if (category == 'ride-rev-journey') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$parent.$parent.$parent.isMobile) ? `10px` : `20px`
+                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$store.state.isMobile) ? `10px` : `20px`
                     }
                 }, 100)
             },

@@ -8,7 +8,7 @@
                     Revolution
                 </div>
             </nuxt-link>
-            <ul class="nav_list" v-if="!$parent.isMobile">
+            <ul class="nav_list" v-if="!$store.state.isMobile">
                 <li>
                     <nuxt-link rel="canonical" to="/buy-rides" class="nav_item">Buy Rides</nuxt-link>
                 </li>
@@ -46,11 +46,11 @@
                     </div>
                 </li>
             </ul>
-            <div class="nav_login" @click="loginUser()" v-if="$parent.isMobile && !$store.state.isAuth">
+            <div class="nav_login" @click="loginUser()" v-if="$store.state.isMobile && !$store.state.isAuth">
                 <img src="/icons/login-icon.svg" />
                 <div class="background"></div>
             </div>
-            <div v-if="$parent.isMobile && $store.state.isAuth">
+            <div v-if="$store.state.isMobile && $store.state.isAuth">
                 <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
                     <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
                     <div class="overlay" v-else>
