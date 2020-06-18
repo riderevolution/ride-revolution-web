@@ -2,6 +2,23 @@
     <div id="main_container">
         <navbar />
         <nuxt />
+        <transition name="slide">
+            <div class="modal_disclaimer" v-if="$store.state.checkBrowserStatus">
+                <div class="overlay">
+                    <div class="logo">
+                        <img src="/logo.svg" alt="ride-revolution" />
+                    </div>
+                    <p>For a Better Experience. Please Update your Browser</p>
+                    <div class="default_btn" @click="proceed()"><span>Proceed Anyway</span></div>
+                </div>
+            </div>
+        </transition>
+        <transition name="slideAlt">
+            <div class="accept_cookies" v-if="$store.state.showComplianceStatus">
+                <p>This site uses cookies to store information in your computer.<br> By using our site, you accept the terms of our <nuxt-link to="/privacy-policy">Privacy Statement</nuxt-link> pursuant to the Data Privacy Act of 2012.</p>
+                <div class="default_btn_wht" @click="agree()"><span>OK, I Agree</span></div>
+            </div>
+        </transition>
         <transition name="fade">
             <loader v-if="$store.state.isLoading" />
         </transition>
@@ -91,8 +108,77 @@
             }
         },
         methods: {
+            checkBrowser () {
+                let me = this
+                navigator.sayswho= (function(){
+                    var ua = navigator.userAgent, tem,
+                        M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
+                    if(/trident/i.test(M[1])){
+                        tem =  /\brv[ :]+(\d+)/g.exec(ua) || []
+                        return 'IE+'+(tem[1] || '')
+                    }
+                    if(M[1] === 'Chrome'){
+                        tem= ua.match(/\b(OPR|Edge)\/(\d+)/)
+                        if(tem!= null) return tem.slice(1).join('+').replace('OPR', 'Opera')
+                    }
+                    M = M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?']
+                    if((tem = ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1])
+                    return M.join('+')
+                })()
+
+                var browser = navigator.sayswho.split('+')
+                //Check if browser is IE
+                if (browser[0] == 'MSIE' || 'IE' && parseInt(browser[1]) < 13) {
+                    me.triggerChecking()
+                }
+                //Check if browser is Chrome
+                else if (browser[0] == 'Chrome' && parseInt(browser[1]) < 65) {
+                    me.triggerChecking()
+                }
+                //Check if browser is Firefox
+                else if (browser[0] == 'Firefox' && parseInt(browser[1]) < 52) {
+                    me.triggerChecking()
+                }
+                //Check if browser is Safari
+                else if (browser[0] == 'Safari' && parseInt(browser[1]) < 11) {
+                    me.triggerChecking()
+                }
+                //Check if browser is Opera
+                else if (browser[0] == 'Opera' && parseInt(browser[1]) < 16) {
+                    me.triggerChecking()
+                }
+                //Check if browser is Edge
+                else if (browser[0] == 'Edge' && parseInt(browser[1]) < 16) {
+                    me.triggerChecking()
+                }
+            },
+            triggerChecking () {
+                const me = this
+                me.$store.state.checkBrowserStatus = true
+                document.body.classList.add('no_scroll')
+            },
+            proceed () {
+                const me = this
+                me.$cookies.set('checkBrowser', 1, {
+                    maxAge: 1000 * 60 * 60 * 24 * 7
+                })
+                me.$store.state.checkBrowserStatus = false
+                document.body.classList.remove('no_scroll')
+            },
+            agree () {
+                const me = this
+                if (me.$cookies.get('agreeCompliance') == null || me.$cookies.get('agreeCompliance') == undefined) {
+                    me.$store.state.showComplianceStatus = false
+                    me.$cookies.set('agreeCompliance', 1, '7d')
+                }
+            },
             onResize() {
                 const me = this
+                if (me.$cookies.get('agreeCompliance') != null || me.$cookies.get('agreeCompliance') != undefined) {
+                    me.$store.state.showComplianceStatus = false
+                } else {
+                    me.$store.state.showComplianceStatus = true
+                }
                 if (document.documentElement && document.documentElement.clientWidth) {
                     if (document.documentElement.clientWidth <= 1025) {
                         me.isMobile = true
@@ -100,11 +186,17 @@
                         me.isMobile = false
                     }
                 }
+                me.$store.state.isMobile = me.isMobile
             }
         },
         mounted () {
             const me = this
             me.onResize()
+            if (me.$cookies.get('checkBrowser') == null || me.$cookies.get('checkBrowser') == undefined) {
+                me.checkBrowser()
+            } else {
+                me.$store.state.checkBrowserStatus = false
+            }
             me.validateToken()
         },
         beforeMount () {

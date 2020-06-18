@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="breakdown_actions">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="!$parent.$parent.isMobile">
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="!$store.state.isMobile">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="action_mobile">
                                     <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="$parent.$parent.isMobile">
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="$store.state.isMobile">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
@@ -97,7 +97,7 @@
                                 <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                             </div>
                             <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$parent.$parent.isMobile">Back</div>
+                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
                                 <div id="paypal-button-container"></div>
                                 <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                             </div>
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="back_wrapper">
-                                <div class="back" @click="stepBack()" v-if="$parent.$parent.isMobile"><span>Back</span></div>
+                                <div class="back" @click="stepBack()" v-if="$store.state.isMobile"><span>Back</span></div>
                             </div>
                         </div>
                     </div>

@@ -20,7 +20,7 @@
                 </div>
             </section>
             <div v-if="related_news.length > 0">
-                <section id="more_things" class="desktop" v-if="!$parent.$parent.isMobile">
+                <section id="more_things" class="desktop" v-if="!$store.state.isMobile">
                     <h3>More Things to Read...</h3>
                     <nuxt-link :to="`/news/${data.slug}`" class="news_list" v-for="(data, key) in related_news" :key="key">
                         <div class="top">

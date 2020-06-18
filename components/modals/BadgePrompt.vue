@@ -8,7 +8,7 @@
                 Keep going! You're in for a treat.
             </div>
             <div class="confirmation_image">
-                <img src="/sample-badge.svg" />
+                <img class="badge" src="/badge.svg" />
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn_wht" @click="toggleClose(true)">See my profile</div>
@@ -34,7 +34,7 @@
                 const me = this
                 me.$store.state.badgePromptStatus = false
                 document.body.classList.remove('no_scroll')
-                if (statys) {
+                if (status) {
                     me.$router.push('/my-profile')
                 }
             }

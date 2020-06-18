@@ -1,5 +1,5 @@
 <template>
-    <div id="navbar_expanded" :class="`${($parent.isMobile) ? 'mobile' : ''}`">
+    <div id="navbar_expanded" :class="`${($store.state.isMobile) ? 'mobile' : ''}`">
         <div class="close_icon" @click="toggleNavbarExpanded()"></div>
         <nuxt-link to="/" class="logo" @click.native="toggleNavbarExpanded()">
             <img src="/logo.svg" />

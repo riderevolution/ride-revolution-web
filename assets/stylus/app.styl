@@ -7455,6 +7455,9 @@ svg
             margin-top: 0
     .full
         width: 100%
+        &.gradient
+            background-color: $green
+            padding: 12% 0
     &.alt
         .overlay_mid
             h2
@@ -7466,6 +7469,9 @@ svg
             .default_btn
                 margin-top: 40px
     &.alt_2
+        &.grd
+            &::before
+                background-color: rgba(0, 0, 0, 0.2)
         .overlay_mid
             h1
                 brandon_regular(40px, false)
@@ -7564,10 +7570,11 @@ svg
                 brandon_regular(20px, false)
     .overlay_top
         position: absolute
-        top: 0
+        top: 50%
         left: 0
         width: 100%
         z-index: 1
+        transform: translateY(-50%)
         .overlay_image
             width: 920px
             animation: slide_from_left 1.5s
@@ -7626,6 +7633,13 @@ svg
         margin: 0 auto
         z-index: 1
         animation: slide_from_left 1.5s
+        .overlay_flex
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: center
+            .default_btn
+                margin-right: 20px
         p
             flex: 0 0 55%
             brandon_regular(20px, false)
@@ -7911,6 +7925,7 @@ svg
                     height: 150px
                     border: 3px solid #fff
                     opacity: .5
+                    object-position: top
                     transition: .3s ease-in-out
                 &.active
                 &:hover,
@@ -9237,6 +9252,54 @@ textarea::-webkit-scrollbar-thumb
 
 /**
  * Default Modal **/
+.accept_cookies
+    display: flex
+    flex-flow: row wrap
+    align-items: center
+    justify-content: space-between
+    position: fixed
+    padding: 15px 50px
+    width: 100%
+    bottom: 0
+    right: 0
+    left: 0
+    z-index: 100
+    background-color: $green
+    box-shadow: 0 3px 5px rgba(0,0,0,.5)
+    p
+        flex: 1 0 10%
+        brandon_medium(16px, false)
+        color: $white
+        a
+            color: $white
+    .default_btn
+        flex: 0 0 auto
+        margin-left: 10px
+        width: auto
+
+.modal_disclaimer
+    position: fixed
+    width: 100%
+    height: 100vh
+    z-index: 99
+    top: 0
+    padding: 20px 30px
+    background-color: #fff
+    animation: slide_out .5s
+    .overlay
+        position: absolute
+        top: 50%
+        left: 50%
+        text-align: center
+        transform: translate(-50%, -50%)
+        p
+            neutra_bold(24px, false)
+            color: $black
+            line-height: 1.5
+            margin: 20px auto 40px
+            width: 100%
+            max-width: 65%
+
 .default_modal_page
     position: relative
     z-index: 2
@@ -9647,6 +9710,16 @@ textarea::-webkit-scrollbar-thumb
         background-color: $white
         padding: 80px 80px 60px
         transform: translate(-50%, -50%)
+        &.video
+            width: 100%
+            max-width: 900px
+            padding: 0
+            background-color: #000
+            iframe
+                width: 100%
+                height: 600px
+                object-fit: cover
+                border: none
         &.image
             background-color: transparent
             padding: 15% 80px
@@ -9713,6 +9786,10 @@ textarea::-webkit-scrollbar-thumb
             img
                 width: 100%
                 {image_default}
+                &.badge
+                    width: 100%
+                    height: 200px
+                    object-fit: contain
         .member_info
             text-align: center
             margin-top: 40px

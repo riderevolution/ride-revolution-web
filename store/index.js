@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            videoPrompt: false,
+            showComplianceStatus: false,
+            checkBrowserStatus: false,
             badgePromptStatus: false,
             fromManageClass: false,
             bookerPromptStatus: false,
@@ -49,6 +52,7 @@ const createStore = () => {
             notificationMessage: '',
             isDeleteShow: false,
             contentLoaded: false,
+            isMobile: false,
             isLoading: false,
             token: '',
             customerID: 0,

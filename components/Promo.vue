@@ -16,13 +16,13 @@
                         </div>
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
-                    <div class="swiper-button-prev" slot="button-prev" v-if="!$parent.$parent.$parent.isMobile"></div>
-                    <div class="swiper-button-next" slot="button-next" v-if="!$parent.$parent.$parent.isMobile"></div>
+                    <div class="swiper-button-prev" slot="button-prev" v-if="!$store.state.isMobile"></div>
+                    <div class="swiper-button-next" slot="button-next" v-if="!$store.state.isMobile"></div>
                 </swiper>
                 <transition name="slideX">
-                    <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn" v-if="!$parent.$parent.$parent.isMobile">See All Promos</nuxt-link>
+                    <nuxt-link rel="canonical" to="/promos" class="overlay_btn default_btn" v-if="!$store.state.isMobile">See All Promos</nuxt-link>
                 </transition>
-                <div class="action_mobile" v-if="$parent.$parent.$parent.isMobile">
+                <div class="action_mobile" v-if="$store.state.isMobile">
                     <nuxt-link rel="canonical" to="/promos" class="default_btn">See All Promos</nuxt-link>
                 </div>
             </div>
@@ -99,7 +99,7 @@
             await me.$axios.get('api/web/promos?home=1').then(res => {
                 if (res.data) {
                     setTimeout( () => {
-                        if (me.$parent.$parent.$parent.isMobile) {
+                        if (me.$store.state.isMobile) {
                             me.lineClamp = 3
                         } else {
                             me.lineClamp = 4
