@@ -116,7 +116,7 @@
                         </div>
                         <div class="ride_chart">
                             <no-ssr>
-                                <apexchart :key="graphKey" :options="chartOptions" :series="series"></apexchart>
+                                <apexchart height="600" :key="graphKey" :options="chartOptions" :series="series"></apexchart>
                             </no-ssr>
                         </div>
                         <div class="ride_summary">
@@ -538,6 +538,10 @@
                         {
                             breakpoint: 767,
                             options: {
+                                chart: {
+                                    type: 'bar',
+                                    height: 350
+                                },
                                 plotOptions: {
                                     bar: {
                                         columnWidth: '100%'
