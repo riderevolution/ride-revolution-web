@@ -193,10 +193,10 @@
             </section>
             <section id="ride_with">
                 <div class="header">
-                    <h2>#RideWith{{ res.first_name }}</h2>
-                    <div class="description">
+                    <h2>{{ res.instructor_details.instagram_hashtag }}</h2>
+                    <a :href="res.instructor_details.instagram" target="_blank" class="description">
                         <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>{{ res.instructor_details.instagram_name }}</span>
-                    </div>
+                    </a>
                 </div>
                 <div class="content">
                     <instagram :lessOne="true" />
