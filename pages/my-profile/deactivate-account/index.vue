@@ -129,6 +129,19 @@
             setTimeout( () => {
                 me.loader(false)
             }, 500)
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Deactivate Account | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'nofollow',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ]
+            }
         }
     }
 </script>
