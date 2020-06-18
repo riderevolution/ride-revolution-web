@@ -588,11 +588,8 @@
                         type: 'bar',
                         height: 350,
                         toolbar: {
-                            show: true
+                            show: false
                         },
-                        zoom: {
-                            enabled: true
-                        }
                     },
                     colors: ['#9E558B'],
                     plotOptions: {
@@ -1003,8 +1000,10 @@
                 const me = this
                 let tempLabels = []
                 me.tabChartCategory = category
-                switch (category) {
-                    case 'weekly':
+                me.loader(true)
+                setTimeout( () => {
+                    switch (category) {
+                        case 'weekly':
                         me.series[0].data = me.rideRevJourney.weeklyRideCount.series.data
                         let currentDay = me.$moment().day()
                         tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
@@ -1017,7 +1016,7 @@
                         }
                         me.chartOptions.xaxis.categories = tempLabels
                         break
-                    case 'monthly':
+                        case 'monthly':
                         me.series[0].data = me.rideRevJourney.monthlyRideCount.series.data
                         let currentMonth = me.$moment().month() + 1
                         tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
@@ -1030,8 +1029,10 @@
                         }
                         me.chartOptions.xaxis.categories = tempLabels
                         break
-                }
-                me.graphKey += 1
+                    }
+                    me.graphKey += 1
+                    me.loader(false)
+                }, 500)
             },
             toggleOverlays (e) {
                 const me = this
