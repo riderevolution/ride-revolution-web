@@ -175,6 +175,7 @@
                                     res.data.customer.user_package_counts.forEach((data, index) => {
                                         if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
                                             data.toggled = false
+                                            data.expired = false
                                             me.$refs.profileTab.packages.push(data)
                                         }
                                     })
