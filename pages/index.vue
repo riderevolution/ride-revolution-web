@@ -225,7 +225,9 @@
                     <h2 :class="`image_bg ${($store.state.isMobile) ? 'mobile' : ''}`">studios</h2>
                     <div class="description">
                         <p>
-                            <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
+                            <a href="https://www.instagram.com/riderevolution" target="_blank">
+                                <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@riderevolution</span>
+                            </a>
                         </p>
                         <a href="https://www.instagram.com/riderevolution" target="_blank" class="default_btn">Follow Now</a>
                     </div>

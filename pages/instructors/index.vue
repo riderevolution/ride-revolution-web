@@ -283,13 +283,11 @@
                             bounding.right > 0 &&
                             bounding.left < (window.innerWidth || document.documentElement.clientWidth) &&
                             bounding.top < (window.innerHeight || document.documentElement.clientHeight)) {
-                            setTimeout(() => {
-                                if (!me.loadMore && !me.showLoadedInstructors) {
-                                    document.body.classList.add('no_scroll')
-                                    me.loadMoreInstructors()
-                                    me.loadMore = true
-                                }
-                            }, 500)
+                            if (!me.loadMore && !me.showLoadedInstructors) {
+                                document.body.classList.add('no_scroll')
+                                me.loadMoreInstructors()
+                                me.loadMore = true
+                            }
                         }
                     }
                 })
