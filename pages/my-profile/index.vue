@@ -18,7 +18,7 @@
                                     </div>
                                 </div>
                                 <div class="badges">
-                                    <div :class="`${(key == 0) ? 'first' : 'second' }`" v-for="(data, key) in badges" :key="key"><img :src="data.badge_image" /></div>
+                                    <div :class="`${(key == 0) ? 'first' : 'second' }`" v-for="(data, key) in badges" :key="key" v-if="key <= 1"><img :src="data.badge_image" /></div>
                                 </div>
                             </div>
                         </div>
