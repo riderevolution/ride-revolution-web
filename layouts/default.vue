@@ -48,7 +48,7 @@
             <image-viewer v-if="$store.state.imageViewerStatus" />
         </transition>
         <transition name="fade">
-            <badge-prompt v-if="$store.state.badgePromptStatus" />
+            <badge-prompt v-if="$store.state.badgePromptStatus" :badges="badges" />
         </transition>
     </div>
 </template>
@@ -82,6 +82,7 @@
         },
         data () {
             return {
+                badges: [],
                 isMobile: false
             }
         },
@@ -178,6 +179,7 @@
             },
             onResize() {
                 const me = this
+                let token = me.$cookies.get('token')
                 if (me.$cookies.get('agreeCompliance') != null || me.$cookies.get('agreeCompliance') != undefined) {
                     me.$store.state.showComplianceStatus = false
                 }
@@ -194,12 +196,22 @@
                     }
                 }
                 me.$store.state.isMobile = me.isMobile
+                me.validateToken()
+                me.$axios.get('api/new-badges', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data.badges.length > 0) {
+                        me.$store.state.badgePromptStatus = true
+                        me.badges = res.data.badges
+                    }
+                })
             }
         },
         mounted () {
             const me = this
             me.onResize()
-            me.validateToken()
         },
         beforeMount () {
             window.addEventListener('load', this.onResize)

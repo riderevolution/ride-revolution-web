@@ -18,8 +18,8 @@
                                     </div>
                                 </div>
                                 <div class="badges">
-                                    <div class="first"><img src="/sample-badge-2.svg" /></div>
-                                    <div class="second"><img src="/sample-badge.svg" /></div>
+                                    <div class="first"><img src="/badge.svg" /></div>
+                                    <div class="second"><img src="/badge.svg" /></div>
                                 </div>
                             </div>
                         </div>
