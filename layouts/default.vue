@@ -197,16 +197,18 @@
                 }
                 me.$store.state.isMobile = me.isMobile
                 me.validateToken()
-                me.$axios.get('api/new-badges', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data.badges.length > 0) {
-                        me.$store.state.badgePromptStatus = true
-                        me.badges = res.data.badges
-                    }
-                })
+                if (token != null && token != undefined) {
+                    me.$axios.get('api/new-badges', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data.badges.length > 0) {
+                            me.$store.state.badgePromptStatus = true
+                            me.badges = res.data.badges
+                        }
+                    })
+                }
             }
         },
         mounted () {
