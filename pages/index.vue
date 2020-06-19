@@ -255,6 +255,12 @@
         },
         data () {
             return {
+                animateUs: [
+                    {
+                        target: '#packages .content .package_wrapper',
+                        single: false
+                    }
+                ],
                 loaded: false,
                 res: [
                     {
@@ -404,6 +410,10 @@
                     me.loaded = true
                     me.loader(false)
                 }, 500)
+            },
+            handleScroll () {
+                const me = this
+                me.scrollAnimate(me.animateUs)
             }
         },
         async mounted () {
@@ -411,6 +421,12 @@
             await setTimeout( () => {
                 me.initial()
             }, 10)
+        },
+        beforeMount () {
+            window.addEventListener('scroll', this.handleScroll)
+        },
+        beforeDestroy () {
+            window.removeEventListener('scroll', this.handleScroll)
         },
         asyncData ({ $axios, params, error }) {
             return $axios.get('api/web/home')

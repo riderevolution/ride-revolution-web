@@ -2,6 +2,39 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
+        scrollAnimate (elementNames) {
+            elementNames.forEach((elementName, index) => {
+                if (elementName.single) {
+                    let element = document.querySelector(elementName.target)
+                    if (element && !element.classList.contains('ov')) {
+                        let bounding = element.getBoundingClientRect()
+                        if (bounding.bottom > 0 &&
+                            bounding.right > 0 &&
+                            bounding.left < (window.innerWidth || document.documentElement.clientWidth) - 50 &&
+                            bounding.top < (window.innerHeight || document.documentElement.clientHeight) - 50) {
+                            setTimeout(() => {
+                                element.classList.add('ov')
+                            }, 350 * elementIndex)
+                        }
+                    }
+                } else {
+                    let elements = document.querySelectorAll(elementName.target)
+                    elements.forEach((element, elementIndex) => {
+                        if (element && !element.classList.contains('ov')) {
+                            let bounding = element.getBoundingClientRect()
+                            if (bounding.bottom > 0 &&
+                                bounding.right > 0 &&
+                                bounding.left < (window.innerWidth || document.documentElement.clientWidth) - 50 &&
+                                bounding.top < (window.innerHeight || document.documentElement.clientHeight) - 50) {
+                                setTimeout(() => {
+                                    element.classList.add('ov')
+                                }, 350 * elementIndex)
+                            }
+                        }
+                    })
+                }
+            })
+        },
         payment (page, paypal_details, type) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
@@ -29,7 +62,7 @@ Vue.mixin({
                     formData.append('quantity', 1)
                     formData.append('promo_code', page.form.promo)
                     formData.append('discount', page.form.discount)
-                    break;
+                    break
             }
             formData.append('total', page.form.total)
             formData.append('payment_method', page.type)
