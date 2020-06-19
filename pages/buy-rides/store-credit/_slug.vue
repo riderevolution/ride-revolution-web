@@ -78,7 +78,7 @@
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>Php {{ totalCount(form.total) }}</p>
-                                <a href="javascript:void(0)" @click="paymaya()">wewew</a>
+                                <!-- <a href="javascript:void(0)" @click="paymaya()">wewew</a> -->
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
