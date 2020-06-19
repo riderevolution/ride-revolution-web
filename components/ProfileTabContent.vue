@@ -867,7 +867,7 @@
                         target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$store.state.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
                         if (!me.$store.state.isMobile) {
-                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 0px)`
+                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `20px`
                         } else {
                             target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                         }

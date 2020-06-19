@@ -5871,6 +5871,7 @@ svg
                                 img
                                     width: 65px
                                     height: 65px
+                                    object-fit: contain
                             .first
                                 position: relative
                                 z-index: 1
@@ -6098,7 +6099,7 @@ svg
                             .description_overlay
                                 position: absolute
                                 top: calc(100% + 10px)
-                                left: calc(0% - 20px)
+                                right: calc(0% - 20px)
                                 width: 225px
                                 z-index: 1
                                 brandon_regular(14px, false)
@@ -7239,7 +7240,7 @@ svg
             overflow: hidden
             opacity: 0
             visibility: hidden
-            transform: perspective(1px) scale(1) translateY(100px)
+            transform: perspective(1px) scale(1) translateY(50px)
             transition: .3s ease-in-out
             &.ov
                 opacity: 1

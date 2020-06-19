@@ -18,8 +18,7 @@
                                     </div>
                                 </div>
                                 <div class="badges">
-                                    <div class="first"><img src="/badge.svg" /></div>
-                                    <div class="second"><img src="/badge.svg" /></div>
+                                    <div :class="`${(key == 0) ? 'first' : 'second' }`" v-for="(data, key) in badges" :key="key" v-if="key <= 1"><img :src="data.badge_image" /></div>
                                 </div>
                             </div>
                         </div>
@@ -84,12 +83,8 @@
                 storeCredits: 0,
                 first_name: '',
                 last_name: '',
-                user: []
-            }
-        },
-        watch: {
-            $route (to, from){
-
+                user: [],
+                badges: []
             }
         },
         methods: {
@@ -266,6 +261,7 @@
                 }).then(res => {
                     if (res.data) {
                         me.user = res.data.user
+                        me.badges = res.data.acquiredBadges
                         me.storeCredits = (res.data.user.store_credits === null) ? 0 : res.data.user.store_credits.amount
                         me.first_name = res.data.user.first_name.charAt(0)
                         me.last_name = res.data.user.last_name.charAt(0)
