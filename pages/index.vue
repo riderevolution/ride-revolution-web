@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="content" v-if="!$store.state.isMobile">
-                    <nuxt-link :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`, data, 'package')" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
                         <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                         <div class="package_header">
                             <h2 class="title">{{ data.name }}</h2>
@@ -383,6 +383,39 @@
             }
         },
         methods: {
+            checkIfLoggedIn (event, slug, data, type) {
+                const me = this
+                event.preventDefault()
+                if (!me.$store.state.isAuth) {
+                    me.$store.state.loginCheckerStatus = true
+                    document.body.classList.add('no_scroll')
+                } else {
+                    if (type == 'package') {
+                        // me.loader(true)
+                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                        let formData = new FormData()
+                        formData.append('clasS_package_id', data.id)
+                        me.$axios.post('api/extras/check-package-validity', formData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            if (res.data) {
+                                me.$router.push(slug)
+                            }
+                        }).catch(err => {
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                    } else {
+                        me.$router.push(slug)
+                    }
+                }
+            },
             toggleVideo () {
                 const me = this
                 me.$store.state.videoPrompt = true
@@ -396,9 +429,13 @@
             },
             getStudio (event) {
                 const me = this
+                me.loader(true)
                 me.studios.forEach((data, index) => {
                     if (data.id == event.target.value) {
-                        me.studio = data
+                        setTimeout( () => {
+                            me.loader(false)
+                            me.studio = data
+                        }, 500)
                     }
                 })
             },
