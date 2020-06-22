@@ -406,8 +406,8 @@
                 const me = this
                 me.loader(true)
                 setTimeout( () => {
-                    console.log(me.res);
                     me.loaded = true
+                    me.scrollAnimate(me.animateUs)
                     me.loader(false)
                 }, 500)
             },
