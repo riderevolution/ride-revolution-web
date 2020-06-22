@@ -17,14 +17,15 @@
                 </ul>
             </div>
             <div class="right">
-                <ul class="expanded_nav_list">
-                    <li><nuxt-link class="nav_item" to="/about" @click.native="toggleNavbarExpanded()">About</nuxt-link></li>
-                    <!-- <li><nuxt-link class="nav_item" to="/ride-rewards" @click.native="toggleNavbarExpanded()">Ride Rewards</nuxt-link></li> -->
-                    <li><nuxt-link class="nav_item" to="/promos" @click.native="toggleNavbarExpanded()">Promos</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/news" @click.native="toggleNavbarExpanded()">News</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/faqs" @click.native="toggleNavbarExpanded()">Faqs</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/refer-a-friend" @click.native="toggleNavbarExpanded()">Refer a Friend</nuxt-link></li>
-                    <li><nuxt-link class="nav_item" to="/contact-us" @click.native="toggleNavbarExpanded()">Contact Us</nuxt-link></li>
+                <ul class="expanded_nav_list" itemscope itemtype="https://schema.org/SiteNavigationElement">
+                    <meta itemprop="name" content="Main Menu Expanded">
+                    <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/about" @click.native="toggleNavbarExpanded()">About</nuxt-link></li>
+                    <!-- <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/ride-rewards" @click.native="toggleNavbarExpanded()">Ride Rewards</nuxt-link></li> -->
+                    <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/promos" @click.native="toggleNavbarExpanded()">Promos</nuxt-link></li>
+                    <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/news" @click.native="toggleNavbarExpanded()">News</nuxt-link></li>
+                    <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/faqs" @click.native="toggleNavbarExpanded()">Faqs</nuxt-link></li>
+                    <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/refer-a-friend" @click.native="toggleNavbarExpanded()">Refer a Friend</nuxt-link></li>
+                    <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/contact-us" @click.native="toggleNavbarExpanded()">Contact Us</nuxt-link></li>
                 </ul>
                 <div class="expanded_nav_description">
                     <a class="link" href="https://open.spotify.com/user/riderevolution?si=7P28kqLpS2WnOa3-NOj3ug" target="_blank">
