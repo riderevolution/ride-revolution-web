@@ -56,6 +56,7 @@
                         me.isMobile = false
                     }
                 }
+                me.$store.state.isMobile = me.isMobile
             }
         },
         mounted () {
