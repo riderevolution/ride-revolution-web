@@ -108,6 +108,16 @@
         },
         data () {
             return {
+                animateUs: [
+                    {
+                        target: '#packages #package.content .package_wrapper',
+                        single: false
+                    },
+                    {
+                        target: '#packages #storecredits.content .package_wrapper',
+                        single: false
+                    }
+                ],
                 loaded: false,
                 res: [],
                 toShowPackages: 3,
@@ -227,8 +237,13 @@
                     me.toShowPackages = (me.$store.state.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                     me.toShowStoreCredits = (me.$store.state.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
                     me.loaded = true
+                    me.scrollAnimate(me.animateUs)
                     me.loader(false)
                 }, 500)
+            },
+            handleScroll () {
+                const me = this
+                me.scrollAnimate(me.animateUs)
             }
         },
         async mounted() {
@@ -237,9 +252,16 @@
                 me.initial()
             }, 10)
         },
+        beforeMount () {
+            window.addEventListener('scroll', this.handleScroll)
+        },
+        beforeDestroy () {
+            window.removeEventListener('scroll', this.handleScroll)
+        },
         asyncData ({ $axios, params, store, error }) {
             return $axios.get('api/packages/for-buy-rides').then(res => {
                 if (res.data) {
+                    console.log({ res: res.data });
                     return {
                         res: res.data.pageSetting,
                         packages: res.data.classPackages,

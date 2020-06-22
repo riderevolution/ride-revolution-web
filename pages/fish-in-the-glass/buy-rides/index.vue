@@ -85,6 +85,16 @@
         layout: 'fish',
         data () {
             return {
+                animateUs: [
+                    {
+                        target: '#packages #package.content .package_wrapper',
+                        single: false
+                    },
+                    {
+                        target: '#packages #storecredits.content .package_wrapper',
+                        single: false
+                    }
+                ],
                 res: [],
                 toShowPackages: 3,
                 toShowStoreCredits: 3,
@@ -265,8 +275,13 @@
                 me.toShowPackages = (me.$store.state.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                 me.toShowStoreCredits = (me.$store.state.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
                 setTimeout( () => {
+                    me.scrollAnimate(me.animateUs)
                     me.loader(false)
                 }, 500)
+            },
+            handleScroll () {
+                const me = this
+                me.scrollAnimate(me.animateUs)
             }
         },
         mounted() {
@@ -274,6 +289,12 @@
             setTimeout( () => {
                 me.fetchData()
             }, 10)
+        },
+        beforeMount () {
+            window.addEventListener('scroll', this.handleScroll)
+        },
+        beforeDestroy () {
+            window.removeEventListener('scroll', this.handleScroll)
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get('api/packages/for-buy-rides').then(res => {
