@@ -174,10 +174,10 @@
                     document.body.classList.add('no_scroll')
                 } else {
                     if (type == 'package') {
-                        // me.loader(true)
+                        me.loader(true)
                         let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
                         let formData = new FormData()
-                        formData.append('clasS_package_id', data.id)
+                        formData.append('class_package_id', data.id)
                         me.$axios.post('api/extras/check-package-validity', formData, {
                             headers: {
                                 Authorization: `Bearer ${token}`
@@ -187,8 +187,11 @@
                                 me.$router.push(slug)
                             }
                         }).catch(err => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
+                            setTimeout( () => {
+                                document.body.classList.add('no_scroll')
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }, 500)
                         }).then(() => {
                             setTimeout( () => {
                                 me.loader(false)

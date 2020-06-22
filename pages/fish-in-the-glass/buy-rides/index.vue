@@ -17,7 +17,7 @@
                 </transition>
             </div>
             <div class="content" id="package">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`)" rel="canonical" :to="`/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`, data, 'package')" rel="canonical" :to="`/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                     <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                     <div class="package_header">
                         <h2 class="title">{{ data.name }}</h2>
@@ -57,7 +57,7 @@
                 </transition>
             </div>
             <div class="content" id="storecredits">
-                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/store-credit/${data.slug}?token=${$route.query.token}`)" rel="canonical" :to="`/fish-in-the-glass/buy-rides/store-credit/${data.slug}?token=${$route.query.token}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
+                <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/store-credit/${data.slug}?token=${$route.query.token}`, data, 'store-credits')" rel="canonical" :to="`/fish-in-the-glass/buy-rides/store-credit/${data.slug}?token=${$route.query.token}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
                     <div class="package_header alt">
                         <h2 class="title">{{ data.name }}</h2>
                     </div>
@@ -167,23 +167,38 @@
             },
         },
         methods: {
-            checkIfLoggedIn (event, slug) {
-                const me = this
+            checkIfLoggedIn (event, slug, data, type) {
                 event.preventDefault()
+                const me = this
                 let token = me.$route.query.token
-                me.$axios.get('api/check-token', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                if (token == null || token == undefined) {
+                    me.$nuxt.error({ statusCode: 403, message: 'Something went Wrong' })
+                } else {
+                    if (type == 'package') {
+                        me.loader(true)
+                        let formData = new FormData()
+                        formData.append('class_package_id', data.id)
+                        me.$axios.post('api/extras/check-package-validity', formData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            if (res.data) {
+                                me.$router.push(slug)
+                            }
+                        }).catch(err => {
+                            document.body.classList.add('no_scroll')
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                    } else {
+                        me.$router.push(slug)
                     }
-                }).then(res => {
-                    if (res.data) {
-                        if (token != null && token != undefined) {
-                            me.$router.push(slug)
-                        }
-                    }
-                }).catch(err => {
-                    console.log(err)
-                })
+                }
             },
             loadMoreContent (type) {
                 const me = this
