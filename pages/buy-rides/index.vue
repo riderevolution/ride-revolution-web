@@ -25,7 +25,7 @@
                     </transition>
                 </div>
                 <div class="content" id="package">
-                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`)" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`, data, 'package')" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                         <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                         <div class="package_header">
                             <h2 class="title">{{ data.name }}</h2>
@@ -66,7 +66,7 @@
                     </transition>
                 </div>
                 <div class="content" id="storecredits">
-                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`)" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`, data, 'store-credit')" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
                         <div class="package_header alt">
                             <h2 class="title">{{ data.name }}</h2>
                         </div>
@@ -166,14 +166,40 @@
             },
         },
         methods: {
-            checkIfLoggedIn (event, slug) {
+            checkIfLoggedIn (event, slug, data, type) {
                 const me = this
                 event.preventDefault()
                 if (!me.$store.state.isAuth) {
                     me.$store.state.loginCheckerStatus = true
                     document.body.classList.add('no_scroll')
                 } else {
-                    me.$router.push(slug)
+                    if (type == 'package') {
+                        me.loader(true)
+                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                        let formData = new FormData()
+                        formData.append('class_package_id', data.id)
+                        me.$axios.post('api/extras/check-package-validity', formData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            if (res.data) {
+                                me.$router.push(slug)
+                            }
+                        }).catch(err => {
+                            setTimeout( () => {
+                                document.body.classList.add('no_scroll')
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }, 500)
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                    } else {
+                        me.$router.push(slug)
+                    }
                 }
             },
             loadMoreContent (type) {
@@ -261,7 +287,6 @@
         asyncData ({ $axios, params, store, error }) {
             return $axios.get('api/packages/for-buy-rides').then(res => {
                 if (res.data) {
-                    console.log({ res: res.data });
                     return {
                         res: res.data.pageSetting,
                         packages: res.data.classPackages,
@@ -269,7 +294,7 @@
                     }
                 }
             }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
+                error({ statusCode: 404, message: 'Page not found' })
             })
         },
         head () {

@@ -8,17 +8,18 @@
                     Revolution
                 </div>
             </nuxt-link>
-            <ul class="nav_list" v-if="!$store.state.isMobile">
-                <li>
-                    <nuxt-link rel="canonical" to="/buy-rides" class="nav_item">Buy Rides</nuxt-link>
+            <ul class="nav_list" v-if="!$store.state.isMobile" itemscope itemtype="https://schema.org/SiteNavigationElement">
+                <meta itemprop="name" content="Main Menu">
+                <li itemprop="name">
+                    <nuxt-link rel="canonical" to="/buy-rides" itemprop="url" class="nav_item">Buy Rides</nuxt-link>
                 </li>
-                <li>
-                    <nuxt-link rel="canonical" to="/book-a-bike" class="nav_item">Book a Bike</nuxt-link>
+                <li itemprop="name">
+                    <nuxt-link rel="canonical" to="/book-a-bike" itemprop="url" class="nav_item">Book a Bike</nuxt-link>
                 </li>
-                <li>
-                    <nuxt-link rel="canonical" to="/instructors" class="nav_item">Instructors</nuxt-link>
+                <li itemprop="name">
+                    <nuxt-link rel="canonical" to="/instructors" itemprop="url" class="nav_item">Instructors</nuxt-link>
                 </li>
-                <li v-if="!$store.state.isAuth">
+                <li itemprop="name" v-if="!$store.state.isAuth">
                     <div class="default_btn" @click="loginUser()">Login / Sign up</div>
                 </li>
                 <li v-else>

@@ -8,23 +8,25 @@
         </a>
         <div class="footer_link">
             <h3>In Studio</h3>
-            <ul>
-                <li><nuxt-link rel="canonical" to="/riders-guide" class="footer_item">Rider's Guide</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/buy-rides" class="footer_item">Buy Rides</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/book-a-bike" class="footer_item">Book a Bike</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/instructors" class="footer_item">Instructors</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/studios" class="footer_item">Studio</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/faqs" class="footer_item">FAQ's</nuxt-link></li>
+            <ul itemscope itemtype="https://schema.org/SiteNavigationElement">
+                <meta itemprop="name" content="Footer Menu In Studio">
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/riders-guide" class="footer_item">Rider's Guide</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/buy-rides" class="footer_item">Buy Rides</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/book-a-bike" class="footer_item">Book a Bike</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/instructors" class="footer_item">Instructors</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/studios" class="footer_item">Studio</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/faqs" class="footer_item">FAQ's</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link">
             <h3>Services</h3>
-            <ul>
-                <li><nuxt-link rel="canonical" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/news" class="footer_item">News</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/promos" class="footer_item">Promos</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
-                <li><nuxt-link rel="canonical" to="/terms-and-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
+            <ul itemscope itemtype="https://schema.org/SiteNavigationElement">
+                <meta itemprop="name" content="Footer Menu Services">
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/news" class="footer_item">News</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/promos" class="footer_item">Promos</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/terms-and-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link alt">
