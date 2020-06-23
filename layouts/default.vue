@@ -152,7 +152,9 @@
                 else if (browser[0] == 'Edge' && parseInt(browser[1]) < 16) {
                     me.triggerChecking()
                 } else {
-                    me.$store.state.showComplianceStatus = true
+                    if (me.$cookies.get('agreeCompliance') == null || me.$cookies.get('agreeCompliance') == undefined) {
+                        me.$store.state.showComplianceStatus = true
+                    }
                 }
             },
             triggerChecking () {
@@ -206,6 +208,7 @@
                         if (res.data.badges.length > 0) {
                             me.$store.state.badgePromptStatus = true
                             me.badges = res.data.badges
+                            document.body.classList.add('no_scroll')
                         }
                     })
                 }
