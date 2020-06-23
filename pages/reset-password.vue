@@ -2,7 +2,7 @@
     <div class="reset_password">
         <section id="banner" class="mt"></section>
         <div class="reset_done" v-if="resetDone">
-            <p>Password changed successfully. Click <div class="link" @click="loginUser()">here</div> to login.</p>
+            <p>Password changed successfully. Click <div class="link" @click="loginUser()"> here </div> to login.</p>
         </div>
         <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == 1 && !resetDone">
             <div class="form_main_group">
@@ -92,9 +92,14 @@
             }
         },
         methods: {
+            loginUser () {
+                const me = this
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
+            },
             submissionResetSuccess () {
                 let me = this
-                me.$validator.validateAll('login_form').then(valid => {
+                me.$validator.validateAll().then(valid => {
                     if (valid) {
                         me.loader(true)
                         me.$axios.post('api/forgot-password', me.resetPasswordForm).then(res => {
@@ -140,9 +145,9 @@
                 }
             },
             validateResetPasswordToken () {
-                this.$axios.get(`api/reset-password/validate-token/${this.$route.query.token}`).then(res => {
+                this.$axios.get(`api/reset-password/validate-token/${this.$route.query.resetToken}`).then(res => {
                     this.validToken = 1
-                    this.resetPasswordForm.token = this.$route.query.token
+                    this.resetPasswordForm.token = this.$route.query.resetToken
                 }).catch(err => {
                     console.log(err)
                     this.validToken = err.response.data.errors[0]
