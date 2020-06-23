@@ -208,6 +208,7 @@
                         if (res.data.badges.length > 0) {
                             me.$store.state.badgePromptStatus = true
                             me.badges = res.data.badges
+                            document.body.classList.add('no_scroll')
                         }
                     })
                 }
