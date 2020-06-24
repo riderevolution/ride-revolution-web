@@ -73,17 +73,22 @@
             <form id="step_2_form" data-vv-scope="complete_profile_2_form" v-show="completeProfileStep == 2">
                 <div id="default_form" :class="`${(completeProfileStep == 2) ? 'fade_in' : 'fade_out'}`">
                     <div class="sign_up_header alt">
-                        <h2 class="title">Tell us about your personal address</h2>
+                        <h2 class="title">Keep going!</h2>
                     </div>
-                    <div class="form_group">
-                        <label for="personal_address">Address <span>*</span></label>
-                        <input type="text" name="personal_address" autocomplete="off" class="input_text" placeholder="Enter your address 1" v-model="completeProfile.personal_address" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.personal_address')">{{ errors.first('complete_profile_2_form.personal_address') | properFormat }}</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="personal_city">City <span>*</span></label>
-                        <input type="text" name="personal_city" autocomplete="off" class="input_text" placeholder="Enter your city" v-model="completeProfile.personal_city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.personal_city')">{{ errors.first('complete_profile_2_form.personal_city') | properFormat }}</span></transition>
+                    <div class="form_main_group alt">
+                        <div class="form_header">
+                            <label>Personal Address</label>
+                        </div>
+                        <div class="form_group">
+                            <label for="personal_address">Address <span>*</span></label>
+                            <input type="text" name="personal_address" autocomplete="off" class="input_text" placeholder="Enter your address 1" v-model="completeProfile.personal_address" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.personal_address')">{{ errors.first('complete_profile_2_form.personal_address') | properFormat }}</span></transition>
+                        </div>
+                        <div class="form_group">
+                            <label for="personal_city">City <span>*</span></label>
+                            <input type="text" name="personal_city" autocomplete="off" class="input_text" placeholder="Enter your city" v-model="completeProfile.personal_city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.personal_city')">{{ errors.first('complete_profile_2_form.personal_city') | properFormat }}</span></transition>
+                        </div>
                     </div>
                     <div class="form_flex sign_up">
                         <div class="back" @click="toggleStep('back')">Back</div>

@@ -11,7 +11,7 @@
                                 </div>
                                 <div class="summary_content">
                                     <div class="class_stat">
-                                        <div class="class_count">{{ rideRevJourney.classesTaken }} {{ (rideRevJourney.classesTaken <= 1) ? 'Class' : 'Classes' }}</div>
+                                        <div class="class_count">{{ rideRevJourney.classesTaken }} Classes</div>
                                         <div class="class_date">{{ usertoNow }}</div>
                                     </div>
                                     <div class="motto" v-if="rideRevJourney.classesTaken >= 10">{{ checkRideCount(rideRevJourney.classesTaken) }}</div>
@@ -191,7 +191,7 @@
                             <div class="logo">
                                 <img src="/footer-logo.svg" />
                             </div>
-                            <nuxt-link to="book-a-bike" class="default_btn">Book a Bike</nuxt-link>
+                            <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
                         </div>
                     </div>
                 </div>
@@ -281,7 +281,7 @@
                                 <div class="logo">
                                     <img src="/footer-logo.svg" />
                                 </div>
-                                <nuxt-link to="buy-rides" class="default_btn">Buy rides</nuxt-link>
+                                <nuxt-link to="/buy-rides" class="default_btn">Buy rides</nuxt-link>
                             </div>
                         </div>
                     </div>
@@ -315,7 +315,7 @@
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody v-if="pendingTransactions.length > 0">
                             <tr v-for="(data, key) in pendingTransactions" :key="key">
                                 <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
@@ -336,6 +336,9 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tbody class="no_results" v-else>
+                            <td class="text" colspan="5">You don't have pending transactions.</td>
+                        </tbody>
                     </table>
                 </div>
                 <div class="profile_transactions">
@@ -352,7 +355,7 @@
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody v-if="paidTransactions.length > 0">
                             <tr v-for="(data, key) in paidTransactions" :key="key">
                                 <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
@@ -372,6 +375,9 @@
                                     <div :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</div>
                                 </td>
                             </tr>
+                        </tbody>
+                        <tbody class="no_results" v-else>
+                            <td class="text" colspan="5">You don't have pending transactions.</td>
                         </tbody>
                     </table>
                 </div>
@@ -426,6 +432,7 @@
                         <div class="logo">
                             <img src="/footer-logo.svg" />
                         </div>
+                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Digital Gift Card</nuxt-link>
                     </div>
                 </div>
             </div>
@@ -605,9 +612,6 @@
                     },
                     dataLabels: {
                         enabled: true,
-                        formatter: function (val) {
-                            return `${val}`
-                        },
                         offsetY: -15,
                         style: {
                             fontFamily: 'Brandon-Bold',
@@ -637,6 +641,9 @@
                     yaxis: {
                         labels: {
                             show: true,
+                            formatter: function (val) {
+                                return `${val}`
+                            },
                             style: {
                                 colors: ['#000'],
                                 fontSize: '14px',

@@ -27,7 +27,7 @@
                                 <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div>
                                 <div class="info">
                                     <div class="label">Username <b>{{ user.member_id }}</b></div>
-                                    <div class="label">Store Credits <b>{{ storeCredits }}</b></div>
+                                    <div class="label">Store Credits <b>{{ totalItems(storeCredits) }}</b></div>
                                 </div>
                             </div>
                             <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="user.new_user == 0"><span>Update Profile</span></nuxt-link>
