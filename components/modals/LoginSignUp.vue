@@ -392,6 +392,7 @@
                                     me.loader(false)
                                 }, 500)
                                 me.validateToken()
+                                me.checkBadges()
                             })
                         })
                     } else {
@@ -428,6 +429,7 @@
                             me.loader(false)
                         }, 500)
                         me.validateToken()
+                        me.checkBadges()
                     })
                 })
             },
@@ -622,6 +624,7 @@
                                 me.loader(false)
                             }, 500)
                             me.validateToken()
+                            me.checkBadges()
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {
