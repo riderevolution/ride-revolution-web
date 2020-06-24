@@ -250,10 +250,8 @@
                                         Authorization: `Bearer ${token}`
                                     }
                                 }).then(res => {
-                                    setTimeout( () => {
-                                        me.$store.state.commentSuccessStatus = true
-                                        document.body.classList.add('no_scroll')
-                                    }, 500)
+                                    me.$store.state.commentSuccessStatus = true
+                                    document.body.classList.add('no_scroll')
                                 }).catch(err => {
                                     me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                                 }).then(() => {
@@ -264,10 +262,6 @@
                             }
                         }).catch(err => {
                             me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {

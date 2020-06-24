@@ -134,23 +134,25 @@
                     <h2>#RideRev <span>With {{ res.first_name }}</span></h2>
                     <h3>This week’s upcoming classes</h3>
                 </div>
-                <div class="no_results">
+                <div class="no_results alt">
                     <p>NO CLASSES FOR THIS WEEK</p>
                 </div>
             </section>
             <section id="comments">
                 <div class="header">
                     <h2>Here are what other riders are raving about {{ res.first_name }}</h2>
-                    <nuxt-link :to="`/instructors/${res.instructor_details.slug}/comment`" class="default_btn">Write a Review</nuxt-link>
+                    <div class="btn">
+                        <nuxt-link :to="`/instructors/${res.instructor_details.slug}/comment`" class="default_btn">Write a Review</nuxt-link>
+                    </div>
                 </div>
-                <div class="overall">
+                <div class="overall" v-if="comments.length > 0">
                     <div class="overall_left">
-                        <p class="count">4.8</p>
+                        <p class="count">{{ overallRating }}</p>
                         <p class="label">out of 5</p>
                     </div>
-                    <div class="overall_right">
+                    <div class="overall_right" v-if="loaded">
                         <div class="star" v-for="n in 5">
-                            <div class="star_overlay">
+                            <div :id="`star_${n}`" class="star_overlay">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32.94" height="31.328" viewBox="0 0 32.94 31.328"><defs><style>.a1{fill:#26a48b;}</style></defs><path class="a1" d="M1163.074,284.065l5.09,10.313,11.38,1.654-8.235,8.027,1.944,11.335-10.18-5.352-10.178,5.352,1.944-11.335-8.235-8.027,11.381-1.654Z" transform="translate(-1146.604 -284.065)"/></svg>
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32.94" height="31.328" viewBox="0 0 32.94 31.328"><defs><style>.a{fill:#c7c7c7;}</style></defs><path class="a" d="M1163.074,284.065l5.09,10.313,11.38,1.654-8.235,8.027,1.944,11.335-10.18-5.352-10.178,5.352,1.944-11.335-8.235-8.027,11.381-1.654Z" transform="translate(-1146.604 -284.065)"/></svg>
@@ -158,7 +160,7 @@
                     </div>
                 </div>
                 <div class="content" v-if="!$store.state.isMobile">
-                    <div class="comment" v-for="(data, key) in populateComment" :key="key">
+                    <div class="comment" v-for="(data, key) in populateComment" :key="key" v-if="comments.length > 0">
                         <div class="comment_img_initials">
                             <div class="background"></div>
                             <div class="initials">{{ data.author.charAt(0) }}{{ data.author.charAt(1) }}</div>
@@ -178,9 +180,12 @@
                             <div class="description" v-html="data.description"></div>
                         </div>
                     </div>
+                    <div class="no_results alt" v-if="comments.length == 0">
+                        <p>No Available Reviews</p>
+                    </div>
                 </div>
                 <div class="content mobile" v-else>
-                    <div class="comment" v-for="(data, key) in populateComment" :key="key">
+                    <div class="comment" v-for="(data, key) in populateComment" :key="key" v-if="comments.length > 0">
                         <div class="comment_header_mobile">
                             <div class="comment_img_initials">
                                 <div class="background"></div>
@@ -199,6 +204,9 @@
                             <div class="title">{{ data.title }}</div>
                             <div class="description" v-html="data.description"></div>
                         </div>
+                    </div>
+                    <div class="no_results alt" v-if="comments.length == 0">
+                        <p>No Available Reviews</p>
                     </div>
                 </div>
                 <div class="load_more">
@@ -281,6 +289,8 @@
                 imagesToSend: [],
                 toShow: 4,
                 count: 0,
+                overallRating: 0,
+                overallRatingComputed: false,
                 comments: []
             }
         },
@@ -348,7 +358,6 @@
                                         formData.append('type', 'booking')
                                         me.$axios.post('api/schedules/validate', formData).then(res => {
                                             if (res.data) {
-                                                console.log(res.data);
                                                 setTimeout( () => {
                                                     if (user.userPackagesCount > 0) {
                                                         me.$router.push(`/book-a-bike/${data.id}`)
@@ -414,18 +423,19 @@
                         break
                 }
             },
-            initial () {
+            async initial () {
                 const me = this
                 let token = me.$cookies.get('token')
                 me.loader(true)
                 if (token != null || token != undefined) {
-                    me.$axios.get(`api/web/instructors/${me.$route.params.slug}`, {
+                    await me.$axios.get(`api/web/instructors/${me.$route.params.slug}`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
                     }).then(res => {
                         if (res.data) {
                             setTimeout( () => {
+                                let tempRating = 0
                                 me.res = res.data.instructor
                                 me.mainImage = me.res.instructor_details.gallery[0].path
                                 me.res.instructor_details.gallery.forEach((data, index) => {
@@ -434,21 +444,50 @@
                                     }
                                 })
                                 me.comments = me.res.reviews
+                                me.comments.forEach((comment, index) => {
+                                    tempRating += comment.rating
+                                })
+                                if (tempRating != 0) {
+                                    me.overallRating = tempRating / me.comments.length
+                                    me.overallRating = me.overallRating.toFixed(1)
+                                }
                                 me.scheduledDates = res.data.scheduledDates
                                 me.loaded = true
+                                setTimeout( () => {
+                                    for (let i = 1; i <= 5; i++) {
+                                        let target = document.getElementById(`star_${i}`)
+                                        if (tempRating != 0) {
+                                            if (!me.overallRatingComputed) {
+                                                if (me.overallRating < i) {
+                                                    target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
+                                                    me.overallRatingComputed = true
+                                                }
+                                            } else {
+                                                if (me.overallRating >= i) {
+                                                    target.style.width = '100%'
+                                                } else {
+                                                    target.style.width = '0%'
+                                                }
+                                            }
+                                        } else {
+                                            target.style.width = '0%'
+                                        }
+                                    }
+                                }, 500)
                             }, 500)
                         }
                     }).catch(err => {
-                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                     }).then(() => {
                         setTimeout( () => {
                             me.loader(false)
                         }, 500)
                     })
                 } else {
-                    me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
+                    await me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
                         if (res.data) {
                             setTimeout( () => {
+                                let tempRating = 0
                                 me.res = res.data.instructor
                                 me.mainImage = me.res.instructor_details.gallery[0].path
                                 me.res.instructor_details.gallery.forEach((data, index) => {
@@ -457,12 +496,40 @@
                                     }
                                 })
                                 me.comments = me.res.reviews
+                                me.comments.forEach((comment, index) => {
+                                    tempRating += comment.rating
+                                })
+                                if (tempRating != 0) {
+                                    me.overallRating = tempRating / me.comments.length
+                                    me.overallRating = me.overallRating.toFixed(1)
+                                }
                                 me.scheduledDates = res.data.scheduledDates
                                 me.loaded = true
+                                setTimeout( () => {
+                                    for (let i = 1; i <= 5; i++) {
+                                        let target = document.getElementById(`star_${i}`)
+                                        if (tempRating != 0) {
+                                            if (!me.overallRatingComputed) {
+                                                if (me.overallRating < i) {
+                                                    target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
+                                                    me.overallRatingComputed = true
+                                                }
+                                            } else {
+                                                if (me.overallRating >= i) {
+                                                    target.style.width = '100%'
+                                                } else {
+                                                    target.style.width = '0%'
+                                                }
+                                            }
+                                        } else {
+                                            target.style.width = '0%'
+                                        }
+                                    }
+                                }, 500)
                             }, 500)
                         }
                     }).catch(err => {
-                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                     }).then(() => {
                         setTimeout( () => {
                             me.loader(false)
@@ -471,9 +538,9 @@
                 }
             }
         },
-        mounted () {
+        async mounted () {
             const me = this
-            me.initial()
+            await me.initial()
         },
         head () {
             const me = this

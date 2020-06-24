@@ -172,7 +172,7 @@
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group date">
                         <label for="birth_date">Birthdate <span>*</span></label>
-                        <input type="date" name="birth_date" autocomplete="off" class="input_text" v-model="signUpForm.birth_date" v-validate="'required|date_format:MM/dd/yyyy'">
+                        <input type="date" name="birth_date" autocomplete="off" class="input_text" v-model="signUpForm.birth_date" v-validate="'required|date_format:yyyy-MM-dd'">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">{{ errors.first('register_process_form.birth_date') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group select">
