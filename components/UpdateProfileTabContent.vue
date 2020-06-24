@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="form_group select">
-                        <label for="what_do_you_do">What do you do <span>*</span></label>
+                        <label for="what_do_you_do">Profession <span>*</span></label>
                         <div class="select">
                             <select class="input_select" name="what_do_you_do" v-model="profileOverview.what_do_you_do" v-validate="'required'">
                                 <option value="0" selected disabled>Choose a Profession</option>
