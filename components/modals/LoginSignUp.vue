@@ -127,7 +127,7 @@
             <section id="login" v-if="signUpProcess && signUpStep == 1">
                 <div class="sign_up_header">
                     <h2 class="title">A few more things...</h2>
-                    <div class="counter">1/3</div>
+                    <div class="counter">2/4</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group disclaimer">
@@ -167,7 +167,7 @@
             <section id="login" v-if="signUpProcess && signUpStep == 2">
                 <div class="sign_up_header">
                     <h2 class="title">Almost there, {{ signUpForm.first_name }}!</h2>
-                    <div class="counter">2/3</div>
+                    <div class="counter">3/4</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group date">
@@ -176,7 +176,7 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">{{ errors.first('register_process_form.birth_date') | properFormat }}</span></transition>
                     </div>
                     <div class="form_group select">
-                        <label for="what_do_you_do">What do you do <span>*</span></label>
+                        <label for="what_do_you_do">Profession <span>*</span></label>
                         <div class="select">
                             <select class="input_select" name="what_do_you_do" v-model="signUpForm.what_do_you_do" v-validate="'required'">
                                 <option value="" selected disabled>Choose a Profession</option>
@@ -210,7 +210,7 @@
             <section id="login" v-if="signUpProcess && signUpStep == 3">
                 <div class="sign_up_header">
                     <h2 class="title">Terms and Conditions &amp; Privacy Policy</h2>
-                    <div class="counter">3/3</div>
+                    <div class="counter">4/4</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group">
@@ -277,7 +277,7 @@
                     first_name: '',
                     last_name: '',
                     contact_number: '',
-                    birth_date: this.$moment().format('YYYY-MM-DD'),
+                    birth_date: 'MM/dd/yyyy',
                     what_do_you_do: '',
                     sex: '',
                     iAgree: ''

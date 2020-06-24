@@ -348,7 +348,7 @@
                     <table class="default_table">
                         <thead>
                             <tr>
-                                <th>Date &amp; time</th>
+                                <th>Date</th>
                                 <th>Products</th>
                                 <th>Studio</th>
                                 <th>Total Price</th>
@@ -377,7 +377,7 @@
                             </tr>
                         </tbody>
                         <tbody class="no_results" v-else>
-                            <td class="text" colspan="5">You don't have pending transactions.</td>
+                            <td class="text" colspan="5">You don't have paid transactions.</td>
                         </tbody>
                     </table>
                 </div>
