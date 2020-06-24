@@ -33,10 +33,10 @@
                                         <p>Quantity</p>
                                         <p>{{ form.quantity }}</p>
                                     </div>
-                                    <div class="item">
+                                    <!-- <div class="item">
                                         <p>Subtotal</p>
                                         <p>Php {{ computeTotal(res.amount * form.quantity) }}</p>
-                                    </div>
+                                    </div> -->
                                     <div class="total">
                                         <p>You Pay</p>
                                         <p>Php {{ totalCount(form.total) }}</p>

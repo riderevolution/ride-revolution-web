@@ -2,9 +2,9 @@
     <section id="promos" @mouseenter="showAllPromos = true" @mouseleave="showAllPromos = false">
         <no-ssr>
             <div @mouseenter="swiperEvent('stop')" @mouseleave="swiperEvent('start')">
-                <swiper :options="promoOptions" ref="swiper" class="default">
+                <swiper :options="promoOptions" ref="swiper" class="default" v-if="res.length > 0">
                     <swiper-slide class="promo_slide" v-for="(data, key) in res" :key="key">
-                        <img :data-src="data.banners[0].path" :alt="data.banners[0].alt" v-lazy-load />
+                        <img :src="data.banners[0].path" :alt="data.banners[0].alt" />
                         <div class="overlay">
                             <h2 class="header_title">Ride Rev Promo</h2>
                             <h3 class="title" v-line-clamp="3">{{ data.name }}</h3>
@@ -42,7 +42,7 @@
                     loop: true,
                     autoplay: {
                         delay: 4000,
-                        disableOnInteraction: true
+                        disableOnInteraction: false
                     },
                     pagination: {
                         el: '.swiper-pagination',

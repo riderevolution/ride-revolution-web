@@ -289,15 +289,25 @@
                 const me= this
                 let tempStudios = []
                 me.loader(true)
-                setTimeout( () => {
+                await setTimeout( () => {
                     me.studios.forEach((studio, index) => {
-                        studio.toggled = false
+                        if (index == 0) {
+                            studio.toggled = true
+                        } else {
+                            studio.toggled = false
+                        }
                         tempStudios.push(studio)
                     })
                     me.studios = tempStudios
                     me.studio = tempStudios[0]
                     me.loaded = true
-                    me.loader(false)
+                    setTimeout( () => {
+                        let elements = document.getElementById(`item_0`)
+                        elements.classList.add('toggled')
+                        elements.querySelector('.info').style.height = `${elements.querySelector('.info').scrollHeight}px`
+                        document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
+                        me.loader(false)
+                    }, 500)
                 }, 500)
             }
         },

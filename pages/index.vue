@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div class="home" v-if="loaded">
+        <div class="home">
             <section id="banner">
                 <h1>Ride Revolution</h1>
                 <img class="main_image" :data-src="res.banners[0].path" :alt="res.banners[0].alt" v-lazy-load />
@@ -444,7 +444,6 @@
                 const me = this
                 me.loader(true)
                 setTimeout( () => {
-                    me.loaded = true
                     me.scrollAnimate(me.animateUs)
                     me.loader(false)
                 }, 500)
