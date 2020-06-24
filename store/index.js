@@ -56,6 +56,7 @@ const createStore = () => {
             isLoading: false,
             token: '',
             customerID: 0,
+            badges: [],
             lastRoute: '',
             user: {
                 first_name: '',

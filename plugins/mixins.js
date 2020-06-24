@@ -2,6 +2,23 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
+        checkBadges () {
+            const me = this
+            let token = me.$cookies.get('token')
+            if (token != null && token != undefined) {
+                me.$axios.get('api/new-badges', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data.badges.length > 0) {
+                        me.$store.state.badgePromptStatus = true
+                        me.$store.state.badges = res.data.badges
+                        document.body.classList.add('no_scroll')
+                    }
+                })
+            }
+        },
         scrollAnimate (elementNames) {
             elementNames.forEach((elementName, index) => {
                 if (elementName.single) {
