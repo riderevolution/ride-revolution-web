@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="amenities" v-if="studioImages.length > 0">
-                    <h2>Amenities</h2>
+                    <h2>Locations</h2>
                     <div class="content">
                         <no-ssr>
                             <swiper :options="amenitiesOptions" class="default alt2">
@@ -112,7 +112,7 @@
                                 <div class="swiper-button-next" slot="button-next"></div>
                             </swiper>
                             <nuxt-link rel="canonical" to="/studios" class="view_all default_btn">
-                                Explore our Amenities
+                                Explore our Locations
                             </nuxt-link>
                         </no-ssr>
                     </div>

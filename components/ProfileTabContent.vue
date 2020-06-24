@@ -292,7 +292,7 @@
             <div id="tab_3" class="default wrapper" v-if="category == 'transactions'">
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
-                        <h2>My Pending Transactions ({{ totalItems(pendingTransactions.length) }})</h2>
+                        <h2>My Transactions ({{ totalItems(transactions.length) }})</h2>
                         <div class="total">
                             Total Due
                             <span class="count">Php {{ totalCount(totalPendingPayment) }}</span>
@@ -315,8 +315,8 @@
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
-                        <tbody v-if="pendingTransactions.length > 0">
-                            <tr v-for="(data, key) in pendingTransactions" :key="key">
+                        <tbody v-if="transactions.length > 0">
+                            <tr v-for="(data, key) in transactions" :key="key">
                                 <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
                                     <div>
@@ -337,47 +337,7 @@
                             </tr>
                         </tbody>
                         <tbody class="no_results" v-else>
-                            <td class="text" colspan="5">You don't have pending transactions.</td>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="profile_transactions">
-                    <div class="tab_content_header alt">
-                        <h2>My Paid Transactions ({{ totalItems(paidTransactions.length) }})</h2>
-                    </div>
-                    <table class="default_table">
-                        <thead>
-                            <tr>
-                                <th>Date &amp; time</th>
-                                <th>Products</th>
-                                <th>Studio</th>
-                                <th>Total Price</th>
-                                <th>Payment Status</th>
-                            </tr>
-                        </thead>
-                        <tbody v-if="paidTransactions.length > 0">
-                            <tr v-for="(data, key) in paidTransactions" :key="key">
-                                <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
-                                <td data-column="Products">
-                                    <div>
-                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }} ({{ child.quantity }})
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-column="Studio">
-                                    <div class="default">{{ (data.studio) ? data.studio.name : 'Website/App' }}</div>
-                                </td>
-                                <td data-column="Total Price">
-                                    <div class="default bold">Php {{ totalCount(data.total) }}</div>
-                                </td>
-                                <td data-column="Payment Status">
-                                    <div :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody class="no_results" v-else>
-                            <td class="text" colspan="5">You don't have pending transactions.</td>
+                            <td class="text" colspan="5">You don't have transactions.</td>
                         </tbody>
                     </table>
                 </div>
@@ -531,8 +491,7 @@
                 tabChartCategory: 'monthly',
                 classes: [],
                 packages: [],
-                pendingTransactions: [],
-                paidTransactions: [],
+                transactions: [],
                 giftCards: [],
                 series: [
                     {

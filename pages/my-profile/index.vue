@@ -193,14 +193,9 @@
                         me.$axios.get(`api/customers/${me.user.id}/transactions?forWeb=1`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
-                                    me.$refs.profileTab.pendingTransactions = []
-                                    me.$refs.profileTab.paidTransactions = []
+                                    me.$refs.profileTab.transactions = []
                                     res.data.customer.payments.forEach((data, index) => {
-                                        if (data.status == 'pending') {
-                                            me.$refs.profileTab.pendingTransactions.push(data)
-                                        } else {
-                                            me.$refs.profileTab.paidTransactions.push(data)
-                                        }
+                                        me.$refs.profileTab.transactions.push(data)
                                     })
                                     me.$refs.profileTab.totalPendingPayment = res.data.customer.totalPendingPayments
                                 }, 10)

@@ -3341,6 +3341,7 @@ svg
                 letter-spacing: 1.25px
                 text-align: center
             .icons
+                padding-top: 40px
                 display: flex
                 flex-flow: row wrap
                 align-items: flex-start
@@ -3350,6 +3351,7 @@ svg
                     margin: 15px 30px
                     text-align: center
                     .title
+                        margin-top: 20px
                         brandon_regular(18px, false)
                         letter-spacing: 0.9px
                         color: $black
@@ -4422,11 +4424,12 @@ svg
                                 transition: .3s ease-in-out
                 .view_all
                     position: absolute
-                    right: 0
-                    bottom: 0
+                    right: 50%
+                    bottom: -30px
                     display: inline-block
                     margin: 0
                     z-index: 2
+                    transform: translateX(50%)
     #ride_info
         background-image: url('/dotted-bg.png')
         .header
