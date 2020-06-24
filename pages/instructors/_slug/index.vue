@@ -145,12 +145,12 @@
                 </div>
                 <div class="overall">
                     <div class="overall_left">
-                        <p class="count">4.8</p>
+                        <p class="count">{{ overallRating }}</p>
                         <p class="label">out of 5</p>
                     </div>
                     <div class="overall_right">
-                        <div class="star" v-for="n in 5">
-                            <div class="star_overlay">
+                        <div class="star" v-for="(n, key) in 5" :key="key">
+                            <div class="star_overlay" :style="computeWidth(n)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32.94" height="31.328" viewBox="0 0 32.94 31.328"><defs><style>.a1{fill:#26a48b;}</style></defs><path class="a1" d="M1163.074,284.065l5.09,10.313,11.38,1.654-8.235,8.027,1.944,11.335-10.18-5.352-10.178,5.352,1.944-11.335-8.235-8.027,11.381-1.654Z" transform="translate(-1146.604 -284.065)"/></svg>
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32.94" height="31.328" viewBox="0 0 32.94 31.328"><defs><style>.a{fill:#c7c7c7;}</style></defs><path class="a" d="M1163.074,284.065l5.09,10.313,11.38,1.654-8.235,8.027,1.944,11.335-10.18-5.352-10.178,5.352,1.944-11.335-8.235-8.027,11.381-1.654Z" transform="translate(-1146.604 -284.065)"/></svg>
@@ -281,6 +281,8 @@
                 imagesToSend: [],
                 toShow: 4,
                 count: 0,
+                overallRating: 0,
+                overallRatingComputed: false,
                 comments: []
             }
         },
@@ -315,6 +317,20 @@
             }
         },
         methods: {
+            computeWidth (rate) {
+                const me = this
+                let result = ''
+                if (!me.overallRatingComputed) {
+                    if (me.overallRating >= rate) {
+                        result = 'width: 100%'
+                    } else {
+                        me.overallRatingComputed = true
+                        result = `width: ${100 * me.overallRating}%`
+                    }
+                }
+                console.log(result);
+                return result
+            },
             /**
              * Check if user is logged in */
             checkIfLoggedIn (event) {
@@ -449,6 +465,7 @@
                     me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
                         if (res.data) {
                             setTimeout( () => {
+                                let tempRating = 0
                                 me.res = res.data.instructor
                                 me.mainImage = me.res.instructor_details.gallery[0].path
                                 me.res.instructor_details.gallery.forEach((data, index) => {
@@ -457,6 +474,10 @@
                                     }
                                 })
                                 me.comments = me.res.reviews
+                                me.comments.forEach((comment, index) => {
+                                    tempRating += comment.rating
+                                })
+                                me.overallRating = tempRating / me.comments.length
                                 me.scheduledDates = res.data.scheduledDates
                                 me.loaded = true
                             }, 500)

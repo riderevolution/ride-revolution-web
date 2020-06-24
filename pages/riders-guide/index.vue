@@ -99,7 +99,7 @@
                     <h2>Locations</h2>
                     <div class="content">
                         <no-ssr>
-                            <swiper :options="amenitiesOptions" class="default alt2">
+                            <swiper :options="amenitiesOptions" :class="`default alt2 ${(studioImages.length <= 3) ? 'centered' : ''}`">
                                 <swiper-slide class="wrapper" :id="`studio_${key}`" v-for="(data, key) in studioImages" :key="key">
                                     <div class="field_image" @click="openGallery(key)">
                                         <img class="image_responsive" :src="data.images[0].path" />
@@ -168,46 +168,44 @@
                 instructorOptions: {
                     slidesPerView: 4,
                     spaceBetween: 30,
-                    loop: (this.hasManyInstructor) ? true : false,
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
                     },
                     breakpoints: {
                         1024: {
-                          slidesPerView: 3,
-                          spaceBetween: 20
+                            slidesPerView: 3,
+                            spaceBetween: 20
                         },
                         768: {
-                          slidesPerView: 2,
-                          spaceBetween: 20
+                            slidesPerView: 2,
+                            spaceBetween: 20
                         },
                         450: {
-                          slidesPerView: 1,
-                          spaceBetween: 0
+                            slidesPerView: 1,
+                            spaceBetween: 0
                         }
                     }
                 },
                 amenitiesOptions: {
                     slidesPerView: 4,
                     spaceBetween: 30,
-                    loop: (this.hasManyInstructor) ? true : false,
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
                     },
                     breakpoints: {
                         1024: {
-                          slidesPerView: 3,
-                          spaceBetween: 20
+                            slidesPerView: 3,
+                            spaceBetween: 20
                         },
                         768: {
-                          slidesPerView: 2,
-                          spaceBetween: 20
+                            slidesPerView: 2,
+                            spaceBetween: 20
                         },
                         450: {
-                          slidesPerView: 1,
-                          spaceBetween: 0
+                            slidesPerView: 1,
+                            spaceBetween: 0
                         }
                     }
                 },
@@ -357,8 +355,7 @@
                 return {
                     res: res.data.pageSetting,
                     instructors: res.data.instructors,
-                    studioImages: res.data.studioAlbums,
-                    hasManyInstructor: (res.data.instructors.length > 4) ? true : false
+                    studioImages: res.data.studioAlbums
                 }
             }).catch(err => {
                 error({ statusCode: 403, message: 'Page not found' })
