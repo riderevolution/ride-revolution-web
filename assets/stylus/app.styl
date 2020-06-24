@@ -2703,6 +2703,33 @@ svg
                 brandon_bold(26px, true)
                 letter-spacing: 1.3px
                 color: $black
+        .overall
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: flex-start
+            margin: 40px 0
+            .overall_left
+                padding-right: 30px
+                .count
+                    color: $black
+                    brandon_bold(44px, false)
+                .label
+                    color: #BABABA
+                    brandon_medium(22px, false)
+            .overall_right
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: flex-start
+                .star
+                    position: relative
+                    .star_overlay
+                        position: absolute
+                        top: 0
+                        height: 100%
+                        overflow: hidden
+                        z-index: 1
         .content
             &.mobile
                 .comment
@@ -7444,6 +7471,7 @@ svg
         margin: 0
         li
             vertical-align: middle
+            display: inline-flex
             .front,
             .slash
                 brandon_regular(14px, false)

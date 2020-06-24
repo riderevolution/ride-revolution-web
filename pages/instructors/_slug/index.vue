@@ -143,6 +143,20 @@
                     <h2>Here are what other riders are raving about {{ res.first_name }}</h2>
                     <nuxt-link :to="`/instructors/${res.instructor_details.slug}/comment`" class="default_btn">Write a Review</nuxt-link>
                 </div>
+                <div class="overall">
+                    <div class="overall_left">
+                        <p class="count">4.8</p>
+                        <p class="label">out of 5</p>
+                    </div>
+                    <div class="overall_right">
+                        <div class="star" v-for="n in 5">
+                            <div class="star_overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32.94" height="31.328" viewBox="0 0 32.94 31.328"><defs><style>.a1{fill:#26a48b;}</style></defs><path class="a1" d="M1163.074,284.065l5.09,10.313,11.38,1.654-8.235,8.027,1.944,11.335-10.18-5.352-10.178,5.352,1.944-11.335-8.235-8.027,11.381-1.654Z" transform="translate(-1146.604 -284.065)"/></svg>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32.94" height="31.328" viewBox="0 0 32.94 31.328"><defs><style>.a{fill:#c7c7c7;}</style></defs><path class="a" d="M1163.074,284.065l5.09,10.313,11.38,1.654-8.235,8.027,1.944,11.335-10.18-5.352-10.178,5.352,1.944-11.335-8.235-8.027,11.381-1.654Z" transform="translate(-1146.604 -284.065)"/></svg>
+                        </div>
+                    </div>
+                </div>
                 <div class="content" v-if="!$store.state.isMobile">
                     <div class="comment" v-for="(data, key) in populateComment" :key="key">
                         <div class="comment_img_initials">
