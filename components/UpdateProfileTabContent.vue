@@ -115,13 +115,42 @@
                         </div>
                         <div class="form_group">
                             <label for="personal_address">Address <span>*</span></label>
-                            <input type="text" name="personal_address" autocomplete="off" class="input_text" v-model="address.personal_address" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <textarea name="personal_address" placeholder="Enter your address 1 and 2" class="input_text" rows="3" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.personal_address"></textarea>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_address')">{{ errors.first('address_form.personal_address') | properFormat }}</span></transition>
                         </div>
-                        <div class="form_group">
-                            <label for="personal_city">City <span>*</span></label>
-                            <input type="text" name="personal_city" autocomplete="off" class="input_text" v-model="address.personal_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_city')">{{ errors.first('address_form.personal_city') | properFormat }}</span></transition>
+                        <div class="form_flex">
+                            <div class="form_group select">
+                                <label for="personal_country">Country <span>*</span></label>
+                                <div class="select">
+                                    <select class="input_select" name="personal_country" v-model="address.personal_country" v-validate="'required'" @change="toggleWorld($event, 'state', 'pa')">
+                                        <option value="0" selected disabled>Choose a Country</option>
+                                        <option :value="country.id" v-for="(country, key) in pa_countries" :key="key">{{ country.name }}</option>
+                                    </select>
+                                </div>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_country')">{{ errors.first('address_form.personal_country') | properFormat }}</span></transition>
+                            </div>
+                            <div class="form_group select">
+                                <label for="personal_state">State <span>*</span></label>
+                                <div class="select">
+                                    <select class="input_select" name="personal_state" v-model="address.personal_state" v-validate="'required'">
+                                        <option value="0" selected disabled>Choose a State</option>
+                                        <option :value="state.id" v-for="(state, key) in pa_states" :key="key">{{ state.name }}</option>
+                                    </select>
+                                </div>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_state')">{{ errors.first('address_form.personal_state') | properFormat }}</span></transition>
+                            </div>
+                        </div>
+                        <div class="form_flex">
+                            <div class="form_group">
+                                <label for="personal_city">City <span>*</span></label>
+                                <input type="text" name="personal_city" autocomplete="off" :class="`input_text ${(address.personal_state != '') ? '' : 'disabled'}`" v-model="address.personal_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_city')">{{ errors.first('address_form.personal_city') | properFormat }}</span></transition>
+                            </div>
+                            <div class="form_group">
+                                <label for="personal_zip_code">Zip Code <span>*</span></label>
+                                <input type="text" name="personal_zip_code" autocomplete="off" :class="`input_text ${(address.personal_state != '') ? '' : 'disabled'}`" v-model="address.personal_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_zip_code')">{{ errors.first('address_form.personal_zip_code') | properFormat }}</span></transition>
+                            </div>
                         </div>
                     </div>
                     <div class="form_main_group alt">
@@ -130,19 +159,48 @@
                         </div>
                         <div class="form_group">
                             <div class="form_check">
-                                <input type="checkbox" id="same_as_personal_address" name="same_as_personal_address" class="input_check" @change="copyPersonalAddress()">
+                                <input type="checkbox" id="same_as_personal_address" name="same_as_personal_address" class="input_check" @change="copyPersonalAddress(address.copy ^= true)">
                                 <label for="same_as_personal_address">Same as Personal Address</label>
                             </div>
                         </div>
                         <div class="form_group">
                             <label for="billing_address">Address <span>*</span></label>
-                            <input type="text" name="billing_address" autocomplete="off" class="input_text" v-model="address.billing_address" placeholder="Enter your address 1" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1]*$', max: 100}">
+                            <textarea name="billing_address" placeholder="Enter your address 1 and 2" class="input_text" rows="3" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.billing_address"></textarea>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address')">{{ errors.first('address_form.billing_address') | properFormat }}</span></transition>
                         </div>
-                        <div class="form_group">
-                            <label for="billing_city">City <span>*</span></label>
-                            <input type="text" name="billing_city" autocomplete="off" class="input_text" v-model="address.billing_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_city')">{{ errors.first('address_form.billing_city') | properFormat }}</span></transition>
+                        <div class="form_flex">
+                            <div class="form_group select">
+                                <label for="billing_country">Country <span>*</span></label>
+                                <div class="select">
+                                    <select class="input_select" name="billing_country" v-model="address.billing_country" v-validate="'required'" @change="toggleWorld($event, 'state', 'ba')">
+                                        <option value="0" selected disabled>Choose a Country</option>
+                                        <option :value="country.id" v-for="(country, key) in ba_countries" :key="key">{{ country.name }}</option>
+                                    </select>
+                                </div>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_country')">{{ errors.first('address_form.billing_country') | properFormat }}</span></transition>
+                            </div>
+                            <div class="form_group select">
+                                <label for="billing_state">State <span>*</span></label>
+                                <div class="select">
+                                    <select class="input_select" name="billing_state" v-model="address.billing_state" v-validate="'required'">
+                                        <option value="0" selected disabled>Choose a State</option>
+                                        <option :value="state.id" v-for="(state, key) in ba_states" :key="key">{{ state.name }}</option>
+                                    </select>
+                                </div>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_state')">{{ errors.first('address_form.billing_state') | properFormat }}</span></transition>
+                            </div>
+                        </div>
+                        <div class="form_flex">
+                            <div class="form_group">
+                                <label for="billing_city">City <span>*</span></label>
+                                <input type="text" name="billing_city" autocomplete="off" :class="`input_text ${(address.billing_state != '') ? '' : 'disabled'}`" v-model="address.billing_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_city')">{{ errors.first('address_form.billing_city') | properFormat }}</span></transition>
+                            </div>
+                            <div class="form_group">
+                                <label for="billing_zip_code">Zip Code <span>*</span></label>
+                                <input type="text" name="billing_zip_code" autocomplete="off" :class="`input_text ${(address.billing_state != '') ? '' : 'disabled'}`" v-model="address.billing_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_zip_code')">{{ errors.first('address_form.billing_zip_code') | properFormat }}</span></transition>
+                            </div>
                         </div>
                     </div>
                     <div class="form_button">
@@ -201,6 +259,7 @@
         },
         data () {
             return {
+                res: [],
                 message: '',
                 previewImage: false,
                 subscribed: true,
@@ -221,10 +280,21 @@
                 },
                 address: {
                     personal_address: '',
+                    personal_country: 0,
+                    personal_state: 0,
                     personal_city: '',
+                    personal_zip_code: '',
                     billing_address: '',
-                    billing_city: ''
+                    billing_country: 0,
+                    billing_state: 0,
+                    billing_city: '',
+                    billing_zip_code: '',
+                    copy: false
                 },
+                pa_countries: [],
+                pa_states: [],
+                ba_countries: [],
+                ba_states: [],
                 professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others']
             }
         },
@@ -241,11 +311,16 @@
             }
         },
         filters: {
-            properFormat: function (value) {
+            properFormat (value) {
                 let newValue = value.split('The ')[1].split(' field')[0].split('[]')
                 if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
+                    let nextValue = newValue[0].split('_')
+                    if (nextValue.length > 1) {
+                        newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
+                    } else {
+                        newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                    }
+                } else {
                     newValue = value.split('The ')[1].split(' field')[0].split('_')
                     if (newValue.length > 1) {
                         let firstValue = ''
@@ -268,8 +343,8 @@
                     message = message[1]
                     return `The ${newValue} field${message}`
                 } else {
-                    if (message[0].split('image[]').length > 1) {
-                        message = message[0].split('image[]')[1]
+					if (message[0].split('file').length > 1) {
+                        message = message[0].split('file')[1]
                         return `The ${newValue} field${message}`
                     } else {
                         return `The ${newValue}`
@@ -278,6 +353,25 @@
             }
         },
         methods: {
+            toggleWorld (event, type, category) {
+                const me = this
+                let country_id = (category == 'pa') ? me.address.personal_country : me.address.billing_country
+                me.loader(true)
+                switch (type) {
+                    case 'state':
+                        me.$axios.get(`api/world/states?country_id=${country_id}`).then(res => {
+                            if (category == 'pa') {
+                                me.pa_states = res.data.states
+                            } else {
+                                me.ba_states = res.data.states
+                            }
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                        break
+                }
+            },
             viewImage () {
                 const me = this
                 me.$store.state.imageViewerStatus = true
@@ -341,10 +435,29 @@
                 me.$store.state.changePasswordStatus = true
                 document.body.classList.add('no_scroll')
             },
-            copyPersonalAddress () {
+            copyPersonalAddress (status) {
                 const me = this
-                me.address.billing_address = me.address.personal_address
-                me.address.billing_city = me.address.personal_city
+                if (status) {
+                    me.address.billing_address = me.address.personal_address
+                    me.address.billing_country = me.address.personal_country
+                    if (me.address.billing_state == 0) {
+                        me.$axios.get(`api/world/states?country_id=${me.address.personal_country}`).then(res => {
+                            me.ba_states = res.data.states
+                        })
+                    }
+                    me.address.billing_state = me.address.personal_state
+                    me.address.billing_city = me.address.personal_city
+                    me.address.billing_zip_code = me.address.personal_zip_code
+                } else {
+                    if (me.res.customer_details.ba_state_id != null) {
+                        me.address.billing_state = me.res.customer_details.ba_state_id
+                    } else {
+                        me.address.billing_state = 0
+                    }
+                    me.address.billing_address = me.res.customer_details.ba_address
+                    me.address.billing_city = me.res.customer_details.ba_city
+                    me.address.billing_zip_code = me.res.customer_details.ba_zip_code
+                }
             },
             submissionProfileSuccess () {
                 const me = this
@@ -424,6 +537,7 @@
                 }
             }).then(res => {
                 if (res.data) {
+                    me.res = res.data.user
                     me.profileOverview.image_id = (res.data.user.customer_details.images[0].path != null) ? res.data.user.customer_details.images[0].id : 0
                     me.profileOverview.first_name = res.data.user.first_name
                     me.profileOverview.last_name = res.data.user.last_name
@@ -435,10 +549,33 @@
                     me.profileOverview.weight = res.data.user.customer_details.co_weight
                     me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
 
+                    me.$axios.get('api/world/countries').then(res => {
+                        if (res.data) {
+                            me.pa_countries = res.data.countries
+                            me.ba_countries = res.data.countries
+                            if (me.res.customer_details.pa_country_id != null) {
+                                me.$axios.get(`api/world/states?country_id=${me.res.customer_details.pa_country_id}`).then(res => {
+                                    me.pa_states = res.data.states
+                                    me.address.personal_country = me.res.customer_details.pa_country_id
+                                    me.address.personal_state = me.res.customer_details.pa_state_id
+                                })
+                            }
+                            if (me.res.customer_details.ba_country_id != null) {
+                                me.$axios.get(`api/world/states?country_id=${me.res.customer_details.ba_country_id}`).then(res => {
+                                    me.ba_states = res.data.states
+                                    me.address.billing_country = me.res.customer_details.ba_country_id
+                                    me.address.billing_state = me.res.customer_details.ba_state_id
+                                })
+                            }
+                        }
+                    })
+
                     me.address.personal_address = res.data.user.customer_details.pa_address
                     me.address.personal_city = res.data.user.customer_details.pa_city
+                    me.address.personal_zip_code = res.data.user.customer_details.pa_zip_code
                     me.address.billing_address = res.data.user.customer_details.ba_address
                     me.address.billing_city = res.data.user.customer_details.ba_city
+                    me.address.billing_zip_code = res.data.user.customer_details.ba_zip_code
 
                     me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
                     me.subscribed = (res.data.user.newsletter_subscription) ? true : false
