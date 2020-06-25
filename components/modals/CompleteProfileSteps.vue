@@ -77,7 +77,7 @@
                     </div>
                     <div class="form_main_group alt">
                         <div class="form_header">
-                            <label>Personal Address</label>
+                            <label>Home Address</label>
                         </div>
                         <div class="form_group">
                             <label for="personal_address">Address <span>*</span></label>

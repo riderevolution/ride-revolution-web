@@ -273,7 +273,9 @@
                             element.toggled = true
                             elements.classList.add('toggled')
                             target.querySelector('.info').style.height = `${target.querySelector('.info').scrollHeight}px`
-                            document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
+                            setTimeout( () => {
+                                document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
+                            }, 100)
                         }
                     } else {
                         element.toggled = false
@@ -305,7 +307,9 @@
                         let elements = document.getElementById(`item_0`)
                         elements.classList.add('toggled')
                         elements.querySelector('.info').style.height = `${elements.querySelector('.info').scrollHeight}px`
-                        document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
+                        setTimeout( () => {
+                            document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
+                        }, 500)
                         me.loader(false)
                     }, 500)
                 }, 500)

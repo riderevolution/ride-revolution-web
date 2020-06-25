@@ -277,7 +277,7 @@
                     first_name: '',
                     last_name: '',
                     contact_number: '',
-                    birth_date: 'MM/dd/yyyy',
+                    birth_date: 'YYYY-MM-DD',
                     what_do_you_do: '',
                     sex: '',
                     iAgree: ''

@@ -25,7 +25,7 @@
                     </transition>
                 </div>
                 <div class="content" id="package">
-                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`, data, 'package')" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`, data, 'package')" rel="canonical" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ov ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
                         <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
                         <div class="package_header">
                             <h2 class="title">{{ data.name }}</h2>
@@ -66,7 +66,7 @@
                     </transition>
                 </div>
                 <div class="content" id="storecredits">
-                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`, data, 'store-credit')" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper" v-for="(data, key) in populateStoreCredits" :key="key">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/store-credit/${data.slug}`, data, 'store-credit')" rel="canonical" :to="`/buy-rides/store-credit/${data.slug}`" class="package_wrapper ov" v-for="(data, key) in populateStoreCredits" :key="key">
                         <div class="package_header alt">
                             <h2 class="title">{{ data.name }}</h2>
                         </div>
@@ -108,16 +108,6 @@
         },
         data () {
             return {
-                animateUs: [
-                    {
-                        target: '#packages #package.content .package_wrapper',
-                        single: false
-                    },
-                    {
-                        target: '#packages #storecredits.content .package_wrapper',
-                        single: false
-                    }
-                ],
                 loaded: false,
                 res: [],
                 toShowPackages: 3,
@@ -263,13 +253,8 @@
                     me.toShowPackages = (me.$store.state.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                     me.toShowStoreCredits = (me.$store.state.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)
                     me.loaded = true
-                    me.scrollAnimate(me.animateUs)
                     me.loader(false)
                 }, 500)
-            },
-            handleScroll () {
-                const me = this
-                me.scrollAnimate(me.animateUs)
             }
         },
         async mounted() {
@@ -277,12 +262,6 @@
             await setTimeout( () => {
                 me.initial()
             }, 10)
-        },
-        beforeMount () {
-            window.addEventListener('scroll', this.handleScroll)
-        },
-        beforeDestroy () {
-            window.removeEventListener('scroll', this.handleScroll)
         },
         asyncData ({ $axios, params, store, error }) {
             return $axios.get('api/packages/for-buy-rides').then(res => {

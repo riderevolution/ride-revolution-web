@@ -24,7 +24,8 @@
                         </div>
                         <div class="right">
                             <div class="data">
-                                <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div>
+                                <!-- <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2> <span><img src="/sample-type.svg" /></span></div> -->
+                                <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2></div>
                                 <div class="info">
                                     <div class="label">Username <b>{{ user.member_id }}</b></div>
                                     <div class="label">Store Credits <b>{{ totalItems(storeCredits) }}</b></div>

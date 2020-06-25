@@ -24,7 +24,7 @@
                         </div>
                         <div class="sub_label">
                             <div class="text">{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</div>
-                            <img src="/sample-type.svg" />
+                            <!-- <img src="/sample-type.svg" /> -->
                             <div class="default_btn_blue" @click="viewImage()" v-if="$store.state.user.customer_details.images[0].path != null">View Photo</div>
                         </div>
                     </div>
@@ -61,11 +61,11 @@
                         <div class="form_flex radio">
                             <label>Sex <span>*</span></label>
                             <div class="form_radio">
-                                <input type="radio" id="female" value="male" name="sex" class="input_radio" v-validate="'required'" v-model="profileOverview.sex">
+                                <input type="radio" id="female" value="male" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'female'">
                                 <label for="female">Female</label>
                             </div>
                             <div class="form_radio">
-                                <input type="radio" id="male" value="female" name="sex" class="input_radio" v-validate="'required'" v-model="profileOverview.sex">
+                                <input type="radio" id="male" value="female" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'male'">
                                 <label for="male">Male</label>
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.sex')">{{ errors.first('profile_overview_form.sex') | properFormat }}</span></transition>
