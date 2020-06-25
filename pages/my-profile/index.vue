@@ -31,7 +31,7 @@
                                     <div class="label">Store Credits <b>{{ totalItems(storeCredits) }}</b></div>
                                 </div>
                             </div>
-                            <nuxt-link :to="`${$nuxt.$route.fullPath}/update-profile`" class="default_btn_wht_out" v-if="user.new_user == 0"><span>Update Profile</span></nuxt-link>
+                            <div class="default_btn_wht_out" @click="checkUser()"><span>Update Profile</span></div>
                         </div>
                     </div>
                     <div class="bottom">
@@ -89,6 +89,15 @@
             }
         },
         methods: {
+            checkUser () {
+                const me = this
+                if (me.user.new_user == 1) {
+                    me.$store.state.completeProfileStepsStatus = true
+                    document.body.classList.add('no_scroll')
+                } else {
+                    me.$router.push(`${$nuxt.$route.fullPath}/update-profile`)
+                }
+            },
             toggleDetails (event) {
                 const me = this
                 let target = event.target

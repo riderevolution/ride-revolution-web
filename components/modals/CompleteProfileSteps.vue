@@ -139,7 +139,7 @@
                         <div class="form_group">
                             <div class="form_check">
                                 <input type="checkbox" id="same_as_personal_address" name="same_as_personal_address" class="input_check" @change="copyPersonalAddress(completeProfile.copy ^= true)">
-                                <label for="same_as_personal_address">Same as Personal Address</label>
+                                <label for="same_as_personal_address">Same as Home Address</label>
                             </div>
                         </div>
                         <div class="form_group">
