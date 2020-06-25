@@ -181,7 +181,7 @@
                 me.loader(true)
                 setTimeout( () => {
                     if (!me.showLoadedInstructors) {
-                        me.toShow += 4
+                        me.toShow += 8
                         me.loadMore = false
                         document.body.classList.remove('no_scroll')
                     }

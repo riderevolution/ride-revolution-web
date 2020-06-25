@@ -20,15 +20,15 @@ Vue.mixin({
             }
         },
         scrollAnimate (elementNames) {
-            elementNames.forEach((elementName, index) => {
+            elementNames.forEach((elementName, elementIndex) => {
                 if (elementName.single) {
                     let element = document.querySelector(elementName.target)
                     if (element && !element.classList.contains('ov')) {
                         let bounding = element.getBoundingClientRect()
                         if (bounding.bottom > 0 &&
                             bounding.right > 0 &&
-                            bounding.left < (window.innerWidth || document.documentElement.clientWidth) - 50 &&
-                            bounding.top < (window.innerHeight || document.documentElement.clientHeight) - 50) {
+                            bounding.left < (window.innerWidth || document.documentElement.clientWidth) &&
+                            bounding.top < (window.innerHeight || document.documentElement.clientHeight)) {
                             setTimeout(() => {
                                 element.classList.add('ov')
                             }, 350 * elementIndex)
@@ -41,8 +41,8 @@ Vue.mixin({
                             let bounding = element.getBoundingClientRect()
                             if (bounding.bottom > 0 &&
                                 bounding.right > 0 &&
-                                bounding.left < (window.innerWidth || document.documentElement.clientWidth) - 50 &&
-                                bounding.top < (window.innerHeight || document.documentElement.clientHeight) - 50) {
+                                bounding.left < (window.innerWidth || document.documentElement.clientWidth) &&
+                                bounding.top < (window.innerHeight || document.documentElement.clientHeight)) {
                                 setTimeout(() => {
                                     element.classList.add('ov')
                                 }, 350 * elementIndex)

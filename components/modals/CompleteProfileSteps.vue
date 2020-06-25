@@ -58,7 +58,7 @@
                     <div class="form_group weight">
                         <label for="weight">Weight <span>*</span></label>
                         <div class="weight_input">
-                            <input type="text" name="weight" autocomplete="off" class="input_text" v-validate="'required|numeric|min:1|max:200'">
+                            <input type="text" name="weight" autocomplete="off" class="input_text" v-validate="'required|numeric|min_value:1|max_value:200'">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.weight')">{{ errors.first('complete_profile_form.weight') | properFormat }}</span></transition>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="form_main_group alt">
                         <div class="form_header">
-                            <label>Personal Address</label>
+                            <label>Home Address</label>
                         </div>
                         <div class="form_group">
                             <label for="personal_address">Address <span>*</span></label>

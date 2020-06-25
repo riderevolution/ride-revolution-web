@@ -337,7 +337,7 @@
                             </tr>
                         </tbody>
                         <tbody class="no_results" v-else>
-                            <td class="text" colspan="5">You don't have transactions.</td>
+                            <td class="text" colspan="5">You don't have any transactions yet.</td>
                         </tbody>
                     </table>
                 </div>
@@ -534,7 +534,11 @@
                                     },
                                 },
                                 yaxis: {
+                                    tickAmount: 1,
                                     labels: {
+                                        formatter: function (val) {
+                                            return val.toFixed(0)
+                                        },
                                         style: {
                                             colors: ['#000'],
                                             fontSize: '8px',
@@ -571,6 +575,9 @@
                     },
                     dataLabels: {
                         enabled: true,
+                        formatter: function (val) {
+                            return `${val}`
+                        },
                         offsetY: -15,
                         style: {
                             fontFamily: 'Brandon-Bold',
@@ -584,10 +591,13 @@
                         colors: ['transparent']
                     },
                     grid: {
-                        show: false
+                        show: true
                     },
                     xaxis: {
                         labels: {
+                            formatter: function (val) {
+                                return `${val}`
+                            },
                             show: true,
                             style: {
                                 colors: ['#000'],
@@ -598,10 +608,11 @@
                         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                     },
                     yaxis: {
+                        tickAmount: 1,
                         labels: {
                             show: true,
                             formatter: function (val) {
-                                return `${val}`
+                                return val.toFixed(0)
                             },
                             style: {
                                 colors: ['#000'],
@@ -974,31 +985,33 @@
                 setTimeout( () => {
                     switch (category) {
                         case 'weekly':
-                        me.series[0].data = me.rideRevJourney.weeklyRideCount.series.data
-                        let currentDay = me.$moment().day()
-                        tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
-                        for (let i = 0; i < 13; i++) {
-                            currentDay = currentDay - 1
-                            if (currentDay < 0) {
-                                currentDay = 6
-                            }
+                            me.series[0].data = me.rideRevJourney.weeklyRideCount.series.data
+                            console.log(me.rideRevJourney.weeklyRideCount.series.data);
+                            let currentDay = me.$moment().day()
                             tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
-                        }
-                        me.chartOptions.xaxis.categories = tempLabels
-                        break
-                        case 'monthly':
-                        me.series[0].data = me.rideRevJourney.monthlyRideCount.series.data
-                        let currentMonth = me.$moment().month() + 1
-                        tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
-                        for (let i = 0; i < 11; i++) {
-                            currentMonth = currentMonth - 1
-                            if (currentMonth == 0) {
-                                currentMonth = 12
+                            for (let i = 0; i < 13; i++) {
+                                currentDay = currentDay - 1
+                                if (currentDay < 0) {
+                                    currentDay = 6
+                                }
+                                tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
                             }
+                            me.chartOptions.xaxis.categories = tempLabels
+                            break
+                        case 'monthly':
+                            me.series[0].data = me.rideRevJourney.monthlyRideCount.series.data
+                            console.log(me.rideRevJourney.monthlyRideCount.series.data);
+                            let currentMonth = me.$moment().month() + 1
                             tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
-                        }
-                        me.chartOptions.xaxis.categories = tempLabels
-                        break
+                            for (let i = 0; i < 11; i++) {
+                                currentMonth = currentMonth - 1
+                                if (currentMonth == 0) {
+                                    currentMonth = 12
+                                }
+                                tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                            }
+                            me.chartOptions.xaxis.categories = tempLabels
+                            break
                     }
                     me.graphKey += 1
                     me.loader(false)
