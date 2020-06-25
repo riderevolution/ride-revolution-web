@@ -78,9 +78,8 @@
                         </div>
                         <div class="form_group">
                             <div class="form_check">
-                                <input type="checkbox" id="email_waiver" name="email_waiver" class="input_check" v-validate="'required'">
+                                <input type="checkbox" id="email_waiver" name="email_waiver" class="input_check">
                                 <label for="email_waiver" class="alt">Email me my Waiver</label>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('health_waiver_form.email_waiver') && hasReadTerms">{{ errors.first('health_waiver_form.email_waiver') | properFormat }}</span></transition>
                             </div>
                         </div>
                         <div class="form_button">
