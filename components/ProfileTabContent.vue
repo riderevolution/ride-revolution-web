@@ -622,7 +622,7 @@
                         },
                         title: {
                             text: 'Rides',
-                            offsetX: -10,
+                            offsetX: 0,
                             style: {
                                 color: '#000',
                                 fontSize: '12px',
