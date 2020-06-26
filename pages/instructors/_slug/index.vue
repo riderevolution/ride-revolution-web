@@ -289,6 +289,7 @@
                 imagesToSend: [],
                 toShow: 4,
                 count: 0,
+                rating: 0,
                 overallRating: 0,
                 overallRatingComputed: false,
                 comments: []
@@ -425,122 +426,108 @@
             },
             async initial () {
                 const me = this
-                let token = me.$cookies.get('token')
-                me.loader(true)
-                if (token != null || token != undefined) {
-                    await me.$axios.get(`api/web/instructors/${me.$route.params.slug}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }).then(res => {
-                        if (res.data) {
-                            setTimeout( () => {
-                                let tempRating = 0
-                                me.res = res.data.instructor
-                                me.mainImage = me.res.instructor_details.gallery[0].path
-                                me.res.instructor_details.gallery.forEach((data, index) => {
-                                    if (index != 0) {
-                                        me.imagesToSend.push(data)
-                                    }
-                                })
-                                me.comments = me.res.reviews
-                                me.comments.forEach((comment, index) => {
-                                    tempRating += comment.rating
-                                })
-                                if (tempRating != 0) {
-                                    me.overallRating = tempRating / me.comments.length
-                                    me.overallRating = me.overallRating.toFixed(1)
+                setTimeout( () => {
+                    for (let i = 1; i <= 5; i++) {
+                        let target = document.getElementById(`star_${i}`)
+                        if (me.rating != 0) {
+                            if (!me.overallRatingComputed) {
+                                if (me.overallRating < i) {
+                                    target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
+                                    me.overallRatingComputed = true
                                 }
-                                me.scheduledDates = res.data.scheduledDates
-                                me.loaded = true
-                                setTimeout( () => {
-                                    for (let i = 1; i <= 5; i++) {
-                                        let target = document.getElementById(`star_${i}`)
-                                        if (tempRating != 0) {
-                                            if (!me.overallRatingComputed) {
-                                                if (me.overallRating < i) {
-                                                    target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
-                                                    me.overallRatingComputed = true
-                                                }
-                                            } else {
-                                                if (me.overallRating >= i) {
-                                                    target.style.width = '100%'
-                                                } else {
-                                                    target.style.width = '0%'
-                                                }
-                                            }
-                                        } else {
-                                            target.style.width = '0%'
-                                        }
-                                    }
-                                }, 500)
-                            }, 500)
-                        }
-                    }).catch(err => {
-                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                    }).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
-                    })
-                } else {
-                    await me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
-                        if (res.data) {
-                            setTimeout( () => {
-                                let tempRating = 0
-                                me.res = res.data.instructor
-                                me.mainImage = me.res.instructor_details.gallery[0].path
-                                me.res.instructor_details.gallery.forEach((data, index) => {
-                                    if (index != 0) {
-                                        me.imagesToSend.push(data)
-                                    }
-                                })
-                                me.comments = me.res.reviews
-                                me.comments.forEach((comment, index) => {
-                                    tempRating += comment.rating
-                                })
-                                if (tempRating != 0) {
-                                    me.overallRating = tempRating / me.comments.length
-                                    me.overallRating = me.overallRating.toFixed(1)
+                            } else {
+                                if (me.overallRating >= i) {
+                                    target.style.width = '100%'
+                                } else {
+                                    target.style.width = '0%'
                                 }
-                                me.scheduledDates = res.data.scheduledDates
-                                me.loaded = true
-                                setTimeout( () => {
-                                    for (let i = 1; i <= 5; i++) {
-                                        let target = document.getElementById(`star_${i}`)
-                                        if (tempRating != 0) {
-                                            if (!me.overallRatingComputed) {
-                                                if (me.overallRating < i) {
-                                                    target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
-                                                    me.overallRatingComputed = true
-                                                }
-                                            } else {
-                                                if (me.overallRating >= i) {
-                                                    target.style.width = '100%'
-                                                } else {
-                                                    target.style.width = '0%'
-                                                }
-                                            }
-                                        } else {
-                                            target.style.width = '0%'
-                                        }
-                                    }
-                                }, 500)
-                            }, 500)
+                            }
+                        } else {
+                            target.style.width = '0%'
                         }
-                    }).catch(err => {
-                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                    }).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
-                    })
-                }
+                    }
+                    me.loader(false)
+                }, 500)
             }
         },
         async mounted () {
             const me = this
-            await me.initial()
+            me.loader(true)
+            await setTimeout( () => {
+                me.initial()
+            }, 500)
+        },
+        asyncData ({ $axios, params, error, store }) {
+            let token = store.state.token
+            if (token != null || token != undefined || token != '') {
+                return $axios.get(`api/web/instructors/${params.slug}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        let tempRating = 0
+                        let tempOverall = 0
+                        let tempImages = []
+                        res.data.instructor.instructor_details.gallery.forEach((data, index) => {
+                            if (index != 0) {
+                                tempImages.push(data)
+                            }
+                        })
+                        res.data.instructor.reviews.forEach((comment, index) => {
+                            tempRating += comment.rating
+                        })
+                        if (tempRating != 0) {
+                            tempOverall = tempRating / res.data.instructor.reviews.length
+                            tempOverall = tempOverall.toFixed(1)
+                        }
+                        return {
+                            res: res.data.instructor,
+                            mainImage: res.data.instructor.instructor_details.gallery[0].path,
+                            imagesToSend: tempImages,
+                            comments: res.data.instructor.reviews,
+                            scheduledDates: res.data.scheduledDates,
+                            overallRating: tempOverall,
+                            rating: tempRating,
+                            loaded: true
+                        }
+                    }
+                }).catch(err => {
+                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                })
+            } else {
+                return $axios.get(`api/web/instructors/${params.slug}`).then(res => {
+                    if (res.data) {
+                        let tempRating = 0
+                        let tempOverall = 0
+                        let tempImages = []
+                        res.data.instructor.instructor_details.gallery.forEach((data, index) => {
+                            if (index != 0) {
+                                tempImages.push(data)
+                            }
+                        })
+                        res.data.instructor.reviews.forEach((comment, index) => {
+                            tempRating += comment.rating
+                        })
+                        if (tempRating != 0) {
+                            tempOverall = tempRating / res.data.instructor.reviews.length
+                            tempOverall = tempOverall.toFixed(1)
+                        }
+                        return {
+                            res: res.data.instructor,
+                            mainImage: res.data.instructor.instructor_details.gallery[0].path,
+                            imagesToSend: tempImages,
+                            comments: res.data.instructor.reviews,
+                            scheduledDates: res.data.scheduledDates,
+                            overallRating: tempOverall,
+                            rating: tempRating,
+                            loaded: true
+                        }
+                    }
+                }).catch(err => {
+                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                })
+            }
         },
         head () {
             const me = this
