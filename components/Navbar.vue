@@ -37,7 +37,7 @@
                                     <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
                                 </li>
                                 <li class="user_dropdown_item">
-                                    <nuxt-link to="/my-profile/update-profile" class="item_link">Update My Account</nuxt-link>
+                                    <div class="item_link" @click="checkUser()">Update My Account</div>
                                 </li>
                                 <li class="user_dropdown_item">
                                     <div class="item_link red" @click="logout()">Signout</div>
@@ -65,7 +65,7 @@
                                 <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
                             </li>
                             <li class="user_dropdown_item">
-                                <nuxt-link to="/my-profile/update-profile" class="item_link">Update My Account</nuxt-link>
+                                <div class="item_link" @click="checkUser()">Update My Account</div>
                             </li>
                             <li class="user_dropdown_item">
                                 <div class="item_link red" @click="logout()">Signout</div>
@@ -95,6 +95,15 @@
             }
         },
         methods: {
+            checkUser () {
+                const me = this
+                if (me.$store.state.user.new_user == 1) {
+                    me.$store.state.completeProfileStepsStatus = true
+                    document.body.classList.add('no_scroll')
+                } else {
+                    me.$router.push(`/my-profile/update-profile`)
+                }
+            },
             toggleList () {
                 const me = this
                 me.showList = false
