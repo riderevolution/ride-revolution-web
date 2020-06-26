@@ -95,7 +95,7 @@
                     me.$store.state.completeProfileStepsStatus = true
                     document.body.classList.add('no_scroll')
                 } else {
-                    me.$router.push(`${$nuxt.$route.fullPath}/update-profile`)
+                    me.$router.push(`/my-profile/update-profile`)
                 }
             },
             toggleDetails (event) {
