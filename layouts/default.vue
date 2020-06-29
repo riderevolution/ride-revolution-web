@@ -33,7 +33,7 @@
             <login-checker v-if="$store.state.loginCheckerStatus" />
         </transition>
         <transition name="fade">
-            <complete-profile-steps v-if="$store.state.completeProfileStepsStatus" />
+            <complete-profile-steps v-if="!$store.state.completeProfileStepsStatus" />
         </transition>
         <transition name="fade">
             <complete-profile-success v-if="$store.state.completeProfileSuccessStatus" />

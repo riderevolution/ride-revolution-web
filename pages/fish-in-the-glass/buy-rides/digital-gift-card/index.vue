@@ -156,7 +156,7 @@
                             <div class="available" v-if="!paypal">
                                 <div :class="`available_item ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'insufficient' : ''}`">
                                     <h3>Available Store Credits</h3>
-                                    <p class="store_credits">{{ storeCredits }}</p>
+                                    <p class="store_credits">{{ totalItems(storeCredits) }}</p>
                                     <transition name="slide">
                                         <div class="unavailable" v-if="(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)))">
                                             <nuxt-link rel="canonical" to="/buy-rides#storecredits">Buy Credits</nuxt-link>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="total">
                                 <p>You Pay</p>
-                                <p>Php {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }}</p>
+                                <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
@@ -290,8 +290,14 @@
             },
             computeTotal (total) {
                 const me = this
+                let result = 0
+                if (me.type == 'store-credits') {
+                    result = me.totalItems(total)
+                } else {
+                    result = me.totalCount(total)
+                }
                 me.form.total = total
-                return me.totalCount(total)
+                return result
             },
             computeDiscount (discount) {
                 const me = this

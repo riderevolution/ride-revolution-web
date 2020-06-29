@@ -293,7 +293,7 @@
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
                         <h2>My Transactions ({{ totalItems(transactions.length) }})</h2>
-                        <div class="total">
+                        <div class="total" v-if="totalPendingPayment > 0">
                             Total Due
                             <span class="count">Php {{ totalCount(totalPendingPayment) }}</span>
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'transactions')" />
@@ -310,7 +310,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Products</th>
-                                <th>Studio</th>
+                                <th>Origin</th>
                                 <th>Total Price</th>
                                 <th>Payment Status</th>
                             </tr>
@@ -325,7 +325,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td data-column="Studio">
+                                <td data-column="Origin">
                                     <div class="default">{{ (data.studio) ? data.studio.name : 'Website/App' }}</div>
                                 </td>
                                 <td data-column="Total Price">
