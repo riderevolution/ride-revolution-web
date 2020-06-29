@@ -86,8 +86,8 @@
                                     <p class="store_credits">{{ storeCredits }}</p>
                                     <transition name="slide">
                                         <div class="unavailable" v-if="(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)))">
-                                            <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}#storecredits`">Buy Rides</nuxt-link>
-                                            <label>*Your store credits are insufficient.</label>
+                                            <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}#storecredits`">Buy Credits</nuxt-link>
+                                            <p>*Your store credits are insufficient.</p>
                                         </div>
                                     </transition>
                                 </div>

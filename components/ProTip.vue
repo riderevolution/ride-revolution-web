@@ -1,8 +1,8 @@
 <template>
     <div id="pro_tip">
-        <div class="tip">
+        <p class="tip">
             PRO TIP: {{ res.label }}
-        </div>
+        </p>
         <div class="tip_btn" @click="dismissProTip()">Dismiss</div>
     </div>
 </template>

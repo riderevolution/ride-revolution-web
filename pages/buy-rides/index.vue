@@ -260,6 +260,7 @@
         async mounted() {
             const me = this
             await setTimeout( () => {
+                console.log(me.packages);
                 me.initial()
             }, 10)
         },

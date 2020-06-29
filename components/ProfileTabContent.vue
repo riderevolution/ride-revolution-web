@@ -365,7 +365,7 @@
                             <div class="top">
                                 <img :src="data.images[0].path" :alt="data.images[0].alt" />
                                 <div class="overlay">
-                                    <img class="gift_img" :src="data.fromUser.images[0].path" v-if="data.fromUser.images[0].path != null" />
+                                    <img class="gift_img" :src="data.fromUserImages[0].path" v-if="data.fromUserImages[0].path != null" />
                                     <div class="initials" v-else>
                                         <div class="name">{{ data.fromUser.first_name.charAt(0) }}{{ data.fromUser.last_name.charAt(0) }}</div>
                                     </div>
@@ -387,7 +387,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="no_results" v-else>
+                    <div class="no_results" v-if="giftCards.length == 0">
                         <div class="text">You don't have any gift cards.</div>
                         <div class="logo">
                             <img src="/footer-logo.svg" />
