@@ -90,9 +90,8 @@
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_line_1')">{{ errors.first('complete_profile_2_form.home_address_line_1') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
-                            <label for="home_address_line_2">Address Line 2 <span>*</span></label>
-                            <input name="home_address_line_2" placeholder="Enter your address line 2" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="completeProfile.home_address_line_2"/>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_line_2')">{{ errors.first('complete_profile_2_form.home_address_line_2') | properFormat }}</span></transition>
+                            <label for="home_address_line_2">Address Line 2 <b>(Optional)</b></label>
+                            <input name="home_address_line_2" placeholder="Enter your address line 2" class="input_text" v-validate="{regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="completeProfile.home_address_line_2"/>
                         </div>
                         <div class="form_flex">
                             <div class="form_group select">
@@ -158,9 +157,8 @@
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_line_1')">{{ errors.first('complete_profile_3_form.billing_address_line_1') | properFormat }}</span></transition>
                         </div>
                         <div class="form_group">
-                            <label for="billing_address_line_2">Address <span>*</span></label>
-                            <input name="billing_address_line_2" placeholder="Enter your address line 2" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="completeProfile.billing_address_line_2"/>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_line_2')">{{ errors.first('complete_profile_3_form.billing_address_line_2') | properFormat }}</span></transition>
+                            <label for="billing_address_line_2">Address <b>(Optional)</b></label>
+                            <input name="billing_address_line_2" placeholder="Enter your address line 2" class="input_text" v-validate="{regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="completeProfile.billing_address_line_2"/>
                         </div>
                         <div class="form_flex">
                             <div class="form_group select">
