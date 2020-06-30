@@ -562,6 +562,8 @@
                                     me.$store.state.completeProfileStepsStatus = false
                                     if (me.$store.state.lastRoute != '') {
                                         me.$router.push(me.$store.state.lastRoute)
+                                    } else {
+                                        location.reload()
                                     }
                                 }).catch(err => {
                                     me.$store.state.errorList = err.response.data.errors
