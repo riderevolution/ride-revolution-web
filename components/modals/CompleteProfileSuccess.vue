@@ -26,6 +26,7 @@
                     document.body.classList.remove('no_scroll')
                 }
                 me.$store.state.completeProfileStatus = false
+                location.reload()
             }
         }
     }

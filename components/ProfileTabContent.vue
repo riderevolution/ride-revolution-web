@@ -264,7 +264,7 @@
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
                                             <div class="table_menu_overlay">
-                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-if="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
+                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-show="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
                                                         <li class="table_menu_item" @click="togglePackage(data, 'share')">Share Package</li>
@@ -293,7 +293,7 @@
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
                         <h2>My Transactions ({{ totalItems(transactions.length) }})</h2>
-                        <div class="total">
+                        <div class="total" v-if="totalPendingPayment > 0">
                             Total Due
                             <span class="count">Php {{ totalCount(totalPendingPayment) }}</span>
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'transactions')" />
@@ -310,7 +310,8 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Products</th>
-                                <th>Studio</th>
+                                <th>Quantity</th>
+                                <th>Origin</th>
                                 <th>Total Price</th>
                                 <th>Payment Status</th>
                             </tr>
@@ -321,11 +322,18 @@
                                 <td data-column="Products">
                                     <div>
                                         <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }} ({{ child.quantity }})
+                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }}
                                         </div>
                                     </div>
                                 </td>
-                                <td data-column="Studio">
+                                <td data-column="Quantity">
+                                    <div>
+                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
+                                            <b>{{ child.quantity }}</b>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-column="Origin">
                                     <div class="default">{{ (data.studio) ? data.studio.name : 'Website/App' }}</div>
                                 </td>
                                 <td data-column="Total Price">
@@ -365,7 +373,7 @@
                             <div class="top">
                                 <img :src="data.images[0].path" :alt="data.images[0].alt" />
                                 <div class="overlay">
-                                    <img class="gift_img" :src="data.fromUser.images[0].path" v-if="data.fromUser.images[0].path != null" />
+                                    <img class="gift_img" :src="data.fromUserImages[0].path" v-if="data.fromUserImages[0].path != null" />
                                     <div class="initials" v-else>
                                         <div class="name">{{ data.fromUser.first_name.charAt(0) }}{{ data.fromUser.last_name.charAt(0) }}</div>
                                     </div>
@@ -387,7 +395,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="no_results" v-else>
+                    <div class="no_results" v-if="giftCards.length == 0">
                         <div class="text">You don't have any gift cards.</div>
                         <div class="logo">
                             <img src="/footer-logo.svg" />

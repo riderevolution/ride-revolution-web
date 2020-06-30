@@ -125,7 +125,7 @@
                                         <div class="time">{{ $moment(data.schedule.start_time).format('h:mm A') }}</div>
                                         <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
                                         <div class="ride">
-                                            <p>{{ parseScheduleRide(data.schedule.class_length_formatted) }} Ride</p>
+                                            <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
                                             <div class="info_icon">
                                                 <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
                                                 <transition name="slideAltY">
@@ -250,7 +250,7 @@
                     me.searchedInstructor = ''
                     me.hasSearchedInstructor = false
                     result = 'all instructors '
-                    me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
+                    // me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
                 }
                 setTimeout( () => {
                     me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {

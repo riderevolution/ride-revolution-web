@@ -111,45 +111,50 @@
                 <form id="default_form" @submit.prevent="submissionAddressSuccess()" data-vv-scope="address_form">
                     <div class="form_main_group">
                         <div class="form_header">
-                            <label>Personal Address</label>
+                            <label>Home Address</label>
                         </div>
                         <div class="form_group">
-                            <label for="personal_address">Address <span>*</span></label>
-                            <textarea name="personal_address" placeholder="Enter your address 1 and 2" class="input_text" rows="3" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.personal_address"></textarea>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_address')">{{ errors.first('address_form.personal_address') | properFormat }}</span></transition>
+                            <label for="home_address_line_1">Address Line 1 <span>*</span></label>
+                            <input name="home_address_line_1" placeholder="Enter your address line 1" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.home_address_line_1"/>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.home_address_line_1')">{{ errors.first('address_form.home_address_line_1') | properFormat }}</span></transition>
+                        </div>
+                        <div class="form_group">
+                            <label for="home_address_line_2">Address Line 2 <span>*</span></label>
+                            <input name="home_address_line_2" placeholder="Enter your address line 2" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.home_address_line_2"/>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.home_address_line_2')">{{ errors.first('address_form.home_address_line_2') | properFormat }}</span></transition>
                         </div>
                         <div class="form_flex">
                             <div class="form_group select">
-                                <label for="personal_country">Country <span>*</span></label>
+                                <label for="home_address_country">Country <span>*</span></label>
                                 <div class="select">
-                                    <select class="input_select" name="personal_country" v-model="address.personal_country" v-validate="'required'" @change="toggleWorld($event, 'state', 'pa')">
+                                    <select class="input_select" name="home_address_country" v-model="address.home_address_country" v-validate="'required'" @change="toggleWorld($event, 'state', 'pa')">
                                         <option value="0" selected disabled>Choose a Country</option>
                                         <option :value="country.id" v-for="(country, key) in pa_countries" :key="key">{{ country.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_country')">{{ errors.first('address_form.personal_country') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.home_address_country')">{{ errors.first('address_form.home_address_country') | properFormat }}</span></transition>
                             </div>
                             <div class="form_group select">
-                                <label for="personal_state">State <span>*</span></label>
+                                <label for="home_address_state">State <span>*</span></label>
                                 <div class="select">
-                                    <select class="input_select" name="personal_state" v-model="address.personal_state" v-validate="'required'">
+                                    <select class="input_select" name="home_address_state" v-model="address.home_address_state" v-validate="'required'">
                                         <option value="0" selected disabled>Choose a State</option>
                                         <option :value="state.id" v-for="(state, key) in pa_states" :key="key">{{ state.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_state')">{{ errors.first('address_form.personal_state') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.home_address_state')">{{ errors.first('address_form.home_address_state') | properFormat }}</span></transition>
                             </div>
                         </div>
                         <div class="form_flex">
                             <div class="form_group">
-                                <label for="personal_city">City <span>*</span></label>
-                                <input type="text" name="personal_city" autocomplete="off" :class="`input_text ${(address.personal_state != '') ? '' : 'disabled'}`" v-model="address.personal_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_city')">{{ errors.first('address_form.personal_city') | properFormat }}</span></transition>
+                                <label for="home_address_city">City <span>*</span></label>
+                                <input type="text" name="home_address_city" autocomplete="off" :class="`input_text ${(address.home_address_state != '') ? '' : 'disabled'}`" v-model="address.home_address_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.home_address_city')">{{ errors.first('address_form.home_address_city') | properFormat }}</span></transition>
                             </div>
                             <div class="form_group">
-                                <label for="personal_zip_code">Zip Code <span>*</span></label>
-                                <input type="text" name="personal_zip_code" autocomplete="off" :class="`input_text ${(address.personal_state != '') ? '' : 'disabled'}`" v-model="address.personal_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.personal_zip_code')">{{ errors.first('address_form.personal_zip_code') | properFormat }}</span></transition>
+                                <label for="home_address_zip_code">Zip Code <span>*</span></label>
+                                <input type="text" name="home_address_zip_code" autocomplete="off" :class="`input_text ${(address.home_address_state != '') ? '' : 'disabled'}`" v-model="address.home_address_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.home_address_zip_code')">{{ errors.first('address_form.home_address_zip_code') | properFormat }}</span></transition>
                             </div>
                         </div>
                     </div>
@@ -164,42 +169,47 @@
                             </div>
                         </div>
                         <div class="form_group">
-                            <label for="billing_address">Address <span>*</span></label>
-                            <textarea name="billing_address" placeholder="Enter your address 1 and 2" class="input_text" rows="3" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.billing_address"></textarea>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address')">{{ errors.first('address_form.billing_address') | properFormat }}</span></transition>
+                            <label for="billing_address_line_1">Address Line 1 <span>*</span></label>
+                            <input name="billing_address_line_1" placeholder="Enter your address line 1" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.billing_address_line_1"/>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_line_1')">{{ errors.first('address_form.billing_address_line_1') | properFormat }}</span></transition>
+                        </div>
+                        <div class="form_group">
+                            <label for="billing_address_line_2">Address Line 2 <span>*</span></label>
+                            <input name="billing_address_line_2" placeholder="Enter your address line 2" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="address.billing_address_line_2"/>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_line_2')">{{ errors.first('address_form.billing_address_line_2') | properFormat }}</span></transition>
                         </div>
                         <div class="form_flex">
                             <div class="form_group select">
-                                <label for="billing_country">Country <span>*</span></label>
+                                <label for="billing_address_country">Country <span>*</span></label>
                                 <div class="select">
-                                    <select class="input_select" name="billing_country" v-model="address.billing_country" v-validate="'required'" @change="toggleWorld($event, 'state', 'ba')">
+                                    <select class="input_select" name="billing_address_country" v-model="address.billing_address_country" v-validate="'required'" @change="toggleWorld($event, 'state', 'ba')">
                                         <option value="0" selected disabled>Choose a Country</option>
                                         <option :value="country.id" v-for="(country, key) in ba_countries" :key="key">{{ country.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_country')">{{ errors.first('address_form.billing_country') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_country')">{{ errors.first('address_form.billing_address_country') | properFormat }}</span></transition>
                             </div>
                             <div class="form_group select">
-                                <label for="billing_state">State <span>*</span></label>
+                                <label for="billing_address_state">State <span>*</span></label>
                                 <div class="select">
-                                    <select class="input_select" name="billing_state" v-model="address.billing_state" v-validate="'required'">
+                                    <select class="input_select" name="billing_address_state" v-model="address.billing_address_state" v-validate="'required'">
                                         <option value="0" selected disabled>Choose a State</option>
                                         <option :value="state.id" v-for="(state, key) in ba_states" :key="key">{{ state.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_state')">{{ errors.first('address_form.billing_state') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_state')">{{ errors.first('address_form.billing_address_state') | properFormat }}</span></transition>
                             </div>
                         </div>
                         <div class="form_flex">
                             <div class="form_group">
-                                <label for="billing_city">City <span>*</span></label>
-                                <input type="text" name="billing_city" autocomplete="off" :class="`input_text ${(address.billing_state != '') ? '' : 'disabled'}`" v-model="address.billing_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_city')">{{ errors.first('address_form.billing_city') | properFormat }}</span></transition>
+                                <label for="billing_address_city">City <span>*</span></label>
+                                <input type="text" name="billing_address_city" autocomplete="off" :class="`input_text ${(address.billing_address_state != '') ? '' : 'disabled'}`" v-model="address.billing_address_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_city')">{{ errors.first('address_form.billing_address_city') | properFormat }}</span></transition>
                             </div>
                             <div class="form_group">
-                                <label for="billing_zip_code">Zip Code <span>*</span></label>
-                                <input type="text" name="billing_zip_code" autocomplete="off" :class="`input_text ${(address.billing_state != '') ? '' : 'disabled'}`" v-model="address.billing_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_zip_code')">{{ errors.first('address_form.billing_zip_code') | properFormat }}</span></transition>
+                                <label for="billing_address_zip_code">Zip Code <span>*</span></label>
+                                <input type="text" name="billing_address_zip_code" autocomplete="off" :class="`input_text ${(address.billing_address_state != '') ? '' : 'disabled'}`" v-model="address.billing_address_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('address_form.billing_address_zip_code')">{{ errors.first('address_form.billing_address_zip_code') | properFormat }}</span></transition>
                             </div>
                         </div>
                     </div>
@@ -279,16 +289,18 @@
                     image_id: 0
                 },
                 address: {
-                    personal_address: '',
-                    personal_country: 0,
-                    personal_state: 0,
-                    personal_city: '',
-                    personal_zip_code: '',
-                    billing_address: '',
-                    billing_country: 0,
-                    billing_state: 0,
-                    billing_city: '',
-                    billing_zip_code: '',
+                    home_address_line_1: '',
+                    home_address_line_2: '',
+                    home_address_country: 0,
+                    home_address_state: 0,
+                    home_address_city: '',
+                    home_address_zip_code: '',
+                    billing_address_line_1: '',
+                    billing_address_line_2: '',
+                    billing_address_country: 0,
+                    billing_address_state: 0,
+                    billing_address_city: '',
+                    billing_address_zip_code: '',
                     copy: false
                 },
                 pa_countries: [],
@@ -355,7 +367,7 @@
         methods: {
             toggleWorld (event, type, category) {
                 const me = this
-                let country_id = (category == 'pa') ? me.address.personal_country : me.address.billing_country
+                let country_id = (category == 'pa') ? me.address.home_address_country : me.address.billing_address_country
                 me.loader(true)
                 switch (type) {
                     case 'state':
@@ -438,25 +450,26 @@
             copyPersonalAddress (status) {
                 const me = this
                 if (status) {
-                    me.address.billing_address = me.address.personal_address
-                    me.address.billing_country = me.address.personal_country
-                    if (me.address.billing_state == 0) {
-                        me.$axios.get(`api/world/states?country_id=${me.address.personal_country}`).then(res => {
+                    me.address.billing_address_line_1 = me.address.home_address_line_1
+                    me.address.billing_address_line_2 = me.address.home_address_line_2
+                    me.address.billing_address_country = me.address.home_address_country
+                    if (me.address.billing_address_state == 0) {
+                        me.$axios.get(`api/world/states?country_id=${me.address.home_address_country}`).then(res => {
                             me.ba_states = res.data.states
                         })
                     }
-                    me.address.billing_state = me.address.personal_state
-                    me.address.billing_city = me.address.personal_city
-                    me.address.billing_zip_code = me.address.personal_zip_code
+                    me.address.billing_address_state = me.address.home_address_state
+                    me.address.billing_address_city = me.address.home_address_city
+                    me.address.billing_address_zip_code = me.address.home_address_zip_code
                 } else {
                     if (me.res.customer_details.ba_state_id != null) {
-                        me.address.billing_state = me.res.customer_details.ba_state_id
+                        me.address.billing_address_state = me.res.customer_details.ba_state_id
                     } else {
-                        me.address.billing_state = 0
+                        me.address.billing_address_state = 0
                     }
                     me.address.billing_address = me.res.customer_details.ba_address
-                    me.address.billing_city = me.res.customer_details.ba_city
-                    me.address.billing_zip_code = me.res.customer_details.ba_zip_code
+                    me.address.billing_address_city = me.res.customer_details.ba_city
+                    me.address.billing_address_zip_code = me.res.customer_details.ba_zip_code
                 }
             },
             submissionProfileSuccess () {
@@ -556,26 +569,28 @@
                             if (me.res.customer_details.pa_country_id != null) {
                                 me.$axios.get(`api/world/states?country_id=${me.res.customer_details.pa_country_id}`).then(res => {
                                     me.pa_states = res.data.states
-                                    me.address.personal_country = me.res.customer_details.pa_country_id
-                                    me.address.personal_state = me.res.customer_details.pa_state_id
+                                    me.address.home_address_country = me.res.customer_details.pa_country_id
+                                    me.address.home_address_state = me.res.customer_details.pa_state_id
                                 })
                             }
                             if (me.res.customer_details.ba_country_id != null) {
                                 me.$axios.get(`api/world/states?country_id=${me.res.customer_details.ba_country_id}`).then(res => {
                                     me.ba_states = res.data.states
-                                    me.address.billing_country = me.res.customer_details.ba_country_id
-                                    me.address.billing_state = me.res.customer_details.ba_state_id
+                                    me.address.billing_address_country = me.res.customer_details.ba_country_id
+                                    me.address.billing_address_state = me.res.customer_details.ba_state_id
                                 })
                             }
                         }
                     })
 
-                    me.address.personal_address = res.data.user.customer_details.pa_address
-                    me.address.personal_city = res.data.user.customer_details.pa_city
-                    me.address.personal_zip_code = res.data.user.customer_details.pa_zip_code
-                    me.address.billing_address = res.data.user.customer_details.ba_address
-                    me.address.billing_city = res.data.user.customer_details.ba_city
-                    me.address.billing_zip_code = res.data.user.customer_details.ba_zip_code
+                    me.address.home_address_line_1 = res.data.user.customer_details.pa_address
+                    me.address.home_address_line_2 = res.data.user.customer_details.pa_address_2
+                    me.address.home_address_city = res.data.user.customer_details.pa_city
+                    me.address.home_address_zip_code = res.data.user.customer_details.pa_zip_code
+                    me.address.billing_address_line_1 = res.data.user.customer_details.ba_address
+                    me.address.billing_address_line_2 = res.data.user.customer_details.ba_address_2
+                    me.address.billing_address_city = res.data.user.customer_details.ba_city
+                    me.address.billing_address_zip_code = res.data.user.customer_details.ba_zip_code
 
                     me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
                     me.subscribed = (res.data.user.newsletter_subscription) ? true : false
