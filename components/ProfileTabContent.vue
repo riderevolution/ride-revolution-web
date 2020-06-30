@@ -264,7 +264,7 @@
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
                                             <div class="table_menu_overlay">
-                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-if="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
+                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-show="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
                                                         <li class="table_menu_item" @click="togglePackage(data, 'share')">Share Package</li>
@@ -310,6 +310,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Products</th>
+                                <th>Quantity</th>
                                 <th>Origin</th>
                                 <th>Total Price</th>
                                 <th>Payment Status</th>
@@ -321,7 +322,14 @@
                                 <td data-column="Products">
                                     <div>
                                         <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }} ({{ child.quantity }})
+                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-column="Quantity">
+                                    <div>
+                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
+                                            <b>{{ child.quantity }}</b>
                                         </div>
                                     </div>
                                 </td>
