@@ -197,7 +197,7 @@
                                 me.loader(false)
                                 me.$store.state.completeProfileSuccessStatus = true
                             }, 500)
-                            me.validateToken()
+                            location.reload()
                         })
                     } else {
                         me.error = true
