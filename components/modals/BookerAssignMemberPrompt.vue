@@ -50,7 +50,7 @@
                                             me.$parent.seats[parent][child][i].temp = {}
                                             me.$parent.seats[parent][child][i].temp.guest = 1
                                             me.$parent.seats[parent][child][i].temp.customer = me.customer
-                                            me.$parent.seats[parent][child][i].temp.class_package = me.$parent.tempClassPackage
+                                            me.$parent.seats[parent][child][i].temp.user_package_count = me.$parent.tempClassPackage
                                             me.$parent.seats[parent][child][i].temp.original_booker_id = me.$parent.user.id
                                             break
                                         }
@@ -68,7 +68,8 @@
                         }
                         setTimeout( () => {
                             me.$store.state.bookerAssignMemberPromptStatus = false
-                            me.$store.state.bookerAssignSuccessStatus = true
+                            document.body.classList.remove('no_scroll')
+                            // me.$store.state.bookerAssignSuccessStatus = true
                             me.loader(false)
                         }, 500)
                         me.$parent.removeNext = false

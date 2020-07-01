@@ -4,7 +4,7 @@
         <div class="confirmation_wrapper alt">
             <div class="form_close" @click.once="toggleClose()"></div>
             <div class="confirmation_title">
-                Please choose an action for seat {{ seat.number }}.
+                What would you like to do?
             </div>
             <div class="button_group">
                 <div class="flex default_btn_wht" @click="toggleAction('package')">Change Package</div>

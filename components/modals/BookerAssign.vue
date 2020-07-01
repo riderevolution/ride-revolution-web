@@ -150,6 +150,9 @@
                                 me.$store.state.bookerAssignMemberErrorStatus = true
                             }).then(() => {
                                 setTimeout( () => {
+                                    me.$parent.tempAssignedGuest.first_name = ''
+                                    me.$parent.tempAssignedGuest.last_name = ''
+                                    me.$parent.tempAssignedGuest.email = ''
                                     me.loader(false)
                                 }, 500)
                             })
@@ -189,6 +192,9 @@
                                 me.$store.state.bookerAssignNonMemberErrorStatus = true
                             }).then(() => {
                                 setTimeout( () => {
+                                    me.$parent.tempAssignedGuest.first_name = ''
+                                    me.$parent.tempAssignedGuest.last_name = ''
+                                    me.$parent.tempAssignedGuest.email = ''
                                     me.loader(false)
                                 }, 500)
                             })
@@ -203,8 +209,23 @@
             },
             toggleClose () {
                 const me = this
+                me.$parent.tempAssignedGuest.first_name = me.nonMemberFirstName
+                me.$parent.tempAssignedGuest.last_name = me.nonMemberLastName
+                me.$parent.tempAssignedGuest.email = me.nonMemberEmail
                 me.$store.state.bookerAssignStatus = false
                 document.body.classList.remove('no_scroll')
+            }
+        },
+        mounted () {
+            const me = this
+            if (me.$parent.tempAssignedGuest.first_name != '') {
+                me.nonMemberFirstName = me.$parent.tempAssignedGuest.first_name
+            }
+            if (me.$parent.tempAssignedGuest.last_name != '') {
+                me.nonMemberLastName = me.$parent.tempAssignedGuest.last_name
+            }
+            if (me.$parent.tempAssignedGuest.email != '') {
+                me.nonMemberEmail = me.$parent.tempAssignedGuest.email
             }
         }
     }
