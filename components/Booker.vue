@@ -542,30 +542,31 @@
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 formData.append('total_credit_count', me.toSubmit.bookCount)
-                me.loader(true)
+                // me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    if (res.data) {
-                        me.submitted = true
-                        me.step = 0
-                        me.$store.state.buyRidesSuccessStatus = true
-                        me.$scrollTo('#content', {
-                            offset: -250
-                        })
-                    }
-                }).catch(err => {
-                    document.body.classList.add('no_scroll')
-                    setTimeout( () => {
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                    }, 500)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
+                    console.log(res.data);
+                //     if (res.data) {
+                //         me.submitted = true
+                //         me.step = 0
+                //         me.$store.state.buyRidesSuccessStatus = true
+                //         me.$scrollTo('#content', {
+                //             offset: -250
+                //         })
+                //     }
+                // }).catch(err => {
+                //     document.body.classList.add('no_scroll')
+                //     setTimeout( () => {
+                //         me.$store.state.errorList = err.response.data.errors
+                //         me.$store.state.errorPromptStatus = true
+                //     }, 500)
+                // }).then(() => {
+                //     setTimeout( () => {
+                //         me.loader(false)
+                //     }, 500)
                 })
             },
             toggleStep (type) {

@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div :class="`form_custom_checkbox ${(classPackages.length > 4) ? 'scroll' : ''}`">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.no_more ? 'nope' : '') : 'nope'} ${(data.class_package.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.no_more ? 'nope' : '') : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
                                 <label>{{ data.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -73,7 +73,7 @@
                                 formData.append('scheduled_date_id', me.$parent.schedule.id)
                                 formData.append('user_id', res.data.user.id)
                                 formData.append('studio_id', me.$parent.schedule.schedule.studio_id)
-                                formData.append('class_package_id', me.selectedPackage)
+                                formData.append('user_package_count_id', me.selectedPackage)
                                 me.$axios.post(`api/waitlists`, formData, {
                                     headers: {
                                         Authorization: `Bearer ${token}`
@@ -109,7 +109,6 @@
                                 newTemp.temp = {}
                                 newTemp.status = 'reserved'
                                 newTemp.temp.guest = 0
-                                console.log(me.selectedClassPackage);
                                 newTemp.temp.class_package = me.selectedClassPackage
                                 newTemp.temp.customer = me.$parent.user
                                 me.$parent.tempOriginalSeat = newTemp
@@ -144,7 +143,7 @@
                                             if (me.tempSeat.temp.customer.id != element.temp.customer.id) {
                                                 /**
                                                 * if has the same package */
-                                                if (me.selectedClassPackage.class_package_id == (element.temp && element.temp.class_package.class_package_id)) {
+                                                if (me.selectedClassPackage.id == (element.temp && element.temp.class_package.id)) {
                                                     ctr++
                                                     let existingCount = element.temp.class_package.count
                                                     let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
@@ -165,7 +164,7 @@
                                                     if (me.$route.name == 'my-profile-manage-class-slug') {
                                                         if (!element.temp.old_class_package_id) {
                                                             newTemp.temp.changedPackage = 1
-                                                            newTemp.temp.old_class_package_id = element.temp.class_package.class_package_id
+                                                            newTemp.temp.old_class_package_id = element.temp.class_package.id
                                                         }
                                                     }
                                                     /**
@@ -206,7 +205,7 @@
                                     /**
                                      * Check if the package has rides left */
                                     me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                        if (me.selectedClassPackage.class_package_id == (element.temp && element.temp.class_package.class_package_id)) {
+                                        if (me.selectedClassPackage.id == (element.temp && element.temp.class_package.id)) {
                                             ctr++
                                             let existingCount = element.temp.class_package.count
                                             let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
@@ -240,13 +239,13 @@
                 /**
                  * Check if the the user changed package */
                 if (me.$route.name == 'my-profile-manage-class-slug') {
-                    if (me.tempSelectedPackage == data.class_package.id) {
+                    if (me.tempSelectedPackage == data.id) {
                         me.notSelectedPackage = false
                     } else {
                         me.notSelectedPackage = true
                     }
                 }
-                me.selectedPackage = data.class_package.id
+                me.selectedPackage = data.id
                 document.getElementById(`package_${unique}`).classList.add('active')
                 me.classPackages.forEach((element, index) => {
                     if (element.count > 0) {
@@ -287,7 +286,7 @@
                                     if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
                                         if (me.$parent.toSubmit.tempSeat.length > 0) {
                                             me.$parent.toSubmit.tempSeat.forEach((pData, index) => {
-                                                if (pData.temp.class_package.class_package_id == data.class_package.id) {
+                                                if (pData.temp.class_package.id == data.id) {
                                                     if (pData.temp.class_package.count == me.$parent.schedule.schedule.class_credits) {
                                                         data.no_more = true
                                                     }
@@ -301,22 +300,22 @@
                                     for (let i = 0; i < me.classPackages.length; i++) {
                                         if (me.classPackages[i].count >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
                                             me.selectedClassPackage = me.classPackages[i]
-                                            me.selectedPackage = me.classPackages[i].class_package.id
-                                            me.tempSelectedPackage = me.classPackages[i].class_package.id
+                                            me.selectedPackage = me.classPackages[i].id
+                                            me.tempSelectedPackage = me.classPackages[i].id
                                             break
                                         }
                                     }
                                 } else {
                                     if (me.$parent.tempGuestSeat == null) {
                                         me.selectedClassPackage = me.tempSeat.temp.class_package
-                                        me.selectedPackage = me.tempSeat.temp.class_package.class_package_id
-                                        me.tempSelectedPackage = me.tempSeat.temp.class_package.class_package_id
+                                        me.selectedPackage = me.tempSeat.temp.class_package.id
+                                        me.tempSelectedPackage = me.tempSeat.temp.class_package.id
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (me.classPackages[i].count >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
                                                 me.selectedClassPackage = me.classPackages[i]
-                                                me.selectedPackage = me.classPackages[i].class_package.id
-                                                me.tempSelectedPackage = me.classPackages[i].class_package.id
+                                                me.selectedPackage = me.classPackages[i].id
+                                                me.tempSelectedPackage = me.classPackages[i].id
                                                 break
                                             }
                                         }
