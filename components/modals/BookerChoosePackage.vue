@@ -324,11 +324,7 @@
                                 /**
                                  * Check if the the user changed package */
                                 if (me.$route.name == 'my-profile-manage-class-slug') {
-                                    if (me.classPackages.length > 0) {
-                                        me.notSelectedPackage = true
-                                    } else {
-                                        me.notSelectedPackage = false
-                                    }
+                                    me.notSelectedPackage = false
                                 }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
