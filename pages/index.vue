@@ -213,7 +213,7 @@
                                             <a :href="`tel:02-${studio.phone}`">(02) {{ studio.phone }}</a>
                                         </div>
                                     </div>
-                                    <nuxt-link to="/studios/greenbelt" class="default_btn">Explore</nuxt-link>
+                                    <nuxt-link :to="`/studios/${studio.slug}`" class="default_btn">Explore</nuxt-link>
                                 </div>
                             </div>
                         </div>

@@ -40,9 +40,9 @@
                             </swiper-slide>
                             <div class="swiper-pagination" slot="pagination"></div>
                         </swiper>
-                        <div class="action_mobile" v-if="$store.state.isMobile">
+                        <!-- <div class="action_mobile" v-if="$store.state.isMobile">
                             <nuxt-link rel="canonical" to="/buy-rides" class="default_btn">See All Class Packages</nuxt-link>
-                        </div>
+                        </div> -->
                     </no-ssr>
                 </div>
             </section>

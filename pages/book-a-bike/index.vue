@@ -122,7 +122,7 @@
                                 <a class="schedule" v-for="(data, key) in res.schedules" :key="key">
                                     <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     <div class="info">
-                                        <div class="time">{{ $moment(data.schedule.start_time).format('h:mm A') }}</div>
+                                        <div class="time">{{ $moment(data.schedule.start_time, 'h:mm A').format('h:mm A') }}</div>
                                         <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
                                         <div class="ride">
                                             <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
