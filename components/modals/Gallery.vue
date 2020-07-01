@@ -1,6 +1,7 @@
 <template>
     <div :class="`gallery_modal ${(opened) ? 'opened' : ''} ${(toggled) ? 'toggled' : ''}`">
         <div :class="`main ${($store.state.isMobile) ? 'mobile' : ''}`">
+            <div class="background" @click="close()"></div>
             <div class="overlay" v-if="!$store.state.isMobile">
                 <button type="button" class="left_arrow" @click="prev()"></button>
                 <div class="main_image" v-for="(data, key) in images" :key="key" v-if="key == activeThumb">

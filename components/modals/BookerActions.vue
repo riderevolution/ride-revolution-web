@@ -7,8 +7,8 @@
                 Please choose an action for seat {{ seat.number }}.
             </div>
             <div class="button_group">
-                <div class="flex default_btn_wht" @click.once="toggleAction('package')">Choose Package</div>
-                <div class="flex default_btn_red" @click.once="toggleAction('cancel')">Remove Seat</div>
+                <div class="flex default_btn_wht" @click="toggleAction('package')">Change Package</div>
+                <div class="flex default_btn_red" @click="toggleAction('cancel')">Cancel Booking</div>
             </div>
         </div>
     </div>
@@ -37,65 +37,7 @@
                         }, 500)
                         break
                     case 'cancel':
-                        /**
-                         * Check all the seats */
-                        Object.keys(me.$parent.seats).forEach((parent) => {
-                            Object.keys(me.$parent.seats[parent]).forEach((child) => {
-                                if (child == 'data') {
-                                    for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
-                                        if (me.$parent.seats[parent][child][i].id == me.seat.id) {
-                                            /**
-                                             * Check all tempseats */
-                                            me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                                /**
-                                                 * Check if seat and temp seat has same id */
-                                                if (me.$parent.seats[parent][child][i].id == element.id) {
-                                                    /**
-                                                     * If tempseat is original */
-                                                    if (element.temp.guest == 0) {
-                                                        me.$parent.hasBooked = false
-                                                        me.$parent.tempOriginalSeat = null
-                                                    /**
-                                                     * if tempseat is not original */
-                                                 } else {
-                                                        me.$parent.tempGuestSeat = null
-                                                        me.$parent.tempClassPackage = null
-                                                    }
-                                                    if (me.$parent.toSubmit.bookCount > 0) {
-                                                        me.$parent.toSubmit.bookCount--
-                                                    }
-                                                    /**
-                                                     * delete all the temp objects connected to the id */
-                                                    delete me.$parent.seats[parent][child][i].temp
-                                                    me.$parent.seats[parent][child][i].status = 'open'
-                                                    me.$parent.toSubmit.tempSeat.splice(index, 1)
-
-                                                    /**
-                                                     * Check if the tempseat length less than of equal to 1 */
-                                                    if (me.$parent.toSubmit.tempSeat.length == 0) {
-                                                        me.$parent.removeNext = true
-                                                    }
-                                                    if (me.$parent.toSubmit.tempSeat.length == 1) {
-                                                        me.$parent.hasGuest = false
-                                                    }
-
-                                                    me.$store.state.bookerActionsPrompt = false
-                                                    me.loader(true)
-                                                    setTimeout(() => {
-                                                        me.$parent.promptMessage = `You've cancelled seat number ${me.$parent.seats[parent][child][i].number}`
-                                                        me.$store.state.bookerPromptStatus = true
-                                                        document.body.classList.remove('no_scroll')
-                                                        me.loader(false)
-                                                    }, 500)
-                                                }
-                                            })
-                                            break
-                                        }
-                                    }
-                                }
-                            })
-                        })
-                        me.$parent.removeNext = false
+                        me.$store.state.bookerRemoveBookingStatus = true
                         break
                 }
             },

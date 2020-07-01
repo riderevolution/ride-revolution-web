@@ -37,6 +37,7 @@ const createStore = () => {
             bookerChooseSeatStatus: false,
             bookerChoosePackageStatus: false,
             bookerAssignStatus: false,
+            bookerRemoveBookingStatus: false,
             completeProfilePromptStatus: false,
             completeProfileHealthStatus: false,
             completeProfileStepsStatus: false,

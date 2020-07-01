@@ -5,9 +5,9 @@
                 <div class="modal_wrapper">
                     <h2 class="form_title">Please choose which package you’d like to use.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group alt">
-                        <div class="form_custom_checkbox">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(data.class_package.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
+                    <div class="modal_main_group">
+                        <div :class="`form_custom_checkbox ${(classPackages.length > 4) ? 'scroll' : ''}`">
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.no_more ? 'nope' : '') : 'nope'} ${(data.class_package.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
                                 <label>{{ data.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -109,6 +109,7 @@
                                 newTemp.temp = {}
                                 newTemp.status = 'reserved'
                                 newTemp.temp.guest = 0
+                                console.log(me.selectedClassPackage);
                                 newTemp.temp.class_package = me.selectedClassPackage
                                 newTemp.temp.customer = me.$parent.user
                                 me.$parent.tempOriginalSeat = newTemp
@@ -125,8 +126,6 @@
                                 me.$store.state.bookerChoosePackageStatus = false
                                 me.loader(true)
                                 setTimeout(() => {
-                                    me.$parent.promptMessage = "Seat selected."
-                                    me.$store.state.bookerPromptStatus = true
                                     document.body.classList.remove('no_scroll')
                                     me.loader(false)
                                 }, 500)
@@ -286,12 +285,21 @@
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {
                                     if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
+                                        if (me.$parent.toSubmit.tempSeat.length > 0) {
+                                            me.$parent.toSubmit.tempSeat.forEach((pData, index) => {
+                                                if (pData.temp.class_package.class_package_id == data.class_package.id) {
+                                                    if (pData.temp.class_package.count == me.$parent.schedule.schedule.class_credits) {
+                                                        data.no_more = true
+                                                    }
+                                                }
+                                            })
+                                        }
                                         me.classPackages.push(data)
                                     }
                                 })
                                 if (me.$parent.tempOriginalSeat == null) {
                                     for (let i = 0; i < me.classPackages.length; i++) {
-                                        if (me.classPackages[i].count > 0) {
+                                        if (me.classPackages[i].count >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
                                             me.selectedClassPackage = me.classPackages[i]
                                             me.selectedPackage = me.classPackages[i].class_package.id
                                             me.tempSelectedPackage = me.classPackages[i].class_package.id
@@ -305,7 +313,7 @@
                                         me.tempSelectedPackage = me.tempSeat.temp.class_package.class_package_id
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
-                                            if (me.classPackages[i].count > 0) {
+                                            if (me.classPackages[i].count >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
                                                 me.selectedClassPackage = me.classPackages[i]
                                                 me.selectedPackage = me.classPackages[i].class_package.id
                                                 me.tempSelectedPackage = me.classPackages[i].class_package.id

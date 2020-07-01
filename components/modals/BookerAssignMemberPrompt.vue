@@ -1,8 +1,7 @@
 <template>
     <div class="default_modal">
-        <div class="background" @click.once="toggleClose(false)"></div>
+        <div class="background"></div>
         <div class="confirmation_wrapper">
-            <div class="form_close" @click="toggleClose(false)"></div>
             <div class="confirmation_text">
                 Are you sure you want to add this member?
             </div>

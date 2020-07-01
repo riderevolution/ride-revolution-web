@@ -143,7 +143,7 @@
                     </ul>
                     <div class="mobile" v-else>
                         <div class="menu_tab_toggler">
-                            <div class="toggler" @click.self="toggleDetails($event)">Tab Menu</div>
+                            <div class="toggler" @click.self="toggleDetails()">Tab Menu</div>
                             <ul class="menu_tab">
                                 <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
                                 <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
@@ -206,7 +206,7 @@
                     </ul>
                     <div class="mobile" v-else>
                         <div class="menu_tab_toggler">
-                            <div class="toggler" @click.self="toggleDetails($event)">Tab Menu</div>
+                            <div class="toggler" @click.self="toggleDetails()">Tab Menu</div>
                             <ul class="menu_tab">
                                 <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
                                 <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
@@ -667,7 +667,8 @@
                             }
                         }
                     }
-                }
+                },
+                ctr: 0
             }
         },
         computed: {
@@ -725,15 +726,17 @@
                 })
                 return ctr
             },
-            toggleDetails (event) {
+            toggleDetails () {
                 const me = this
-                let target = event.target
-                if (target.parentNode.classList.contains('toggled')) {
-                    target.nextElementSibling.style.height = `${0}px`
-                    target.parentNode.classList.remove('toggled')
-                } else {
-                    target.parentNode.classList.add('toggled')
-                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                let target = document.querySelector('#default_menu .toggler')
+                if (target) {
+                    if (target.parentNode.classList.contains('toggled')) {
+                        target.nextElementSibling.style.height = `${0}px`
+                        target.parentNode.classList.remove('toggled')
+                    } else {
+                        target.parentNode.classList.add('toggled')
+                        target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                    }
                 }
             },
             manageClass (id) {
@@ -755,7 +758,7 @@
             },
             getHeight () {
                 const me = this
-                let ctr = 0
+                let interval = ''
                 let token = me.$cookies.get('token')
                 me.$axios.get('api/check-token', {
                     headers: {
@@ -764,21 +767,22 @@
                 }).then(res => {
                     if (res.data) {
                         me.user = res.data.user
-                        let interval = setInterval( () => {
+                        interval = setInterval( () => {
                             if (document.getElementById(`tab_${me.unique}`)) {
                                 me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
                             }
-                            ctr++
+                            me.ctr++
                         }, 500)
-                        if (ctr > 2) {
-                            clearInterval(interval)
-                        }
                     }
                 }).catch(err => {
                     setTimeout( () => {
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
                     }, 500)
+                }).then(() => {
+                    if (me.ctr > 0) {
+                        clearInterval(interval)
+                    }
                 })
             },
             // checkWarning (data) {

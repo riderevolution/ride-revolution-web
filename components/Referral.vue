@@ -1,5 +1,23 @@
 <template>
     <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
+        <div class="global_prev" v-if="summary != null">
+            <div class="item">
+                <h3>{{ summary.res.name }}</h3>
+                <p>Php {{ totalCount((summary.res.is_promo == 1) ? summary.res.discounted_price : summary.res.package_price) }}</p>
+            </div>
+            <div class="item">
+                <h3>Rides</h3>
+                <p>{{ summary.res.class_count }}</p>
+            </div>
+            <div class="item">
+                <h3>Discount</h3>
+                <p>Php {{ totalCount(summary.discount) }}</p>
+            </div>
+            <div class="total">
+                <p>You Pay</p>
+                <p>{{ (summary.type == 'store-credits') ? '' : 'Php' }} {{ (summary.type == 'store-credits') ? totalItems(summary.total) : totalCount(summary.total)  }} {{ (summary.type == 'store-credits') ? 'Credits' : '' }}</p>
+            </div>
+        </div>
         <div class="wrapper">
             <div v-html="subtitle"></div>
             <div class="link" v-if="isWebBased">
@@ -31,6 +49,9 @@
             BuyRidesPrompt
         },
         props: {
+            summary: {
+                default: null
+            },
             subtitle: {
                 default: '<h2>Refer a friend, get a free ride!</h2><h3>Earn a single class for referrals who buy our 2-week unlimited first-timer package. Enter your email below to start referring!</h3>'
             }

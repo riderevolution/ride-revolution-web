@@ -1244,6 +1244,27 @@
 
 @media (max-width: 1280px) and (min-width: 768px)
 
+    .riders_guide
+        #amenities
+            .amenities
+                .content
+                    .centered
+                        .swiper-wrapper
+                            justify-content: unset
+
+    .global_prev
+        max-width: 85%
+        margin: 0 auto 20px
+        .item
+            p,
+            h3
+                brandon_regular(16px, false)
+                color: $white
+        .total
+            margin: 20px 0
+            p
+                brandon_bold(16px, false)
+
     .accept_cookies
         padding: 15px 30px
 
@@ -3285,6 +3306,14 @@
 
 @media (max-width: 1280px) and (min-width: 1025px)
 
+    .riders_guide
+        #amenities
+            .amenities
+                .content
+                    .centered
+                        .swiper-wrapper
+                            justify-content: center
+
     .gallery_modal
         .main
             .overlay
@@ -3383,6 +3412,27 @@
                                                 brandon_black(22px, false)
 
 @media (max-width: 767px) and (min-width: 320px)
+
+    .riders_guide
+        #amenities
+            .amenities
+                .content
+                    .centered
+                        .swiper-wrapper
+                            justify-content: unset
+
+    .global_prev
+        max-width: 100%
+        margin: 0 auto 40px
+        .item
+            p,
+            h3
+                brandon_regular(16px, false)
+                color: $white
+        .total
+            margin: 20px 0
+            p
+                brandon_bold(16px, false)
 
     .accept_cookies
         padding: 15px
@@ -3664,6 +3714,7 @@
                     animation: fade_in 1.5s
             img
                 width: 100%
+                height: 250px
             .overlay
                 position: relative
                 top: 0
@@ -5075,7 +5126,7 @@
                         flex: 0 0 100%
                         .tab_item
                             flex: 0 0 100%
-                            brandon_regular(14px, false)
+                            brandon_regular(16px, false)
                             padding: 5px 10px
             .profile_tab_content
                 margin: 0 0 30px
@@ -5276,6 +5327,7 @@
                             margin: 0 auto
                             .tab_content_header
                                 padding: 10px 0 0 0
+                                justify-content: center
                                 h2
                                     padding: 0 10px
                                 .tab_content_header_menu
@@ -5955,6 +6007,15 @@
 
 @media (max-width: 767px) and (min-width: 425px)
 
+    .my_profile
+        #content
+            .profile_tab
+                .top
+                    .right
+                        justify-content: center
+                        .data
+                            flex: 0 0 100%
+
     .default_btn_wht
         &.ml
             margin-left: 15px
@@ -5964,6 +6025,7 @@
     .default_btn_out,
     .default_btn_blue,
     .default_btn_wht,
+    .default_btn_wht_out,
     .default_btn_red
         width: auto
         padding: 12px 15px
@@ -6054,6 +6116,11 @@
                 .right
                     .icon
                         flex: 0 0 33.33%
+    #promos
+        .action_mobile
+            text-align: center
+            .default_btn
+                width: auto
 
 @media (max-width: 767px) and (min-width: 465px)
 
@@ -6192,6 +6259,15 @@
                                 flex: 0 0 50%
 
 @media (max-width: 767px) and (min-width: 600px)
+
+    .my_profile
+        #content
+            .profile_tab
+                .top
+                    .right
+                        justify-content: space-between
+                        .data
+                            flex: 1 0 50%
 
     #banner
         .overlay_bottom

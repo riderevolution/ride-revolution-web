@@ -45,13 +45,32 @@
                         </ul>
                         <div class="mobile" v-else>
                             <div class="tab_toggler">
-                                <div class="toggler" @click.self="toggleDetails($event)">Menu</div>
                                 <ul class="tab_wrapper">
-                                    <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
-                                    <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
-                                    <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
-                                    <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
-                                    <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
+                                    <li :class="`tab_item full ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">
+                                        <div class="tab_item_link">
+                                            Ride Rev Journey
+                                        </div>
+                                    </li>
+                                    <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">
+                                        <div class="tab_item_link">
+                                            Classes
+                                        </div>
+                                    </li>
+                                    <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">
+                                        <div class="tab_item_link">
+                                            Packages
+                                        </div>
+                                    </li>
+                                    <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">
+                                        <div class="tab_item_link">
+                                            Transactions
+                                        </div>
+                                    </li>
+                                    <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">
+                                        <div class="tab_item_link">
+                                            Gift Cards
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -96,17 +115,6 @@
                     document.body.classList.add('no_scroll')
                 } else {
                     me.$router.push(`/my-profile/update-profile`)
-                }
-            },
-            toggleDetails (event) {
-                const me = this
-                let target = event.target
-                if (target.parentNode.classList.contains('toggled')) {
-                    target.nextElementSibling.style.height = `${0}px`
-                    target.parentNode.classList.remove('toggled')
-                } else {
-                    target.parentNode.classList.add('toggled')
-                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
                 }
             },
             toggleTab (key, category) {
@@ -167,6 +175,8 @@
                                 me.$refs.profileTab.tabCategory = 'upcoming'
                             }, 10)
                             setTimeout( () => {
+                                me.$refs.profileTab.toggleDetails()
+                                me.$refs.profileTab.ctr = 0
                                 me.loader(false)
                             }, 500)
                         })
@@ -194,6 +204,8 @@
                                 me.$refs.profileTab.tabCategory = 'active'
                             }, 10)
                             setTimeout( () => {
+                                me.$refs.profileTab.toggleDetails()
+                                me.$refs.profileTab.ctr = 0
                                 me.loader(false)
                             }, 500)
                         })

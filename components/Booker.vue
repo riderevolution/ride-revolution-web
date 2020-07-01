@@ -126,7 +126,7 @@
                                                 <div class="next_wrapper">
                                                     <div class="left" v-if="toSubmit.tempSeat.length > 0">
                                                         <div class="flex package">
-                                                            <div class="toggler" v-if="hasGuest">
+                                                            <div class="toggler" v-if="hasGuest && toSubmit.tempSeat.length > 1">
                                                                 <p>Swap seat for:</p>
                                                                 <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
@@ -138,10 +138,10 @@
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
-                                                        <div class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!isMobile && !removeNext">
-                                                        <div class="default_btn" @click="toggleStep('next')">Next</div>
+                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
@@ -234,6 +234,9 @@
             <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" />
         </transition>
         <transition name="fade">
+            <booker-remove-booking :seat="dummyData" v-if="$store.state.bookerRemoveBookingStatus" />
+        </transition>
+        <transition name="fade">
             <booker-success v-if="$store.state.buyRidesSuccessStatus" :data="instructor" />
         </transition>
         <transition name="fade">
@@ -256,6 +259,7 @@
     import BookerAssignNonMember from './modals/BookerAssignNonMember'
     import BookerAssignSuccess from './modals/BookerAssignSuccess'
     import BookerPrompt from './modals/BookerPrompt'
+    import BookerRemoveBooking from './modals/BookerRemoveBooking'
     import BookerSuccess from './modals/BookerSuccess'
     import BuyPackageFirst from './modals/BuyPackageFirst'
     import BookerActions from './modals/BookerActions'
@@ -281,6 +285,7 @@
             BookerAssignNonMember,
             BookerAssignSuccess,
             BookerPrompt,
+            BookerRemoveBooking,
             BookerSuccess,
             BuyPackageFirst,
             BookerActions

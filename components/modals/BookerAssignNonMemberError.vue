@@ -4,7 +4,7 @@
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose(false)"></div>
             <div class="confirmation_text">
-                Sorry the email address you've entered is already existing. Please try another email.
+                Sorry, this person already has an existing account. Please book their bike through the Member option.
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn_wht" @click.once="toggleClose(true)">Try Again</div>
