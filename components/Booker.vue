@@ -163,36 +163,36 @@
                         <h2 class="header_title">Let’s make sure we got this right.</h2>
                         <div class="preview">
                             <div class="item">
-                                <h3>Class</h3>
-                                <p>{{ schedule.schedule.class_type.name }}</p>
+                                <p>Class</p>
+                                <p class="right">{{ schedule.schedule.class_type.name }}</p>
                             </div>
                             <div class="item">
-                                <h3>Instructor</h3>
-                                <p>{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</p>
+                                <p>Instructor</p>
+                                <p class="right">{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</p>
                             </div>
                             <div class="item">
                                 <p>Studio</p>
-                                <p>{{ schedule.schedule.studio.name }}</p>
+                                <p class="right">{{ schedule.schedule.studio.name }}</p>
                             </div>
                             <div class="item">
                                 <p>Date</p>
-                                <p>{{ $moment(schedule.date).format('MMMM DD, YYYY') }}</p>
+                                <p class="right">{{ $moment(schedule.date).format('MMMM DD, YYYY') }}</p>
                             </div>
                             <div class="item">
                                 <p>Time</p>
-                                <p>{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</p>
+                                <p class="right">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</p>
                             </div>
                             <div class="item">
                                 <p>Bike No.</p>
-                                <p>{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
+                                <p class="right">{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
                             </div>
                             <div class="item">
                                 <p>Class Packages Used</p>
-                                <p>{{ getAllTempPackages(toSubmit.tempSeat) }}</p>
+                                <p class="right">{{ getAllTempPackages(toSubmit.tempSeat) }}</p>
                             </div>
                             <div class="total">
                                 <p>Consumes</p>
-                                <p>{{ toSubmit.bookCount * schedule.schedule.class_credits }} Credit/s</p>
+                                <p class="right">{{ toSubmit.bookCount * schedule.schedule.class_credits }} Credit/s</p>
                             </div>
                             <div class="preview_actions">
                                 <div class="back" @click="toggleStep('prev')">Back</div>
@@ -519,12 +519,11 @@
                 let result = ''
                 let ctr = 0
                 data.forEach((element, index) => {
+                    element.temp.user_package_count.class_package.same_name_ctr = 1
                     if (packages.length == 0) {
                         packages.push(element.temp.user_package_count.class_package.name)
                     } else {
-                        if (packages.indexOf(element.temp.user_package_count.class_package.name) <= -1) {
-                            packages.push(element.temp.user_package_count.class_package.name)
-                        }
+                        packages.push(element.temp.user_package_count.class_package.name)
                     }
                 })
                 packages.forEach((element, index) => {

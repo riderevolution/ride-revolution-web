@@ -65,7 +65,8 @@
                         setTimeout( () => {
                             me.$store.state.bookerAssignStatus = false
                             me.$store.state.bookerAssignNonMemberStatus = false
-                            me.$store.state.bookerAssignSuccessStatus = true
+                            // me.$store.state.bookerAssignSuccessStatus = true
+                            document.body.classList.remove('no_scroll')
                             me.loader(false)
                         }, 500)
                         me.$parent.removeNext = false
