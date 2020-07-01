@@ -115,7 +115,7 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password_confirmation')">{{ errors.first('register_form.password_confirmation') | properFormat }}</span></transition>
                     </div>
                     <div class="form_button">
-                        <button type="button" class="default_btn full" @click="submissionRegisterSuccess()">Sign up</button>
+                        <button type="button" :class="`default_btn full ${(checkEmailValidity) ? 'disabled' : ''}`" @click="submissionRegisterSuccess()">Sign up</button>
                     </div>
                 </form>
                 <div class="new_here">
@@ -157,7 +157,7 @@
                     <div class="form_flex sign_up">
                         <div class="back" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
-                            <button type="button" class="default_btn full" @click="toggleStep('proceed')">Looks Good</button>
+                            <button type="button" :class="`default_btn full ${(checkUsernameValidity) ? 'disabled' : ''}`" @click="toggleStep('proceed')">Looks Good</button>
                         </div>
                     </div>
                 </form>
@@ -466,39 +466,41 @@
              * Submission of next steps registration process form */
             submitRegistration () {
                 const me = this
-                me.$validator.validateAll('register_process_form').then(valid => {
-                    if (valid) {
-                        me.loader(true)
-                        if (me.$cookies.get('referrer_member_id') != null
+                if (!me.checkEmailValidity) {
+                    me.$validator.validateAll('register_process_form').then(valid => {
+                        if (valid) {
+                            me.loader(true)
+                            if (me.$cookies.get('referrer_member_id') != null
                             || me.$cookies.get('referrer_member_id') != undefined) {
-                            me.signUpForm['referrer_member_id'] = me.$cookies.get('referrer_member_id')
+                                me.signUpForm['referrer_member_id'] = me.$cookies.get('referrer_member_id')
+                            } else {
+                                me.signUpForm['referrer_member_id'] = null
+                            }
+                            me.$axios.post('api/user/register', me.signUpForm).then(res => {
+                                let token = res.data.token
+                                me.$cookies.set('token', token, '7d')
+                                me.$store.state.isAuth = true
+                                me.$store.state.loginSignUpStatus = false
+                                document.body.classList.remove('no_scroll')
+                                me.$cookies.remove('referrer_member_id')
+                                me.$router.push('/my-profile')
+                            }).catch(err => {
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }).then(() => {
+                                setTimeout( () => {
+                                    me.loader(false)
+                                }, 500)
+                                me.validateToken()
+                            })
                         } else {
-                            me.signUpForm['referrer_member_id'] = null
+                            me.$scrollTo('.validation_errors', {
+                                container: '#default_form',
+                                offset: -250
+                            })
                         }
-                        me.$axios.post('api/user/register', me.signUpForm).then(res => {
-                            let token = res.data.token
-                            me.$cookies.set('token', token, '7d')
-                            me.$store.state.isAuth = true
-                            me.$store.state.loginSignUpStatus = false
-                            document.body.classList.remove('no_scroll')
-                            me.$cookies.remove('referrer_member_id')
-                            me.$router.push('/my-profile')
-                        }).catch(err => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
-                            me.validateToken()
-                        })
-                    } else {
-                        me.$scrollTo('.validation_errors', {
-                            container: '#default_form',
-                            offset: -250
-                        })
-                    }
-                })
+                    })
+                }
             },
             /**
              * Toggling of step in registration */

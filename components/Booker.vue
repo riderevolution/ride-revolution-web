@@ -292,6 +292,11 @@
         },
         data () {
             return {
+                tempAssignedGuest: {
+                    first_name: '',
+                    last_name: '',
+                    email: ''
+                },
                 instructor: {},
                 res: [],
                 isMobile: false,
