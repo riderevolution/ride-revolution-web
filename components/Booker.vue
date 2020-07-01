@@ -515,10 +515,10 @@
                 let ctr = 0
                 data.forEach((element, index) => {
                     if (packages.length == 0) {
-                        packages.push(element.temp.class_package.class_package.name)
+                        packages.push(element.temp.user_package_count.class_package.name)
                     } else {
-                        if (packages.indexOf(element.temp.class_package.class_package.name) <= -1) {
-                            packages.push(element.temp.class_package.class_package.name)
+                        if (packages.indexOf(element.temp.user_package_count.class_package.name) <= -1) {
+                            packages.push(element.temp.user_package_count.class_package.name)
                         }
                     }
                 })
@@ -542,30 +542,31 @@
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
                 formData.append('total_credit_count', me.toSubmit.bookCount)
-                me.loader(true)
+                // me.loader(true)
                 me.$axios.post('api/web/bookings', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    if (res.data) {
-                        me.submitted = true
-                        me.step = 0
-                        me.$store.state.buyRidesSuccessStatus = true
-                        me.$scrollTo('#content', {
-                            offset: -250
-                        })
-                    }
-                }).catch(err => {
-                    document.body.classList.add('no_scroll')
-                    setTimeout( () => {
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                    }, 500)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
+                    console.log(res.data);
+                //     if (res.data) {
+                //         me.submitted = true
+                //         me.step = 0
+                //         me.$store.state.buyRidesSuccessStatus = true
+                //         me.$scrollTo('#content', {
+                //             offset: -250
+                //         })
+                //     }
+                // }).catch(err => {
+                //     document.body.classList.add('no_scroll')
+                //     setTimeout( () => {
+                //         me.$store.state.errorList = err.response.data.errors
+                //         me.$store.state.errorPromptStatus = true
+                //     }, 500)
+                // }).then(() => {
+                //     setTimeout( () => {
+                //         me.loader(false)
+                //     }, 500)
                 })
             },
             toggleStep (type) {
@@ -752,11 +753,11 @@
                                     me.seats[parent][child][i].temp = {}
                                     me.seats[parent][child][i].status = firstSeat.status
                                     me.seats[parent][child][i].temp.guest = firstSeat.temp.guest
-                                    me.seats[parent][child][i].temp.class_package = firstSeat.temp.class_package
+                                    me.seats[parent][child][i].temp.user_package_count = firstSeat.temp.user_package_count
                                     me.seats[parent][child][i].temp.customer = firstSeat.temp.customer
-                                    if (firstSeat.temp.old_class_package_id) {
+                                    if (firstSeat.temp.old_user_package_count_id) {
                                         me.seats[parent][child][i].temp.changedPackage = firstSeat.temp.changedPackage
-                                        me.seats[parent][child][i].temp.old_class_package_id = firstSeat.temp.old_class_package_id
+                                        me.seats[parent][child][i].temp.old_user_package_count_id = firstSeat.temp.old_user_package_count_id
                                     }
                                     if (me.seats[parent][child][i].temp.guest == 0) {
                                         me.tempOriginalSeat = me.seats[parent][child][i]

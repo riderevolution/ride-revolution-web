@@ -109,7 +109,7 @@
                                 newTemp.temp = {}
                                 newTemp.status = 'reserved'
                                 newTemp.temp.guest = 0
-                                newTemp.temp.class_package = me.selectedClassPackage
+                                newTemp.temp.user_package_count = me.selectedClassPackage
                                 newTemp.temp.customer = me.$parent.user
                                 me.$parent.tempOriginalSeat = newTemp
                                 me.$parent.toSubmit.bookCount++
@@ -131,7 +131,7 @@
                             } else {
                                 /**
                                  * check if the temp has class_package */
-                                if (me.tempSeat.temp && me.tempSeat.temp.class_package) {
+                                if (me.tempSeat.temp && me.tempSeat.temp.user_package_count) {
                                     /**
                                      * Update the package if the user choose package */
                                     if (me.tempSeat.temp) {
@@ -143,9 +143,9 @@
                                             if (me.tempSeat.temp.customer.id != element.temp.customer.id) {
                                                 /**
                                                 * if has the same package */
-                                                if (me.selectedClassPackage.id == (element.temp && element.temp.class_package.id)) {
+                                                if (me.selectedClassPackage.id == (element.temp && element.temp.user_package_count.id)) {
                                                     ctr++
-                                                    let existingCount = element.temp.class_package.count
+                                                    let existingCount = element.temp.user_package_count.count
                                                     let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                     /**
                                                     * check the package count */
@@ -158,19 +158,19 @@
                                         if (!hasSamePackage) {
                                             me.$parent.toSubmit.tempSeat.forEach((element, index) => {
                                                 if (me.tempSeat.temp.customer.id == element.temp.customer.id) {
-                                                    let tempClassPackage = newTemp.temp.class_package
+                                                    let tempClassPackage = newTemp.temp.user_package_count
                                                     /**
                                                      * Check if the the user changed package */
                                                     if (me.$route.name == 'my-profile-manage-class-slug') {
-                                                        if (!element.temp.old_class_package_id) {
+                                                        if (!element.temp.old_user_package_count_id) {
                                                             newTemp.temp.changedPackage = 1
-                                                            newTemp.temp.old_class_package_id = element.temp.class_package.id
+                                                            newTemp.temp.old_user_package_count_id = element.temp.user_package_count.id
                                                         }
                                                     }
                                                     /**
                                                     * for original booker */
                                                     if (element.temp.guest == 0) {
-                                                        newTemp.temp.class_package = me.selectedClassPackage
+                                                        newTemp.temp.user_package_count = me.selectedClassPackage
                                                         me.$parent.toSubmit.tempSeat.splice(index, 1)
                                                         if (me.$parent.toSubmit.tempSeat.length > 0) {
                                                             me.$parent.toSubmit.tempSeat.unshift(newTemp)
@@ -183,7 +183,7 @@
                                                     /**
                                                     * for original booker guest */
                                                     } else {
-                                                        newTemp.temp.class_package = me.selectedClassPackage
+                                                        newTemp.temp.user_package_count = me.selectedClassPackage
                                                         me.$parent.tempClassPackage = me.selectedClassPackage
                                                         me.$parent.toSubmit.tempSeat.splice(index, 1)
                                                         me.$parent.toSubmit.tempSeat.push(newTemp)
@@ -205,9 +205,9 @@
                                     /**
                                      * Check if the package has rides left */
                                     me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                        if (me.selectedClassPackage.id == (element.temp && element.temp.class_package.id)) {
+                                        if (me.selectedClassPackage.id == (element.temp && element.temp.user_package_count.id)) {
                                             ctr++
-                                            let existingCount = element.temp.class_package.count
+                                            let existingCount = element.temp.user_package_count.count
                                             let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                             if (resultsWhenDeducted < 0) {
                                                 hasGuestSamePackage = true
@@ -286,8 +286,8 @@
                                     if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
                                         if (me.$parent.toSubmit.tempSeat.length > 0) {
                                             me.$parent.toSubmit.tempSeat.forEach((pData, index) => {
-                                                if (pData.temp.class_package.id == data.id) {
-                                                    if (pData.temp.class_package.count == me.$parent.schedule.schedule.class_credits) {
+                                                if (pData.temp.user_package_count.id == data.id) {
+                                                    if (pData.temp.user_package_count.count == me.$parent.schedule.schedule.class_credits) {
                                                         data.no_more = true
                                                     }
                                                 }
@@ -307,9 +307,9 @@
                                     }
                                 } else {
                                     if (me.$parent.tempGuestSeat == null) {
-                                        me.selectedClassPackage = me.tempSeat.temp.class_package
-                                        me.selectedPackage = me.tempSeat.temp.class_package.id
-                                        me.tempSelectedPackage = me.tempSeat.temp.class_package.id
+                                        me.selectedClassPackage = me.tempSeat.temp.user_package_count
+                                        me.selectedPackage = me.tempSeat.temp.user_package_count.id
+                                        me.tempSelectedPackage = me.tempSeat.temp.user_package_count.id
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (me.classPackages[i].count >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {

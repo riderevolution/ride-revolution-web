@@ -343,28 +343,23 @@
                 let formData = new FormData()
                 formData.append('type', type)
                 formData.append('value', value)
-                setTimeout( () => {
-                    me.$axios.post('api/check-data-validity', formData).then(res => {
-                        if (res.data) {
-                            if (res.data.exists) {
-                                if (type == 'email') {
-                                    me.checkEmailValidity = true
-                                } else {
-                                    me.checkUsernameValidity = true
-                                }
+                me.$axios.post('api/check-data-validity', formData).then(res => {
+                    if (res.data) {
+                        if (res.data.exists) {
+                            if (type == 'email') {
+                                me.checkEmailValidity = true
                             } else {
-                                if (type == 'email') {
-                                    me.checkEmailValidity = false
-                                } else {
-                                    me.checkUsernameValidity = false
-                                }
+                                me.checkUsernameValidity = true
+                            }
+                        } else {
+                            if (type == 'email') {
+                                me.checkEmailValidity = false
+                            } else {
+                                me.checkUsernameValidity = false
                             }
                         }
-                    }).catch(err => {
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                    })
-                }, 250)
+                    }
+                })
             },
             fbLogin () {
                 let me = this
