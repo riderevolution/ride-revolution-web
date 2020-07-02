@@ -447,32 +447,34 @@
                         } else {
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
-                                    if (seat.bookings[0].original_booker_id == me.user.id) {
-                                        if (seat.bookings[0].is_guest == 1) {
-                                            result += 'reserved-guest'
-                                        } else {
-                                            result += 'reserved alt'
-                                        }
-                                    } else {
-                                        if (seat.bookings[0].user_id == me.user.id) {
-                                            if (seat.bookings[0].is_guest == 1) {
-                                                result += 'reserved alt'
-                                            }
-                                        } else {
-                                            result += 'reserved'
-                                        }
-                                    }
-                                } else {
-                                    if (seat.bookings[0].original_booker_id == me.user.id) {
-                                        if (seat.bookings[0].is_guest == 1) {
-                                            result += 'reserved-guest'
-                                        }
-                                    } else {
-                                        result += 'reserved'
-                                    }
+                                    result += 'blocked comp'
+                                //     if (seat.bookings[0].original_booker_id == me.user.id) {
+                                //         if (seat.bookings[0].is_guest == 1) {
+                                //             result += 'reserved-guest'
+                                //         } else {
+                                //             result += 'reserved alt'
+                                //         }
+                                //     } else {
+                                //         if (seat.bookings[0].user_id == me.user.id) {
+                                //             if (seat.bookings[0].is_guest == 1) {
+                                //                 result += 'reserved alt'
+                                //             }
+                                //         } else {
+                                //             result += 'reserved'
+                                //         }
+                                //     }
+                                // } else {
+                                //     if (seat.bookings[0].original_booker_id == me.user.id) {
+                                //         if (seat.bookings[0].is_guest == 1) {
+                                //             result += 'reserved-guest'
+                                //         }
+                                //     } else {
+                                //         result += 'reserved'
+                                //     }
+                                // }
                                 }
-                            } else if (seat.comp.length > 0) {
-
+                            // else if (seat.comp.length > 0) {
+                            //
                             }
                         }
                         break
