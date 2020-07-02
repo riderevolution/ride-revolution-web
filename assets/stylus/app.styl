@@ -180,6 +180,57 @@ svg
             margin-top: 40px
 
 /**
+ * Pagination */
+#cms_pagination
+    display: flex
+    flex-flow: row wrap
+    align-items: center
+    justify-content: center
+    padding: 20px 0 30px
+    user-select: none
+    .separator
+        brandon_bold(16px, false)
+        color: $green
+        padding: 0 5px
+    .next,
+    .prev
+        brandon_regular(16px, false)
+        color: $white
+        background-color: $green
+        border: 1px solid $green
+        padding: 8px 14px
+        margin: 0 3px
+        cursor: pointer
+        transition: .3s ease-in-out
+        &:hover,
+        &:focus
+            background-color: $green_alt3
+            color: $green
+            transition: .3s ease-in-out
+        &.disabled
+            background-color: #e2e2e2
+            color: $black
+            border: 1px solid #e2e2e2
+            transition: .3s ease-in-out
+    .number
+        brandon_regular(16px, false)
+        color: $green
+        background-color: $green_alt3
+        border: 1px solid $green
+        padding: 8px 14px
+        margin: 0 3px
+        cursor: pointer
+        transition: .3s ease-in-out
+        &:hover,
+        &:focus,
+        &.active
+            background-color: $green
+            color: $white
+            transition: .3s ease-in-out
+        &.active
+            pointer-events: none
+
+/**
  * Default Buttons */
 .back
     brandon_medium(16px, true)

@@ -224,9 +224,7 @@
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.transactions = []
-                                    res.data.customer.payments.forEach((data, index) => {
-                                        me.$refs.profileTab.transactions.push(data)
-                                    })
+                                    me.$refs.profileTab.transactions = res.data.customer.payments
                                     me.$refs.profileTab.totalPendingPayment = res.data.customer.totalPendingPayments
                                 }, 10)
                             }
