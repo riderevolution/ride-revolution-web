@@ -257,7 +257,7 @@
                                         </td>
                                         <td data-column="Expiry">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
-                                                <div class="default">{{ $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
+                                                <div class="default">{{ (data.class_package.computed_expiration_date == null) ? 'N/A' : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
                                                 <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
                                                 <div class="label" v-else>Date of Expiry</div>
                                             </div>
@@ -292,7 +292,7 @@
             <div id="tab_3" class="default wrapper" v-if="category == 'transactions'">
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
-                        <h2>My Transactions ({{ totalItems(transactions.length) }})</h2>
+                        <h2>My Transactions ({{ totalItems(transactions.total) }})</h2>
                         <div class="total" v-if="totalPendingPayment > 0">
                             Total Due
                             <span class="count">Php {{ totalCount(totalPendingPayment) }}</span>
@@ -316,8 +316,8 @@
                                 <th>Payment Status</th>
                             </tr>
                         </thead>
-                        <tbody v-if="transactions.length > 0">
-                            <tr v-for="(data, key) in transactions" :key="key">
+                        <tbody v-if="transactions.data.length > 0">
+                            <tr v-for="(data, key) in transactions.data" :key="key">
                                 <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
                                 <td data-column="Products">
                                     <div>
@@ -345,9 +345,10 @@
                             </tr>
                         </tbody>
                         <tbody class="no_results" v-else>
-                            <td class="text" colspan="5">You don't have any transactions yet.</td>
+                            <td class="text" colspan="6">You don't have any transactions yet.</td>
                         </tbody>
                     </table>
+                    <pagination :apiRoute="transactions.path" :current="transactions.current_page" :last="transactions.last_page" v-if="transactions.data.length > 0" />
                 </div>
             </div>
         </transition>
@@ -400,7 +401,7 @@
                         <div class="logo">
                             <img src="/footer-logo.svg" />
                         </div>
-                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Digital Gift Card</nuxt-link>
+                        <!-- <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Digital Gift Card</nuxt-link> -->
                     </div>
                 </div>
             </div>
@@ -429,13 +430,15 @@
     import RedeemGiftCardSuccess from './modals/RedeemGiftCardSuccess'
     import ShareTransferPackage from './modals/ShareTransferPackage'
     import BookerPrompt from './modals/BookerPrompt'
+    import Pagination from './Pagination'
     export default {
         components: {
             CancelClass,
             RedeemGiftCard,
             RedeemGiftCardSuccess,
             ShareTransferPackage,
-            BookerPrompt
+            BookerPrompt,
+            Pagination
         },
         props: {
             category: {
@@ -499,7 +502,9 @@
                 tabChartCategory: 'monthly',
                 classes: [],
                 packages: [],
-                transactions: [],
+                transactions: {
+                    data: []
+                },
                 giftCards: [],
                 series: [
                     {
@@ -971,7 +976,7 @@
                                 setTimeout( () => {
                                     me.packages = []
                                     res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) <= 0) {
+                                        if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) <= 0 || data.class_package.computed_expiration_date == null) {
                                             data.expired = true
                                             me.packages.push(data)
                                         }
@@ -998,7 +1003,6 @@
                     switch (category) {
                         case 'weekly':
                             me.series[0].data = me.rideRevJourney.weeklyRideCount.series.data
-                            console.log(me.rideRevJourney.weeklyRideCount.series.data);
                             let currentDay = me.$moment().day()
                             tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
                             for (let i = 0; i < 13; i++) {
@@ -1012,7 +1016,6 @@
                             break
                         case 'monthly':
                             me.series[0].data = me.rideRevJourney.monthlyRideCount.series.data
-                            console.log(me.rideRevJourney.monthlyRideCount.series.data);
                             let currentMonth = me.$moment().month() + 1
                             tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
                             for (let i = 0; i < 11; i++) {

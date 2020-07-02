@@ -7,7 +7,7 @@
                 {{ message }}
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn_wht" @click.once="toggleClose(($parent.buyCredits) ? 1 : 0)">Confirm</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose(($parent.buyCredits) ? 1 : 0)">OK</div>
             </div>
         </div>
     </div>

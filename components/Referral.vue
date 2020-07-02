@@ -1,21 +1,26 @@
 <template>
     <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
-        <div class="global_prev" v-if="summary != null">
-            <div class="item">
-                <h3>{{ summary.res.name }}</h3>
-                <p>Php {{ totalCount((summary.res.is_promo == 1) ? summary.res.discounted_price : summary.res.package_price) }}</p>
+        <div class="global_prev_container" v-if="summary != null">
+            <div class="item_title">
+                <h2>Order Confirmation</h2>
             </div>
-            <div class="item">
-                <h3>Rides</h3>
-                <p>{{ summary.res.class_count }}</p>
-            </div>
-            <div class="item">
-                <h3>Discount</h3>
-                <p>Php {{ totalCount(summary.discount) }}</p>
-            </div>
-            <div class="total">
-                <p>You Pay</p>
-                <p>{{ (summary.type == 'store-credits') ? '' : 'Php' }} {{ (summary.type == 'store-credits') ? totalItems(summary.total) : totalCount(summary.total)  }} {{ (summary.type == 'store-credits') ? 'Credits' : '' }}</p>
+            <div class="global_prev">
+                <div class="item">
+                    <h3>{{ summary.res.name }}</h3>
+                    <p>Php {{ totalCount((summary.res.is_promo == 1) ? summary.res.discounted_price : summary.res.package_price) }}</p>
+                </div>
+                <div class="item">
+                    <h3>Rides</h3>
+                    <p>{{ summary.res.class_count }}</p>
+                </div>
+                <div class="item">
+                    <h3>Discount</h3>
+                    <p>Php {{ totalCount(summary.discount) }}</p>
+                </div>
+                <div class="total">
+                    <p>Total</p>
+                    <p>{{ (summary.type == 'store-credits') ? '' : 'Php' }} {{ (summary.type == 'store-credits') ? totalItems(summary.total) : totalCount(summary.total)  }} {{ (summary.type == 'store-credits') ? 'Credits' : '' }}</p>
+                </div>
             </div>
         </div>
         <div class="wrapper">

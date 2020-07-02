@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div :class="`form_custom_checkbox ${(classPackages.length > 4) ? 'scroll' : ''}`">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.no_more ? 'nope' : '') : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="data.count >= 1">
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.no_more ? 'nope' : '') : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)">
                                 <label>{{ data.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -278,17 +278,39 @@
                 }
             }).then(res => {
                 if (res.data) {
+                    let countCtr = 0
                     id = res.data.user.id
                     me.$axios.get(`api/customers/${id}/packages${(me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') ? `?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}` : ''}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {
+                                    let ctr = 0
+                                    if (me.$route.name == 'my-profile-manage-class-slug') {
+                                        if (parseInt(data.count) == 0) {
+                                            countCtr++
+                                        }
+                                    }
                                     if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
                                         if (me.$parent.toSubmit.tempSeat.length > 0) {
                                             me.$parent.toSubmit.tempSeat.forEach((pData, index) => {
                                                 if (pData.temp.user_package_count.id == data.id) {
-                                                    if (pData.temp.user_package_count.count == me.$parent.schedule.schedule.class_credits) {
+                                                    ctr++
+                                                    let existingCount = pData.temp.user_package_count.count
+                                                    if (pData.temp.user_package_count.count == me.$parent.schedule.schedule.class_credits || pData.temp.user_package_count.count == 0) {
+                                                        data.count = data.count - me.$parent.schedule.schedule.class_credits
+                                                        countCtr++
                                                         data.no_more = true
+                                                    } else {
+                                                        let resultsWhenDeducted = existingCount - ((ctr) * me.$parent.schedule.schedule.class_credits)
+                                                        if ((resultsWhenDeducted) > me.$parent.schedule.schedule.class_credits) {
+                                                            data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
+                                                        } else {
+                                                            data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits
+                                                        }
+                                                        if (resultsWhenDeducted < 0) {
+                                                            data.no_more = true
+                                                            data.count = existingCount - me.$parent.schedule.schedule.class_credits
+                                                        }
                                                     }
                                                 }
                                             })
@@ -298,7 +320,7 @@
                                 })
                                 if (me.$parent.tempOriginalSeat == null) {
                                     for (let i = 0; i < me.classPackages.length; i++) {
-                                        if (me.classPackages[i].count >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
+                                        if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
                                             me.selectedClassPackage = me.classPackages[i]
                                             me.selectedPackage = me.classPackages[i].id
                                             me.tempSelectedPackage = me.classPackages[i].id
@@ -312,7 +334,7 @@
                                         me.tempSelectedPackage = me.tempSeat.temp.user_package_count.id
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
-                                            if (me.classPackages[i].count >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
+                                            if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
                                                 me.selectedClassPackage = me.classPackages[i]
                                                 me.selectedPackage = me.classPackages[i].id
                                                 me.tempSelectedPackage = me.classPackages[i].id
@@ -325,11 +347,25 @@
                                  * Check if the the user changed package */
                                 if (me.$route.name == 'my-profile-manage-class-slug') {
                                     me.notSelectedPackage = false
+                                } else {
+                                    let ctr = 0
+                                    me.classPackages.forEach((data, index) => {
+                                        if (data.no_more) {
+                                            ctr++
+                                        } else {
+                                            if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
+                                                ctr++
+                                            }
+                                        }
+                                    })
+                                    if (ctr == me.classPackages.length) {
+                                        me.notSelectedPackage = false
+                                    }
                                 }
                             } else {
                                 me.$store.state.bookerChoosePackageStatus = false
                                 setTimeout( () => {
-                                    me.$parent.message = 'Please buy a class package first'
+                                    me.$parent.promptMessage = 'Please buy a class package first'
                                 }, 10)
                                 switch (me.category) {
                                     case 'landing':
@@ -337,6 +373,31 @@
                                         break
                                 }
                                 me.$store.state.bookerPromptStatus = true
+                            }
+                            if (!me.tempSeat.temp) {
+                                me.notSelectedPackage = true
+                            }
+                            if (me.$route.name == 'my-profile-manage-class-slug') {
+                                if (countCtr == res.data.customer.user_package_counts.length) {
+                                    me.$store.state.bookerChoosePackageStatus = false
+                                    setTimeout( () => {
+                                        me.$parent.promptMessage = 'Please buy a class package first'
+                                    }, 10)
+                                    switch (me.category) {
+                                        case 'inner':
+                                            me.$parent.buyCredits = true
+                                            break
+                                    }
+                                    me.$store.state.bookerPromptStatus = true
+                                }
+                            } else {
+                                if (countCtr == res.data.customer.user_package_counts.length) {
+                                    me.$store.state.bookerChoosePackageStatus = false
+                                    setTimeout( () => {
+                                        me.$parent.promptMessage = 'You used up all your class package credits.'
+                                    }, 10)
+                                    me.$store.state.bookerPromptStatus = true
+                                }
                             }
                         }
                     })

@@ -101,7 +101,8 @@
                         </div>
                     </div>
                     <div class="form_button">
-                        <button type="submit" class="default_btn">Save Changes</button>
+                        <nuxt-link to="/my-profile" class="default_btn_red">Cancel</nuxt-link>
+                        <button type="submit" class="default_btn ml">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -212,7 +213,8 @@
                         </div>
                     </div>
                     <div class="form_button">
-                        <button type="submit" class="default_btn">Save Changes</button>
+                        <nuxt-link to="/my-profile" class="default_btn_red">Cancel</nuxt-link>
+                        <button type="submit" class="default_btn ml">Save Changes</button>
                     </div>
                 </form>
             </div>
