@@ -1689,35 +1689,41 @@ svg
                                 &::after
                                     opacity: 1
                                     transition: .3s ease-in-out
-
-.global_prev
+.global_prev_container
     width: 100%
     max-width: 65%
-    padding: 20px
-    border: 1px solid $white
     margin: 0 auto 80px
-    .item
-        display: flex
-        flex-flow: row wrap
-        align-items: center
-        justify-content: space-between
-        padding: 15px 0
-        border-bottom: 1px solid $border_alt4
-        p,
-        h3
-            brandon_regular(20px, false)
+    .item_title
+        h2
+            brandon_bold(26px, false)
             color: $white
-        h3
-            text-transform: capitalize
-    .total
-        display: flex
-        flex-flow: row wrap
-        align-items: center
-        justify-content: space-between
-        margin: 40px 0 20px
-        p
-            brandon_bold(20px, false)
-            color: $white
+            text-align: center
+            margin-bottom: 20px
+    .global_prev
+        padding: 20px
+        border: 1px solid $white
+        .item
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-between
+            padding: 15px 0
+            border-bottom: 1px solid $border_alt4
+            p,
+            h3
+                brandon_regular(20px, false)
+                color: $white
+            h3
+                text-transform: capitalize
+        .total
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: space-between
+            margin: 40px 0 20px
+            p
+                brandon_bold(20px, false)
+                color: $white
 
 /**
  * Front */
@@ -3143,32 +3149,32 @@ svg
                             text-align: center
     #packages
         background-color: $white_alt
-    #digital
-        position: relative
-        &::before
-            content: ''
-            position: absolute
-            top: 0
-            left: 0
-            z-index: 0
-            width: 100%
-            height: 100%
-            background-color: rgba(0, 0, 0, 0.4)
-        .overlay
-            position: absolute
-            z-index: 1
-            top: 50%
-            left: 0
-            right: 0
-            text-align: center
-            transform: translateY(-50%)
-            h2
-                brandon_bold(50px, false)
-                color: $white
-            h3
-                brandon_regular(20px, false)
-                color: $white
-                margin: 20px 0 40px
+#digital
+    position: relative
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 0
+        width: 100%
+        height: 100%
+        background-color: rgba(0, 0, 0, 0.4)
+    .overlay
+        position: absolute
+        z-index: 1
+        top: 50%
+        left: 0
+        right: 0
+        text-align: center
+        transform: translateY(-50%)
+        h2
+            brandon_bold(50px, false)
+            color: $white
+        h3
+            brandon_regular(20px, false)
+            color: $white
+            margin: 20px 0 40px
 
 /**
  * News */
@@ -6089,7 +6095,7 @@ svg
                 &.journey
                     margin-top: 20px
                 &.with_allowance
-                    margin: 40px 0
+                    padding: 40px 0
                 &.class
                     #default_menu
                         .menu_tab_content

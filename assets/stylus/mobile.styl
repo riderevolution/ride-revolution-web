@@ -1252,18 +1252,23 @@
                         .swiper-wrapper
                             justify-content: unset
 
-    .global_prev
+    .global_prev_container
         max-width: 85%
         margin: 0 auto 20px
-        .item
-            p,
-            h3
-                brandon_regular(16px, false)
-                color: $white
-        .total
-            margin: 20px 0
-            p
-                brandon_bold(16px, false)
+        .global_prev
+            .item_title
+                h2
+                    brandon_bold(20px, false)
+                    color: $white
+            .item
+                p,
+                h3
+                    brandon_regular(16px, false)
+                    color: $white
+            .total
+                margin: 20px 0
+                p
+                    brandon_bold(16px, false)
 
     .accept_cookies
         padding: 15px 30px
@@ -2802,7 +2807,7 @@
                     &.default
                         max-width: calc(100% - 60px)
                     &.with_allowance
-                        margin: 10px 30px
+                        padding: 10px 30px
                     &.class,
                     &.package
                         margin: 10px 30px
@@ -3421,18 +3426,22 @@
                         .swiper-wrapper
                             justify-content: unset
 
-    .global_prev
+    .global_prev_container
         max-width: 100%
         margin: 0 auto 40px
-        .item
-            p,
-            h3
-                brandon_regular(16px, false)
-                color: $white
-        .total
-            margin: 20px 0
-            p
+        .item_title
+            h2
                 brandon_bold(16px, false)
+        .global_prev
+            .item
+                p,
+                h3
+                    brandon_regular(16px, false)
+                    color: $white
+            .total
+                margin: 20px 0
+                p
+                    brandon_bold(16px, false)
 
     .accept_cookies
         padding: 15px
@@ -5187,7 +5196,7 @@
                     &.default
                         max-width: calc(100% - 30px)
                     &.with_allowance
-                        margin: 10px 15px 0
+                        padding: 10px 15px 0
                     &.class,
                     &.package
                         margin: 10px 15px 0

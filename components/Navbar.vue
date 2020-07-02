@@ -34,10 +34,10 @@
                         <transition name="slideAlt">
                             <ul class="user_dropdown_list" v-if="showList">
                                 <li class="user_dropdown_item">
-                                    <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
+                                    <nuxt-link to="/my-profile" class="item_link">View My Profile</nuxt-link>
                                 </li>
                                 <li class="user_dropdown_item">
-                                    <div class="item_link" @click="checkUser()">Update My Account</div>
+                                    <div class="item_link" @click="checkUser()">Account Settings</div>
                                 </li>
                                 <li class="user_dropdown_item">
                                     <div class="item_link red" @click="logout()">Signout</div>
@@ -62,10 +62,10 @@
                     <transition name="slideAlt">
                         <ul class="user_dropdown_list" v-if="showList">
                             <li class="user_dropdown_item">
-                                <nuxt-link to="/my-profile" class="item_link">View My Account</nuxt-link>
+                                <nuxt-link to="/my-profile" class="item_link">View My Profile</nuxt-link>
                             </li>
                             <li class="user_dropdown_item">
-                                <div class="item_link" @click="checkUser()">Update My Account</div>
+                                <div class="item_link" @click="checkUser()">Account Settings</div>
                             </li>
                             <li class="user_dropdown_item">
                                 <div class="item_link red" @click="logout()">Signout</div>

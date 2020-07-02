@@ -400,7 +400,7 @@
                         <div class="logo">
                             <img src="/footer-logo.svg" />
                         </div>
-                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Digital Gift Card</nuxt-link>
+                        <!-- <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Digital Gift Card</nuxt-link> -->
                     </div>
                 </div>
             </div>

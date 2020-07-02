@@ -129,7 +129,7 @@
                     setTimeout( () => {
                         this.$scrollTo(`${hash}`, {
                             duration: 1000,
-                            offset: -250
+                            offset: 300
                         })
                     }, 100)
                 }
@@ -260,7 +260,6 @@
         async mounted() {
             const me = this
             await setTimeout( () => {
-                console.log(me.packages);
                 me.initial()
             }, 10)
         },
