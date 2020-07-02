@@ -20,7 +20,7 @@
                             <div class="form_group">
                                 <label for="username">Username</label>
                                 <input type="text" id="username" name="username" class="input_text" autocomplete="off" placeholder="Please enter a username" v-validate="{required: true, regex: '^[a-zA-Z0-9]*$', max: 15}" v-model="memberID">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('username')">{{ errors.first('username') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('username')">Please enter username. Email addresses are not accepted.</span></transition>
                             </div>
                         </div>
                         <div class="form_toggler" v-if="assignType == 'non-member'">

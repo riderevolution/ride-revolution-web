@@ -211,6 +211,8 @@ svg
     background-image: linear-gradient(25deg, $green 0%, $green_alt 100%)
     box-shadow: 0px 0px 30px transparent
     transition: .3s ease-in-out
+    &.ml
+        margin-left: 15px
     &.disabled
         pointer-events: none
         background-image: linear-gradient(25deg, #E9E9E9 0%, #E9E9E9 100%)
@@ -4626,6 +4628,9 @@ svg
                                     &.right
                                         flex: 1 0 10%
                                         text-align: right
+                                        b
+                                            &.green
+                                                color: $green
                                 p,
                                 h3
                                     brandon_regular(20px, false)
@@ -4840,6 +4845,8 @@ svg
                             h3
                                 brandon_regular(26px, false)
                                 color: $black
+                                &.alt
+                                    brandon_regular(20px, false)
                             h4
                                 brandon_regular(14px, false)
                                 font-style: italic

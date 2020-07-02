@@ -78,6 +78,7 @@
                                 <div class="seat_wrapper">
                                     <div class="overlay_header">
                                         <h3>Please choose your bike/s</h3>
+                                        <h3 class="alt">( {{ schedule.schedule.class_credits }} class credits will be deducted)</h3>
                                         <h4>Note: You can book up to 5 bikes.</h4>
                                         <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     </div>
@@ -188,7 +189,7 @@
                             </div>
                             <div class="item">
                                 <p>Class Packages Used</p>
-                                <p class="right">{{ getAllTempPackages(toSubmit.tempSeat) }}</p>
+                                <p class="right" v-html="getAllTempPackages(toSubmit.tempSeat)"></p>
                             </div>
                             <div class="total">
                                 <p>Consumes</p>
@@ -207,7 +208,7 @@
             <booker-assign v-if="$store.state.bookerAssignStatus" />
         </transition>
         <transition name="fade">
-            <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
+            <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="($route.name == 'my-profile-manage-class-slug') ? 'inner' : 'landing' " :type="type" />
         </transition>
         <transition name="fade">
             <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
@@ -518,21 +519,38 @@
             getAllTempPackages (data) {
                 const me = this
                 let packages = []
+                let tempResult = []
                 let result = ''
                 let ctr = 0
                 data.forEach((element, index) => {
-                    element.temp.user_package_count.class_package.same_name_ctr = 1
-                    if (packages.length == 0) {
-                        packages.push(element.temp.user_package_count.class_package.name)
-                    } else {
-                        packages.push(element.temp.user_package_count.class_package.name)
-                    }
+                    element.temp.user_package_count.same_number = 1
+                    packages.push(element.temp.user_package_count)
                 })
                 packages.forEach((element, index) => {
+                    if (tempResult.length == 0) {
+                        tempResult.push(element)
+                    } else if (tempResult.length > 0) {
+                        let pos = tempResult.map((e) => { return e.class_package.id }).indexOf(element.class_package.id)
+                        if (pos > -1) {
+                            tempResult[pos].same_number += 1
+                        } else {
+                            tempResult.push(element)
+                        }
+                    }
+                })
+                tempResult.forEach((data, index) => {
                     if (ctr == 0) {
-                        result = element
+                        if (data.same_number > 1) {
+                            result += `${data.class_package.name} <b class="green">(${data.same_number})</b>`
+                        } else {
+                            result += data.class_package.name
+                        }
                     } else if (ctr > 0) {
-                        result += `, ${element}`
+                        if (data.same_number > 1) {
+                            result += `<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`
+                        } else {
+                            result += `<br />${data.class_package.name}`
+                        }
                     }
                     ctr++
                 })
@@ -786,8 +804,8 @@
                 me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
                 me.status = true
                 setTimeout(() => {
-                    me.$store.state.bookerPromptStatus = true
-                    document.body.classList.add('no_scroll')
+                    // me.$store.state.bookerPromptStatus = true
+                    // document.body.classList.add('no_scroll')
                     me.loader(false)
                 }, 500)
             },
