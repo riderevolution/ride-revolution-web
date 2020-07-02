@@ -11,12 +11,12 @@
                         <div class="wrapper studio_filter">
                             <h3>Studios</h3>
                             <div class="group">
-                                <input type="radio" class="radio all" name="studios" id="studio_0" value="0" checked @change="toggleStudio(null, 'static')">
-                                <label for="studio_0">All Studios</label>
+                                <input type="radio" name="studios" id="studio_0" value="0" checked @change="toggleStudio(null, 'static')">
+                                <label for="studio_0" style="padding-left: 0px; display: inline-block;">All Studios</label>
                             </div>
                             <div class="group" v-for="(studio, key) in studios" :key="key">
-                                <input type="radio" class="radio" name="studios" :id="`studio_${key + 1}`" @change="toggleStudio(studio, 'dynamic')">
-                                <label :for="`studio_${key + 1}`">{{ studio.name }}</label>
+                                <input type="radio" name="studios" :id="`studio_${key + 1}`" @change="toggleStudio(studio, 'dynamic')">
+                                <label :for="`studio_${key + 1}`" style="padding-left: 0px; display: inline-block;">{{ studio.name }}</label>
                             </div>
                         </div>
                         <div class="wrapper instructor_filter">
