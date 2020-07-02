@@ -6,7 +6,7 @@
                     <div class="form_flex_image">
                         <label class="main_label">Profile Picture</label>
                         <div class="flex_image">
-                            <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'size:1000|image|ext:jpeg,jpg,png'">
+                            <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'image|ext:jpeg,jpg,png|size:1000'">
                             <input type="hidden" name="image_id[]" :value="profileOverview.image_id">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">{{ errors.first('profile_overview_form.image[]') | properFormat }}</span></transition>
                             <label class="input_image_label" for="image">
@@ -322,30 +322,43 @@
         },
         filters: {
             properFormat (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
+                let newValue = value.split('The ')[1].split(' field')[0].split('.')
                 if (newValue.length > 1) {
-                    let nextValue = newValue[0].split('_')
-                    if (nextValue.length > 1) {
-                        newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
-                    } else {
-                        newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                    newValue = newValue[1].split('[]')
+                    if (newValue.length > 1) {
+                        let nextValue = newValue[0].split('_')
+                        if (nextValue.length > 1) {
+                            newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
+                        } else {
+                            newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                        }
                     }
                 } else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
+                    newValue = value.split('The ')[1].split(' field')[0].split('[]')
                     if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                        let nextValue = newValue[0].split('_')
+                        if (nextValue.length > 1) {
+                            newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
+                        } else {
+                            newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
                         }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
                     } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
+                        newValue = value.split('The ')[1].split(' field')[0].split('_')
+                        if (newValue.length > 1) {
+                            let firstValue = ''
+                            let lastValue = ''
+                            if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
+                                firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                            }
+                            for (let i = 1; i < newValue.length; i++) {
+                                if (newValue[i] != 'id') {
+                                    lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
+                                }
+                            }
+                            newValue = firstValue + ' ' + lastValue
+                        } else {
+                            newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
+                        }
                     }
                 }
                 let message = value.split('The ')[1].split(' field')
@@ -353,11 +366,16 @@
                     message = message[1]
                     return `The ${newValue} field${message}`
                 } else {
-					if (message[0].split('file').length > 1) {
+                    if (message[0].split('file').length > 1) {
                         message = message[0].split('file')[1]
                         return `The ${newValue} field${message}`
                     } else {
-                        return `The ${newValue}`
+                        if (message[0].split('image').length > 1) {
+                            message = message[0].split('image[]')[1]
+                            return `The ${newValue} ${message}`
+                        } else {
+                            return `The ${newValue}`
+                        }
                     }
                 }
             }
