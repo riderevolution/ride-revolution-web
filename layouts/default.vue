@@ -200,6 +200,9 @@
                 me.$store.state.isMobile = me.isMobile
                 me.validateToken()
                 me.checkBadges()
+                if (me.$route.query.ca_action) {
+                    me.$store.state.loginSignUpStatus = true
+                }
             }
         },
         mounted () {

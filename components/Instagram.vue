@@ -1,15 +1,18 @@
 <template>
     <div id="instagram">
-        <div :class="`image_wrapper ${(lessOne) ? (isMobile ? 'mobile less_one' : 'less_one') : (isMobile ? 'mobile' : '')}`">
-            <a href="javascript:void(0)" class="image" v-for="(n, key) in 5" :key="key" v-if="!lessOne && !isMobile">
-                <img :data-src="`/default/lets-ride/sample-ig${key}.jpg`" v-lazy-load />
+        <div :class="`image_wrapper ${(lessOne) ? (isMobile ? 'mobile less_one' : 'less_one') : (isMobile ? 'mobile' : '')}`" v-if="feeds != null">
+            <a href="javascript:void(0)" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="!lessOne && !isMobile && (key + 1) <= 5">
+                <img :data-src="feed.node.display_url" v-lazy-load />
             </a>
-            <a href="javascript:void(0)" class="image" v-for="(n, key) in 4" :key="key" v-if="lessOne && !isMobile">
-                <img :data-src="`/default/lets-ride/sample-ig${key}.jpg`" v-lazy-load />
+            <a href="javascript:void(0)" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="lessOne && !isMobile && (key + 1) <= 4">
+                <img :data-src="feed.node.display_url" v-lazy-load />
             </a>
-            <a href="javascript:void(0)" class="image" v-for="(n, key) in 3" :key="key" v-if="isMobile">
-                <img :data-src="`/default/lets-ride/sample-ig${key}.jpg`" v-lazy-load />
+            <a href="javascript:void(0)" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="isMobile && (key + 1) <= 3">
+                <img :data-src="feed.node.display_url" v-lazy-load />
             </a>
+        </div>
+        <div class="no_results alt" v-else>
+            <p>No Instagram Feed to Load</p>
         </div>
     </div>
 </template>
@@ -20,11 +23,27 @@
             lessOne: {
                 type: Boolean,
                 default: false
+            },
+            feeds: {
+                default: null
             }
         },
         data () {
             return {
                 isMobile: false
+            }
+        },
+        computed: {
+            shuffle () {
+                const me = this
+                for (var i = 0; i < me.feeds.length - 1; i++) {
+                    var j = i + Math.floor(Math.random() * (me.feeds.length - i))
+
+                    var temp = me.feeds[j]
+                    me.feeds[j] = me.feeds[i]
+                    me.feeds[i] = temp
+                }
+                return me.feeds
             }
         },
         methods: {
