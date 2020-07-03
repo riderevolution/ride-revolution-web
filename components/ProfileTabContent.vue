@@ -49,11 +49,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="top_booked" v-if="rideRevJourney.topInstructors.length > 0">
+                    <div class="top_booked">
                         <div class="tab_content_header alt2">
                             <h2>Your Top Booked Instructors</h2>
                         </div>
-                        <div class="tab_content_main">
+                        <div class="tab_content_main" v-if="rideRevJourney.topInstructors.length > 0">
                             <div class="instructor desktop" v-if="!$store.state.isMobile">
                                 <div :id="`item_${key}`" class="item" v-for="(data, key) in populateTopInstructors" :key="key">
                                     <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
@@ -104,6 +104,9 @@
                                     </swiper>
                                 </no-ssr>
                             </div>
+                        </div>
+                        <div class="no_results alt pb" v-else>
+                            <p>You Have no Rides yet</p>
                         </div>
                     </div>
                     <div :class="`chart ${(rideRevJourney.topInstructors.length <= 0) ? 'margin' : ''}`">
