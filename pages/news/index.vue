@@ -102,14 +102,14 @@
             }, 10)
         },
         asyncData ({ $axios, params, error, store }) {
-            return $axios.get(`api/web/news`)
+            return $axios.get(`api/web/news?forWeb=1`)
             .then(res => {
                 return {
                     res: res.data.pageSetting,
                     news: res.data.news
                 }
             }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
+                error({ statusCode: 404, message: 'Page not found' })
             })
         },
         head () {
