@@ -56,7 +56,12 @@
                         me.$store.state.bookerSwitchSeatStatus = false
                         document.body.classList.remove('no_scroll')
                         me.loader(false)
-                        me.$parent.removeNext = false
+                        if (me.$route.name == 'my-profile-manage-class-slug') {
+                            me.$parent.changed = true
+                            me.$parent.removeNext = false
+                        } else {
+                            me.$parent.removeNext = false
+                        }
                     }, 500)
                 }
             },

@@ -134,15 +134,19 @@
                                                             <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                         </div>
                                                     </div>
-                                                    <div class="right alt" v-if="isMobile && !removeNext">
+                                                    <div class="right alt" v-if="isMobile">
                                                         <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
-                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : (!removeNext ? '' : 'disabled')}`" @click="toggleStep('next')">Next</div>
+                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!isMobile">
-                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : (!removeNext ? '' : 'disabled')}`" @click="toggleStep('next')">Next</div>
+                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
@@ -305,6 +309,7 @@
                 isMobile: false,
                 step: 1,
                 type: 1,
+                changed: false,
                 loaded: false,
                 removeNext: false,
                 submitted: false,
@@ -517,7 +522,9 @@
                                 //         result += 'reserved'
                                 //     }
                                 // }
-                                }
+                            } else {
+                                result += 'blocked comp'
+                            }
                             // else if (seat.comp.length > 0) {
                             //
                             }
