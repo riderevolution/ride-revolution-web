@@ -51,7 +51,6 @@
                                                 if (me.$parent.toSubmit.bookCount > 0) {
                                                     me.$parent.toSubmit.bookCount--
                                                 }
-                                                console.log(element);
                                                 /**
                                                  * delete all the temp objects connected to the id */
                                                 delete me.$parent.seats[parent][child][i].temp
@@ -69,6 +68,15 @@
 
                                                 me.$store.state.bookerActionsPrompt = false
                                                 me.loader(true)
+                                                if (me.$route.name == 'my-profile-manage-class-slug') {
+                                                    if (me.$parent.toSubmit.tempSeat.length > me.$parent.tempBookCount) {
+                                                        me.$parent.changed = true
+                                                        me.$parent.removeNext = false
+                                                    } else {
+                                                        me.$parent.removeNext = true
+                                                        me.$parent.changed = false
+                                                    }
+                                                }
                                                 setTimeout(() => {
                                                     me.$store.state.bookerRemoveBookingStatus = false
                                                     document.body.classList.remove('no_scroll')

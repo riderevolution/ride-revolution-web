@@ -181,7 +181,7 @@
                         </div>
                     </div>
                     <div class="no_results alt" v-if="comments.length == 0">
-                        <p>No Available Reviews</p>
+                        <p>Write a Review to {{ res.first_name }}</p>
                     </div>
                 </div>
                 <div class="content mobile" v-else>
@@ -217,11 +217,11 @@
                 <div class="header">
                     <h2>{{ res.instructor_details.instagram_hashtag }}</h2>
                     <a :href="res.instructor_details.instagram" target="_blank" class="description">
-                        <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>{{ res.instructor_details.instagram_name }}</span>
+                        <img src="/icons/lets-ride-ig-icon.svg" alt="lets-ride" /><span>@{{ res.instructor_details.instagram_name }}</span>
                     </a>
                 </div>
                 <div class="content">
-                    <instagram :lessOne="true" />
+                    <instagram :feeds="feeds" :lessOne="true" />
                 </div>
             </section>
             <section id="spotify">
@@ -292,7 +292,8 @@
                 rating: 0,
                 overallRating: 0,
                 overallRatingComputed: false,
-                comments: []
+                comments: [],
+                feeds: null
             }
         },
         computed: {
@@ -427,26 +428,31 @@
             async initial () {
                 const me = this
                 setTimeout( () => {
-                    for (let i = 1; i <= 5; i++) {
-                        let target = document.getElementById(`star_${i}`)
-                        if (me.rating != 0) {
-                            if (!me.overallRatingComputed) {
-                                if (me.overallRating < i) {
-                                    target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
-                                    me.overallRatingComputed = true
+                    if (me.comments.length > 0) {
+                        for (let i = 1; i <= 5; i++) {
+                            let target = document.getElementById(`star_${i}`)
+                            if (me.rating != 0) {
+                                if (!me.overallRatingComputed) {
+                                    if (me.overallRating < i) {
+                                        target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
+                                        me.overallRatingComputed = true
+                                    }
+                                } else {
+                                    if (me.overallRating >= i) {
+                                        target.style.width = '100%'
+                                    } else {
+                                        target.style.width = '0%'
+                                    }
                                 }
                             } else {
-                                if (me.overallRating >= i) {
-                                    target.style.width = '100%'
-                                } else {
-                                    target.style.width = '0%'
-                                }
+                                target.style.width = '0%'
                             }
-                        } else {
-                            target.style.width = '0%'
                         }
                     }
-                    me.loader(false)
+                    me.$axios.get(`https://www.instagram.com/${me.res.instructor_details.instagram_name}/?__a=1`).then(res => {
+                        me.feeds = res.data.graphql.user.edge_owner_to_timeline_media.edges
+                        me.loader(false)
+                    })
                 }, 500)
             }
         },

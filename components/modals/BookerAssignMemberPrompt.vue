@@ -72,7 +72,12 @@
                             // me.$store.state.bookerAssignSuccessStatus = true
                             me.loader(false)
                         }, 500)
-                        me.$parent.removeNext = false
+                        if (me.$route.name == 'my-profile-manage-class-slug') {
+                            me.$parent.changed = true
+                            me.$parent.removeNext = false
+                        } else {
+                            me.$parent.removeNext = false
+                        }
                     }
                 } else {
                     me.$store.state.bookerAssignMemberPromptStatus = false

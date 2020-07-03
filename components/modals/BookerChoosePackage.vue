@@ -305,11 +305,19 @@
                                                         if ((resultsWhenDeducted) > me.$parent.schedule.schedule.class_credits) {
                                                             data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                         } else {
-                                                            data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits
+                                                            if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits < 0) {
+                                                                data.count = data.count
+                                                            } else {
+                                                                data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits
+                                                            }
                                                         }
                                                         if (resultsWhenDeducted < 0) {
                                                             data.no_more = true
-                                                            data.count = existingCount - me.$parent.schedule.schedule.class_credits
+                                                            if (existingCount - me.$parent.schedule.schedule.class_credits < 0) {
+                                                                data.count = existingCount
+                                                            } else {
+                                                                data.count = existingCount - me.$parent.schedule.schedule.class_credits
+                                                            }
                                                         }
                                                     }
                                                 }
