@@ -343,10 +343,19 @@
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
-                                                me.selectedClassPackage = me.classPackages[i]
-                                                me.selectedPackage = me.classPackages[i].id
-                                                me.tempSelectedPackage = me.classPackages[i].id
-                                                break
+                                                if (me.tempSeat.temp) {
+                                                    if (me.tempSeat.temp.user_package_count.id == me.classPackages[i].id) {
+                                                        me.selectedClassPackage = me.classPackages[i]
+                                                        me.selectedPackage = me.classPackages[i].id
+                                                        me.tempSelectedPackage = me.classPackages[i].id
+                                                        break
+                                                    }
+                                                } else {
+                                                    me.selectedClassPackage = me.classPackages[i]
+                                                    me.selectedPackage = me.classPackages[i].id
+                                                    me.tempSelectedPackage = me.classPackages[i].id
+                                                    break
+                                                }
                                             }
                                         }
                                     }
