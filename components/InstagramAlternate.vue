@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="content">
-            <instagram />
+            <instagram :feeds="feeds" />
         </div>
     </section>
 </template>
@@ -16,6 +16,17 @@
     export default {
         components: {
             Instagram
+        },
+        data () {
+            return {
+                feeds: []
+            }
+        },
+        mounted () {
+            const me = this
+            me.$axios.get('https://www.instagram.com/riderevolution/?__a=1').then(res => {
+                me.feeds = res.data.graphql.user.edge_owner_to_timeline_media.edges
+            })
         }
     }
 </script>
