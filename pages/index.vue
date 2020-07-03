@@ -233,7 +233,7 @@
                     </div>
                 </div>
                 <div class="content">
-                    <instagram />
+                    <instagram :feeds="feeds" />
                 </div>
             </section>
             <transition name="fade">
@@ -362,6 +362,7 @@
                     }
                 },
                 packages: [],
+                feeds: [],
                 reviews: [
                     {
                         description: '<p>My instructors know my capabilities and push me to my limit every single class.</p>',
@@ -445,8 +446,11 @@
                 me.loader(true)
                 setTimeout( () => {
                     me.scrollAnimate(me.animateUs)
-                    me.loaded = true
-                    me.loader(false)
+                    me.$axios.get('https://www.instagram.com/riderevolution/?__a=1').then(res => {
+                        me.feeds = res.data.graphql.user.edge_owner_to_timeline_media.edges
+                        me.loaded = true
+                        me.loader(false)
+                    })
                 }, 500)
             },
             handleScroll () {
