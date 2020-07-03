@@ -78,7 +78,7 @@
                                 <div class="seat_wrapper">
                                     <div class="overlay_header">
                                         <h3>Please choose your bike/s</h3>
-                                        <h3 class="alt">( {{ schedule.schedule.class_credits }} class credits will be deducted)</h3>
+                                        <h3 class="alt">( {{ schedule.schedule.class_credits }} class {{ (schedule.schedule.class_credits <= 1) ? 'credit' : 'credits' }} will be deducted)</h3>
                                         <h4>Note: You can book up to 5 bikes.</h4>
                                         <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     </div>
