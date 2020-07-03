@@ -51,7 +51,6 @@
                                                 if (me.$parent.toSubmit.bookCount > 0) {
                                                     me.$parent.toSubmit.bookCount--
                                                 }
-                                                console.log(element);
                                                 /**
                                                  * delete all the temp objects connected to the id */
                                                 delete me.$parent.seats[parent][child][i].temp

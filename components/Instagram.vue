@@ -1,13 +1,13 @@
 <template>
     <div id="instagram">
         <div :class="`image_wrapper ${(lessOne) ? (isMobile ? 'mobile less_one' : 'less_one') : (isMobile ? 'mobile' : '')}`" v-if="feeds != null">
-            <a href="javascript:void(0)" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="!lessOne && !isMobile && (key + 1) <= 5">
+            <a :href="`https://www.instagram.com/p/${feed.node.shortcode}/`" target="_blank" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="!lessOne && !isMobile && (key + 1) <= 5">
                 <img :data-src="feed.node.display_url" v-lazy-load />
             </a>
-            <a href="javascript:void(0)" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="lessOne && !isMobile && (key + 1) <= 4">
+            <a :href="`https://www.instagram.com/p/${feed.node.shortcode}/`" target="_blank" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="lessOne && !isMobile && (key + 1) <= 4">
                 <img :data-src="feed.node.display_url" v-lazy-load />
             </a>
-            <a href="javascript:void(0)" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="isMobile && (key + 1) <= 3">
+            <a :href="`https://www.instagram.com/p/${feed.node.shortcode}/`" target="_blank" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="isMobile && (key + 1) <= 3">
                 <img :data-src="feed.node.display_url" v-lazy-load />
             </a>
         </div>

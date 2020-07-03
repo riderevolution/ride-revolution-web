@@ -139,10 +139,10 @@
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
-                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')">Next</div>
+                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : (!removeNext ? '' : 'disabled')}`" @click="toggleStep('next')">Next</div>
                                                     </div>
-                                                    <div class="right" v-if="!isMobile && !removeNext">
-                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')">Next</div>
+                                                    <div class="right" v-if="!isMobile">
+                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : (!removeNext ? '' : 'disabled')}`" @click="toggleStep('next')">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
@@ -189,7 +189,9 @@
                             </div>
                             <div class="item">
                                 <p>Class Packages Used</p>
-                                <p class="right" v-html="getAllTempPackages(toSubmit.tempSeat)"></p>
+                                <p class="right">
+                                    <span v-for="(test, key) in getAllTempPackages" v-html="test"></span>
+                                </p>
                             </div>
                             <div class="total">
                                 <p>Consumes</p>
@@ -361,6 +363,7 @@
                     bookCount: 0,
                     tempSeat: []
                 },
+                tempBookCount: 0,
                 user: '',
                 isWaitlisted: false,
                 canSwitch: false,
@@ -377,6 +380,47 @@
                 result = me.seats
                 return result
             },
+            getAllTempPackages () {
+                const me = this
+                let data = me.toSubmit.tempSeat
+                let packages = []
+                let tempResult = []
+                let result = []
+                let ctr = 0
+                data.forEach((element, index) => {
+                    element.temp.user_package_count.same_number = 1
+                    if (tempResult.length == 0) {
+                        tempResult.push(element.temp.user_package_count)
+                    } else if (tempResult.length > 0) {
+                        tempResult.forEach((temp, tIndex) => {
+                            if (temp.class_package.id == element.temp.user_package_count.class_package.id) {
+                                temp.same_number++
+                            }
+                        })
+                    }
+                })
+                tempResult.forEach((data, index) => {
+                    if (ctr == 0) {
+                        if (data.same_number > 1) {
+                            result.push(`${data.class_package.name} <b class="green">(${data.same_number})</b>`)
+                            // result += `${data.class_package.name} <b class="green">(${data.same_number})</b>`
+                        } else {
+                            result.push(data.class_package.name)
+                            // result += data.class_package.name
+                        }
+                    } else if (ctr > 0) {
+                        if (data.same_number > 1) {
+                            result.push(`<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`)
+                            // result += `<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`
+                        } else {
+                            result.push(`<br />${data.class_package.name}`)
+                            // result += `<br />${data.class_package.name}`
+                        }
+                    }
+                    ctr++
+                })
+                return result
+            }
         },
         methods: {
             cancelWaitlist () {
@@ -511,46 +555,6 @@
                         result = element.number
                     } else if (ctr > 0) {
                         result += `, ${element.number}`
-                    }
-                    ctr++
-                })
-                return result
-            },
-            getAllTempPackages (data) {
-                const me = this
-                let packages = []
-                let tempResult = []
-                let result = ''
-                let ctr = 0
-                data.forEach((element, index) => {
-                    element.temp.user_package_count.same_number = 1
-                    packages.push(element.temp.user_package_count)
-                })
-                packages.forEach((element, index) => {
-                    if (tempResult.length == 0) {
-                        tempResult.push(element)
-                    } else if (tempResult.length > 0) {
-                        let pos = tempResult.map((e) => { return e.class_package.id }).indexOf(element.class_package.id)
-                        if (pos > -1) {
-                            tempResult[pos].same_number += 1
-                        } else {
-                            tempResult.push(element)
-                        }
-                    }
-                })
-                tempResult.forEach((data, index) => {
-                    if (ctr == 0) {
-                        if (data.same_number > 1) {
-                            result += `${data.class_package.name} <b class="green">(${data.same_number})</b>`
-                        } else {
-                            result += data.class_package.name
-                        }
-                    } else if (ctr > 0) {
-                        if (data.same_number > 1) {
-                            result += `<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`
-                        } else {
-                            result += `<br />${data.class_package.name}`
-                        }
                     }
                     ctr++
                 })
@@ -878,7 +882,7 @@
 
                                     if (res.data.tempSeats != null) {
                                         me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                                        // me.tempBookCount = me.parser(res.data.tempSeats.data).length
+                                        me.tempBookCount = me.parser(res.data.tempSeats.data).length
                                         // package_id = res.data.tempSeats.class_package_id
                                         me.bookingID = res.data.tempSeats.booking_id
                                         me.hasBooked = true
