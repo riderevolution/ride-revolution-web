@@ -1,6 +1,6 @@
 <template>
     <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
-        <div class="global_prev_container" v-if="summary != null">
+        <div class="global_prev_container" v-if="summary.res != ''">
             <div class="item_title">
                 <h2>Order Confirmation</h2>
             </div>
@@ -55,7 +55,12 @@
         },
         props: {
             summary: {
-                default: null
+                default: {
+                    res: '',
+                    total: 0,
+                    discount: 0,
+                    type: ''
+                }
             },
             subtitle: {
                 default: '<h2>Refer a friend, get a free ride!</h2><h3>Earn a single class for referrals who buy our 2-week unlimited first-timer package. Enter your email below to start referring!</h3>'

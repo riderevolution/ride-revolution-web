@@ -48,8 +48,8 @@
                     <div class="form_flex">
                         <div class="form_group date">
                             <label for="birth_date">Birthdate <span>*</span></label>
-                            <input type="date" name="birth_date" autocomplete="off" class="input_text" v-validate="'required|date_format:yyyy-MM-dd'" v-model="profileOverview.birth_date">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">{{ errors.first('register_process_form.birth_date') | properFormat }}</span></transition>
+                            <input type="date" name="birth_date" autocomplete="off" :max="$moment().format('YYYY-MM-DD')" class="input_text" v-validate="'required|date_format:yyyy-MM-dd'" v-model="profileOverview.birth_date">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="contact_number">Contact Number <span>*</span></label>
