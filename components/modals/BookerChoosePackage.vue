@@ -410,10 +410,7 @@
                             } else {
                                 if (countCtr == res.data.customer.user_package_counts.length) {
                                     me.$store.state.bookerChoosePackageStatus = false
-                                    setTimeout( () => {
-                                        me.$parent.promptMessage = 'You used up all your class package credits.'
-                                    }, 10)
-                                    me.$store.state.bookerPromptStatus = true
+                                    me.$store.state.buyPackageFirstStatus = true
                                 }
                             }
                         }

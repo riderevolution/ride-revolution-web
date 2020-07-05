@@ -127,10 +127,17 @@
                 let hash = this.$route.hash
                 if (hash.length > 0) {
                     setTimeout( () => {
-                        this.$scrollTo(`${hash}`, {
-                            duration: 1000,
-                            offset: 300
-                        })
+                        if (hash == '#package') {
+                            this.$scrollTo(`${hash}`, {
+                                duration: 1000,
+                                offset: -200
+                            })
+                        } else {
+                            this.$scrollTo(`${hash}`, {
+                                duration: 1000,
+                                offset: 300
+                            })
+                        }
                     }, 100)
                 }
             },

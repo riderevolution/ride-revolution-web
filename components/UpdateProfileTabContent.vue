@@ -270,6 +270,7 @@
         },
         data () {
             return {
+                ctr: 0,
                 res: [],
                 message: '',
                 loaded: false,
@@ -431,9 +432,15 @@
             },
             getHeight () {
                 const me = this
-                setTimeout( () => {
-                    me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
-                }, 10)
+                let interval = setInterval( () => {
+                    if (document.getElementById(`tab_${me.unique}`)) {
+                        me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
+                    }
+                    me.ctr++
+                }, 500)
+                if (me.ctr > 0) {
+                    clearInterval(interval)
+                }
             },
             toggleSubscribe () {
                 const me = this

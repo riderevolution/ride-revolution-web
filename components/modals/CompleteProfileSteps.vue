@@ -420,10 +420,10 @@
                         ctr++
                     }
                 })
-                if (ctr == me.histories.length) {
-                    me.error = false
-                } else {
-                    me.error = true
+                if (me.error) {
+                    if (ctr == me.histories.length) {
+                        me.error = false
+                    }
                 }
             },
             toggleWorld (event, type, category) {
