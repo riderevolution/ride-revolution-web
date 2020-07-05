@@ -1,5 +1,5 @@
 <template>
-    <div class="update_profile_tab_content" :style="`height: ${height}px`">
+    <div class="update_profile_tab_content" :style="`height: ${height}px`" v-if="loaded">
         <transition name="fade">
             <div id="tab_0" class="wrapper" v-if="category == 'profile-overview'">
                 <form id="default_form" @submit.prevent="submissionProfileSuccess()" data-vv-scope="profile_overview_form" enctype="multipart/form-data">
@@ -16,16 +16,16 @@
                                 <transition name="fade">
                                     <div class="preview_flex_image_wrapper" id="preview_flex_image_wrapper" v-if="previewImage">
                                         <div class="preview">
-                                            <img id="preview_image" :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" />
+                                            <img id="preview_image" :src="`${(res.customer_details.images[0].path != null) ? res.customer_details.images[0].path : '' }`" />
                                         </div>
                                     </div>
                                 </transition>
                             </label>
                         </div>
                         <div class="sub_label">
-                            <div class="text">{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</div>
+                            <div class="text">{{ res.first_name }} {{ res.last_name }}</div>
                             <!-- <img src="/sample-type.svg" /> -->
-                            <div class="default_btn_blue" @click="viewImage()" v-if="$store.state.user.customer_details.images[0].path != null">View Photo</div>
+                            <div class="default_btn_blue" @click="viewImage()" v-if="res.customer_details.images[0].path != null">View Photo</div>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -271,6 +271,7 @@
             return {
                 res: [],
                 message: '',
+                loaded: false,
                 previewImage: false,
                 subscribed: true,
                 copied: false,
@@ -614,6 +615,7 @@
                     me.subscribed = (res.data.user.newsletter_subscription) ? true : false
                     setTimeout( () => {
                         me.loader(false)
+                        me.loaded = true
                     }, 500)
                 }
             })
