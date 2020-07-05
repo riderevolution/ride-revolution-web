@@ -260,7 +260,7 @@
                                         </td>
                                         <td data-column="Expiry">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
-                                                <div class="default">{{ (data.class_package.computed_expiration_date == null) ? 'N/A' : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
+                                                <div class="default">{{ (data.class_package.computed_expiration_date == null) ? $moment(data.updated_at).format('MMM D, YYYY') : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
                                                 <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
                                                 <div class="label" v-else>Date of Expiry</div>
                                             </div>
