@@ -8,7 +8,8 @@
                         <div class="flex_image">
                             <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'image|ext:jpeg,jpg,png|size:20000'">
                             <input type="hidden" name="image_id[]" :value="profileOverview.image_id">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">{{ errors.first('profile_overview_form.image[]') | properFormat }}</span></transition>
+                            <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">{{ errors.first('profile_overview_form.image[]') | properFormat }}</span></transition> -->
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">Only .jpg, .jpeg and .png files accepted</span></transition>
                             <label class="input_image_label" for="image">
                                 <div class="label">
                                     Upload

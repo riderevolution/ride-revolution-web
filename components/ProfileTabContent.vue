@@ -358,7 +358,7 @@
         <transition name="fade">
             <div id="tab_4" class="with_allowance wrapper" v-if="category == 'gift-cards'">
                 <div class="tab_content_header">
-                    <div class="with_info">
+                    <div class="with_info flex">
                         <h2>
                             Gift Cards sent to me
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'gift-cards')" />
@@ -369,6 +369,7 @@
                                 <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
                             </div>
                         </transition>
+                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Buy a Gift Card</nuxt-link>
                     </div>
                 </div>
                 <div class="tab_content_main">

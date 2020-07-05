@@ -134,7 +134,7 @@
                                                             <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                         </div>
                                                     </div>
-                                                    <div class="right alt" v-if="isMobile">
+                                                    <div class="right alt" v-if="isMobile && checkPackage">
                                                         <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
@@ -143,7 +143,7 @@
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
-                                                    <div class="right" v-if="!isMobile">
+                                                    <div class="right" v-if="!isMobile && checkPackage">
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
