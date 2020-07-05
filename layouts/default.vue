@@ -50,8 +50,10 @@
         <transition name="fade">
             <badge-prompt v-if="$store.state.badgePromptStatus" :badges="$store.state.badges" />
         </transition>
-        <a href="https://www.livechatinc.com/chat-with/12052209/" rel="nofollow">Chat with us</a>,
-        powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
+        <div class="no_font">
+            <a href="https://www.livechatinc.com/chat-with/12052209/" rel="nofollow">Chat with us</a>,
+            powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
+        </div>
     </div>
 </template>
 <script>
