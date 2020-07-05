@@ -75,20 +75,20 @@
                 </div>
                 <div class="content">
                     <no-ssr>
-                        <swiper :options="reviewOptions" class="default alt" v-if="!$store.state.isMobile">
-                            <swiper-slide class="review_slide" v-for="(data, key) in reviews" :key="key">
-                                <div class="description" v-html="data.description"></div>
-                                <img :src="data.path" alt="" />
-                                <h2 class="title">{{ data.title }}</h2>
+                        <swiper :options="testimonialsOptions" class="default alt" v-if="!$store.state.isMobile">
+                            <swiper-slide class="review_slide" v-for="(data, key) in testimonials" :key="key">
+                                <div class="description" v-html="data.body"></div>
+                                <img :src="data.images[0].path_resized" :alt="data.images[0].alt" />
+                                <h2 class="title">{{ data.name }}</h2>
                             </swiper-slide>
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                         <swiper :options="mobileOptions" class="default" v-else>
-                            <swiper-slide class="review_slide mobile" v-for="(data, key) in reviews" :key="key">
-                                <div class="description" v-html="data.description"></div>
-                                <img :src="data.path" alt="" />
-                                <h2 class="title">{{ data.title }}</h2>
+                            <swiper-slide class="review_slide mobile" v-for="(data, key) in testimonials" :key="key">
+                                <div class="description" v-html="data.body"></div>
+                                <img :src="data.images[0].path_resized" :alt="data.images[0].alt" />
+                                <h2 class="title">{{ data.name }}</h2>
                             </swiper-slide>
                             <div class="swiper-pagination" slot="pagination"></div>
                         </swiper>
@@ -351,7 +351,7 @@
                         prevEl: '.swiper-button-prev'
                     }
                 },
-                reviewOptions: {
+                testimonialsOptions: {
                     slidesPerView: 3,
                     spaceBetween: 60,
                     centeredSlides: true,
@@ -363,7 +363,7 @@
                 },
                 packages: [],
                 feeds: [],
-                reviews: [
+                testimonials: [
                     {
                         description: '<p>My instructors know my capabilities and push me to my limit every single class.</p>',
                         title: 'Barney Stinson',
@@ -477,7 +477,8 @@
                         res: res.data.home,
                         studio: res.data.studios[0],
                         studios: res.data.studios,
-                        packages: res.data.classPackages
+                        packages: res.data.classPackages,
+                        testimonials: res.data.testimonials
                     }
                 }).catch(err => {
                     error({ statusCode: 403, message: 'Page not found' })
