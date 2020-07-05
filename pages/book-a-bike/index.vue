@@ -327,12 +327,12 @@
                                                                     hasPackages = true
                                                                 }
                                                             })
-                                                            if (hasPackages) {
+                                                            // if (hasPackages) {
                                                                 me.$router.push(`/book-a-bike/${data.id}`)
-                                                            } else {
-                                                                me.$store.state.buyPackageFirstStatus = true
+                                                           /* } else {
+                                                                me.$store.state.buyPackageFirstStatus = false
                                                                 document.body.classList.remove('no_scroll')
-                                                            }
+                                                            }*/
                                                         }, 500)
                                                     }
                                                 }).catch(err => {
@@ -341,7 +341,7 @@
                                                 }).then(() => {
                                                     setTimeout( () => {
                                                         me.loader(false)
-                                                    }, 500)
+                                                    }, 500) 
                                                 })
                                             }
                                         }).catch(err => {
