@@ -121,7 +121,7 @@
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
         <transition name="fade">
-            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" />
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :summary="summary" />
         </transition>
     </div>
 </template>
@@ -137,6 +137,12 @@
         },
         data () {
             return {
+                summary: {
+                    res: '',
+                    total: 0,
+                    discount: 0,
+                    type: ''
+                },
                 type: '',
                 storeCredits: 0,
                 step: 1,
@@ -203,6 +209,10 @@
                     result = me.totalCount(total)
                 }
                 me.form.total = total
+                me.summary.res = me.res
+                me.summary.total = total
+                me.summary.discount = me.form.discount
+                me.summary.type = me.type
                 return result
             },
             computeDiscount (discount) {

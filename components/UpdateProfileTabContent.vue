@@ -1,5 +1,5 @@
 <template>
-    <div class="update_profile_tab_content" :style="`height: ${height}px`">
+    <div class="update_profile_tab_content" :style="`height: ${height}px`" v-if="loaded">
         <transition name="fade">
             <div id="tab_0" class="wrapper" v-if="category == 'profile-overview'">
                 <form id="default_form" @submit.prevent="submissionProfileSuccess()" data-vv-scope="profile_overview_form" enctype="multipart/form-data">
@@ -8,7 +8,8 @@
                         <div class="flex_image">
                             <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'image|ext:jpeg,jpg,png|size:20000'">
                             <input type="hidden" name="image_id[]" :value="profileOverview.image_id">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">{{ errors.first('profile_overview_form.image[]') | properFormat }}</span></transition>
+                            <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">{{ errors.first('profile_overview_form.image[]') | properFormat }}</span></transition> -->
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.image[]')">Only .jpg, .jpeg and .png files accepted</span></transition>
                             <label class="input_image_label" for="image">
                                 <div class="label">
                                     Upload
@@ -16,16 +17,16 @@
                                 <transition name="fade">
                                     <div class="preview_flex_image_wrapper" id="preview_flex_image_wrapper" v-if="previewImage">
                                         <div class="preview">
-                                            <img id="preview_image" :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" />
+                                            <img id="preview_image" :src="`${(res.customer_details.images[0].path != null) ? res.customer_details.images[0].path : '' }`" />
                                         </div>
                                     </div>
                                 </transition>
                             </label>
                         </div>
                         <div class="sub_label">
-                            <div class="text">{{ $store.state.user.first_name }} {{ $store.state.user.last_name }}</div>
+                            <div class="text">{{ res.first_name }} {{ res.last_name }}</div>
                             <!-- <img src="/sample-type.svg" /> -->
-                            <div class="default_btn_blue" @click="viewImage()" v-if="$store.state.user.customer_details.images[0].path != null">View Photo</div>
+                            <div class="default_btn_blue" @click="viewImage()" v-if="res.customer_details.images[0].path != null">View Photo</div>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -269,8 +270,10 @@
         },
         data () {
             return {
+                ctr: 0,
                 res: [],
                 message: '',
+                loaded: false,
                 previewImage: false,
                 subscribed: true,
                 copied: false,
@@ -429,9 +432,15 @@
             },
             getHeight () {
                 const me = this
-                setTimeout( () => {
-                    me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
-                }, 10)
+                let interval = setInterval( () => {
+                    if (document.getElementById(`tab_${me.unique}`)) {
+                        me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
+                    }
+                    me.ctr++
+                }, 500)
+                if (me.ctr > 0) {
+                    clearInterval(interval)
+                }
             },
             toggleSubscribe () {
                 const me = this
@@ -614,6 +623,7 @@
                     me.subscribed = (res.data.user.newsletter_subscription) ? true : false
                     setTimeout( () => {
                         me.loader(false)
+                        me.loaded = true
                     }, 500)
                 }
             })

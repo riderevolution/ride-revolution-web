@@ -79,15 +79,15 @@
             </transition>
             <profile-tab-content ref="profileTab" :category="category" />
         </section>
-        <section id="digital" v-if="category == 'gift-cards'">
+        <!-- <section id="digital" v-if="category == 'gift-cards'">
             <img class="full" src="/default/buy-rides/send-digital-bg.jpg" />
             <div class="overlay">
                 <h2>Share a ride with your loved ones.</h2>
                 <h3>Experience Ride Revolution together!</h3>
                 <nuxt-link rel="canonical" to="/buy-rides/digital-gift-card" class="default_btn">Send a Gift Card</nuxt-link>
             </div>
-        </section>
-        <referral />
+        </section> -->
+        <referral :summary="summary" />
     </div>
 </template>
 
@@ -105,6 +105,12 @@
         },
         data () {
             return {
+                summary: {
+                    res: '',
+                    total: 0,
+                    discount: 0,
+                    type: ''
+                },
                 loaded: false,
                 componentLoaded: false,
                 category: 'ride-rev-journey',

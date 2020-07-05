@@ -260,7 +260,7 @@
                                         </td>
                                         <td data-column="Expiry">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
-                                                <div class="default">{{ (data.class_package.computed_expiration_date == null) ? 'N/A' : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
+                                                <div class="default">{{ (data.class_package.computed_expiration_date == null) ? $moment(data.updated_at).format('MMM D, YYYY') : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
                                                 <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
                                                 <div class="label" v-else>Date of Expiry</div>
                                             </div>
@@ -358,7 +358,7 @@
         <transition name="fade">
             <div id="tab_4" class="with_allowance wrapper" v-if="category == 'gift-cards'">
                 <div class="tab_content_header">
-                    <div class="with_info">
+                    <div class="with_info flex">
                         <h2>
                             Gift Cards sent to me
                             <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'gift-cards')" />
@@ -369,6 +369,7 @@
                                 <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
                             </div>
                         </transition>
+                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Buy a Gift Card</nuxt-link>
                     </div>
                 </div>
                 <div class="tab_content_main">

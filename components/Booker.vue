@@ -14,6 +14,7 @@
                                     <div class="content">
                                         <ul>
                                             <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
+                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                             <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
@@ -41,6 +42,7 @@
                                     <div class="toggle_data">
                                         <div class="content">
                                             <ul>
+                                                <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                                 <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
                                                 <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
                                                 <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
@@ -78,7 +80,7 @@
                                 <div class="seat_wrapper">
                                     <div class="overlay_header">
                                         <h3>Please choose your bike/s</h3>
-                                        <h3 class="alt">( {{ schedule.schedule.class_credits }} class {{ (schedule.schedule.class_credits <= 1) ? 'credit' : 'credits' }} will be deducted)</h3>
+                                        <!-- <h3 class="alt">( {{ schedule.schedule.class_credits }} class {{ (schedule.schedule.class_credits <= 1) ? 'credit' : 'credits' }} will be deducted)</h3> -->
                                         <h4>Note: You can book up to 5 bikes.</h4>
                                         <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     </div>
@@ -134,7 +136,7 @@
                                                             <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                         </div>
                                                     </div>
-                                                    <div class="right alt" v-if="isMobile">
+                                                    <div class="right alt" v-if="isMobile && checkPackage">
                                                         <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
@@ -143,7 +145,7 @@
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
-                                                    <div class="right" v-if="!isMobile">
+                                                    <div class="right" v-if="!isMobile && checkPackage">
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
                                                         <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>

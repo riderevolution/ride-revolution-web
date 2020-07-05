@@ -300,12 +300,12 @@
                                                                 hasPackages = true
                                                             }
                                                         })
-                                                        if (hasPackages) {
+                                                        // if (hasPackages) {
                                                             me.$router.push(`/fish-in-the-glass/book-a-bike/${data.id}?token=${token}`)
-                                                        } else {
-                                                            me.$store.state.buyPackageFirstStatus = true
-                                                            document.body.classList.remove('no_scroll')
-                                                        }
+                                                        // } else {
+                                                        //     me.$store.state.buyPackageFirstStatus = true
+                                                        //     document.body.classList.remove('no_scroll')
+                                                        // }
                                                     }, 500)
                                                 }
                                             }).catch(err => {

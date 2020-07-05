@@ -1,6 +1,6 @@
 <template>
     <div class="book_a_bike inner">
-        <booker ref="booking" :inApp="true" />
+        <booker ref="booking" :inApp="true" :booker="true" />
         <transition name="fade">
             <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
         </transition>

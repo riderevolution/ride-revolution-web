@@ -50,6 +50,10 @@
         <transition name="fade">
             <badge-prompt v-if="$store.state.badgePromptStatus" :badges="$store.state.badges" />
         </transition>
+        <div class="no_font">
+            <a href="https://www.livechatinc.com/chat-with/12052209/" rel="nofollow">Chat with us</a>,
+            powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
+        </div>
     </div>
 </template>
 <script>
@@ -208,6 +212,13 @@
         mounted () {
             const me = this
             me.onResize()
+            window.__lc = window.__lc || {};
+            window.__lc.license = 12052209;
+            (function() {
+                var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+                lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+            })();
         },
         beforeMount () {
             window.addEventListener('load', this.onResize)
