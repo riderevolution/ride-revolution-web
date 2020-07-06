@@ -279,6 +279,7 @@
             }).then(res => {
                 if (res.data) {
                     let countCtr = 0
+                    let newCtr = 0
                     id = res.data.user.id
                     me.$axios.get(`api/customers/${id}/packages${(me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') ? `?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}` : ''}`).then(res => {
                         if (res.data) {
@@ -288,6 +289,10 @@
                                     if (me.$route.name == 'my-profile-manage-class-slug') {
                                         if (parseInt(data.count) == 0) {
                                             countCtr++
+                                        }
+                                    } else {
+                                        if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
+                                            newCtr++
                                         }
                                     }
                                     if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
@@ -409,6 +414,10 @@
                                 }
                             } else {
                                 if (countCtr == res.data.customer.user_package_counts.length) {
+                                    me.$store.state.bookerChoosePackageStatus = false
+                                    me.$store.state.buyPackageFirstStatus = true
+                                }
+                                if (newCtr == res.data.customer.user_package_counts.length) {
                                     me.$store.state.bookerChoosePackageStatus = false
                                     me.$store.state.buyPackageFirstStatus = true
                                 }
