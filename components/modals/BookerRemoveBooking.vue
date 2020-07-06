@@ -69,13 +69,10 @@
                                                 me.$store.state.bookerActionsPrompt = false
                                                 me.loader(true)
                                                 if (me.$route.name == 'my-profile-manage-class-slug') {
-                                                    if (me.$parent.toSubmit.tempSeat.length > me.$parent.tempBookCount) {
-                                                        me.$parent.changed = true
-                                                        me.$parent.removeNext = false
-                                                    } else {
-                                                        me.$parent.removeNext = true
-                                                        me.$parent.changed = false
-                                                    }
+                                                    me.$parent.changed = true
+                                                    me.$parent.removeNext = false
+                                                } else {
+                                                    me.$parent.removeNext = false
                                                 }
                                                 setTimeout(() => {
                                                     me.$store.state.bookerRemoveBookingStatus = false
