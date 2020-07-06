@@ -37,9 +37,7 @@
     <line id="Line_2793" data-name="Line 2793" y2="63" transform="translate(36.774 4227.726) rotate(45)" fill="none" stroke="#f13747" stroke-width="1.5"/>
     <line id="Line_2794" data-name="Line 2794" x1="48.548" y2="48.548" transform="translate(212.5 4069.952)" fill="none" stroke="#f13747" stroke-width="1.5"/>
     <line id="Line_2809" data-name="Line 2809" x1="35.548" y2="35.548" transform="translate(563.952 4202.5)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <path id="Path_7937" data-name="Path 7937" d="M2366.29,5673.415l97.108-95.5v94.958Z" transform="translate(2495.906 9751.074) rotate(180)" fill="#fcfcfc"/>
     <line id="Line_2791" data-name="Line 2791" y2="84" transform="translate(97.198 4108.802) rotate(45)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <path id="Path_7936" data-name="Path 7936" d="M2366.977,5625.117l40.7-42.947-1.768,42.947Z" transform="translate(-1599 -1415)" fill="#fcfcfc"/>
     <line id="Line_2813" data-name="Line 2813" y2="84" transform="translate(815.198 4161.802) rotate(45)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
   </g>
 </svg>
