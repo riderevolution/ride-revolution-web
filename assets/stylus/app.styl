@@ -4820,11 +4820,12 @@ svg
                         margin: 0 auto
                         padding: 30px 20px
                         li
+                            padding: 0 5px
                             display: flex
                             flex-flow: row wrap
                             align-items: center
                             margin-bottom: 10px
-                            brandon_regular(16px, false)
+                            brandon_regular(14px, false)
                             color: $black
                             letter-spacing: .24px
                             span
@@ -4926,6 +4927,14 @@ svg
                                 background-color: $white
                                 border: 1px solid $black
                                 transition: .3s ease-in-out
+                                &.open
+                                    &:hover
+                                        background-color: $blue
+                                        border: 1px solid $blue
+                                        transition: .3s ease-in-out
+                                        .seat_number
+                                            color: $white
+                                            transition: .3s ease-in-out
                                 &.switch
                                     background-color: $blue
                                     border: 1px solid $blue
@@ -4950,6 +4959,13 @@ svg
                                     .seat_number
                                         color: $white
                                         transition: .3s ease-in-out
+                                    &:hover
+                                        background-color: $blue
+                                        border: 1px solid $blue
+                                        transition: .3s ease-in-out
+                                        .seat_number
+                                            color: $white
+                                            transition: .3s ease-in-out
                                 &.reserved
                                     &.switch
                                         pointer-events: none
@@ -4962,6 +4978,13 @@ svg
                                     &.alt
                                         background-color: $green
                                         border: 1px solid $green
+                                        transition: .3s ease-in-out
+                                        .seat_number
+                                            color: $white
+                                            transition: .3s ease-in-out
+                                    &:hover
+                                        background-color: $blue
+                                        border: 1px solid $blue
                                         transition: .3s ease-in-out
                                         .seat_number
                                             color: $white
@@ -5006,13 +5029,6 @@ svg
                                     color: $black
                                     z-index: 1
                                     transition: .3s ease-in-out
-                                &:hover
-                                    background-color: $blue
-                                    border: 1px solid $blue
-                                    transition: .3s ease-in-out
-                                    .seat_number
-                                        color: $white
-                                        transition: .3s ease-in-out
                             &.layout_1
                                 &.bottom
                                     bottom: calc(0% + 230px)
