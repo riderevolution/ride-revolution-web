@@ -215,7 +215,6 @@
                 me.summary.res = me.res
                 me.summary.total = total
                 me.summary.discount = me.form.discount
-                me.summary.quantity = me.form.quantity
                 me.summary.type = me.type
                 return result
             },

@@ -221,6 +221,7 @@
                     res: '',
                     total: 0,
                     discount: 0,
+                    qauntity: 0,
                     type: ''
                 },
                 user: [],

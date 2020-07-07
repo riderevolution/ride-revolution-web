@@ -141,6 +141,7 @@
                     res: '',
                     total: 0,
                     discount: 0,
+                    quantity: 0,
                     type: ''
                 },
                 type: '',
