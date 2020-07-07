@@ -226,7 +226,7 @@
                                         <th>Available</th>
                                         <th>Purchase</th>
                                         <th>Activation</th>
-                                        <th>Expiry</th>
+                                        <th>Expiry {{ (tabCategory == 'expired') ? '/ Consumed On' : '' }}</th>
                                         <th v-if="tabCategory != 'expired'">Actions</th>
                                     </tr>
                                 </thead>
@@ -262,7 +262,7 @@
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ (data.class_package.computed_expiration_date == null) ? $moment(data.updated_at).format('MMM D, YYYY') : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
                                                 <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
-                                                <div class="label" v-else>Date of Expiry</div>
+                                                <div class="label" v-else>Date of Expiry {{ (tabCategory == 'expired') ? '/ Date of Consumption' : '' }}</div>
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">

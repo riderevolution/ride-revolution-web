@@ -10,7 +10,7 @@
                 Oops! You have to complete your profile first.
             </div>
             <div class="confirmation_text">
-                Please complete your profile details so we can help you better. It’s not gonna take forever, we promise.
+                Please complete your profile details so we can improve your experience. It won’t take long, we promise.
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn" @click.once="toggleClose(true)">Complete</div>
