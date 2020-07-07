@@ -399,11 +399,16 @@
                     if (tempResult.length == 0) {
                         tempResult.push(element.temp.user_package_count)
                     } else if (tempResult.length > 0) {
+                        let tempCtr = 0
                         tempResult.forEach((temp, tIndex) => {
                             if (temp.class_package.id == element.temp.user_package_count.class_package.id) {
                                 temp.same_number++
+                                tempCtr++
                             }
                         })
+                        if (tempCtr == 0) {
+                            tempResult.push(element.temp.user_package_count)
+                        }
                     }
                 })
                 tempResult.forEach((data, index) => {
