@@ -436,13 +436,15 @@
                     if (valid) {
                         me.loader(true)
                         me.$axios.post('api/forgot-password', me.forgotPasswordForm).then(res => {
-                            me.$store.state.loginSignUpStatus = false
+                            setTimeout( () => {
+                                me.$store.state.loginSignUpStatus = false
+                                me.$store.state.forgotPasswordSuccessStatus = true
+                            }, 500)
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
                         }).then(() => {
                             setTimeout( () => {
-                                me.$store.state.forgotPasswordSuccessStatus = true
                                 me.loader(false)
                             }, 500)
                         })
