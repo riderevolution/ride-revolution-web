@@ -3,7 +3,7 @@
         <div class="background"></div>
         <div class="confirmation_wrapper">
             <div class="confirmation_text">
-                Are you sure you want to cancel seat number {{ seat.number }}
+                Are you sure you want to cancel seat number {{ seat.number }}?
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn_red" @click.once="toggleClose(false)">Cancel</div>
@@ -74,6 +74,12 @@
                                                 } else {
                                                     me.$parent.removeNext = false
                                                 }
+
+                                                this.$scrollTo('.next_wrapper .right .default_btn', {
+                                                    duration: 1000,
+                                                    offset: -750
+                                                })
+
                                                 setTimeout(() => {
                                                     me.$store.state.bookerRemoveBookingStatus = false
                                                     document.body.classList.remove('no_scroll')

@@ -125,6 +125,7 @@
                     res: '',
                     total: 0,
                     discount: 0,
+                    quantity: 0,
                     type: ''
                 },
                 res: [],
@@ -217,7 +218,8 @@
                 me.summary.res = me.res
                 me.summary.total = total
                 me.summary.discount = me.form.discount
-                me.summary.type = me.type
+                me.summary.quantity = me.form.quantity
+                me.summary.type = 'store-credit-page'
                 return me.totalCount(total)
             },
             stepBack () {
@@ -321,6 +323,26 @@
             }).catch(err => {
                 error({ statusCode: 404, message: 'Page not found' })
             })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `${me.res.name} | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ],
+                meta: [
+                    { hid: 'og:title', property: 'og:title', content: `${me.res.name}` },
+                    { hid: 'og:description', property: 'og:description', content: `${me.res.description}` },
+                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
+                    { hid: 'og:type', property: 'og:type', content: 'website' },
+                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                ]
+            }
         }
     }
 </script>

@@ -5,15 +5,27 @@
                 <h2>Order Confirmation</h2>
             </div>
             <div class="global_prev">
-                <div class="item">
+                <div class="item" v-if="summary.type != 'store-credit-page'">
                     <h3>{{ summary.res.name }}</h3>
                     <p>Php {{ totalCount((summary.res.is_promo == 1) ? summary.res.discounted_price : summary.res.package_price) }}</p>
                 </div>
-                <div class="item">
+                <div class="item" v-else>
+                    <h3>{{ summary.res.name }}</h3>
+                    <p>Php {{ totalCount(summary.res.amount) }}</p>
+                </div>
+                <div class="item" v-if="summary.type == 'store-credit-page'">
+                    <h3>Quantity</h3>
+                    <p>{{ summary.quantity }}</p>
+                </div>
+                <div class="item" v-if="summary.type != 'store-credit-page'">
                     <h3>Rides</h3>
                     <p>{{ summary.res.class_count }}</p>
                 </div>
-                <div class="item">
+                <div class="item" v-else>
+                    <h3>Credits</h3>
+                    <p>{{ totalItems(summary.total) }}</p>
+                </div>
+                <div class="item" v-if="summary.type != 'store-credit-page'">
                     <h3>Discount</h3>
                     <p>Php {{ totalCount(summary.discount) }}</p>
                 </div>
@@ -58,6 +70,7 @@
                 default: {
                     res: '',
                     total: 0,
+                    quantity: 0,
                     discount: 0,
                     type: ''
                 }

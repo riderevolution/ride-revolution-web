@@ -14,8 +14,8 @@
                                     <div class="content">
                                         <ul>
                                             <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                             <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                            <li><span><img class="icon" src="/icons/credit-alt-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
@@ -42,9 +42,9 @@
                                     <div class="toggle_data">
                                         <div class="content">
                                             <ul>
-                                                <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                                 <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
                                                 <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                                <li><span><img class="icon" src="/icons/credit-alt-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                                 <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                             </ul>
                                         </div>
@@ -142,13 +142,16 @@
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!isMobile && checkPackage">
+                                                        <transition name="slide">
+                                                            <span class="tooltip" v-if="changed">Click here to proceed</span>
+                                                        </transition>
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
@@ -399,29 +402,30 @@
                     if (tempResult.length == 0) {
                         tempResult.push(element.temp.user_package_count)
                     } else if (tempResult.length > 0) {
+                        let tempCtr = 0
                         tempResult.forEach((temp, tIndex) => {
                             if (temp.class_package.id == element.temp.user_package_count.class_package.id) {
                                 temp.same_number++
+                                tempCtr++
                             }
                         })
+                        if (tempCtr == 0) {
+                            tempResult.push(element.temp.user_package_count)
+                        }
                     }
                 })
                 tempResult.forEach((data, index) => {
                     if (ctr == 0) {
                         if (data.same_number > 1) {
                             result.push(`${data.class_package.name} <b class="green">(${data.same_number})</b>`)
-                            // result += `${data.class_package.name} <b class="green">(${data.same_number})</b>`
                         } else {
                             result.push(data.class_package.name)
-                            // result += data.class_package.name
                         }
                     } else if (ctr > 0) {
                         if (data.same_number > 1) {
                             result.push(`<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`)
-                            // result += `<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`
                         } else {
                             result.push(`<br />${data.class_package.name}`)
-                            // result += `<br />${data.class_package.name}`
                         }
                     }
                     ctr++

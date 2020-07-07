@@ -122,6 +122,7 @@
                     res: '',
                     total: 0,
                     discount: 0,
+                    quantity: 0,
                     type: ''
                 },
                 res: [],
@@ -183,7 +184,8 @@
                 me.summary.res = me.res
                 me.summary.total = total
                 me.summary.discount = me.form.discount
-                me.summary.type = me.type
+                me.summary.quantity = me.form.quantity
+                me.summary.type = 'store-credit-page'
                 return me.totalCount(total)
             },
             stepBack () {
