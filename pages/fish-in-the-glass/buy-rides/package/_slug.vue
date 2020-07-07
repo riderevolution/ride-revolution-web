@@ -44,19 +44,15 @@
                                 </div>
                                 <div class="breakdown_actions">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="!$store.state.isMobile">
+                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="action_mobile">
-                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')" v-if="$store.state.isMobile">
-                                        <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                        </div>
-                                    </div>
+                                <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile"><span>Back</span></nuxt-link>
+                                <div class="action_mobile" v-else>
+                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
                             </div>
                         </div>

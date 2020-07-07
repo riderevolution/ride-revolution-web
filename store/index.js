@@ -19,6 +19,7 @@ const createStore = () => {
             loginCheckerStatus: false,
             shareEmailStatus: false,
             commentSuccessStatus: false,
+            unSharePackageStatus: false,
             shareTransferPackageStatus: false,
             redeemGiftCardSuccessStatus: false,
             redeemGiftCardStatus: false,

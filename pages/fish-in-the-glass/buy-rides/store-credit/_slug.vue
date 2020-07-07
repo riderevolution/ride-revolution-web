@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                                 <div class="breakdown_actions alt" v-if="!$store.state.isMobile">
-                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back">Back</nuxt-link>
+                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
                                     <div class="default_btn_img" @click="proceedToPayment('paypal')">
                                         <div class="btn_wrapper">
                                             <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
@@ -49,12 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="action_mobile" v-else>
-                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back"><span>Back</span></nuxt-link>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
-                                        <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                        </div>
-                                    </div>
+                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                 </div>
                             </div>
                         </div>
