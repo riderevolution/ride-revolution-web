@@ -60,7 +60,7 @@ Vue.mixin({
                 case 'class-package':
                     formData.append('type', 'class-package')
                     formData.append('class_package_id', page.res.id)
-                    formData.append('price', page.res.package_price)
+                    formData.append('price', (page.res.is_promo == 1) ? page.res.discounted_price : page.res.package_price)
                     formData.append('promo_code', page.form.promo)
                     formData.append('quantity', 1)
                     formData.append('discount', page.form.discount)
@@ -74,7 +74,7 @@ Vue.mixin({
                 case 'digital-gift-card':
                     formData.append('type', 'digital-gift-card')
                     formData.append('class_package_id', page.selectedPackage.id)
-                    formData.append('price', page.selectedPackage.package_price)
+                    formData.append('price', (page.res.is_promo == 1) ? page.res.discounted_price : page.res.package_price)
                     formData.append('digital_gift_card_form', JSON.stringify(page.form))
                     formData.append('quantity', 1)
                     formData.append('promo_code', page.form.promo)
