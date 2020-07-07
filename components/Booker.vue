@@ -142,13 +142,16 @@
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!isMobile && checkPackage">
+                                                        <transition name="slide">
+                                                            <span class="tooltip" v-if="changed">Click here to proceed</span>
+                                                        </transition>
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : (!changed && removeNext ? 'disabled' : 'disabled')}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(changed && !removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
@@ -415,18 +418,14 @@
                     if (ctr == 0) {
                         if (data.same_number > 1) {
                             result.push(`${data.class_package.name} <b class="green">(${data.same_number})</b>`)
-                            // result += `${data.class_package.name} <b class="green">(${data.same_number})</b>`
                         } else {
                             result.push(data.class_package.name)
-                            // result += data.class_package.name
                         }
                     } else if (ctr > 0) {
                         if (data.same_number > 1) {
                             result.push(`<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`)
-                            // result += `<br />${data.class_package.name} <b class="green">(${data.same_number})</b>`
                         } else {
                             result.push(`<br />${data.class_package.name}`)
-                            // result += `<br />${data.class_package.name}`
                         }
                     }
                     ctr++

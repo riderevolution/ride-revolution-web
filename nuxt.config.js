@@ -79,6 +79,12 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    ['nuxt-facebook-pixel-module', {
+      /* module options */
+      track: 'PageView',
+      pixelId: '2709134129368768',
+      disabled: false
+    }],
     ['nuxt-lazy-load', {
       directiveOnly: true
     }]
