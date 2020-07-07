@@ -14,8 +14,8 @@
                                     <div class="content">
                                         <ul>
                                             <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                             <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                            <li><span><img class="icon" src="/icons/credit-alt-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
@@ -42,9 +42,9 @@
                                     <div class="toggle_data">
                                         <div class="content">
                                             <ul>
-                                                <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                                 <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ schedule.schedule.class_type.name }}</span></li>
                                                 <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                                <li><span><img class="icon" src="/icons/credit-alt-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                                 <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                             </ul>
                                         </div>
