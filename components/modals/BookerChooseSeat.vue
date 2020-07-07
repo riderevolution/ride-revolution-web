@@ -112,8 +112,8 @@
                     me.$store.state.bookerChooseSeatStatus = false
                     me.$parent.status = true
                     setTimeout( () => {
-                        me.$parent.promptMessage = "You've successfully swapped seats."
-                        me.$store.state.bookerPromptStatus = true
+                        // me.$parent.promptMessage = "You've successfully swapped seats."
+                        // me.$store.state.bookerPromptStatus = true
                         document.body.classList.remove('no_scroll')
                         me.loader(false)
                     }, 500)
@@ -123,6 +123,10 @@
                     } else {
                         me.$parent.removeNext = false
                     }
+                    this.$scrollTo('.next_wrapper .right .default_btn', {
+                        duration: 1000,
+                        offset: -750
+                    })
                 }
             },
             /**

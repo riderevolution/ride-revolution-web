@@ -128,6 +128,10 @@
                                     document.body.classList.remove('no_scroll')
                                     me.loader(false)
                                 }, 500)
+                                this.$scrollTo('.next_wrapper .right .default_btn', {
+                                    duration: 1000,
+                                    offset: -750
+                                })
                             } else {
                                 /**
                                  * check if the temp has class_package */
