@@ -175,7 +175,7 @@
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
             <transition name="fade">
-                <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
+                <booker-prompt :message="message" v-if="$store.state.bookerPromptStatus" :status="status" />
             </transition>
         </div>
     </transition>
@@ -341,7 +341,7 @@
                                                 }).then(() => {
                                                     setTimeout( () => {
                                                         me.loader(false)
-                                                    }, 500) 
+                                                    }, 500)
                                                 })
                                             }
                                         }).catch(err => {

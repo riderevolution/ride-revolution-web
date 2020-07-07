@@ -162,6 +162,7 @@
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
                                             <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)" v-if="!data.waitlistDateTime">{{ (data.status != 'reserved-guest') ? 'Manage' : 'View' }} Class</li>
+                                            <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)" v-else>View Class</li>
                                             <li class="menu_dot_item red" @click="toggleCancel(data)" v-if="data.status != 'reserved-guest' || data.waitlistDateTime">Cancel Class</li>
                                         </ul>
                                     </transition>
@@ -177,7 +178,9 @@
                                         <h3 class="title">{{ data.scheduled_date.schedule.class_type.name }}</h3>
                                         <div class="violator" v-if="$moment(data.scheduled_date.date).format('MMMM DD, YYYY') == $moment().format('MMMM DD, YYYY')">Today</div>
                                         <div class="schedule">{{ data.scheduled_date.schedule.start_time }} at {{ data.scheduled_date.schedule.studio.name }}</div>
-                                        <div class="schedule" v-if="data.seat">Bikes: {{ data.seat.number }}</div>
+                                        <div class="schedule" v-if="data.seat">
+                                            Bikes: <span class="green">{{ data.seat.number }}</span><span v-for="(guest, key) in data.guestBookings" :key="key" v-if="data.guestBookings.length > 0" class="pink"><span class="separator">, </span>{{ guest.seat.number }}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="bottom">

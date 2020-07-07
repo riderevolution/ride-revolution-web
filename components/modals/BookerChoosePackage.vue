@@ -296,37 +296,39 @@
                                         }
                                     }
                                     if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
-                                        if (me.$parent.toSubmit.tempSeat.length > 0) {
-                                            me.$parent.toSubmit.tempSeat.forEach((pData, index) => {
-                                                if (pData.temp.user_package_count.id == data.id) {
-                                                    ctr++
-                                                    let existingCount = pData.temp.user_package_count.count
-                                                    if (pData.temp.user_package_count.count == me.$parent.schedule.schedule.class_credits || pData.temp.user_package_count.count == 0) {
-                                                        data.count = data.count - me.$parent.schedule.schedule.class_credits
-                                                        countCtr++
-                                                        data.no_more = true
-                                                    } else {
-                                                        let resultsWhenDeducted = existingCount - ((ctr) * me.$parent.schedule.schedule.class_credits)
-                                                        if ((resultsWhenDeducted) > me.$parent.schedule.schedule.class_credits) {
-                                                            data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
-                                                        } else {
-                                                            if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits < 0) {
-                                                                data.count = data.count
-                                                            } else {
-                                                                data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits
-                                                            }
-                                                        }
-                                                        if (resultsWhenDeducted < 0) {
+                                        if (me.category == 'inner') {
+                                            if (me.$parent.toSubmit.tempSeat.length > 0) {
+                                                me.$parent.toSubmit.tempSeat.forEach((pData, index) => {
+                                                    if (pData.temp.user_package_count.id == data.id) {
+                                                        ctr++
+                                                        let existingCount = pData.temp.user_package_count.count
+                                                        if (pData.temp.user_package_count.count == me.$parent.schedule.schedule.class_credits || pData.temp.user_package_count.count == 0) {
+                                                            data.count = data.count - me.$parent.schedule.schedule.class_credits
+                                                            countCtr++
                                                             data.no_more = true
-                                                            if (existingCount - me.$parent.schedule.schedule.class_credits < 0) {
-                                                                data.count = existingCount
+                                                        } else {
+                                                            let resultsWhenDeducted = existingCount - ((ctr) * me.$parent.schedule.schedule.class_credits)
+                                                            if ((resultsWhenDeducted) > me.$parent.schedule.schedule.class_credits) {
+                                                                data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                             } else {
-                                                                data.count = existingCount - me.$parent.schedule.schedule.class_credits
+                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits < 0) {
+                                                                    data.count = data.count
+                                                                } else {
+                                                                    data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits
+                                                                }
+                                                            }
+                                                            if (resultsWhenDeducted < 0) {
+                                                                data.no_more = true
+                                                                if (existingCount - me.$parent.schedule.schedule.class_credits < 0) {
+                                                                    data.count = existingCount
+                                                                } else {
+                                                                    data.count = existingCount - me.$parent.schedule.schedule.class_credits
+                                                                }
                                                             }
                                                         }
                                                     }
-                                                }
-                                            })
+                                                })
+                                            }
                                         }
                                         me.classPackages.push(data)
                                     }
@@ -390,14 +392,16 @@
                                     me.$parent.promptMessage = 'Please buy a class package first'
                                 }, 10)
                                 switch (me.category) {
-                                    case 'landing':
+                                    case 'inner':
                                         me.$parent.buyCredits = true
                                         break
                                 }
                                 me.$store.state.bookerPromptStatus = true
                             }
-                            if (!me.tempSeat.temp) {
-                                me.notSelectedPackage = true
+                            if (me.category == 'inner') {
+                                if (!me.tempSeat.temp) {
+                                    me.notSelectedPackage = true
+                                }
                             }
                             if (me.$route.name == 'my-profile-manage-class-slug') {
                                 if (countCtr == res.data.customer.user_package_counts.length) {

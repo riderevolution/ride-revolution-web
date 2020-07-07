@@ -1,5 +1,5 @@
 <template>
-    <div class="default_modal">
+    <div class="default_modal alt">
         <div class="background"></div>
         <div class="confirmation_wrapper">
             <!-- <div class="form_close" @click="toggleClose(false)"></div> -->
@@ -13,7 +13,7 @@
                 Please complete your profile details so we can improve your experience. It won’t take long, we promise.
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn" @click.once="toggleClose(true)">Complete</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose(true)">Complete</div>
             </div>
         </div>
     </div>

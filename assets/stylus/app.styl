@@ -714,7 +714,7 @@ svg
             &.inner
                 background-image: url('/dotted-bg.png')
                 #payments
-                    padding: 30px 0
+                    padding: 30px 0 15em
                     &.success
                         padding: 0
                     .step
@@ -6853,7 +6853,15 @@ svg
                                             margin-bottom: 10px
                                         .schedule
                                             brandon_regular(16px, false)
-                                            color: $black
+                                            span
+                                                color: $black
+                                                brandon_bold(16px, false)
+                                                &.green
+                                                    color: $green
+                                                &.pink
+                                                    color: $pink
+                                                .separator
+                                                    color: $black
                                 .bottom
                                     padding-top: 15px
                                     border-top: 1px solid #E5E5E5
