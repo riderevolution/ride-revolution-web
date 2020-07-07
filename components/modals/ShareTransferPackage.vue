@@ -89,7 +89,7 @@
                                 me.loader(true)
                                 let formData = new FormData()
                                 formData.append('sender_id', res.data.user.id)
-                                formData.append('class_package_id', me.data.class_package.id)
+                                formData.append('user_package_count_id', me.data.id)
                                 formData.append('receiver_id', me.form.receiver_id)
                                 me.$axios.post(`api/packages/class-packages/${me.category}`, formData).then(res => {
                                     if (res.data) {
@@ -111,7 +111,9 @@
                                 })
                             }
                         }).catch(err => {
-                            console.log(err)
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorPromptStatus = true
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {

@@ -270,10 +270,11 @@
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
                                             <div class="table_menu_overlay">
-                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)" v-show="data.sharedto_user_id == null && !data.sharedby_user">&#9679; &#9679; &#9679;</div>
+                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                        <li class="table_menu_item" @click="togglePackage(data, 'share')">Share Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.sharedto_user_id == null && !data.sharedby_user">Share Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else>Unshare Package</li>
                                                         <li class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
                                                     </ul>
                                                 </transition>
@@ -426,6 +427,9 @@
             <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" :data="shareTransferPackage" />
         </transition>
         <transition name="fade">
+            <unshare-package-prompt v-if="$store.state.unSharePackageStatus" :data="shareTransferPackage" />
+        </transition>
+        <transition name="fade">
             <booker-prompt v-if="$store.state.bookerPromptStatus" :message="promptMessage" />
         </transition>
     </div>
@@ -436,6 +440,7 @@
     import RedeemGiftCard from './modals/RedeemGiftCard'
     import RedeemGiftCardSuccess from './modals/RedeemGiftCardSuccess'
     import ShareTransferPackage from './modals/ShareTransferPackage'
+    import UnsharePackagePrompt from './modals/UnsharePackagePrompt'
     import BookerPrompt from './modals/BookerPrompt'
     import Pagination from './Pagination'
     export default {
@@ -444,6 +449,7 @@
             RedeemGiftCard,
             RedeemGiftCardSuccess,
             ShareTransferPackage,
+            UnsharePackagePrompt,
             BookerPrompt,
             Pagination
         },
@@ -759,7 +765,11 @@
                 const me = this
                 me.packageCategory = category
                 me.shareTransferPackage = data
-                me.$store.state.shareTransferPackageStatus = true
+                if (category == 'unshare') {
+                    me.$store.state.unSharePackageStatus = true
+                } else {
+                    me.$store.state.shareTransferPackageStatus = true
+                }
                 document.body.classList.add('no_scroll')
             },
             toggleRedeem (data) {
