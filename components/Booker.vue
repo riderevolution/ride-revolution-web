@@ -137,6 +137,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="right alt" v-if="isMobile && checkPackage">
+                                                        <transition name="slide">
+                                                            <span class="tooltip" v-if="changed">Click here to proceed</span>
+                                                        </transition>
                                                         <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
@@ -825,6 +828,10 @@
                     // document.body.classList.add('no_scroll')
                     me.loader(false)
                 }, 500)
+                this.$scrollTo('.next_wrapper .right .default_btn', {
+                    duration: 1000,
+                    offset: -750
+                })
             },
             /**
              * [fetchSeats fetch all the seats]

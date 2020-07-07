@@ -78,6 +78,11 @@
                         } else {
                             me.$parent.removeNext = false
                         }
+
+                        this.$scrollTo('.next_wrapper .right .default_btn', {
+                            duration: 1000,
+                            offset: -750
+                        })
                     }
                 } else {
                     me.$store.state.bookerAssignMemberPromptStatus = false
