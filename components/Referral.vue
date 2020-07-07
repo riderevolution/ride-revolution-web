@@ -148,7 +148,7 @@
                                 if (res.data) {
                                     setTimeout( () => {
                                         me.message = `You have been successfully invited ${me.form.email}.`
-                                        me.$store.state.buyRidesPromptStatus = false
+                                        me.$store.state.buyRidesPromptStatus = true
                                         document.body.classList.remove('no_scroll')
                                     }, 500)
                                 }
@@ -163,6 +163,7 @@
                                     me.$nextTick(() => {
                                         me.$validator.reset()
                                     })
+                                    me.loader(false)
                                 }, 500)
                             })
                         } else {

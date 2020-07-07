@@ -219,7 +219,7 @@
             <booker-assign v-if="$store.state.bookerAssignStatus" />
         </transition>
         <transition name="fade">
-            <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="($route.name == 'my-profile-manage-class-slug') ? 'inner' : 'landing' " :type="type" />
+            <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
         </transition>
         <transition name="fade">
             <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
@@ -894,33 +894,35 @@
                                     }
 
                                     if (res.data.tempSeats != null) {
-                                        me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                                        me.tempBookCount = me.parser(res.data.tempSeats.data).length
-                                        // package_id = res.data.tempSeats.class_package_id
-                                        me.bookingID = res.data.tempSeats.booking_id
-                                        me.hasBooked = true
-                                        me.canSwitch = true
-                                        if (me.toSubmit.tempSeat.length > 1) {
-                                            me.hasGuest = true
-                                        }
-                                        me.toSubmit.tempSeat.forEach((element, index) => {
-                                            if (element.temp.guest == 0) {
-                                                me.tempOriginalSeat = element
+                                        if (me.parser(res.data.tempSeats.data).length > 0) {
+                                            me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
+                                            me.tempBookCount = me.parser(res.data.tempSeats.data).length
+                                            // package_id = res.data.tempSeats.class_package_id
+                                            me.bookingID = res.data.tempSeats.booking_id
+                                            me.hasBooked = true
+                                            me.canSwitch = true
+                                            if (me.toSubmit.tempSeat.length > 1) {
+                                                me.hasGuest = true
                                             }
-                                        })
-                                        Object.keys(me.seats).forEach((parent) => {
-                                            Object.keys(me.seats[parent]).forEach((child) => {
-                                                if (child == 'data') {
-                                                    for (let i = 0; i < me.seats[parent][child].length; i++) {
-                                                        for (let j = 0; j < me.toSubmit.tempSeat.length; j++) {
-                                                            if (me.toSubmit.tempSeat[j].id == me.seats[parent][child][i].id) {
-                                                                me.seats[parent][child][i] = me.toSubmit.tempSeat[j]
+                                            me.toSubmit.tempSeat.forEach((element, index) => {
+                                                if (element.temp.guest == 0) {
+                                                    me.tempOriginalSeat = element
+                                                }
+                                            })
+                                            Object.keys(me.seats).forEach((parent) => {
+                                                Object.keys(me.seats[parent]).forEach((child) => {
+                                                    if (child == 'data') {
+                                                        for (let i = 0; i < me.seats[parent][child].length; i++) {
+                                                            for (let j = 0; j < me.toSubmit.tempSeat.length; j++) {
+                                                                if (me.toSubmit.tempSeat[j].id == me.seats[parent][child][i].id) {
+                                                                    me.seats[parent][child][i] = me.toSubmit.tempSeat[j]
+                                                                }
                                                             }
                                                         }
                                                     }
-                                                }
+                                                })
                                             })
-                                        })
+                                        }
                                     }
                                 }
                                 me.loaded = true
