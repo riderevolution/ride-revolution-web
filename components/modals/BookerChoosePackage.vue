@@ -290,7 +290,7 @@
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {
                                     let ctr = 0
-                                    if (me.$route.name == 'my-profile-manage-class-slug') {
+                                    if (me.$route.name != 'my-profile-manage-class-slug') {
                                         if (parseInt(data.count) == 0) {
                                             countCtr++
                                         }
@@ -335,6 +335,9 @@
                                             }
                                         }
                                         me.classPackages.push(data)
+                                    }
+                                    if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
+                                        countCtr++
                                     }
                                 })
                                 if (me.$parent.tempOriginalSeat == null) {
@@ -421,7 +424,7 @@
                                     me.$store.state.bookerPromptStatus = true
                                 }
                             } else {
-                                if (countCtr == res.data.customer.user_package_counts.length) {
+                                if (countCtr >= res.data.customer.user_package_counts.length) {
                                     me.$store.state.bookerChoosePackageStatus = false
                                     me.$store.state.buyPackageFirstStatus = true
                                 }
