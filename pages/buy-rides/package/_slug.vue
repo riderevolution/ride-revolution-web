@@ -170,6 +170,7 @@
                     type: ''
                 },
                 type: '',
+                paymentType: '',
                 step: 1,
                 paypal: false,
                 message: '',
@@ -222,12 +223,13 @@
         },
         methods: {
             paymaya () {
-                this.type = 'paymaya'
-                this.payment(this, null, 'class-package', 1)
+                const me = this
+                me.paymentType = 'paymaya'
+                me.payment(me, null, 'class-package', 1)
             },
             paymentSuccess () {
                 const me = this
-                me.payment(me, null, 'class-package')
+                me.payment(me, null, 'class-package', 0)
             },
             computeTotal (total) {
                 const me = this
@@ -258,9 +260,9 @@
             },
             proceedToPayment (type) {
                 const me = this
+                me.type = type
                 switch (type) {
                     case 'store-credits':
-                        me.type = type
                         me.step = 2
                         break
                     case 'paynow':
@@ -324,7 +326,7 @@
                           // This function captures the funds from the transaction.
                             me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.type = 'paypal'
+                                me.paymentType = 'paypal'
                                 me.payment(me, JSON.stringify(details), 'class-package', 0)
                             })
                         }

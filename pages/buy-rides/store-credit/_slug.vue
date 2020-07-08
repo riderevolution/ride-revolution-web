@@ -149,6 +149,7 @@
                 },
                 res: [],
                 type: '',
+                paymentType: '',
                 storeCredits: 50,
                 step: 1,
                 paypal: false,
@@ -202,7 +203,7 @@
         methods: {
             paymaya () {
                 const me = this
-                me.type = 'paymaya'
+                me.paymentType = 'paymaya'
                 me.payment(me, null, 'store-credit', 1)
             },
             computeTotal (total) {
@@ -239,11 +240,11 @@
             },
             proceedToPayment (type) {
                 const me = this
+                me.type = type
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
                         switch (type) {
                             case 'store-credits':
-                                me.type = type
                                 me.step = 2
                             break
                             case 'paynow':
@@ -287,7 +288,7 @@
                           // This function captures the funds from the transaction.
                             me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.type = 'paypal'
+                                me.paymentType = 'paypal'
                                 me.payment(me, JSON.stringify(details), 'store-credit', 0)
                             })
                         }

@@ -82,7 +82,7 @@ Vue.mixin({
                     break
             }
             formData.append('total', page.form.total)
-            formData.append('payment_method', page.type)
+            formData.append('payment_method', page.paymentType)
             formData.append('paymaya', paymaya)
             if (paypal_details != null) {
                 formData.append('paypal_details', JSON.stringify(paypal_details))
