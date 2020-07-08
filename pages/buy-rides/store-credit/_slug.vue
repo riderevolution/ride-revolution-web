@@ -182,35 +182,8 @@
         },
         methods: {
             paymaya () {
-                const me = this
-                let token = me.$cookies.get('token')
-                let formData = new FormData()
-                formData.append('type', 'store-credit')
-                formData.append('store_credit_id', me.res.id)
-                formData.append('price', me.res.amount)
-                formData.append('quantity', me.form.quantity)
-                formData.append('total', me.form.total)
-                formData.append('payment_method', 'paymaya')
-
-                me.$axios.post('api/paymaya', formData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    console.log(res.data)
-                //     if (res.data) {
-                //         me.$store.state.buyRidesSuccessStatus = true
-                //     }
-                // }).catch(err => {
-                //     me.$store.state.errorList = err.response.data.errors
-                //     me.$store.state.errorPromptStatus = true
-                // }).then(() => {
-                //     me.step = 0
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
-                //     me.validateToken()
-                })
+                this.type = 'paymaya'
+                this.payment(this, null, 'store-credit', 1)
             },
             computeTotal (total) {
                 const me = this
