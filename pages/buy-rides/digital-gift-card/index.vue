@@ -172,6 +172,7 @@
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
+                                <a href="javascript:void(0)" @click="paymaya()">paymaya test</a>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
@@ -239,13 +240,13 @@
                 other: false,
                 form: {
                     classPackage: '',
-                    to: '',
-                    from: '',
-                    title: '',
+                    to: 'teryong',
+                    from: 'young steve',
+                    title: 'Birthday!',
                     other: '',
-                    message: '',
-                    recipientEmail: '',
-                    recipientMobileNo: '',
+                    message: 'test message lang naman to e',
+                    recipientEmail: 'dthrcrpz@gmail.com',
+                    recipientMobileNo: '09085532912',
                     promo: '',
                     discount: 0,
                     total: 0
@@ -299,6 +300,10 @@
             }
         },
         methods: {
+            paymaya () {
+                this.type = 'paymaya'
+                this.payment(this, null, 'digital-gift-card', 1)
+            },
             paymentSuccess () {
                 const me = this
                 me.payment(me, null, 'digital-gift-card')
