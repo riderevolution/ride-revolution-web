@@ -52,10 +52,6 @@ Vue.mixin({
                 }
             })
         },
-        payWithPaymaya (data) {
-            const me = this
-            console.log(data)
-        },
         payment (page, paypal_details, type, paymaya = 0) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')

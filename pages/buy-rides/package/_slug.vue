@@ -95,6 +95,7 @@
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
+                                <a href="javascript:void(0)" @click="paymaya()">paymaya test</a>
                             </div>
                             <div class="preview_actions">
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
@@ -199,6 +200,10 @@
             }
         },
         methods: {
+            paymaya () {
+                this.type = 'paymaya'
+                this.payment(this, null, 'class-package', 1)
+            },
             paymentSuccess () {
                 const me = this
                 me.payment(me, null, 'class-package')
