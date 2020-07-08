@@ -609,14 +609,6 @@
                         })
                     }
                 })
-                me.$axios.get('api/extras/medical-history-questions').then(res => {
-                    if (res.data) {
-                        res.data.medicalHistoryQuestions.forEach((history, index) => {
-                            history.checked = false
-                            me.histories.push(history)
-                        })
-                    }
-                })
                 setTimeout( () => {
                     document.querySelector('#step_4_form .read .form_group_body').addEventListener('scroll', function(e) {
                         if (this.offsetHeight + this.scrollTop >= this.scrollHeight) {
@@ -631,6 +623,14 @@
         },
         mounted () {
             const me = this
+            me.$axios.get('api/extras/medical-history-questions').then(res => {
+                if (res.data) {
+                    res.data.medicalHistoryQuestions.forEach((history, index) => {
+                        history.checked = false
+                        me.histories.push(history)
+                    })
+                }
+            })
             me.windowLoginScroll()
         },
         beforeMount () {
