@@ -119,17 +119,19 @@
                                         <p>Php {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions">
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
-                                        <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                        </div>
-                                    </div>
+                                    <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
                                 <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
-                                <div class="action_mobile" @click="stepBack()" v-else>
-                                    <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                <div class="action_mobile" v-else>
+                                    <div class="m_left">
+                                        <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                    </div>
+                                    <div class="m_right">
+                                        <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +161,7 @@
                                     <p class="store_credits">{{ totalItems(storeCredits) }}</p>
                                     <transition name="slide">
                                         <div class="unavailable" v-if="(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)))">
-                                            <nuxt-link rel="canonical" to="/buy-rides#storecredits">Buy Credits</nuxt-link>
+                                            <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}#storecredits`">Buy Credits</nuxt-link>
                                             <p>*Your store credits are insufficient.</p>
                                         </div>
                                     </transition>
@@ -169,12 +171,17 @@
                                 <p>You Pay</p>
                                 <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
                             </div>
-                            <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
-                                <div id="paypal-button-container"></div>
-                                <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                            <div class="preview_actions" v-if="!$store.state.isMobile">
+                                <div class="left">
+                                    <div class="default_btn_blk" @click="stepBack()">Back</div>
+                                </div>
+                                <div class="right">
+                                    <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                </div>
                             </div>
-                            <div class="paypal_disclaimer" v-if="type == 'paypal'">
+                            <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
                                 <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
@@ -182,8 +189,23 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$store.state.isMobile">
-                                <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                            <div class="action_mobile" v-if="$store.state.isMobile">
+                                <div class="left">
+                                    <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                </div>
+                                <div class="right">
+                                    <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                    <div class="paypal_disclaimer" v-if="type == 'paynow'">
+                                        <p>Note: Paypal account not needed</p>
+                                        <div class="wrapper">
+                                            <img src="/icons/paypal.svg" />
+                                            <img src="/icons/visa.svg" />
+                                            <img src="/icons/mastercard.svg" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -222,6 +244,7 @@
                 normalizedRadius: 0,
                 circumference: 0,
                 type: '',
+                paymentType: '',
                 storeCredits: 55,
                 step: 1,
                 paypal: false,
@@ -291,9 +314,14 @@
             }
         },
         methods: {
+            paymaya () {
+                const me = this
+                me.paymentType = 'paymaya'
+                me.payment(me, null, 'digital-gift-card', 1)
+            },
             paymentSuccess () {
                 const me = this
-                me.payment(me, null, 'digital-gift-card')
+                me.payment(me, null, 'digital-gift-card', 0)
             },
             computeTotal (total) {
                 const me = this
@@ -374,7 +402,7 @@
                     case 'store-credits':
                         me.step = 3
                         break
-                    case 'paypal':
+                    case 'paynow':
                         me.step = 3
                         me.paypal = true
                         me.renderPaypal()
@@ -428,7 +456,8 @@
                           // This function captures the funds from the transaction.
                             // me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.payment(me, JSON.stringify(details), 'digital-gift-card')
+                                me.paymentType = 'paypal'
+                                me.payment(me, JSON.stringify(details), 'digital-gift-card', 0)
                             })
                         }
                     }).render('#paypal-button-container')

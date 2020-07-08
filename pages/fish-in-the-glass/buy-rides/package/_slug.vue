@@ -42,17 +42,19 @@
                                         <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions">
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
-                                        <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                        </div>
-                                    </div>
+                                    <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
                                 <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile"><span>Back</span></nuxt-link>
                                 <div class="action_mobile" v-else>
-                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    <div class="m_left">
+                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    </div>
+                                    <div class="m_right">
+                                        <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -160,6 +162,7 @@
                     quantity: 0,
                     type: ''
                 },
+                paymentType: '',
                 type: '',
                 storeCredits: 0,
                 step: 1,
@@ -215,12 +218,12 @@
         methods: {
             paymaya () {
                 const me = this
-                me.type = 'paymaya'
+                me.paymentType = 'paymaya'
                 me.payment(me, null, 'class-package', 1)
             },
             paymentSuccess () {
                 const me = this
-                me.payment(me, null, 'class-package')
+                me.payment(me, null, 'class-package', 0)
             },
             computeTotal (total) {
                 const me = this
@@ -251,9 +254,9 @@
             },
             proceedToPayment (type) {
                 const me = this
+                me.type = type
                 switch (type) {
                     case 'store-credits':
-                        me.type = type
                         me.step = 2
                         break
                     case 'paynow':
@@ -313,7 +316,7 @@
                           // This function captures the funds from the transaction.
                             me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.type = 'paypal'
+                                me.paymentType = 'paypal'
                                 me.payment(me, JSON.stringify(details), 'class-package', 1)
                             })
                         }
