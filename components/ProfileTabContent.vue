@@ -252,20 +252,17 @@
                                         <td data-column="Purchase">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
-                                                <div class="label">Date Purchased</div>
                                             </div>
                                         </td>
                                         <td data-column="Activation">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
-                                                <div class="label">Date Activated</div>
                                             </div>
                                         </td>
                                         <td data-column="Expiry">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ (data.class_package.computed_expiration_date == null) ? $moment(data.updated_at).format('MMM D, YYYY') : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
                                                 <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
-                                                <div class="label" v-else>Date of Expiry {{ (tabCategory == 'expired') ? '/ Date of Consumption' : '' }}</div>
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
