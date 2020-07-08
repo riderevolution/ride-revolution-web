@@ -44,12 +44,17 @@
                                         <p>Php {{ computeTotal(res.amount * form.quantity) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions alt">
-                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
+                                <div class="breakdown_actions alt" v-if="!$store.state.isMobile">
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk">Back</nuxt-link>
                                     <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
-                                <div class="action_mobile" v-if="$store.state.isMobile">
-                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                <div class="action_mobile" v-else>
+                                    <div class="m_left">
+                                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    </div>
+                                    <div class="m_right">
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -73,16 +78,16 @@
                                 <p>You Pay</p>
                                 <p>Php {{ totalCount(form.total) }}</p>
                             </div>
-                            <div class="preview_actions">
+                            <div class="preview_actions" v-if="!$store.state.isMobile">
                                 <div class="left">
-                                    <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
+                                    <div class="default_btn_blk" @click="stepBack()">Back</div>
                                 </div>
                                 <div class="right">
                                     <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
                                     <div id="paypal-button-container"></div>
                                 </div>
                             </div>
-                            <div class="paypal_disclaimer">
+                            <div class="paypal_disclaimer" v-if="!$store.state.isMobile">
                                 <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
@@ -90,8 +95,22 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$store.state.isMobile">
-                                <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                            <div class="action_mobile" v-if="$store.state.isMobile">
+                                <div class="left">
+                                    <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                </div>
+                                <div class="right">
+                                    <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
+                                    <div id="paypal-button-container"></div>
+                                    <div class="paypal_disclaimer">
+                                        <p>Note: Paypal account not needed</p>
+                                        <div class="wrapper">
+                                            <img src="/icons/paypal.svg" />
+                                            <img src="/icons/visa.svg" />
+                                            <img src="/icons/mastercard.svg" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
