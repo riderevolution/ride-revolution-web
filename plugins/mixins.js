@@ -98,7 +98,12 @@ Vue.mixin({
                 }
             }).then(res => {
                 if (res.data) {
-                    me.$store.state.buyRidesSuccessStatus = true
+                    if (paymaya == 1) {
+                        let redirectUrl = res.data.redirectUrl
+                        window.location.href = redirectUrl
+                    } else {
+                        me.$store.state.buyRidesSuccessStatus = true
+                    }
                 }
             }).catch(err => {
                 me.$store.state.errorList = err.response.data.errors
