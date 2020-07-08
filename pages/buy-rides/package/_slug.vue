@@ -46,17 +46,19 @@
                                         <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions">
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
-                                        <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                        </div>
-                                    </div>
+                                    <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
                                 <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
                                 <div class="action_mobile" v-else>
-                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    <div class="m_left">
+                                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    </div>
+                                    <div class="m_right">
+                                        <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -96,12 +98,17 @@
                                 <p>You Pay</p>
                                 <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
                             </div>
-                            <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
-                                <div id="paypal-button-container"></div>
-                                <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                            <div class="preview_actions" v-if="!$store.state.isMobile">
+                                <div class="left">
+                                    <div class="default_btn_blk" @click="stepBack()">Back</div>
+                                </div>
+                                <div class="right">
+                                    <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                </div>
                             </div>
-                            <div class="paypal_disclaimer" v-if="type == 'paypal'">
+                            <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
                                 <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
@@ -109,8 +116,23 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$store.state.isMobile">
-                                <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                            <div class="action_mobile" v-if="$store.state.isMobile">
+                                <div class="left">
+                                    <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                </div>
+                                <div class="right">
+                                    <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                    <div class="paypal_disclaimer" v-if="type == 'paynow'">
+                                        <p>Note: Paypal account not needed</p>
+                                        <div class="wrapper">
+                                            <img src="/icons/paypal.svg" />
+                                            <img src="/icons/visa.svg" />
+                                            <img src="/icons/mastercard.svg" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,6 +221,10 @@
             }
         },
         methods: {
+            paymaya () {
+                this.type = 'paymaya'
+                this.payment(this, null, 'class-package', 1)
+            },
             paymentSuccess () {
                 const me = this
                 me.payment(me, null, 'class-package')
@@ -232,12 +258,12 @@
             },
             proceedToPayment (type) {
                 const me = this
-                me.type = type
                 switch (type) {
                     case 'store-credits':
+                        me.type = type
                         me.step = 2
                         break
-                    case 'paypal':
+                    case 'paynow':
                         me.step = 2
                         me.paypal = true
                         me.renderPaypal()
@@ -298,7 +324,8 @@
                           // This function captures the funds from the transaction.
                             me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.payment(me, JSON.stringify(details), 'class-package')
+                                me.type = 'paypal'
+                                me.payment(me, JSON.stringify(details), 'class-package', 0)
                             })
                         }
                     }).render('#paypal-button-container')

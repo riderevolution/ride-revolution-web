@@ -351,10 +351,10 @@
                                 h3
                                     brandon_regular(20px, false)
                                 h4
-                                    margin: 5px 0 40px
+                                    margin: 5px 0 20px
                                 img
-                                    width: 75px
-                                    height: 75px
+                                    width: 125px
+                                    height: 125px
                             .overlay_seat
                                 &.left
                                     left: calc(0% + 25px)
@@ -1251,6 +1251,13 @@
 
 @media (max-width: 1280px) and (min-width: 768px)
 
+    .buy_rides
+        &.inner
+            #payments
+                .step
+                    .preview_payment
+                        max-width: 75%
+
     #instagram
         .image_wrapper
             .image
@@ -1291,7 +1298,7 @@
         &.with_btn
             .form_button
                 .default_btn_out
-                    padding: 10px
+                    padding: 12px 10px
 
     #breadcrumb
         padding-top: 74px
@@ -1751,8 +1758,8 @@
                                     brandon_regular_italic(16px, false)
                                     margin: 0 0 20px
                                 img
-                                    width: 70px
-                                    height: 70px
+                                    width: 100px
+                                    height: 100px
                             .overlay_seat
                                 &.layout_2
                                     &.left,
@@ -2760,9 +2767,11 @@
                     .tab_wrapper
                         flex: 0 0 100%
                         .tab_item
-                            flex: 0 0 100%
+                            flex: 0 0 calc(100% / 5)
                             brandon_regular(16px, false)
-                            padding: 5px 10px
+                            padding: 10px
+                            margin-right: 0
+                            text-align: center
             .profile_tab_content
                 margin: 0 0 30px
                 .wrapper
@@ -3082,7 +3091,8 @@
     .default_btn_out,
     .default_btn_wht,
     .default_btn_red,
-    .default_btn_wht_out
+    .default_btn_wht_out,
+    .default_btn_blue
         brandon_bold(12px, true)
         padding: 10px 20px
 
@@ -3729,15 +3739,6 @@
             line-height: 1
             .tip
                 brandon_regular_italic(12px, false)
-        &.fish
-            .buy_rides
-                &.inner
-                    #payments
-                        .step
-                            .wrapper
-                                .right
-                                    .action_mobile
-                                        justify-content: center
     /**
      * Breadcrumb */
     #breadcrumb
@@ -4079,6 +4080,11 @@
                                 p
                                     brandon_bold(16px, false)
                             .preview_actions
+                                .right
+                                    flex: 0 0 100%
+                                    .default_btn_blue
+                                        padding: 12px 45px
+                                        brandon_bold(14px, true)
                                 #paypal-button-container
                                     width: 100%
                             .paypal_disclaimer
@@ -6201,6 +6207,8 @@
                         .preview
                             .preview_actions
                                 justify-content: center
+                                .right
+                                    text-align: center
                                 #paypal-button-container
                                     width: auto
 

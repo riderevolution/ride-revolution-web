@@ -52,10 +52,6 @@ Vue.mixin({
                 }
             })
         },
-        payWithPaymaya (data) {
-            const me = this
-            console.log(data)
-        },
         payment (page, paypal_details, type, paymaya = 0) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
@@ -98,7 +94,12 @@ Vue.mixin({
                 }
             }).then(res => {
                 if (res.data) {
-                    me.$store.state.buyRidesSuccessStatus = true
+                    if (paymaya == 1) {
+                        let redirectUrl = res.data.redirectUrl
+                        window.location.href = redirectUrl
+                    } else {
+                        me.$store.state.buyRidesSuccessStatus = true
+                    }
                 }
             }).catch(err => {
                 me.$store.state.errorList = err.response.data.errors

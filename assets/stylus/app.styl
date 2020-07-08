@@ -722,10 +722,6 @@ svg
                             .preview_actions
                                 @media (max-width: 767px) and (min-width: 320px)
                                     justify-content: center
-                                #paypal-button-container
-                                    .paypal-buttons
-                                        min-width: 400px
-                                        max-width: 1200px
                         .wrapper
                             .right
                                 .action_mobile
@@ -3134,10 +3130,26 @@ svg
                             flex-flow: row wrap
                             align-items: center
                             justify-content: space-between
+                            .right
+                                text-align: right
+                                .default_btn_blue
+                                    width: 200px
+                                    margin-bottom: 20px
+                                    padding: 8px 45px
+                                    border-radius: 4px
                         .action_mobile
+                            display: flex
                             flex: 0 0 100%
-                            margin: 15px 0 0
+                            margin: 30px 0 0
                             text-align: center
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: space-between
+                            .right
+                                text-align: right
+                                .default_btn_blue
+                                    margin-bottom: 20px
+                                    width: 200px
                         .paypal_disclaimer
                             margin-top: 10px
                             text-align: right
@@ -3226,7 +3238,17 @@ svg
                             justify-content: space-between
                             margin: 40px 0 20px
                         .action_mobile
-                            text-align: center
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: space-between
+                            margin-top: 30px
+                            .m_right
+                                .default_btn,
+                                .default_btn_blue
+                                    display: block
+                                .default_btn_blue
+                                    margin-top: 20px
     #packages
         background-color: $white_alt
 #digital

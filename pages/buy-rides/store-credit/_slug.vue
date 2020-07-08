@@ -44,16 +44,17 @@
                                         <p>Php {{ computeTotal(res.amount * form.quantity) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions alt">
-                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
-                                    <div class="default_btn_img" @click="proceedToPayment('paypal')">
-                                        <div class="btn_wrapper">
-                                            <span class="img"><img src="/icons/paypal-logo.svg" /></span><span>Pay Now</span>
-                                        </div>
-                                    </div>
+                                <div class="breakdown_actions alt" v-if="!$store.state.isMobile">
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk">Back</nuxt-link>
+                                    <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
-                                <div class="action_mobile" v-if="$store.state.isMobile">
-                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                <div class="action_mobile" v-else>
+                                    <div class="m_left">
+                                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    </div>
+                                    <div class="m_right">
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,13 +77,17 @@
                             <div class="total">
                                 <p>You Pay</p>
                                 <p>Php {{ totalCount(form.total) }}</p>
-                                <!-- <a href="javascript:void(0)" @click="paymaya()">wewew</a> -->
                             </div>
-                            <div class="preview_actions">
-                                <div class="default_btn_blk" @click="stepBack()" v-if="!$store.state.isMobile">Back</div>
-                                <div id="paypal-button-container"></div>
+                            <div class="preview_actions" v-if="!$store.state.isMobile">
+                                <div class="left">
+                                    <div class="default_btn_blk" @click="stepBack()">Back</div>
+                                </div>
+                                <div class="right">
+                                    <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
+                                    <div id="paypal-button-container"></div>
+                                </div>
                             </div>
-                            <div class="paypal_disclaimer">
+                            <div class="paypal_disclaimer" v-if="!$store.state.isMobile">
                                 <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
@@ -90,8 +95,22 @@
                                     <img src="/icons/mastercard.svg" />
                                 </div>
                             </div>
-                            <div class="action_mobile" @click="stepBack()" v-if="$store.state.isMobile">
-                                <div class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                            <div class="action_mobile" v-if="$store.state.isMobile">
+                                <div class="left">
+                                    <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                </div>
+                                <div class="right">
+                                    <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
+                                    <div id="paypal-button-container"></div>
+                                    <div class="paypal_disclaimer">
+                                        <p>Note: Paypal account not needed</p>
+                                        <div class="wrapper">
+                                            <img src="/icons/paypal.svg" />
+                                            <img src="/icons/visa.svg" />
+                                            <img src="/icons/mastercard.svg" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,8 +201,9 @@
         },
         methods: {
             paymaya () {
-                this.type = 'paymaya'
-                this.payment(this, null, 'store-credit', 1)
+                const me = this
+                me.type = 'paymaya'
+                me.payment(me, null, 'store-credit', 1)
             },
             computeTotal (total) {
                 const me = this
@@ -216,18 +236,17 @@
                 let data
                 data = parseInt(me.form.quantity)
                 data > 1 && (me.form.quantity = (data -= 1))
-
             },
             proceedToPayment (type) {
                 const me = this
-                me.type = type
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
                         switch (type) {
                             case 'store-credits':
+                                me.type = type
                                 me.step = 2
                             break
-                            case 'paypal':
+                            case 'paynow':
                                 me.paypal = true
                                 me.step = 2
                                 me.renderPaypal()
@@ -268,7 +287,8 @@
                           // This function captures the funds from the transaction.
                             me.loader(true)
                             return actions.order.capture().then(function(details) {
-                                me.payment(me, JSON.stringify(details), 'store-credit')
+                                me.type = 'paypal'
+                                me.payment(me, JSON.stringify(details), 'store-credit', 0)
                             })
                         }
                     }).render('#paypal-button-container')
