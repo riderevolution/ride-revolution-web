@@ -52,7 +52,11 @@ Vue.mixin({
                 }
             })
         },
-        payment (page, paypal_details, type) {
+        payWithPaymaya (data) {
+            const me = this
+            console.log(data)
+        },
+        payment (page, paypal_details, type, paymaya = 0) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
             let formData = new FormData()
@@ -83,6 +87,7 @@ Vue.mixin({
             }
             formData.append('total', page.form.total)
             formData.append('payment_method', page.type)
+            formData.append('paymaya', paymaya)
             if (paypal_details != null) {
                 formData.append('paypal_details', JSON.stringify(paypal_details))
             }
