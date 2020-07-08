@@ -136,6 +136,7 @@
                                                             <div class="default_btn_out" @click="chooseSeat('switch')" v-if="canSwitch"><span>Switch Seat</span></div>
                                                         </div>
                                                     </div>
+                                                    <div class="left" v-else></div>
                                                     <div class="right alt" v-if="isMobile && checkPackage">
                                                         <transition name="slide">
                                                             <span class="tooltip" v-if="changed && !removeNext">Click here to proceed</span>
