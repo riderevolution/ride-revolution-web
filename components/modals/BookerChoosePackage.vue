@@ -315,7 +315,7 @@
                                                             if ((resultsWhenDeducted) > me.$parent.schedule.schedule.class_credits) {
                                                                 data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                             } else {
-                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits < 0) {
+                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits <= 0) {
                                                                     data.count = data.count
                                                                 } else {
                                                                     data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits

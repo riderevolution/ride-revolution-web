@@ -220,7 +220,7 @@
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
         <transition name="fade">
-            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :title="'You’ve successfully sent a giftcard!'" :summary="summary" />
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :type="'digital-gift-card'" :title="'You’ve successfully sent a giftcard!'" :summary="summary" />
         </transition>
     </div>
 </template>
@@ -340,7 +340,7 @@
                     result = me.totalCount(total)
                 }
                 me.form.total = total
-                me.summary.res = me.res
+                me.summary.res = me.selectedPackage
                 me.summary.total = total
                 me.summary.discount = me.form.discount
                 me.summary.type = me.type
@@ -510,11 +510,11 @@
             }
         },
         async asyncData ({ $axios, params, store, error }) {
-            return await $axios.get('api/extras/class-packages-for-gift-cards').then(res => {
+            return await $axios.get('api/extras/class-packages-for-gift-cards?forWeb=1').then(res => {
                 if (res.data) {
                     return {
                         res: res.data,
-                        storeCredits: (store.state.user.store_credits === null) ? 0 : store.state.user.store_credits.amount
+                        storeCredits: (store.state.user.store_credits == null) ? 0 : store.state.user.store_credits.amount
                     }
                 }
             }).catch(err => {
