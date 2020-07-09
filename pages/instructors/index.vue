@@ -43,7 +43,8 @@
                     </div>
                 </div>
                 <div class="content" v-if="instructors.length > 0">
-                    <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in populateInstructors" :key="key" @click="toggleActionHover(key)" @mouseleave="toggleActionLeave(key)">
+                    <div :id="`item_${key}`" class="wrapper" v-for="(data, key) in populateInstructors" :key="key" @click="toggleActionHover(key)"
+                    @mouseenter="toggleActionHover(key)" @mouseleave="toggleActionLeave(key)">
                         <a class="follow" :href="data.instructor_details.instagram" target="_blank"><img src="/icons/ig-white-icon.svg" /><span>Follow</span></a>
                         <img class="main" :data-src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" v-lazy-load />
                         <img class="main" data-src="/logo.svg" :alt="data.instructor_details.slug" v-lazy-load v-else />
