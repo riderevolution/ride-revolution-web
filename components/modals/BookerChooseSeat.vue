@@ -117,12 +117,9 @@
                         document.body.classList.remove('no_scroll')
                         me.loader(false)
                     }, 500)
-                    if (me.$route.name == 'my-profile-manage-class-slug') {
-                        me.$parent.changed = true
-                        me.$parent.removeNext = false
-                    } else {
-                        me.$parent.removeNext = false
-                    }
+
+                    me.$parent.removeNext = false
+                    
                     this.$scrollTo('.next_wrapper .right .default_btn', {
                         duration: 1000,
                         offset: -750
