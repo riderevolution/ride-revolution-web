@@ -414,6 +414,7 @@
                 me.type = type
                 switch (type) {
                     case 'store-credits':
+                        me.paymentType = type
                         me.step = 3
                         break
                     case 'paynow':

@@ -239,6 +239,7 @@
                     if (valid) {
                         switch (type) {
                             case 'store-credits':
+                                me.paymentType = type
                                 me.step = 2
                             break
                             case 'paynow':

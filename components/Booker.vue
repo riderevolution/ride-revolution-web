@@ -928,6 +928,7 @@
                                                         for (let i = 0; i < me.seats[parent][child].length; i++) {
                                                             for (let j = 0; j < me.toSubmit.tempSeat.length; j++) {
                                                                 if (me.toSubmit.tempSeat[j].id == me.seats[parent][child][i].id) {
+                                                                    me.toSubmit.tempSeat[j].bookings = me.seats[parent][child][i].bookings
                                                                     me.seats[parent][child][i] = me.toSubmit.tempSeat[j]
                                                                 }
                                                             }

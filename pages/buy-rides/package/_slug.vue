@@ -263,6 +263,7 @@
                 me.type = type
                 switch (type) {
                     case 'store-credits':
+                        me.paymentType = type
                         me.step = 2
                         break
                     case 'paynow':
@@ -349,6 +350,24 @@
                     }
                 }).then(res => {
                     if (res.data) {
+                        let formData = new FormData()
+                        formData.append('class_package_id', me.res.id)
+                        me.$axios.post('api/extras/check-package-validity', formData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            console.log('ok')
+                        }).catch(err => {
+                            setTimeout( () => {
+                                document.body.classList.add('no_scroll')
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }, 500)
+                            setTimeout( () => {
+                                me.$router.push('/buy-rides')
+                            }, 1000)
+                        })
                         me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                     }
                 })
