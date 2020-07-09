@@ -142,26 +142,26 @@
                                                             <span class="tooltip" v-if="toSubmit.tempSeat.length > tempBookCount && $route.name != 'my-profile-manage-class-slug'">Click here to proceed</span>
                                                         </transition>
                                                         <transition name="slide">
-                                                            <span class="tooltip" v-if="!removeNext && $route.name == 'my-profile-manage-class-slug'">Click here to proceed</span>
+                                                            <span class="tooltip" v-if="(!removeNext && $route.name == 'my-profile-manage-class-slug') && toSubmit.tempSeat.length > 0">Click here to proceed</span>
                                                         </transition>
                                                         <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
                                                         <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
+                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!isMobile && checkPackage">
                                                         <transition name="slide">
                                                             <span class="tooltip" v-if="toSubmit.tempSeat.length > tempBookCount && $route.name != 'my-profile-manage-class-slug'">Click here to proceed</span>
                                                         </transition>
                                                         <transition name="slide">
-                                                            <span class="tooltip" v-if="!removeNext && $route.name == 'my-profile-manage-class-slug'">Click here to proceed</span>
+                                                            <span class="tooltip" v-if="(!removeNext && $route.name == 'my-profile-manage-class-slug') && toSubmit.tempSeat.length > 0">Click here to proceed</span>
                                                         </transition>
                                                         <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
+                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
+                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
                                                     </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
