@@ -140,7 +140,7 @@
             </section>
             <section id="comments">
                 <div class="header">
-                    <h2>Here are what other riders are raving about {{ res.first_name }}</h2>
+                    <h2>Here’s what other riders loved about {{ res.first_name }}'s class</h2>
                     <div class="btn">
                         <nuxt-link :to="`/instructors/${res.instructor_details.slug}/comment`" class="default_btn">Write a Review</nuxt-link>
                     </div>
