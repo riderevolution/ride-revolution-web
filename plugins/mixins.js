@@ -201,7 +201,7 @@ Vue.mixin({
                 this.loader(false)
                 console.log(err)
             }).then(() => {
-                this.$cookies.remove('70hokc3hhhn5'
+                this.$cookies.remove('70hokc3hhhn5')
                 if (this.$store.state.isAuth) {
                     setTimeout(() => {
                         this.loader(false)
