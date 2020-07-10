@@ -381,7 +381,7 @@
                             }).catch(err => {
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
-                                me.$cookies.remove('70hokc3hhhn5'')
+                                me.$cookies.remove('70hokc3hhhn5')
                             }).then(() => {
                                 setTimeout(() => {
                                     me.loader(false)
@@ -418,7 +418,7 @@
                     }).catch(err => {
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
-                        me.$cookies.remove('70hokc3hhhn5'')
+                        me.$cookies.remove('70hokc3hhhn5')
                     }).then(() => {
                         setTimeout(() => {
                             me.loader(false)
@@ -617,7 +617,7 @@
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
-                            me.$cookies.remove('70hokc3hhhn5'')
+                            me.$cookies.remove('70hokc3hhhn5')
                         }).then(() => {
                             setTimeout(() => {
                                 me.loader(false)
