@@ -778,7 +778,7 @@
             getHeight () {
                 const me = this
                 let interval = ''
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -961,7 +961,7 @@
                         break
                     case 'active':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages?forWeb=1`).then(res => {
+                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.packages = []
@@ -985,7 +985,7 @@
                         break
                     case 'expired':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages?forWeb=1`).then(res => {
+                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.packages = []

@@ -43,7 +43,7 @@
                     document.body.classList.remove('no_scroll')
                 } else {
                     if (status) {
-                        let token = me.$cookies.get('token')
+                        let token = me.$cookies.get('70hokc3hhhn5')
                         me.$axios.get('api/check-token', {
                             headers: {
                                 Authorization: `Bearer ${token}`

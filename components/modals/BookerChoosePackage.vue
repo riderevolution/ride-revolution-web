@@ -62,7 +62,7 @@
                     /**
                      * Waitlist */
                     if (me.type == 0) {
-                        let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
+                        let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                         me.$axios.get('api/check-token', {
                             headers: {
                                 Authorization: `Bearer ${token}`
@@ -274,7 +274,7 @@
         },
         mounted () {
             const me = this
-            let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
+            let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
             let id = 0
             me.$axios.get('api/check-token', {
                 headers: {
@@ -315,7 +315,7 @@
                                                             if ((resultsWhenDeducted) > me.$parent.schedule.schedule.class_credits) {
                                                                 data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                             } else {
-                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits < 0) {
+                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits <= 0) {
                                                                     data.count = data.count
                                                                 } else {
                                                                     data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits

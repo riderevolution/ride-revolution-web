@@ -136,7 +136,7 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                         me.loader(true)
                         if (token != null && token != undefined) {
                             let formData = new FormData(document.getElementById('default_form'))
@@ -181,7 +181,7 @@
             initial () {
                 const me = this
                 me.loader(true)
-                let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                 me.$axios.post('api/referral-link', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`

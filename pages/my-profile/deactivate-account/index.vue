@@ -121,7 +121,7 @@
         },
         mounted () {
             const me = this
-            let token = me.$cookies.get('token')
+            let token = me.$cookies.get('70hokc3hhhn5')
             me.loader(true)
             if (token == null || token == undefined) {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })

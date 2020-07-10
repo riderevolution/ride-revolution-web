@@ -216,7 +216,7 @@
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
         <transition name="fade">
-            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :title="'You’ve successfully sent a giftcard!'" :summary="summary" />
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :type="'digital-gift-card'" :title="'You’ve successfully sent a giftcard!'" :summary="summary" />
         </transition>
     </div>
 </template>
@@ -332,7 +332,7 @@
                     result = me.totalCount(total)
                 }
                 me.form.total = total
-                me.summary.res = me.res
+                me.summary.res = me.selectedPackage
                 me.summary.total = total
                 me.summary.discount = me.form.discount
                 me.summary.type = me.type
@@ -400,6 +400,7 @@
                 me.type = type
                 switch (type) {
                     case 'store-credits':
+                        me.paymentType = type
                         me.step = 3
                         break
                     case 'paynow':

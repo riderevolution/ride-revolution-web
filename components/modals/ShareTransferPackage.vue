@@ -79,7 +79,7 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        let token = me.$cookies.get('token')
+                        let token = me.$cookies.get('70hokc3hhhn5')
                         me.$axios.get('api/check-token', {
                             headers: {
                                 Authorization: `Bearer ${token}`

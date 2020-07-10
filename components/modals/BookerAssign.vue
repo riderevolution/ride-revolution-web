@@ -127,7 +127,7 @@
                     if (valid) {
                         if (me.assignType == 'member') {
                             let formData = new FormData()
-                            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                             me.loader(true)
                             formData.append('member_id', me.memberID)
                             formData.append('scheduled_date_id', me.$route.params.slug)

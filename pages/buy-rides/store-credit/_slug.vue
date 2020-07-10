@@ -204,7 +204,7 @@
             paymaya () {
                 const me = this
                 me.paymentType = 'paymaya'
-                me.payment(me, null, 'store-credit', 1)
+                me.payment(me, null, 'paymaya', 1)
             },
             computeTotal (total) {
                 const me = this
@@ -245,6 +245,7 @@
                     if (valid) {
                         switch (type) {
                             case 'store-credits':
+                                me.paymentType = type
                                 me.step = 2
                             break
                             case 'paynow':
@@ -299,7 +300,7 @@
         mounted () {
             const me = this
             me.$store.state.proTipStatus = true
-            let token = me.$cookies.get('token')
+            let token = me.$cookies.get('70hokc3hhhn5')
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
                 me.$store.state.loginCheckerStatus = true
                 document.body.classList.add('no_scroll')

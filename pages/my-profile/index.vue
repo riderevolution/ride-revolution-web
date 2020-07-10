@@ -189,7 +189,7 @@
                         break
                     case 'packages':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.user.id}/packages?forWeb=1`).then(res => {
+                        me.$axios.get(`api/customers/${me.user.id}/packages`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.packages = []
@@ -218,7 +218,7 @@
                         break
                     case 'transactions':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.user.id}/transactions?forWeb=1`).then(res => {
+                        me.$axios.get(`api/customers/${me.user.id}/transactions`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
                                     me.$refs.profileTab.transactions = []
@@ -267,7 +267,7 @@
         },
         mounted () {
             const me = this
-            let token = me.$cookies.get('token')
+            let token = me.$cookies.get('70hokc3hhhn5')
             me.loader(true)
             if (token == null || token == undefined) {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })

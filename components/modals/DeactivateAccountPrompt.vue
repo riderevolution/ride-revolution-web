@@ -24,7 +24,7 @@
             toggleClose (status) {
                 const me = this
                 if (status) {
-                    let token = me.$cookies.get('token')
+                    let token = me.$cookies.get('70hokc3hhhn5')
                     me.loader(true)
                     me.$axios.post(`api/user/deactivate`, me.$parent.form, {
                         headers: {

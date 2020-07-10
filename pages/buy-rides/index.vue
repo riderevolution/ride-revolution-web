@@ -172,7 +172,7 @@
                 } else {
                     if (type == 'package') {
                         me.loader(true)
-                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                         let formData = new FormData()
                         formData.append('class_package_id', data.id)
                         me.$axios.post('api/extras/check-package-validity', formData, {

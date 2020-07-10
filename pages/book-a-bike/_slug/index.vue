@@ -26,7 +26,7 @@
         },
         mounted () {
             const me = this
-            let token = me.$cookies.get('token')
+            let token = me.$cookies.get('70hokc3hhhn5')
             if (!me.$store.state.isAuth && token == null && token == undefined) {
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
             } else {
