@@ -204,7 +204,7 @@
             paymaya () {
                 const me = this
                 me.paymentType = 'paymaya'
-                me.payment(me, null, 'paymaya', 1)
+                me.payment(me, null, 'store-credit', 1)
             },
             computeTotal (total) {
                 const me = this
