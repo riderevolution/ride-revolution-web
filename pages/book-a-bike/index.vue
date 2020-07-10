@@ -299,7 +299,7 @@
              * Validation if the user doesn't completed their profile */
             checkIfNew (data, type, event) {
                 const me = this
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 event.preventDefault()
                 me.loader(true)
                 if (me.$store.state.user.new_user == 0) {
@@ -497,7 +497,7 @@
              * Fetch All Schedules */
             getAllSchedules (year, month, day, searched) {
                 const me = this
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 me.loader(true)
                 if (searched) {
                     me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}&forWeb=1`, {

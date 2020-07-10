@@ -169,7 +169,7 @@
                 me.$validator.validateAll('health_waiver_form').then(valid => {
                     if (valid) {
                         me.loader(true)
-                        let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('token')
+                        let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                         let formData1 = new FormData(document.getElementById('step_1_form'))
                         let formData2 = new FormData(document.getElementById('step_2_form'))
                         let formData3 = new FormData(document.getElementById('step_3_form'))

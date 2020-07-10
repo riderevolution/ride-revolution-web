@@ -445,7 +445,7 @@
             toggleSubscribe () {
                 const me = this
                 let value
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 let formData = new FormData()
                 formData.append('_method', 'PATCH')
                 me.subscribed ^= true
@@ -503,7 +503,7 @@
                 const me = this
                 me.$validator.validateAll('profile_overview_form').then(valid => {
                     if (valid) {
-                        let token = me.$cookies.get('token')
+                        let token = me.$cookies.get('70hokc3hhhn5')
                         let formData = new FormData(document.getElementById('default_form'))
                         formData.append('_method', 'PATCH')
                         me.loader(true)
@@ -536,7 +536,7 @@
                 const me = this
                 me.$validator.validateAll('address_form').then(valid => {
                     if (valid) {
-                        let token = me.$cookies.get('token')
+                        let token = me.$cookies.get('70hokc3hhhn5')
                         let formData = new FormData(document.getElementById('default_form'))
                         formData.append('_method', 'PATCH')
                         me.loader(true)
@@ -569,7 +569,7 @@
         mounted () {
             const me = this
             me.getHeight()
-            let token = me.$cookies.get('token')
+            let token = me.$cookies.get('70hokc3hhhn5')
             me.loader(true)
             me.$axios.get('api/check-token', {
                 headers: {

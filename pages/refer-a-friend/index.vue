@@ -90,7 +90,7 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                         if (token != null && token != undefined) {
                             let formData = new FormData(document.getElementById('default_form'))
                             me.$axios.post('api/refer-a-friend', formData, {

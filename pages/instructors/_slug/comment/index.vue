@@ -241,7 +241,7 @@
                         me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
                             if (verify) {
                                 let formData = new FormData(document.getElementById('default_form'))
-                                let token = me.$cookies.get('token')
+                                let token = me.$cookies.get('70hokc3hhhn5')
                                 formData.append('instructor_id', me.res.id)
                                 formData.append('rating', me.form.stars)
 
@@ -273,7 +273,7 @@
             initial () {
                 const me = this
                 me.loader(true)
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
                     if (res.data) {
                         setTimeout( () => {

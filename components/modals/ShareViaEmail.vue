@@ -64,7 +64,7 @@
                     if (valid) {
                         me.$store.state.shareEmailStatus = false
                         document.body.classList.remove('no_scroll')
-                    //     let token = me.$cookies.get('token')
+                    //     let token = me.$cookies.get('70hokc3hhhn5')
                     //     me.loader(true)
                     //     me.$axios.post(`api/user/update-password`, me.form, {
                     //         headers: {

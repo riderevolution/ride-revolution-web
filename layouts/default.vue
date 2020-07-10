@@ -185,7 +185,7 @@
             },
             onResize() {
                 const me = this
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 if (me.$cookies.get('agreeCompliance') != null || me.$cookies.get('agreeCompliance') != undefined) {
                     me.$store.state.showComplianceStatus = false
                 }

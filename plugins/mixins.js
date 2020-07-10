@@ -4,7 +4,7 @@ Vue.mixin({
     methods: {
         checkBadges () {
             const me = this
-            let token = me.$cookies.get('token')
+            let token = me.$cookies.get('70hokc3hhhn5')
             if (token != null && token != undefined) {
                 me.$axios.get('api/new-badges', {
                     headers: {
@@ -54,7 +54,7 @@ Vue.mixin({
         },
         payment (page, paypal_details, type, paymaya = 0) {
             const me = this
-            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('token')
+            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
             let formData = new FormData()
             switch (type) {
                 case 'class-package':
@@ -187,7 +187,7 @@ Vue.mixin({
             }
         },
         logout () {
-            let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('token')
+            let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('70hokc3hhhn5')
             if (token) {
                 this.loader(true)
             }
@@ -214,7 +214,7 @@ Vue.mixin({
         },
         validateToken () {
             return new Promise((resolve, reject) => {
-                let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('token')
+                let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('70hokc3hhhn5')
                 if (token != null || token != undefined) {
                     this.$axios.get('api/user', {
                         headers: {

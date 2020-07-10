@@ -446,7 +446,7 @@
             cancelWaitlist () {
                 const me = this
                 let formData = new FormData()
-                let token = (!me.inApp) ? me.$cookies.get('token') : me.$route.query.token
+                let token = (!me.inApp) ? me.$cookies.get('70hokc3hhhn5') : me.$route.query.token
                 formData.append('scheduled_date_id', me.$route.params.slug)
                 me.loader(true)
                 me.$axios.post('api/schedules/waitlist', formData, {
@@ -584,7 +584,7 @@
             },
             submitPreview () {
                 const me = this
-                let token = (!me.inApp) ? me.$cookies.get('token') : me.$route.query.token
+                let token = (!me.inApp) ? me.$cookies.get('70hokc3hhhn5') : me.$route.query.token
                 let formData = new FormData()
                 if (me.manage) {
                     formData.append('update', 1)
@@ -845,7 +845,7 @@
              */
             fetchSeats (id) {
                 const me = this
-                let token = (!me.inApp) ? me.$cookies.get('token') : me.$route.query.token
+                let token = (!me.inApp) ? me.$cookies.get('70hokc3hhhn5') : me.$route.query.token
                 me.loader(true)
                 me.$axios.get('api/check-token', {
                     headers: {

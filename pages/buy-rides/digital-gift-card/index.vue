@@ -482,7 +482,7 @@
         },
         mounted () {
             const me = this
-            let token = me.$cookies.get('token')
+            let token = me.$cookies.get('70hokc3hhhn5')
 
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
                 me.$store.state.loginCheckerStatus = true

@@ -285,7 +285,7 @@
         methods: {
             loginUser () {
                 const me = this
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 if (token) {
                     me.$router.push('/my-profile')
                 } else {

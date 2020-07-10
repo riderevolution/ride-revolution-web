@@ -778,7 +778,7 @@
             getHeight () {
                 const me = this
                 let interval = ''
-                let token = me.$cookies.get('token')
+                let token = me.$cookies.get('70hokc3hhhn5')
                 me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
