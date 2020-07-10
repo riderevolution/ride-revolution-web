@@ -62,11 +62,11 @@
                         <div class="form_flex radio">
                             <label>Sex <span>*</span></label>
                             <div class="form_radio">
-                                <input type="radio" id="female" value="M" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'female'">
+                                <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'F'">
                                 <label for="female">Female</label>
                             </div>
                             <div class="form_radio">
-                                <input type="radio" id="male" value="F" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'male'">
+                                <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'M'">
                                 <label for="male">Male</label>
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.sex')">{{ errors.first('profile_overview_form.sex') | properFormat }}</span></transition>
