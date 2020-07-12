@@ -129,7 +129,7 @@
                                                 <div class="next_wrapper">
                                                     <div class="left" v-if="toSubmit.tempSeat.length > 0">
                                                         <div class="flex package">
-                                                            <div class="toggler" v-if="hasGuest && toSubmit.tempSeat.length > 1">
+                                                            <div class="toggler" v-if="hasGuest && toSubmit.tempSeat.length > 1 && tempOriginalSeat != null">
                                                                 <p>Swap seat for:</p>
                                                                 <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>

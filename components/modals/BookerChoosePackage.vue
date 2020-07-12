@@ -290,11 +290,7 @@
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {
                                     let ctr = 0
-                                    if (me.$route.name != 'my-profile-manage-class-slug') {
-                                        if (parseInt(data.count) == 0) {
-                                            countCtr++
-                                        }
-                                    } else {
+                                    if (me.$route.name == 'my-profile-manage-class-slug') {
                                         if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
                                             newCtr++
                                         }
@@ -308,25 +304,21 @@
                                                         let existingCount = pData.temp.user_package_count.count
                                                         if (pData.temp.user_package_count.count == me.$parent.schedule.schedule.class_credits || pData.temp.user_package_count.count == 0) {
                                                             data.count = data.count - me.$parent.schedule.schedule.class_credits
-                                                            countCtr++
                                                             data.no_more = true
                                                         } else {
                                                             let resultsWhenDeducted = existingCount - ((ctr) * me.$parent.schedule.schedule.class_credits)
-                                                            if ((resultsWhenDeducted) > me.$parent.schedule.schedule.class_credits) {
-                                                                data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
-                                                            } else {
-                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits <= 0) {
-                                                                    data.count = data.count
-                                                                } else {
-                                                                    data.count = parseInt(data.count) - me.$parent.schedule.schedule.class_credits
-                                                                }
-                                                            }
                                                             if (resultsWhenDeducted < 0) {
                                                                 data.no_more = true
                                                                 if (existingCount - me.$parent.schedule.schedule.class_credits < 0) {
                                                                     data.count = existingCount
                                                                 } else {
                                                                     data.count = existingCount - me.$parent.schedule.schedule.class_credits
+                                                                }
+                                                            } else {
+                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits >= me.$parent.schedule.schedule.class_credits) {
+                                                                    data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits) + parseInt(me.$parent.schedule.schedule.class_credits)
+                                                                } else {
+                                                                    data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
                                                                 }
                                                             }
                                                         }
