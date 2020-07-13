@@ -106,7 +106,7 @@
                             slidesPerView: 2,
                             spaceBetween: 20
                         },
-                        450: {
+                        600: {
                             slidesPerView: 1,
                             spaceBetween: 0
                         }
