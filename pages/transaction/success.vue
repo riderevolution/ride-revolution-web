@@ -2,7 +2,7 @@
     <div class="buy_rides inner">
         <breadcrumb :overlay="false" />
         <transition name="fade">
-            <buy-rides-success />
+            <buy-rides-success :summary="summary" />
         </transition>
     </div>
 </template>
@@ -15,6 +15,17 @@
             Breadcrumb,
             BuyRidesSuccess
         },
+        data () {
+            return {
+                summary: {
+                    res: '',
+                    total: 0,
+                    discount: 0,
+                    quantity: 0,
+                    type: ''
+                }
+            }
+        },
         methods: {
             initial () {
                 const me = this
@@ -25,7 +36,7 @@
                     me.loader(true)
                     me.$axios.post('api/extras/pid', formData).then(res => {
                         setTimeout( () => {
-                            console.log(res.data);
+                            me.summary = JSON.parse(res.data.pid.paymaya_details)
                         }, 500)
                     }).catch(err => {
                         me.$nuxt.error({ statusCode: 404, message: 'Page not found' })

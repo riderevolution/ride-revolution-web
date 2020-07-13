@@ -87,6 +87,9 @@ Vue.mixin({
             if (paypal_details != null) {
                 formData.append('paypal_details', JSON.stringify(paypal_details))
             }
+            if (paymaya == 1) {
+                formData.append('paymaya_details', JSON.stringify(page.summary))
+            }
             me.loader(true)
             me.$axios.post('api/web/pay', formData, {
                 headers: {

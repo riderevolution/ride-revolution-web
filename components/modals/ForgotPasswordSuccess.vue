@@ -1,5 +1,5 @@
 <template>
-    <div class="default_modal">
+    <div class="default_modal alt">
         <div class="background" @click.once="toggleClose()"></div>
         <div class="confirmation_wrapper">
             <div class="form_close" @click="toggleClose()"></div>
@@ -10,7 +10,7 @@
                 Success! We've sent your new password. Please check the email you've provided us.
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn" @click.once="toggleClose()">Great</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose()">Great</div>
             </div>
         </div>
     </div>
