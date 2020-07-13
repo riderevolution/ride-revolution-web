@@ -28,6 +28,7 @@
             toggleClose () {
                 const me = this
                 me.$store.state.forgotPasswordSuccessStatus = false
+                document.body.classList.remove('no_scroll')
             }
         }
     }

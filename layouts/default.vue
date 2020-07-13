@@ -42,6 +42,12 @@
             <forgot-password-success v-if="$store.state.forgotPasswordSuccessStatus" />
         </transition>
         <transition name="fade">
+            <old-user-update-prompt v-if="$store.state.oldUserUpdatePrompt" />
+        </transition>
+        <transition name="fade">
+            <resend-email-prompt v-if="$store.state.resendEmailPrompt" />
+        </transition>
+        <transition name="fade">
             <error-prompt v-if="$store.state.errorPromptStatus" />
         </transition>
         <transition name="fade">
@@ -66,6 +72,8 @@
     import CompleteProfileSteps from '../components/modals/CompleteProfileSteps'
     import CompleteProfileSuccess from '../components/modals/CompleteProfileSuccess'
     import ForgotPasswordSuccess from '../components/modals/ForgotPasswordSuccess'
+    import OldUserUpdatePrompt from '../components/modals/OldUserUpdatePrompt'
+    import ResendEmailPrompt from '../components/modals/ResendEmailPrompt'
     import ErrorPrompt from '../components/modals/ErrorPrompt'
     import ImageViewer from '../components/modals/ImageViewer'
     import BadgePrompt from '../components/modals/BadgePrompt'
@@ -79,6 +87,8 @@
             CompleteProfileSteps,
             CompleteProfileSuccess,
             ForgotPasswordSuccess,
+            OldUserUpdatePrompt,
+            ResendEmailPrompt,
             ErrorPrompt,
             ImageViewer,
             BadgePrompt,
@@ -207,6 +217,7 @@
                 if (me.$route.query.ca_action) {
                     me.$store.state.loginSignUpStatus = true
                 }
+                document.addEventListener('contextmenu', event => event.preventDefault())
             }
         },
         mounted () {

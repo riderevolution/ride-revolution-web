@@ -608,13 +608,22 @@
                     if (valid) {
                         me.loader(true)
                         me.$axios.post('api/customer-login', me.loginForm).then(res => {
-                            let token = res.data.token
-                            me.$cookies.set('70hokc3hhhn5', token, '7d')
-                            me.$store.state.isAuth = true
-                            me.$store.state.loginSignUpStatus = false
-                            document.body.classList.remove('no_scroll')
-                            me.$router.push(`/my-profile`)
+                            setTimeout( () => {
+                                if (res.data.from_import == 1) {
+                                    me.$store.state.oldUserEmail = me.loginForm.email
+                                    me.$store.state.loginSignUpStatus = false
+                                    me.$store.state.oldUserUpdatePrompt = true
+                                } else {
+                                    let token = res.data.token
+                                    me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                    me.$store.state.isAuth = true
+                                    me.$store.state.loginSignUpStatus = false
+                                    document.body.classList.remove('no_scroll')
+                                    me.$router.push(`/my-profile`)
+                                }
+                            }, 500)
                         }).catch(err => {
+                            me.$store.state.errorOverlayPromptStatus = true
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
                             me.$cookies.remove('70hokc3hhhn5')
