@@ -32,26 +32,32 @@
                 let formData = new FormData()
                 formData.append('email', me.$store.state.oldUserEmail)
                 me.loader(true)
-                me.$axios.post('api/resend-old-account-resetter', formData).then(res => {
-                    setTimeout( () => {
-                        me.after5Mins = false
-                        me.$store.state.resendEmailPrompt = true
-                    }, 500)
-                }).catch(err => {
-                    me.$store.state.errorOverlayPromptStatus = true
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
-                }).then(() => {
-                    setTimeout(() => {
-                        me.loader(false)
-                        let interval = setInterval(() => {
-                            me.after5Mins = true
-                        }, 300000)
+                if (after5Mins) {
+                    me.$axios.post('api/resend-old-account-resetter', formData).then(res => {
                         setTimeout( () => {
-                            clearInterval(interval)
-                        }, 300000)
-                    }, 500)
-                })
+                            me.after5Mins = false
+                            me.$store.state.resendEmailPrompt = true
+                        }, 500)
+                    }).catch(err => {
+                        me.$store.state.errorOverlayPromptStatus = true
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    }).then(() => {
+                        setTimeout(() => {
+                            me.loader(false)
+                            let interval = setInterval(() => {
+                                me.after5Mins = true
+                            }, 300000)
+                            setTimeout( () => {
+                                clearInterval(interval)
+                            }, 300000)
+                        }, 500)
+                    })
+                } else {
+                    me.$store.state.errorOverlayPromptStatus = true
+                    me.$store.state.errorList = ['Oops! Please wait 5 minutes before resending the link.']
+                    me.$store.state.errorPromptStatus = true
+                }
             }
         }
     }
