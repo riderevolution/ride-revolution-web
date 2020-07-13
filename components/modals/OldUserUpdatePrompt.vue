@@ -31,8 +31,8 @@
                 const me = this
                 let formData = new FormData()
                 formData.append('email', me.$store.state.oldUserEmail)
-                me.loader(true)
                 if (me.after5Mins) {
+                    me.loader(true)
                     me.$axios.post('api/resend-old-account-resetter', formData).then(res => {
                         setTimeout( () => {
                             me.after5Mins = false
