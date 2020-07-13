@@ -75,6 +75,10 @@ body
     background-clip: padding-box
     border-radius: 50px
 
+::selection
+    color: $white
+    background-color: $green
+
 input,
 input:before,
 input:after,
@@ -5971,7 +5975,7 @@ svg
             .header
                 h1
                     brandon_bold(30px, true)
-                    color: $white
+                    color: $green_alt
                     letter-spacing: 2.5px
                     margin-bottom: 15px
                 h2
@@ -5979,7 +5983,7 @@ svg
                     color: $white
                     letter-spacing: 0.4px
             .info
-                margin: 20px 0
+                margin: 40px 0
                 p
                     brandon_regular(16px, false)
                     color: $white
@@ -6001,6 +6005,7 @@ svg
                     p
                         brandon_regular(16px, false)
                         color: $white
+                        margin-bottom: 5px
                 .right
                     a
                         brandon_regular(16px, false)
@@ -6017,6 +6022,7 @@ svg
                         display: flex
                         flex-flow: row wrap
                         align-items: center
+                        margin-bottom: 5px
                         img
                             margin-right: 15px
                             &.phone
