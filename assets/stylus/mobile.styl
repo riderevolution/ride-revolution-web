@@ -618,6 +618,12 @@
                 .description
                     span
                         brandon_bold(24px, false)
+    .studio_inner
+        #images
+            .wrapper
+                .field_image
+                    img
+                        height: 350px
     /**
      * Riders Guide */
     .riders_guide
@@ -2184,7 +2190,13 @@
                 flex: 0 0 100%
         #images
             padding: 20px
+            &.desktop
+                max-width: calc(95% + 40px)
+                margin: 0 auto 0
             .wrapper
+                .field_image
+                    img
+                        height: 350px
                 .overlay
                     brandon_bold(18px, true)
             .default
@@ -3466,6 +3478,13 @@
             .right
                 flex: 0 0 30%
 
+    .studio_inner
+        #images
+            .wrapper
+                .field_image
+                    img
+                        height: 400px
+
     .my_profile
         #content
             .profile_tab_content
@@ -4660,6 +4679,9 @@
         #images
             padding: 20px
             .wrapper
+                .field_image
+                    img
+                        height: 300px
                 .overlay
                     brandon_bold(16px, true)
             .default
