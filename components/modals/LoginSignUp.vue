@@ -327,7 +327,7 @@
                     message = message[1]
                     return `The ${newValue} field${message}`
                 } else {
-					if (message[0].split('file').length > 1) {
+                    if (message[0].split('file').length > 1) {
                         message = message[0].split('file')[1]
                         return `The ${newValue} field${message}`
                     } else {
@@ -391,7 +391,7 @@
                             })
                         })
                     } else {
-                        console.log('User cancelled login or did not fully authorize.');
+                        console.log('User cancelled login or did not fully authorize.')
                     }
                 }, {
                     scope: 'public_profile,email'

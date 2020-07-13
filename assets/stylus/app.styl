@@ -122,11 +122,16 @@ svg
     height: 20vh
     vertical-align: middle
     display: flex
+    flex-flow: row wrap
     justify-content: center
     align-items: center
     brandon_medium(30px, false)
     color: $black
     padding: 0 20px
+    .logo
+        flex: 0 0 100%
+        filter: grayscale(1)
+        opacity: 0.3
     .link
         color: $green
         padding: 0 5px

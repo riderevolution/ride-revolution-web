@@ -1,70 +1,106 @@
 <template>
-    <div class="reset_password">
-        <section id="banner" class="mt"></section>
-        <div class="reset_done" v-if="resetDone">
-            <p>Password changed successfully. Click <div class="link" @click="loginUser()"> here </div> to login.</p>
-        </div>
-        <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == 1 && !resetDone">
-            <div class="form_main_group">
-                <div class="form_header">
-                    <label>Reset Password</label>
-                </div>
-                <div class="form_group">
-                    <label for="password">New Password</label>
-                    <input type="password" id="password" name="password" ref="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password">
-                    <transition name="fade">
-                        <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
-                    </transition>
-                    <transition name="fade">
-                        <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
-                    </transition>
-                    <transition name="slide"><span class="validation_errors" v-if="errors.has('password')">{{ errors.first('password') | properFormat }}</span></transition>
-                </div>
-                <div class="form_group">
-                    <label for="password_confirmation">Confirm Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password_confirmation">
-                    <transition name="fade">
-                        <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
-                    </transition>
-                    <transition name="fade">
-                        <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="showConfirmPassword"><img src="/icons/show-pw.svg" /></div>
-                    </transition>
-                    <transition name="slide"><span class="validation_errors" v-if="errors.has('password_confirmation')">{{ errors.first('password_confirmation') | properFormat }}</span></transition>
-                </div>
+    <transition name="fade">
+        <div class="reset_password" v-if="loaded">
+            <section id="banner" class="mt"></section>
+            <div class="reset_done" v-if="resetDone && !oldUser">
+                <p>Password changed successfully. Click <div class="link" @click="loginUser()"> here </div> to login.</p>
             </div>
-            <div class="form_button">
-                <button type="submit" class="default_btn">Submit</button>
+            <div class="reset_done" v-if="resetDone && oldUser">
+                <p>Profile Updated successfully. Click <div class="link" @click="loginUser()"> here </div> to login.</p>
             </div>
-        </form>
-        <div class="invalid_token" v-if="validToken != 1 && !resetDone">
-            {{ validToken }}
+            <form id="default_form" @submit.prevent="submissionResetSuccess()" v-if="validToken == 1 && !resetDone">
+                <div class="form_main_group">
+                    <div class="form_header">
+                        <h1>{{ (oldUser) ? 'Update Profile' : 'Reset Password' }}</h1>
+                    </div>
+                    <div class="form_group disclaimer" v-if="oldUser">
+                        <label for="username">Username <span>*</span></label>
+                        <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="oldUserForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 15}">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('username') && !checkUsernameValidity">{{ errors.first('username') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="checkUsernameValidity">Username is already taken</span></transition>
+                    </div>
+                    <div class="form_group_disclaimer" v-if="oldUser">
+                        <div class="form_disclaimer"><img src="/icons/disclaimer-icon.svg" /> <span>Username cannot be changed once saved.</span></div>
+                    </div>
+                    <div class="form_group" v-if="oldUser">
+                        <label for="contact_number">Contact Number <span>*</span></label>
+                        <input type="text" name="contact_number" autocomplete="off" v-model="oldUserForm.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('contact_number')">{{ errors.first('contact_number') | properFormat }}</span></transition>
+                    </div>
+                    <div class="form_group">
+                        <label for="password">New Password</label>
+                        <input type="password" id="password" name="password" ref="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password">
+                        <transition name="fade">
+                            <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
+                        </transition>
+                        <transition name="fade">
+                            <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
+                        </transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('password')">{{ errors.first('password') | properFormat }}</span></transition>
+                    </div>
+                    <div class="form_group">
+                        <label for="password_confirmation">Confirm Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password_confirmation">
+                        <transition name="fade">
+                            <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
+                        </transition>
+                        <transition name="fade">
+                            <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="showConfirmPassword"><img src="/icons/show-pw.svg" /></div>
+                        </transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('password_confirmation')">{{ errors.first('password_confirmation') | properFormat }}</span></transition>
+                    </div>
+                </div>
+                <div class="form_button" v-if="!oldUser">
+                    <button type="submit" class="default_btn">Submit</button>
+                </div>
+                <div class="form_button" v-else>
+                    <button type="submit" :class="`default_btn ${(checkUsernameValidity) ? 'disabled' : ''}`">Submit</button>
+                </div>
+            </form>
+            <div class="invalid_token" v-if="validToken != 1 && !resetDone">
+                <div class="logo">
+                    <img src="/footer-logo.svg" />
+                </div>
+                {{ validToken }}
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
     export default {
         data () {
             return{
+                loaded: false,
                 showPassword: false,
                 showConfirmPassword: false,
+                checkUsernameValidity: false,
                 resetPasswordForm: {
                     password: '',
                     password_confirmation: '',
-                    _method: 'PATCH',
                     token: null
+                },
+                oldUserForm: {
+                    username: '',
+                    contact_number: '',
                 },
                 res: null,
                 validToken: 1,
+                oldUser: false,
                 resetDone: false
             }
         },
         filters: {
-            properFormat: function (value) {
+            properFormat (value) {
                 let newValue = value.split('The ')[1].split(' field')[0].split('[]')
                 if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
+                    let nextValue = newValue[0].split('_')
+                    if (nextValue.length > 1) {
+                        newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
+                    } else {
+                        newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
+                    }
+                } else {
                     newValue = value.split('The ')[1].split(' field')[0].split('_')
                     if (newValue.length > 1) {
                         let firstValue = ''
@@ -87,11 +123,32 @@
                     message = message[1]
                     return `The ${newValue} field${message}`
                 } else {
-                    return `The ${newValue}`
+					if (message[0].split('file').length > 1) {
+                        message = message[0].split('file')[1]
+                        return `The ${newValue} field${message}`
+                    } else {
+                        return `The ${newValue}`
+                    }
                 }
             }
         },
         methods: {
+            checkValidity (type, event) {
+                const me = this
+                let value = event.target.value
+                let formData = new FormData()
+                formData.append('type', type)
+                formData.append('value', value)
+                me.$axios.post('api/check-data-validity', formData).then(res => {
+                    if (res.data) {
+                        if (res.data.exists) {
+                            me.checkUsernameValidity = true
+                        } else {
+                            me.checkUsernameValidity = false
+                        }
+                    }
+                })
+            },
             loginUser () {
                 const me = this
                 me.$store.state.loginSignUpStatus = true
@@ -101,9 +158,20 @@
                 let me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
+                        let formData = new FormData()
+                        formData.append('password', me.resetPasswordForm.password)
+                        formData.append('password_confirmation', me.resetPasswordForm.password_confirmation)
+                        formData.append('token', me.resetPasswordForm.token)
+                        if (me.oldUser) {
+                            formData.append('username', me.oldUserForm.username)
+                            formData.append('contact_number', me.oldUserForm.contact_number)
+                        }
+                        formData.append('_method', 'PATCH')
                         me.loader(true)
-                        me.$axios.post('api/forgot-password', me.resetPasswordForm).then(res => {
-                            me.resetDone = true
+                        me.$axios.post('api/forgot-password', formData).then(res => {
+                            setTimeout( () => {
+                                me.resetDone = true
+                            }, 500)
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
@@ -145,17 +213,30 @@
                 }
             },
             validateResetPasswordToken () {
-                this.$axios.get(`api/reset-password/validate-token/${this.$route.query.resetToken}`).then(res => {
-                    this.validToken = 1
-                    this.resetPasswordForm.token = this.$route.query.resetToken
+                const me = this
+                me.loader(true)
+                me.$axios.get(`api/reset-password/validate-token/${me.$route.query.resetToken}`).then(res => {
+                    setTimeout( () => {
+                        if (res.data.from_import == 1) {
+                            me.oldUser = true
+                        }
+                        me.validToken = 1
+                        me.resetPasswordForm.token = me.$route.query.resetToken
+                        me.loaded = true
+                    }, 500)
                 }).catch(err => {
-                    console.log(err)
-                    this.validToken = err.response.data.errors[0]
+                    me.validToken = err.response.data.errors[0]
+                    me.loaded = true
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             }
         },
         mounted () {
-            this.validateResetPasswordToken()
+            const me = this
+            me.validateResetPasswordToken()
         },
     }
 </script>
