@@ -295,7 +295,7 @@ svg
     letter-spacing: .7px
     padding: 15px 45px
     background-color: $white
-    border: none
+    border: 1px solid $white
     outline: none
     box-shadow: 0px 0px 30px transparent
     cursor: pointer
@@ -588,6 +588,8 @@ svg
     border: 1px solid $white
     cursor: pointer
     transition: .3s ease-in-out
+    &.ml
+        margin-left: 15px
     &.disabled
         pointer-events: none
         border: 1px solid $gray
@@ -6145,7 +6147,7 @@ svg
                     align-items: center
                     justify-content: space-between
                     .data
-                        flex: 1 0 70%
+                        flex: 1 0 10%
                         .name
                             display: flex
                             flex-flow: row wrap
@@ -6156,7 +6158,34 @@ svg
                             h2
                                 line-height: 1
                             span
+                                position: relative
                                 margin-left: 10px
+                                .tooltip
+                                    text-align: center
+                                    position: absolute
+                                    top: 60%
+                                    background-color: $white
+                                    color: $green
+                                    brandon_medium(16px, false)
+                                    z-index: 2
+                                    padding: 5px 10px
+                                    border-radius: 5px
+                                    user-select: none
+                                    width: 150px
+                                    left: calc(0% + 40px)
+                                    transform: translateY(-50%)
+                                    &::before
+                                        content: ""
+                                        position: absolute
+                                        top: 50%
+                                        width: 0
+                                        height: 0
+                                        border-top: 7px solid transparent
+                                        border-bottom: 7px solid transparent
+                                        border-right: 7px solid $white
+                                        left: calc(0% - 7px)
+                                        z-index: 1
+                                        transform: translateY(-50%)
                         .info
                             display: flex
                             flex-flow: row wrap
@@ -6172,8 +6201,11 @@ svg
                                     font-weight: normal
                                 &:last-child
                                     margin-right: 0
-                    .default_btn_wht_out
+                    .btn
                         flex: 0 0 auto
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
             .bottom
                 display: flex
                 flex-flow: row wrap

@@ -26,7 +26,7 @@
                         <div class="sub_label">
                             <div class="text">{{ res.first_name }} {{ res.last_name }}</div>
                             <!-- <img src="/sample-type.svg" /> -->
-                            <div class="default_btn_blue" @click="viewImage()" v-if="res.customer_details.images[0].path != null">View Photo</div>
+                            <div class="default_btn_blue" @click="viewImage(res.customer_details.images[0].path)" v-if="res.customer_details.images[0].path != null">View Photo</div>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -405,8 +405,9 @@
                         break
                 }
             },
-            viewImage () {
+            viewImage (imageUrl) {
                 const me = this
+                me.$store.state.viewImageUrl = imageUrl
                 me.$store.state.imageViewerStatus = true
                 document.body.classList.add('no_scroll')
             },

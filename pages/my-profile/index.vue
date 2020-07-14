@@ -24,14 +24,25 @@
                         </div>
                         <div class="right">
                             <div class="data">
-                                <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2> <span><img :src="user.customer_details.customer_type.images[0].path" /></span></div>
+                                <div class="name">
+                                    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                                    <span>
+                                        <img :src="user.customer_details.customer_type.images[0].path" @click="hoveredType = true" @mouseover="hoveredType = true" @mouseout="hoveredType = false" />
+                                        <transition name="slide">
+                                            <span class="tooltip" v-if="hoveredType">{{ user.customer_details.customer_type.name }}</span>
+                                        </transition>
+                                    </span>
+                                </div>
                                 <!-- <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2></div> -->
                                 <div class="info">
                                     <div class="label">Username <b>{{ user.member_id }}</b></div>
                                     <div class="label">Store Credits <b>{{ totalItems(storeCredits) }}</b></div>
                                 </div>
                             </div>
-                            <div class="default_btn_wht_out" @click="checkUser()"><span>Update Profile</span></div>
+                            <div class="btn">
+                                <div class="default_btn_wht" @click="viewImage(user.qr_url)"><span>QR Code</span></div>
+                                <div class="default_btn_wht_out ml" @click="checkUser()"><span>Update Profile</span></div>
+                            </div>
                         </div>
                     </div>
                     <div class="bottom">
@@ -105,6 +116,7 @@
                 },
                 loaded: false,
                 componentLoaded: false,
+                hoveredType: false,
                 category: 'ride-rev-journey',
                 storeCredits: 0,
                 first_name: '',
@@ -114,6 +126,12 @@
             }
         },
         methods: {
+            viewImage (imageUrl) {
+                const me = this
+                me.$store.state.viewImageUrl = imageUrl
+                me.$store.state.imageViewerStatus = true
+                document.body.classList.add('no_scroll')
+            },
             checkUser () {
                 const me = this
                 if (me.user.new_user == 1) {
