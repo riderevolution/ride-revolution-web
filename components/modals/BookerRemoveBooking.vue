@@ -2,9 +2,7 @@
     <div class="default_modal overlay alt">
         <div class="background"></div>
         <div class="confirmation_wrapper">
-            <div class="confirmation_text">
-                Are you sure you want to cancel seat number {{ seat.number }}?
-            </div>
+            <div class="confirmation_text" v-html="getText()"></div>
             <div class="button_group alt">
                 <div class="flex default_btn_red" @click.once="toggleClose(false)">Cancel</div>
                 <div class="flex default_btn_wht ml" @click.once="toggleClose(true)">Confirm</div>
@@ -21,6 +19,21 @@
             }
         },
         methods: {
+            getText () {
+                const me = this
+                let result = ''
+                if (me.$route.name == 'my-profile-manage-class-slug') {
+                    if (me.seat.bookings.length > 0) {
+                        result = `Are you sure you want to remove seat number <b style="text-decoration: underline;">${me.seat.number}</b>? The action will only take place after you click <b style="text-transform: uppercase; text-decoration: underline;">"Next"</b> and you're done managing the class. A email notification will also be sent to this guest.`
+                    } else {
+                        result = `Are you sure you want to cancel seat number <b style="text-decoration: underline;>${me.seat.number}</b>?`
+                    }
+                } else {
+                    result = `Are you sure you want to cancel seat number <b style="text-decoration: underline;>${me.seat.number}</b>?`
+                }
+
+                return result
+            },
             toggleClose (status) {
                 const me = this
                 if (status) {
