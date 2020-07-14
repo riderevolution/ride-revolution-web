@@ -6216,34 +6216,44 @@ svg
                     flex: 0 0 20%
                 .mobile
                     flex: 0 0 100%
+                    margin-top: 20px
                     .tab_toggler
-                        margin-top: 10px
-                        .tab_wrapper
-                            display: flex
-                            flex-flow: row wrap
-                            align-items: center
-                            justify-content: space-between
-                            .tab_item
-                                margin-bottom: 10px
-                                margin-right: 0
-                                flex: 0 0 calc(50% - 5px)
-                                border: 1px solid $green
-                                padding: 15px
-                                &.active,
-                                &:hover,
-                                &:focus
-                                    border: 1px solid $white
-                                    background-color: $green
-                                    color: $white
+                        &.toggled
+                            .toggler
+                                &::before
+                                    transform: translateY(-50%) rotate(180deg)
                                     transition: .3s ease-in-out
-                                &.full
-                                    flex: 0 0 100%
+                            .tab_wrapper
+                                opacity: 1
+                                transition: .3s ease-in-out
+                        .toggler
+                            position: relative
+                            brandon_medium(16px, true)
+                            padding: 5px 10px
+                            color: $white
+                            background-color: $green
+                            &::before
+                                content: ''
+                                position: absolute
+                                top: 50%
+                                right: calc(0% + 10px)
+                                border-left: 7px solid transparent
+                                border-right: 7px solid transparent
+                                border-top: 7px solid $white
+                                transform: translateY(-50%) rotate(0deg)
+                                transition: .3s ease-in-out
+                        .tab_wrapper
+                            height: 0px
+                            opacity: 0
+                            overflow: hidden
+                            transition: .3s ease-in-out
+                            .tab_item
+                                margin-right: 0
+                                border-left: 4px solid $white
+                                &.active
+                                    border-left: 4px solid $green
                                 &::before
                                     content: unset
-                                .tab_item_link
-                                    display: block
-                                    width: 100%
-                                    text-align: center
                 .tab_wrapper
                     flex: 0 0 80%
                     list-style: none
@@ -8393,37 +8403,6 @@ svg
 /**
  * Menu Tabs */
 #default_menu
-    .mobile
-        .menu_tab_toggler
-            &.toggled
-                .toggler
-                    &::before
-                        transform: translateY(-50%) rotate(180deg)
-                        transition: .3s ease-in-out
-                .menu_tab
-                    opacity: 1
-                    transition: .3s ease-in-out
-            .toggler
-                position: relative
-                brandon_medium(16px, true)
-                padding: 5px 10px
-                color: $white
-                background-color: $green
-                &::before
-                    content: ''
-                    position: absolute
-                    top: 50%
-                    right: calc(0% + 10px)
-                    border-left: 7px solid transparent
-                    border-right: 7px solid transparent
-                    border-top: 7px solid $white
-                    transform: translateY(-50%) rotate(0deg)
-                    transition: .3s ease-in-out
-            .menu_tab
-                height: 0px
-                opacity: 0
-                overflow: hidden
-                transition: .3s ease-in-out
     .menu_tab
         width: 100%
         display: flex

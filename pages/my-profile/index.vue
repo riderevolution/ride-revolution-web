@@ -27,7 +27,7 @@
                                 <div class="name">
                                     <h2>{{ user.first_name }} {{ user.last_name }}</h2>
                                     <span>
-                                        <img :src="user.customer_details.customer_type.images[0].path" @click="hoveredType = true" @mouseover="hoveredType = true" @mouseout="hoveredType = false" />
+                                        <img :src="user.customer_details.customer_type.images[0].path" @click="hoveredType ^= true" @mouseenter="hoveredType = true" @mouseleave="hoveredType = false" />
                                         <transition name="slide">
                                             <span class="tooltip" v-if="hoveredType">{{ user.customer_details.customer_type.name }}</span>
                                         </transition>
@@ -56,32 +56,13 @@
                         </ul>
                         <div class="mobile" v-else>
                             <div class="tab_toggler">
+                                <div class="toggler" @click.self="toggleDetails($event)">Menu</div>
                                 <ul class="tab_wrapper">
-                                    <li :class="`tab_item full ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">
-                                        <div class="tab_item_link">
-                                            Ride Rev Journey
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">
-                                        <div class="tab_item_link">
-                                            Classes
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">
-                                        <div class="tab_item_link">
-                                            Packages
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">
-                                        <div class="tab_item_link">
-                                            Transactions
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">
-                                        <div class="tab_item_link">
-                                            Gift Cards
-                                        </div>
-                                    </li>
+                                    <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
+                                    <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
+                                    <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
+                                    <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
+                                    <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
                                 </ul>
                             </div>
                         </div>
@@ -126,6 +107,17 @@
             }
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
             viewImage (imageUrl) {
                 const me = this
                 me.$store.state.viewImageUrl = imageUrl

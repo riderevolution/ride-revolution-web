@@ -139,21 +139,11 @@
         <transition name="fade">
             <div id="tab_1" class="class wrapper" v-if="category == 'classes'">
                 <div id="default_menu">
-                    <ul class="menu_tab" v-if="!$store.state.isMobile">
+                    <ul class="menu_tab">
                         <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
                     </ul>
-                    <div class="mobile" v-else>
-                        <div class="menu_tab_toggler">
-                            <div class="toggler" @click.self="toggleDetails()">Tab Menu</div>
-                            <ul class="menu_tab">
-                                <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
-                                <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
-                                <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="menu_tab_content">
                         <div class="profile_classes" v-if="classes.length > 0">
                             <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
@@ -206,19 +196,10 @@
         <transition name="fade">
             <div id="tab_2" class="package wrapper" v-if="category == 'packages'">
                 <div id="default_menu">
-                    <ul class="menu_tab" v-if="!$store.state.isMobile">
+                    <ul class="menu_tab">
                         <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
                     </ul>
-                    <div class="mobile" v-else>
-                        <div class="menu_tab_toggler">
-                            <div class="toggler" @click.self="toggleDetails()">Tab Menu</div>
-                            <ul class="menu_tab">
-                                <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
-                                <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="menu_tab_content">
                         <div class="profile_packages">
                             <table class="default_table" v-if="packages.length > 0">
@@ -370,7 +351,7 @@
                                 <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
                             </div>
                         </transition>
-                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn">Buy a Gift Card</nuxt-link>
+                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn" v-if="!$store.state.isMobile">Buy a Gift Card</nuxt-link>
                     </div>
                 </div>
                 <div class="tab_content_main">
