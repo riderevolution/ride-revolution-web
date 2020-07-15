@@ -676,6 +676,12 @@
         mounted () {
             const me = this
             me.windowLoginScroll()
+            if (me.$route.query.ca_action) {
+                me.toggleNextPrev()
+                me.signUpForm.email = me.$route.query.ca_el
+                me.signUpForm.first_name = me.$route.query.ca_fn
+                me.signUpForm.last_name = me.$route.query.ca_ln
+            }
             setTimeout(() => {
                 if (me.$cookies.get('referrer_member_id') != null || me.$cookies.get('referrer_member_id') != undefined) {
                     me.signUp = true
