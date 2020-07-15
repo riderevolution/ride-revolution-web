@@ -78,7 +78,7 @@
                                     <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
                                 </div>
                                 <div class="header_right">
-                                    <div class="default_btn_red" @click="toggleCancel()" v-if="manage">Cancel Class</div>
+                                    <div class="default_btn_red" @click="toggleCancel()" v-if="manage && !schedule.guestHere">Cancel Class</div>
                                 </div>
                             </div>
                             <div class="content" :id="`parent_${layout}`">
@@ -92,16 +92,20 @@
                                         <div @click="signIn(data)" :class="`seat ${addClass(data)}`" v-for="(data, key) in seat.data" :key="key">
 
                                             <transition name="fade">
-                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!isMobile && (data.bookings.length > 0 && (data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path != null))" />
+                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!isMobile && (data.bookings.length > 0 && (data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path != null) && (user.id == data.bookings[0].original_booker_id)) && !schedule.guestHere" />
                                             </transition>
 
                                             <transition name="fade">
-                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path == null)">
+                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!isMobile && (data.bookings.length > 0 && (data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path != null) && (user.id == data.bookings[0].original_booker_id)) && schedule.guestHere" />
+                                            </transition>
+
+                                            <transition name="fade">
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path == null) && (user.id == data.bookings[0].original_booker_id)">
                                                     <div class="letter">
                                                         {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
                                                     </div>
                                                 </div>
-                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user == null)">
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user == null) && (user.id == data.bookings[0].original_booker_id)">
                                                     <div class="letter">
                                                         {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
                                                     </div>
@@ -454,20 +458,31 @@
                     case 'reserved':
                     case 'reserved-guest':
                     case 'signed-in':
+
                         if (seat.bookings.length > 0) {
-                            if (seat.bookings[0].is_guest != 0) {
-                                result += 'reserved-guest'
-                            } else {
-                                result += 'reserved alt'
-                            }
-                        } else {
-                            if (seat.bookings.length > 0) {
-                                if (seat.bookings[0].user != null) {
+                            if (me.schedule.guestHere) {
+                                if (me.schedule.original_booker_id == seat.bookings[0].original_booker_id) {
+                                    if (seat.bookings[0].is_guest != 0) {
+                                        result += 'reserved-guest'
+                                    } else {
+                                        result += 'reserved alt'
+                                    }
+                                } else {
                                     result += 'blocked comp'
                                 }
                             } else {
-                                result += 'blocked comp'
+                                if (seat.bookings.length > 0 && seat.bookings[0].original_booker_id != me.user.id) {
+                                    result += 'blocked comp'
+                                } else {
+                                    if (seat.bookings[0].is_guest != 0) {
+                                        result += 'reserved-guest'
+                                    } else {
+                                        result += 'reserved alt'
+                                    }
+                                }
                             }
+                        } else {
+                            result += 'blocked comp'
                         }
                         break
                     case 'blocked':

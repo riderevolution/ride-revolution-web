@@ -75,9 +75,12 @@
                                     }
                                 }).catch(err => {
                                     setTimeout( () => {
+                                        me.$store.state.bookerAssignStatus = false
+                                        me.$store.state.bookerAssignMemberPromptStatus = false
                                         me.$store.state.errorOverlayPromptStatus = true
                                         me.$store.state.errorList = err.response.data.errors
                                         me.$store.state.errorPromptStatus = true
+                                        me.$parent.fetchSeats(me.$route.params.slug)
                                     }, 500)
                                 }).then(() => {
                                     setTimeout( () => {
