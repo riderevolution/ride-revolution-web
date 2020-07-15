@@ -4,6 +4,7 @@ const createStore = () => {
     return new Vuex.Store({
         state: () => ({
             viewImageUrl: '',
+            inApp: '',
             resendEmailPrompt: false,
             oldUserEmail: '',
             oldUserUpdatePrompt: false,

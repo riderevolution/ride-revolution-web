@@ -1,23 +1,27 @@
 <template>
     <div class="buy_rides inner">
-        <breadcrumb :overlay="false" />
         <transition name="fade">
-            <transaction-status :title="title" />
+            <buy-rides-success :summary="summary" />
         </transition>
     </div>
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
-    import TransactionStatus from '../../components/modals/TransactionStatus'
+    import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
     export default {
+        layout: 'fish',
         components: {
-            Breadcrumb,
-            TransactionStatus
+            BuyRidesSuccess
         },
         data () {
             return {
-                title: ''
+                summary: {
+                    res: '',
+                    total: 0,
+                    discount: 0,
+                    quantity: 0,
+                    type: ''
+                }
             }
         },
         methods: {
@@ -26,13 +30,14 @@
                 if (me.$route.query.pid) {
                     let formData = new FormData()
                     formData.append('pid', me.$route.query.pid)
+
                     me.loader(true)
                     me.$axios.post('api/extras/pid', formData).then(res => {
                         setTimeout( () => {
-                            console.log(res.data);
+                            me.summary = JSON.parse(res.data.pid.paymaya_details)
                         }, 500)
                     }).catch(err => {
-                        me.$router.push(`/buy-rides`)
+                        me.$router.push(`/fish-in-the-glass/buy-rides?token=${me.$route.query.token}`)
                     }).then(() => {
                         setTimeout( () => {
                             me.loader(false)
@@ -45,11 +50,6 @@
         },
         mounted () {
             const me = this
-            if (me.$route.params.slug == 'failed') {
-                me.title = 'Transaction failed, Please try again.'
-            } else {
-                me.title = 'Transaction cancelled, Please try again.'
-            }
             me.initial()
         }
     }

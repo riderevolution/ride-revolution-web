@@ -230,6 +230,7 @@
                 lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
             })();
+            me.$store.state.inApp = false
         },
         beforeMount () {
             window.addEventListener('load', this.onResize)

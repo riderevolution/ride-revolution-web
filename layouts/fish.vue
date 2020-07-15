@@ -62,6 +62,7 @@
         mounted () {
             const me = this
             me.onResize()
+            me.$store.state.inApp = true
         },
         beforeMount () {
             window.addEventListener('load', this.onResize)

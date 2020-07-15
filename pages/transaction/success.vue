@@ -39,7 +39,7 @@
                             me.summary = JSON.parse(res.data.pid.paymaya_details)
                         }, 500)
                     }).catch(err => {
-                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                        me.$router.push(`/buy-rides`)
                     }).then(() => {
                         setTimeout( () => {
                             me.loader(false)

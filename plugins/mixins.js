@@ -109,6 +109,9 @@ Vue.mixin({
             if (paymaya == 1) {
                 formData.append('paymaya_details', JSON.stringify(page.summary))
             }
+            if (me.$store.state.inApp) {
+                formData.append('in_app', 1)
+            }
             me.loader(true)
             me.$axios.post('api/web/pay', formData, {
                 headers: {

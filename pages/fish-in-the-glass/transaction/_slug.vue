@@ -1,6 +1,5 @@
 <template>
     <div class="buy_rides inner">
-        <breadcrumb :overlay="false" />
         <transition name="fade">
             <transaction-status :title="title" />
         </transition>
@@ -8,11 +7,10 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
-    import TransactionStatus from '../../components/modals/TransactionStatus'
+    import TransactionStatus from '../../../components/modals/TransactionStatus'
     export default {
+        layout: 'fish',
         components: {
-            Breadcrumb,
             TransactionStatus
         },
         data () {
@@ -32,7 +30,7 @@
                             console.log(res.data);
                         }, 500)
                     }).catch(err => {
-                        me.$router.push(`/buy-rides`)
+                        me.$router.push(`/fish-in-the-glass/buy-rides?token=${me.$route.query.token}`)
                     }).then(() => {
                         setTimeout( () => {
                             me.loader(false)

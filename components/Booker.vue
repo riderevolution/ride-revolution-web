@@ -137,32 +137,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="left" v-else></div>
-                                                    <div class="right alt" v-if="isMobile && checkPackage">
-                                                        <transition name="slide">
-                                                            <span class="tooltip" v-if="toSubmit.tempSeat.length > tempBookCount && $route.name != 'my-profile-manage-class-slug'">Click here to proceed</span>
-                                                        </transition>
-                                                        <transition name="slide">
-                                                            <span class="tooltip" v-if="(!removeNext && $route.name == 'my-profile-manage-class-slug') && toSubmit.tempSeat.length > 0">Click here to proceed</span>
-                                                        </transition>
-                                                        <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
-                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
-                                                        <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
-                                                        <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
-                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
-                                                    </div>
-                                                    <div class="right" v-if="!isMobile && checkPackage">
-                                                        <transition name="slide">
-                                                            <span class="tooltip" v-if="toSubmit.tempSeat.length > tempBookCount && $route.name != 'my-profile-manage-class-slug'">Click here to proceed</span>
-                                                        </transition>
-                                                        <transition name="slide">
-                                                            <span class="tooltip" v-if="(!removeNext && $route.name == 'my-profile-manage-class-slug') && toSubmit.tempSeat.length > 0">Click here to proceed</span>
-                                                        </transition>
-                                                        <div :class="`default_btn ${(toSubmit.tempSeat.length > tempBookCount) ? '' : 'disabled'}`" @click="toggleStep('next')" v-if="$route.name != 'my-profile-manage-class-slug'">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="!inApp">Next</div>
-                                                        <div :class="`default_btn ${(!removeNext && toSubmit.tempSeat.length > 0) ? '' : 'disabled'}`" @click="toggleStep('next')" v-else-if="inApp">Next</div>
-                                                    </div>
                                                     <div class="right" v-if="!checkPackage">
                                                         <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
                                                         <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn" v-else>Buy Rides</nuxt-link>
@@ -172,53 +146,6 @@
                                         </div>
                                     </transition>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-            </div>
-            <div id="step_2" :class="`step form ${(step != 2) ? 'overlay' : ''}`">
-                <transition name="slideX">
-                    <div v-if="step == 2" class="preview_book_form">
-                        <h2 class="header_title">Let’s make sure we got this right.</h2>
-                        <div class="preview">
-                            <div class="item">
-                                <p>Class</p>
-                                <p class="right">{{ schedule.schedule.class_type.name }}</p>
-                            </div>
-                            <div class="item">
-                                <p>Instructor</p>
-                                <p class="right">{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</p>
-                            </div>
-                            <div class="item">
-                                <p>Studio</p>
-                                <p class="right">{{ schedule.schedule.studio.name }}</p>
-                            </div>
-                            <div class="item">
-                                <p>Date</p>
-                                <p class="right">{{ $moment(schedule.date).format('MMMM DD, YYYY') }}</p>
-                            </div>
-                            <div class="item">
-                                <p>Time</p>
-                                <p class="right">{{ schedule.schedule.start_time }} - {{ schedule.schedule.end_time }}</p>
-                            </div>
-                            <div class="item">
-                                <p>Bike No.</p>
-                                <p class="right">{{ getAllTempSeats(toSubmit.tempSeat) }}</p>
-                            </div>
-                            <div class="item">
-                                <p>Class Packages Used</p>
-                                <p class="right">
-                                    <span v-for="(test, key) in getAllTempPackages" v-html="test"></span>
-                                </p>
-                            </div>
-                            <div class="total">
-                                <p>Consumes</p>
-                                <p class="right">{{ toSubmit.bookCount * schedule.schedule.class_credits }} Credit/s</p>
-                            </div>
-                            <div class="preview_actions">
-                                <div class="back" @click="toggleStep('prev')">Back</div>
-                                <div class="default_btn" @click="submitPreview()">Let's Do This</div>
                             </div>
                         </div>
                     </div>
@@ -325,7 +252,6 @@
                 step: 1,
                 type: 1,
                 loaded: false,
-                removeNext: false,
                 submitted: false,
                 customer: null,
                 temp: [],
@@ -877,6 +803,7 @@
                                 me.schedule = res.data.scheduledDate
                                 me.instructor = me.schedule.schedule.instructor_schedules[0].user
                                 me.temp.forEach((seat , index) => {
+                                    console.log(seat);
                                     switch (seat.position) {
                                         case 'left':
                                             me.seats.left.data.push(seat)
@@ -896,11 +823,11 @@
                                     }
                                     me.ctr++
                                 })
+                                console.log(me.seats);
                                 if (!me.manage) {
                                     me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
                                 } else {
                                     me.checkPackage = 1
-                                    me.removeNext = true
 
                                     if (res.data.waitlisted) {
                                         me.isWaitlisted = true
@@ -922,28 +849,13 @@
                                                     me.tempOriginalSeat = element
                                                 }
                                             })
-                                            Object.keys(me.seats).forEach((parent) => {
-                                                Object.keys(me.seats[parent]).forEach((child) => {
-                                                    if (child == 'data') {
-                                                        for (let i = 0; i < me.seats[parent][child].length; i++) {
-                                                            for (let j = 0; j < me.toSubmit.tempSeat.length; j++) {
-                                                                if (me.toSubmit.tempSeat[j].id == me.seats[parent][child][i].id) {
-                                                                    me.toSubmit.tempSeat[j].bookings = me.seats[parent][child][i].bookings
-                                                                    me.seats[parent][child][i] = me.toSubmit.tempSeat[j]
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                })
-                                            })
                                         }
                                     }
                                 }
-                                me.loaded = true
+                                // me.loaded = true
                             }
                         }).catch(err => {
                             me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                            me.loader(false)
                         }).then(() => {
                             setTimeout( () => {
                                 me.loader(false)
@@ -951,7 +863,8 @@
                         })
                     }
                 }).catch(err => {
-                    console.log(err)
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                    me.loader(false)
                 })
             },
             onResize() {
@@ -972,7 +885,6 @@
         },
         mounted () {
             const me = this
-            alert(1)
             me.onResize()
         },
         beforeMount () {
