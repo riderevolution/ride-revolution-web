@@ -46,7 +46,7 @@
                     </div>
                 </form>
                 <div class="new_here">
-                    New here? <span @click="toggleNextPrev(signUp)">Create an account</span>.
+                    New here? <span @click="toggleNextPrev()">Create an account</span>.
                 </div>
             </section>
         </transition>
@@ -119,7 +119,7 @@
                     </div>
                 </form>
                 <div class="new_here">
-                    Already have an account? <span @click="toggleNextPrev(signUp)">Login</span>.
+                    Already have an account? <span @click="toggleNextPrev()">Login</span>.
                 </div>
             </section>
         </transition>
@@ -676,19 +676,21 @@
         mounted () {
             const me = this
             me.windowLoginScroll()
-            if (me.$route.query.ca_action) {
-                me.toggleNextPrev()
-                me.signUpForm.email = me.$route.query.ca_el
-                me.signUpForm.first_name = me.$route.query.ca_fn
-                me.signUpForm.last_name = me.$route.query.ca_ln
-            }
             setTimeout(() => {
-                if (me.$cookies.get('referrer_member_id') != null || me.$cookies.get('referrer_member_id') != undefined) {
+                if (me.$route.query.ca_action) {
+                    me.signUpForm.email = me.$route.query.ca_el
+                    me.signUpForm.first_name = me.$route.query.ca_fn
+                    me.signUpForm.last_name = me.$route.query.ca_ln
                     me.signUp = true
                     me.signUpStep = 0
                 } else {
-                    me.signUp = false
-                    me.signUpStep = null
+                    if (me.$cookies.get('referrer_member_id') != null || me.$cookies.get('referrer_member_id') != undefined) {
+                        me.signUp = true
+                        me.signUpStep = 0
+                    } else {
+                        me.signUp = false
+                        me.signUpStep = null
+                    }
                 }
             }, 100)
         },
