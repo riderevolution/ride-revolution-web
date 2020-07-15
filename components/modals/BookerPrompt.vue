@@ -23,11 +23,19 @@
             status: {
                 type: Boolean,
                 default: false
+            },
+            firstBook: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
             toggleClose (booker) {
                 const me = this
+                if (me.firstBook) {
+                    me.$parent.firstBook = false
+                    me.$parent.fetchSeats(me.$route.params.slug)
+                }
                 if (booker == 1) {
                     me.$router.push('/buy-rides#package')
                 }

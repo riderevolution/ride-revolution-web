@@ -24,84 +24,48 @@
                 let result = ''
                 if (me.$route.name == 'my-profile-manage-class-slug') {
                     if (me.seat.bookings.length > 0) {
-                        result = `Are you sure you want to remove seat number <b style="text-decoration: underline;">${me.seat.number}</b>? The action will only take place after you click <b style="text-transform: uppercase; text-decoration: underline;">"Next"</b> and you're done managing the class. A email notification will also be sent to this guest.`
+                        result = `Are you sure you want to remove seat number <b style="text-decoration: underline;">${me.seat.number}</b>? The action will only take place if you click <b style="text-transform: uppercase; text-decoration: underline;">"Confirm"</b>. A email notification will also be sent to this guest.`
                     } else {
                         result = `Are you sure you want to cancel seat number <b style="text-decoration: underline;>${me.seat.number}</b>?`
                     }
                 } else {
                     result = `Are you sure you want to cancel seat number <b style="text-decoration: underline;>${me.seat.number}</b>?`
                 }
-
                 return result
             },
             toggleClose (status) {
                 const me = this
                 if (status) {
-                    /**
-                     * Check all the seats */
-                    Object.keys(me.$parent.seats).forEach((parent) => {
-                        Object.keys(me.$parent.seats[parent]).forEach((child) => {
-                            if (child == 'data') {
-                                for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
-                                    if (me.$parent.seats[parent][child][i].id == me.seat.id) {
-                                        /**
-                                         * Check all tempseats */
-                                        me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                            /**
-                                             * Check if seat and temp seat has same id */
-                                            if (me.$parent.seats[parent][child][i].id == element.id) {
-                                                /**
-                                                 * If tempseat is original */
-                                                if (element.temp.guest == 0) {
-                                                    me.$parent.hasBooked = false
-                                                    me.$parent.tempOriginalSeat = null
-                                                /**
-                                                 * if tempseat is not original */
-                                             } else {
-                                                    me.$parent.tempGuestSeat = null
-                                                    me.$parent.tempClassPackage = null
-                                                }
-                                                if (me.$parent.toSubmit.bookCount > 0) {
-                                                    me.$parent.toSubmit.bookCount--
-                                                }
-                                                /**
-                                                 * delete all the temp objects connected to the id */
-                                                delete me.$parent.seats[parent][child][i].temp
-                                                me.$parent.seats[parent][child][i].status = 'open'
-                                                me.$parent.toSubmit.tempSeat.splice(index, 1)
-
-                                                /**
-                                                 * Check if the tempseat length less than of equal to 1 */
-                                                // if (me.$parent.toSubmit.tempSeat.length == 0) {
-                                                //     me.$parent.removeNext = true
-                                                // }
-                                                // if (me.$parent.toSubmit.tempSeat.length == 1) {
-                                                //     me.$parent.hasGuest = false
-                                                // }
-
-                                                me.$store.state.bookerActionsPrompt = false
-                                                me.loader(true)
-
-                                                me.$parent.removeNext = false
-
-                                                this.$scrollTo('.next_wrapper .right .default_btn', {
-                                                    duration: 1000,
-                                                    offset: -750
-                                                })
-
-                                                setTimeout(() => {
-                                                    me.$store.state.bookerRemoveBookingStatus = false
-                                                    document.body.classList.remove('no_scroll')
-                                                    me.$parent.status = false
-                                                    me.loader(false)
-                                                }, 500)
-                                            }
-                                        })
-                                        break
-                                    }
+                    me.loader(true)
+                    me.$axios.delete(`api/bookings/${me.seat.bookings[0].id}`).then(res => {
+                        if (res.data) {
+                            setTimeout( () => {
+                                me.$store.state.bookerActionsPrompt = false
+                                me.$store.state.bookerRemoveBookingStatus = false
+                                if (me.seat.bookings[0].is_guest == 1) {
+                                    me.$parent.promptMessage = 'Your booking has been successfully cancelled.'
+                                    me.$store.state.bookerPromptStatus = true
                                 }
+                            }, 500)
+                        }
+                    }).catch(err => {
+                        setTimeout( () => {
+                            me.$store.state.bookerActionsPrompt = false
+                            me.$store.state.bookerRemoveBookingStatus = false
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }, 500)
+                    }).then(() => {
+                        setTimeout( () => {
+                            if (me.seat.bookings[0].is_guest == 0) {
+                                me.$store.state.bookerCancelStatus = true
+                                me.$parent.cancelType = 2
+                                me.loader(false)
+                            } else {
+                                me.$parent.fetchSeats(me.$route.params.slug)
                             }
-                        })
+                        }, 500)
                     })
                 } else {
                     me.$store.state.bookerRemoveBookingStatus = false

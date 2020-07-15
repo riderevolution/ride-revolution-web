@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group alt">
                         <div class="form_custom_checkbox">
-                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.id == selectedID) ? 'active' : ''}`" v-for="(seat, key) in seatNumbers" :key="key" @click="toggleSeat(seat, key)">
+                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.id == selectedID) ? 'active' : ''}`" v-for="(seat, key) in seats" :key="key" @click="toggleSeat(seat, key)">
                                 <label>Bike No. {{ seat.number }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -15,8 +15,11 @@
                                         <path class="mark" d="M6466.494,185.005l4.85,4.85,9.6-9.6" transform="translate(-5653.091 142.403)" />
                                     </g>
                                 </svg>
-                                <div class="info">
-                                    <p>{{ (seat.temp.guest == 0) ? 'Me' : `${seat.temp.customer.first_name} ${seat.temp.customer.last_name}` }}</p>
+                                <div class="info" v-if="seat.bookings[0].is_guest == 0">
+                                    <p>Me</p>
+                                </div>
+                                <div class="info" v-else>
+                                    <p>{{ (seat.bookings[0].user == null) ? `${seat.bookings[0].guest_first_name} ${seat.bookings[0].guest_last_name}` : `${seat.bookings[0].user.first_name} ${seat.bookings[0].user.last_name}` }}</p>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +36,7 @@
 <script>
     export default {
         props: {
-            seatNumbers: {
+            seats: {
                 default: null
             }
         },
@@ -46,17 +49,16 @@
         methods: {
             submissionSuccess () {
                 const me = this
-                let temp = me.selected
+                let seat = me.selected
                 if (me.selectedID) {
                     me.loader(true)
-                    me.$parent.selectedSwitchSeat = temp
+                    me.$parent.selectedSwitchSeat = seat
                     me.$parent.isSwitchingSeat = true
                     me.$parent.cancelSwitchingSeat = true
                     setTimeout( () => {
                         me.$store.state.bookerSwitchSeatStatus = false
                         document.body.classList.remove('no_scroll')
                         me.loader(false)
-                        me.$parent.removeNext = false
                     }, 500)
                 }
             },
@@ -78,8 +80,8 @@
         },
         mounted () {
             const me = this
-            me.seatNumbers.forEach((element, index) => {
-                if (element.temp.guest == 0) {
+            me.seats.forEach((element, index) => {
+                if (element.bookings[0].is_guest == 0) {
                     me.selected = element
                     me.selectedID = element.id
                 }

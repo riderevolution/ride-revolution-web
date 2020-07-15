@@ -56,7 +56,7 @@
                         </ul>
                         <div class="mobile" v-else>
                             <div class="tab_toggler">
-                                <div class="toggler" @click.self="toggleDetails($event)">Menu</div>
+                                <div class="toggler" @click.self="toggleDetails($event)">{{ replacer(category) }}</div>
                                 <ul class="tab_wrapper">
                                     <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
                                     <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>

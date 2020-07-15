@@ -1,62 +1,67 @@
 <template>
-    <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
-        <div class="global_prev_container" v-if="summary.res != ''">
-            <div class="item_title">
-                <h2>Order Confirmation</h2>
-            </div>
-            <div class="global_prev">
-                <div class="item" v-if="summary.type != 'store-credit-page'">
-                    <h3>{{ summary.res.name }}</h3>
-                    <p>Php {{ totalCount((summary.res.is_promo == 1) ? summary.res.discounted_price : summary.res.package_price) }}</p>
+    <transition name="fade">
+        <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
+            <div class="global_prev_container" v-if="summary.res != ''">
+                <div class="item_title">
+                    <h2>Order Confirmation</h2>
                 </div>
-                <div class="item" v-else>
-                    <h3>{{ summary.res.name }}</h3>
-                    <p>Php {{ totalCount(summary.res.amount) }}</p>
-                </div>
-                <div class="item" v-if="summary.type == 'store-credit-page'">
-                    <h3>Quantity</h3>
-                    <p>{{ summary.quantity }}</p>
-                </div>
-                <div class="item" v-if="summary.type != 'store-credit-page'">
-                    <h3>Rides</h3>
-                    <p>{{ summary.res.class_count }}</p>
-                </div>
-                <div class="item" v-else>
-                    <h3>Credits</h3>
-                    <p>{{ totalItems(summary.total) }}</p>
-                </div>
-                <div class="item" v-if="summary.type != 'store-credit-page'">
-                    <h3>Discount</h3>
-                    <p>Php {{ totalCount(summary.discount) }}</p>
-                </div>
-                <div class="total">
-                    <p>Total</p>
-                    <p>{{ (summary.type == 'store-credits') ? '' : 'Php' }} {{ (summary.type == 'store-credits') ? totalItems(summary.total) : totalCount(summary.total)  }} {{ (summary.type == 'store-credits') ? 'Credits' : '' }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="wrapper">
-            <div v-html="subtitle"></div>
-            <div class="link" v-if="isWebBased">
-                <label>Referral Link</label>
-                <div class="refer_link">{{ form.referralLink }}</div>
-            </div>
-            <form id="default_form" @submit.prevent="submissionSuccess()">
-                <div class="form_flex with_btn">
-                    <div class="form_group">
-                        <input type="email" id="email" name="email" class="input_text email" autocomplete="off" v-model="form.email" placeholder="Enter your email address" v-validate="'required|email'">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">The email field is required</span></transition>
+                <div class="global_prev">
+                    <div class="item" v-if="summary.type != 'store-credit-page'">
+                        <h3>{{ summary.res.name }}</h3>
+                        <p>Php {{ totalCount((summary.res.is_promo == 1) ? summary.res.discounted_price : summary.res.package_price) }}</p>
                     </div>
-                    <div class="form_button">
-                        <button type="submit" class="default_btn"><span>Send Referral Link</span></button>
+                    <div class="item" v-else>
+                        <h3>{{ summary.res.name }}</h3>
+                        <p>Php {{ totalCount(summary.res.amount) }}</p>
+                    </div>
+                    <div class="item" v-if="summary.type == 'store-credit-page'">
+                        <h3>Quantity</h3>
+                        <p>{{ summary.quantity }}</p>
+                    </div>
+                    <div class="item" v-if="summary.type != 'store-credit-page'">
+                        <h3>Rides</h3>
+                        <p>{{ summary.res.class_count }}</p>
+                    </div>
+                    <div class="item" v-else>
+                        <h3>Credits</h3>
+                        <p>{{ totalItems(summary.total) }}</p>
+                    </div>
+                    <div class="item" v-if="summary.type != 'store-credit-page'">
+                        <h3>Discount</h3>
+                        <p>Php {{ totalCount(summary.discount) }}</p>
+                    </div>
+                    <div class="total">
+                        <p>Total</p>
+                        <p>{{ (summary.type == 'store-credits') ? '' : 'Php' }} {{ (summary.type == 'store-credits') ? totalItems(summary.total) : totalCount(summary.total)  }} {{ (summary.type == 'store-credits') ? 'Credits' : '' }}</p>
                     </div>
                 </div>
-            </form>
-        </div>
-        <transition name="fade">
-            <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
-        </transition>
-    </section>
+            </div>
+            <div class="wrapper">
+                <div v-html="subtitle"></div>
+                <div class="link" v-if="isWebBased">
+                    <label>Referral Link</label>
+                    <input class="refer_link" id="refer_link" type="text" v-model="form.referralLink" @click.self="copyClipBoard($event)" />
+                    <transition name="slide">
+                        <span class="tooltip" v-if="copied">Copied!</span>
+                    </transition>
+                </div>
+                <form id="default_form" @submit.prevent="submissionSuccess()">
+                    <div class="form_flex with_btn">
+                        <div class="form_group">
+                            <input type="email" id="email" name="email" class="input_text email" autocomplete="off" v-model="form.email" placeholder="Enter your email address" v-validate="'required|email'">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">{{ errors.first('email') | properFormat }}</span></transition>
+                        </div>
+                        <div class="form_button">
+                            <button type="submit" class="default_btn"><span>Send Referral Link</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <transition name="fade">
+                <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
+            </transition>
+        </section>
+    </transition>
 </template>
 
 <script>
@@ -86,7 +91,8 @@
                     email: '',
                     referralLink: ''
                 },
-                message: ''
+                message: '',
+                copied: false
             }
         },
         filters: {
@@ -132,6 +138,19 @@
             }
         },
         methods: {
+            copyClipBoard (event) {
+                const me = this
+                if (event.target) {
+                    let element = event.target
+                    element.select()
+                    element.setSelectionRange(0, 99999)
+                    document.execCommand("copy")
+                    me.copied = true
+                    setTimeout( () => {
+                        me.copied = false
+                    }, 1000)
+                }
+            },
             submissionSuccess () {
                 const me = this
                 me.$validator.validateAll().then(valid => {
@@ -182,7 +201,7 @@
                 const me = this
                 me.loader(true)
                 let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
-                me.$axios.post('api/referral-link', formData, {
+                me.$axios.get('api/referral-link', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group alt">
                         <div class="form_custom_checkbox">
-                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.id == firstSeatID) ? 'active' : (seat.id == secondSeatID ? 'active' : '')}`" v-for="(seat, key) in seatNumbers" :key="key" @click="toggleSeat(seat, key)">
+                            <div :id="`seat_${key}`" :class="`custom_checkbox ${(seat.id == firstSeatID) ? 'active' : (seat.id == secondSeatID ? 'active' : '')}`" v-for="(seat, key) in seats" :key="key" @click="toggleSeat(seat, key)">
                                 <label>Bike No. {{ seat.number }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -15,8 +15,11 @@
                                         <path class="mark" d="M6466.494,185.005l4.85,4.85,9.6-9.6" transform="translate(-5653.091 142.403)" />
                                     </g>
                                 </svg>
-                                <div class="info">
-                                    <p>{{ (seat.temp.guest == 0) ? 'Me' : `${seat.temp.customer.first_name} ${seat.temp.customer.last_name}` }}</p>
+                                <div class="info" v-if="seat.bookings[0].is_guest == 0">
+                                    <p>Me</p>
+                                </div>
+                                <div class="info" v-else>
+                                    <p>{{ (seat.bookings[0].user == null) ? `${seat.bookings[0].guest_first_name} ${seat.bookings[0].guest_last_name}` : `${seat.bookings[0].user.first_name} ${seat.bookings[0].user.last_name}` }}</p>
                                 </div>
                             </div>
                         </div>
@@ -33,14 +36,16 @@
 <script>
     export default {
         props: {
-            seatNumbers: {
+            seats: {
                 default: null
             }
         },
         data () {
             return {
+                firstBooking: 0,
                 firstSeatID: 0,
                 firstSeatIndex: null,
+                secondBooking: 0,
                 secondSeatID: 0,
                 secondSeatIndex: null,
                 hasSelectedTwo: false,
@@ -48,81 +53,33 @@
             }
         },
         methods: {
-            /**
-             * [swapTempObjects swap temp seat temp object]
-             * @param  {[int]} index1 [first selected seat]
-             * @param  {[int]} index2 [second selected seat]
-             * @return {[object]}        [updated tempSeat object]
-             */
-            swapTempObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].temp
-                temp[index1].temp = temp[index2].temp
-                temp[index2].temp = b
-                return temp
-            },
-            /**
-             * [swapStatusObjects swap temp seat status value]
-             * @param  {[int]} index1 [first selected seat]
-             * @param  {[int]} index2 [second selected seat]
-             * @return {[object]}        [updated tempSeat object]
-             */
-            swapStatusObjects (index1, index2) {
-                const me = this
-                let temp = me.seatNumbers
-                var b = temp[index1].status
-                temp[index1].status = temp[index2].status
-                temp[index2].status = b
-                return temp
-            },
             submissionSuccess () {
                 const me = this
                 let tempSeat = null
                 if (me.secondSeatID) {
                     me.loader(true)
+                    let formData = new FormData()
+                    formData.append('first_booking_id', me.firstBooking)
+                    formData.append('second_booking_id', me.secondBooking)
 
-                    tempSeat = me.swapTempObjects(me.firstSeatIndex, me.secondSeatIndex)
-                    tempSeat = me.swapStatusObjects(me.firstSeatIndex, me.secondSeatIndex)
-
-                    tempSeat.forEach((element, index) => {
-                        if (element.temp.guest == 0) {
-                            me.$parent.tempOriginalSeat = element
+                    me.$axios.post(`api/bookings/swap-seats`, formData).then(res => {
+                        if (res.data) {
+                            setTimeout( () => {
+                                me.$store.state.bookerChooseSeatStatus = false
+                                me.$parent.promptMessage = "You've successfully swapped seats."
+                                me.$store.state.bookerPromptStatus = true
+                            }, 500)
                         }
-                    })
-
-                    me.$parent.toSubmit.tempSeat = tempSeat
-
-                    Object.keys(me.$parent.seats).forEach((parent) => {
-                        Object.keys(me.$parent.seats[parent]).forEach((child) => {
-                            if (child == 'data') {
-                                for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
-                                    for (let j = 0; j < tempSeat.length; j++) {
-                                        if (tempSeat[j].id == me.$parent.seats[parent][child][i].id) {
-                                            me.$parent.seats[parent][child][i] = tempSeat[j]
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                    })
-                    if (me.$parent.added != null && me.$parent.added != undefined) {
-                        me.$parent.added++
-                    }
-                    me.$store.state.bookerChooseSeatStatus = false
-                    me.$parent.status = true
-                    setTimeout( () => {
-                        // me.$parent.promptMessage = "You've successfully swapped seats."
-                        // me.$store.state.bookerPromptStatus = true
-                        document.body.classList.remove('no_scroll')
-                        me.loader(false)
-                    }, 500)
-
-                    me.$parent.removeNext = false
-                    
-                    this.$scrollTo('.next_wrapper .right .default_btn', {
-                        duration: 1000,
-                        offset: -750
+                    }).catch(err => {
+                        setTimeout( () => {
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }, 500)
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.$parent.fetchSeats(me.$route.params.slug)
+                        }, 500)
                     })
                 }
             },
@@ -135,12 +92,14 @@
                 const me = this
                 if (me.seatCtr < 2) {
                     if (me.firstSeatID != data.id) {
+                        me.secondBooking = data.bookings[0].id
                         me.secondSeatID = data.id
                         me.secondSeatIndex = unique
                         me.seatCtr++
                     }
                 } else {
                     if (data.id != me.secondSeatID) {
+                        me.firstBooking = data.bookings[0].id
                         me.firstSeatID = data.id
                         me.firstSeatIndex = unique
                         me.seatCtr--
@@ -158,8 +117,9 @@
         },
         mounted () {
             const me = this
-            me.seatNumbers.forEach((element, index) => {
-                if (element.temp.guest == 0) {
+            me.seats.forEach((element, index) => {
+                if (element.bookings[0].is_guest == 0) {
+                    me.firstBooking = element.bookings[0].id
                     me.firstSeatID = element.id
                     me.firstSeatIndex = index
                 }

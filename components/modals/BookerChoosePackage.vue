@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div :class="`form_custom_checkbox ${(classPackages.length > 4) ? 'scroll' : ''}`">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.no_more ? 'nope' : '') : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)">
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? '' : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="parseInt(data.count) > 0">
                                 <label>{{ data.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -17,7 +17,7 @@
                                 </svg>
                                 <div class="info">
                                     <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
-                                    <p>Expires on {{ formatDate(data.class_package.computed_expiration_date) }}</p>
+                                    <p>Expires on {{ formatDate((data.class_package.computed_expiration_date != null) ? data.class_package.computed_expiration_date : data.class_package.updated_at ) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
 <script>
     export default {
         props: {
-            tempSeat: {
+            seat: {
                 default: null
             },
             category: {
@@ -47,6 +47,7 @@
         },
         data () {
             return {
+                user: [],
                 classPackages: [],
                 classPackage: [],
                 selectedClassPackage: null,
@@ -91,145 +92,106 @@
                                         me.$parent.removeNext = false
                                     }
                                 }).catch(err => {
-                                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                                    me.$store.state.errorOverlayPromptStatus = true
+                                    me.$store.state.errorList = err.response.data.errors
+                                    me.$store.state.errorPromptStatus = true
                                     me.loader(false)
                                 })
                             }
                         }).catch(err => {
-                            console.log(err)
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                            me.loader(false)
                         })
                     /**
                      * Book a ride */
                     } else if (me.type == 1) {
-                        let newTemp = me.tempSeat
-                        /**
-                         * Check if has temp */
-                        if (me.tempSeat != null) {
-                            if (!me.tempSeat.temp && !me.$parent.hasBooked) {
-                                newTemp.temp = {}
-                                newTemp.status = 'reserved'
-                                newTemp.temp.guest = 0
-                                newTemp.temp.user_package_count = me.selectedClassPackage
-                                newTemp.temp.customer = me.$parent.user
-                                me.$parent.tempOriginalSeat = newTemp
-                                me.$parent.toSubmit.bookCount++
-                                if (me.$parent.toSubmit.tempSeat.length > 0) {
-                                    me.$parent.hasGuest = true
-                                    me.$parent.toSubmit.tempSeat.unshift(newTemp)
-                                } else {
-                                    me.$parent.toSubmit.tempSeat.push(newTemp)
-                                }
-                                me.$parent.canSwitch = true
-                                me.$parent.hasBooked = true
-                                me.$parent.status = true
-                                me.$store.state.bookerChoosePackageStatus = false
+                        let newTemp = me.seat
+                        if (me.seat != null) {
+                            if (!me.seat.bookings.length > 0 && !me.$parent.hasBooked) {
                                 me.loader(true)
-                                setTimeout(() => {
-                                    document.body.classList.remove('no_scroll')
-                                    me.loader(false)
-                                }, 500)
-                                this.$scrollTo('.next_wrapper .right .default_btn', {
-                                    duration: 1000,
-                                    offset: -750
+                                let formData = new FormData()
+                                formData.append('is_guest', 0)
+                                formData.append('scheduled_date_id', me.$route.params.slug)
+                                formData.append('seat_id', me.seat.id)
+                                formData.append('user_id', me.user.id)
+                                formData.append('user_package_count_id', me.selectedPackage)
+                                me.loader(true)
+                                me.$axios.post('api/bookings', formData).then(res => {
+                                    if (res.data) {
+                                        setTimeout( () => {
+                                            me.$store.state.bookerChoosePackageStatus = false
+                                            me.$store.state.bookerPromptStatus = true
+                                            me.$parent.promptMessage = 'Your seat has been successfully reserved.'
+                                            me.$parent.firstBook = true
+                                            me.$parent.canSwitch = true
+                                            me.$parent.hasBooked = true
+                                            me.$parent.status = true
+                                        }, 500)
+                                    }
+                                }).catch(err => {
+                                    setTimeout( () => {
+                                        me.$store.state.errorOverlayPromptStatus = true
+                                        me.$store.state.errorList = err.response.data.errors
+                                        me.$store.state.errorPromptStatus = true
+                                    }, 500)
+                                }).then(() => {
+                                    setTimeout( () => {
+                                        me.loader(false)
+                                    }, 500)
                                 })
                             } else {
-                                /**
-                                 * check if the temp has class_package */
-                                if (me.tempSeat.temp && me.tempSeat.temp.user_package_count) {
-                                    /**
-                                     * Update the package if the user choose package */
-                                    if (me.tempSeat.temp) {
-                                        let hasSamePackage = false
-                                        let ctr = 0
-                                        me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                            /**
-                                             * Check all packages except the selected */
-                                            if (me.tempSeat.temp.customer.id != element.temp.customer.id) {
-                                                /**
-                                                * if has the same package */
-                                                if (me.selectedClassPackage.id == (element.temp && element.temp.user_package_count.id)) {
-                                                    ctr++
-                                                    let existingCount = element.temp.user_package_count.count
-                                                    let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
-                                                    /**
-                                                    * check the package count */
-                                                    if (resultsWhenDeducted < 0) {
-                                                        hasSamePackage = true
-                                                    }
-                                                }
-                                            }
-                                        })
-                                        if (!hasSamePackage) {
-                                            me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                                if (me.tempSeat.temp.customer.id == element.temp.customer.id) {
-                                                    let tempClassPackage = newTemp.temp.user_package_count
-                                                    /**
-                                                     * Check if the the user changed package */
-                                                    if (me.$route.name == 'my-profile-manage-class-slug') {
-                                                        if (!element.temp.old_user_package_count_id) {
-                                                            newTemp.temp.changedPackage = 1
-                                                            newTemp.temp.old_user_package_count_id = element.temp.user_package_count.id
-                                                        }
-                                                    }
-                                                    /**
-                                                    * for original booker */
-                                                    if (element.temp.guest == 0) {
-                                                        newTemp.temp.user_package_count = me.selectedClassPackage
-                                                        me.$parent.toSubmit.tempSeat.splice(index, 1)
-                                                        if (me.$parent.toSubmit.tempSeat.length > 0) {
-                                                            me.$parent.toSubmit.tempSeat.unshift(newTemp)
-                                                        } else {
-                                                            me.$parent.toSubmit.tempSeat.push(newTemp)
-                                                        }
-                                                        me.$store.state.bookerChoosePackageStatus = false
-                                                        document.body.classList.remove('no_scroll')
-                                                        me.$parent.removeNext = false
-                                                    /**
-                                                    * for original booker guest */
-                                                    } else {
-                                                        newTemp.temp.user_package_count = me.selectedClassPackage
-                                                        me.$parent.tempClassPackage = me.selectedClassPackage
-                                                        me.$parent.toSubmit.tempSeat.splice(index, 1)
-                                                        me.$parent.toSubmit.tempSeat.push(newTemp)
-                                                        me.$store.state.bookerChoosePackageStatus = false
-                                                        document.body.classList.remove('no_scroll')
-                                                        me.$parent.removeNext = false
-                                                    }
-                                                }
-                                            })
-                                        } else {
-                                            me.$store.state.bookerChoosePackageStatus = false
-                                            me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
-                                            me.$store.state.bookerPromptStatus = true
+                                if (me.seat.bookings.length > 0) {
+                                    me.loader(true)
+                                    let formData = new FormData(document.getElementById('default_form'))
+                                    formData.append('booking_id', me.seat.bookings[0].id)
+                                    formData.append('new_user_package_count_id', me.selectedPackage)
+                                    formData.append('old_user_package_count_id', me.tempSelectedPackage)
+                                    me.loader(true)
+                                    me.$axios.post('api/bookings/change-package', formData).then(res => {
+                                        if (res.data) {
+                                            setTimeout( () => {
+                                                me.$store.state.bookerChoosePackageStatus = false
+                                                me.$parent.promptMessage = "You've successfully changed package."
+                                                me.$store.state.bookerPromptStatus = true
+                                            }, 500)
                                         }
-                                    }
-                                } else {
-                                    let hasGuestSamePackage = false
-                                    let ctr = 0
-                                    /**
-                                     * Check if the package has rides left */
-                                    me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                        if (me.selectedClassPackage.id == (element.temp && element.temp.user_package_count.id)) {
-                                            ctr++
-                                            let existingCount = element.temp.user_package_count.count
-                                            let resultsWhenDeducted = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
-                                            if (resultsWhenDeducted < 0) {
-                                                hasGuestSamePackage = true
-                                            }
-                                        }
+                                    }).catch(err => {
+                                        setTimeout( () => {
+                                            me.$store.state.errorOverlayPromptStatus = true
+                                            me.$store.state.errorList = err.response.data.errors
+                                            me.$store.state.errorPromptStatus = true
+                                        }, 500)
+                                    }).then(() => {
+                                        setTimeout( () => {
+                                            me.$parent.fetchSeats(me.$route.params.slug)
+                                        }, 500)
                                     })
-                                    if (!hasGuestSamePackage) {
-                                        /**
-                                         * Adding a guest */
-                                        me.$parent.tempClassPackage = me.selectedClassPackage
-                                        me.$store.state.bookerChoosePackageStatus = false
-                                        me.$store.state.bookerAssignStatus = true
-                                    } else {
-                                        me.$parent.tempGuestSeat = null
-                                        me.$store.state.bookerChoosePackageStatus = false
-                                        me.$parent.promptMessage = "The class package you selected doesn't have enough rides left."
-                                        me.$store.state.bookerPromptStatus = true
-                                    }
+                                } else {
+                                    me.loader(true)
+                                    let formData = new FormData()
+                                    formData.append('scheduled_date_id', me.$route.params.slug)
+                                    formData.append('user_id', me.user.id)
+                                    me.$axios.post('api/extras/check-if-user-is-booked-already', formData).then(res => {
+                                        setTimeout( () => {
+                                            if (res.data.result > 0) {
+                                                me.$parent.tempClassPackage = me.selectedClassPackage
+                                                me.$store.state.bookerChoosePackageStatus = false
+                                                me.$store.state.bookerAssignStatus = true
+                                            }
+                                        }, 500);
+                                    }).catch(err => {
+                                        setTimeout( () => {
+                                            me.$store.state.errorOverlayStatus = true
+                                            me.$store.state.errorList = err.response.data.errors
+                                            me.$store.state.errorStatus = true
+                                        }, 500)
+                                    }).then(() => {
+                                        setTimeout( () => {
+                                            me.loader(false)
+                                        }, 500)
+                                    })
                                 }
                             }
                         }
@@ -284,57 +246,20 @@
                 if (res.data) {
                     let countCtr = 0
                     let newCtr = 0
+                    me.user = res.data.user
                     id = res.data.user.id
                     me.$axios.get(`api/customers/${id}/packages${(me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') ? `?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}` : ''}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {
-                                    let ctr = 0
-                                    if (me.$route.name == 'my-profile-manage-class-slug') {
-                                        if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
-                                            newCtr++
-                                        }
-                                    }
-                                    if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0) {
-                                        if (me.category == 'inner') {
-                                            if (me.$parent.toSubmit.tempSeat.length > 0) {
-                                                me.$parent.toSubmit.tempSeat.forEach((pData, index) => {
-                                                    if (pData.temp.user_package_count.id == data.id) {
-                                                        ctr++
-                                                        let existingCount = pData.temp.user_package_count.count
-                                                        if (pData.temp.user_package_count.count == me.$parent.schedule.schedule.class_credits || pData.temp.user_package_count.count == 0) {
-                                                            data.count = data.count - me.$parent.schedule.schedule.class_credits
-                                                            data.no_more = true
-                                                        } else {
-                                                            let resultsWhenDeducted = existingCount - ((ctr) * me.$parent.schedule.schedule.class_credits)
-                                                            if (resultsWhenDeducted < 0) {
-                                                                data.no_more = true
-                                                                if (existingCount - me.$parent.schedule.schedule.class_credits < 0) {
-                                                                    data.count = existingCount
-                                                                } else {
-                                                                    data.count = existingCount - me.$parent.schedule.schedule.class_credits
-                                                                }
-                                                            } else {
-                                                                if (parseInt(data.count) - me.$parent.schedule.schedule.class_credits >= me.$parent.schedule.schedule.class_credits) {
-                                                                    data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits) + parseInt(me.$parent.schedule.schedule.class_credits)
-                                                                } else {
-                                                                    data.count = existingCount - (ctr * me.$parent.schedule.schedule.class_credits)
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                })
-                                            }
-                                        }
-                                        me.classPackages.push(data)
-                                    }
                                     if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
                                         countCtr++
                                     }
+                                    me.classPackages.push(data)
                                 })
                                 if (me.$parent.tempOriginalSeat == null) {
                                     for (let i = 0; i < me.classPackages.length; i++) {
-                                        if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
+                                        if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
                                             me.selectedClassPackage = me.classPackages[i]
                                             me.selectedPackage = me.classPackages[i].id
                                             me.tempSelectedPackage = me.classPackages[i].id
@@ -343,14 +268,14 @@
                                     }
                                 } else {
                                     if (me.$parent.tempGuestSeat == null) {
-                                        me.selectedClassPackage = me.tempSeat.temp.user_package_count
-                                        me.selectedPackage = me.tempSeat.temp.user_package_count.id
-                                        me.tempSelectedPackage = me.tempSeat.temp.user_package_count.id
+                                        me.selectedClassPackage = me.seat.bookings[0].user_package_count
+                                        me.selectedPackage = me.seat.bookings[0].user_package_count.id
+                                        me.tempSelectedPackage = me.seat.bookings[0].user_package_count.id
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
-                                            if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits && !me.classPackages[i].no_more) {
-                                                if (me.tempSeat.temp) {
-                                                    if (me.tempSeat.temp.user_package_count.id == me.classPackages[i].id) {
+                                            if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
+                                                if (me.seat.bookings.length > 0) {
+                                                    if (me.seat.bookings[0].user_package_count.id == me.classPackages[i].id) {
                                                         me.selectedClassPackage = me.classPackages[i]
                                                         me.selectedPackage = me.classPackages[i].id
                                                         me.tempSelectedPackage = me.classPackages[i].id
@@ -366,70 +291,28 @@
                                         }
                                     }
                                 }
-                                /**
-                                 * Check if the the user changed package */
-                                if (me.$route.name == 'my-profile-manage-class-slug') {
-                                    me.notSelectedPackage = false
-                                } else {
-                                    let ctr = 0
-                                    me.classPackages.forEach((data, index) => {
-                                        if (data.no_more) {
-                                            ctr++
-                                        } else {
-                                            if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
-                                                ctr++
-                                            }
-                                        }
-                                    })
-                                    if (ctr == me.classPackages.length) {
-                                        me.notSelectedPackage = false
-                                    }
-                                }
-                            } else {
+                            }
+                            if (countCtr >= res.data.customer.user_package_counts.length) {
                                 me.$store.state.bookerChoosePackageStatus = false
-                                setTimeout( () => {
-                                    me.$parent.promptMessage = 'Please buy a class package first'
-                                }, 10)
-                                switch (me.category) {
-                                    case 'inner':
-                                        me.$parent.buyCredits = true
-                                        break
-                                }
-                                me.$store.state.bookerPromptStatus = true
+                                me.$store.state.buyPackageFirstStatus = true
                             }
-                            if (me.category == 'inner') {
-                                if (!me.tempSeat.temp) {
-                                    me.notSelectedPackage = true
-                                }
-                            }
-                            if (me.$route.name == 'my-profile-manage-class-slug') {
-                                if (countCtr == res.data.customer.user_package_counts.length) {
-                                    me.$store.state.bookerChoosePackageStatus = false
-                                    setTimeout( () => {
-                                        me.$parent.promptMessage = 'Please buy a class package first'
-                                    }, 10)
-                                    switch (me.category) {
-                                        case 'inner':
-                                            me.$parent.buyCredits = true
-                                            break
+
+                            if (countCtr - res.data.customer.user_package_counts.length > 1) {
+                                if (me.$parent.manage && me.seat.bookings.length > 0) {
+                                    if (me.tempSelectedPackage == me.selectedPackage) {
+                                        me.notSelectedPackage = false
+                                    } else {
+                                        me.notSelectedPackage = true
                                     }
-                                    me.$store.state.bookerPromptStatus = true
-                                }
-                            } else {
-                                if (countCtr >= res.data.customer.user_package_counts.length) {
-                                    me.$store.state.bookerChoosePackageStatus = false
-                                    me.$store.state.buyPackageFirstStatus = true
-                                }
-                                if (newCtr == res.data.customer.user_package_counts.length) {
-                                    me.$store.state.bookerChoosePackageStatus = false
-                                    me.$store.state.buyPackageFirstStatus = true
                                 }
                             }
                         }
                     })
                 }
             }).catch(err => {
-                console.log(err);
+                me.$store.state.errorOverlayPromptStatus = true
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
             }).then(() => {
                 setTimeout(() => {
                     me.loader(false)

@@ -1,147 +1,149 @@
 <template>
-    <div class="buy_rides inner fish">
-        <section id="payments" :class="`${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
-            <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
-                <transition name="slideX">
-                    <div v-if="step == 1">
-                        <h1 class="header_title">Buy Class Package</h1>
-                        <div class="wrapper">
-                            <div class="left">
-                                <div class="header">
-                                    <h2>{{ res.name }}</h2>
-                                    <h2 :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price) }}</h2>
-                                    <h2 v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</h2>
+    <transition name="fade">
+        <div class="buy_rides inner fish" v-if="loaded">
+            <section id="payments" :class="`${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
+                <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
+                    <transition name="slideX">
+                        <div v-if="step == 1">
+                            <h1 class="header_title">Buy Class Package</h1>
+                            <div class="wrapper">
+                                <div class="left">
+                                    <div class="header">
+                                        <h2>{{ res.name }}</h2>
+                                        <h2 :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price) }}</h2>
+                                        <h2 v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</h2>
+                                    </div>
+                                    <div class="content" v-html="res.description">
+                                    </div>
                                 </div>
-                                <div class="content" v-html="res.description">
-                                </div>
-                            </div>
-                            <div class="right">
-                                <div id="default_form">
-                                    <div class="form_flex with_btn">
-                                        <div class="form_group">
-                                            <label for="promo_code">Promo Code</label>
-                                            <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-validate="{regex: '^[a-zA-Z0-9-|\-|\_]*$'}" v-model="form.promo">
-                                            <transition name="slide"><span class="validation_errors" v-if="errors.has('promo_code')">{{ errors.first('promo_code') | properFormat }}</span></transition>
+                                <div class="right">
+                                    <div id="default_form">
+                                        <div class="form_flex with_btn">
+                                            <div class="form_group">
+                                                <label for="promo_code">Promo Code</label>
+                                                <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-validate="{regex: '^[a-zA-Z0-9-|\-|\_]*$'}" v-model="form.promo">
+                                                <transition name="slide"><span class="validation_errors" v-if="errors.has('promo_code')">{{ errors.first('promo_code') | properFormat }}</span></transition>
+                                            </div>
+                                            <div class="form_button">
+                                                <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(res.id)"><span>Apply</span></button>
+                                            </div>
                                         </div>
-                                        <div class="form_button">
-                                            <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(res.id)"><span>Apply</span></button>
+                                    </div>
+                                    <div class="breakdown_list">
+                                        <div class="item">
+                                            <p>Subtotal</p>
+                                            <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price) }}</p>
+                                        </div>
+                                        <div class="item">
+                                            <p>Discount</p>
+                                            <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
+                                        </div>
+                                        <div class="total">
+                                            <p>You Pay</p>
+                                            <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="breakdown_list">
-                                    <div class="item">
-                                        <p>Subtotal</p>
-                                        <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price) }}</p>
-                                    </div>
-                                    <div class="item">
-                                        <p>Discount</p>
-                                        <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
-                                    </div>
-                                    <div class="total">
-                                        <p>You Pay</p>
-                                        <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
-                                    </div>
-                                </div>
-                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
-                                    <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
-                                    <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
-                                </div>
-                                <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile"><span>Back</span></nuxt-link>
-                                <div class="action_mobile" v-else>
-                                    <div class="m_left">
-                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
-                                    </div>
-                                    <div class="m_right">
+                                    <div class="breakdown_actions" v-if="!$store.state.isMobile">
                                         <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                         <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-            </div>
-            <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`">
-                <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
-                    <div v-if="step == 2" class="preview_payment">
-                        <h2 class="header_title">Let’s make sure we got this right.</h2>
-                        <div class="preview">
-                            <div class="item">
-                                <h3>{{ res.name }}</h3>
-                                <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price) }}</p>
-                            </div>
-                            <div class="item">
-                                <h3>Rides</h3>
-                                <p>{{ res.class_count }}</p>
-                            </div>
-                            <div class="item">
-                                <h3>Discount</h3>
-                                <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
-                            </div>
-                            <div class="available" v-if="!paypal">
-                                <div :class="`available_item ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'insufficient' : ''}`">
-                                    <h3>Available Store Credits</h3>
-                                    <p class="store_credits">{{ totalItems(storeCredits) }}</p>
-                                    <transition name="slide">
-                                        <div class="unavailable" v-if="(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)))">
-                                            <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}#storecredits`">Buy Credits</nuxt-link>
-                                            <p>*Your store credits are insufficient.</p>
+                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile"><span>Back</span></nuxt-link>
+                                    <div class="action_mobile" v-else>
+                                        <div class="m_left">
+                                            <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                         </div>
-                                    </transition>
-                                </div>
-                            </div>
-                            <div class="total">
-                                <p>You Pay</p>
-                                <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
-                            </div>
-                            <div class="preview_actions" v-if="!$store.state.isMobile">
-                                <div class="left">
-                                    <div class="default_btn_blk" @click="stepBack()">Back</div>
-                                </div>
-                                <div class="right">
-                                    <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
-                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
-                                </div>
-                            </div>
-                            <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
-                                <p>Note: Paypal account not needed</p>
-                                <div class="wrapper">
-                                    <img src="/icons/paypal.svg" />
-                                    <img src="/icons/visa.svg" />
-                                    <img src="/icons/mastercard.svg" />
-                                </div>
-                            </div>
-                            <div class="action_mobile" v-if="$store.state.isMobile">
-                                <div class="left">
-                                    <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
-                                </div>
-                                <div class="right">
-                                    <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
-                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
-                                    <div class="paypal_disclaimer" v-if="type == 'paynow'">
-                                        <p>Note: Paypal account not needed</p>
-                                        <div class="wrapper">
-                                            <img src="/icons/paypal.svg" />
-                                            <img src="/icons/visa.svg" />
-                                            <img src="/icons/mastercard.svg" />
+                                        <div class="m_right">
+                                            <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
+                                            <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </transition>
-            </div>
-        </section>
-        <transition name="fade">
-            <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
-        </transition>
-        <transition name="fade">
-            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :summary="summary" />
-        </transition>
-    </div>
+                    </transition>
+                </div>
+                <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`">
+                    <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
+                        <div v-if="step == 2" class="preview_payment">
+                            <h2 class="header_title">Let’s make sure we got this right.</h2>
+                            <div class="preview">
+                                <div class="item">
+                                    <h3>{{ res.name }}</h3>
+                                    <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price) }}</p>
+                                </div>
+                                <div class="item">
+                                    <h3>Rides</h3>
+                                    <p>{{ res.class_count }}</p>
+                                </div>
+                                <div class="item">
+                                    <h3>Discount</h3>
+                                    <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
+                                </div>
+                                <div class="available" v-if="!paypal">
+                                    <div :class="`available_item ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'insufficient' : ''}`">
+                                        <h3>Available Store Credits</h3>
+                                        <p class="store_credits">{{ totalItems(storeCredits) }}</p>
+                                        <transition name="slide">
+                                            <div class="unavailable" v-if="(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)))">
+                                                <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}#storecredits`">Buy Credits</nuxt-link>
+                                                <p>*Your store credits are insufficient.</p>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                </div>
+                                <div class="total">
+                                    <p>You Pay</p>
+                                    <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
+                                </div>
+                                <div class="preview_actions" v-if="!$store.state.isMobile">
+                                    <div class="left">
+                                        <div class="default_btn_blk" @click="stepBack()">Back</div>
+                                    </div>
+                                    <div class="right">
+                                        <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                        <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                    </div>
+                                </div>
+                                <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
+                                    <p>Note: Paypal account not needed</p>
+                                    <div class="wrapper">
+                                        <img src="/icons/paypal.svg" />
+                                        <img src="/icons/visa.svg" />
+                                        <img src="/icons/mastercard.svg" />
+                                    </div>
+                                </div>
+                                <div class="action_mobile" v-if="$store.state.isMobile">
+                                    <div class="left">
+                                        <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                    </div>
+                                    <div class="right">
+                                        <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
+                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                        <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                        <div class="paypal_disclaimer" v-if="type == 'paynow'">
+                                            <p>Note: Paypal account not needed</p>
+                                            <div class="wrapper">
+                                                <img src="/icons/paypal.svg" />
+                                                <img src="/icons/visa.svg" />
+                                                <img src="/icons/mastercard.svg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+            </section>
+            <transition name="fade">
+                <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
+            </transition>
+            <transition name="fade">
+                <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :summary="summary" />
+            </transition>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -170,6 +172,7 @@
                 message: '',
                 promoApplied: false,
                 promo: false,
+                loaded: false,
                 form: {
                     promo: '',
                     discount: 0,
@@ -363,7 +366,8 @@
             return await $axios.get(`api/packages/web/class-packages/${params.slug}`).then(res => {
                 if (res.data) {
                     return {
-                        res: res.data.classPackage
+                        res: res.data.classPackage,
+                        loaded: true
                     }
                 }
             }).catch(err => {
