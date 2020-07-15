@@ -170,9 +170,9 @@
                     <div class="counter">3/4</div>
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
-                    <div class="form_group date">
-                        <label for="birth_date">Birthdate <span>*</span></label>
-                        <input type="date" name="birth_date" autocomplete="off" :max="$moment().format('YYYY-MM-DD')" class="input_text" v-model="signUpForm.birth_date" v-validate="'required|date_format:yyyy-MM-dd'">
+                    <div class="form_group">
+                        <label for="birth_date">Birth Date <span>*</span></label>
+                        <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="signUpForm.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
                     </div>
                     <div class="form_group select">
@@ -277,7 +277,7 @@
                     first_name: '',
                     last_name: '',
                     contact_number: '',
-                    birth_date: 'YYYY-MM-DD',
+                    birth_date: '',
                     what_do_you_do: '',
                     sex: '',
                     iAgree: ''
@@ -337,6 +337,10 @@
             }
         },
         methods: {
+            inputDate (event) {
+                const me = this
+                me.signUpForm.birth_date = me.parseInputToDate(event.target.value)
+            },
             checkValidity (type, event) {
                 const me = this
                 let value = event.target.value

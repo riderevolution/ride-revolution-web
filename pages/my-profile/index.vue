@@ -24,14 +24,25 @@
                         </div>
                         <div class="right">
                             <div class="data">
-                                <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2> <span><img :src="user.customer_details.customer_type.images[0].path" /></span></div>
+                                <div class="name">
+                                    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                                    <span>
+                                        <img :src="user.customer_details.customer_type.images[0].path" @click="hoveredType ^= true" @mouseenter="hoveredType = true" @mouseleave="hoveredType = false" />
+                                        <transition name="slide">
+                                            <span class="tooltip" v-if="hoveredType">{{ user.customer_details.customer_type.name }}</span>
+                                        </transition>
+                                    </span>
+                                </div>
                                 <!-- <div class="name"><h2>{{ user.first_name }} {{ user.last_name }}</h2></div> -->
                                 <div class="info">
                                     <div class="label">Username <b>{{ user.member_id }}</b></div>
                                     <div class="label">Store Credits <b>{{ totalItems(storeCredits) }}</b></div>
                                 </div>
                             </div>
-                            <div class="default_btn_wht_out" @click="checkUser()"><span>Update Profile</span></div>
+                            <div class="btn">
+                                <div class="default_btn_wht" @click="viewImage(user.qr_url)"><span>QR Code</span></div>
+                                <div class="default_btn_wht_out ml" @click="checkUser()"><span>Update Profile</span></div>
+                            </div>
                         </div>
                     </div>
                     <div class="bottom">
@@ -45,32 +56,13 @@
                         </ul>
                         <div class="mobile" v-else>
                             <div class="tab_toggler">
+                                <div class="toggler" @click.self="toggleDetails($event)">Menu</div>
                                 <ul class="tab_wrapper">
-                                    <li :class="`tab_item full ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">
-                                        <div class="tab_item_link">
-                                            Ride Rev Journey
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">
-                                        <div class="tab_item_link">
-                                            Classes
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">
-                                        <div class="tab_item_link">
-                                            Packages
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">
-                                        <div class="tab_item_link">
-                                            Transactions
-                                        </div>
-                                    </li>
-                                    <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">
-                                        <div class="tab_item_link">
-                                            Gift Cards
-                                        </div>
-                                    </li>
+                                    <li :class="`tab_item ${(category == 'ride-rev-journey') ? 'active' : ''}`" @click="toggleTab(0, 'ride-rev-journey')">Ride Rev Journey</li>
+                                    <li :class="`tab_item ${(category == 'classes') ? 'active' : ''}`" @click="toggleTab(1, 'classes')">Classes</li>
+                                    <li :class="`tab_item ${(category == 'packages') ? 'active' : ''}`" @click="toggleTab(2, 'packages')">Packages</li>
+                                    <li :class="`tab_item ${(category == 'transactions') ? 'active' : ''}`" @click="toggleTab(3, 'transactions')">Transactions</li>
+                                    <li :class="`tab_item ${(category == 'gift-cards') ? 'active' : ''}`" @click="toggleTab(4, 'gift-cards')">Gift Cards</li>
                                 </ul>
                             </div>
                         </div>
@@ -105,6 +97,7 @@
                 },
                 loaded: false,
                 componentLoaded: false,
+                hoveredType: false,
                 category: 'ride-rev-journey',
                 storeCredits: 0,
                 first_name: '',
@@ -114,6 +107,23 @@
             }
         },
         methods: {
+            toggleDetails (event) {
+                const me = this
+                let target = event.target
+                if (target.parentNode.classList.contains('toggled')) {
+                    target.nextElementSibling.style.height = `${0}px`
+                    target.parentNode.classList.remove('toggled')
+                } else {
+                    target.parentNode.classList.add('toggled')
+                    target.nextElementSibling.style.height = `${target.nextElementSibling.scrollHeight}px`
+                }
+            },
+            viewImage (imageUrl) {
+                const me = this
+                me.$store.state.viewImageUrl = imageUrl
+                me.$store.state.imageViewerStatus = true
+                document.body.classList.add('no_scroll')
+            },
             checkUser () {
                 const me = this
                 if (me.user.new_user == 1) {

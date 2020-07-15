@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            viewImageUrl: '',
             resendEmailPrompt: false,
             oldUserEmail: '',
             oldUserUpdatePrompt: false,

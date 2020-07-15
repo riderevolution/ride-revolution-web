@@ -5174,13 +5174,13 @@
     /**
      * My Profile */
     #default_menu
-        .mobile
-            .menu_tab
-                .menu_tab_item
-                    flex: 0 0 100%
-                    brandon_bold(12px, true)
-                    margin-right: 0
-                    padding: 5px 10px
+        .menu_tab
+            .menu_tab_item
+                text-align: center
+                flex: 1 0 auto
+                brandon_bold(14px, true)
+                margin-right: 0
+                padding: 10px
     .no_results
         padding: 20px
         .text
@@ -5219,11 +5219,33 @@
                                     width: 60px
                                     height: 60px
                     .right
+                        .btn
+                            flex: 0 0 100%
+                            justify-content: space-between
+                            .default_btn_wht
+                                flex: 0 0 48.33%
+                            .default_btn_wht_out
+                                flex: 0 0 48.33%
+                                &.ml
+                                    margin-left: 0
                         .data
+                            flex: 0 0 100%
                             .name
                                 justify-content: center
                                 margin-top: 20px
                                 brandon_medium(16px, false)
+                                span
+                                    .tooltip
+                                        top: calc(0% - 20px)
+                                        right: 50%
+                                        transform: translateY(-50%) translateX(-72%)
+                                        &::before
+                                            top: calc(100% + 6px)
+                                            border-left: 7px solid transparent
+                                            border-right: 7px solid transparent
+                                            border-top: 7px solid #fff
+                                            left: 50%
+                                            transform: translateY(-50%) translateX(-50%)
                             .info
                                 justify-content: space-between
                                 margin: 15px 0
@@ -5240,8 +5262,8 @@
                         flex: 0 0 100%
                         .tab_item
                             flex: 0 0 100%
-                            brandon_regular(16px, false)
-                            padding: 5px 10px
+                            brandon_regular(18px, false)
+                            padding: 10px
             .profile_tab_content
                 margin: 0 0 30px
                 .wrapper
@@ -5250,9 +5272,8 @@
                         border-radius: 0px
                         margin: 10px 0 30px
                     #default_menu
-                        .mobile
-                            .menu_tab
-                                max-width: 100%
+                        .menu_tab
+                            max-width: 100%
                         .menu_tab_content
                             .profile_classes
                                 padding: 0
@@ -5316,6 +5337,9 @@
                         max-width: 100%
                         margin: 0 auto 10px
                         .with_info
+                            text-align: center
+                            &.flex
+                                justify-content: center
                             h2
                                 brandon_bold(12px, true)
                             .description_overlay
@@ -5350,7 +5374,7 @@
                                             brandon_medium(10px, true)
                                 .bottom
                                     .details
-                                        brandon_regular(12px, false)
+                                        brandon_regular(16px, false)
                                         padding: 15px 30px
                                     .package_info
                                         justify-content: center
@@ -5363,7 +5387,7 @@
                                                 brandon_regular(12px, false)
                                         .default_btn
                                             width: 100%
-                                            brandon_bold(12px, true)
+                                            brandon_bold(14px, true)
                                             padding: 10px
                     &.journey
                         margin-top: 10px

@@ -26,7 +26,7 @@
                         <div class="sub_label">
                             <div class="text">{{ res.first_name }} {{ res.last_name }}</div>
                             <!-- <img src="/sample-type.svg" /> -->
-                            <div class="default_btn_blue" @click="viewImage()" v-if="res.customer_details.images[0].path != null">View Photo</div>
+                            <div class="default_btn_blue" @click="viewImage(res.customer_details.images[0].path)" v-if="res.customer_details.images[0].path != null">View Photo</div>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -47,9 +47,9 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.email')">{{ errors.first('profile_overview_form.email') | properFormat }}</span></transition>
                     </div>
                     <div class="form_flex">
-                        <div class="form_group date">
-                            <label for="birth_date">Birthdate <span>*</span></label>
-                            <input type="date" name="birth_date" autocomplete="off" :max="$moment().format('YYYY-MM-DD')" class="input_text" v-validate="'required|date_format:yyyy-MM-dd'" v-model="profileOverview.birth_date">
+                        <div class="form_group">
+                            <label for="birth_date">Birth Date <span>*</span></label>
+                            <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="profileOverview.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
                         </div>
                         <div class="form_group">
@@ -283,7 +283,7 @@
                     first_name: '',
                     last_name: '',
                     email: '',
-                    birth_date: new Date(),
+                    birth_date: '',
                     contact_number: '',
                     sex: '',
                     shoe_size: '',
@@ -386,6 +386,10 @@
             }
         },
         methods: {
+            inputDate (event) {
+                const me = this
+                me.profileOverview.birth_date = me.parseInputToDate(event.target.value)
+            },
             toggleWorld (event, type, category) {
                 const me = this
                 let country_id = (category == 'pa') ? me.address.home_address_country : me.address.billing_address_country
@@ -405,8 +409,9 @@
                         break
                 }
             },
-            viewImage () {
+            viewImage (imageUrl) {
                 const me = this
+                me.$store.state.viewImageUrl = imageUrl
                 me.$store.state.imageViewerStatus = true
                 document.body.classList.add('no_scroll')
             },
