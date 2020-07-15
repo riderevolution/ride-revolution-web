@@ -96,16 +96,35 @@
                                             </transition>
 
                                             <transition name="fade">
-                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!isMobile && (data.bookings.length > 0 && (data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path != null) && (user.id == data.bookings[0].original_booker_id)) && schedule.guestHere" />
+                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!isMobile && (data.bookings.length > 0 && (data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path != null) && (schedule.original_booker_id == data.bookings[0].original_booker_id)) && schedule.guestHere" />
                                             </transition>
 
                                             <transition name="fade">
-                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path == null) && (user.id == data.bookings[0].original_booker_id)">
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path == null) && (user.id == data.bookings[0].original_booker_id) && !schedule.guestHere">
                                                     <div class="letter">
                                                         {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
                                                     </div>
                                                 </div>
-                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user == null) && (user.id == data.bookings[0].original_booker_id)">
+                                            </transition>
+
+                                            <transition name="fade">
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path == null) && (schedule.original_booker_id == data.bookings[0].original_booker_id) && schedule.guestHere">
+                                                    <div class="letter">
+                                                        {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
+                                                    </div>
+                                                </div>
+                                            </transition>
+
+                                            <transition name="fade">
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user == null) && (user.id == data.bookings[0].original_booker_id) && !schedule.guestHere">
+                                                    <div class="letter">
+                                                        {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
+                                                    </div>
+                                                </div>
+                                            </transition>
+
+                                            <transition name="fade">
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user == null) && (schedule.original_booker_id == data.bookings[0].original_booker_id) && schedule.guestHere">
                                                     <div class="letter">
                                                         {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
                                                     </div>
@@ -453,12 +472,15 @@
                 }
                 switch (seat.status) {
                     case 'open':
-                        result += 'open'
+                        if (me.schedule.guestHere) {
+                            result += 'blocked comp'
+                        } else {
+                            result += 'open'
+                        }
                         break
                     case 'reserved':
                     case 'reserved-guest':
                     case 'signed-in':
-
                         if (seat.bookings.length > 0) {
                             if (me.schedule.guestHere) {
                                 if (me.schedule.original_booker_id == seat.bookings[0].original_booker_id) {
