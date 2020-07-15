@@ -123,7 +123,7 @@
                                         setTimeout( () => {
                                             me.$store.state.bookerChoosePackageStatus = false
                                             me.$store.state.bookerPromptStatus = true
-                                            me.$parent.promptMessage = 'Seat has been successfully reserved.'
+                                            me.$parent.promptMessage = 'Your seat has been successfully reserved.'
                                             me.$parent.firstBook = true
                                             me.$parent.canSwitch = true
                                             me.$parent.hasBooked = true
@@ -153,7 +153,7 @@
                                         if (res.data) {
                                             setTimeout( () => {
                                                 me.$store.state.bookerChoosePackageStatus = false
-                                                me.$parent.promptMessage = 'Successfully changed package.'
+                                                me.$parent.promptMessage = "You've successfully changed package."
                                                 me.$store.state.bookerPromptStatus = true
                                             }, 500)
                                         }

@@ -604,7 +604,7 @@
                 me.$axios.post('api/bookings/switch-seat', formData).then(res => {
                     if (res.data) {
                         setTimeout( () => {
-                            me.promptMessage = `Successfully switched seat from number ${me.selectedSwitchSeat.number} to ${data.number}`
+                            me.promptMessage = `You've Successfully switched seat from number ${me.selectedSwitchSeat.number} to ${data.number}`
                             me.$store.state.bookerPromptStatus = true
                             document.body.classList.add('no_scroll')
                             me.isSwitchingSeat = false
@@ -669,10 +669,12 @@
                                 me.temp.forEach((seat, index) => {
                                     if (seat.bookings.length > 0) {
                                         if (seat.bookings[0].original_booker_id == me.user.id) {
-                                            me.toSubmit.tempSeat.unshift(seat)
                                             if (seat.bookings[0].is_guest == 0) {
                                                 me.bookingID = seat.bookings[0].id
                                                 me.tempOriginalSeat = seat
+                                                me.toSubmit.tempSeat.unshift(seat)
+                                            } else {
+                                                me.toSubmit.tempSeat.push(seat)
                                             }
                                             me.ctr++
                                         }

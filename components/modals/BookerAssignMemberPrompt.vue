@@ -69,7 +69,7 @@
                                             me.$parent.hasGuest = true
                                             me.$store.state.bookerAssignStatus = false
                                             me.$store.state.bookerAssignMemberPromptStatus = false
-                                            me.$parent.message = 'Seat has been reserved to a Guest.'
+                                            me.$parent.message = 'Seat has been reserved to your Guest.'
                                             me.$store.state.bookerAssignSuccessStatus = true
                                         }, 500)
                                     }
