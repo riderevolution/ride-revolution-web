@@ -297,14 +297,16 @@
                                 me.$store.state.buyPackageFirstStatus = true
                             }
 
-                            if (countCtr - res.data.customer.user_package_counts.length > 1) {
-                                if (me.$parent.manage && me.seat.bookings.length > 0) {
+                            if (me.$parent.manage && me.seat.bookings.length > 0) {
+                                if (res.data.customer.user_package_counts.length - countCtr >= 1) {
                                     if (me.tempSelectedPackage == me.selectedPackage) {
                                         me.notSelectedPackage = false
                                     } else {
                                         me.notSelectedPackage = true
                                     }
                                 }
+                            } else {
+                                me.notSelectedPackage = true
                             }
                         }
                     })
