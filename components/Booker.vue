@@ -972,6 +972,7 @@
         },
         mounted () {
             const me = this
+            alert(1)
             me.onResize()
         },
         beforeMount () {
