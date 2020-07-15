@@ -4942,8 +4942,15 @@ svg
                 flex: 0 0 calc(75% - 30px)
                 margin-left: 30px
                 .header
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    justify-content: space-between
                     padding: 20px
                     border-bottom: 1px solid $border_alt
+                    .header_left,
+                    .header_right
+                        flex: 0 0 auto
                 .content
                     padding: 30px 0
                     &#parent_2

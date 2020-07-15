@@ -1,7 +1,7 @@
 <template>
     <div class="default_modal">
         <div class="background" @click="toggleClose()"></div>
-            <form id="default_form" class="overlay alt_2" @submit.prevent="submissionSuccess()">
+            <form id="default_form" class="overlay alt_2 assign" @submit.prevent="submissionSuccess()">
                 <div class="modal_wrapper">
                     <h2 class="form_title">Add a guest</h2>
                     <div class="form_close" @click="toggleClose()"></div>
@@ -125,13 +125,13 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
+                        me.$parent.assignType = me.assignType
                         if (me.assignType == 'member') {
                             let formData = new FormData()
                             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                             me.loader(true)
                             formData.append('member_id', me.memberID)
                             formData.append('scheduled_date_id', me.$route.params.slug)
-                            formData.append('temp_seats', JSON.stringify(me.$parent.toSubmit.tempSeat))
                             me.$axios.post('api/customers/member-id-search', formData, {
                                 headers: {
                                     Authorization: `Bearer ${token}`
@@ -140,7 +140,6 @@
                                 if (res.data) {
                                     me.$parent.customer = res.data
                                     setTimeout( () => {
-                                        me.$store.state.bookerAssignStatus = false
                                         me.$store.state.bookerAssignMemberPromptStatus = true
                                     }, 500)
                                 }
@@ -169,11 +168,29 @@
                                         me.$store.state.bookerAssignStatus = false
                                         me.$store.state.bookerAssignNonMemberErrorStatus = true
                                     } else {
-                                        me.$parent.toSubmit.tempSeat.forEach((element, index) => {
-                                            if (element.temp.customer.email == me.nonMemberEmail) {
-                                                checkEmail = true
-                                            }
+
+                                        Object.keys(me.$parent.seats).forEach((parent) => {
+                                            Object.keys(me.$parent.seats[parent]).forEach((child) => {
+                                                if (child == 'data') {
+                                                    for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
+                                                        if (me.$parent.seats[parent][child][i].bookings.length > 0) {
+                                                            if (me.$parent.seats[parent][child][i].bookings[0].is_guest == 0) {
+                                                                if (me.$parent.seats[parent][child][i].bookings[0].user.email == me.nonMemberEmail) {
+                                                                    checkEmail = true
+                                                                    break
+                                                                }
+                                                            } else if (me.$parent.seats[parent][child][i].bookings[0].is_guest == 1) {
+                                                                if (me.$parent.seats[parent][child][i].bookings[0].guest_email == me.nonMemberEmail) {
+                                                                    checkEmail = true
+                                                                    break
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            })
                                         })
+
                                         if (checkEmail) {
                                             me.$store.state.bookerAssignStatus = false
                                             me.$store.state.bookerAssignNonMemberErrorStatus = true

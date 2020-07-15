@@ -27,8 +27,14 @@
             nonMember: {
                 default: null
             },
-            tempSeat: {
+            seat: {
                 default: null
+            }
+        },
+        data () {
+            return {
+                user: [],
+                customer: []
             }
         },
         methods: {
@@ -37,44 +43,55 @@
                 if (status) {
                     if (me.email != null) {
                         me.loader(true)
-                        Object.keys(me.$parent.seats).forEach((parent) => {
-                            Object.keys(me.$parent.seats[parent]).forEach((child) => {
-                                if (child == 'data') {
-                                    for (let i = 0; i < me.$parent.seats[parent][child].length; i++) {
-                                        if (me.$parent.seats[parent][child][i].id == me.tempSeat.id) {
-                                            me.$parent.seats[parent][child][i].status = 'reserved-guest'
-                                            me.$parent.seats[parent][child][i].temp = {}
-                                            me.$parent.seats[parent][child][i].temp.guest = 2
-                                            me.$parent.seats[parent][child][i].temp.customer = me.nonMember
-                                            me.$parent.seats[parent][child][i].temp.user_package_count = me.$parent.tempClassPackage
-                                            me.$parent.seats[parent][child][i].temp.original_booker_id = me.$parent.user.id
-                                            break
-                                        }
-                                    }
+                        let formData = new FormData()
+                        formData.append('scheduled_date_id', me.$route.params.slug)
+                        formData.append('user_id', me.customer.id)
+                        formData.append('email', me.nonMember.email)
+                        me.$axios.post('api/extras/check-user-booking', formData).then(res => {
+                            if (res.data) {
+                                let formData2 = new FormData(document.querySelector('#default_form.assign'))
+                                if (me.customer != '' && me.$parent.assignType == 'member') {
+                                    formData2.append('guest_email', me.customer.email)
                                 }
-                            })
-                        })
-                        me.$parent.toSubmit.bookCount++
-                        me.$parent.toSubmit.tempSeat.push(me.tempSeat)
-                        me.$parent.tempGuestSeat = null
-                        me.$parent.tempClassPackage = null
-                        me.$parent.hasGuest = true
-                        if (me.$parent.added != null && me.$parent.added != undefined) {
-                            me.$parent.added++
-                        }
-                        setTimeout( () => {
-                            me.$store.state.bookerAssignStatus = false
-                            me.$store.state.bookerAssignNonMemberStatus = false
-                            // me.$store.state.bookerAssignSuccessStatus = true
-                            document.body.classList.remove('no_scroll')
+                                if (me.$parent.assignType == 'non-member') {
+                                    formData2.append('guest_email', me.nonMember.email)
+                                    formData2.append('guest_first_name', me.nonMember.first_name)
+                                    formData2.append('guest_last_name', me.nonMember.last_name)
+                                }
+                                formData2.append('scheduled_date_id', me.$route.params.slug)
+                                formData2.append('is_guest', 1)
+                                formData2.append('seat_id', me.seat.id)
+                                formData2.append('user_id', me.user.id)
+                                formData2.append('user_package_count_id', me.$parent.tempClassPackage.id)
+                                me.$axios.post('api/bookings', formData2).then(res => {
+                                    if (res.data) {
+                                        setTimeout( () => {
+                                            me.$parent.tempGuestSeat = null
+                                            me.$parent.tempClassPackage = null
+                                            me.$parent.hasGuest = true
+                                            me.$store.state.bookerAssignStatus = false
+                                            me.$store.state.bookerAssignNonMemberStatus = false
+                                            me.$parent.message = 'Seat has been reserved to a Guest.'
+                                            me.$store.state.bookerAssignSuccessStatus = true
+                                        }, 500)
+                                    }
+                                }).catch(err => {
+                                    setTimeout( () => {
+                                        me.$store.state.errorOverlayPromptStatus = true
+                                        me.$store.state.errorList = err.response.data.errors
+                                        me.$store.state.errorPromptStatus = true
+                                    }, 500)
+                                }).then(() => {
+                                    setTimeout( () => {
+                                        me.$parent.fetchSeats(me.$route.params.slug)
+                                    }, 500)
+                                })
+                            }
+                        }).catch(err => {
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
                             me.loader(false)
-                        }, 500)
-
-                        me.$parent.removeNext = false
-
-                        this.$scrollTo('.next_wrapper .right .default_btn', {
-                            duration: 1000,
-                            offset: -750
                         })
                     }
                 } else {
@@ -82,6 +99,27 @@
                     me.$store.state.bookerAssignStatus = true
                 }
             }
+        },
+        mounted () {
+            const me = this
+            let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
+            me.$axios.get('api/check-token', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    me.user = res.data.user
+                }
+            }).catch(err => {
+                me.$store.state.errorOverlayPromptStatus = true
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
+            }).then(() => {
+                setTimeout(() => {
+                    me.loader(false)
+                }, 500)
+            })
         }
     }
 </script>

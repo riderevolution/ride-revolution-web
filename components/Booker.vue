@@ -1,6 +1,6 @@
 <template lang="html">
     <div v-if="loaded">
-        <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''} ${(submitted) ? 'overlay' : ''}`">
+        <section id="content" :class="`${(!$store.state.proTipStatus) ? 'dismiss' : ''}`">
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">
                 <transition name="slideX">
                     <div class="flex_step" v-if="step == 1">
@@ -71,30 +71,39 @@
                         </div>
                         <div class="main_right">
                             <div class="header" v-if="!isMobile">
-                                <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
-                                <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
-                                <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
-                                <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
+                                <div class="header_left">
+                                    <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
+                                    <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>
+                                    <nuxt-link to="/my-profile" class="back" v-else-if="!inApp && manage">Back</nuxt-link>
+                                    <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && manage">Back</nuxt-link>
+                                </div>
+                                <div class="header_right">
+                                    <div class="default_btn_red" @click="toggleCancel()" v-if="manage">Cancel Class</div>
+                                </div>
                             </div>
                             <div class="content" :id="`parent_${layout}`">
                                 <div class="seat_wrapper">
                                     <div class="overlay_header">
                                         <h3>Please choose your bike/s</h3>
-                                        <!-- <h3 class="alt">( {{ schedule.schedule.class_credits }} class {{ (schedule.schedule.class_credits <= 1) ? 'credit' : 'credits' }} will be deducted)</h3> -->
                                         <h4>Note: You can book up to 5 bikes.</h4>
                                         <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                     </div>
-                                    <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key" v-if="seat.data.length > 0">
+                                    <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key">
                                         <div @click="signIn(data)" :class="`seat ${addClass(data)}`" v-for="(data, key) in seat.data" :key="key">
 
                                             <transition name="fade">
-                                                <img class="seat_image" :src="data.temp.customer.customer_details.images[0].path" v-if="!isMobile && (data.temp && data.temp.customer.customer_details.images[0].path != null)" />
+                                                <img class="seat_image" :src="data.bookings[0].user.customer_details.images[0].path" v-if="!isMobile && (data.bookings.length > 0 && (data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path != null))" />
                                             </transition>
 
                                             <transition name="fade">
-                                                <div class="overlay" v-if="!isMobile && (data.temp && data.temp.customer.customer_details.images[0].path == null)">
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user != null && data.bookings[0].user.customer_details.images[0].path == null)">
                                                     <div class="letter">
-                                                        {{ data.temp.customer.first_name.charAt(0) }}{{ data.temp.customer.last_name.charAt(0) }}
+                                                        {{ data.bookings[0].user.first_name.charAt(0) }}{{ data.bookings[0].user.last_name.charAt(0) }}
+                                                    </div>
+                                                </div>
+                                                <div class="overlay" v-if="!isMobile && (data.bookings.length > 0 && data.bookings[0].user == null)">
+                                                    <div class="letter">
+                                                        {{ data.bookings[0].guest_first_name.charAt(0) }}{{ data.bookings[0].guest_last_name.charAt(0) }}
                                                     </div>
                                                 </div>
                                             </transition>
@@ -127,9 +136,9 @@
                                         <div class="actions" v-if="!schedule.guestHere && !isSwitchingSeat && ((manage) ? !res.waitlisted : true)">
                                             <transition name="fade">
                                                 <div class="next_wrapper">
-                                                    <div class="left" v-if="toSubmit.tempSeat.length > 0">
+                                                    <div class="left" v-if="ctr > 0">
                                                         <div class="flex package">
-                                                            <div class="toggler" v-if="hasGuest && toSubmit.tempSeat.length > 1 && tempOriginalSeat != null">
+                                                            <div class="toggler" v-if="hasGuest && ctr > 1 && tempOriginalSeat != null">
                                                                 <p>Swap seat for:</p>
                                                                 <div class="picker" @click="chooseSeat('swap')">Bike No. {{ tempOriginalSeat.number }}</div>
                                                             </div>
@@ -156,16 +165,19 @@
             <booker-assign v-if="$store.state.bookerAssignStatus" />
         </transition>
         <transition name="fade">
-            <booker-choose-package :tempSeat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
+            <booker-cancel v-if="$store.state.bookerCancelStatus" :type="cancelType" :seat="tempOriginalSeat" />
         </transition>
         <transition name="fade">
-            <booker-choose-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
+            <booker-choose-package :seat="dummyData" v-if="$store.state.bookerChoosePackageStatus" :category="'inner'" :type="type" />
         </transition>
         <transition name="fade">
-            <booker-switch-seat :seatNumbers="toSubmit.tempSeat" v-if="$store.state.bookerSwitchSeatStatus" />
+            <booker-choose-seat :seats="toSubmit.tempSeat" v-if="$store.state.bookerChooseSeatStatus" />
         </transition>
         <transition name="fade">
-            <booker-assign-member-prompt :customer="customer" :tempSeat="tempGuestSeat" v-if="$store.state.bookerAssignMemberPromptStatus" />
+            <booker-switch-seat :seats="toSubmit.tempSeat" v-if="$store.state.bookerSwitchSeatStatus" />
+        </transition>
+        <transition name="fade">
+            <booker-assign-member-prompt :customer="customer" :seat="tempGuestSeat" v-if="$store.state.bookerAssignMemberPromptStatus" />
         </transition>
         <transition name="fade">
             <booker-assign-member-error v-if="$store.state.bookerAssignMemberErrorStatus" />
@@ -174,13 +186,13 @@
             <booker-assign-non-member-error v-if="$store.state.bookerAssignNonMemberErrorStatus" />
         </transition>
         <transition name="fade">
-            <booker-assign-non-member :email="nonMember.email" :nonMember="nonMember" :tempSeat="tempGuestSeat" v-if="$store.state.bookerAssignNonMemberStatus" />
+            <booker-assign-non-member :email="nonMember.email" :nonMember="nonMember" :seat="tempGuestSeat" v-if="$store.state.bookerAssignNonMemberStatus" />
         </transition>
         <transition name="fade">
             <booker-assign-success :message="message" v-if="$store.state.bookerAssignSuccessStatus" />
         </transition>
         <transition name="fade">
-            <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" />
+            <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" :firstBook="firstBook" />
         </transition>
         <transition name="fade">
             <booker-remove-booking :seat="dummyData" v-if="$store.state.bookerRemoveBookingStatus" />
@@ -199,6 +211,7 @@
 
 <script>
     import BookerAssign from './modals/BookerAssign'
+    import BookerCancel from './modals/BookerCancel'
     import BookerChoosePackage from './modals/BookerChoosePackage'
     import BookerChooseSeat from './modals/BookerChooseSeat'
     import BookerSwitchSeat from './modals/BookerSwitchSeat'
@@ -225,6 +238,7 @@
         },
         components: {
             BookerAssign,
+            BookerCancel,
             BookerChoosePackage,
             BookerChooseSeat,
             BookerSwitchSeat,
@@ -248,11 +262,13 @@
                 },
                 instructor: {},
                 res: [],
+                assignType: '',
                 isMobile: false,
+                firstBook: false,
                 step: 1,
+                cancelType: 1,
                 type: 1,
                 loaded: false,
-                submitted: false,
                 customer: null,
                 temp: [],
                 schedule: [],
@@ -293,7 +309,7 @@
                     }
                 },
                 layout: 0,
-                currentSeat: [],
+                scheduled_date_id: 0,
                 message: 'Cheers! Successfully added a Guest.',
                 promptMessage: '',
                 status: false,
@@ -305,7 +321,6 @@
                 tempOriginalSeat: null,
                 dummyData: null,
                 toSubmit: {
-                    bookCount: 0,
                     tempSeat: []
                 },
                 tempBookCount: 0,
@@ -369,6 +384,16 @@
             }
         },
         methods: {
+            toggleCancel () {
+                const me = this
+                me.$store.state.bookerCancelStatus = true
+                document.body.classList.add('no_scroll')
+            },
+            toggleCancelled () {
+                const me = this
+                me.cancelType = 2
+                me.$store.state.bookerCancelStatus = true
+            },
             cancelWaitlist () {
                 const me = this
                 let formData = new FormData()
@@ -429,8 +454,8 @@
                     case 'reserved':
                     case 'reserved-guest':
                     case 'signed-in':
-                        if (seat.temp) {
-                            if (seat.temp.guest != 0) {
+                        if (seat.bookings.length > 0) {
+                            if (seat.bookings[0].is_guest != 0) {
                                 result += 'reserved-guest'
                             } else {
                                 result += 'reserved alt'
@@ -439,35 +464,9 @@
                             if (seat.bookings.length > 0) {
                                 if (seat.bookings[0].user != null) {
                                     result += 'blocked comp'
-                                //     if (seat.bookings[0].original_booker_id == me.user.id) {
-                                //         if (seat.bookings[0].is_guest == 1) {
-                                //             result += 'reserved-guest'
-                                //         } else {
-                                //             result += 'reserved alt'
-                                //         }
-                                //     } else {
-                                //         if (seat.bookings[0].user_id == me.user.id) {
-                                //             if (seat.bookings[0].is_guest == 1) {
-                                //                 result += 'reserved alt'
-                                //             }
-                                //         } else {
-                                //             result += 'reserved'
-                                //         }
-                                //     }
-                                // } else {
-                                //     if (seat.bookings[0].original_booker_id == me.user.id) {
-                                //         if (seat.bookings[0].is_guest == 1) {
-                                //             result += 'reserved-guest'
-                                //         }
-                                //     } else {
-                                //         result += 'reserved'
-                                //     }
-                                // }
+                                }
                             } else {
                                 result += 'blocked comp'
-                            }
-                            // else if (seat.comp.length > 0) {
-                            //
                             }
                         }
                         break
@@ -508,65 +507,6 @@
                 })
                 return result
             },
-            submitPreview () {
-                const me = this
-                let token = (!me.inApp) ? me.$cookies.get('70hokc3hhhn5') : me.$route.query.token
-                let formData = new FormData()
-                if (me.manage) {
-                    formData.append('update', 1)
-                }
-                formData.append('scheduled_date_id', me.$route.params.slug)
-                formData.append('seats', JSON.stringify(me.toSubmit.tempSeat))
-                formData.append('total_credit_count', me.toSubmit.bookCount)
-                me.loader(true)
-                me.$axios.post('api/web/bookings', formData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        me.submitted = true
-                        me.step = 0
-                        me.$store.state.buyRidesSuccessStatus = true
-                        me.$scrollTo('#content', {
-                            offset: -250
-                        })
-                    }
-                }).catch(err => {
-                    document.body.classList.add('no_scroll')
-                    setTimeout( () => {
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                    }, 500)
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                })
-            },
-            toggleStep (type) {
-                const me = this
-                switch (type) {
-                    case 'next':
-                        if (me.hasBooked) {
-                            me.step = 2
-                            me.$scrollTo('.inner', {
-                                offset: 0
-                            })
-                        } else {
-                            me.promptMessage = 'Please select a seat first before proceeding.'
-                            me.$store.state.bookerPromptStatus = true
-                            document.body.classList.add('no_scroll')
-                        }
-                        break
-                    case 'prev':
-                        me.step = 1
-                        me.$scrollTo('.inner', {
-                            offset: 0
-                        })
-                        break
-                }
-            },
             /**
              * [chooseSeat toggle the swap and switch seat]
              * @param  {[string]} type [type of action]
@@ -605,7 +545,6 @@
              */
             signIn (data) {
                 const me = this
-                me.currentSeat = data
                 me.seatStatus = data.status
                 if (me.schedule.guestHere) {
                     me.promptMessage = 'Sorry! A guest cannot manage/change this class.'
@@ -614,28 +553,18 @@
                 } else {
                     if (me.checkPackage == 1) {
                         switch (data.status) {
-                            case 'blocked':
-                            case 'comp':
-                                me.promptMessage = 'Sorry! This is seat is blocked or being maintained.'
-                                me.$store.state.bookerPromptStatus = true
-                                document.body.classList.add('no_scroll')
-                                break
                             case 'reserved':
                             case 'reserved-guest':
-                                if (data.temp) {
+                                if (data.bookings.length > 0) {
                                     me.dummyData = data
                                     me.$store.state.bookerActionsPrompt = true
-                                    document.body.classList.add('no_scroll')
-                                } else {
-                                    me.promptMessage = 'This seat is already booked or reserved by someone else.'
-                                    me.$store.state.bookerPromptStatus = true
                                     document.body.classList.add('no_scroll')
                                 }
                                 break
                             case 'open':
                                 me.dummyData = data
                                 if (me.isSwitchingSeat) {
-                                    me.switchSeatData (me.selectedSwitchSeat, data)
+                                    me.switchSeatData (data)
                                 } else {
                                     if (me.user.user_package_counts.length > 0 && !me.hasBooked) {
                                         me.loader(true)
@@ -644,7 +573,7 @@
                                             document.body.classList.add('no_scroll')
                                         }, 500)
                                     } else {
-                                        if (me.toSubmit.tempSeat.length == 5) {
+                                        if (me.ctr >= 5) {
                                             me.promptMessage = "You've already reached the limit of adding guest."
                                             me.$store.state.bookerPromptStatus = true
                                             document.body.classList.add('no_scroll')
@@ -666,103 +595,30 @@
                     }
                 }
             },
-            /**
-             * [deleteFirstSeat delete the first seat in the temp]
-             * @param  {[object]} data [the seat selected from the switch seat]
-             * @return {[object]}      [return temp seat]
-             */
-            deleteFirstSeat (data) {
-                const me= this
-                let temp = me.toSubmit.tempSeat
-                temp.forEach((element, index) => {
-                    if (element.id == data.id) {
-                        me.toSubmit.tempSeat.splice(index, 1)
-                    }
-                })
-                return temp
-            },
-            /**
-             * [deleteCurrentSeat delete the current seat before switching]
-             * @param  {[int]} id [the id of the first seat]
-             * @return {[object]}    [the original seats]
-             */
-            deleteCurrentSeat (id) {
-                const me = this
-                let seats = me.seats
-                /**
-                 * Delete the value of the first seat in the seats */
-                Object.keys(seats).forEach((parent) => {
-                    Object.keys(seats[parent]).forEach((child) => {
-                        if (child == 'data') {
-                            for (let i = 0; i < seats[parent][child].length; i++) {
-                                if (seats[parent][child][i].id == me.selectedSwitchSeat.id) {
-                                    seats[parent][child][i].status = 'open'
-                                    delete seats[parent][child][i].temp
-                                }
-                            }
-                        }
-                    })
-                })
-                return seats
-            },
-            /**
-             * [swapSeatData switching of datas]
-             * @param  {[object]} firstSeat  [the seat selected from the switch seat]
-             * @param  {[object]} secondSeat [the seat selected from the switch seat booker]
-             */
-            switchSeatData (firstSeat, secondSeat) {
+            switchSeatData (data) {
                 const me = this
                 me.loader(true)
-                let id = 0
-                me.toSubmit.tempSeat = me.deleteFirstSeat(firstSeat)
-                /**
-                 * Change first the second seat value to first seat value */
-                Object.keys(me.seats).forEach((parent) => {
-                    Object.keys(me.seats[parent]).forEach((child) => {
-                        if (child == 'data') {
-                            for (let i = 0; i < me.seats[parent][child].length; i++) {
-                                if (me.seats[parent][child][i].id == firstSeat.id) {
-                                    id = me.seats[parent][child][i].id
-                                }
-                                if (me.seats[parent][child][i].id == secondSeat.id) {
-                                    me.seats[parent][child][i].temp = {}
-                                    me.seats[parent][child][i].status = firstSeat.status
-                                    me.seats[parent][child][i].temp.guest = firstSeat.temp.guest
-                                    me.seats[parent][child][i].temp.user_package_count = firstSeat.temp.user_package_count
-                                    me.seats[parent][child][i].temp.customer = firstSeat.temp.customer
-                                    if (firstSeat.temp.old_user_package_count_id) {
-                                        me.seats[parent][child][i].temp.changedPackage = firstSeat.temp.changedPackage
-                                        me.seats[parent][child][i].temp.old_user_package_count_id = firstSeat.temp.old_user_package_count_id
-                                    }
-                                    if (me.seats[parent][child][i].temp.guest == 0) {
-                                        me.tempOriginalSeat = me.seats[parent][child][i]
-                                        if (me.toSubmit.tempSeat.length > 0) {
-                                            me.toSubmit.tempSeat.unshift(me.seats[parent][child][i])
-                                        } else {
-                                            me.toSubmit.tempSeat.push(me.seats[parent][child][i])
-                                        }
-                                    } else {
-                                        me.toSubmit.tempSeat.push(me.seats[parent][child][i])
-                                    }
-                                    break
-                                }
-                            }
-                        }
-                    })
-                })
-                me.deleteCurrentSeat (id)
-                me.isSwitchingSeat = false
-                me.cancelSwitchingSeat = false
-                me.promptMessage = `You've successfully switched to seat number ${secondSeat.number}`
-                me.status = true
-                setTimeout(() => {
-                    // me.$store.state.bookerPromptStatus = true
-                    // document.body.classList.add('no_scroll')
-                    me.loader(false)
-                }, 500)
-                this.$scrollTo('.next_wrapper .right .default_btn', {
-                    duration: 1000,
-                    offset: -750
+                let formData = new FormData()
+                formData.append('seat_id', data.id)
+                formData.append('booking_id', me.selectedSwitchSeat.bookings[0].id)
+                me.$axios.post('api/bookings/switch-seat', formData).then(res => {
+                    if (res.data) {
+                        setTimeout( () => {
+                            me.promptMessage = `Successfully switched seat from number ${me.selectedSwitchSeat.number} to ${data.number}`
+                            me.$store.state.bookerPromptStatus = true
+                            document.body.classList.add('no_scroll')
+                            me.isSwitchingSeat = false
+                            me.cancelSwitchingSeat = false
+                        }, 500)
+                    }
+                }).catch(err => {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorStatus = true
+                }).then(() => {
+                    setTimeout( () => {
+                        me.selectedSwitchSeat = []
+                        me.fetchSeats(me.$route.params.slug)
+                    }, 500)
                 })
             },
             /**
@@ -771,6 +627,8 @@
              */
             fetchSeats (id) {
                 const me = this
+                me.toSubmit.tempSeat = []
+                me.ctr = 0
                 let token = (!me.inApp) ? me.$cookies.get('70hokc3hhhn5') : me.$route.query.token
                 me.loader(true)
                 me.$axios.get('api/check-token', {
@@ -789,10 +647,16 @@
                                 if (!me.manage) {
                                     if (res.data.scheduledDate.originalHere || res.data.scheduledDate.guestHere) {
                                         if (!me.inApp) {
+                                            me.$store.state.bookerPromptStatus = false
                                             me.$router.push(`/my-profile/manage-class/${id}`)
                                         } else {
+                                            me.$store.state.bookerPromptStatus = false
                                             me.$router.push(`/fish-in-the-glass/manage-class/${id}?token=${token}`)
                                         }
+                                    }
+                                } else {
+                                    if (!res.data.hasBookingHere) {
+                                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                                     }
                                 }
                                 me.layout = res.data.scheduledDate.schedule.studio_id
@@ -802,8 +666,17 @@
                                 me.temp = res.data.seats
                                 me.schedule = res.data.scheduledDate
                                 me.instructor = me.schedule.schedule.instructor_schedules[0].user
-                                me.temp.forEach((seat , index) => {
-                                    console.log(seat);
+                                me.temp.forEach((seat, index) => {
+                                    if (seat.bookings.length > 0) {
+                                        if (seat.bookings[0].original_booker_id == me.user.id) {
+                                            me.toSubmit.tempSeat.unshift(seat)
+                                            if (seat.bookings[0].is_guest == 0) {
+                                                me.bookingID = seat.bookings[0].id
+                                                me.tempOriginalSeat = seat
+                                            }
+                                            me.ctr++
+                                        }
+                                    }
                                     switch (seat.position) {
                                         case 'left':
                                             me.seats.left.data.push(seat)
@@ -821,38 +694,23 @@
                                             me.seats.bottom_alt_2.data.push(seat)
                                             break
                                     }
-                                    me.ctr++
                                 })
-                                console.log(me.seats);
                                 if (!me.manage) {
                                     me.checkPackage = (res.data.userPackagesCount > 0) ? 1 : 0
                                 } else {
                                     me.checkPackage = 1
+                                }
 
-                                    if (res.data.waitlisted) {
-                                        me.isWaitlisted = true
-                                    }
+                                me.isWaitlisted = (res.data.waitlisted) ? true : false
 
-                                    if (res.data.tempSeats != null) {
-                                        if (me.parser(res.data.tempSeats.data).length > 0) {
-                                            me.toSubmit.tempSeat = me.parser(res.data.tempSeats.data)
-                                            me.tempBookCount = me.parser(res.data.tempSeats.data).length
-                                            // package_id = res.data.tempSeats.class_package_id
-                                            me.bookingID = res.data.tempSeats.booking_id
-                                            me.hasBooked = true
-                                            me.canSwitch = true
-                                            if (me.toSubmit.tempSeat.length > 1) {
-                                                me.hasGuest = true
-                                            }
-                                            me.toSubmit.tempSeat.forEach((element, index) => {
-                                                if (element.temp.guest == 0) {
-                                                    me.tempOriginalSeat = element
-                                                }
-                                            })
-                                        }
+                                if (me.ctr > 0) {
+                                    me.hasBooked = true
+                                    me.canSwitch = true
+                                    if (me.ctr > 1) {
+                                        me.hasGuest = true
                                     }
                                 }
-                                // me.loaded = true
+                                me.loaded = true
                             }
                         }).catch(err => {
                             me.$nuxt.error({ statusCode: 404, message: 'Page not found' })

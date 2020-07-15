@@ -49,7 +49,7 @@
                     <div class="form_flex with_btn">
                         <div class="form_group">
                             <input type="email" id="email" name="email" class="input_text email" autocomplete="off" v-model="form.email" placeholder="Enter your email address" v-validate="'required|email'">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">The email field is required</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('email')">{{ errors.first('email') | properFormat }}</span></transition>
                         </div>
                         <div class="form_button">
                             <button type="submit" class="default_btn"><span>Send Referral Link</span></button>
