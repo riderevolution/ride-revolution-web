@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div class="instructors" v-if="loaded">
+        <div :class="`instructors ${($store.state.articleAlertStatus) ? 'adjust' : ''}`" v-if="loaded">
             <section id="instructors_nav">
                 <!-- <div :class="`left ${(toggled) ? 'active' : ''}`" @click="toggleSpecialization()" v-click-outside="outsideSpecialization">
                     <div class="select">

@@ -154,6 +154,13 @@
                 if (element.classList.contains('front')) {
                     me.height = height
                 }
+                if (me.advisory != null) {
+                    if (me.$store.state.articleAlertStatus) {
+                        document.getElementById('header').style.top = `${document.getElementById('article_alert').scrollHeight}px`
+                    } else {
+                        document.getElementById('header').style.top = `${0}px`
+                    }
+                }
             },
             fetchAdvisory () {
                 const me = this

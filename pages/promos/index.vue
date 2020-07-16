@@ -1,14 +1,7 @@
 <template>
     <transition name="fade">
         <div class="promo_landing" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" src="/default/promo/promo-banner.jpg" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                    <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
-                </div>
-            </section>
+            <banner :res="res" :hasH2="true" />
             <section id="promos" class="alt">
                 <div class="promo_list" v-for="(data, key) in populatePromos" :key="key">
                     <h2 class="header_title">Ride Rev Promo</h2>
@@ -28,10 +21,10 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     export default {
         components: {
-            Breadcrumb
+            Banner
         },
         data () {
             return {

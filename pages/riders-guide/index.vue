@@ -1,14 +1,7 @@
 <template>
     <transition name="fade">
         <div class="riders_guide" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                    <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
-                </div>
-            </section>
+            <banner :res="res" :hasH2="true" />
             <section id="teaser">
                 <h2>{{ res.teaser_title }}</h2>
                 <div v-html="res.teaser_description"></div>
@@ -148,11 +141,11 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     import Gallery from '../../components/modals/Gallery'
     export default {
         components: {
-            Breadcrumb,
+            Banner,
             Gallery
         },
         data () {
@@ -173,7 +166,7 @@
                         prevEl: '.swiper-button-prev'
                     },
                     breakpoints: {
-                        1024: {
+                        1280: {
                             slidesPerView: 3,
                             spaceBetween: 20
                         },
@@ -181,7 +174,7 @@
                             slidesPerView: 2,
                             spaceBetween: 20
                         },
-                        450: {
+                        600: {
                             slidesPerView: 1,
                             spaceBetween: 0
                         }
@@ -195,7 +188,7 @@
                         prevEl: '.swiper-button-prev'
                     },
                     breakpoints: {
-                        1024: {
+                        1280: {
                             slidesPerView: 3,
                             spaceBetween: 20
                         },
@@ -203,7 +196,7 @@
                             slidesPerView: 2,
                             spaceBetween: 20
                         },
-                        450: {
+                        600: {
                             slidesPerView: 1,
                             spaceBetween: 0
                         }

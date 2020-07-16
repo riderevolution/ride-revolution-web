@@ -1,13 +1,7 @@
 <template>
     <transition name="fade">
         <div class="refer_a_friend" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                </div>
-            </section>
+            <banner :res="res" />
             <section id="referral" :class="`${($route.path == '/my-profile') ? 'alt' : ''}`">
                 <div class="wrapper">
                     <div v-html="res.subtitle"></div>
@@ -29,10 +23,10 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     export default {
         components: {
-            Breadcrumb
+            Banner
         },
         data () {
             return {

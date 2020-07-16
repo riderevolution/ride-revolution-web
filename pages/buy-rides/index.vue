@@ -1,13 +1,7 @@
 <template>
     <transition name="fade">
         <div :class="`buy_rides ${hasHash}`" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                </div>
-            </section>
+            <banner :res="res" />
             <section id="packages" class="alt">
                 <div class="header">
                     <h2>
@@ -99,11 +93,11 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     import Promo from '../../components/Promo'
     export default {
         components: {
-            Breadcrumb,
+            Banner,
             Promo
         },
         data () {

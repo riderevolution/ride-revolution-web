@@ -1,13 +1,7 @@
 <template>
     <transition name="fade">
         <div class="studios" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" :src="res.banners[0].path" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                </div>
-            </section>
+            <banner :res="res" />
             <section id="teaser" v-html="res.subtitle" v-if="res.subtitle"></section>
             <section id="visit">
                 <h2>Check out our Studios</h2>
@@ -53,12 +47,12 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     import InstagramAlternate from '../../components/InstagramAlternate'
     import BookABikeBanner from '../../components/BookABikeBanner'
     export default {
         components: {
-            Breadcrumb,
+            Banner,
             InstagramAlternate,
             BookABikeBanner
         },
