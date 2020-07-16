@@ -1,14 +1,7 @@
 <template>
     <transition name="fade">
         <div class="book_a_bike landing" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" :src="setting.banners[0].path" :alt="setting.banners[0].alt" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ setting.title }}</h1>
-                    <h2 class="alt" v-html="setting.subtitle" v-if="setting.subtitle"></h2>
-                </div>
-            </section>
+            <banner :res="setting" :hasH2="true" />
             <section id="content">
                 <div class="left">
                     <div class="filter_accordion" v-if="$store.state.isMobile">
@@ -182,14 +175,14 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
     import BuyPackageFirst from '../../components/modals/BuyPackageFirst'
     import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
     export default {
         components: {
-            Breadcrumb,
+            Banner,
             BookerChoosePackage,
             CompleteProfilePrompt,
             BuyPackageFirst,

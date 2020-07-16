@@ -130,29 +130,28 @@
                                         right: calc(0% - 35px)
                                 #menu
                                     width: auto
-                                    height: 40px
                 .right
                     .expanded_nav_list
                         li
                             margin-bottom: 20px
                             .nav_item
-                                brandon_bold(14px, true)
+                                brandon_bold(16px, true)
                     .expanded_nav_description
                         padding-top: 10px
                         p
-                            brandon_regular(14px, false)
+                            brandon_regular(16px, false)
                             a
-                                brandon_bold(14px, false)
+                                brandon_bold(16px, false)
                         .link
                             margin-bottom: 20px
                             p
-                                brandon_regular(14px, false)
+                                brandon_regular(16px, false)
                             span
-                                brandon_bold(14px, false)
+                                brandon_bold(16px, false)
                         .social_links
                             margin-top: 20px
                             h4
-                                brandon_regular(14px, false)
+                                brandon_regular(16px, false)
                             a
                                 margin: 0 10px
                                 width: 20px
@@ -180,6 +179,8 @@
             .back_to_top
                 right: calc(0% - 40px)
         #pro_tip
+            &.adjust
+                top: calc(0% + 110px)
             top: calc(0% + 61px)
             padding: 5px 30px
             .tip
@@ -221,7 +222,7 @@
                             brandon_bold(22px, true)
             .content
                 .studio_content
-                    max-width: calc(75%)
+                    max-width: calc(80%)
                     .wrapper
                         padding-bottom: 60px
                         .right
@@ -1026,6 +1027,10 @@
         padding-top: 60px
         &.dismiss
             padding-top: 90px
+            &.adjust
+                padding-top: 140px
+        &.adjust
+            padding-top: 110px
         ul
             li
                 .front,
@@ -1284,6 +1289,10 @@
         #amenities
             .amenities
                 .content
+                    .wrapper
+                        .field_image
+                            img
+                                height: 350px
                     .centered
                         .swiper-wrapper
                             justify-content: unset
@@ -1317,8 +1326,12 @@
 
     #breadcrumb
         padding-top: 74px
+        &.adjust
+            padding-top: 110px
         &.dismiss
             padding-top: 104px
+            &.adjust
+                padding-top: 140px
         ul
             li
                 .front,
@@ -1384,7 +1397,7 @@
                                         right: calc(0% - 35px)
                                 #menu
                                     width: auto
-                                    height: 30px
+                                    height: 40px
                 .right
                     .expanded_nav_list
                         li
@@ -1436,6 +1449,8 @@
                 transform: translateY(0%) rotate(90deg)
         #pro_tip
             top: calc(0% + 74px)
+            &.adjust
+                top: calc(0% + 110px)
             padding: 5px 30px
             .tip
                 brandon_regular_italic(14px, false)
@@ -2017,7 +2032,7 @@
                                     width: auto
                             .studio_slide
                                 img
-                                    height: 100%
+                                    height: 400px
                                 .overlay
                                     bottom: calc(0% + 35px)
                                     .title
@@ -2116,6 +2131,10 @@
                 padding: 60px 30px
                 h2
                     brandon_bold(36px, true)
+                .content
+                    .wrapper
+                        .overlay
+                            brandon_bold(18px, true)
         #ride_info
             .header
                 padding: 40px 0 0
@@ -2515,6 +2534,10 @@
      * Instructor */
     .instructors
         margin-top: 74px
+        &.adjust
+            margin-top: 110px
+            #instructors_nav
+                top: calc(0% + 110px)
         #breadcrumb
             &.has_padding
                 padding-top: 42px
@@ -3296,6 +3319,8 @@
     #banner
         &.mt
             margin-top: 74px
+            &.adjust
+                margin-top: 110px
         &.alt_4
             .overlay_mid
                 max-width: calc(100% - 30px)
@@ -3362,11 +3387,63 @@
 
 @media (max-width: 1280px) and (min-width: 1025px)
 
+    /**
+     * Instructor */
+    .instructors
+        margin-top: 74px
+        &.adjust
+            margin-top: 124px
+            #instructors_nav
+                top: calc(0% + 124px)
+        #breadcrumb
+            &.has_padding
+                padding-top: 42px
+
+    #breadcrumb
+        &.adjust
+            padding-top: 124px
+
+    /**
+     * Book a Bike */
+    .book_a_bike
+        &.landing
+            #content
+                .left
+                    flex: 0 0 25%
+                    .filter
+                        height: auto
+                        overflow-y: unset
+                        .wrapper
+                            &.studio_filter
+                                .group
+                                    flex: 0 0 100%
+                .right
+                    flex: 1 0 25%
+                    padding: 30px
+                    .date_navigator
+                        .date
+                            flex: 0 0 calc(100% / 7)
+
+    .studios
+        #visit
+            .content
+                &.desktop
+                    max-width: 100%
+
     #article_alert
         .left
             .info
                 neutra_bold(14px, true)
                 padding-left: 15px
+
+    .riders_guide
+        #amenities
+            .amenities
+                .content
+                    .wrapper
+                        .field_image
+                            img
+                                height: 400px
 
     #instagram
         .image_wrapper
@@ -3397,6 +3474,14 @@
     /**
      * Main */
     #main_container
+        #navbar_expanded
+            .content
+                .left
+                    .expanded_main_list
+                        li
+                            .main_item
+                                #menu
+                                    height: 50px
         #header
             &.instructor
                 .navbar
@@ -3413,8 +3498,10 @@
         #footer
             .footer_link
                 height: 100%
-                flex: 0 0 15%
+                flex: 0 0 20%
                 margin: 20px 0
+                &.alt
+                    flex: 1 0 10%
             .back_to_top
                 right: calc(0% - 40px)
 
@@ -3431,7 +3518,23 @@
                         top: calc(0% - 165px)
                         svg
                             height: auto
-
+        #studios
+            .content
+                .studio_content
+                    .wrapper
+                        .left
+                            flex: 0 0 60%
+                            max-width: 60%
+                            .studio_slide
+                                img
+                                    height: 700px
+                        .right
+                            flex: 1 0 10%
+                            max-width: unset
+                            .overlay
+                                .content_flex
+                                    .default_btn
+                                        width: auto
     /**
      * Packages */
     #packages
@@ -3454,6 +3557,8 @@
     #banner
         &.mt
             margin-top: 74px
+            &.adjust
+                margin-top: 124px
         &.alt_4
             .overlay_mid
                 max-width: calc(100% - 30px)
@@ -3523,7 +3628,7 @@
         .left
             flex: 0 0 90%
             .info
-                neutra_bold(14px, true)
+                neutra_bold(12px, true)
                 padding-left: 0
 
     #instagram
@@ -3682,10 +3787,10 @@
                     padding: 10px 15px
                 .close_icon
                     top: calc(0% + 10px)
-                    right: calc(0% + 15px)
+                    right: calc(0% + 10px)
             .close_icon
                 top: calc(0% + 10px)
-                right: calc(0% + 15px)
+                right: calc(0% + 10px)
             .logo
                 padding: 10px 15px
                 img
@@ -3730,7 +3835,7 @@
                         p
                             brandon_regular(14px, false)
                             a
-                                brandon_bold(14px, true)
+                                brandon_bold(14px, false)
                         .social_links
                             margin-top: 20px
                             h4
@@ -3782,6 +3887,8 @@
                 transform: translateY(0%) rotate(90deg)
         #pro_tip
             top: calc(0% + 61px)
+            &.adjust
+                top: calc(0% + 100px)
             padding: 5px 15px
             line-height: 1
             .tip
@@ -5019,9 +5126,10 @@
      * Instructor */
     .instructors
         margin-top: 60px
-        #breadcrumb
-            &.has_padding
-                padding-top: 83px
+        &.adjust
+            margin-top: 110px
+            #instructors_nav
+                top: calc(0% + 110px)
         #instructors_nav
             top: calc(0% + 60px)
             flex-direction: column-reverse
@@ -6018,6 +6126,10 @@
 
     #breadcrumb
         padding-top: 61px
+        &.has_padding
+            padding-top: 41px
+        &.adjust
+            padding-top: 110px
         &.dismiss
             padding-top: 85px
         ul
@@ -6067,6 +6179,8 @@
     #banner
         &.mt
             margin-top: 60px
+            &.adjust
+                margin-top: 110px
         &.alt
             .overlay_mid
                 h2
@@ -6165,6 +6279,16 @@
                             .default_btn
                                 width: auto
                                 padding: 12px 15px
+
+    .riders_guide
+        #amenities
+            .amenities
+                .content
+                    .wrapper
+                        .field_image
+                            img
+                                width: 100%
+                                height: 300px
 
     .basic_page
         #content
@@ -6289,6 +6413,20 @@
                                 #paypal-button-container
                                     width: auto
 
+    .default_modal_page
+        #disclaimer
+            .content
+                .right
+                    .icon
+                        flex: 0 0 33.33%
+    #promos
+        .action_mobile
+            text-align: center
+            .default_btn
+                width: auto
+
+@media (max-width: 767px) and (min-width: 465px)
+
     .studio_inner
         #teaser
             .main_left
@@ -6304,20 +6442,6 @@
                     .right
                         flex: 0 0 auto
                         text-align: unset
-
-    .default_modal_page
-        #disclaimer
-            .content
-                .right
-                    .icon
-                        flex: 0 0 33.33%
-    #promos
-        .action_mobile
-            text-align: center
-            .default_btn
-                width: auto
-
-@media (max-width: 767px) and (min-width: 465px)
 
     #banner
         .overlay_bottom
@@ -6464,13 +6588,26 @@
                         .data
                             flex: 1 0 50%
 
+    #breadcrumb
+        &.adjust
+            padding-top: 95px
+
     #banner
+        &.mt
+            &.adjust
+                margin-top: 95px
         .overlay_bottom
             .overlay_flex
                 .default_btn
                     margin-right: 20px
                 .default_btn_wht
                     margin-top: 0
+
+    .instructors
+        &.adjust
+            margin-top: 95px
+            #instructors_nav
+                top: calc(0% + 95px)
 
     .login_sign_up
         #login

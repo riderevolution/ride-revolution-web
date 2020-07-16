@@ -1,5 +1,5 @@
 <template>
-    <div id="pro_tip">
+    <div id="pro_tip" :class="`${($store.state.articleAlertStatus) ? 'adjust' : ''}`">
         <p class="tip">
             PRO TIP: {{ res.label }}
         </p>

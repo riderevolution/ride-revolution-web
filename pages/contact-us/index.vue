@@ -1,14 +1,7 @@
 <template>
     <transition name="fade">
         <div class="contact_us" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" src="/default/contact-us/contact-us-banner.jpg" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                    <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
-                </div>
-            </section>
+            <banner :res="res" :hasH2="true" />
             <section id="content">
                 <div class="top">
                     <form id="default_form" @submit.prevent="submissionSuccess()">
@@ -112,13 +105,13 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     import BookABikeBanner from '../../components/BookABikeBanner'
     import ContactUsPrompt from '../../components/modals/ContactUsPrompt'
     import VueRecaptcha from 'vue-recaptcha'
     export default {
         components: {
-            Breadcrumb,
+            Banner,
             BookABikeBanner,
             ContactUsPrompt,
             VueRecaptcha

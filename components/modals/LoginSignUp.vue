@@ -1,5 +1,5 @@
 <template>
-    <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'} ${($store.state.isMobile) ? 'mobile' : ''}`">
+    <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'} ${($store.state.isMobile) ? 'mobile' : ''} ${($store.state.articleAlertStatus) ? 'adjust' : ''}`">
         <div class="close_icon" @click="toggleClose()"></div>
         <transition name="fade">
             <section id="login" v-if="!signUp">

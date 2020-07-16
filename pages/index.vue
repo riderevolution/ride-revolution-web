@@ -308,7 +308,7 @@
                         prevEl: '.swiper-button-prev'
                     },
                     breakpoints: {
-                        767: {
+                        1280: {
                             slidesPerView: 1,
                             slidesPerGroup: 1,
                             spaceBetween: 0,

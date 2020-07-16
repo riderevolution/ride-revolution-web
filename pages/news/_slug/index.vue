@@ -1,14 +1,7 @@
 <template>
     <transition name="fade">
         <div class="news inner" v-if="loaded">
-            <section id="banner" class="mt alt_4">
-                <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.name }}</h1>
-                    <h2>{{ $moment(res.date_published).format('DD MMM YYYY') }}</h2>
-                </div>
-            </section>
+            <banner :res="res" :hasH2="true" :hasH2Class="false" />
             <section id="content">
                 <div class="left" v-html="res.description"></div>
                 <div class="right">
@@ -71,12 +64,12 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../../components/Breadcrumb'
+    import Banner from '../../../components/Banner'
     import ShareViaEmail from '../../../components/modals/ShareViaEmail'
     import BookABikeBanner from '../../../components/BookABikeBanner'
     export default {
         components: {
-            Breadcrumb,
+            Banner,
             ShareViaEmail,
             BookABikeBanner
         },

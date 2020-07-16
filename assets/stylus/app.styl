@@ -2200,6 +2200,10 @@ svg
 .instructors
     position: relative
     margin-top: 81px
+    &.adjust
+        margin-top: 130px
+        #instructors_nav
+            top: calc(0% + 130px)
     #instructors_nav
         position: fixed
         top: calc(0% + 80px)
@@ -4590,37 +4594,39 @@ svg
                 .wrapper
                     position: relative
                     cursor: pointer
+                    .overlay
+                        position: absolute
+                        top: 50%
+                        left: 0
+                        width: 100%
+                        text-align: center
+                        z-index: 1
+                        opacity: 1
+                        transition: .3s ease-in-out
+                        brandon_bold(22px, true)
+                        color: $white
+                        background-color: transparent
+                        letter-spacing: 1.1px
+                        transform: translateY(-50%)
+                    &::before
+                        content: ''
+                        position: absolute
+                        top: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        background-color: rgba(0, 0, 0, 0.5)
+                        z-index: 0
+                        opacity: 1
+                        transition: .3s ease-in-out
                     .field_image
-                        position: relative
-                        .overlay
-                            position: absolute
-                            top: calc(50% - 2.5%)
-                            left: 0
+                        img
                             width: 100%
-                            text-align: center
-                            z-index: 1
-                            opacity: 0
-                            transition: .3s ease-in-out
-                            brandon_bold(22px, true)
-                            color: $white
-                            letter-spacing: 1.1px
-                        &::before
-                            content: ''
-                            position: absolute
-                            top: 0
-                            left: 0
-                            width: 100%
-                            height: 100%
-                            background-color: rgba(0, 0, 0, 0.5)
-                            z-index: 0
-                            opacity: 0
-                            transition: .3s ease-in-out
+                            height: 500px
                     &:hover
-                        .field_image
-                            .overlay,
-                            &::before
-                                opacity: 1
-                                transition: .3s ease-in-out
+                        &::before
+                            background-color: rgba(38, 164, 139, .75)
+                            transition: .3s ease-in-out
                 .view_all
                     position: absolute
                     right: 50%
@@ -7722,9 +7728,11 @@ svg
  * Breadcrumb */
 #breadcrumb
     position: relative
-    padding-top: 81px
+    padding-top: 80px
     border-bottom: 1px solid $border_alt
     transition: .3s ease-in-out
+    &.adjust
+        padding-top: 130px
     &.overlay
         position: absolute
         top: 0
@@ -7748,6 +7756,8 @@ svg
     &.dismiss
         padding-top: 128px
         transition: .3s ease-in-out
+        &.adjust
+            padding-top: 130px
         &.has_padding
             padding-top: 70px
     ul
@@ -7790,6 +7800,8 @@ svg
         margin-top: 81px
         &.alt
             margin-top: 0
+        &.adjust
+            margin-top: 130px
     .full
         width: 100%
         &.gradient
@@ -9830,9 +9842,13 @@ textarea::-webkit-scrollbar-thumb
         &.sticky
             margin-top: 81px
             transition: .3s ease-in-out
+        &.adjust
+            margin-top: 140px
     &.not_front
         margin-top: 81px
         transition: .3s ease-in-out
+        &.adjust
+            margin-top: 130px
     &.health
         z-index: 99
     #login

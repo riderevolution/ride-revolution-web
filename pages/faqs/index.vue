@@ -1,14 +1,7 @@
 <template>
     <transition name="fade">
         <div class="faqs" v-if="loaded">
-            <section id="banner" class="mt">
-                <img class="full" src="/default/faqs/faq-banner.jpg" />
-                <breadcrumb :overlay="true" />
-                <div class="overlay_mid">
-                    <h1>{{ res.title }}</h1>
-                    <h2 class="alt" v-html="res.subtitle" v-if="res.subtitle"></h2>
-                </div>
-            </section>
+            <banner :res="res" :hasH2="true" />
             <section id="content">
                 <div class="top">
                     <h3 class="header_title">How do I book a ride?</h3>
@@ -34,11 +27,11 @@
 </template>
 
 <script>
-    import Breadcrumb from '../../components/Breadcrumb'
+    import Banner from '../../components/Banner'
     import BookABikeBanner from '../../components/BookABikeBanner'
     export default {
         components: {
-            Breadcrumb,
+            Banner,
             BookABikeBanner
         },
         data () {
