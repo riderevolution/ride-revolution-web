@@ -1342,7 +1342,7 @@ svg
                     transform: rotate(-90deg)
                     transition: .3s ease-in-out
         .footer_link
-            flex: 0 0 20%
+            flex: 0 0 15%
             h3
                 brandon_medium(16px, true)
                 color: $black
@@ -1395,7 +1395,7 @@ svg
                                 opacity: 1
                                 transition: .3s ease-in-out .3s
             &.alt
-                flex: 1 0 30%
+                flex: 1 0 10%
                 p
                     brandon_regular(16px, false)
                     color: $black
@@ -8668,6 +8668,60 @@ svg
         height: 30px
         background-color: $black
         transform: rotate(-45deg)
+
+#article_alert
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    z-index: 7
+    flex: 0 0 100%
+    padding: 10px 30px
+    background-image: url(/dotted-bg.png)
+    background-color: $white
+    display: flex
+    flex-flow: row wrap
+    align-items: center
+    justify-content: space-between
+    border-bottom: 1px solid $border_alt3
+    transition: .3s ease-in-out
+    .left
+        flex: 1 0 10%
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        img
+            width: auto
+            height: 25px
+        p
+            flex: 1 0 10%
+            neutra_bold(16px, true)
+            color: $black
+            padding-left: 15px
+            span
+                color: $red
+            a
+                color: $green
+                text-decoration: underline
+                transition: .3s ease-in-out
+                &:hover
+                    text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+    .right
+        position: relative
+        flex: 0 0 auto
+        .close_icon
+            position: static
+            top: 0
+            right: 0
+    .close_icon
+        &.mobile
+            top: calc(0% + 5px)
+            right: calc(0% + 5px)
+            width: 20px
+            height: 20px
+            &::before,
+            &::after
+                height: 20px
 
 /**
  * Default Input Forms */

@@ -15,18 +15,26 @@
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/book-a-bike" class="footer_item">Book a Bike</nuxt-link></li>
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/instructors" class="footer_item">Instructors</nuxt-link></li>
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/studios" class="footer_item">Studio</nuxt-link></li>
+            </ul>
+        </div>
+        <div class="footer_link">
+            <h3>About</h3>
+            <ul itemscope itemtype="https://schema.org/SiteNavigationElement">
+                <meta itemprop="name" content="Footer Menu About">
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/faqs" class="footer_item">FAQ's</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/news" class="footer_item">News</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/promos" class="footer_item">Promos</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/terms-and-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
             </ul>
         </div>
         <div class="footer_link">
             <h3>Services</h3>
             <ul itemscope itemtype="https://schema.org/SiteNavigationElement">
                 <meta itemprop="name" content="Footer Menu Services">
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/news" class="footer_item">News</nuxt-link></li>
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/promos" class="footer_item">Promos</nuxt-link></li>
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/privacy-policy" class="footer_item">Privacy Policy</nuxt-link></li>
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/terms-and-conditions" class="footer_item">Terms &amp; Conditions</nuxt-link></li>
+                <li itemprop="name"><a href="https://shop.riderevolution.ph/" class="footer_item" itemprop="name">Shop</a></li>
+                <li itemprop="name"><a href="https://ondemand.riderevolution.ph/" class="footer_item" itemprop="name">On Demand</a></li>
             </ul>
         </div>
         <div class="footer_link alt">

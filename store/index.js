@@ -5,6 +5,7 @@ const createStore = () => {
         state: () => ({
             viewImageUrl: '',
             inApp: '',
+            articleAlertStatus: true,
             resendEmailPrompt: false,
             oldUserEmail: '',
             oldUserUpdatePrompt: false,

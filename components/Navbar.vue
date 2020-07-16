@@ -1,28 +1,77 @@
 <template>
-    <div id="header" :class="`${(height > 200) ? 'sticky' : ''} ${($route.fullPath == '/') ? 'front' : ($route.fullPath == '/instructors' ? 'instructor' : 'not_front')} ${($store.state.loginSignUpStatus) ? 'login' : ''}`">
-        <div class="navbar">
-            <nuxt-link rel="canonical" to="/" class="logo">
-                <img src="/logo.svg" />
-                <div class="logo_title">
-                    Ride <br/>
-                    Revolution
+    <div>
+        <transition name="slide">
+            <div id="article_alert" v-if="$store.state.articleAlertStatus">
+                <div class="left" v-if="!$store.state.isMobile">
+                    <img src="/icons/announcement-icon.png" />
+                    <p>
+                        Important Announcements Regarding <span class="red">COVID-19</span> &amp; Our Commitement to your Safety. <nuxt-link to="/news/covid-19">LEARN MORE</nuxt-link>
+                    </p>
                 </div>
-            </nuxt-link>
-            <ul class="nav_list" v-if="!$store.state.isMobile" itemscope itemtype="https://schema.org/SiteNavigationElement">
-                <meta itemprop="name" content="Main Menu">
-                <li itemprop="name">
-                    <nuxt-link rel="canonical" to="/buy-rides" itemprop="url" class="nav_item">Buy Rides</nuxt-link>
-                </li>
-                <li itemprop="name">
-                    <nuxt-link rel="canonical" to="/book-a-bike" itemprop="url" class="nav_item">Book a Bike</nuxt-link>
-                </li>
-                <li itemprop="name">
-                    <nuxt-link rel="canonical" to="/instructors" itemprop="url" class="nav_item">Instructors</nuxt-link>
-                </li>
-                <li itemprop="name" v-if="!$store.state.isAuth">
-                    <div class="default_btn" @click="loginUser()">Login / Sign up</div>
-                </li>
-                <li v-else>
+                <div class="left" v-else>
+                    <p>
+                        Important Announcements Regarding <span class="red">COVID-19</span> your Safety. <nuxt-link to="/news/covid-19">LEARN MORE</nuxt-link>
+                    </p>
+                </div>
+                <div class="right" v-if="!$store.state.isMobile">
+                    <div class="close_icon" @click="toggleClose()"></div>
+                </div>
+                <div class="close_icon mobile" @click="toggleClose()" v-else></div>
+            </div>
+        </transition>
+        <div id="header" :class="`${(height > 200) ? 'sticky' : ''} ${($route.fullPath == '/') ? 'front' : ($route.fullPath == '/instructors' ? 'instructor' : 'not_front')} ${($store.state.loginSignUpStatus) ? 'login' : ''}`">
+            <div class="navbar">
+                <nuxt-link rel="canonical" to="/" class="logo">
+                    <img src="/logo.svg" />
+                    <div class="logo_title">
+                        Ride <br/>
+                        Revolution
+                    </div>
+                </nuxt-link>
+                <ul class="nav_list" v-if="!$store.state.isMobile" itemscope itemtype="https://schema.org/SiteNavigationElement">
+                    <meta itemprop="name" content="Main Menu">
+                    <li itemprop="name">
+                        <nuxt-link rel="canonical" to="/buy-rides" itemprop="url" class="nav_item">Buy Rides</nuxt-link>
+                    </li>
+                    <li itemprop="name">
+                        <nuxt-link rel="canonical" to="/book-a-bike" itemprop="url" class="nav_item">Book a Bike</nuxt-link>
+                    </li>
+                    <li itemprop="name">
+                        <nuxt-link rel="canonical" to="/instructors" itemprop="url" class="nav_item">Instructors</nuxt-link>
+                    </li>
+                    <li itemprop="name" v-if="!$store.state.isAuth">
+                        <div class="default_btn" @click="loginUser()">Login / Sign up</div>
+                    </li>
+                    <li v-else>
+                        <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
+                            <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
+                            <div class="overlay" v-else>
+                                <div class="letter">
+                                    {{ first_name }}{{ last_name }}
+                                </div>
+                            </div>
+                            <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
+                            <transition name="slideAlt">
+                                <ul class="user_dropdown_list" v-if="showList">
+                                    <li class="user_dropdown_item">
+                                        <nuxt-link to="/my-profile" class="item_link">View My Profile</nuxt-link>
+                                    </li>
+                                    <li class="user_dropdown_item">
+                                        <div class="item_link" @click="checkUser()">Account Settings</div>
+                                    </li>
+                                    <li class="user_dropdown_item">
+                                        <div class="item_link red" @click="logout()">Signout</div>
+                                    </li>
+                                </ul>
+                            </transition>
+                        </div>
+                    </li>
+                </ul>
+                <div class="nav_login" @click="loginUser()" v-if="$store.state.isMobile && !$store.state.isAuth">
+                    <img src="/icons/login-icon.svg" />
+                    <div class="background"></div>
+                </div>
+                <div v-if="$store.state.isMobile && $store.state.isAuth">
                     <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
                         <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
                         <div class="overlay" v-else>
@@ -30,7 +79,6 @@
                                 {{ first_name }}{{ last_name }}
                             </div>
                         </div>
-                        <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
                         <transition name="slideAlt">
                             <ul class="user_dropdown_list" v-if="showList">
                                 <li class="user_dropdown_item">
@@ -45,41 +93,14 @@
                             </ul>
                         </transition>
                     </div>
-                </li>
-            </ul>
-            <div class="nav_login" @click="loginUser()" v-if="$store.state.isMobile && !$store.state.isAuth">
-                <img src="/icons/login-icon.svg" />
-                <div class="background"></div>
-            </div>
-            <div v-if="$store.state.isMobile && $store.state.isAuth">
-                <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
-                    <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
-                    <div class="overlay" v-else>
-                        <div class="letter">
-                            {{ first_name }}{{ last_name }}
-                        </div>
-                    </div>
-                    <transition name="slideAlt">
-                        <ul class="user_dropdown_list" v-if="showList">
-                            <li class="user_dropdown_item">
-                                <nuxt-link to="/my-profile" class="item_link">View My Profile</nuxt-link>
-                            </li>
-                            <li class="user_dropdown_item">
-                                <div class="item_link" @click="checkUser()">Account Settings</div>
-                            </li>
-                            <li class="user_dropdown_item">
-                                <div class="item_link red" @click="logout()">Signout</div>
-                            </li>
-                        </ul>
-                    </transition>
                 </div>
             </div>
-        </div>
-        <div class="nav_burger" @click="toggleNavbarExpanded()">
-            <div class="bar top_line"></div>
-            <div class="bar middle_line"></div>
-            <div class="bar bottom_line"></div>
-            <div class="excess_line"></div>
+            <div class="nav_burger" @click="toggleNavbarExpanded()">
+                <div class="bar top_line"></div>
+                <div class="bar middle_line"></div>
+                <div class="bar bottom_line"></div>
+                <div class="excess_line"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -95,6 +116,11 @@
             }
         },
         methods: {
+            toggleClose () {
+                const me = this
+                me.$store.state.articleAlertStatus = false
+                document.getElementById('header').style.top = `${0}px`
+            },
             checkUser () {
                 const me = this
                 if (me.$store.state.user.new_user == 1) {
