@@ -1,17 +1,17 @@
 <template>
     <div>
         <transition name="slide">
-            <div id="article_alert" v-if="$store.state.articleAlertStatus">
+            <div id="article_alert" v-if="$store.state.articleAlertStatus && advisory != null">
                 <div class="left" v-if="!$store.state.isMobile">
                     <img src="/icons/announcement-icon.png" />
-                    <p>
-                        Important Announcements Regarding <span class="red">COVID-19</span> &amp; Our Commitement to your Safety. <nuxt-link to="/news/covid-19">LEARN MORE</nuxt-link>
-                    </p>
+                    <div class="info">
+                        <div v-html="advisory.summary" @click.prevent="$router.push(`/news/${advisory.slug}`)"></div>
+                    </div>
                 </div>
                 <div class="left" v-else>
-                    <p>
-                        Important Announcements Regarding <span class="red">COVID-19</span> your Safety. <nuxt-link to="/news/covid-19">LEARN MORE</nuxt-link>
-                    </p>
+                    <div class="info">
+                        <div v-html="advisory.summary" @click.prevent="$router.push(`/news/${advisory.slug}`)"></div>
+                    </div>
                 </div>
                 <div class="right" v-if="!$store.state.isMobile">
                     <div class="close_icon" @click="toggleClose()"></div>
@@ -111,6 +111,7 @@
             return {
                 height: 0,
                 showList: false,
+                advisory: null,
                 first_name: '',
                 last_name: ''
             }
@@ -154,12 +155,28 @@
                     me.height = height
                 }
             },
+            fetchAdvisory () {
+                const me = this
+                me.$axios.get('api/web/advisory').then(res => {
+                    if (res.data.advisory != null) {
+                        me.advisory = res.data.advisory
+                        setTimeout( () => {
+                            if (me.$store.state.articleAlertStatus) {
+                                document.getElementById('header').style.top = `${document.getElementById('article_alert').scrollHeight}px`
+                            } else {
+                                document.getElementById('header').style.top = `${0}px`
+                            }
+                        }, 100)
+                    }
+                })
+            }
         },
         mounted () {
             const me = this
             let ctr = 0
             me.windowScroll()
-            setInterval( () => {
+            me.fetchAdvisory()
+            let interval = setInterval( () => {
                 if (ctr > 1) {
                     if (me.$store.state.user.first_name != '' || me.$store.state.user.last_name != '') {
                         me.first_name = me.$store.state.user.first_name.charAt(0)
@@ -168,6 +185,9 @@
                 }
                 ctr++
             }, 500)
+            setTimeout( () => {
+                clearInterval(interval)
+            }, 1500)
         },
         beforeMount () {
             window.addEventListener('load', this.windowScroll)
