@@ -218,12 +218,6 @@
                     me.$store.state.loginSignUpStatus = true
                 }
                 document.addEventListener('contextmenu', event => event.preventDefault())
-
-                if (me.$store.state.articleAlertStatus) {
-                    document.getElementById('header').style.top = `${document.getElementById('article_alert').scrollHeight}px`
-                } else {
-                    document.getElementById('header').style.top = `${0}px`
-                }
             }
         },
         mounted () {
