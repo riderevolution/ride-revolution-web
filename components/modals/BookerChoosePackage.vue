@@ -173,6 +173,7 @@
                                     let formData = new FormData()
                                     formData.append('scheduled_date_id', me.$route.params.slug)
                                     formData.append('user_id', me.user.id)
+                                    formData.append('user_package_count_id', me.selectedPackage)
                                     me.$axios.post('api/extras/check-if-user-is-booked-already', formData).then(res => {
                                         setTimeout( () => {
                                             if (res.data.result > 0) {
