@@ -204,7 +204,7 @@
                 me.selectedClassPackage = data
                 /**
                  * Check if the the user changed package */
-                if (me.$route.name == 'my-profile-manage-class-slug') {
+                if (me.$route.name == 'my-profile-manage-class-slug' && me.seat.bookings.length > 0) {
                     if (me.tempSelectedPackage == data.id) {
                         me.notSelectedPackage = false
                     } else {
@@ -268,9 +268,14 @@
                                     }
                                 } else {
                                     if (me.$parent.tempGuestSeat == null) {
-                                        me.selectedClassPackage = me.seat.bookings[0].user_package_count
-                                        me.selectedPackage = me.seat.bookings[0].user_package_count.id
-                                        me.tempSelectedPackage = me.seat.bookings[0].user_package_count.id
+                                        for (let i = 0; i < me.classPackages.length; i++) {
+                                            if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
+                                                me.selectedClassPackage = me.classPackages[i]
+                                                me.selectedPackage = me.classPackages[i].id
+                                                me.tempSelectedPackage = me.classPackages[i].id
+                                                break
+                                            }
+                                        }
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
