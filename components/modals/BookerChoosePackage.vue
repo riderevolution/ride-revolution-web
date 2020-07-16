@@ -184,9 +184,9 @@
                                         }, 500);
                                     }).catch(err => {
                                         setTimeout( () => {
-                                            me.$store.state.errorOverlayStatus = true
+                                            me.$store.state.errorOverlayPromptStatus = true
                                             me.$store.state.errorList = err.response.data.errors
-                                            me.$store.state.errorStatus = true
+                                            me.$store.state.errorPromptStatus = true
                                         }, 500)
                                     }).then(() => {
                                         setTimeout( () => {
