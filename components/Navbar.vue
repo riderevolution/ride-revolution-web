@@ -44,13 +44,13 @@
                     </li>
                     <li v-else>
                         <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
-                            <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
+                            <img :src="`${(user.customer_details.images[0].path != null) ? user.customer_details.images[0].path : '' }`" v-if="user.customer_details.images[0].path != null" />
                             <div class="overlay" v-else>
                                 <div class="letter">
                                     {{ first_name }}{{ last_name }}
                                 </div>
                             </div>
-                            <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
+                            <h3>{{ `${user.first_name} ${user.last_name}` }}</h3>
                             <transition name="slideAlt">
                                 <ul class="user_dropdown_list" v-if="showList">
                                     <li class="user_dropdown_item">
@@ -73,7 +73,7 @@
                 </div>
                 <div v-if="$store.state.isMobile && $store.state.isAuth">
                     <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
-                        <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
+                        <img :src="`${(user.customer_details.images[0].path != null) ? user.customer_details.images[0].path : '' }`" v-if="user.customer_details.images[0].path != null" />
                         <div class="overlay" v-else>
                             <div class="letter">
                                 {{ first_name }}{{ last_name }}
@@ -113,7 +113,16 @@
                 showList: false,
                 advisory: null,
                 first_name: '',
-                last_name: ''
+                last_name: '',
+                user: {
+                    customer_details: {
+                        images: [
+                            {
+                                path: ''
+                            }
+                        ]
+                    }
+                }
             }
         },
         methods: {
@@ -151,7 +160,7 @@
             },
             checkUser () {
                 const me = this
-                if (me.$store.state.user.new_user == 1) {
+                if (me.user.new_user == 1) {
                     me.$store.state.completeProfileStepsStatus = true
                     document.body.classList.add('no_scroll')
                 } else {
@@ -209,21 +218,22 @@
         },
         mounted () {
             const me = this
-            let ctr = 0
+            let token = me.$cookies.get('70hokc3hhhn5')
+            if (token != null && token != undefined) {
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.user = res.data.user
+                        me.first_name = me.user.first_name.charAt(0)
+                        me.last_name = me.user.last_name.charAt(0)
+                    }
+                })
+            }
             me.windowScroll()
             me.fetchAdvisory()
-            let interval = setInterval( () => {
-                if (ctr > 1) {
-                    if (me.$store.state.user.first_name != '' || me.$store.state.user.last_name != '') {
-                        me.first_name = me.$store.state.user.first_name.charAt(0)
-                        me.last_name = me.$store.state.user.last_name.charAt(0)
-                    }
-                }
-                ctr++
-            }, 500)
-            setTimeout( () => {
-                clearInterval(interval)
-            }, 1500)
         },
         beforeMount () {
             window.addEventListener('load', this.windowScroll)
