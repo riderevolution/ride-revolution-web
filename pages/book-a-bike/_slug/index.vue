@@ -1,7 +1,6 @@
 <template>
     <div class="book_a_bike inner">
         <breadcrumb :overlay="false" :booker="true" />
-        <section id="banner"></section>
         <transition name="slide">
             <pro-tip v-if="$store.state.proTipStatus" />
         </transition>

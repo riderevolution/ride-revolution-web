@@ -121,6 +121,26 @@
                 const me = this
                 me.$store.state.articleAlertStatus = false
                 document.getElementById('header').style.top = `${0}px`
+                if (document.getElementById('instructors_nav')) {
+                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('instructors_nav').scrollHeight}px`
+
+                    document.getElementById('instructors_nav').style.top = `${document.getElementById('header').scrollHeight}px`
+                } else {
+                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                }
+                if (document.getElementById('banner')) {
+                    document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                }
+                if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner')) {
+                    if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                    } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                        document.getElementById('pro_tip').style.top = `${document.getElementById('header').scrollHeight}px`
+                    } else {
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                    }
+                }
             },
             checkUser () {
                 const me = this
@@ -154,13 +174,15 @@
                 if (element.classList.contains('front')) {
                     me.height = height
                 }
-                if (me.advisory != null) {
-                    if (me.$store.state.articleAlertStatus) {
-                        document.getElementById('header').style.top = `${document.getElementById('article_alert').scrollHeight}px`
-                    } else {
-                        document.getElementById('header').style.top = `${0}px`
+                setTimeout( () => {
+                    if (me.advisory != null) {
+                        if (me.$store.state.articleAlertStatus) {
+                            document.getElementById('header').style.top = `${document.getElementById('article_alert').scrollHeight}px`
+                        } else {
+                            document.getElementById('header').style.top = `${0}px`
+                        }
                     }
-                }
+                }, 100)
             },
             fetchAdvisory () {
                 const me = this

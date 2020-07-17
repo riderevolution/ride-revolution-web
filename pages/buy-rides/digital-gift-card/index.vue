@@ -373,14 +373,30 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
+                        me.loader(true)
                         if (me.form.recipientEmail == me.user.email) {
                             document.body.classList.add('no_scroll')
                             me.$store.state.errorList = ['You cannot send an email to yourself.']
                             me.$store.state.errorPromptStatus = true
                         } else {
-                            me.step = 2
-                            me.$scrollTo('#payments', {
-                                offset: -250
+                            let formData = new FormData()
+                            formData.append('class_package_id', me.form.classPackage)
+                            formData.append('email', me.form.recipientEmail)
+                            me.$axios.post('api/extras/validate-gift-card', formData).then(res => {
+                                if (res.data) {
+                                    me.step = 2
+                                    me.$scrollTo('#payments', {
+                                        offset: -250
+                                    })
+                                }
+                            }).catch(err => {
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                                me.loader(false)
+                            }).then(() => {
+                                setTimeout( () => {
+                                    me.loader(false)
+                                }, 500)
                             })
                         }
                     } else {
@@ -436,7 +452,6 @@
                     me.loader(true)
                     me.$axios.post('api/apply-promo', formData).then(res => {
                         if (res.data) {
-                            console.log(res.data.classPackage);
                             me.selectedPackage = res.data.classPackage
                             me.promoApplied = true
                             me.message = 'Cheers! You’ve entered a valid promo code.'

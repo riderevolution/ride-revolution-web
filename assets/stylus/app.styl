@@ -2199,14 +2199,8 @@ svg
  * Instructors */
 .instructors
     position: relative
-    margin-top: 81px
-    &.adjust
-        margin-top: 130px
-        #instructors_nav
-            top: calc(0% + 130px)
     #instructors_nav
         position: fixed
-        top: calc(0% + 80px)
         left: 0
         width: 100%
         z-index: 3
@@ -4710,15 +4704,13 @@ svg
             width: 100%
             max-width: calc(80% + 30px)
             margin: 0 auto
-            padding: 80px 0 40px
+            padding: 80px 0 60px
             transition: .3s ease-in-out
             &.overlay
                 position: absolute
                 left: -9999px
                 opacity: 0
                 visibility: hidden
-            &.dismiss
-                padding: 40px 0
             .step
                 transition: .3s ease-in-out
                 .flex_step
@@ -7728,11 +7720,8 @@ svg
  * Breadcrumb */
 #breadcrumb
     position: relative
-    padding-top: 80px
     border-bottom: 1px solid $border_alt
     transition: .3s ease-in-out
-    &.adjust
-        padding-top: 130px
     &.overlay
         position: absolute
         top: 0
@@ -7750,16 +7739,6 @@ svg
             .slash,
             .crumb
                 color: rgba(255, 255, 255, 0.7)
-        &.dismiss
-            padding-top: 0
-            transition: .3s ease-in-out
-    &.dismiss
-        padding-top: 128px
-        transition: .3s ease-in-out
-        &.adjust
-            padding-top: 130px
-        &.has_padding
-            padding-top: 70px
     ul
         display: flex
         flex-flow: row wrap
@@ -7796,12 +7775,6 @@ svg
     img
         width: 100%
         {image_default}
-    &.mt
-        margin-top: 81px
-        &.alt
-            margin-top: 0
-        &.adjust
-            margin-top: 130px
     .full
         width: 100%
         &.gradient
