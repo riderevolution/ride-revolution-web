@@ -8,7 +8,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_group">
-                            <label><b>{{ giftCard.gift_card.card_code }}</b></label>
+                            <label>Card Code: <b>{{ giftCard.gift_card.card_code }}</b></label>
                         </div>
                         <div class="form_flex with_btn alt_2">
                             <div class="form_group">

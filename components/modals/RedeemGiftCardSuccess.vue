@@ -9,7 +9,7 @@
             <div class="confirmation_image">
                 <img :src="giftCard.images[0].path" />
                 <div class="overlay">
-                    <img class="gift_img" :src="giftCard.fromUser.images[0].path" v-if="giftCard.fromUser.images[0].path != null" />
+                    <img class="gift_img" :src="giftCard.fromUserImages[0].path" v-if="giftCard.fromUserImages[0].path != null" />
                     <div class="initials" v-else>
                         <div class="name">{{ giftCard.fromUser.first_name.charAt(0) }}{{ giftCard.fromUser.last_name.charAt(0) }}</div>
                     </div>

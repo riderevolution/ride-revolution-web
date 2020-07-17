@@ -121,6 +121,11 @@
                 const me = this
                 me.$store.state.articleAlertStatus = false
                 document.getElementById('header').style.top = `${0}px`
+
+                if (document.querySelector('.login_sign_up')) {
+                    document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                }
+
                 if (document.getElementById('instructors_nav')) {
                     document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('instructors_nav').scrollHeight}px`
 
