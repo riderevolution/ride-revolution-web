@@ -268,6 +268,7 @@
                     discount: 0,
                     total: 0
                 },
+                user: [],
                 res: [],
                 classPackages: [],
                 predefinedTitles: [],
@@ -502,19 +503,25 @@
             setTimeout( () => {
                 me.classPackages = me.res.classPackages
             }, 10)
+
             let token = me.$route.query.token
-            if ((token == null || token == undefined) && !me.$store.state.isAuth) {
-                me.$store.state.loginCheckerStatus = true
-                document.body.classList.add('no_scroll')
-                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-            }
+
+            me.$axios.get('api/check-token', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    me.user = res.data.user
+                    me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
+                }
+            })
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get('api/extras/class-packages-for-gift-cards').then(res => {
                 if (res.data) {
                     return {
                         res: res.data,
-                        storeCredits: (store.state.user.store_credits === null) ? 0 : store.state.user.store_credits.amount,
                         loaded: true
                     }
                 }

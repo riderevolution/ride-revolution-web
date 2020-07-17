@@ -8,6 +8,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div class="form_flex with_btn alt_2">
+                            <input type="hidden" name="card_code" :value="giftCard.gift_card.card_code">
                             <div class="form_group">
                                 <label for="pin">Pin <span>*</span></label>
                                 <input type="text" name="pin" autocomplete="off" placeholder="Enter your pin number" class="input_text" v-validate="'required|numeric|min:2|max:12'">

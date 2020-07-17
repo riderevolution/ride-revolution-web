@@ -518,6 +518,7 @@
                 }).then(res => {
                     if (res.data) {
                         me.user = res.data.user
+                        me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                     }
                 })
                 setTimeout( () => {
@@ -529,8 +530,7 @@
             return await $axios.get('api/extras/class-packages-for-gift-cards?forWeb=1').then(res => {
                 if (res.data) {
                     return {
-                        res: res.data,
-                        storeCredits: (store.state.user.store_credits == null) ? 0 : store.state.user.store_credits.amount
+                        res: res.data
                     }
                 }
             }).catch(err => {
