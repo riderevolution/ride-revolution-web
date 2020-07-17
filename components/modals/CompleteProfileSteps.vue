@@ -590,6 +590,18 @@
                 me.$store.state.completeProfileStepsStatus = false
                 document.body.classList.remove('no_scroll')
             },
+            checkAdvisory () {
+				const me = this
+				setTimeout( () => {
+                    if (document.querySelector('.login_sign_up')) {
+                        if (me.$store.state.articleAlertStatus) {
+                            document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                        } else {
+                            document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                        }
+                    }
+				}, 100)
+			},
             /**
              * Detect height of scroll */
             windowLoginScroll () {
@@ -619,6 +631,7 @@
                         }
                     })
                 }, 100)
+                me.checkAdvisory()
             }
         },
         mounted () {
