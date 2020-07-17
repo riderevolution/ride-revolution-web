@@ -44,13 +44,13 @@
                     </li>
                     <li v-else>
                         <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
-                            <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
+                            <img :src="`${(user.customer_details.images[0].path != null) ? user.customer_details.images[0].path : '' }`" v-if="user.customer_details.images[0].path != null" />
                             <div class="overlay" v-else>
                                 <div class="letter">
                                     {{ first_name }}{{ last_name }}
                                 </div>
                             </div>
-                            <h3>{{ `${$store.state.user.first_name} ${$store.state.user.last_name}` }}</h3>
+                            <h3>{{ `${user.first_name} ${user.last_name}` }}</h3>
                             <transition name="slideAlt">
                                 <ul class="user_dropdown_list" v-if="showList">
                                     <li class="user_dropdown_item">
@@ -73,7 +73,7 @@
                 </div>
                 <div v-if="$store.state.isMobile && $store.state.isAuth">
                     <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
-                        <img :src="`${($store.state.user.customer_details.images[0].path != null) ? $store.state.user.customer_details.images[0].path : '' }`" v-if="$store.state.user.customer_details.images[0].path != null" />
+                        <img :src="`${(user.customer_details.images[0].path != null) ? user.customer_details.images[0].path : '' }`" v-if="user.customer_details.images[0].path != null" />
                         <div class="overlay" v-else>
                             <div class="letter">
                                 {{ first_name }}{{ last_name }}
@@ -113,7 +113,16 @@
                 showList: false,
                 advisory: null,
                 first_name: '',
-                last_name: ''
+                last_name: '',
+                user: {
+                    customer_details: {
+                        images: [
+                            {
+                                path: ''
+                            }
+                        ]
+                    }
+                }
             }
         },
         methods: {
@@ -121,10 +130,37 @@
                 const me = this
                 me.$store.state.articleAlertStatus = false
                 document.getElementById('header').style.top = `${0}px`
+
+                if (document.querySelector('.login_sign_up')) {
+                    document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                } else if (document.getElementById('complete_profile')) {
+                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
+
+                    document.getElementById('complete_profile').style.top = `${document.getElementById('header').scrollHeight}px`
+                } else if (document.getElementById('instructors_nav')) {
+                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('instructors_nav').scrollHeight}px`
+
+                    document.getElementById('instructors_nav').style.top = `${document.getElementById('header').scrollHeight}px`
+                } else if (document.getElementById('banner')) {
+                    document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                } else if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner')) {
+                    if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                    } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                        document.getElementById('pro_tip').style.top = `${document.getElementById('header').scrollHeight}px`
+                    } else {
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                    }
+                } else {
+                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                }
+
+
             },
             checkUser () {
                 const me = this
-                if (me.$store.state.user.new_user == 1) {
+                if (me.user.new_user == 1) {
                     me.$store.state.completeProfileStepsStatus = true
                     document.body.classList.add('no_scroll')
                 } else {
@@ -154,13 +190,15 @@
                 if (element.classList.contains('front')) {
                     me.height = height
                 }
-                if (me.advisory != null) {
-                    if (me.$store.state.articleAlertStatus) {
-                        document.getElementById('header').style.top = `${document.getElementById('article_alert').scrollHeight}px`
-                    } else {
-                        document.getElementById('header').style.top = `${0}px`
+                setTimeout( () => {
+                    if (me.advisory != null) {
+                        if (me.$store.state.articleAlertStatus) {
+                            document.getElementById('header').style.top = `${document.getElementById('article_alert').scrollHeight}px`
+                        } else {
+                            document.getElementById('header').style.top = `${0}px`
+                        }
                     }
-                }
+                }, 100)
             },
             fetchAdvisory () {
                 const me = this
@@ -180,21 +218,22 @@
         },
         mounted () {
             const me = this
-            let ctr = 0
+            let token = me.$cookies.get('70hokc3hhhn5')
+            if (token != null && token != undefined) {
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.user = res.data.user
+                        me.first_name = me.user.first_name.charAt(0)
+                        me.last_name = me.user.last_name.charAt(0)
+                    }
+                })
+            }
             me.windowScroll()
             me.fetchAdvisory()
-            let interval = setInterval( () => {
-                if (ctr > 1) {
-                    if (me.$store.state.user.first_name != '' || me.$store.state.user.last_name != '') {
-                        me.first_name = me.$store.state.user.first_name.charAt(0)
-                        me.last_name = me.$store.state.user.last_name.charAt(0)
-                    }
-                }
-                ctr++
-            }, 500)
-            setTimeout( () => {
-                clearInterval(interval)
-            }, 1500)
         },
         beforeMount () {
             window.addEventListener('load', this.windowScroll)

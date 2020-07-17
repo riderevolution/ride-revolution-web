@@ -300,12 +300,6 @@
                 me.initial()
             }, 10)
         },
-        beforeMount () {
-            window.addEventListener('scroll', this.windowScroll)
-        },
-        beforeDestroy () {
-            window.removeEventListener('scroll', this.windowScroll)
-        },
         asyncData ({ $axios, params, error, store }) {
             return $axios.get(`api/web/instructors?sort_by=recommended`)
             .then(res => {

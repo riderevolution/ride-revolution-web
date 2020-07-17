@@ -1,5 +1,5 @@
 <template>
-    <section id="banner" :class="`mt ${($store.state.articleAlertStatus) ? 'adjust' : ''}`">
+    <section id="banner">
         <img class="full" :src="res.banners[0].path" :alt="res.banners[0].alt" />
         <breadcrumb :overlay="true" />
         <div class="overlay_mid">
@@ -27,6 +27,30 @@
                 type: Boolean,
                 default: true
             }
+        },
+        methods: {
+            windowScroll () {
+                const me = this
+                if (me.$store.state.articleAlertStatus) {
+                    document.getElementById('banner').style.marginTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                } else {
+                    document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                }
+            }
+        },
+        mounted () {
+            const me = this
+            me.windowScroll()
+        },
+        beforeMount () {
+            window.addEventListener('load', this.windowScroll)
+            window.addEventListener('scroll', this.windowScroll)
+            window.addEventListener('resize', this.windowScroll)
+        },
+        beforeDestroy () {
+            window.removeEventListener('load', this.windowScroll)
+            window.removeEventListener('scroll', this.windowScroll)
+            window.removeEventListener('resize', this.windowScroll)
         }
     }
 </script>

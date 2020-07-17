@@ -7,6 +7,9 @@
                     <h3 class="form_subtitle">Please input the 4-digit PIN sent to your email address.</h3>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
+                        <div class="form_group">
+                            <label>Card Code: <b>{{ giftCard.gift_card.card_code }}</b></label>
+                        </div>
                         <div class="form_flex with_btn alt_2">
                             <div class="form_group">
                                 <label for="pin">Pin <span>*</span></label>

@@ -268,6 +268,7 @@
                     discount: 0,
                     total: 0
                 },
+                user: [],
                 res: [],
                 classPackages: [],
                 predefinedTitles: [],
@@ -368,10 +369,32 @@
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        me.step = 2
-                        me.$scrollTo('#payments', {
-                            offset: -250
-                        })
+                        me.loader(true)
+                        if (me.form.recipientEmail == me.user.email) {
+                            document.body.classList.add('no_scroll')
+                            me.$store.state.errorList = ['You cannot send an email to yourself.']
+                            me.$store.state.errorPromptStatus = true
+                        } else {
+                            let formData = new FormData()
+                            formData.append('class_package_id', me.form.classPackage)
+                            formData.append('email', me.form.recipientEmail)
+                            me.$axios.post('api/extras/validate-gift-card', formData).then(res => {
+                                if (res.data) {
+                                    me.step = 2
+                                    me.$scrollTo('#payments', {
+                                        offset: -250
+                                    })
+                                }
+                            }).catch(err => {
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                                me.loader(false)
+                            }).then(() => {
+                                setTimeout( () => {
+                                    me.loader(false)
+                                }, 500)
+                            })
+                        }
                     } else {
                         me.$scrollTo('.validation_errors', {
                             offset: -250
@@ -480,19 +503,25 @@
             setTimeout( () => {
                 me.classPackages = me.res.classPackages
             }, 10)
+
             let token = me.$route.query.token
-            if ((token == null || token == undefined) && !me.$store.state.isAuth) {
-                me.$store.state.loginCheckerStatus = true
-                document.body.classList.add('no_scroll')
-                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-            }
+
+            me.$axios.get('api/check-token', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    me.user = res.data.user
+                    me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
+                }
+            })
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get('api/extras/class-packages-for-gift-cards').then(res => {
                 if (res.data) {
                     return {
                         res: res.data,
-                        storeCredits: (store.state.user.store_credits === null) ? 0 : store.state.user.store_credits.amount,
                         loaded: true
                     }
                 }

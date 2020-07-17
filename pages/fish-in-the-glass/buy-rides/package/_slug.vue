@@ -355,7 +355,7 @@
                             me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
                         }, 1000)
                     })
-                    me.storeCredits = res.data.user.store_credits.amount
+                    me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                 }
             }).catch(err => {
                 console.log(err)

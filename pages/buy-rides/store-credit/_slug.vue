@@ -311,8 +311,7 @@
             return await $axios.get(`api/packages/web/store-credits/${params.slug}`).then(res => {
                 if (res.data) {
                     return {
-                        res: res.data.storeCredit,
-                        storeCredits: (store.state.user.store_credits === null) ? 0 : store.state.user.store_credits.amount
+                        res: res.data.storeCredit
                     }
                 }
             }).catch(err => {
