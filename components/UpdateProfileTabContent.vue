@@ -50,7 +50,7 @@
                         <div class="form_group">
                             <label for="birth_date">Birth Date <span>*</span></label>
                             <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="profileOverview.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="contact_number">Contact Number <span>*</span></label>
