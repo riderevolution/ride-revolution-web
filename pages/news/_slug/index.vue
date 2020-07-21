@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="news inner" v-if="loaded">
-            <banner :res="res" :hasH2="true" :hasH2Class="false" />
+            <banner :res="res" :hasH2="true" :hasH2Class="false" :alt="'4'" />
             <section id="content">
                 <div class="left" v-html="res.description"></div>
                 <div class="right">
@@ -78,7 +78,6 @@
                 mobileOptions: {
                     slidesPerView: 3,
                     spaceBetween: 30,
-                    loop: true,
                     autoplay: {
                         delay: 4000,
                         disableOnInteraction: false
