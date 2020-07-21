@@ -74,13 +74,13 @@
                                         <div class="info">
                                             <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
                                             <div class="ride">
-                                                <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
+                                                <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
                                                 <div class="info_icon">
                                                     <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
                                                     <transition name="slideAltY">
                                                         <div class="info_overlay" v-if="data.toggled">
                                                             <div class="pointer"></div>
-                                                            Details: {{ data.schedule.description }}<br>
+                                                            Details: {{ (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description  }}<br>
                                                             Credits to Deduct: {{ data.schedule.class_credits }}
                                                         </div>
                                                     </transition>
@@ -117,13 +117,13 @@
                                         <div class="time">{{ data.schedule.start_time }}</div>
                                         <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
                                         <div class="ride">
-                                            <p>{{ parseScheduleRide(data.schedule.class_length) }} Ride</p>
+                                            <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
                                             <div class="info_icon">
                                                 <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
                                                 <transition name="slideAltY">
                                                     <div class="info_overlay" v-if="data.toggled">
                                                         <div class="pointer"></div>
-                                                        Details: {{ data.schedule.description }}<br>
+                                                        Details: {{ (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description  }}<br>
                                                         Credits to Deduct: {{ data.schedule.class_credits }}
                                                     </div>
                                                 </transition>
