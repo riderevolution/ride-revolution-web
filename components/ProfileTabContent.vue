@@ -165,7 +165,7 @@
                                         </div>
                                     </div>
                                     <div class="right">
-                                        <h3 class="title">{{ data.scheduled_date.schedule.class_type.name }}</h3>
+                                        <h3 class="title">{{ (data.scheduled_date.schedule.custom_name != null) ? data.scheduled_date.schedule.custom_name : data.scheduled_date.schedule.class_type.name }}</h3>
                                         <div class="violator" v-if="$moment(data.scheduled_date.date).format('MMMM DD, YYYY') == $moment().format('MMMM DD, YYYY')">Today</div>
                                         <div class="schedule">{{ data.scheduled_date.schedule.start_time }} at {{ data.scheduled_date.schedule.studio.name }}</div>
                                         <div class="schedule" v-if="data.seat">
