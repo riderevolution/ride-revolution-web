@@ -27,6 +27,26 @@
                                             <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you’d like to use for this class.</li>
                                         </ul>
                                     </div>
+                                    <div class="preview" v-if="!schedule.guestHere && manage">
+                                        <h3 class="preview_title">Booking Summary</h3>
+                                        <div class="item">
+                                            <p>Bike No.</p>
+                                            <p class="right">
+                                                <span v-for="(number, key) in getAllSeatNumbers" v-html="number">
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="item">
+                                            <p>Class Packages Used</p>
+                                            <p class="right">
+                                                <span v-for="(data, key) in getAllPackages" v-html="data"></span>
+                                            </p>
+                                        </div>
+                                        <div class="total">
+                                            <p>Consumes</p>
+                                            <p class="right">{{ ctr * schedule.schedule.class_credits }} Credit/s</p>
+                                        </div>
+                                    </div>
                                     <div class="waitlisted" v-if="isWaitlisted">
                                         <div class="label">Waitlisted</div>
                                         <div class="user">
@@ -55,6 +75,26 @@
                                                 <li><b>Switch Seats.</b> You can switch any of your booked seats as long as there are vacant bikes available.</li>
                                                 <li><b>Switch Class Package.</b> If you have more than one class package you can reselect which one you’d like to use for this class.</li>
                                             </ul>
+                                        </div>
+                                        <div class="preview" v-if="!schedule.guestHere && manage">
+                                            <h3 class="preview_title">Booking Summary</h3>
+                                            <div class="item">
+                                                <p>Bike No.</p>
+                                                <p class="right">
+                                                    <span v-for="(number, key) in getAllSeatNumbers" v-html="number">
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="item">
+                                                <p>Class Packages Used</p>
+                                                <p class="right">
+                                                    <span v-for="(data, key) in getAllPackages" v-html="data"></span>
+                                                </p>
+                                            </div>
+                                            <div class="total">
+                                                <p>Consumes</p>
+                                                <p class="right">{{ ctr * schedule.schedule.class_credits }} Credit/s</p>
+                                            </div>
                                         </div>
                                         <div class="waitlisted" v-if="isWaitlisted">
                                             <div class="label">Waitlisted</div>
@@ -363,27 +403,29 @@
                 result = me.seats
                 return result
             },
-            getAllTempPackages () {
+            getAllPackages () {
                 const me = this
-                let data = me.toSubmit.tempSeat
+                let data = me.temp
                 let packages = []
                 let tempResult = []
                 let result = []
                 let ctr = 0
                 data.forEach((element, index) => {
-                    element.temp.user_package_count.same_number = 1
-                    if (tempResult.length == 0) {
-                        tempResult.push(element.temp.user_package_count)
-                    } else if (tempResult.length > 0) {
-                        let tempCtr = 0
-                        tempResult.forEach((temp, tIndex) => {
-                            if (temp.class_package.id == element.temp.user_package_count.class_package.id) {
-                                temp.same_number++
-                                tempCtr++
+                    if (element.bookings.length > 0) {
+                        element.bookings[0].user_package_count.same_number = 1
+                        if (tempResult.length == 0) {
+                            tempResult.push(element.bookings[0].user_package_count)
+                        } else if (tempResult.length > 0) {
+                            let tempCtr = 0
+                            tempResult.forEach((temp, tIndex) => {
+                                if (temp.class_package.id == element.bookings[0].user_package_count.class_package.id) {
+                                    temp.same_number++
+                                    tempCtr++
+                                }
+                            })
+                            if (tempCtr == 0) {
+                                tempResult.push(element.bookings[0].user_package_count)
                             }
-                        })
-                        if (tempCtr == 0) {
-                            tempResult.push(element.temp.user_package_count)
                         }
                     }
                 })
@@ -404,7 +446,21 @@
                     ctr++
                 })
                 return result
-            }
+            },
+            getAllSeatNumbers () {
+                const me = this
+                let result = []
+                me.temp.forEach((seat, index) => {
+                    if (seat.bookings.length > 0 && seat.bookings[0].original_booker_id == me.user.id) {
+                        if (seat.bookings[0].is_guest == 0) {
+                            result.unshift(`<b class="green">${seat.number}</b>`)
+                        } else {
+                            result.push(`, <b class="violet">${seat.number}</b>`)
+                        }
+                    }
+                })
+                return result
+            },
         },
         methods: {
             toggleCancel () {
@@ -528,20 +584,6 @@
                 } else {
                     result += me.$moment(time, 'h:m').format('mm') + ' Minutes'
                 }
-                return result
-            },
-            getAllTempSeats (data) {
-                const me = this
-                let ctr = 0
-                let result = ''
-                data.forEach((element, index) => {
-                    if (ctr == 0) {
-                        result = element.number
-                    } else if (ctr > 0) {
-                        result += `, ${element.number}`
-                    }
-                    ctr++
-                })
                 return result
             },
             /**

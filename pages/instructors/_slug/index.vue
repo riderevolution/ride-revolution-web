@@ -449,8 +449,8 @@
                             }
                         }
                     }
-                    me.$axios.get(`https://www.instagram.com/${me.res.instructor_details.instagram_name}/?__a=1`).then(res => {
-                        me.feeds = res.data.graphql.user.edge_owner_to_timeline_media.edges
+                    me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=${me.res.id}`).then(res => {
+                        me.feeds = res.data.data
                         me.loader(false)
                     })
                 }, 500)

@@ -4718,6 +4718,44 @@ svg
                     flex-flow: row wrap
                     align-items: flex-start
                     justify-content: flex-start
+                .preview
+                    padding: 30px
+                    border: 1px solid $green
+                    .preview_title
+                        brandon_bold(18px, false)
+                        color: $black
+                        margin-bottom: 20px
+                    .item
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: space-between
+                        padding: 15px 0
+                        border-bottom: 1px solid $border_alt4
+                        p
+                            &.right
+                                flex: 1 0 10%
+                                text-align: right
+                                b
+                                    &.green
+                                        color: $green
+                                    &.violet
+                                        color: $pink
+                        p,
+                        h3
+                            brandon_regular(16px, false)
+                            color: $black
+                        h3
+                            text-transform: capitalize
+                    .total
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: space-between
+                        margin: 20px 0 0
+                        p
+                            brandon_bold(16px, false)
+                            color: $black
                 &#step_1,
                 &#step_2,
                 &#step_3
@@ -4726,112 +4764,6 @@ svg
                         left: -9999px
                         opacity: 0
                         visibility: hidden
-                &.form
-                    .preview_book_form
-                        width: 100%
-                        max-width: 40%
-                        margin: 0 auto
-                        .header_title
-                            brandon_bold(26px, false)
-                            color: $black
-                            margin-bottom: 40px
-                        .preview
-                            .item
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
-                                justify-content: space-between
-                                padding: 15px 0
-                                border-bottom: 1px solid $border_alt4
-                                p
-                                    &.right
-                                        flex: 1 0 10%
-                                        text-align: right
-                                        b
-                                            &.green
-                                                color: $green
-                                p,
-                                h3
-                                    brandon_regular(20px, false)
-                                    color: $black
-                                h3
-                                    text-transform: capitalize
-                            .available
-                                .available_item
-                                    display: flex
-                                    flex-flow: row wrap
-                                    align-items: center
-                                    justify-content: space-between
-                                    padding: 15px 0
-                                    border-bottom: 1px solid $border_alt4
-                                    &.insufficient
-                                        p
-                                            color: $red
-                                    h3
-                                        brandon_regular(20px, false)
-                                        color: $black
-                                        text-transform: capitalize
-                                    p
-                                        brandon_medium(20px, false)
-                                        color: $black
-                                    .unavailable
-                                        flex: 0 0 100%
-                                        display: flex
-                                        flex-flow: row wrap
-                                        align-items: center
-                                        justify-content: space-between
-                                        margin-top: 10px
-                                        a
-                                            brandon_medium(16px, true)
-                                            letter-spacing: 0.8px
-                                            color: $green
-                                            background-color: transparent
-                                            border: 1px solid $green
-                                            padding: 5px 10px
-                                            transition: .3s ease-in-out
-                                            &:hover
-                                                color: $white
-                                                background-color: $green
-                                                transition: .3s ease-in-out
-                                        p
-                                            brandon_regular(14px, false)
-                                            font-style: italic
-                                            color: $red
-                            .total
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
-                                justify-content: space-between
-                                margin: 40px 0
-                                p
-                                    brandon_bold(20px, false)
-                                    color: $black
-                            .preview_actions
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
-                                justify-content: space-between
-                            .action_mobile
-                                flex: 0 0 100%
-                                margin: 15px 0 0
-                                text-align: center
-                            .paypal_disclaimer
-                                margin-top: 10px
-                                text-align: right
-                                p
-                                    brandon_regular(12px, false)
-                                    color: rgba(23, 23, 23, 0.63)
-                                .wrapper
-                                    display: flex
-                                    flex-flow: row wrap
-                                    align-items: center
-                                    justify-content: flex-end
-                                    margin-top: 5px
-                                    img
-                                        width: 40px
-                                        margin-right: 15px
-                                        &:last-child
-                                            margin-right: 0
             .main_left,
             .main_right
                 background-color: $white
@@ -4925,7 +4857,7 @@ svg
                     border-top: 1px solid $border_alt
                     padding: 30px
                     .label
-                        brandon_bold(22px, false)
+                        brandon_bold(18px, false)
                         color: $black
                     .user
                         display: flex
@@ -4934,7 +4866,7 @@ svg
                         justify-content: space-between
                         margin-top: 20px
                         .name
-                            brandon_medium(22px, false)
+                            brandon_medium(16px, false)
                             color: $black
                         .default_btn_red
                             brandon_bold(14px, true)
@@ -7396,18 +7328,14 @@ svg
             color: $black
             letter-spacing: 3px
         .description
-            flex: 0 0 40%
-            display: flex
-            flex-flow: row wrap
-            align-items: center
-            justify-content: center
             img
+                margin-top: 5px
                 margin-right: 10px
             span
+                vertical-align: middle
                 brandon_bold(30px, false)
                 color: $black
                 letter-spacing: 0.75px
-                padding-bottom: 5px
 
 /**
  * Packages */
@@ -7679,7 +7607,7 @@ svg
             flex: 0 0 20%
             img
                 width: 512px
-                height: 512px
+                height: 100%
                 object-fit: cover
                 object-position: top
             &::before
@@ -7845,9 +7773,6 @@ svg
                         stroke: $green
                         transition: .3s ease-in-out
     &.alt_4
-        img
-            width: 100%
-            height: 400px
         .overlay_mid
             width: 100%
             max-width: 90%

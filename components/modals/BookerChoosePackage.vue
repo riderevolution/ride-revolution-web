@@ -6,7 +6,7 @@
                     <h2 class="form_title">Please choose which package you’d like to use.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
-                        <div :class="`form_custom_checkbox ${(classPackages.length > 4) ? 'scroll' : ''}`">
+                        <div :class="`form_custom_checkbox ${(ctr > 5) ? 'scroll' : ''}`">
                             <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? '' : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="parseInt(data.count) > 0">
                                 <label>{{ data.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
@@ -47,6 +47,7 @@
         },
         data () {
             return {
+                ctr: 0,
                 user: [],
                 classPackages: [],
                 classPackage: [],
@@ -255,6 +256,8 @@
                                 res.data.customer.user_package_counts.forEach((data, index) => {
                                     if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
                                         countCtr++
+                                    } else {
+                                        me.ctr++
                                     }
                                     me.classPackages.push(data)
                                 })

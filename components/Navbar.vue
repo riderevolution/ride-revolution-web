@@ -112,9 +112,11 @@
                 height: 0,
                 showList: false,
                 advisory: null,
-                first_name: '',
-                last_name: '',
+                first_name: '-',
+                last_name: '-',
                 user: {
+                    first_name: '-',
+                    last_name: '-',
                     customer_details: {
                         images: [
                             {
@@ -122,6 +124,25 @@
                             }
                         ]
                     }
+                }
+            }
+        },
+        watch:{
+            $route (to, from){
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                if (token != null && token != undefined) {
+                    me.$axios.get('api/check-token', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data) {
+                            me.user = res.data.user
+                            me.first_name = me.user.first_name.charAt(0)
+                            me.last_name = me.user.last_name.charAt(0)
+                        }
+                    })
                 }
             }
         },
@@ -155,8 +176,6 @@
                 } else {
                     document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
                 }
-
-
             },
             checkUser () {
                 const me = this
