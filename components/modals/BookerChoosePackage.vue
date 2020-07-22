@@ -271,16 +271,7 @@
                                         }
                                     }
                                 } else {
-                                    if (me.$parent.tempGuestSeat == null) {
-                                        for (let i = 0; i < me.classPackages.length; i++) {
-                                            if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
-                                                me.selectedClassPackage = me.classPackages[i]
-                                                me.selectedPackage = me.classPackages[i].id
-                                                me.tempSelectedPackage = me.classPackages[i].id
-                                                break
-                                            }
-                                        }
-                                    } else {
+                                    if (me.seat != null) {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
                                                 if (me.seat.bookings.length > 0) {
@@ -296,6 +287,15 @@
                                                     me.tempSelectedPackage = me.classPackages[i].id
                                                     break
                                                 }
+                                            }
+                                        }
+                                    } else {
+                                        for (let i = 0; i < me.classPackages.length; i++) {
+                                            if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
+                                                me.selectedClassPackage = me.classPackages[i]
+                                                me.selectedPackage = me.classPackages[i].id
+                                                me.tempSelectedPackage = me.classPackages[i].id
+                                                break
                                             }
                                         }
                                     }

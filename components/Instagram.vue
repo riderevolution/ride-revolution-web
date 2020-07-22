@@ -1,6 +1,6 @@
 <template>
     <div id="instagram">
-        <div :class="`image_wrapper ${(lessOne) ? (isMobile ? 'mobile less_one' : 'less_one') : (isMobile ? 'mobile' : '')}`" v-if="feeds != null">
+        <div :class="`image_wrapper ${(lessOne) ? (isMobile ? 'mobile less_one' : 'less_one') : (isMobile ? 'mobile' : '')}`" v-if="feeds.length > 0">
             <a :href="`${feed.mediaLink}`" target="_blank" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="!lessOne && !isMobile && (key + 1) <= 5">
                 <img :data-src="feed.imageUrl" v-lazy-load />
             </a>
