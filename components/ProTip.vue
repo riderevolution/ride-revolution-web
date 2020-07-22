@@ -53,12 +53,10 @@
 		beforeMount () {
             window.addEventListener('load', this.checkAdvisory)
             window.addEventListener('resize', this.checkAdvisory)
-            window.addEventListener('scroll', this.checkAdvisory)
         },
         beforeDestroy () {
             window.removeEventListener('load', this.checkAdvisory)
             window.removeEventListener('resize', this.checkAdvisory)
-            window.removeEventListener('scroll', this.checkAdvisory)
         }
     }
 </script>
