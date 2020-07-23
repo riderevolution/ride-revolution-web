@@ -74,6 +74,7 @@ Vue.mixin({
         payment (page, paypal_details, type, paymaya = 0) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
+            me.validateToken()
             let formData = new FormData()
             switch (type) {
                 case 'class-package':
@@ -119,7 +120,6 @@ Vue.mixin({
                 }
             }).then(res => {
                 if (res.data) {
-                    me.validateToken()
                     if (paymaya == 1) {
                         let redirectUrl = res.data.redirectUrl
                         window.location.href = redirectUrl
