@@ -219,9 +219,9 @@
                 document.addEventListener('contextmenu', event => event.preventDefault())
             }
         },
-        async mounted () {
+        mounted () {
             const me = this
-            await me.validateToken()
+            me.validateToken()
             me.onResize()
             window.__lc = window.__lc || {};
             window.__lc.license = 12052209;

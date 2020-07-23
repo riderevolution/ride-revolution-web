@@ -633,9 +633,9 @@
                             me.$cookies.remove('70hokc3hhhn5')
                         }).then(() => {
                             setTimeout(() => {
+                                me.validateToken()
                                 me.loader(false)
                             }, 500)
-                            me.validateToken()
                             me.checkBadges()
                         })
                     } else {
