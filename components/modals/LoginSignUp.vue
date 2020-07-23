@@ -388,9 +388,9 @@
                                 me.$cookies.remove('70hokc3hhhn5')
                             }).then(() => {
                                 setTimeout(() => {
+                                    me.validateToken()
                                     me.loader(false)
                                 }, 500)
-                                me.validateToken()
                                 me.checkBadges()
                             })
                         })
@@ -425,9 +425,9 @@
                         me.$cookies.remove('70hokc3hhhn5')
                     }).then(() => {
                         setTimeout(() => {
+                            me.validateToken()
                             me.loader(false)
                         }, 500)
-                        me.validateToken()
                         me.checkBadges()
                     })
                 })
@@ -495,9 +495,9 @@
                                 me.$store.state.errorPromptStatus = true
                             }).then(() => {
                                 setTimeout( () => {
+                                    me.validateToken()
                                     me.loader(false)
                                 }, 500)
-                                me.validateToken()
                             })
                         } else {
                             me.$scrollTo('.validation_errors', {
