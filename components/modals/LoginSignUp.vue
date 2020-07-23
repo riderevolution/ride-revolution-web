@@ -381,16 +381,16 @@
                                 me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
-                                me.$router.push(`/my-profile`)
+                                window.location.assign('/my-profile')
                             }).catch(err => {
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
                                 me.$cookies.remove('70hokc3hhhn5')
                             }).then(() => {
                                 setTimeout(() => {
+                                    me.validateToken()
                                     me.loader(false)
                                 }, 500)
-                                me.validateToken()
                                 me.checkBadges()
                             })
                         })
@@ -418,16 +418,16 @@
                         me.$store.state.isAuth = true
                         me.$store.state.loginSignUpStatus = false
                         document.body.classList.remove('no_scroll')
-                        me.$router.push(`/my-profile`)
+                        window.location.assign('/my-profile')
                     }).catch(err => {
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
                         me.$cookies.remove('70hokc3hhhn5')
                     }).then(() => {
                         setTimeout(() => {
+                            me.validateToken()
                             me.loader(false)
                         }, 500)
-                        me.validateToken()
                         me.checkBadges()
                     })
                 })
@@ -495,9 +495,9 @@
                                 me.$store.state.errorPromptStatus = true
                             }).then(() => {
                                 setTimeout( () => {
+                                    me.validateToken()
                                     me.loader(false)
                                 }, 500)
-                                me.validateToken()
                             })
                         } else {
                             me.$scrollTo('.validation_errors', {
@@ -623,7 +623,7 @@
                                     me.$store.state.isAuth = true
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
-                                    me.$router.push(`/my-profile`)
+                                    window.location.assign('/my-profile')
                                 }
                             }, 500)
                         }).catch(err => {

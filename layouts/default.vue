@@ -216,12 +216,12 @@
                 if (me.$route.query.ca_action) {
                     me.$store.state.loginSignUpStatus = true
                 }
+                me.validateToken()
                 document.addEventListener('contextmenu', event => event.preventDefault())
             }
         },
         mounted () {
             const me = this
-            me.validateToken()
             me.onResize()
             window.__lc = window.__lc || {};
             window.__lc.license = 12052209;
