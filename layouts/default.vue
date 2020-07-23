@@ -190,7 +190,7 @@
                 const me = this
                 if (me.$cookies.get('agreeCompliance') == null || me.$cookies.get('agreeCompliance') == undefined) {
                     me.$store.state.showComplianceStatus = false
-                    me.$cookies.set('agreeCompliance', 1, '7d')
+                    me.$cookies.set('agreeCompliance', 1, '7d', {httpOnly: true})
                 }
             },
             onResize() {

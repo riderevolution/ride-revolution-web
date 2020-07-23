@@ -377,7 +377,7 @@
                             me.loader(true)
                             me.$axios.post('api/login/facebook/', data).then(res => {
                                 let token = res.data.token
-                                me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
                                 me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
@@ -414,7 +414,7 @@
                     }
                     me.$axios.post('api/login/google/', data).then(res => {
                         let token = res.data.token
-                        me.$cookies.set('70hokc3hhhn5', token, '7d')
+                        me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
                         me.$store.state.isAuth = true
                         me.$store.state.loginSignUpStatus = false
                         document.body.classList.remove('no_scroll')
@@ -484,7 +484,7 @@
                             }
                             me.$axios.post('api/user/register', me.signUpForm).then(res => {
                                 let token = res.data.token
-                                me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
                                 me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
@@ -619,7 +619,7 @@
                                     me.$store.state.oldUserUpdatePrompt = true
                                 } else {
                                     let token = res.data.token
-                                    me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                    me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
                                     me.$store.state.isAuth = true
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
