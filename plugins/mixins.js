@@ -119,6 +119,7 @@ Vue.mixin({
                 }
             }).then(res => {
                 if (res.data) {
+                    me.validateToken()
                     if (paymaya == 1) {
                         let redirectUrl = res.data.redirectUrl
                         window.location.href = redirectUrl
@@ -134,7 +135,6 @@ Vue.mixin({
                 setTimeout( () => {
                     me.loader(false)
                 }, 500)
-                me.validateToken()
             })
         },
         sharer (type) {
