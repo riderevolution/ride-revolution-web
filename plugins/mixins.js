@@ -122,7 +122,9 @@ Vue.mixin({
                 if (res.data) {
                     if (paymaya == 1) {
                         let redirectUrl = res.data.redirectUrl
-                        window.location.href = redirectUrl
+                        setTimeout( () => {
+                            window.location.href = redirectUrl
+                        }, 500)
                     } else {
                         me.$store.state.buyRidesSuccessStatus = true
                     }
