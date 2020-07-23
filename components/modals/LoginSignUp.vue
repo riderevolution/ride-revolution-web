@@ -378,17 +378,16 @@
                             me.$axios.post('api/login/facebook/', data).then(res => {
                                 let token = res.data.token
                                 me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
-                                me.$store.state.isAuth = true
+                                me.validateToken()
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
-                                window.location.assign('/my-profile')
+                                me.$router.push('/my-profile')
                             }).catch(err => {
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
                                 me.$cookies.remove('70hokc3hhhn5')
                             }).then(() => {
                                 setTimeout(() => {
-                                    me.validateToken()
                                     me.loader(false)
                                 }, 500)
                                 me.checkBadges()
@@ -415,17 +414,16 @@
                     me.$axios.post('api/login/google/', data).then(res => {
                         let token = res.data.token
                         me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
-                        me.$store.state.isAuth = true
+                        me.validateToken()
                         me.$store.state.loginSignUpStatus = false
                         document.body.classList.remove('no_scroll')
-                        window.location.assign('/my-profile')
+                        me.$router.push('/my-profile')
                     }).catch(err => {
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
                         me.$cookies.remove('70hokc3hhhn5')
                     }).then(() => {
                         setTimeout(() => {
-                            me.validateToken()
                             me.loader(false)
                         }, 500)
                         me.checkBadges()
@@ -485,7 +483,7 @@
                             me.$axios.post('api/user/register', me.signUpForm).then(res => {
                                 let token = res.data.token
                                 me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
-                                me.$store.state.isAuth = true
+                                me.validateToken()
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
                                 me.$cookies.remove('referrer_member_id')
@@ -495,7 +493,6 @@
                                 me.$store.state.errorPromptStatus = true
                             }).then(() => {
                                 setTimeout( () => {
-                                    me.validateToken()
                                     me.loader(false)
                                 }, 500)
                             })
@@ -620,10 +617,10 @@
                                 } else {
                                     let token = res.data.token
                                     me.$cookies.set('70hokc3hhhn5', token, '7d', {httpOnly: true})
-                                    me.$store.state.isAuth = true
+                                    me.validateToken()
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
-                                    window.location.assign('/my-profile')
+                                    me.$router.push('/my-profile')
                                 }
                             }, 500)
                         }).catch(err => {
@@ -633,7 +630,6 @@
                             me.$cookies.remove('70hokc3hhhn5')
                         }).then(() => {
                             setTimeout(() => {
-                                me.validateToken()
                                 me.loader(false)
                             }, 500)
                             me.checkBadges()
