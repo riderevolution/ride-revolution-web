@@ -238,31 +238,27 @@ Vue.mixin({
             })
         },
         validateToken () {
-            return new Promise((resolve, reject) => {
-                let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('70hokc3hhhn5')
-                if (token != null || token != undefined) {
-                    this.$axios.get('api/user', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }).then(res => {
-                        if (res.data != 0) {
-                            this.$store.state.isAuth = true
-                            this.$store.state.token = token
-                            this.$store.state.user = res.data.user
-                        } else {
-                            this.logout()
-                        }
-                    }).catch(err => {
-                        console.log(err)
+            let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('70hokc3hhhn5')
+            if (token != null || token != undefined) {
+                this.$axios.get('api/user', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data != 0) {
+                        this.$store.state.isAuth = true
+                        this.$store.state.token = token
+                        this.$store.state.user = res.data.user
+                    } else {
                         this.logout()
-                    }).then(() =>{
-                        resolve('ok')
-                    })
-                } else {
+                    }
+                }).catch(err => {
+                    console.log(err)
                     this.logout()
-                }
-            })
+                })
+            } else {
+                this.logout()
+            }
         },
         async fetchData (apiRoute) {
             const me = this
