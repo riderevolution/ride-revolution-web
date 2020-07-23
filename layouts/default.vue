@@ -199,6 +199,9 @@
                 if (me.$cookies.get('agreeCompliance') != null || me.$cookies.get('agreeCompliance') != undefined) {
                     me.$store.state.showComplianceStatus = false
                 }
+                if (me.$cookies.get('70hokc3hhhn5') != null || me.$cookies.get('70hokc3hhhn5') != undefined) {
+                    me.validateToken()
+                }
                 if (me.$cookies.get('checkBrowser') == null || me.$cookies.get('checkBrowser') == undefined) {
                     me.checkBrowser()
                 } else {
@@ -216,7 +219,6 @@
                 if (me.$route.query.ca_action) {
                     me.$store.state.loginSignUpStatus = true
                 }
-                me.validateToken()
                 document.addEventListener('contextmenu', event => event.preventDefault())
             }
         },
