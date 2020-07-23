@@ -381,7 +381,7 @@
                                 me.$store.state.isAuth = true
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
-                                me.$router.push(`/my-profile`)
+                                window.location.assign('/my-profile')
                             }).catch(err => {
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
@@ -418,7 +418,7 @@
                         me.$store.state.isAuth = true
                         me.$store.state.loginSignUpStatus = false
                         document.body.classList.remove('no_scroll')
-                        me.$router.push(`/my-profile`)
+                        window.location.assign('/my-profile')
                     }).catch(err => {
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
@@ -623,7 +623,7 @@
                                     me.$store.state.isAuth = true
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
-                                    me.$router.push(`/my-profile`)
+                                    window.location.assign('/my-profile')
                                 }
                             }, 500)
                         }).catch(err => {
