@@ -133,8 +133,8 @@ Vue.mixin({
                 me.$store.state.errorList = err.response.data.errors
                 me.$store.state.errorPromptStatus = true
             }).then(() => {
-                page.step = 0
                 setTimeout( () => {
+                    page.step = 0
                     me.loader(false)
                 }, 500)
             })
