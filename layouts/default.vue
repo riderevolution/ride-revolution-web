@@ -212,7 +212,6 @@
                     }
                 }
                 me.$store.state.isMobile = me.isMobile
-                me.validateToken()
                 me.checkBadges()
                 if (me.$route.query.ca_action) {
                     me.$store.state.loginSignUpStatus = true
@@ -220,8 +219,9 @@
                 document.addEventListener('contextmenu', event => event.preventDefault())
             }
         },
-        mounted () {
+        async mounted () {
             const me = this
+            await me.validateToken()
             me.onResize()
             window.__lc = window.__lc || {};
             window.__lc.license = 12052209;
