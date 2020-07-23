@@ -165,7 +165,9 @@
                     document.getElementById('instructors_nav').style.top = `${document.getElementById('header').scrollHeight}px`
 
                 } else if (document.getElementById('banner')) {
-                    document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                    if (!document.querySelector('.home')) {
+                        document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                    }
                 } else if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner')) {
                     console.log(1);
                     if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
