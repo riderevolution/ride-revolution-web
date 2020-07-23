@@ -4,7 +4,7 @@
             <div class="full gradient"></div>
             <div class="overlay_mid">
                 <h1>{{ title }}</h1>
-                <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/book-a-bike?token=${$route.query.token}` : '/book-a-bike'}`" class="default_btn">Book a Bike</nuxt-link>
+                <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/buy-rides?token=${$route.query.token}` : '/buy-rides'}`" class="default_btn">Buy Rides</nuxt-link>
             </div>
         </section>
         <referral />
