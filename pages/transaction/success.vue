@@ -1,5 +1,5 @@
 <template>
-    <div class="buy_rides inner">
+    <div class="buy_rides inner transaction">
         <breadcrumb :overlay="false" />
         <transition name="fade">
             <buy-rides-success :summary="summary" />

@@ -1,5 +1,5 @@
 <template>
-    <div class="buy_rides inner">
+    <div class="buy_rides inner transaction">
         <breadcrumb :overlay="false" />
         <transition name="fade">
             <transaction-status :title="title" />
@@ -23,24 +23,24 @@
         methods: {
             initial () {
                 const me = this
-                if (me.$route.query.pid) {
-                    let formData = new FormData()
-                    formData.append('pid', me.$route.query.pid)
-                    me.loader(true)
-                    me.$axios.post('api/extras/pid', formData).then(res => {
-                        setTimeout( () => {
-                            console.log(res.data);
-                        }, 500)
-                    }).catch(err => {
-                        me.$router.push(`/buy-rides`)
-                    }).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
-                    })
-                } else {
-                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                }
+                // if (me.$route.query.pid) {
+                //     let formData = new FormData()
+                //     formData.append('pid', me.$route.query.pid)
+                //     me.loader(true)
+                //     me.$axios.post('api/extras/pid', formData).then(res => {
+                //         setTimeout( () => {
+                //             console.log(res.data);
+                //         }, 500)
+                //     }).catch(err => {
+                //         me.$router.push(`/buy-rides`)
+                //     }).then(() => {
+                //         setTimeout( () => {
+                //             me.loader(false)
+                //         }, 500)
+                //     })
+                // } else {
+                //     me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                // }
             }
         },
         mounted () {

@@ -80,6 +80,16 @@
 									} else if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
 										if (document.getElementById('pro_tip')) {
 											document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+										} else {
+											if (document.querySelector('.buy_rides.transaction')) {
+												if (me.$store.state.articleAlertStatus) {
+													if (document.getElementById('article_alert')) {
+														document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+													}
+								                } else {
+								                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+								                }
+											}
 										}
 									} else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
 										document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`

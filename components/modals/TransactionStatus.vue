@@ -7,7 +7,7 @@
                 <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/buy-rides?token=${$route.query.token}` : '/buy-rides'}`" class="default_btn">Buy Rides</nuxt-link>
             </div>
         </section>
-        <referral />
+        <referral :summary="summary" />
     </div>
 </template>
 
@@ -17,6 +17,17 @@
         props: {
             title: {
                 default: 'Transaction Failed, Try Again.'
+            }
+        },
+        data () {
+            return {
+                summary: {
+                    res: '',
+                    total: 0,
+                    discount: 0,
+                    quantity: 0,
+                    type: ''
+                }
             }
         },
         components: {

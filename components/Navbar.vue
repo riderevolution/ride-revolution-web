@@ -165,11 +165,13 @@
                     document.getElementById('instructors_nav').style.top = `${document.getElementById('header').scrollHeight}px`
 
                 } else if (document.getElementById('banner')) {
-                    if (!document.querySelector('.home')) {
+                    if (!document.querySelector('.home') && !document.querySelector('.buy_rides.transaction')) {
                         document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
                     }
+                    if (document.getElementById('breadcrumb')) {
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                    }
                 } else if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner')) {
-                    console.log(1);
                     if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
                         document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
                     } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
