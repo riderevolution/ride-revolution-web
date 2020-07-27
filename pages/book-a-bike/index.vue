@@ -81,7 +81,7 @@
                                                     <transition name="slideAltY">
                                                         <div class="info_overlay" v-if="data.toggled">
                                                             <div class="pointer"></div>
-                                                            Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                            Details: <span v-line-clamp="1" v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
                                                             </span>
                                                             Credits to Deduct: {{ data.schedule.class_credits }}
                                                         </div>
@@ -125,7 +125,7 @@
                                                 <transition name="slideAltY">
                                                     <div class="info_overlay" v-if="data.toggled">
                                                         <div class="pointer"></div>
-                                                        Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                        Details: <span v-line-clamp="1" v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
                                                         </span>
                                                         Credits to Deduct: {{ data.schedule.class_credits }}
                                                     </div>
@@ -486,6 +486,8 @@
                         element.classList.remove('active')
                     }
                 })
+                me.currentMonth = month
+                me.currentDay = day
                 me.getAllSchedules(year, month, day, true)
             },
             /**
