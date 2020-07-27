@@ -80,7 +80,8 @@
                                                     <transition name="slideAltY">
                                                         <div class="info_overlay" v-if="data.toggled">
                                                             <div class="pointer"></div>
-                                                            Details: {{ (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description  }}<br>
+                                                            Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                            </span>
                                                             Credits to Deduct: {{ data.schedule.class_credits }}
                                                         </div>
                                                     </transition>
@@ -123,7 +124,8 @@
                                                 <transition name="slideAltY">
                                                     <div class="info_overlay" v-if="data.toggled">
                                                         <div class="pointer"></div>
-                                                        Details: {{ (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description  }}<br>
+                                                        Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                        </span>
                                                         Credits to Deduct: {{ data.schedule.class_credits }}
                                                     </div>
                                                 </transition>

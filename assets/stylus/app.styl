@@ -5334,6 +5334,9 @@ svg
                                     -o-appearance: none !important
                                     appearance: none !important
                                     position: absolute
+                                    &.all
+                                        ~ label
+                                            text-transform: uppercase
                                     &:hover
                                         ~ label
                                             color: $white
