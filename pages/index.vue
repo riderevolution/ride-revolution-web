@@ -134,7 +134,7 @@
                                             <label>Branch: </label>
                                             <div class="select">
                                                 <select name="studio_id" @change="getStudio($event)">
-                                                    <option :value="data.id" v-for="(data, key) in studios" :key="key">{{ data.name }}</option>
+                                                    <option :value="data.id" v-for="(data, key) in studios" :key="key" v-if="!data.online_class">{{ data.name }}</option>
                                                 </select>
                                             </div>
                                         </div>
