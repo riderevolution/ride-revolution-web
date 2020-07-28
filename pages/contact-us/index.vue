@@ -73,7 +73,7 @@
                         <div class="gmap" v-html="studio.google_embed"></div>
                     </div>
                     <div class="right">
-                        <div :id="`item_${key}`" class="studio_item" v-for="(data, key) in studios" :key="key" @click="toggleStudio(data, key)">
+                        <div :id="`item_${key}`" class="studio_item" v-for="(data, key) in studios" v-if="!data.online_class" :key="key" @click="toggleStudio(data, key)">
                             <div class="title">{{ data.name }}</div>
                             <div class="info">
                                 <div class="description">
@@ -256,24 +256,26 @@
                 me.studio = data
                 let target = document.getElementById(`item_${key}`)
                 me.studios.forEach((element, index) => {
-                    let elements = document.getElementById(`item_${index}`)
-                    if (key == index) {
-                        if (element.toggled) {
+                    if (!element.online_class) {
+                        let elements = document.getElementById(`item_${index}`)
+                        if (key == index) {
+                            if (element.toggled) {
+                                element.toggled = false
+                                elements.classList.remove('toggled')
+                                target.querySelector('.info').style.height = `${0}px`
+                            } else {
+                                element.toggled = true
+                                elements.classList.add('toggled')
+                                target.querySelector('.info').style.height = `${target.querySelector('.info').scrollHeight}px`
+                                setTimeout( () => {
+                                    document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
+                                }, 100)
+                            }
+                        } else {
                             element.toggled = false
                             elements.classList.remove('toggled')
-                            target.querySelector('.info').style.height = `${0}px`
-                        } else {
-                            element.toggled = true
-                            elements.classList.add('toggled')
-                            target.querySelector('.info').style.height = `${target.querySelector('.info').scrollHeight}px`
-                            setTimeout( () => {
-                                document.querySelector('#content .bottom .left .gmap iframe').style.height = `${document.querySelector('#content .bottom .right').scrollHeight}px`
-                            }, 100)
+                            elements.querySelector('.info').style.height = `${0}px`
                         }
-                    } else {
-                        element.toggled = false
-                        elements.classList.remove('toggled')
-                        elements.querySelector('.info').style.height = `${0}px`
                     }
                 })
                 me.$scrollTo('.gmap', {

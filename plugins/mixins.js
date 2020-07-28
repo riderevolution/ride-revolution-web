@@ -120,21 +120,21 @@ Vue.mixin({
                 }
             }).then(res => {
                 if (res.data) {
-                    if (paymaya == 1) {
-                        let redirectUrl = res.data.redirectUrl
-                        setTimeout( () => {
-                            window.location.href = redirectUrl
-                        }, 500)
-                    } else {
-                        me.$store.state.buyRidesSuccessStatus = true
-                    }
+                    setTimeout( () => {
+                        page.step = 0
+                        if (paymaya == 1) {
+                            let redirectUrl = res.data.redirectUrl
+                                window.location.href = redirectUrl
+                        } else {
+                            me.$store.state.buyRidesSuccessStatus = true
+                        }
+                    }, 500)
                 }
             }).catch(err => {
                 me.$store.state.errorList = err.response.data.errors
                 me.$store.state.errorPromptStatus = true
             }).then(() => {
                 setTimeout( () => {
-                    page.step = 0
                     me.loader(false)
                 }, 500)
             })

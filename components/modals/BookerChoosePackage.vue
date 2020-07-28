@@ -246,11 +246,21 @@
                 }
             }).then(res => {
                 if (res.data) {
+                    let url = ''
                     let countCtr = 0
                     let newCtr = 0
                     me.user = res.data.user
                     id = res.data.user.id
-                    me.$axios.get(`api/customers/${id}/packages${(me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') ? `?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}` : ''}`).then(res => {
+                    if (me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') {
+                        url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
+                    } else {
+                        if (me.$parent.schedule.schedule.studio.online_class) {
+                            url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
+                        } else {
+                            url = `api/customers/${id}/packages`
+                        }
+                    }
+                    me.$axios.get(`${url}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {

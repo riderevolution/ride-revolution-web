@@ -19,7 +19,7 @@
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
-                                    <div class="description">
+                                    <div class="description" v-if="!schedule.schedule.studio.online_class">
                                         <h3>What else can I do?</h3>
                                         <ul>
                                             <li><b>Add a guest.</b> You can book for up to 4 more people using the same account. Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
@@ -47,7 +47,7 @@
                                             <p class="right">{{ ctr * schedule.schedule.class_credits }} Credit/s</p>
                                         </div>
                                     </div>
-                                    <div class="waitlisted" v-if="isWaitlisted">
+                                    <div class="waitlisted" v-if="isWaitlisted && !schedule.schedule.studio.online_class">
                                         <div class="label">Waitlisted</div>
                                         <div class="user">
                                             <div class="name">
@@ -68,7 +68,7 @@
                                                 <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                             </ul>
                                         </div>
-                                        <div class="description">
+                                        <div class="description" v-if="!schedule.schedule.studio.online_class">
                                             <h3>What else can I do?</h3>
                                             <ul>
                                                 <li><b>Add a guest.</b> You can book for up to 4 more people using the same account. Non-members will be sent an email invitation to sign up as a member before they can ride.</li>
@@ -96,7 +96,7 @@
                                                 <p class="right">{{ ctr * schedule.schedule.class_credits }} Credit/s</p>
                                             </div>
                                         </div>
-                                        <div class="waitlisted" v-if="isWaitlisted">
+                                        <div class="waitlisted" v-if="isWaitlisted && !schedule.schedule.studio.online_class">
                                             <div class="label">Waitlisted</div>
                                             <div class="user">
                                                 <div class="name">
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                             <div class="content" :id="`parent_${layout}`">
-                                <div class="seat_wrapper">
+                                <div class="seat_wrapper" v-if="!schedule.schedule.studio.online_class">
                                     <div class="overlay_header">
                                         <h3>Please choose your bike/s</h3>
                                         <h4>Note: You can book up to 5 bikes.</h4>
@@ -177,7 +177,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                                <div class="seat_wrapper alt" v-else>
+                                    <div class="seat_instructor_header">
+                                        <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
+                                        <div class="seat_instructor_name">{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</div>
+                                    </div>
+                                    <div class="seat_instructor_content">
+                                        <div class="body" v-html="schedule.schedule.class_type.description"></div>
+                                        <div class="default_btn" @click="signIn(onlineData)">Book this class</div>
+                                    </div>
+                                </div>
+                                <div class="footer" v-if="!schedule.schedule.studio.online_class">
                                     <div class="legends">
                                         <ul>
                                             <li class="available"><span></span>Available</li>
@@ -322,6 +332,10 @@
                     first_name: '',
                     last_name: '',
                     email: ''
+                },
+                onlineData: {
+                    status: 'open',
+                    online: 1
                 },
                 instructor: {},
                 res: [],

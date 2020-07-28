@@ -4895,6 +4895,41 @@ svg
                         max-width: 1120px
                         height: 600px
                         margin: 10px auto 20px
+                        &.alt
+                            height: auto
+                            margin: 20px auto
+                            .seat_instructor_header
+                                text-align: center
+                                img
+                                    width: 150px
+                                    height: 150px
+                                    border-radius: 50%
+                                    object-fit: cover
+                                    object-position: center
+                                .seat_instructor_name
+                                    brandon_bold(20px, false)
+                                    color: $green
+                                    margin-top: 10px
+                            .seat_instructor_content
+                                text-align: center
+                                .body
+                                    width: 100%
+                                    max-width: 75%
+                                    margin: 30px auto 20px
+                                    display: flex
+                                    flex-flow: column wrap
+                                    align-items: center
+                                    p
+                                        brandon_regular(18px, false)
+                                        color: $black
+                                        margin-bottom: 10px
+                                        b
+                                            brandon_bold(26px, false)
+                                    ul
+                                        padding-left: 20px
+                                        li
+                                            brandon_regular(18px, false)
+                                            color: $black
                         .overlay_header
                             position: absolute
                             top: calc(0% - 10px)
@@ -9533,9 +9568,6 @@ textarea::-webkit-scrollbar-thumb
                 .circle
                     stroke: transparent
                     transition: .3s ease-in-out
-                .mark
-                    stroke: $gray
-                    animation: dash 10s linear
         &.active
             background-color: $green
             transition: .3s ease-in-out
