@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            onlinePromptStatus: true,
             viewImageUrl: '',
             inApp: '',
             articleAlertStatus: true,

@@ -110,12 +110,16 @@
                     } else if (me.type == 1) {
                         let newTemp = me.seat
                         if (me.seat != null) {
-                            if (!me.seat.bookings.length > 0 && !me.$parent.hasBooked) {
+                            if ((me.$parent.schedule.schedule.studio.online_class) ? true : !me.seat.bookings.length > 0 && !me.$parent.hasBooked) {
                                 me.loader(true)
                                 let formData = new FormData()
                                 formData.append('is_guest', 0)
                                 formData.append('scheduled_date_id', me.$route.params.slug)
-                                formData.append('seat_id', me.seat.id)
+                                if (me.$parent.schedule.schedule.studio.online_class) {
+                                    formData.append('seat_id', 123)
+                                } else {
+                                    formData.append('seat_id', me.seat.id)
+                                }
                                 formData.append('user_id', me.user.id)
                                 formData.append('user_package_count_id', me.selectedPackage)
                                 me.loader(true)
