@@ -127,8 +127,12 @@
                                     if (res.data) {
                                         setTimeout( () => {
                                             me.$store.state.bookerChoosePackageStatus = false
-                                            me.$store.state.bookerPromptStatus = true
-                                            me.$parent.promptMessage = 'Your seat has been successfully reserved.'
+                                            if (me.$parent.schedule.schedule.studio.online_class) {
+                                                me.$store.state.onlinePromptStatus = true
+                                            } else {
+                                                me.$store.state.bookerPromptStatus = true
+                                                me.$parent.promptMessage = 'Your seat has been successfully reserved.'
+                                            }
                                             me.$parent.firstBook = true
                                             me.$parent.canSwitch = true
                                             me.$parent.hasBooked = true
@@ -317,7 +321,11 @@
                             }
                             if (countCtr >= res.data.customer.user_package_counts.length) {
                                 me.$store.state.bookerChoosePackageStatus = false
-                                me.$store.state.buyPackageFirstStatus = true
+                                if (me.$parent.schedule.schedule.studio.online_class) {
+                                    me.$store.state.buyOnlinePackageFirstStatus = true
+                                } else {
+                                    me.$store.state.buyPackageFirstStatus = true
+                                }
                             }
 
                             if (me.$parent.manage && me.seat.bookings.length > 0) {

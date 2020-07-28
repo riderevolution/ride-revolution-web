@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
-            onlinePromptStatus: true,
+            onlinePromptStatus: false,
             viewImageUrl: '',
             inApp: '',
             articleAlertStatus: true,
@@ -21,6 +21,7 @@ const createStore = () => {
             bookerActionsPrompt: false,
             bookerActionsPrompt: false,
             waitlistPrompt: false,
+            buyOnlinePackageFirstStatus: false,
             buyPackageFirstStatus: false,
             imageViewerStatus: false,
             completeProfileSuccessStatus: false,

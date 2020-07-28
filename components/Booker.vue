@@ -183,8 +183,8 @@
                                         <div class="seat_instructor_name">{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</div>
                                     </div>
                                     <div class="seat_instructor_content">
-                                        <div class="body" v-html="schedule.schedule.class_type.description"></div>
-                                        <div class="default_btn" @click="signIn(onlineData)">Book this class</div>
+                                        <div class="body" v-html="(schedule.schedule.description != null) ? schedule.schedule.description : schedule.schedule.class_type.description"></div>
+                                        <div class="default_btn" @click="signIn(onlineData)" v-if="$route.name != 'my-profile-manage-class-slug' || $route.name != 'fish-in-the-glass-manage-class-slug'">Book this class</div>
                                     </div>
                                 </div>
                                 <div class="footer" v-if="!schedule.schedule.studio.online_class">
@@ -268,6 +268,9 @@
             <booker-prompt :message="promptMessage" v-if="$store.state.bookerPromptStatus" :status="status" :firstBook="firstBook" />
         </transition>
         <transition name="fade">
+            <online-prompt v-if="$store.state.onlinePromptStatus" />
+        </transition>
+        <transition name="fade">
             <booker-remove-booking :seat="dummyData" v-if="$store.state.bookerRemoveBookingStatus" />
         </transition>
         <transition name="fade">
@@ -275,6 +278,9 @@
         </transition>
         <transition name="fade">
             <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
+        </transition>
+        <transition name="fade">
+            <buy-online-package-first v-if="$store.state.buyOnlinePackageFirstStatus" />
         </transition>
         <transition name="fade">
             <booker-actions :seat="dummyData" v-if="$store.state.bookerActionsPrompt" />
@@ -294,9 +300,11 @@
     import BookerAssignNonMember from './modals/BookerAssignNonMember'
     import BookerAssignSuccess from './modals/BookerAssignSuccess'
     import BookerPrompt from './modals/BookerPrompt'
+    import OnlinePrompt from './modals/OnlinePrompt'
     import BookerRemoveBooking from './modals/BookerRemoveBooking'
     import BookerSuccess from './modals/BookerSuccess'
     import BuyPackageFirst from './modals/BuyPackageFirst'
+    import BuyOnlinePackageFirst from './modals/BuyOnlinePackageFirst'
     import BookerActions from './modals/BookerActions'
     export default {
         props: {
@@ -321,9 +329,11 @@
             BookerAssignNonMember,
             BookerAssignSuccess,
             BookerPrompt,
+            OnlinePrompt,
             BookerRemoveBooking,
             BookerSuccess,
             BuyPackageFirst,
+            BuyOnlinePackageFirst,
             BookerActions
         },
         data () {
@@ -683,8 +693,12 @@
                                 break
                         }
                     } else {
-                        me.$store.state.buyPackageFirstStatus = true
-                        document.body.classList.remove('no_scroll')
+                        if (me.schedule.schedule.studio.online_class) {
+                            me.$store.state.buyOnlinePackageFirstStatus = true
+                        } else {
+                            me.$store.state.buyPackageFirstStatus = true
+                        }
+                        document.body.classList.add('no_scroll')
                     }
                 }
             },
