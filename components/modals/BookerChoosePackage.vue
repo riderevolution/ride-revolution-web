@@ -265,7 +265,7 @@
                         if (me.$parent.schedule.schedule.studio.online_class) {
                             url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
                         } else {
-                            url = `api/customers/${id}/packages`
+                            url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
                         }
                     }
                     me.$axios.get(`${url}`).then(res => {
