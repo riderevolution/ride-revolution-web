@@ -7,7 +7,7 @@
                     <div class="form_close" @click="toggleClose()"></div>
                     <div class="modal_main_group">
                         <div :class="`form_custom_checkbox ${(ctr > 5) ? 'scroll' : ''}`">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? '' : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="parseInt(data.count) > 0">
+                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.valid ? '' : 'nope') : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="parseInt(data.count) > 0">
                                 <label>{{ data.class_package.name }}</label>
                                 <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
                                     <g transform="translate(-804.833 -312)">
@@ -18,6 +18,7 @@
                                 <div class="info">
                                     <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
                                     <p>Expires on {{ formatDate((data.class_package.computed_expiration_date != null) ? data.class_package.computed_expiration_date : data.class_package.updated_at ) }}</p>
+                                    <p class="full" v-if="!data.valid">You cannot use this package in this class.</p>
                                 </div>
                             </div>
                         </div>
@@ -282,10 +283,12 @@
                                 if (me.$parent.tempOriginalSeat == null) {
                                     for (let i = 0; i < me.classPackages.length; i++) {
                                         if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
-                                            me.selectedClassPackage = me.classPackages[i]
-                                            me.selectedPackage = me.classPackages[i].id
-                                            me.tempSelectedPackage = me.classPackages[i].id
-                                            break
+                                            if (me.classPackages[i].valid) {
+                                                me.selectedClassPackage = me.classPackages[i]
+                                                me.selectedPackage = me.classPackages[i].id
+                                                me.tempSelectedPackage = me.classPackages[i].id
+                                                break
+                                            }
                                         }
                                     }
                                 } else {
@@ -300,20 +303,24 @@
                                                         break
                                                     }
                                                 } else {
-                                                    me.selectedClassPackage = me.classPackages[i]
-                                                    me.selectedPackage = me.classPackages[i].id
-                                                    me.tempSelectedPackage = me.classPackages[i].id
-                                                    break
+                                                    if (me.classPackages[i].valid) {
+                                                        me.selectedClassPackage = me.classPackages[i]
+                                                        me.selectedPackage = me.classPackages[i].id
+                                                        me.tempSelectedPackage = me.classPackages[i].id
+                                                        break
+                                                    }
                                                 }
                                             }
                                         }
                                     } else {
                                         for (let i = 0; i < me.classPackages.length; i++) {
                                             if (parseInt(me.classPackages[i].count) >= me.$parent.schedule.schedule.class_credits) {
-                                                me.selectedClassPackage = me.classPackages[i]
-                                                me.selectedPackage = me.classPackages[i].id
-                                                me.tempSelectedPackage = me.classPackages[i].id
-                                                break
+                                                if (me.classPackages[i].valid) {
+                                                    me.selectedClassPackage = me.classPackages[i]
+                                                    me.selectedPackage = me.classPackages[i].id
+                                                    me.tempSelectedPackage = me.classPackages[i].id
+                                                    break
+                                                }
                                             }
                                         }
                                     }

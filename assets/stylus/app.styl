@@ -9555,15 +9555,19 @@ textarea::-webkit-scrollbar-thumb
         cursor: pointer
         transition: .3s ease-in-out
         &.nope
+            padding: 10px 100px 10px 20px
             pointer-events: none
-            background-color: $gray
+            background-color: $border
             transition: .3s ease-in-out
             label
-                color: $white
+                color: $gray_alt2
+                padding-bottom: 5px
+                brandon_bold(16px, false)
                 transition: .3s ease-in-out
             .info
                 p
-                    color: $white
+                    brandon_medium(12px, true)
+                    color: $gray_alt2
                     transition: .3s ease-in-out
             #check
                 .circle
@@ -9621,6 +9625,11 @@ textarea::-webkit-scrollbar-thumb
                 color: $gray_alt2
                 letter-spacing: 0.35px
                 transition: .3s ease-in-out
+                &.full
+                    flex: 0 0 100%
+                    brandon_medium(12px, true)
+                    margin-top: 5px
+                    color: $red
                 &:first-child
                     margin-right: 10px
 
