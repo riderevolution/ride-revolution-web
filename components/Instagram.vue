@@ -38,6 +38,7 @@
             sliderOptions () {
                 const me = this
 
+                let centered = false
                 let loop = false
                 let count = 5
 
@@ -46,31 +47,43 @@
                         count = 5
                         if (me.feeds.length > 5) {
                             loop = true
+                            centered = false
                         } else {
                             loop = false
+                            if (me.feeds.length < 5) {
+                                centered = true
+                            }
                         }
                     } else {
                         count = 4
                         if (me.feeds.length > 4) {
                             loop = true
+                            centered = false
                         } else {
                             loop = false
+                            if (me.feeds.length < 4) {
+                                centered = true
+                            }
                         }
                     }
                 } else {
                     count = 3
                     if (me.feeds.length > 3) {
                         loop = true
+                        centered = false
                     } else {
                         loop = false
+                        if (me.feeds.length < 3) {
+                            centered = true
+                        }
                     }
                 }
 
                 return {
                     slidesPerView: count,
                     spaceBetween: 0,
-                    slidesPerGroup: count,
                     loop: loop,
+                    centeredSlides: centered,
                     autoplay: {
                         delay: 4000,
                         disableOnInteraction: false
@@ -86,16 +99,13 @@
                     },
                     breakpoints: {
                         1280: {
-                            slidesPerView: 3,
-                            slidesPerGroup: 3
+                            slidesPerView: 3
                         },
                         768: {
-                            slidesPerView: 2,
-                            slidesPerGroup: 2
+                            slidesPerView: 2
                         },
                         450: {
                             slidesPerView: 1,
-                            slidesPerGroup: 1,
                             autoHeight: true
                         }
                     }
