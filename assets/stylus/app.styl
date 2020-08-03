@@ -7628,25 +7628,12 @@ svg
  * Instagram */
 #instagram
     .image_wrapper
-        display: flex
-        flex-flow: row wrap
-        align-items: center
-        justify-content: center
-        &.mobile
-            .image
-                flex: 0 0 calc(100% / 3)
-        &.less_one
-            &.mobile
-                .image
-                    flex: 0 0 calc(100% / 3)
-            .image
-                flex: 0 0 25%
         .image
+            display: block
             position: relative
-            flex: 0 0 20%
             img
-                width: 512px
-                height: 100%
+                width: 100%
+                height: 512px
                 object-fit: cover
                 object-position: top
             &::before
@@ -8442,6 +8429,21 @@ svg
         right: 0
         bottom: calc(0% + 25px)
 .default
+    &.green
+        .swiper-button-prev.swiper-button-disabled,
+        .swiper-button-next.swiper-button-disabled
+            opacity: 0
+            visibility: hidden
+        .swiper-button-prev
+            &::before
+                background-image: url('/icons/promo-alt-prev.svg')
+            &::after
+                background-image: url('/icons/promo-alt-prev-active.svg')
+        .swiper-button-next
+            &::before
+                background-image: url('/icons/promo-alt-next.svg')
+            &::after
+                background-image: url('/icons/promo-alt-next-active.svg')
     .swiper-button-prev,
     .swiper-button-next
         width: 51px

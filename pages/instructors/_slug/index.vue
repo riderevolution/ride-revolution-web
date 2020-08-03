@@ -293,7 +293,7 @@
                 overallRating: 0,
                 overallRatingComputed: false,
                 comments: [],
-                feeds: null
+                feeds: []
             }
         },
         computed: {

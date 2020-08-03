@@ -1,16 +1,17 @@
 <template>
     <div id="instagram">
-        <div :class="`image_wrapper ${(lessOne) ? (isMobile ? 'mobile less_one' : 'less_one') : (isMobile ? 'mobile' : '')}`" v-if="feeds.length > 0">
-            <a :href="`${feed.mediaLink}`" target="_blank" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="!lessOne && !isMobile && (key + 1) <= 5">
-                <img :data-src="feed.imageUrl" v-lazy-load />
-            </a>
-            <a :href="`${feed.mediaLink}`" target="_blank" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="lessOne && !isMobile && (key + 1) <= 4">
-                <img :data-src="feed.imageUrl" v-lazy-load />
-            </a>
-            <a :href="`${feed.mediaLink}`" target="_blank" class="image" v-for="(feed, key) in shuffle" :key="key" v-if="isMobile && (key + 1) <= 3">
-                <img :data-src="feed.imageUrl" v-lazy-load />
-            </a>
-        </div>
+        <no-ssr v-if="feeds.length > 0">
+            <swiper :options="sliderOptions" class="default green">
+                <swiper-slide class="slider image_wrapper" v-for="(feed, key) in feeds" :key="key">
+                    <a :href="`${feed.mediaLink}`" target="_blank" class="image">
+                        <img :src="feed.imageUrl" />
+                    </a>
+                </swiper-slide>
+                <div class="swiper-pagination" slot="pagination"></div>
+                <div class="swiper-button-prev" slot="button-prev" v-if="!isMobile"></div>
+                <div class="swiper-button-next" slot="button-next" v-if="!isMobile"></div>
+            </swiper>
+        </no-ssr>
         <div class="no_results alt" v-else>
             <p>No Instagram Feed to Load</p>
         </div>
@@ -25,7 +26,7 @@
                 default: false
             },
             feeds: {
-                default: null
+                default: []
             }
         },
         data () {
@@ -34,6 +35,72 @@
             }
         },
         computed: {
+            sliderOptions () {
+                const me = this
+
+                let loop = false
+                let count = 5
+
+                if (!me.isMobile) {
+                    if (!me.lessOne) {
+                        count = 5
+                        if (me.feeds.length > 5) {
+                            loop = true
+                        } else {
+                            loop = false
+                        }
+                    } else {
+                        count = 4
+                        if (me.feeds.length > 4) {
+                            loop = true
+                        } else {
+                            loop = false
+                        }
+                    }
+                } else {
+                    count = 3
+                    if (me.feeds.length > 3) {
+                        loop = true
+                    } else {
+                        loop = false
+                    }
+                }
+
+                return {
+                    slidesPerView: count,
+                    spaceBetween: 0,
+                    slidesPerGroup: count,
+                    loop: loop,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        1280: {
+                            slidesPerView: 3,
+                            slidesPerGroup: 3
+                        },
+                        768: {
+                            slidesPerView: 2,
+                            slidesPerGroup: 2
+                        },
+                        450: {
+                            slidesPerView: 1,
+                            slidesPerGroup: 1,
+                            autoHeight: true
+                        }
+                    }
+                }
+            },
             shuffle () {
                 const me = this
                 for (var i = 0; i < me.feeds.length - 1; i++) {
