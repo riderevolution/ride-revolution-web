@@ -104,7 +104,7 @@
                         768: {
                             slidesPerView: 2
                         },
-                        450: {
+                        465: {
                             slidesPerView: 1,
                             autoHeight: true
                         }
