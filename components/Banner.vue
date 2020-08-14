@@ -36,7 +36,9 @@
             windowScroll () {
                 const me = this
                 if (me.$store.state.articleAlertStatus) {
-                    document.getElementById('banner').style.marginTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                    if (document.getElementById('article_alert')) {
+                        document.getElementById('banner').style.marginTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                    }
                 } else {
                     document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
                 }

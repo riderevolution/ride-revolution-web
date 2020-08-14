@@ -103,16 +103,16 @@
                     }
                 },
                 loaded: false,
-                res: [
-                    {
-                        banners: [
-                            {
-                                path: '',
-                                alt: ''
-                            }
-                        ]
-                    }
-                ],
+                res: {
+                    name: '',
+                    date_published: this.$moment().format('MMMM DD, YYYY'),
+                    banners: [
+                        {
+                            path: '',
+                            alt: ''
+                        }
+                    ]
+                },
                 related_news: []
             }
         },
@@ -145,6 +145,7 @@
                     related_news: res.data.related_news,
                 }
             }).catch(err => {
+                console.log(err);
                 error({ statusCode: 403, message: 'Page not found' })
             })
         },
