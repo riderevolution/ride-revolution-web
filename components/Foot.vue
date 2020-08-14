@@ -21,7 +21,7 @@
             <h3>About</h3>
             <ul itemscope itemtype="https://schema.org/SiteNavigationElement">
                 <meta itemprop="name" content="Footer Menu About">
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/faqs" class="footer_item">FAQ's</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/faqs" class="footer_item">FAQs</nuxt-link></li>
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/contact-us" class="footer_item">Contact Us</nuxt-link></li>
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/news" class="footer_item">News</nuxt-link></li>
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/promos" class="footer_item">Promos</nuxt-link></li>
@@ -44,7 +44,7 @@
                 <a href="https://www.facebook.com/riderevolutionph" target="_blank" class="fb">fb</a>
                 <a href="https://www.instagram.com/riderevolution" target="_blank" class="ig">ig</a>
             </div>
-            <p>Email an expert at <a href="mailto:hello@riderevolution.ph">hello@riderevolution.ph</a></p>
+            <p>Reach out to us at <a href="mailto:hello@riderevolution.ph">hello@riderevolution.ph</a></p>
             <!-- <p>or call/text us at <a href="tel:02-798-7447">(02) 798-7447</a></p> -->
         </div>
         <div class="back_to_top" @click="backToTop()">

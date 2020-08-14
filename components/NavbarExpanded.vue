@@ -31,7 +31,7 @@
                 </ul>
                 <div class="expanded_nav_description">
                     <a class="link" href="https://open.spotify.com/user/riderevolution?si=7P28kqLpS2WnOa3-NOj3ug" target="_blank">
-                        <p>We got an awesome playlist!</p>
+                        <p>We’ve got awesome playlists!</p>
                         <img src="/icons/spotify-icon.svg" />
                         <span>Listen Now</span>
                     </a>

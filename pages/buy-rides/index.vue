@@ -50,12 +50,12 @@
                         <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'store-credits')" v-if="$store.state.isMobile" />
                     </h2>
                     <div class="description" v-if="!$store.state.isMobile">
-                        <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
+                        <p>Store credits may be used to purchase class packages, in-studio food and beverages, or Ride Revolution merchandise.</p>
                     </div>
                     <transition name="slide">
                         <div class="description_overlay" v-if="$store.state.isMobile && showInfoStoreCredits">
                             <div class="pointer"></div>
-                            <p>Store credits may be used to purchase class packages, in-studio food and beverages, and Ride Revolution merchandise.</p>
+                            <p>Store credits may be used to purchase class packages, in-studio food and beverages, or Ride Revolution merchandise.</p>
                         </div>
                     </transition>
                 </div>
