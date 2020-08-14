@@ -5,12 +5,18 @@
                 <div class="left" v-if="!$store.state.isMobile">
                     <img src="/icons/announcement-icon.png" />
                     <div class="info">
-                        <div v-html="advisory.summary" @click.prevent="$router.push(`/news/${advisory.slug}`)"></div>
+                        <div v-html="advisory.summary"></div>
+                        <div>
+                            <nuxt-link :to="`/news/${advisory.slug}`">Learn More.</nuxt-link>
+                        </div>
                     </div>
                 </div>
                 <div class="left" v-else>
                     <div class="info">
-                        <div v-html="advisory.summary" @click.prevent="$router.push(`/news/${advisory.slug}`)"></div>
+                        <div v-html="advisory.summary"></div>
+                        <div>
+                            <nuxt-link :to="`/news/${advisory.slug}`">Learn More.</nuxt-link>
+                        </div>
                     </div>
                 </div>
                 <div class="right" v-if="!$store.state.isMobile">
