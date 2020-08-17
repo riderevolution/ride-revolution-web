@@ -660,6 +660,7 @@
                     }
                 }
             }, 100)
+            document.body.classList.add('no_scroll')
         },
         beforeMount () {
             window.addEventListener('load', this.windowLoginScroll)

@@ -280,6 +280,8 @@
             let token = me.$cookies.get('70hokc3hhhn5')
             me.loader(true)
             if (token == null || token == undefined) {
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
                 setTimeout( () => {
                     me.loader(false)
