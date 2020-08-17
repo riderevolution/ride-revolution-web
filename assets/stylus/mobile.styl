@@ -3310,7 +3310,39 @@
             &.full
                 height: 300px
         .main_image
-            height: 700px
+            height: 100vh
+        .overlay_mobile
+            .overlay_image
+                width: 700px
+                margin: 0 auto
+                display: block
+                animation: slide_from_top 1.5s
+            .overlay_child
+                margin-top: 50px
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                position: static
+                transform: translateY(-50%) translateX(0)
+                animation: slide_from_top 1.5s
+                #play_icon
+                    width: 35px
+                    height: 35px
+                .label
+                    brandon_medium(16px, true)
+                    letter-spacing: 1.6px
+                    margin-top: 0
+                    padding-left: 10px
+            p
+                flex: 0 0 100%
+                text-align: center
+                margin-right: 0
+                margin-top: 40px
+                margin-bottom: 40px
+            .overlay_flex
+                .default_btn_wht
+                    border: none
         .overlay_top
             top: 74px
             width: 100%
@@ -3593,7 +3625,6 @@
                                 margin: 0 auto
                         .form_button
                             flex: 0 0 100%
-
 
     #article_alert
         padding: 10px
