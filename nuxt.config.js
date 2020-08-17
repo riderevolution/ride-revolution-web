@@ -22,7 +22,8 @@ export default {
       { src: 'https://apis.google.com/js/platform.js', async: true, defer: true },
       { src: 'https://connect.facebook.net/en_US/sdk.js' },
       { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: true, defer: true },
-      { src: 'https://www.paypal.com/sdk/js?client-id=AW9mqQoljBsyFHHffxUJK3B9dnYEb3-PaQPnngPwkSP-T6kzvdbswiSdtXJKYJ2vAE-hCJfOvKriJ5GD&disable-funding=credit,card&currency=PHP' },
+      // { src: 'https://www.paypal.com/sdk/js?client-id=AW9mqQoljBsyFHHffxUJK3B9dnYEb3-PaQPnngPwkSP-T6kzvdbswiSdtXJKYJ2vAE-hCJfOvKriJ5GD&disable-funding=credit,card&currency=PHP' },
+      { src: 'https://www.paypal.com/sdk/js?client-id=AZ0wEMysFjb0VvF8II46HHsx6fLzAZD5-r0Pn_mopzG8Kyz-Ylzm7HDyFb_oG2tm8j16l-0HLIUhPLiX&disable-funding=credit,card&currency=PHP&buyer-country=PH' },
     ],
     htmlAttrs: {
       lang: 'en'
