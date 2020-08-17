@@ -71,7 +71,7 @@
                     </no-ssr>
                 </div>
             </section>
-            <section id="reviews">
+            <section id="reviews" v-if="testimonials.length > 0">
                 <div class="header">
                     <h2 :class="`image_bg ${($store.state.isMobile) ? 'mobile' : ''}`">reviews</h2>
                     <div class="description">
@@ -100,6 +100,7 @@
                     </no-ssr>
                 </div>
             </section>
+            <section id="reviews" v-else><div class="header"></div></section>
             <section id="instructors">
                 <div class="overlay">
                     <div class="image">
@@ -263,12 +264,7 @@
         },
         data () {
             return {
-                animateUs: [
-                    {
-                        target: '#packages .content .package_wrapper',
-                        single: false
-                    }
-                ],
+
                 loaded: false,
                 res: [
                     {
@@ -453,17 +449,12 @@
                 const me = this
                 me.loader(true)
                 setTimeout( () => {
-                    me.scrollAnimate(me.animateUs)
                     me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=1001`).then(res => {
                         me.feeds = res.data.data
                         me.loaded = true
                         me.loader(false)
                     })
                 }, 500)
-            },
-            handleScroll () {
-                const me = this
-                me.scrollAnimate(me.animateUs)
             }
         },
         async mounted () {
@@ -471,12 +462,6 @@
             await setTimeout( () => {
                 me.initial()
             }, 10)
-        },
-        beforeMount () {
-            window.addEventListener('scroll', this.handleScroll)
-        },
-        beforeDestroy () {
-            window.removeEventListener('scroll', this.handleScroll)
         },
         asyncData ({ $axios, params, error }) {
             return $axios.get('api/web/home')

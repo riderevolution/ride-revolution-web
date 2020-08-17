@@ -11,7 +11,7 @@
                             <div class="form_group">
                                 <label for="receiver_id">Recipients Username <span>*</span></label>
                                 <input type="text" name="receiver_id" v-model="form.receiver_id" autocomplete="off" placeholder="Enter your recipients username" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9]*$'}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('receiver_id')">{{ errors.first('receiver_id') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('receiver_id')">{{ properFormat(errors.first('receiver_id')) }}</span></transition>
                             </div>
                             <div class="form_button alt">
                                 <button type="submit" class="default_btn">{{ (category == 'transfer') ? 'Transfer' : 'Share' }}</button>
@@ -39,38 +39,6 @@
             return {
                 form: {
                     sender_id: ''
-                }
-            }
-        },
-        filters: {
-            properFormat: function (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
-                    if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-                    return `The ${newValue}`
                 }
             }
         },

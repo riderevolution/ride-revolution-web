@@ -27,6 +27,8 @@
             const me = this
             let token = me.$cookies.get('70hokc3hhhn5')
             if (!me.$store.state.isAuth && token == null && token == undefined) {
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
             } else {
                 me.$axios.get('api/check-token', {

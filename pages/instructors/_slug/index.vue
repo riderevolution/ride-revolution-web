@@ -131,7 +131,7 @@
             </section>
             <section id="classes" v-else>
                 <div class="header">
-                    <h2>#Ride<span>With{{ res.first_name }}</span></h2>
+                    <h2>Ride With {{ res.first_name }}</h2>
                     <h3>UPCOMING CLASSES</h3>
                 </div>
                 <div class="no_results alt">
@@ -206,7 +206,7 @@
                         </div>
                     </div>
                     <div class="no_results alt" v-if="comments.length == 0">
-                        <p>No Available Reviews</p>
+                        <p>Write a review about {{ res.first_name }}’s class</p>
                     </div>
                 </div>
                 <div class="load_more">

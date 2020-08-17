@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </section>
-            <instagram-alternate />
+            <instagram-alternate :id="1150" />
             <book-a-bike-banner />
         </div>
     </transition>

@@ -9,7 +9,7 @@
             <section id="ready">
                 <div class="header">
                     <h2>Ready</h2>
-                    <h3>Keep these things in mind before heading to the studio!</h3>
+                    <h3>Keep these things in mind before you ride!</h3>
                 </div>
                 <div class="content">
                     <div class="wrapper" v-for="(data, key) in icons" :key="key">

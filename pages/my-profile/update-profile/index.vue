@@ -63,6 +63,7 @@
             setInterval( () => {
                 if (ctr < 1) {
                     if (!store.state.isAuth || store.state.user.new_user == 1) {
+                        store.state.loginSignUpStatus = true
                         error({ statusCode: 403, message: 'Page not found' })
                     }
                     ctr++

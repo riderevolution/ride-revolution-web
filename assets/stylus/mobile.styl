@@ -1262,6 +1262,11 @@
 
 @media (max-width: 1280px) and (min-width: 768px)
 
+    .comment
+        #content
+            max-width: calc(100% - 60px)
+            margin: 30px auto
+
     #article_alert
         padding: 10px 30px
         .left
@@ -3305,7 +3310,39 @@
             &.full
                 height: 300px
         .main_image
-            height: 700px
+            height: 100vh
+        .overlay_mobile
+            .overlay_image
+                width: 700px
+                margin: 0 auto
+                display: block
+                animation: slide_from_top 1.5s
+            .overlay_child
+                margin-top: 50px
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                position: static
+                transform: translateY(-50%) translateX(0)
+                animation: slide_from_top 1.5s
+                #play_icon
+                    width: 35px
+                    height: 35px
+                .label
+                    brandon_medium(16px, true)
+                    letter-spacing: 1.6px
+                    margin-top: 0
+                    padding-left: 10px
+            p
+                flex: 0 0 100%
+                text-align: center
+                margin-right: 0
+                margin-top: 40px
+                margin-bottom: 40px
+            .overlay_flex
+                .default_btn_wht
+                    border: none
         .overlay_top
             top: 74px
             width: 100%
@@ -3573,6 +3610,22 @@
 
 @media (max-width: 767px) and (min-width: 320px)
 
+    .comment
+        #content
+            max-width: calc(100% - 20px)
+            margin: 20px auto
+            #default_form
+                .form_main_group
+                    .form_flex
+                        justify-content: center
+                        text-align: center
+                        & > div
+                            flex: 0 0 100%
+                            & > div
+                                margin: 0 auto
+                        .form_button
+                            flex: 0 0 100%
+
     #article_alert
         padding: 10px
         .left
@@ -3581,6 +3634,7 @@
                 neutra_bold(12px, true)
                 padding-left: 0
 
+<<<<<<< HEAD
     #instagram
         .image_wrapper
             .image
@@ -3596,6 +3650,8 @@
                         .swiper-wrapper
                             justify-content: unset
 
+=======
+>>>>>>> 0a71c32175d9b74d95a2a5833f8ce65577be0cf3
     .global_prev_container
         max-width: 100%
         margin: 0 auto 40px
@@ -3895,7 +3951,7 @@
                     animation: fade_in 1.5s
             img
                 width: 100%
-                height: 250px
+                height: auto
             .overlay
                 position: relative
                 top: 0
@@ -4690,6 +4746,9 @@
                     brandon_bold(18px, true)
                     margin-bottom: 20px
                 .content
+                    .centered
+                        .swiper-wrapper
+                            justify-content: unset
                     .wrapper
                         .field_image
                             .overlay
@@ -4924,17 +4983,17 @@
             #content
                 max-width: 100%
                 margin: 0 auto
-                flex-direction: column-reverse
                 .left,
                 .right
                     flex: 0 0 100%
                     width: 100%
                 .left
                     p
-                        brandon_regular(12px, false)
+                        brandon_regular(14px, false)
                         line-height: 1.5
                 .right
                     text-align: center
+                    margin-top: 20px
                     .share
                         brandon_bold(14px, true)
                         margin-bottom: 10px
@@ -5916,6 +5975,12 @@
             .description
                 span
                     brandon_bold(16px, false)
+    #instagram
+        .image_wrapper
+            .image
+                img
+                    width: 100%
+                    height: auto
 
     .default_modal_page
         #disclaimer

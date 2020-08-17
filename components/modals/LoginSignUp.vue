@@ -21,7 +21,7 @@
                     <div class="form_group">
                         <label for="email">E-mail</label>
                         <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="loginForm.email">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.email')">{{ errors.first('login_form.email') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.email')">{{ properFormat(errors.first('login_form.email')) }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="password">Password</label>
@@ -32,7 +32,7 @@
                         <transition name="fade">
                             <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
                         </transition>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.password')">{{ errors.first('login_form.password') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.password')">{{ properFormat(errors.first('login_form.password')) }}</span></transition>
                     </div>
                     <div class="form_flex">
                         <div class="form_check">
@@ -58,7 +58,7 @@
                     <div class="form_group">
                         <label for="email">E-mail</label>
                         <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="forgotPasswordForm.email">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ errors.first('forgot_form.email') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ properFormat(errors.first('forgot_form.email')) }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
                         <div class="back" @click="toggleStep('forgot')">Back</div>
@@ -89,7 +89,7 @@
                     <div class="form_group">
                         <label for="email">E-mail</label>
                         <input type="text" @input="checkValidity('email', $event)" id="email" name="email" class="input_text" v-model="signUpForm.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.email') && !checkEmailValidity">{{ errors.first('register_form.email') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.email') && !checkEmailValidity">{{ properFormat(errors.first('register_form.email')) }}</span></transition>
                         <transition name="slide"><span class="validation_errors" v-if="checkEmailValidity">Email address is already taken</span></transition>
                     </div>
                     <div class="form_group">
@@ -101,7 +101,7 @@
                         <transition name="fade">
                             <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
                         </transition>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password')">{{ errors.first('register_form.password') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password')">{{ properFormat(errors.first('register_form.password')) }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="password_confirmation">Confirm Password</label>
@@ -112,7 +112,7 @@
                         <transition name="fade">
                             <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="showConfirmPassword"><img src="/icons/show-pw.svg" /></div>
                         </transition>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password_confirmation')">{{ errors.first('register_form.password_confirmation') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password_confirmation')">{{ properFormat(errors.first('register_form.password_confirmation')) }}</span></transition>
                     </div>
                     <div class="form_button">
                         <button type="button" :class="`default_btn full ${(checkEmailValidity) ? 'disabled' : ''}`" @click="submissionRegisterSuccess()">Sign up</button>
@@ -133,7 +133,7 @@
                     <div class="form_group disclaimer">
                         <label for="username">Username <span>*</span></label>
                         <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="signUpForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 15}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.username') && !checkUsernameValidity">{{ errors.first('register_process_form.username') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.username') && !checkUsernameValidity">{{ properFormat(errors.first('register_process_form.username')) }}</span></transition>
                         <transition name="slide"><span class="validation_errors" v-if="checkUsernameValidity">Username is already taken</span></transition>
                     </div>
                     <div class="form_group_disclaimer">
@@ -142,17 +142,17 @@
                     <div class="form_group">
                         <label for="first_name">First Name <span>*</span></label>
                         <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="signUpForm.first_name" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.first_name')">{{ errors.first('register_process_form.first_name') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.first_name')">{{ properFormat(errors.first('register_process_form.first_name')) }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="last_name">Last Name <span>*</span></label>
                         <input type="text" name="last_name" autocomplete="off" class="input_text" v-model="signUpForm.last_name" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.last_name')">{{ errors.first('register_process_form.last_name') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.last_name')">{{ properFormat(errors.first('register_process_form.last_name')) }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="contact_number">Contact Number <span>*</span></label>
                         <input type="text" name="contact_number" autocomplete="off" v-model="signUpForm.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.contact_number')">{{ errors.first('register_process_form.contact_number') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.contact_number')">{{ properFormat(errors.first('register_process_form.contact_number')) }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
                         <div class="back" @click="toggleStep('back')">Back</div>
@@ -183,7 +183,7 @@
                                 <option :value="data" v-for="(data, key) in professions" :key="key">{{ data }}</option>
                             </select>
                         </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.what_do_you_do')">{{ errors.first('register_process_form.what_do_you_do') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.what_do_you_do')">{{ properFormat(errors.first('register_process_form.what_do_you_do')) }}</span></transition>
                     </div>
                     <div class="form_flex radio">
                         <label>Sex <span>*</span></label>
@@ -195,7 +195,7 @@
                             <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
                             <label for="male">Male</label>
                         </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.sex')">{{ errors.first('register_process_form.sex') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.sex')">{{ properFormat(errors.first('register_process_form.sex')) }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
                         <div class="back" @click="toggleStep('back')">Back</div>
@@ -242,7 +242,7 @@
                         <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`">
                             <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'" v-model="signUpForm.iAgree">
                             <label for="i_agree" class="alt">I agree to the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> and Ride Revolution’s <a target="_blank" href="/privacy-policy">Privacy Policy</a>.</label>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ errors.first('register_process_form.i_agree') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition>
                         </div>
                     </div>
                     <div class="form_flex sign_up">
@@ -291,48 +291,6 @@
                 },
                 forgotPasswordForm: {
                     email: ''
-                }
-            }
-        },
-        filters: {
-            properFormat (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                if (newValue.length > 1) {
-                    let nextValue = newValue[0].split('_')
-                    if (nextValue.length > 1) {
-                        newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
-                    } else {
-                        newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                    }
-                } else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
-                    if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-                    if (message[0].split('file').length > 1) {
-                        message = message[0].split('file')[1]
-                        return `The ${newValue} field${message}`
-                    } else {
-                        return `The ${newValue}`
-                    }
                 }
             }
         },
@@ -702,6 +660,7 @@
                     }
                 }
             }, 100)
+            document.body.classList.add('no_scroll')
         },
         beforeMount () {
             window.addEventListener('load', this.windowLoginScroll)

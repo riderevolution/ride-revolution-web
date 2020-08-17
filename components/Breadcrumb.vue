@@ -72,7 +72,7 @@
 									document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('complete_profile').scrollHeight}px`
 								}
 							} else {
-								if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner')) {
+								if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner') || document.querySelector('.comment')) {
 									if (me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
 										if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
 											document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`

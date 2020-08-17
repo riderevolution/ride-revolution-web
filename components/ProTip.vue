@@ -18,7 +18,7 @@
             dismissProTip () {
                 const me = this
                 me.$store.state.proTipStatus = false
-                if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner')) {
+                if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner') || document.querySelector('.comment')) {
                     if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
                         document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
                     } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
@@ -52,10 +52,12 @@
         },
 		beforeMount () {
             window.addEventListener('load', this.checkAdvisory)
+            window.addEventListener('scroll', this.checkAdvisory)
             window.addEventListener('resize', this.checkAdvisory)
         },
         beforeDestroy () {
             window.removeEventListener('load', this.checkAdvisory)
+            window.removeEventListener('scroll', this.checkAdvisory)
             window.removeEventListener('resize', this.checkAdvisory)
         }
     }
