@@ -775,15 +775,28 @@
                                 me.instructor = me.schedule.schedule.instructor_schedules[0].user
                                 me.temp.forEach((seat, index) => {
                                     if (seat.bookings.length > 0) {
-                                        if (seat.bookings[0].original_booker_id == me.user.id) {
-                                            if (seat.bookings[0].is_guest == 0) {
-                                                me.bookingID = seat.bookings[0].id
-                                                me.tempOriginalSeat = seat
-                                                me.toSubmit.tempSeat.unshift(seat)
-                                            } else {
-                                                me.toSubmit.tempSeat.push(seat)
+                                        if (seat.position == 'Online') {
+                                            seat.bookings.forEach((booking, index) => {
+                                                if (booking.original_booker_id == me.user.id) {
+                                                    if (booking.is_guest == 0) {
+                                                        me.bookingID = booking.id
+                                                        me.tempOriginalSeat = seat
+                                                        me.toSubmit.tempSeat.unshift(seat)
+                                                    }
+                                                    me.ctr++
+                                                }
+                                            })
+                                        } else {
+                                            if (seat.bookings[0].original_booker_id == me.user.id) {
+                                                if (seat.bookings[0].is_guest == 0) {
+                                                    me.bookingID = seat.bookings[0].id
+                                                    me.tempOriginalSeat = seat
+                                                    me.toSubmit.tempSeat.unshift(seat)
+                                                } else {
+                                                    me.toSubmit.tempSeat.push(seat)
+                                                }
+                                                me.ctr++
                                             }
-                                            me.ctr++
                                         }
                                     }
                                     switch (seat.position) {
