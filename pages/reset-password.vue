@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="reset_password" v-if="loaded">
-            <section id="banner" class="mt"></section>
+            <banner />
             <div class="reset_done" v-if="resetDone && !oldUser">
                 <p>Password changed successfully. Click <div class="link" @click="loginUser()"> here </div> to login.</p>
             </div>
@@ -68,7 +68,11 @@
 </template>
 
 <script>
+    import Banner from '../components/Banner'
     export default {
+        components: {
+            Banner
+        },
         data () {
             return{
                 loaded: false,

@@ -693,6 +693,10 @@ svg
             a
                 color: $black
                 brandon_regular(16px, false)
+            ul
+                li
+                    color: $black
+                    brandon_regular(16px, false)
 
 #main_container
     position: relative
@@ -7253,6 +7257,9 @@ svg
             .default_btn
                 margin: 40px auto 0
         .promo_list
+            display: flex
+            flex-flow: column wrap
+            justify-content: space-between
             padding: 20px
             flex: 0 0 calc(33.33% - 30px)
             margin: 15px
@@ -7295,6 +7302,9 @@ svg
                 .default_btn
                     flex: 0 0 45%
                     padding: 10px 20px
+            .link
+                display: inline-block
+                margin-top: 15px
             &:hover
                 transform: perspective(1px) scale(1.02)
                 box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
@@ -7351,6 +7361,9 @@ svg
                 .default_btn
                     flex: 0 0 45%
                     padding: 10px 20px
+            .link
+                display: block
+                margin-top: 15px
             &:hover
                 box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
                 transition: .3s ease-in-out
@@ -7451,7 +7464,6 @@ svg
                 brandon_regular(20px, false)
                 letter-spacing: 0.5px
                 color: $black
-                text-align: left
                 margin-bottom: 40px
                 .red
                     color: $red
@@ -7846,6 +7858,80 @@ svg
             letter-spacing: 0.55px
             &.alt
                 brandon_regular(20px, false)
+    .scroll_mobile
+        position: absolute
+        bottom: calc(0% + 20px)
+        left: 0
+        right: 0
+        text-align: center
+        img
+            width: auto
+    .overlay_mobile
+        position: absolute
+        top: 50%
+        left: 0
+        transform: translateY(-50%)
+        .overlay_flex
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: center
+            .default_btn
+                margin-right: 20px
+        p
+            flex: 0 0 55%
+            brandon_regular(20px, false)
+            color: $white
+            line-height: 1.5
+            margin-right: 80px
+            &.nmr
+                margin-right: 0
+        .default_btn
+            flex: 0 0 auto
+        .overlay_image
+            width: 920px
+            animation: slide_from_left 1.5s
+        .overlay_child
+            position: absolute
+            top: 50%
+            right: calc(50% - 25%)
+            text-align: center
+            transform: translateY(-50%) translateX(0px)
+            cursor: pointer
+            animation: slide_from_rightY 1.5s
+            /**
+             * SVG */
+            #play_icon
+                transform: scale(1)
+                transition: .3s ease-in-out
+                .rect
+                    fill: none
+                .play
+                    fill: $green_alt
+                    transition: .3s ease-in-out
+                .border
+                    fill: none
+                    stroke: $white
+                    stroke-miterlimit: 10
+                    stroke-dasharray: 500
+                    animation: dash 5s linear
+                    transition: .3s ease-in-out
+            .label
+                brandon_medium(18px, true)
+                color: $white
+                margin-top: 10px
+                transition: .3s ease-in-out
+            &:hover
+                #play_icon
+                    transform: scale(1.1)
+                    transition: .3s ease-in-out
+                    .border
+                        stroke: $green_alt
+                        transition: .3s ease-in-out
+                .label
+                    color: $green_alt
+                    text-shadow: 0px 0px 30px rgba(38, 164, 139, 0.75)
+                    transition: .3s ease-in-out
     .overlay_top
         position: absolute
         top: 50%

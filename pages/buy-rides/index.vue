@@ -9,12 +9,12 @@
                         <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$store.state.isMobile" />
                     </h2>
                     <div class="description" v-if="!$store.state.isMobile">
-                        <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
+                        <p>Get ready to RIDE, MOVE and BREATHE together. Choose the package for you and get your #RevOn! Let’s Ride!</p>
                     </div>
                     <transition name="slide">
                         <div class="description_overlay" v-if="$store.state.isMobile && showInfoPackages">
                             <div class="pointer"></div>
-                            <p>For first timers we recommend our trial class and first-timer package. Upon purchase of any package, you will have 30 days to activate it. Expiry will be based on the date of activation and type of package.</p>
+                            <p>Get ready to RIDE, MOVE and BREATHE together. Choose the package for you and get your #RevOn! Let’s Ride!</p>
                         </div>
                     </transition>
                 </div>

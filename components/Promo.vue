@@ -13,6 +13,7 @@
                                 <input class="code" :id="`code_${key}`" :value="data.promo_code" />
                                 <button type="button" class="default_btn" @click="codeClipboard(data, key)">Copy Code</button>
                             </div>
+                            <a :href="data.link" class="default_btn link" target="_blank" v-if="data.has_link">{{ data.link_label }}</a>
                         </div>
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
