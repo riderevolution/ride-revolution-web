@@ -9,7 +9,7 @@
                         <div class="form_flex with_btn alt_2">
                             <div class="form_group">
                                 <label for="email_address">Email Address <span>*</span></label>
-                                <input type="text" name="email_address" autocomplete="off" placeholder="Enter your email address" class="input_text" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                                <input type="text" name="email_address" autocomplete="off" v-model="form.email" placeholder="Enter your email address" class="input_text" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9\_|\u00f1|\@|\.]*$'}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('email_address')">{{ properFormat(errors.first('email_address')) }}</span></transition>
                             </div>
                             <div class="form_button alt">
@@ -25,33 +25,37 @@
 
 <script>
     export default {
+        data () {
+            return {
+                form: {
+                    email: ''
+                }
+            }
+        },
         methods: {
             submissionSuccess () {
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid) {
-                        me.$store.state.shareEmailStatus = false
-                        document.body.classList.remove('no_scroll')
-                    //     let token = me.$cookies.get('70hokc3hhhn5')
-                    //     me.loader(true)
-                    //     me.$axios.post(`api/user/update-password`, me.form, {
-                    //         headers: {
-                    //             Authorization: `Bearer ${token}`
-                    //         }
-                    //     }).then(res => {
-                    //         me.$store.state.changePasswordStatus = false
-                    //         me.$store.state.buyRidesPromptStatus = true
-                    //         me.$parent.message = "You've successfully changed your password."
-                    //     }).catch(err => {
-                    //         me.$store.state.errorList = err.response.data.errors
-                    //         me.$store.state.errorPromptStatus = true
-                    //     }).then(() => {
-                    //         setTimeout( () => {
-                    //             me.loader(false)
-                    //         }, 500)
-                    //         me.validateToken()
-                    //     })
-                    // } else {
+                        me.loader(true)
+                        let formData = new FormData()
+                        formData.append('email', me.form.email)
+                        formData.append('url', me.$route.path)
+                        me.$axios.post(`api/extras/share-via-email`, formData).then(res => {
+                            me.$store.state.shareEmailStatus = false
+                            setTimeout( () => {
+                                me.$store.state.shareSuccess = true
+                            }, 500)
+                        }).catch(err => {
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
+                    } else {
                         me.$scrollTo('.validation_errors', {
                             container: '#default_form',
 							offset: -250
