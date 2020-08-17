@@ -35,7 +35,7 @@
                         <div class="flex_image">
                             <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'image|ext:jpeg,jpg,png|size:20000'">
                             <input type="hidden" name="image_id[]" value="0">
-                            <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.image[]')">{{ errors.first('complete_profile_form.image[]') | properFormat }}</span></transition> -->
+                            <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.image[]')">{{ properFormat(errors.first('complete_profile_form.image[]')) }}</span></transition> -->
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.image[]')">Only .jpg, .jpeg and .png files accepted</span></transition>
                             <label class="input_image_label" for="image">
                                 <div class="label">
@@ -59,13 +59,13 @@
                                 <option :value="size" v-for="(size, index) in sizes">{{ size }}</option>
                             </select>
                         </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.shoe_size')">{{ errors.first('complete_profile_form.shoe_size') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.shoe_size')">{{ properFormat(errors.first('complete_profile_form.shoe_size')) }}</span></transition>
                     </div>
                     <div class="form_group weight">
                         <label for="weight">Weight <span>*</span></label>
                         <div class="weight_input">
                             <input type="text" name="weight" autocomplete="off" class="input_text" v-validate="'required|numeric|min_value:1|max_value:200'">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.weight')">{{ errors.first('complete_profile_form.weight') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.weight')">{{ properFormat(errors.first('complete_profile_form.weight')) }}</span></transition>
                         </div>
                     </div>
                     <div class="form_flex sign_up">
@@ -88,7 +88,7 @@
                         <div class="form_group">
                             <label for="home_address_line_1">Address Line 1 <span>*</span></label>
                             <input name="home_address_line_1" placeholder="Enter your address line 1" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="completeProfile.home_address_line_1"/>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_line_1')">{{ errors.first('complete_profile_2_form.home_address_line_1') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_line_1')">{{ properFormat(errors.first('complete_profile_2_form.home_address_line_1')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="home_address_line_2">Address Line 2 <b>(Optional)</b></label>
@@ -103,7 +103,7 @@
                                         <option :value="country.id" v-for="(country, key) in pa_countries" :key="key">{{ country.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_country')">{{ errors.first('complete_profile_2_form.home_address_country') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_country')">{{ properFormat(errors.first('complete_profile_2_form.home_address_country')) }}</span></transition>
                             </div>
                             <div class="form_group select">
                                 <label for="home_address_state">State <span>*</span></label>
@@ -113,19 +113,19 @@
                                         <option :value="state.id" v-for="(state, key) in pa_states" :key="key">{{ state.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_state')">{{ errors.first('complete_profile_2_form.home_address_state') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_state')">{{ properFormat(errors.first('complete_profile_2_form.home_address_state')) }}</span></transition>
                             </div>
                         </div>
                         <div class="form_flex">
                             <div class="form_group">
                                 <label for="home_address_city">City <span>*</span></label>
                                 <input type="text" name="home_address_city" autocomplete="off" :class="`input_text ${(completeProfile.home_address_state != '') ? '' : 'disabled'}`" v-model="completeProfile.home_address_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_city')">{{ errors.first('complete_profile_2_form.home_address_city') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_city')">{{ properFormat(errors.first('complete_profile_2_form.home_address_city')) }}</span></transition>
                             </div>
                             <div class="form_group">
                                 <label for="home_address_zip_code">Zip Code <span>*</span></label>
                                 <input type="text" name="home_address_zip_code" autocomplete="off" :class="`input_text ${(completeProfile.home_address_state != '') ? '' : 'disabled'}`" v-model="completeProfile.home_address_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_zip_code')">{{ errors.first('complete_profile_2_form.home_address_zip_code') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_2_form.home_address_zip_code')">{{ properFormat(errors.first('complete_profile_2_form.home_address_zip_code')) }}</span></transition>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                         <div class="form_group">
                             <label for="billing_address_line_1">Address <span>*</span></label>
                             <input name="billing_address_line_1" placeholder="Enter your address line 1" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 300}" v-model="completeProfile.billing_address_line_1"/>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_line_1')">{{ errors.first('complete_profile_3_form.billing_address_line_1') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_line_1')">{{ properFormat(errors.first('complete_profile_3_form.billing_address_line_1')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="billing_address_line_2">Address <b>(Optional)</b></label>
@@ -170,7 +170,7 @@
                                         <option :value="country.id" v-for="(country, key) in ba_countries" :key="key">{{ country.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_country')">{{ errors.first('complete_profile_3_form.billing_address_country') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_country')">{{ properFormat(errors.first('complete_profile_3_form.billing_address_country')) }}</span></transition>
                             </div>
                             <div class="form_group select">
                                 <label for="billing_address_state">State <span>*</span></label>
@@ -180,19 +180,19 @@
                                         <option :value="state.id" v-for="(state, key) in ba_states" :key="key">{{ state.name }}</option>
                                     </select>
                                 </div>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_state')">{{ errors.first('complete_profile_3_form.billing_address_state') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_state')">{{ properFormat(errors.first('complete_profile_3_form.billing_address_state')) }}</span></transition>
                             </div>
                         </div>
                         <div class="form_flex">
                             <div class="form_group">
                                 <label for="billing_address_city">City <span>*</span></label>
                                 <input type="text" name="billing_address_city" autocomplete="off" :class="`input_text ${(completeProfile.billing_address_state != '') ? '' : 'disabled'}`" v-model="completeProfile.billing_address_city" placeholder="Enter your city" v-validate="{required: true, regex: '^[a-zA-Z!@#$&()\\|\'-`.+,/_ |\u00f1]*$', max: 100}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_city')">{{ errors.first('complete_profile_3_form.billing_address_city') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_city')">{{ properFormat(errors.first('complete_profile_3_form.billing_address_city')) }}</span></transition>
                             </div>
                             <div class="form_group">
                                 <label for="billing_address_zip_code">Zip Code <span>*</span></label>
                                 <input type="text" name="billing_address_zip_code" autocomplete="off" :class="`input_text ${(completeProfile.billing_address_state != '') ? '' : 'disabled'}`" v-model="completeProfile.billing_address_zip_code" placeholder="Enter your zip code" v-validate="{required: true, numeric: true}">
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_zip_code')">{{ errors.first('complete_profile_3_form.billing_address_zip_code') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_3_form.billing_address_zip_code')">{{ properFormat(errors.first('complete_profile_3_form.billing_address_zip_code')) }}</span></transition>
                             </div>
                         </div>
                     </div>
@@ -226,6 +226,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form_group" v-if="has_yes">
+                            <label for="elaborate">If you have marked YES to any of the above, please elaborate below:</label>
+                            <textarea name="elaborate" autocomplete="off" key="elaborate" class="input_text" rows="4" v-validate="{required: checkMedicalHistory}"></textarea>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.elaborate')">{{ properFormat(errors.first('complete_profile_4_form.elaborate')) }}</span></transition>
+                        </div>
                     </div>
                     <div class="form_main_group alt">
                         <div class="form_header">
@@ -234,17 +239,17 @@
                         <div class="form_group">
                             <label for="emergency_contact_full_name">Full Name <span>*</span></label>
                             <input type="text" name="emergency_contact_full_name" autocomplete="off" class="input_text" placeholder="Enter emergency contact full name" v-validate="{required: true, regex: '^[a-zA-Z-._ |\u00f1]*$', max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.emergency_contact_full_name')">{{ errors.first('complete_profile_4_form.emergency_contact_full_name') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.emergency_contact_full_name')">{{ properFormat(errors.first('complete_profile_4_form.emergency_contact_full_name')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="emergency_contact_phone_number">Phone Number <span>*</span></label>
                             <input type="text" name="emergency_contact_phone_number" autocomplete="off" placeholder="Enter emergency contact phone number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.emergency_contact_phone_number')">{{ errors.first('complete_profile_4_form.emergency_contact_phone_number') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.emergency_contact_phone_number')">{{ properFormat(errors.first('complete_profile_4_form.emergency_contact_phone_number')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="emergency_contact_relationship">Relationship <span>*</span></label>
                             <input type="text" name="emergency_contact_relationship" autocomplete="off" class="input_text" placeholder="Enter emergency contact relationship" v-validate="{required: true, regex: '^[a-zA-Z-._ |\u00f1]*$', max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.emergency_contact_relationship')">{{ errors.first('complete_profile_4_form.emergency_contact_relationship') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.emergency_contact_relationship')">{{ properFormat(errors.first('complete_profile_4_form.emergency_contact_relationship')) }}</span></transition>
                         </div>
                         <div class="form_group read">
                             <div class="form_group_body">
@@ -275,7 +280,7 @@
                             <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`">
                                 <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'">
                                 <label for="i_agree" class="alt">I acknowledge and fully understand the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> stated above and that all information stated above are true.</label>
-                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.i_agree') && hasReadTerms">{{ errors.first('complete_profile_4_form.i_agree') | properFormat }}</span></transition>
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.i_agree') && hasReadTerms">{{ properFormat(errors.first('complete_profile_4_form.i_agree')) }}</span></transition>
                             </div>
                         </div>
                         <div class="form_group">
@@ -327,6 +332,7 @@
                     medical_history: [],
                     copy: false
                 },
+                has_yes: false,
                 histories: [],
                 error: false,
                 hasReadTerms: false,
@@ -346,65 +352,22 @@
                     sizes.push(ctr)
                 }
                 return sizes
-            }
-        },
-        filters: {
-            properFormat (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('.')
-                if (newValue.length > 1) {
-                    newValue = newValue[1].split('[]')
-                    if (newValue.length > 1) {
-                        let nextValue = newValue[0].split('_')
-                        if (nextValue.length > 1) {
-                            newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
-                        } else {
-                            newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
+            },
+            checkMedicalHistory () {
+                const me = this
+                let ctr = 0
+                me.completeProfile.medical_history = me.histories
+                me.completeProfile.medical_history.forEach((history, index) => {
+                    if (history.value == 1) {
+                        ctr++
                     }
+                })
+                if (ctr > 0) {
+                    me.has_yes = true
+                    return true
                 } else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                    if (newValue.length > 1) {
-                        let nextValue = newValue[0].split('_')
-                        if (nextValue.length > 1) {
-                            newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
-                        } else {
-                            newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].split('_')
-                        if (newValue.length > 1) {
-                            let firstValue = ''
-                            let lastValue = ''
-                            if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                                firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                            }
-                            for (let i = 1; i < newValue.length; i++) {
-                                if (newValue[i] != 'id') {
-                                    lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                                }
-                            }
-                            newValue = firstValue + ' ' + lastValue
-                        } else {
-                            newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                        }
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-                    if (message[0].split('file').length > 1) {
-                        message = message[0].split('file')[1]
-                        return `The ${newValue} field${message}`
-                    } else {
-                        if (message[0].split('image').length > 1) {
-                            message = message[0].split('image[]')[1]
-                            return `The ${newValue} ${message}`
-                        } else {
-                            return `The ${newValue}`
-                        }
-                    }
+                    me.has_yes = false
+                    return false
                 }
             }
         },
@@ -425,6 +388,7 @@
                         me.error = false
                     }
                 }
+                me.checkMedicalHistory
             },
             toggleWorld (event, type, category) {
                 const me = this
@@ -576,6 +540,7 @@
                             } else {
                                 me.error = true
                                 me.$scrollTo('.validation_errors', {
+                                    container: '#step_4_form',
                                     offset: -250
                                 })
                             }

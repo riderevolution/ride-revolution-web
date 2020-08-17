@@ -22,7 +22,7 @@
                                                 <label>Qty</label>
                                                 <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
                                                     <input type="text" name="quantity" id="quantity" :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'numeric|min_value:1|max_value:99'">
-                                                    <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">{{ errors.first('quantity') | properFormat }}</span></transition>
+                                                    <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">{{ properFormat(errors.first('quantity')) }}</span></transition>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,43 +156,6 @@
                     promo: '',
                     quantity: 1,
                     total: 0
-                }
-            }
-        },
-        filters: {
-            properFormat: function (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
-                    if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-                    if (message[0].split('image[]').length > 1) {
-                        message = message[0].split('image[]')[1]
-                        return `The ${newValue} field${message}`
-                    } else {
-                        return `The ${newValue}`
-                    }
                 }
             }
         },
