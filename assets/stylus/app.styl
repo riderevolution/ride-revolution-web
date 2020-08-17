@@ -7253,6 +7253,9 @@ svg
             .default_btn
                 margin: 40px auto 0
         .promo_list
+            display: flex
+            flex-flow: column wrap
+            justify-content: space-between
             padding: 20px
             flex: 0 0 calc(33.33% - 30px)
             margin: 15px
@@ -7295,6 +7298,9 @@ svg
                 .default_btn
                     flex: 0 0 45%
                     padding: 10px 20px
+            .link
+                display: inline-block
+                margin-top: 15px
             &:hover
                 transform: perspective(1px) scale(1.02)
                 box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
@@ -7351,6 +7357,9 @@ svg
                 .default_btn
                     flex: 0 0 45%
                     padding: 10px 20px
+            .link
+                display: block
+                margin-top: 15px
             &:hover
                 box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5)
                 transition: .3s ease-in-out
