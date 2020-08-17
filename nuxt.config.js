@@ -22,7 +22,7 @@ export default {
       { src: 'https://apis.google.com/js/platform.js', async: true, defer: true },
       { src: 'https://connect.facebook.net/en_US/sdk.js' },
       { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: true, defer: true },
-      { src: 'https://www.paypal.com/sdk/js?client-id=AW9mqQoljBsyFHHffxUJK3B9dnYEb3-PaQPnngPwkSP-T6kzvdbswiSdtXJKYJ2vAE-hCJfOvKriJ5GD&disable-funding=credit,card&currency=PHP&buyer-country=PH' },
+      { src: 'https://www.paypal.com/sdk/js?client-id=AW9mqQoljBsyFHHffxUJK3B9dnYEb3-PaQPnngPwkSP-T6kzvdbswiSdtXJKYJ2vAE-hCJfOvKriJ5GD&disable-funding=credit,card&currency=PHP' },
     ],
     htmlAttrs: {
       lang: 'en'
