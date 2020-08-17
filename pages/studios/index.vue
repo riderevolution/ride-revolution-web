@@ -40,7 +40,7 @@
                     </no-ssr>
                 </div>
             </section>
-            <instagram-alternate :id="1050" />
+            <instagram-alternate :id="1100" />
             <book-a-bike-banner />
         </div>
     </transition>
