@@ -58,6 +58,7 @@
                                 me.loader(true)
                                 let user = res.data
                                 let formData = new FormData()
+                                console.log(me.seat);
                                 formData.append('scheduled_date_id', me.seat.bookings[0].scheduled_date_id)
                                 formData.append('type', 'cancel')
                                 me.$axios.post('api/schedules/validate', formData).then(res => {
@@ -92,6 +93,7 @@
                                 })
                             }
                         }).catch(err => {
+                            console.log(err);
                             setTimeout( () => {
                                 me.$store.state.errorOverlayPromptStatus = true
                                 me.$store.state.errorList = err.response.data.errors
