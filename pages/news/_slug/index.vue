@@ -59,6 +59,9 @@
             <transition name="fade">
                 <share-via-email v-if="$store.state.shareEmailStatus" />
             </transition>
+            <transition name="fade">
+                <share-success v-if="$store.state.shareSuccess" />
+            </transition>
         </div>
     </transition>
 </template>
@@ -66,11 +69,13 @@
 <script>
     import Banner from '../../../components/Banner'
     import ShareViaEmail from '../../../components/modals/ShareViaEmail'
+    import ShareSuccess from '../../../components/modals/ShareSuccess'
     import BookABikeBanner from '../../../components/BookABikeBanner'
     export default {
         components: {
             Banner,
             ShareViaEmail,
+            ShareSuccess,
             BookABikeBanner
         },
         data () {

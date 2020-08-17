@@ -7540,15 +7540,8 @@ svg
             padding: 50px 20px 20px
             box-shadow: 0px 10px 15px transparent
             overflow: hidden
-            opacity: 0
-            visibility: hidden
-            transform: perspective(1px) scale(1) translateY(50px)
+            transform: perspective(1px) scale(1) translateY(0)
             transition: .3s ease-in-out
-            &.ov
-                opacity: 1
-                visibility: visible
-                transform: perspective(1px) scale(1) translateY(0px)
-                transition: .3s ease-in-out
             &.slider
                 margin: 0
                 flex: 0 0 100%
@@ -9599,7 +9592,7 @@ textarea::-webkit-scrollbar-thumb
     brandon_regular(18px, false)
     color: $black
     outline: none
-    resize: none
+    resize: vertical
     transition: .3s ease-in-out
     &.disabled
         pointer-events: none

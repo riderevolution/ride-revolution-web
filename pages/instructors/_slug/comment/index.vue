@@ -20,7 +20,7 @@
                         <div class="form_group">
                             <label for="title">Title <span>*</span></label>
                             <input type="text" name="title" autocomplete="off" class="input_text" placeholder="Enter your title" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ errors.first('title') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ properFormat(errors.first('title')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="your_review">Your Review <span>*</span></label>
@@ -29,7 +29,7 @@
                                 <div class="limit"><span class="count">{{ count }}</span> characters left</div>
                                 <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
                             </div>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('your_review')">{{ errors.first('your_review') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('your_review')">{{ properFormat(errors.first('your_review')) }}</span></transition>
                         </div>
                         <!-- <div class="form_image">
                             <input type="file" class="input_image" id="image" name="image[]" multiple ref="file" @change="getFile($event)" v-validate="'required|size:1000|image|ext:jpeg,jpg,png'" required>
@@ -42,7 +42,7 @@
                                     <div class="disclaimer alt">Upload limit: 3 photos</div>
                                 </div>
                             </label>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('image[]')">{{ errors.first('image[]') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('image[]')">{{ properFormat(errors.first('image[]')) }}</span></transition>
                         </div>
                         <transition name="fade">
                             <div class="preview_image_wrapper" id="preview_image_wrapper" v-if="previewImage">
@@ -115,43 +115,6 @@
                 },
                 previewImage: false,
                 images: []
-            }
-        },
-        filters: {
-            properFormat: function (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
-                    if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-                    if (message[0].split('image[]').length > 1) {
-                        message = message[0].split('image[]')[1]
-                        return `The ${newValue} field${message}`
-                    } else {
-                        return `The ${newValue}`
-                    }
-                }
             }
         },
         computed: {
@@ -296,10 +259,14 @@
                                         me.$store.state.completeProfilePromptStatus = true
                                     }
                                 }).catch(err => {
+                                    me.$store.state.loginSignUpStatus = true
+                                    document.body.classList.add('no_scroll')
                                     me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                                     me.loader(false)
                                 })
                             } else {
+                                me.$store.state.loginSignUpStatus = true
+                                document.body.classList.add('no_scroll')
                                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                                 me.loader(false)
                             }

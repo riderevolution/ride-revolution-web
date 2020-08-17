@@ -17,7 +17,7 @@
         props: {
             id: {
                 type: Number,
-                default: 1050
+                default: null
             }
         },
         components: {

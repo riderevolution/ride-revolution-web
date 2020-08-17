@@ -17,7 +17,7 @@
                                                 <option :value="data.id" v-for="(data, key) in classPackages">{{ data.name }}</option>
                                             </select>
                                         </div>
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('class_package')">{{ errors.first('class_package') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('class_package')">{{ properFormat(errors.first('class_package')) }}</span></transition>
                                     </div>
                                     <div class="form_disclaimer alt">
                                         Note: You can buy physical gift cards in any of our studios.
@@ -25,12 +25,12 @@
                                     <div class="form_group">
                                         <label for="from_sender">From <span>*</span></label>
                                         <input type="text" name="from_sender" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}" v-model="form.from" placeholder="Enter a name">
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('from_sender')">{{ errors.first('from_sender') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('from_sender')">{{ properFormat(errors.first('from_sender')) }}</span></transition>
                                     </div>
                                     <div class="form_group">
                                         <label for="to_sender">To <span>*</span></label>
                                         <input type="text" name="to_sender" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}" v-model="form.to" placeholder="Enter a name">
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('to_sender')">{{ errors.first('to_sender') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('to_sender')">{{ properFormat(errors.first('to_sender')) }}</span></transition>
                                     </div>
                                     <div :class="`form_group select ${(other) ? 'disclaimer' : ''}`">
                                         <label for="title">Title <span>*</span></label>
@@ -41,11 +41,11 @@
                                                 <option value="other">Other</option>
                                             </select>
                                         </div>
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ errors.first('title') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ properFormat(errors.first('title')) }}</span></transition>
                                     </div>
                                     <div class="form_group" v-if="other">
                                         <input type="text" name="other_title" class="input_text" v-validate="{required: true, regex: '^[a-zA-Z0-9\-_ |\'|\,|\.|\?|\!|\:|\;|\&]*$', max: 50}" placeholder="Enter your own title" v-model="form.other">
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('other_title')">{{ errors.first('other_title') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('other_title')">{{ properFormat(errors.first('other_title')) }}</span></transition>
                                     </div>
                                     <div class="form_group">
                                         <label for="personal_message">Personal Message <span>*</span></label>
@@ -54,7 +54,7 @@
                                             <div class="limit"><span class="count">{{ count }}</span> characters left</div>
                                             <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
                                         </div>
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('personal_message')">{{ errors.first('personal_message') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('personal_message')">{{ properFormat(errors.first('personal_message')) }}</span></transition>
                                     </div>
                                 </div>
                                 <div class="form_content">
@@ -64,12 +64,12 @@
                                     <div class="form_group">
                                         <label for="recipient_email">Recipient's Email <span>*</span></label>
                                         <input type="email" name="recipient_email" class="input_text" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="form.recipientEmail" placeholder="Enter a recipient's email">
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('recipient_email')">{{ errors.first('recipient_email') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('recipient_email')">{{ properFormat(errors.first('recipient_email')) }}</span></transition>
                                     </div>
                                     <div class="form_group">
                                         <label for="recipient_mobile_no">Recipient's Mobile No. <span>*</span></label>
                                         <input type="text" name="recipient_mobile_no" class="input_text" v-validate="'required|numeric|min:11|max:11'" v-model="form.recipientMobileNo" placeholder="Enter a recipient's mobile no.">
-                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('recipient_mobile_no')">{{ errors.first('recipient_mobile_no') | properFormat }}</span></transition>
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('recipient_mobile_no')">{{ properFormat(errors.first('recipient_mobile_no')) }}</span></transition>
                                     </div>
                                 </div>
                                 <div class="form_action">
@@ -99,7 +99,7 @@
                                             <div class="form_group">
                                                 <label for="promo_code">Promo Code</label>
                                                 <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-validate="{regex: '^[a-zA-Z0-9-|\-|\_]*$'}" v-model="form.promo">
-                                                <transition name="slide"><span class="validation_errors" v-if="errors.has('promo_code')">{{ errors.first('promo_code') | properFormat }}</span></transition>
+                                                <transition name="slide"><span class="validation_errors" v-if="errors.has('promo_code')">{{ properFormat(errors.first('promo_code')) }}</span></transition>
                                             </div>
                                             <div class="form_button">
                                                 <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(selectedPackage.id)"><span>Apply</span></button>
@@ -273,48 +273,6 @@
                 classPackages: [],
                 predefinedTitles: [],
                 selectedPackage: null
-            }
-        },
-        filters: {
-            properFormat (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                if (newValue.length > 1) {
-                    let nextValue = newValue[0].split('_')
-                    if (nextValue.length > 1) {
-                        newValue = nextValue[0].charAt(0).toUpperCase() + nextValue[0].slice(1) + ' ' + nextValue[1].charAt(0).toUpperCase() + nextValue[1].slice(1)
-                    } else {
-                        newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                    }
-                } else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
-                    if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-					if (message[0].split('file').length > 1) {
-                        message = message[0].split('file')[1]
-                        return `The ${newValue} field${message}`
-                    } else {
-                        return `The ${newValue}`
-                    }
-                }
             }
         },
         methods: {

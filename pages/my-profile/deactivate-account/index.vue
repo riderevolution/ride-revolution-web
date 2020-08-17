@@ -29,12 +29,12 @@
                             <input type="radio" id="others" value="others" name="reason" class="input_radio" v-validate="'required'" v-model="form.reason">
                             <label for="others">Other (please explain further)</label>
                         </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('reason')">{{ errors.first('reason') | properFormat }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('reason')">{{ properFormat(errors.first('reason')) }}</span></transition>
                     </div>
                     <transition name="slide">
                         <div class="form_group" v-if="form.reason == 'others'">
                             <textarea name="other_details" placeholder="Enter your other reason" v-model="form.other_reason" rows="5" class="input_text" key="other_details" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\']*$'}"></textarea>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('other_details')">{{ errors.first('other_details') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('other_details')">{{ properFormat(errors.first('other_details')) }}</span></transition>
                         </div>
                     </transition>
                 </div>
@@ -71,38 +71,6 @@
                 }
             }
         },
-        filters: {
-            properFormat: function (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
-                    if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-                    return `The ${newValue}`
-                }
-            }
-        },
         methods: {
             submissionSuccess () {
                 const me = this
@@ -124,6 +92,8 @@
             let token = me.$cookies.get('70hokc3hhhn5')
             me.loader(true)
             if (token == null || token == undefined) {
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             }
             setTimeout( () => {

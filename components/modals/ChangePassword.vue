@@ -10,17 +10,17 @@
                         <div class="form_group">
                             <label for="current_password">Current Password <span>*</span></label>
                             <input type="password" id="current_password" name="current_password" class="input_text" autocomplete="off" placeholder="Please enter your current password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="form.current_password">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('current_password')">{{ errors.first('current_password') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('current_password')">{{ properFormat(errors.first('current_password')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="new_password">New Password <span>*</span></label>
                             <input type="password" id="new_password" name="new_password" class="input_text" ref="new_password" autocomplete="off" placeholder="Please enter your new password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="form.new_password">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('new_password')">{{ errors.first('new_password') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('new_password')">{{ properFormat(errors.first('new_password')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="verify_password">Verify Password <span>*</span></label>
                             <input type="password" id="verify_password" name="verify_password" class="input_text" autocomplete="off" placeholder="Please enter your verify password" v-validate="{required: true, min: 8, confirmed: 'new_password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="form.new_password_confirmation">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('verify_password')">{{ errors.first('verify_password') | properFormat }}</span></transition>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('verify_password')">{{ properFormat(errors.first('verify_password')) }}</span></transition>
                         </div>
                         <div class="form_button">
                             <button type="submit" class="default_btn">Save Changes</button>
@@ -41,38 +41,6 @@
                     new_password: '',
                     new_password_confirmation: '',
                     _method: 'PATCH'
-                }
-            }
-        },
-        filters: {
-            properFormat: function (value) {
-                let newValue = value.split('The ')[1].split(' field')[0].split('[]')
-                if (newValue.length > 1) {
-                    newValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                }else {
-                    newValue = value.split('The ')[1].split(' field')[0].split('_')
-                    if (newValue.length > 1) {
-                        let firstValue = ''
-                        let lastValue = ''
-                        if (newValue[0] != 'co' && newValue[0] != 'pa' && newValue[0] != 'ec' && newValue[0] != 'ba') {
-                            firstValue = newValue[0].charAt(0).toUpperCase() + newValue[0].slice(1)
-                        }
-                        for (let i = 1; i < newValue.length; i++) {
-                            if (newValue[i] != 'id') {
-                                lastValue += ' ' + newValue[i].charAt(0).toUpperCase() + newValue[i].slice(1)
-                            }
-                        }
-                        newValue = firstValue + ' ' + lastValue
-                    } else {
-                        newValue = value.split('The ')[1].split(' field')[0].charAt(0).toUpperCase() + value.split('The ')[1].split(' field')[0].slice(1)
-                    }
-                }
-                let message = value.split('The ')[1].split(' field')
-                if (message.length > 1) {
-                    message = message[1]
-                    return `The ${newValue} field${message}`
-                } else {
-                    return `The ${newValue}`
                 }
             }
         },
