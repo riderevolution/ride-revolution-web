@@ -71,7 +71,7 @@
                     </no-ssr>
                 </div>
             </section>
-            <section id="reviews">
+            <section id="reviews" v-if="testimonials.length > 0">
                 <div class="header">
                     <h2 :class="`image_bg ${($store.state.isMobile) ? 'mobile' : ''}`">reviews</h2>
                     <div class="description">
@@ -100,6 +100,7 @@
                     </no-ssr>
                 </div>
             </section>
+            <section id="reviews" v-else><div class="header"></div></section>
             <section id="instructors">
                 <div class="overlay">
                     <div class="image">
