@@ -6162,8 +6162,38 @@
             height: 165px
         img
             width: 100%
-        .main_image
-            height: 600px
+        .overlay_mobile
+            .overlay_image
+                width: 100%
+                height: auto
+                object-fit: contain
+                animation: slide_from_top 1.5s
+            .overlay_child
+                margin-top: 50px
+                display: flex
+                flex-flow: row wrap
+                align-items: center
+                justify-content: center
+                position: static
+                transform: translateY(-50%) translateX(0)
+                animation: slide_from_top 1.5s
+                #play_icon
+                    width: 35px
+                    height: 35px
+                .label
+                    brandon_medium(16px, true)
+                    letter-spacing: 1.6px
+                    margin-top: 0
+                    padding-left: 10px
+            p
+                flex: 0 0 100%
+                text-align: center
+                margin-right: 0
+                margin-top: 40px
+                margin-bottom: 40px
+            .overlay_flex
+                .default_btn_wht
+                    border: none
         .overlay_top
             top: calc(61px + 33px)
             width: 100%
