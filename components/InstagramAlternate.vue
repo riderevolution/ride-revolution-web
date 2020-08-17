@@ -14,6 +14,12 @@
 <script>
     import Instagram from './Instagram'
     export default {
+        props: {
+            id: {
+                type: Number,
+                default: 1050
+            }
+        },
         components: {
             Instagram
         },
@@ -24,7 +30,7 @@
         },
         mounted () {
             const me = this
-            me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=1050`).then(res => {
+            me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=${me.id}`).then(res => {
                 me.feeds = res.data.data
                 me.loader(false)
             })

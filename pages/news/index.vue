@@ -18,7 +18,7 @@
                     <div v-if="!showLoadedNews" class="default_btn load" @click="loadMoreNews()">Load More</div>
                 </div>
             </section>
-            <instagram-alternate />
+            <instagram-alternate :id="1100" />
             <book-a-bike-banner />
         </div>
     </transition>
