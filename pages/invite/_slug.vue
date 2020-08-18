@@ -23,11 +23,10 @@
 				}).then(res => {
 					this.$cookies.set('referrer_member_id', member_id)
 					setTimeout(() => {
-						me.$router.push(`/thank-you?strng=asdasdasdhuwhudhs`)
-						// this.$store.state.loginSignUpStatus = true
+						this.$store.state.loginSignUpStatus = true
 					}, 500)
 				}).catch(err => {
-					// this.$store.state.loginSignUpStatus = false
+					this.$store.state.loginSignUpStatus = false
 					document.body.classList.add('no_scroll')
 					me.$store.state.errorList = err.response.data.errors
 					me.$store.state.errorPromptStatus = true
