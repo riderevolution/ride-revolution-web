@@ -132,7 +132,7 @@
                         me.loader(true)
                         me.$axios.post('api/forgot-password', formData).then(res => {
                             setTimeout( () => {
-                                me.resetDone = true
+                                me.$router.push(`/thank-you?strng=asdasdasdhuwhudhs`)
                             }, 500)
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors

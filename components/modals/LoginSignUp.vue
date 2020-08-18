@@ -341,6 +341,7 @@
                                 document.body.classList.remove('no_scroll')
                                 me.$router.push('/my-profile')
                             }).catch(err => {
+                                me.$store.state.errorOverlayPromptStatus = true
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
                                 me.$cookies.remove('70hokc3hhhn5')
@@ -348,7 +349,9 @@
                                 setTimeout(() => {
                                     me.loader(false)
                                 }, 500)
-                                me.checkBadges()
+                                if (token !== null && token !== undefined) {
+                                    me.checkBadges()
+                                }
                             })
                         })
                     } else {
@@ -377,6 +380,7 @@
                         document.body.classList.remove('no_scroll')
                         me.$router.push('/my-profile')
                     }).catch(err => {
+                        me.$store.state.errorOverlayPromptStatus = true
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
                         me.$cookies.remove('70hokc3hhhn5')
@@ -384,7 +388,9 @@
                         setTimeout(() => {
                             me.loader(false)
                         }, 500)
-                        me.checkBadges()
+                        if (token !== null && token !== undefined) {
+                            me.checkBadges()
+                        }
                     })
                 })
             },
@@ -439,14 +445,15 @@
                                 me.signUpForm['referrer_member_id'] = null
                             }
                             me.$axios.post('api/user/register', me.signUpForm).then(res => {
-                                let token = res.data.token
-                                me.$cookies.set('70hokc3hhhn5', token, '7d')
-                                me.validateToken()
+                                // let token = res.data.token
+                                // me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                // me.validateToken()
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
                                 me.$cookies.remove('referrer_member_id')
-                                me.$router.push('/my-profile')
+                                me.$router.push(`/thank-you?strng=asdasdasdhuwhudhs`)
                             }).catch(err => {
+                                me.$store.state.errorOverlayPromptStatus = true
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
                             }).then(() => {
@@ -590,7 +597,11 @@
                             setTimeout(() => {
                                 me.loader(false)
                             }, 500)
-                            me.checkBadges()
+                            let token = me.$cookies.get('70hokc3hhhn5')
+                            me.loader(true)
+                            if (token !== null && token !== undefined) {
+                                me.checkBadges()
+                            }
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {
