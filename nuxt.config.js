@@ -23,7 +23,7 @@ export default {
       { src: 'https://connect.facebook.net/en_US/sdk.js' },
       { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: true, defer: true },
       // { src: 'https://www.paypal.com/sdk/js?client-id=AW9mqQoljBsyFHHffxUJK3B9dnYEb3-PaQPnngPwkSP-T6kzvdbswiSdtXJKYJ2vAE-hCJfOvKriJ5GD&disable-funding=credit,card&currency=PHP' },
-      { src: 'https://www.paypal.com/sdk/js?client-id=AZ0wEMysFjb0VvF8II46HHsx6fLzAZD5-r0Pn_mopzG8Kyz-Ylzm7HDyFb_oG2tm8j16l-0HLIUhPLiX&disable-funding=credit,card&currency=PHP&buyer-country=PH' },
+      { src: `https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID}&disable-funding=credit,card&currency=PHP&buyer-country=PH` },
     ],
     htmlAttrs: {
       lang: 'en'
@@ -74,6 +74,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Nuxt.js modules
@@ -103,11 +104,10 @@ export default {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: (process.env.NODE_ENV == "development") ? 'http://api.riderevolution.test' : 'https://api.riderevolution.ph',
-    // baseURL: (process.env.NODE_ENV == "development") ? 'https://3476cd1961a6.ngrok.io' : 'https://api.riderevolution.ph',
+    baseURL: process.env.API_URL,
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'https://riderevolution.ph'
+    baseUrl: process.env.BASE_URL
   },
   /*
   ** Build configuration
