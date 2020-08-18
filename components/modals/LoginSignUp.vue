@@ -270,17 +270,17 @@
                 checkEmailValidity: false,
                 checkUsernameValidity: false,
                 signUpForm: {
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                    username: '',
-                    first_name: '',
-                    last_name: '',
-                    contact_number: '',
-                    birth_date: '',
-                    what_do_you_do: '',
-                    sex: '',
-                    iAgree: ''
+                    email: 'samplesample@gmail.com',
+                    password: 'password',
+                    password_confirmation: 'password',
+                    username: 'password',
+                    first_name: 'password',
+                    last_name: 'password',
+                    contact_number: '123123123',
+                    birth_date: '2020-01-01',
+                    what_do_you_do: 'Engineering',
+                    sex: 'M',
+                    iAgree: 'on'
                 },
                 professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
                 hasReadTerms: false,
@@ -332,15 +332,27 @@
                     if (res.authResponse) {
                         FB.api('/me?fields=email,name,first_name,last_name', res => {
                             let data = res
+                            let token = ''
                             me.loader(true)
                             me.$axios.post('api/login/facebook/', data).then(res => {
-                                let token = res.data.token
+                                token = res.data.token
                                 me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                if (res.data.user.from_import == 1) {
+                                    me.$store.state.oldUser = true
+                                    me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+                                } else {
+                                    if (res.data.onboarding_code === null) {
+                                        me.$router.push('/my-profile')
+                                    } else {
+                                        me.$store.state.newUser = true
+                                        me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+                                    }
+                                }
                                 me.validateToken()
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
-                                me.$router.push('/my-profile')
                             }).catch(err => {
+                                me.$store.state.errorOverlayPromptStatus = true
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
                                 me.$cookies.remove('70hokc3hhhn5')
@@ -348,7 +360,9 @@
                                 setTimeout(() => {
                                     me.loader(false)
                                 }, 500)
-                                me.checkBadges()
+                                if (token !== null && token !== undefined) {
+                                    me.checkBadges()
+                                }
                             })
                         })
                     } else {
@@ -361,6 +375,7 @@
             googleLogin () {
                 let me = this
                 me.$gAuth.signIn().then(res => {
+                    me.loader(true)
                     // call backend
                     let profile = res.getBasicProfile()
                     let data = {
@@ -369,14 +384,26 @@
                         first_name: profile.getGivenName(),
                         last_name: profile.getFamilyName(),
                     }
+                    let token
                     me.$axios.post('api/login/google/', data).then(res => {
-                        let token = res.data.token
+                        token = res.data.token
                         me.$cookies.set('70hokc3hhhn5', token, '7d')
+                        if (res.data.user.from_import == 1) {
+                            me.$store.state.oldUser = true
+                            me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+                        } else {
+                            if (res.data.onboarding_code === null) {
+                                me.$router.push('/my-profile')
+                            } else {
+                                me.$store.state.newUser = true
+                                me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+                            }
+                        }
                         me.validateToken()
                         me.$store.state.loginSignUpStatus = false
                         document.body.classList.remove('no_scroll')
-                        me.$router.push('/my-profile')
                     }).catch(err => {
+                        me.$store.state.errorOverlayPromptStatus = true
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
                         me.$cookies.remove('70hokc3hhhn5')
@@ -384,7 +411,9 @@
                         setTimeout(() => {
                             me.loader(false)
                         }, 500)
-                        me.checkBadges()
+                        if (token !== null && token !== undefined) {
+                            me.checkBadges()
+                        }
                     })
                 })
             },
@@ -439,14 +468,15 @@
                                 me.signUpForm['referrer_member_id'] = null
                             }
                             me.$axios.post('api/user/register', me.signUpForm).then(res => {
-                                let token = res.data.token
-                                me.$cookies.set('70hokc3hhhn5', token, '7d')
-                                me.validateToken()
+                                // let token = res.data.token
+                                // me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                // me.validateToken()
                                 me.$store.state.loginSignUpStatus = false
                                 document.body.classList.remove('no_scroll')
                                 me.$cookies.remove('referrer_member_id')
-                                me.$router.push('/my-profile')
+                                me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
                             }).catch(err => {
+                                me.$store.state.errorOverlayPromptStatus = true
                                 me.$store.state.errorList = err.response.data.errors
                                 me.$store.state.errorPromptStatus = true
                             }).then(() => {
@@ -590,7 +620,11 @@
                             setTimeout(() => {
                                 me.loader(false)
                             }, 500)
-                            me.checkBadges()
+                            let token = me.$cookies.get('70hokc3hhhn5')
+                            me.loader(true)
+                            if (token !== null && token !== undefined) {
+                                me.checkBadges()
+                            }
                         })
                     } else {
                         me.$scrollTo('.validation_errors', {

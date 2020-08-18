@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="reset_password" v-if="loaded">
-            <banner />
+            <section id="banner"></section>
             <div class="reset_done" v-if="resetDone && !oldUser">
                 <p>Password changed successfully. Click <div class="link" @click="loginUser()"> here </div> to login.</p>
             </div>
@@ -132,7 +132,11 @@
                         me.loader(true)
                         me.$axios.post('api/forgot-password', formData).then(res => {
                             setTimeout( () => {
-                                me.resetDone = true
+                                if (me.oldUser) {
+                                    me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+                                } else {
+                                    me.resetDone = true
+                                }
                             }, 500)
                         }).catch(err => {
                             me.$store.state.errorList = err.response.data.errors
@@ -194,11 +198,32 @@
                         me.loader(false)
                     }, 500)
                 })
+            },
+            windowScroll () {
+                const me = this
+                if (me.$store.state.articleAlertStatus) {
+                    if (document.getElementById('article_alert')) {
+                        document.getElementById('banner').style.marginTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                    }
+                } else {
+                    document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
+                }
             }
         },
         mounted () {
             const me = this
             me.validateResetPasswordToken()
+            me.windowScroll()
         },
+        beforeMount () {
+            window.addEventListener('load', this.windowScroll)
+            window.addEventListener('scroll', this.windowScroll)
+            window.addEventListener('resize', this.windowScroll)
+        },
+        beforeDestroy () {
+            window.removeEventListener('load', this.windowScroll)
+            window.removeEventListener('scroll', this.windowScroll)
+            window.removeEventListener('resize', this.windowScroll)
+        }
     }
 </script>

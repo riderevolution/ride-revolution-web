@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: () => ({
+            newUser: false,
+            oldUser: false,
             shareSuccess: false,
             onlinePromptStatus: false,
             viewImageUrl: '',
