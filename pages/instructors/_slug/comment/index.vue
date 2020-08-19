@@ -3,7 +3,7 @@
         <div class="comment" v-if="loaded">
             <breadcrumb :overlay="false" />
             <transition name="slide">
-                <pro-tip v-if="$store.state.proTipStatus" />
+                <pro-tip v-if="$store.state.proTipStatus" :page="'review'" />
             </transition>
             <section id="content">
                 <form id="default_form" @submit.prevent="submissionSuccess()" enctype="multipart/form-data">

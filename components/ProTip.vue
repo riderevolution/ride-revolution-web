@@ -1,14 +1,21 @@
 <template>
     <div id="pro_tip">
-        <p class="tip">
-            PRO TIP: {{ res.label }}
-        </p>
+        <div class="tip">
+            <span>PRO TIP:</span>
+            <div class="text" v-html="res.label"></div>
+        </div>
         <div class="tip_btn" @click="dismissProTip()">Dismiss</div>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            page: {
+                type: String,
+                default: ''
+            }
+        },
         data () {
             return {
                 res: []
@@ -43,9 +50,9 @@
         },
         mounted () {
             const me = this
-            me.$axios.get('api/pro-tips/random').then((res) => {
+            me.$axios.get(`api/pro-tips/random?page=${me.page}`).then((res) => {
                 if (res.data) {
-                    me.res = res.data.proTip[0]
+                    me.res = res.data.proTip
                     me.checkAdvisory()
                 }
             })

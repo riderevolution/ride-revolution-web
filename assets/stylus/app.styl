@@ -884,12 +884,28 @@ svg
         justify-content: space-between
         z-index: 5
         .tip
-            flex: 1 0 50%
-            brandon_regular(16px, false)
-            font-style: italic
-            color: rgba(23, 23, 23, 0.54)
-            letter-spacing: 0.24px
-            line-height: normal
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            justify-content: flex-start
+            flex: 1 0 10%
+            b,
+            strong
+                brandon_bold(16px, false)
+                font-style: italic
+                color: rgba(23, 23, 23, 0.54)
+                letter-spacing: 0.24px
+                line-height: normal
+            p,
+            a,
+            span
+                brandon_regular(16px, false)
+                font-style: italic
+                color: rgba(23, 23, 23, 0.54)
+                letter-spacing: 0.24px
+                line-height: normal
+            .text
+                padding-left: 5px
         .tip_btn
             flex: 0 0 auto
             brandon_medium(12px, true)

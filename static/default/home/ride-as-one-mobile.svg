@@ -1,43 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="375.699" height="94.775" viewBox="0 0 375.699 94.775">
-  <g id="Group_7486" data-name="Group 7486" transform="translate(8.305 -4058.193)">
-    <line id="Line_2805" data-name="Line 2805" x1="14.349" y2="14.349" transform="translate(221.419 4073.24)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <g id="Group_7495" data-name="Group 7495" transform="translate(19.335 4085.465)">
-      <path id="Path_8995" data-name="Path 8995" d="M-1059.372,988.254h-2.743v-5.181h4.013l.965-3.81h-2.743v-5.181h4.013l1.27-4.927h5.333l-1.27,4.927h3.81l1.27-4.927h5.334l-1.219,4.927h2.692v5.181h-3.962l-.965,3.81h2.692v5.181h-4.013l-1.27,5.13h-5.334l1.27-5.13h-3.81l-1.27,5.13h-5.333Zm10.464-5.181.965-3.81h-3.81l-.965,3.81Z" transform="translate(1062.115 -965.599)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_8996" data-name="Path 8996" d="M-927.785,991.946h-8.229l-5.689-8.737a13.66,13.66,0,0,1-2.032.153h-2.438v8.584h-7.111V957.405h9.55c9.651,0,15.442,4.622,15.442,13.054,0,5.385-2.387,8.788-6.654,10.718Zm-16.153-14.782c5.791,0,8.331-1.828,8.331-6.705s-2.642-6.806-8.331-6.806h-2.235v13.511Z" transform="translate(981.983 -956.948)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_8997" data-name="Path 8997" d="M-834.435,957.405h7.112v34.541h-7.112Z" transform="translate(894.474 -956.948)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_8998" data-name="Path 8998" d="M-779.73,957.405h10.616c10.616,0,18.185,7.061,18.185,17.271s-7.518,17.271-18.185,17.271H-779.73Zm10.261,28.293c7.67,0,11.175-4.571,11.175-11.022s-3.5-11.023-11.175-11.023h-3.149V985.7Z" transform="translate(854.195 -956.948)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_8999" data-name="Path 8999" d="M-647.781,957.405h22.858v6.248h-15.746v10.972H-626.8v6.1h-13.867V985.7h16.458v6.248h-23.569Z" transform="translate(757.041 -956.948)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_9000" data-name="Path 9000" d="M-485.237,956.248h.609l15.8,34.846H-476.3l-1.625-3.911h-14.02l-1.625,3.911h-6.858Zm4.775,24.992-2.489-5.994c-1.016-2.438-2.083-6.2-2.083-6.2a62.6,62.6,0,0,1-2.032,6.2l-2.489,5.994Z" transform="translate(648.543 -956.096)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_9001" data-name="Path 9001" d="M-375.219,984l5.791-3.352c1.524,2.489,3.5,4.318,7.01,4.318,2.946,0,4.826-1.473,4.826-3.5,0-2.438-1.93-3.3-5.181-4.724l-1.778-.762c-5.131-2.184-8.534-4.927-8.534-10.718,0-5.333,4.064-9.4,10.413-9.4,4.521,0,7.772,1.575,10.108,5.689l-5.537,3.556c-1.219-2.184-2.54-3.048-4.572-3.048a3.094,3.094,0,0,0-3.4,3.048c0,2.133,1.321,3,4.369,4.318l1.778.762c6.045,2.591,9.448,5.232,9.448,11.175,0,6.4-5.029,9.9-11.785,9.9C-368.87,991.268-373.136,988.119-375.219,984Z" transform="translate(556.354 -955.812)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_9002" data-name="Path 9002" d="M-222.276,973.4a17.493,17.493,0,0,1,17.88-17.728,17.493,17.493,0,0,1,17.88,17.728,17.493,17.493,0,0,1-17.88,17.727A17.493,17.493,0,0,1-222.276,973.4Zm28.446,0c0-6.451-4.267-11.378-10.566-11.378s-10.565,4.927-10.565,11.378,4.267,11.378,10.565,11.378S-193.83,979.85-193.83,973.4Z" transform="translate(443.742 -955.671)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_9003" data-name="Path 9003" d="M-53.486,975.043a51.324,51.324,0,0,1-4.114-4.724,60.8,60.8,0,0,1,.508,6.3v14.477h-6.654V956.248h.711L-45.613,972.6a49.122,49.122,0,0,1,4.064,4.724s-.457-3.911-.457-6.3V956.553h6.654V991.4h-.711Z" transform="translate(327.017 -956.096)" fill="none" stroke="#000" stroke-width="1"/>
-      <path id="Path_9004" data-name="Path 9004" d="M71.282,957.405H94.14v6.248H78.393v10.972H92.261v6.1H78.393V985.7H94.851v6.248H71.282Z" transform="translate(227.596 -956.948)" fill="none" stroke="#000" stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="375.219" height="63.406" viewBox="0 0 375.219 63.406">
+  <g id="OneRevolution_-_Mobile" data-name="OneRevolution - Mobile" transform="translate(-424.576 -1.426)">
+    <line id="Line_843" data-name="Line 843" x1="12.738" y2="12.738" transform="translate(545.095 43.286)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_843-2" data-name="Line 843" x1="7.987" y2="7.987" transform="translate(561.565 31.566)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_823" data-name="Line 823" x1="4.122" y2="4.122" transform="translate(425.106 41.532)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_824" data-name="Line 824" x1="4.429" y2="4.429" transform="translate(432.859 33.473)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_826" data-name="Line 826" x1="2.112" y2="2.112" transform="translate(452.226 16.424)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_827" data-name="Line 827" x1="5.345" y2="5.345" transform="translate(456.449 8.967)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_831" data-name="Line 831" x1="11.493" y2="11.493" transform="translate(453.233 42.031)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_832" data-name="Line 832" x1="9.005" y2="9.005" transform="translate(485.431 12.036)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_833" data-name="Line 833" x1="5.98" y2="5.98" transform="translate(483.825 45.308)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_836" data-name="Line 836" x1="15.007" y2="15.007" transform="translate(495.537 48.688)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_844" data-name="Line 844" x1="8.083" y2="8.083" transform="translate(577.139 53.599)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_845" data-name="Line 845" x1="7.124" y2="7.124" transform="translate(596.017 53.753)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_846" data-name="Line 846" x1="10.466" y2="10.466" transform="translate(607.142 39.286)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_848" data-name="Line 848" x1="4.987" y2="4.987" transform="translate(644.089 20.707)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_849" data-name="Line 849" x1="9.328" y2="9.328" transform="translate(625.793 26.34)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_851" data-name="Line 851" x1="8.667" y2="8.667" transform="translate(636.94 8.563)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_852" data-name="Line 852" x1="2.789" y2="2.789" transform="translate(641.219 17.452)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_853" data-name="Line 853" x1="8.083" y2="8.083" transform="translate(585.407 31.534)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_854" data-name="Line 854" x1="7.694" y2="7.694" transform="translate(591.045 40.081)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_856" data-name="Line 856" x1="3.963" y2="3.963" transform="translate(613.558 21.3)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_857" data-name="Line 857" x1="10.389" y2="10.389" transform="translate(621.281 7.151)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_859" data-name="Line 859" x1="13.767" y2="13.767" transform="translate(532.589 45.118)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_860" data-name="Line 860" x1="3.619" y2="3.619" transform="translate(564.948 22.907)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_861" data-name="Line 861" x1="5.894" y2="5.894" transform="translate(576.336 24.027)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_862" data-name="Line 862" x1="2.817" y2="2.817" transform="translate(587.094 16.346)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_864" data-name="Line 864" x1="7.604" y2="7.604" transform="translate(538.525 31.24)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_866" data-name="Line 866" x1="5.125" y2="5.125" transform="translate(502.982 19.583)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_867" data-name="Line 867" x1="5.452" y2="5.452" transform="translate(517.573 12.087)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_868" data-name="Line 868" x1="11.575" y2="11.718" transform="translate(503.933 1.953)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_869" data-name="Line 869" x1="6.613" y2="6.613" transform="translate(443.889 42.061)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <path id="Path_8881" data-name="Path 8881" d="M477.6,7.254,460.22,24.447" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_836-2" data-name="Line 836" x1="15.007" y2="15.007" transform="translate(641.982 46.69)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_837" data-name="Line 837" x1="4.945" y2="4.945" transform="translate(662.193 33.072)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_838" data-name="Line 838" x1="6.85" y2="6.85" transform="translate(677.5 15.859)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_839" data-name="Line 839" x1="15.89" y2="15.89" transform="translate(658.415 13.629)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_840" data-name="Line 840" x1="7.235" y2="7.235" transform="translate(667.015 44.424)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_843-3" data-name="Line 843" x1="24.457" y2="24.457" transform="translate(696.678 36.419)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_844-2" data-name="Line 844" x1="8.083" y2="8.083" transform="translate(722.391 56.219)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_845-2" data-name="Line 845" x1="7.124" y2="7.124" transform="translate(745.031 57.178)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_846-2" data-name="Line 846" x1="10.466" y2="10.466" transform="translate(756.155 42.712)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_849-2" data-name="Line 849" x1="9.328" y2="9.328" transform="translate(789.936 24.057)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_850" data-name="Line 850" x1="3.628" y2="3.628" transform="translate(776.294 40.829)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_851-2" data-name="Line 851" x1="8.667" y2="8.667" transform="translate(775.249 16.699)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_852-2" data-name="Line 852" x1="2.789" y2="2.789" transform="translate(791.803 14.74)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_853-2" data-name="Line 853" x1="8.083" y2="8.083" transform="translate(727.184 41.867)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_854-2" data-name="Line 854" x1="7.694" y2="7.694" transform="translate(736.166 42.833)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_855" data-name="Line 855" x1="5.109" y2="5.109" transform="translate(730.493 21.688)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_856-2" data-name="Line 856" x1="3.963" y2="3.963" transform="translate(760.716 22.013)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_857-2" data-name="Line 857" x1="7.16" y2="7.16" transform="translate(769.153 10.38)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_859-2" data-name="Line 859" x1="21.59" y2="21.59" transform="translate(675.044 42.712)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_860-2" data-name="Line 860" x1="3.619" y2="3.619" transform="translate(698.974 36.752)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <line id="Line_861-2" data-name="Line 861" x1="5.158" y2="5.158" transform="translate(713.677 25.302)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_862-2" data-name="Line 862" x1="2.817" y2="2.817" transform="translate(732.54 17.345)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <line id="Line_864-2" data-name="Line 864" x1="6.436" y2="6.436" transform="translate(680.251 24.565)" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <g id="Group_7530" data-name="Group 7530">
+      <path id="Path_9027" data-name="Path 9027" d="M457.572,29.249V25.318h-2.044l.925-3.737h-4.045l-.965,3.737h-2.889l.962-3.737h-.337l-7.665,7.668h2.03l-.734,2.891h-3.043v3.931h2.081l-.965,3.891h4.048l.962-3.891h2.892l-.965,3.891h4.048l.962-3.891h3.046V32.14h-2.044l.734-2.891Zm-7.785,2.891h-2.892l.734-2.891h2.889Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9028" data-name="Path 9028" d="M475.182,18.883a13.272,13.272,0,0,0-13.565,13.449,13.566,13.566,0,0,0,27.131,0A13.272,13.272,0,0,0,475.182,18.883Zm0,22.081c-4.779,0-8.016-3.737-8.016-8.632S470.4,23.7,475.182,23.7s8.016,3.74,8.016,8.633S479.961,40.964,475.182,40.964Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9029" data-name="Path 9029" d="M510.791,19.229V30.213c0,1.81.346,4.779.346,4.779a37.193,37.193,0,0,0-3.083-3.585L494.837,19h-.54V45.435h5.05V34.453a45.792,45.792,0,0,0-.388-4.779,39.077,39.077,0,0,0,3.123,3.583L515.3,45.666h.539V19.229Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9030" data-name="Path 9030" d="M527.671,40.7V36.919H538.19V32.294H527.671V23.97h11.947V19.229H522.276V45.435h13.656l4.225-4.228V40.7Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9031" data-name="Path 9031" d="M560.043,37.264c3.237-1.464,5.047-4.045,5.047-8.13,0-6.4-4.393-9.905-11.716-9.905h-7.245V45.435h5.4V38.923h1.849a10.366,10.366,0,0,0,1.542-.117l4.316,6.629h6.243Zm-6.823-3.043h-1.695V23.97h1.695c4.317,0,6.321,1.465,6.321,5.164S557.614,34.221,553.22,34.221Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9032" data-name="Path 9032" d="M576.152,40.7V36.919h10.519V32.294H576.152V23.97H588.1V19.229H570.757V45.435h17.881V40.7Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9033" data-name="Path 9033" d="M610.836,19.229l-4.393,10.1a53.909,53.909,0,0,0-2,5.934,54.8,54.8,0,0,0-2.044-5.934l-4.037-9.044-3.976,3.979,9.671,21.405h.54l11.481-26.437Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9034" data-name="Path 9034" d="M630.95,18.883a13.271,13.271,0,0,0-13.562,13.449A13.271,13.271,0,0,0,630.95,45.783a14.256,14.256,0,0,0,4.67-.774l8.159-8.158a13.947,13.947,0,0,0,.737-4.519A13.272,13.272,0,0,0,630.95,18.883Zm0,22.081c-4.779,0-8.016-3.737-8.016-8.632s3.237-8.633,8.016-8.633,8.016,3.74,8.016,8.633S635.729,40.964,630.95,40.964Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9035" data-name="Path 9035" d="M655.46,40.7V19.229h-5.4V45.435h14.416l2.849-2.849V40.7Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9036" data-name="Path 9036" d="M687.37,19.229V35.646c0,3.817-1.619,5.281-5.164,5.281-3.583,0-5.241-1.464-5.241-5.281V19.229h-5.4V35.954c0,6.629,4.588,9.829,10.637,9.829,5.975,0,10.559-3.2,10.559-9.829V19.229Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9037" data-name="Path 9037" d="M701.161,19.229,697.584,22.8V23.97h7.476V45.435h5.393V23.97h7.476V19.229Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9038" data-name="Path 9038" d="M722.979,19.229V45.435h5.4V19.229Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9039" data-name="Path 9039" d="M747.566,18.883A13.272,13.272,0,0,0,734,32.332a13.272,13.272,0,0,0,13.565,13.451,14.2,14.2,0,0,0,5.284-1l7.322-7.322a13.842,13.842,0,0,0,.96-5.127A13.272,13.272,0,0,0,747.566,18.883Zm0,22.081c-4.778,0-8.016-3.737-8.016-8.632s3.238-8.633,8.016-8.633,8.016,3.74,8.016,8.633S752.345,40.964,747.566,40.964Z" fill="none" stroke="#000" stroke-width="1"/>
+      <path id="Path_9040" data-name="Path 9040" d="M783.175,19.229V30.213c0,1.81.346,4.779.346,4.779a37.193,37.193,0,0,0-3.083-3.585L767.221,19h-.54V45.435h5.047V34.453a46.135,46.135,0,0,0-.385-4.779,39.082,39.082,0,0,0,3.123,3.583l11.6,10.893,2.155-2.158V19.229Z" fill="none" stroke="#000" stroke-width="1"/>
     </g>
-    <line id="Line_2351" data-name="Line 2351" x1="15.256" y2="15.499" transform="translate(217.031 4112.463)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2369" data-name="Line 2369" x1="25.45" y2="25.45" transform="translate(10.571 4068.388)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2373" data-name="Line 2373" x1="11.695" y2="11.695" transform="translate(14.191 4118.828)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2808" data-name="Line 2808" x1="11.695" y2="11.695" transform="translate(144.526 4127.604)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2804" data-name="Line 2804" x1="11.695" y2="11.695" transform="translate(178.316 4117.95)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2810" data-name="Line 2810" x1="11.695" y2="11.695" transform="translate(261.695 4071.433)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2811" data-name="Line 2811" x1="11.695" y2="11.695" transform="translate(297.68 4073.188)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2812" data-name="Line 2812" x1="11.695" y2="11.695" transform="translate(278.371 4121.899)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2815" data-name="Line 2815" x1="11.695" y2="11.695" transform="translate(333.664 4073.188)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2816" data-name="Line 2816" x1="11.695" y2="11.695" transform="translate(355.167 4100.396)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2803" data-name="Line 2803" x1="11.695" y2="11.695" transform="translate(158.568 4073.188)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2814" data-name="Line 2814" x1="11.695" y2="11.695" transform="translate(311.722 4134.625)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2797" data-name="Line 2797" x1="8.526" y2="8.696" transform="translate(110.832 4076.26)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2375" data-name="Line 2375" x1="7.32" y2="7.32" transform="translate(63.003 4074.39)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2376" data-name="Line 2376" x1="12.045" y2="12.045" transform="translate(73.945 4058.724)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2346" data-name="Line 2346" x1="19.335" y2="19.335" transform="translate(31.093 4068.388)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2799" data-name="Line 2799" x1="19.177" y2="19.177" transform="translate(107.454 4115.674)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2800" data-name="Line 2800" x1="20.932" y2="21.809" transform="translate(136.724 4061.391)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2806" data-name="Line 2806" x1="15.666" y2="15.666" transform="translate(187.19 4071.923)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2807" data-name="Line 2807" y2="36.862" transform="translate(170.382 4104.397) rotate(45)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2792" data-name="Line 2792" y2="9.216" transform="translate(9.208 4110.002) rotate(45)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2793" data-name="Line 2793" y2="27.647" transform="translate(11.775 4132.888) rotate(45)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2794" data-name="Line 2794" x1="21.305" y2="21.304" transform="translate(88.89 4063.651)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2809" data-name="Line 2809" x1="15.6" y2="15.6" transform="translate(243.121 4121.818)" fill="none" stroke="#f13747" stroke-width="1.5"/>
-    <line id="Line_2791" data-name="Line 2791" y2="36.862" transform="translate(38.292 4080.7) rotate(45)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
-    <line id="Line_2813" data-name="Line 2813" y2="36.862" transform="translate(353.377 4103.958) rotate(45)" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <path id="Path_9041" data-name="Path 9041" d="M441.337,29.426l.177-.177,7.665-7.668,3.046-3.046" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <path id="Path_9042" data-name="Path 9042" d="M533.988,47.379l1.944-1.944,4.225-4.228,1.065-1.065" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <path id="Path_9043" data-name="Path 9043" d="M591.841,26.8l2.541-2.538,3.977-3.979,11.3-11.293" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <path id="Path_9044" data-name="Path 9044" d="M629.277,51.355l6.343-6.346,8.159-8.159,3.771-3.771" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <path id="Path_9045" data-name="Path 9045" d="M656.976,52.939l7.5-7.5,2.849-2.849,2.218-2.218" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <path id="Path_9046" data-name="Path 9046" d="M695.112,25.275l2.472-2.472,3.577-3.574L704.389,16" fill="none" stroke="#f13747" stroke-width="1.5"/>
+    <path id="Path_9047" data-name="Path 9047" d="M746.741,50.89l6.109-6.109,7.322-7.322,4.379-4.379" fill="none" stroke="#26a48b" stroke-width="1.5"/>
+    <path id="Path_9048" data-name="Path 9048" d="M777.435,52.782l8.633-8.633,2.155-2.158,7.485-7.485" fill="none" stroke="#f13747" stroke-width="1.5"/>
   </g>
 </svg>

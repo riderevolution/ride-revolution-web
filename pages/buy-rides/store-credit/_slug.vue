@@ -2,7 +2,7 @@
     <div class="buy_rides inner">
         <breadcrumb :overlay="false" />
         <transition name="slide">
-            <pro-tip v-if="$store.state.proTipStatus" />
+            <pro-tip v-if="$store.state.proTipStatus" :page="'buy-rides'" />
         </transition>
         <section id="payments" :class="`${(!$store.state.proTipStatus) ? 'dismissed' : 'dismiss'} ${($store.state.buyRidesSuccessStatus) ? 'success' : ''}`">
             <div id="step_1" :class="`step ${(step != 1) ? 'overlay' : ''}`">

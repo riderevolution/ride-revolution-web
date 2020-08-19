@@ -2,7 +2,7 @@
     <div class="book_a_bike inner">
         <breadcrumb :overlay="false" :booker="true" />
         <transition name="slide">
-            <pro-tip v-if="$store.state.proTipStatus" />
+            <pro-tip v-if="$store.state.proTipStatus" :page="'book-a-bike'" />
         </transition>
         <booker ref="booking" />
         <transition name="fade">

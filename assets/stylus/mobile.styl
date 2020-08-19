@@ -184,7 +184,13 @@
             top: calc(0% + 61px)
             padding: 5px 30px
             .tip
-                brandon_regular_italic(14px, false)
+                b,
+                strong
+                    brandon_bold(14px, false)
+                p,
+                a,
+                span
+                    brandon_regular(14px, false)
     /**
      * Home */
     .home
@@ -1451,7 +1457,13 @@
                 top: calc(0% + 110px)
             padding: 5px 30px
             .tip
-                brandon_regular_italic(14px, false)
+                b,
+                strong
+                    brandon_bold(14px, false)
+                p,
+                a,
+                span
+                    brandon_regular(14px, false)
     /**
      * Promos */
     #promos
@@ -3879,7 +3891,13 @@
             padding: 5px 15px
             line-height: 1
             .tip
-                brandon_regular_italic(12px, false)
+                b,
+                strong
+                    brandon_bold(14px, false)
+                p,
+                a,
+                span
+                    brandon_regular(14px, false)
     /**
      * Breadcrumb */
     #breadcrumb
@@ -4133,7 +4151,7 @@
                 .image_bg
                     flex: 0 0 100%
                     padding: 12.5% 0
-                    background-size: cover
+                    background-size: contain
                 .description
                     flex: 0 0 100%
                     padding: 0 15px
