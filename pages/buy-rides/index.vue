@@ -43,7 +43,7 @@
                 </div>
             </section>
             <promo />
-            <section id="packages" class="container alt">
+            <!-- <section id="packages" class="container alt">
                 <div class="header">
                     <h2>
                         Buy Store Credits
@@ -79,7 +79,7 @@
                         </div>
                     </nuxt-link>
                 </div>
-            </section>
+            </section> -->
             <section id="digital">
                 <img class="full" src="/default/buy-rides/send-digital-bg.jpg" />
                 <div class="overlay">
