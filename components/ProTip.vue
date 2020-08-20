@@ -1,10 +1,10 @@
 <template>
     <div id="pro_tip">
-        <div class="tip">
+        <div class="tip" v-if="res !== null">
             <span>PRO TIP:</span>
             <div class="text" v-html="res.label"></div>
         </div>
-        <div class="tip_btn" @click="dismissProTip()">Dismiss</div>
+        <div class="tip_btn" @click="dismissProTip()" v-if="res !== null">Dismiss</div>
     </div>
 </template>
 
@@ -54,7 +54,7 @@
                 if (res.data) {
                     me.res = res.data.proTip
                     me.checkAdvisory()
-                    if (me.res.length <= 0) {
+                    if (me.res === null) {
                         me.$store.state.proTipStatus = false
                     }
                 }
