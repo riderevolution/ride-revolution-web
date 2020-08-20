@@ -62,11 +62,11 @@
                         <div class="form_flex radio">
                             <label>Sex <span>*</span></label>
                             <div class="form_radio">
-                                <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'F'">
+                                <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" v-model="profileOverview.sex" @change="getSizes()">
                                 <label for="female">Female</label>
                             </div>
                             <div class="form_radio">
-                                <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" :checked="profileOverview.sex == 'M'">
+                                <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="profileOverview.sex" @change="getSizes()">
                                 <label for="male">Male</label>
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.sex')">{{ properFormat(errors.first('profile_overview_form.sex')) }}</span></transition>
@@ -272,6 +272,7 @@
             return {
                 ctr: 0,
                 res: [],
+                sizes: [],
                 message: '',
                 loaded: false,
                 previewImage: false,
@@ -313,19 +314,21 @@
                 professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others']
             }
         },
-        computed: {
-            sizes () {
-                const me = this
-                let ctr = 5
-                let sizes = []
-                for (let i = 0; i < 35; i++) {
-                    ctr += 0.5
-                    sizes.push(ctr)
-                }
-                return sizes
-            }
-        },
         methods: {
+            getSizes () {
+                const me = this
+                me.sizes = []
+                let ctr = (me.profileOverview.sex == 'M') ? 6 : 4
+                let cap = (me.profileOverview.sex == 'M') ? 17 : 18
+                for (let i = 0; i < cap; i++) {
+                    me.sizes.push(ctr)
+                    if (me.profileOverview.sex == 'M' && i > 11) {
+                        ctr += 1
+                    } else {
+                        ctr += 0.5
+                    }
+                }
+            },
             inputDate (event) {
                 const me = this
                 me.profileOverview.birth_date = me.parseInputToDate(event.target.value)
@@ -530,6 +533,7 @@
                     me.profileOverview.birth_date = res.data.user.customer_details.co_birthdate
                     me.profileOverview.contact_number = res.data.user.customer_details.co_contact_number
                     me.profileOverview.sex = res.data.user.customer_details.co_sex
+                    me.getSizes()
                     me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
                     me.profileOverview.weight = res.data.user.customer_details.co_weight
                     me.profileOverview.what_do_you_do = res.data.user.customer_details.profession

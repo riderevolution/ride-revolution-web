@@ -317,6 +317,7 @@
                 height: 0,
                 completeProfileStep: 1,
                 completeProfile: {
+                    gender: '',
                     home_address_line_1: '',
                     home_address_line_2: '',
                     home_address_country: 174,
@@ -340,19 +341,10 @@
                 pa_states: [],
                 ba_countries: [],
                 ba_states: [],
+                sizes: []
             }
         },
         computed: {
-            sizes () {
-                const me = this
-                let ctr = 5
-                let sizes = []
-                for (let i = 0; i < 35; i++) {
-                    ctr += 0.5
-                    sizes.push(ctr)
-                }
-                return sizes
-            },
             checkMedicalHistory () {
                 const me = this
                 let ctr = 0
@@ -372,6 +364,20 @@
             }
         },
         methods: {
+            getSizes () {
+                const me = this
+                me.sizes = []
+                let ctr = (me.completeProfile.gender == 'M') ? 6 : 4
+                let cap = (me.completeProfile.gender == 'M') ? 17 : 18
+                for (let i = 0; i < cap; i++) {
+                    me.sizes.push(ctr)
+                    if (me.completeProfile.gender == 'M' && i > 11) {
+                        ctr += 1
+                    } else {
+                        ctr += 0.5
+                    }
+                }
+            },
             toggleMedical (key, status) {
                 const me = this
                 let ctr = 0
@@ -601,12 +607,30 @@
         },
         mounted () {
             const me = this
+            let token = me.$cookies.get('70hokc3hhhn5')
+            me.loader(true)
+
             me.$axios.get('api/extras/medical-history-questions').then(res => {
                 if (res.data) {
                     res.data.medicalHistoryQuestions.forEach((history, index) => {
                         history.checked = false
                         me.histories.push(history)
                     })
+                }
+            })
+            me.$axios.get('api/check-token', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    me.completeProfile.gender = res.data.user.customer_details.co_sex
+                    me.getSizes()
+
+                    setTimeout( () => {
+                        me.loader(false)
+                        me.loaded = true
+                    }, 500)
                 }
             })
             me.windowLoginScroll()
