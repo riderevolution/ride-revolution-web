@@ -494,6 +494,7 @@
                 classes: [],
                 packages: [],
                 transactions: {
+                    total: 0,
                     data: []
                 },
                 giftCards: [],
