@@ -1,7 +1,7 @@
 <template>
     <div class="error_page" v-if="loaded">
     	<div class="container alternate">
-            <div class="logo">
+            <div class="logo alt">
                 <img src="/footer-logo.svg" />
             </div>
     		<h1 class="header_title">{{ ($store.state.oldUser) ? "You're all set!" : "You're all set!" }}</h1>
