@@ -54,6 +54,9 @@
                 if (res.data) {
                     me.res = res.data.proTip
                     me.checkAdvisory()
+                    if (me.res.length <= 0) {
+                        me.$store.state.proTipStatus = false
+                    }
                 }
             })
         },
