@@ -359,7 +359,7 @@
                     slidesPerView: 3,
                     spaceBetween: 60,
                     centeredSlides: true,
-                    loop: true,
+                    loop: false,
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
