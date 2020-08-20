@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="wrapper">
+            <!-- <div class="wrapper">
                 <div v-html="subtitle"></div>
                 <div class="link" v-if="isWebBased">
                     <label>Referral Link</label>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> -->
             <transition name="fade">
                 <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="status" />
             </transition>

@@ -97,7 +97,7 @@
         },
         async mounted () {
             const me = this
-            await me.$axios.get('api/web/promos?home=1').then(res => {
+            await me.$axios.get('api/web/promos?home=1&enabled=1').then(res => {
                 if (res.data) {
                     setTimeout( () => {
                         if (me.$store.state.isMobile) {

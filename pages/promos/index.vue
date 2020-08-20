@@ -120,7 +120,7 @@
             }, 10)
         },
         asyncData ({ $axios, params, error, store }) {
-            return $axios.get(`api/web/promos`)
+            return $axios.get(`api/web/promos?enabled=1`)
             .then(res => {
                 return {
                     res: res.data.promoPageSetting,
@@ -128,7 +128,7 @@
                     promoAnnouncements: res.data.promoAnnouncements
                 }
             }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
+                error({ statusCode: 404, message: 'Page not found' })
             })
         },
         head () {

@@ -3622,6 +3622,19 @@
 
 @media (max-width: 767px) and (min-width: 320px)
 
+    #banner
+        .overlay_mobile
+            p
+                brandon_regular(16px, false)
+            .overlay_flex
+                width: 100%
+                max-width: calc(90% - 20px)
+                margin: 0 auto
+                .default_btn
+                    margin-right: 0
+                .default_btn_wht
+                    margin-top: 10px
+
     .comment
         #content
             max-width: calc(100% - 20px)
@@ -3951,7 +3964,8 @@
                     animation: fade_in 1.5s
             img
                 width: 100%
-                height: auto
+                height: 250px
+                object-position: right
             .overlay
                 position: relative
                 top: 0
@@ -6262,7 +6276,10 @@
                 margin-top: 40px
                 margin-bottom: 40px
             .overlay_flex
+                .default_btn
+                    margin-right: 20px
                 .default_btn_wht
+                    margin-top: 0
                     border: none
         .overlay_top
             top: calc(61px + 33px)

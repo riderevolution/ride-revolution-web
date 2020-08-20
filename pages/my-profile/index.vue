@@ -71,7 +71,7 @@
             </transition>
             <profile-tab-content ref="profileTab" :category="category" />
         </section>
-        <referral :summary="summary" />
+        <!-- <referral :summary="summary" /> -->
     </div>
 </template>
 
