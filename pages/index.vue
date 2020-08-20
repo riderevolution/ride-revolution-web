@@ -355,16 +355,6 @@
                         prevEl: '.swiper-button-prev'
                     }
                 },
-                testimonialsOptions: {
-                    slidesPerView: 3,
-                    spaceBetween: 60,
-                    centeredSlides: true,
-                    loop: false,
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev'
-                    }
-                },
                 packages: [],
                 feeds: [],
                 testimonials: [
@@ -385,6 +375,28 @@
                     }
                 ],
                 studios: []
+            }
+        },
+        computed: {
+            testimonialsOptions () {
+                const me = this
+
+                let loop = false
+
+                if (me.testimonials.length > 3) {
+                    loop = true
+                }
+
+                return {
+                    slidesPerView: 3,
+                    spaceBetween: 60,
+                    centeredSlides: true,
+                    loop: loop,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    }
+                }
             }
         },
         methods: {
