@@ -132,7 +132,7 @@
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group disclaimer">
                         <label for="username">Username <span>*</span></label>
-                        <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="signUpForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 15}">
+                        <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="signUpForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 100}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.username') && !checkUsernameValidity">{{ properFormat(errors.first('register_process_form.username')) }}</span></transition>
                         <transition name="slide"><span class="validation_errors" v-if="checkUsernameValidity">Username is already taken</span></transition>
                     </div>
@@ -270,17 +270,17 @@
                 checkEmailValidity: false,
                 checkUsernameValidity: false,
                 signUpForm: {
-                    email: 'samplesample@gmail.com',
-                    password: 'password',
-                    password_confirmation: 'password',
-                    username: 'password',
-                    first_name: 'password',
-                    last_name: 'password',
-                    contact_number: '123123123',
-                    birth_date: '2020-01-01',
-                    what_do_you_do: 'Engineering',
-                    sex: 'M',
-                    iAgree: 'on'
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                    username: '',
+                    first_name: '',
+                    last_name: '',
+                    contact_number: '',
+                    birth_date: '',
+                    what_do_you_do: '',
+                    sex: '',
+                    iAgree: ''
                 },
                 professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
                 hasReadTerms: false,
