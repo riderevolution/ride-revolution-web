@@ -15,7 +15,7 @@
                     </div>
                     <div class="form_group disclaimer" v-if="oldUser">
                         <label for="username">Username <span>*</span></label>
-                        <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="oldUserForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 15}">
+                        <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="oldUserForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 100}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('username') && !checkUsernameValidity">{{ properFormat(errors.first('username')) }}</span></transition>
                         <transition name="slide"><span class="validation_errors" v-if="checkUsernameValidity">Username is already taken</span></transition>
                     </div>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="form_group">
                         <label for="password">New Password</label>
-                        <input type="password" id="password" name="password" ref="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password">
+                        <input type="password" id="password" name="password" ref="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password">
                         <transition name="fade">
                             <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="form_group">
                         <label for="password_confirmation">Confirm Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password_confirmation">
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="resetPasswordForm.password_confirmation">
                         <transition name="fade">
                             <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
                         </transition>
