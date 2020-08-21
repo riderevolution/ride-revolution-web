@@ -1,7 +1,8 @@
 <template>
     <div class="default_modal alt">
-        <div class="background"></div>
+        <div class="background" @click="close()"></div>
         <div class="confirmation_wrapper">
+            <div class="form_close" @click="close()"></div>
             <div class="confirmation_text">
                 It seems like your account was created from our old website. Kindly check your email to reset your password.
                 If you haven't received any email within 5 minutes, click the button below.
@@ -27,6 +28,11 @@
             }
         },
         methods: {
+            close () {
+                const me = this
+                me.$store.state.oldUserUpdatePrompt = false
+                document.body.classList.remove('no_scroll')
+            },
             toggleClose () {
                 const me = this
                 let formData = new FormData()
