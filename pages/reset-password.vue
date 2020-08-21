@@ -12,6 +12,7 @@
                 <div class="form_main_group">
                     <div class="form_header">
                         <h1>{{ (oldUser) ? 'Update Profile' : 'Reset Password' }}</h1>
+                        <h2 v-if="oldUser">Please input new user name you want to use for our new Ride Revolution website.</h2>
                     </div>
                     <div class="form_group disclaimer" v-if="oldUser">
                         <label for="username">Username <span>*</span></label>
