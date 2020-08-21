@@ -214,28 +214,7 @@
                 </div>
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group">
-                        <div class="form_group_body">
-                            <b>I. <u>Application of These Terms And Conditions (the “RIDE REV” Agreement)</u></b><br>
-                            This website is operated by Ride Revolution Inc. These terms and conditions (“Terms”) govern your relationship with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            <br><br>
-                            <b>II. <u>Duis aute irure dolor in reprehenderit in voluptate velit</u></b><br>
-                            This website is operated by Ride Revolution Inc. These terms and conditions (“Terms”) govern your relationship with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            <br><br>
-                            <b>III. <u>Application of These Terms And Conditions (the “RIDE REV” Agreement)</u></b><br>
-                            This website is operated by Ride Revolution Inc. These terms and conditions (“Terms”) govern your relationship with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            <br><br>
-                            <b>IV. <u>Duis aute irure dolor in reprehenderit in voluptate velit</u></b><br>
-                            This website is operated by Ride Revolution Inc. These terms and conditions (“Terms”) govern your relationship with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            <br><br>
-                            <b>V. <u>Duis aute irure dolor in reprehenderit in voluptate velit</u></b><br>
-                            This website is operated by Ride Revolution Inc. These terms and conditions (“Terms”) govern your relationship with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            <br><br>
-                            <b>VI. <u>Application of These Terms And Conditions (the “RIDE REV” Agreement)</u></b><br>
-                            This website is operated by Ride Revolution Inc. These terms and conditions (“Terms”) govern your relationship with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            <br><br>
-                            <b>VII. <u>Duis aute irure dolor in reprehenderit in voluptate velit</u></b><br>
-                            This website is operated by Ride Revolution Inc. These terms and conditions (“Terms”) govern your relationship with Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </div>
+                        <div class="form_group_body" v-html="terms.subtitle"></div>
                         <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition>
                     </div>
                     <div class="form_group">
@@ -261,6 +240,7 @@
     export default {
         data () {
             return {
+                terms: [],
                 height: 0,
                 showPassword: false,
                 showConfirmPassword: false,
@@ -694,6 +674,9 @@
                     }
                 }
             }, 100)
+            me.$axios.get(`api/web/basic-page?type=terms-and-conditions`).then(res => {
+                me.terms = res.data.pageSetting
+            })
             document.body.classList.add('no_scroll')
         },
         beforeMount () {
