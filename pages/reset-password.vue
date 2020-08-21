@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="form_button" v-if="!oldUser">
-                    <button type="submit" class="default_btn">Submit</button>
+                    <button type="submit" :class="`default_btn ${(!checkValues) ? 'disabled' : ''}`">Submit</button>
                 </div>
                 <div class="form_button" v-else>
                     <button type="submit" :class="`default_btn ${(checkUsernameValidity || !checkValues) ? 'disabled' : ''}`">Submit</button>
