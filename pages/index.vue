@@ -89,7 +89,7 @@
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
-                        <swiper :options="mobileOptions" class="default" v-else>
+                        <swiper :options="mobileTestimonialsOptions" class="default" v-else>
                             <swiper-slide class="review_slide mobile" v-for="(data, key) in testimonials" :key="key">
                                 <div class="description" v-html="data.body"></div>
                                 <img :src="data.images[0].path_resized" :alt="data.images[0].alt" />
@@ -299,6 +299,29 @@
                         delay: 4000,
                         disableOnInteraction: false
                     },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    breakpoints: {
+                        1280: {
+                            slidesPerView: 1,
+                            slidesPerGroup: 1,
+                            spaceBetween: 0,
+                            autoHeight: true
+                        }
+                    }
+                },
+                mobileTestimonialsOptions: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                    slidesPerGroup: 2,
+                    loop: true,
                     pagination: {
                         el: '.swiper-pagination',
                         clickable: true,
