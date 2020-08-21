@@ -252,15 +252,7 @@
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_4_form.emergency_contact_relationship')">{{ properFormat(errors.first('complete_profile_4_form.emergency_contact_relationship')) }}</span></transition>
                         </div>
                         <div class="form_group read">
-                            <div class="form_group_body">
-                                <p>I understand that cycling includes significant physical exercise as well as an opportunity for relaxation and stress reduction. I understand I will receive information and instruction including verbal and physical adjustments about cycling and health. As is the case with any physical activity, the risk of injury, even serious aor disabling, is always present and cannot be entirely eliminated. It is my responsibility to consult with a physician prior to my participation in the cycling class. I represent and warrant that I am physically fit and I have no medical condition that would prevent my full participation in the cycling class. I am aware I may be physically adjusted. I agree to take full responsibility for any risks, injuries or damages, known or unknown, which I might incur as result of participating in the program.</p>
-                                <br>
-                                <p>Cycling is not a substitute for medical attention, examination, diagnosis or treatment. Cycling is not recommended and is not safe under certain medical conditions. I affirm that I alon am responsible to decide whether to practice cycling. I knowingly, voluntarily, and expressly waive any claim I may have against Ride Revolution and Insipred Fitness Ventures, Inc. for injury or damages that I may sustain as a result of participating in the program. I, my heirs, or legal representative forever release, waive, discharge and covenant not to sue Ride Revolution and Inspired Fitness Ventures, Inc. for any injury or death caused by my participation in the cycling class.</p>
-                                <br>
-                                <p>I have read the release and waiver of liability and faully understand its consent. I voluntarily agree to terms and conditions stated above.</p>
-                                <br>
-                                <p>In addition, I certify that I have been shown and I have read the HOW TO RIDE &amp; PRECAUTIONS INFOGRAPHICS. I understand the risks inherent in indoor cycling and shall not hold Ride Revolution and Inspired Fitness Ventures, Inc. responsible for any medical injuries I may obtain from indoor cycling.</p>
-                            </div>
+                            <div class="form_group_body" v-html="terms.subtitle"></div>
                             <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition>
                         </div>
                         <div class="form_group">
@@ -320,6 +312,7 @@
                     medical_history: [],
                     copy: false
                 },
+                terms: '',
                 has_yes: false,
                 histories: [],
                 error: false,
@@ -605,6 +598,11 @@
                     })
                 }
             })
+
+            me.$axios.get(`api/web/basic-page?type=terms-and-conditions`).then(res => {
+                me.terms = res.data.pageSetting
+            })
+
             me.$axios.get('api/check-token', {
                 headers: {
                     Authorization: `Bearer ${token}`
