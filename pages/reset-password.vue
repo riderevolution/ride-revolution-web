@@ -55,7 +55,7 @@
                     <button type="submit" class="default_btn">Submit</button>
                 </div>
                 <div class="form_button" v-else>
-                    <button type="submit" :class="`default_btn ${(checkUsernameValidity) ? 'disabled' : ''}`">Submit</button>
+                    <button type="submit" :class="`default_btn ${(checkUsernameValidity || !checkValues) ? 'disabled' : ''}`">Submit</button>
                 </div>
             </form>
             <div class="invalid_token" v-if="validToken != 1 && !resetDone">
@@ -83,7 +83,7 @@
                 resetPasswordForm: {
                     password: '',
                     password_confirmation: '',
-                    token: null
+                    token: ''
                 },
                 oldUserForm: {
                     username: '',
@@ -93,6 +93,28 @@
                 validToken: 1,
                 oldUser: false,
                 resetDone: false
+            }
+        },
+        computed: {
+            checkValues () {
+                const me = this
+                let result = false
+
+                if (me.resetPasswordForm.password != '' && me.resetPasswordForm.password_confirmation != '' && me.resetPasswordForm.token != '') {
+                    if (me.oldUserForm.username != '' && me.oldUserForm.contact_number != '') {
+                        if (!me.checkUsernameValidity) {
+                            result = true
+                        } else {
+                            result = false
+                        }
+                    } else {
+                        result = false
+                    }
+                } else {
+                    result = false
+                }
+
+                return result
             }
         },
         methods: {
