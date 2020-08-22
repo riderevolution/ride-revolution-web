@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('back')">Back</div>
+                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
                             <button type="button" class="default_btn full" @click="toggleStep('proceed')">Next</button>
                         </div>
@@ -197,7 +197,7 @@
                         </div>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('back')">Back</div>
+                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
                             <button type="button" class="default_btn full" @click="toggleStep('proceed')">One last thing</button>
                         </div>
@@ -270,7 +270,7 @@
                         </div>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('back')">Back</div>
+                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
                             <button type="button" class="default_btn full" @click="toggleStep('submit')">Complete Profile</button>
                         </div>
