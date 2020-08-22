@@ -73,7 +73,7 @@
                 </div>
             </section>
             <section id="amenities">
-                <div class="riders_guide_video">
+                <!-- <div class="riders_guide_video">
                     <img src="/default/riders-guide/riders-guide-video.jpg" />
                     <div class="overlay">
                         <svg id="play_button" xmlns="http://www.w3.org/2000/svg" width="104" height="104" viewBox="0 0 104 104">
@@ -87,7 +87,7 @@
                             </g>
                         </svg>
                     </div>
-                </div>
+                </div> -->
                 <div class="amenities" v-if="studioImages.length > 0">
                     <h2>Locations</h2>
                     <div class="content">

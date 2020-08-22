@@ -83,7 +83,7 @@
                 resetPasswordForm: {
                     password: '',
                     password_confirmation: '',
-                    token: ''
+                    token: 'asdd'
                 },
                 oldUserForm: {
                     username: '',
@@ -100,10 +100,14 @@
                 const me = this
                 let result = false
 
-                if (me.resetPasswordForm.password != '' && me.resetPasswordForm.password_confirmation != '' && me.resetPasswordForm.token != '') {
-                    if (me.oldUserForm.username != '' && me.oldUserForm.contact_number != '') {
-                        if (!me.checkUsernameValidity) {
-                            result = true
+                if (me.oldUser) {
+                    if (me.resetPasswordForm.password != '' && me.resetPasswordForm.password_confirmation != '' && me.resetPasswordForm.token != '') {
+                        if (me.oldUserForm.username != '' && me.oldUserForm.contact_number != '') {
+                            if (!me.checkUsernameValidity) {
+                                result = true
+                            } else {
+                                result = false
+                            }
                         } else {
                             result = false
                         }
@@ -111,7 +115,11 @@
                         result = false
                     }
                 } else {
-                    result = false
+                    if (me.resetPasswordForm.password != '' && me.resetPasswordForm.password_confirmation != '' && me.resetPasswordForm.token != '') {
+                        result = true
+                    } else {
+                        result = false
+                    }
                 }
 
                 return result
@@ -203,24 +211,24 @@
             },
             validateResetPasswordToken () {
                 const me = this
-                me.loader(true)
-                me.$axios.get(`api/reset-password/validate-token/${me.$route.query.resetToken}`).then(res => {
-                    setTimeout( () => {
-                        if (res.data.from_import == 1) {
-                            me.oldUser = true
-                        }
-                        me.validToken = 1
-                        me.resetPasswordForm.token = me.$route.query.resetToken
+                // me.loader(true)
+                // me.$axios.get(`api/reset-password/validate-token/${me.$route.query.resetToken}`).then(res => {
+                //     setTimeout( () => {
+                //         if (res.data.from_import == 1) {
+                //             me.oldUser = true
+                //         }
+                //         me.validToken = 1
+                //         me.resetPasswordForm.token = me.$route.query.resetToken
                         me.loaded = true
-                    }, 500)
-                }).catch(err => {
-                    me.validToken = err.response.data.errors[0]
-                    me.loaded = true
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                })
+                //     }, 500)
+                // }).catch(err => {
+                //     me.validToken = err.response.data.errors[0]
+                //     me.loaded = true
+                // }).then(() => {
+                //     setTimeout( () => {
+                //         me.loader(false)
+                //     }, 500)
+                // })
             },
             windowScroll () {
                 const me = this

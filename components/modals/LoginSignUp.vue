@@ -61,7 +61,7 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ properFormat(errors.first('forgot_form.email')) }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('forgot')">Back</div>
+                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('forgot')">Back</div>
                         <div class="form_button">
                             <button type="submit" class="default_btn full">Send</button>
                         </div>
@@ -155,7 +155,7 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.contact_number')">{{ properFormat(errors.first('register_process_form.contact_number')) }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('back')">Back</div>
+                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
                             <button type="button" :class="`default_btn full ${(checkUsernameValidity) ? 'disabled' : ''}`" @click="toggleStep('proceed')">Looks Good</button>
                         </div>
@@ -198,7 +198,7 @@
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.sex')">{{ properFormat(errors.first('register_process_form.sex')) }}</span></transition>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('back')">Back</div>
+                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
                             <button type="button" class="default_btn full" @click="toggleStep('proceed')">One last thing</button>
                         </div>
@@ -225,7 +225,7 @@
                         </div>
                     </div>
                     <div class="form_flex sign_up">
-                        <div class="back" @click="toggleStep('back')">Back</div>
+                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
                             <button type="button" class="default_btn full" @click="submitRegistration()">Agree and Finish</button>
                         </div>

@@ -19,12 +19,12 @@
                         </div>
                         <div class="form_group">
                             <label for="title">Title <span>*</span></label>
-                            <input type="text" name="title" autocomplete="off" class="input_text" placeholder="Enter your title" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+                            <input type="text" name="title" autocomplete="off" class="input_text" placeholder="Enter your title" v-validate="{required: true, max: 100}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ properFormat(errors.first('title')) }}</span></transition>
                         </div>
                         <div class="form_group">
                             <label for="your_review">Your Review <span>*</span></label>
-                            <textarea name="your_review" class="input_text" rows="5" maxlength="500" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, regex: '^[a-zA-Z0-9-,-._ |\u00f1|\'|\!|\?|\&|\:]*$', max: 500}"></textarea>
+                            <textarea name="your_review" class="input_text" rows="5" maxlength="500" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, max: 500}"></textarea>
                             <div class="limit_wrapper">
                                 <div class="limit"><span class="count">{{ count }}</span> characters left</div>
                                 <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>

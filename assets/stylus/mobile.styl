@@ -3622,6 +3622,17 @@
 
 @media (max-width: 767px) and (min-width: 320px)
 
+    .error_page
+        width: 100%
+        max-width: 75%
+        height: 800px
+        margin: 0 auto
+        .container
+            .header_title
+                brandon_bold(28px, false)
+            .header_subtitle
+                neutra_book(20px, false)
+
     #banner
         .overlay_mobile
             p
@@ -3724,23 +3735,23 @@
             .steps
                 margin-bottom: 20px
             .title
-                brandon_bold(16px, false)
+                brandon_bold(18px, false)
             .action
                 .default_btn_login
                     flex: 0 0 100%
                     margin: 20px 0
                     span
-                        brandon_medium(12px, false)
+                        brandon_medium(14px, false)
                     &:last-child
                         margin: 0 0 20px
             .new_here
                 margin-top: 15px
-                brandon_medium(12px, false)
+                brandon_medium(14px, false)
             .sign_up_header
                 &.alt
                     margin-bottom: 20px
                 .counter
-                    brandon_bold(12px, false)
+                    brandon_bold(14px, false)
             #default_form
                 margin-top: 20px
         .close_icon
@@ -3752,6 +3763,14 @@
             &::after
                 right: calc(0% + 8px)
                 height: 20px
+    .form_flex
+        &.sign_up
+            flex-flow: column-reverse wrap
+            .default_btn_blk
+                margin-top: 20px
+            .form_button
+                width: 100%
+                flex: 0 0 100%
     /**
      * Main */
     #main_container
@@ -5746,6 +5765,7 @@
             margin-top: 15px
 
     .default_btn,
+    .default_btn_blk,
     .default_btn_out,
     .default_btn_blue,
     .default_btn_wht,
@@ -5785,9 +5805,9 @@
     .form_flex_image
         margin-bottom: 15px
         .main_label
-            brandon_medium(10px, true)
+            brandon_medium(12px, true)
         label
-            brandon_medium(10px, true)
+            brandon_medium(12px, true)
 
     .form_radio_group
         .form_radio
@@ -5887,7 +5907,7 @@
         &.radio
             margin-bottom: 15px
             label
-                brandon_medium(10px, true)
+                brandon_medium(12px, true)
             .validation_errors
                 brandon_medium(12px, false)
         &.alt_2
@@ -5950,7 +5970,7 @@
         &.disclaimer
             margin-bottom: 10px
         label
-            brandon_medium(10px, true)
+            brandon_medium(12px, true)
         .form_group_body
             padding: 10px
             brandon_regular(12px, false)
