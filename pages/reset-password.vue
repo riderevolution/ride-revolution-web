@@ -83,7 +83,7 @@
                 resetPasswordForm: {
                     password: '',
                     password_confirmation: '',
-                    token: 'asdd'
+                    token: ''
                 },
                 oldUserForm: {
                     username: '',
@@ -211,24 +211,24 @@
             },
             validateResetPasswordToken () {
                 const me = this
-                // me.loader(true)
-                // me.$axios.get(`api/reset-password/validate-token/${me.$route.query.resetToken}`).then(res => {
-                //     setTimeout( () => {
-                //         if (res.data.from_import == 1) {
-                //             me.oldUser = true
-                //         }
-                //         me.validToken = 1
-                //         me.resetPasswordForm.token = me.$route.query.resetToken
+                me.loader(true)
+                me.$axios.get(`api/reset-password/validate-token/${me.$route.query.resetToken}`).then(res => {
+                    setTimeout( () => {
+                        if (res.data.from_import == 1) {
+                            me.oldUser = true
+                        }
+                        me.validToken = 1
+                        me.resetPasswordForm.token = me.$route.query.resetToken
                         me.loaded = true
-                //     }, 500)
-                // }).catch(err => {
-                //     me.validToken = err.response.data.errors[0]
-                //     me.loaded = true
-                // }).then(() => {
-                //     setTimeout( () => {
-                //         me.loader(false)
-                //     }, 500)
-                // })
+                    }, 500)
+                }).catch(err => {
+                    me.validToken = err.response.data.errors[0]
+                    me.loaded = true
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
             },
             windowScroll () {
                 const me = this
