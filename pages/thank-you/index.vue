@@ -44,6 +44,13 @@
                     me.loader(false)
                 }, 500)
             })
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Thank You | Ride Revolution`
+            }
         }
 	}
 </script>

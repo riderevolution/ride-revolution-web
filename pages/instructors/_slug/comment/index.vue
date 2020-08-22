@@ -284,6 +284,19 @@
         mounted () {
             const me = this
             me.initial()
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Write a Review | Ride Revolution`,
+                link: [
+                    {
+                        rel: 'canonical',
+                        href: `${host}${me.$route.fullPath}`
+                    }
+                ]
+            }
         }
     }
 </script>

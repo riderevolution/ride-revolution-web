@@ -40,6 +40,13 @@
 		mounted () {
 			const me = this
 			me.validateMemberID()
-		}
+		},
+		head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Invite | Ride Revolution`
+            }
+        }
 	}
 </script>

@@ -51,6 +51,13 @@
                 me.title = 'Transaction cancelled, Please try again.'
             }
             me.initial()
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Transaction | Ride Revolution`
+            }
         }
     }
 </script>

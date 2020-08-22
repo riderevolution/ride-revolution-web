@@ -241,6 +241,13 @@
         beforeDestroy () {
             window.removeEventListener('resize', this.onResize)
             window.removeEventListener('load', this.onResize)
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Welcome | Ride Revolution`
+            }
         }
     }
 </script>

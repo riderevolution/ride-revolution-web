@@ -31,6 +31,13 @@
                     me.$store.state.fromManageClass = true
                 }
             }
+        },
+        head () {
+            const me = this
+            let host = process.env.baseUrl
+            return {
+                title: `Page Not Found | Ride Revolution`
+            }
         }
 	}
 </script>
