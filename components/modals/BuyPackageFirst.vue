@@ -10,7 +10,7 @@
                 You do not have enough credits to book this class.
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn_wht" @click.once="toggleClose(true)">Buy Rides</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose(true)">Buy Credits</div>
             </div>
         </div>
     </div>

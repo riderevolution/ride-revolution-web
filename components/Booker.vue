@@ -220,8 +220,8 @@
                                                     </div>
                                                     <div class="left" v-else></div>
                                                     <div class="right" v-if="!checkPackage">
-                                                        <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Rides</nuxt-link>
-                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn" v-else>Buy Rides</nuxt-link>
+                                                        <nuxt-link to="/buy-rides" rel="canonical" class="default_btn" v-if="!inApp">Buy Credits</nuxt-link>
+                                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" rel="canonical" class="default_btn" v-else>Buy Credits</nuxt-link>
                                                     </div>
                                                 </div>
                                             </transition>

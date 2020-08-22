@@ -37,10 +37,10 @@
                 <ul class="nav_list" v-if="!$store.state.isMobile" itemscope itemtype="https://schema.org/SiteNavigationElement">
                     <meta itemprop="name" content="Main Menu">
                     <li itemprop="name">
-                        <nuxt-link rel="canonical" to="/buy-rides" itemprop="url" class="nav_item">Buy Rides</nuxt-link>
+                        <nuxt-link rel="canonical" to="/buy-rides" itemprop="url" class="nav_item">Buy Credits</nuxt-link>
                     </li>
                     <li itemprop="name">
-                        <nuxt-link rel="canonical" to="/book-a-bike" itemprop="url" class="nav_item">Book a Bike</nuxt-link>
+                        <nuxt-link rel="canonical" to="/book-a-bike" itemprop="url" class="nav_item">Book a Class</nuxt-link>
                     </li>
                     <li itemprop="name">
                         <nuxt-link rel="canonical" to="/instructors" itemprop="url" class="nav_item">Instructors</nuxt-link>

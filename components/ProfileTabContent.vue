@@ -187,7 +187,7 @@
                             <div class="logo">
                                 <img src="/footer-logo.svg" />
                             </div>
-                            <nuxt-link to="/book-a-bike" class="default_btn">Book a Bike</nuxt-link>
+                            <nuxt-link to="/book-a-bike" class="default_btn">Book a Class</nuxt-link>
                         </div>
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                                 <div class="logo">
                                     <img src="/footer-logo.svg" />
                                 </div>
-                                <nuxt-link to="/buy-rides" class="default_btn">Buy rides</nuxt-link>
+                                <nuxt-link to="/buy-rides" class="default_btn">Buy Credits</nuxt-link>
                             </div>
                         </div>
                     </div>

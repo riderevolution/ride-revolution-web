@@ -170,7 +170,7 @@
         data () {
             return {
                 setting: {
-                    title: 'Book a Bike',
+                    title: 'Book a Class',
                     subtitle: '',
                     meta_title: '',
                     meta_keywords: '',

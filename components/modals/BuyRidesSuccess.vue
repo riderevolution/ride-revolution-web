@@ -4,7 +4,7 @@
             <img class="full" :src="`${(type == 'digital-gift-card') ? '/default/buy-rides/digital-gift-card-success-banner.jpg' : '/default/buy-rides/buy-rides-success-banner.jpg' }`" />
             <div class="overlay_mid">
                 <h1>{{ title }}</h1>
-                <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/book-a-bike?token=${$route.query.token}` : '/book-a-bike'}`" class="default_btn">Book a Bike</nuxt-link>
+                <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/book-a-bike?token=${$route.query.token}` : '/book-a-bike'}`" class="default_btn">Book a Class</nuxt-link>
             </div>
         </section>
         <referral :summary="summary" />

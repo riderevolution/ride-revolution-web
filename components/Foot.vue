@@ -11,8 +11,8 @@
             <ul itemscope itemtype="https://schema.org/SiteNavigationElement">
                 <meta itemprop="name" content="Footer Menu In Studio">
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/riders-guide" class="footer_item">Rider's Guide</nuxt-link></li>
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/buy-rides" class="footer_item">Buy Rides</nuxt-link></li>
-                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/book-a-bike" class="footer_item">Book a Bike</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/buy-rides" class="footer_item">Buy Credits</nuxt-link></li>
+                <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/book-a-bike" class="footer_item">Book a Class</nuxt-link></li>
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/instructors" class="footer_item">Instructors</nuxt-link></li>
                 <li itemprop="name"><nuxt-link rel="canonical" itemprop="url" to="/studios" class="footer_item">Studio</nuxt-link></li>
             </ul>
