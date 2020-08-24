@@ -2780,9 +2780,41 @@ svg
                                 brandon_regular(16px, false)
                                 color: $black
                                 margin-right: 5px
-                            img
-                                filter: brightness(0)
-                                cursor: pointer
+                            .info_icon
+                                position: relative
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: center
+                                img
+                                    cursor: pointer
+                                .info_overlay
+                                    position: absolute
+                                    bottom: calc(100% + 10px)
+                                    left: 100%
+                                    width: 280px
+                                    z-index: 1
+                                    brandon_regular(14px, false)
+                                    letter-spacing: 0.5px
+                                    color: $white
+                                    text-align: center
+                                    background-color: $dark_green
+                                    padding: 10px
+                                    transform: translateX(-50%) translateY(0px)
+                                    .pointer
+                                        position: absolute
+                                        bottom: -7px
+                                        right: calc(50% - 7px)
+                                        width: 0
+                                        height: 0
+                                        border-left: 7px solid transparent
+                                        border-right: 7px solid transparent
+                                        border-top: 7px solid $dark_green
+                                        z-index: 1
+                                        transform: translateX(-50%)
+                                        transition: .3s ease-in-out
+                                    span,
+                                    p
+                                        color: $white
                         p
                             brandon_regular(16px, false)
                             color: $black

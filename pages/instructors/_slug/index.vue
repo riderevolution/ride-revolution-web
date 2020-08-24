@@ -56,24 +56,34 @@
                                 <h2>{{ res.first_name }} {{ res.last_name }}</h2>
                                 <div class="limit">
                                     <span>{{ data.schedule.class_type.name }}</span>
-                                    <img src="/icons/info-icon.svg" />
+                                    <div class="info_icon">
+                                        <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
+                                        <transition name="slideAltY">
+                                            <div class="info_overlay" v-if="data.toggled">
+                                                <div class="pointer"></div>
+                                                Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                </span>
+                                                Credits to Deduct: {{ data.schedule.class_credits }}
+                                            </div>
+                                        </transition>
+                                    </div>
                                 </div>
                                 <p>{{ data.schedule.studio.name }}</p>
                             </div>
                         </div>
-                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.availableSeatsCount > 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                             <span>Book Now</span>
                         </nuxt-link>
-                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.availableSeatsCount <= 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere && !data.schedule.studio.online_class">
                             <span>Waitlist</span>
                         </div>
-                        <div class="btn default_btn_out disabled" v-else-if="$store.state.isAuth && data.isWaitlisted">
+                        <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted && !data.schedule.studio.online_class">
                             <span>Waitlisted</span>
                         </div>
-                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="$store.state.isAuth && data.bookedHere || data.guestHere">
+                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
                             <span>Manage Class</span>
                         </nuxt-link>
-                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!$store.state.isAuth">
+                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
                             <span>Book Now</span>
                         </div>
                     </div>
@@ -90,24 +100,34 @@
                                 <h2>{{ res.first_name }} {{ res.last_name }}</h2>
                                 <div class="limit">
                                     <span>{{ data.schedule.class_type.name }}</span>
-                                    <img src="/icons/info-icon.svg" />
+                                    <div class="info_icon">
+                                        <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
+                                        <transition name="slideAltY">
+                                            <div class="info_overlay" v-if="data.toggled">
+                                                <div class="pointer"></div>
+                                                Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                </span>
+                                                Credits to Deduct: {{ data.schedule.class_credits }}
+                                            </div>
+                                        </transition>
+                                    </div>
                                 </div>
                                 <p>{{ data.schedule.studio.name }}</p>
                             </div>
                         </div>
-                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.availableSeatsCount > 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                             <span>Book Now</span>
                         </nuxt-link>
-                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.availableSeatsCount <= 0 && $store.state.isAuth && !data.isWaitlisted && !data.bookedHere && !data.guestHere">
+                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere && !data.schedule.studio.online_class">
                             <span>Waitlist</span>
                         </div>
-                        <div class="btn default_btn_out disabled" v-else-if="$store.state.isAuth && data.isWaitlisted">
+                        <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted && !data.schedule.studio.online_class">
                             <span>Waitlisted</span>
                         </div>
-                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="$store.state.isAuth && data.bookedHere || data.guestHere">
+                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
                             <span>Manage Class</span>
                         </nuxt-link>
-                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!$store.state.isAuth">
+                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
                             <span>Book Now</span>
                         </div>
                     </div>
@@ -328,6 +348,12 @@
         },
         methods: {
             /**
+             * Toggle info in each schedule */
+            toggleScheduleInfo (data) {
+                const me = this
+                data.toggled ^= true
+            },
+            /**
              * Check if user is logged in */
             checkIfLoggedIn (event) {
                 const me = this
@@ -425,6 +451,16 @@
                         break
                 }
             },
+            toggleOverlays (e) {
+                const me = this
+                let target = e.target
+                let elements_first = document.querySelectorAll('#classes .description .limit .info_icon img')
+                me.scheduledDates.forEach((data, index) => {
+                    if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
+                        data.toggled = false
+                    }
+                })
+            },
             async initial () {
                 const me = this
                 setTimeout( () => {
@@ -475,6 +511,7 @@
                         let tempRating = 0
                         let tempOverall = 0
                         let tempImages = []
+                        let tempSchedules = []
                         res.data.instructor.instructor_details.gallery.forEach((data, index) => {
                             if (index != 0) {
                                 tempImages.push(data)
@@ -487,12 +524,16 @@
                             tempOverall = tempRating / res.data.instructor.reviews.length
                             tempOverall = tempOverall.toFixed(1)
                         }
+                        res.data.scheduledDates.forEach((schedule, index) => {
+                            schedule.toggled = false
+                            tempSchedules.push(schedule)
+                        })
                         return {
                             res: res.data.instructor,
                             mainImage: res.data.instructor.instructor_details.gallery[0].path,
                             imagesToSend: tempImages,
                             comments: res.data.instructor.reviews,
-                            scheduledDates: res.data.scheduledDates,
+                            scheduledDates: tempSchedules,
                             overallRating: tempOverall,
                             rating: tempRating,
                             loaded: true
@@ -507,6 +548,7 @@
                         let tempRating = 0
                         let tempOverall = 0
                         let tempImages = []
+                        let tempSchedules = []
                         res.data.instructor.instructor_details.gallery.forEach((data, index) => {
                             if (index != 0) {
                                 tempImages.push(data)
@@ -519,12 +561,16 @@
                             tempOverall = tempRating / res.data.instructor.reviews.length
                             tempOverall = tempOverall.toFixed(1)
                         }
+                        res.data.scheduledDates.forEach((schedule, index) => {
+                            schedule.toggled = false
+                            tempSchedules.push(schedule)
+                        })
                         return {
                             res: res.data.instructor,
                             mainImage: res.data.instructor.instructor_details.gallery[0].path,
                             imagesToSend: tempImages,
                             comments: res.data.instructor.reviews,
-                            scheduledDates: res.data.scheduledDates,
+                            scheduledDates: tempSchedules,
                             overallRating: tempOverall,
                             rating: tempRating,
                             loaded: true
@@ -534,6 +580,12 @@
                     me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                 })
             }
+        },
+        beforeMount () {
+            document.addEventListener('click', this.toggleOverlays)
+        },
+        beforeDestroy () {
+            document.removeEventListener('click', this.toggleOverlays)
         },
         head () {
             const me = this
