@@ -120,7 +120,12 @@
                     me.$router.push('/my-profile')
                     me.$store.state.fromManageClass = true
                 }
+                let token = me.$cookies.get('70hokc3hhhn5')
+                if (token != null || token != undefined) {
+                    me.validateToken()
+                }
                 me.checkElements()
+                me.checkBadges()
             }
         },
         methods: {
@@ -196,12 +201,8 @@
             },
             onResize() {
                 const me = this
-                let token = me.$cookies.get('70hokc3hhhn5')
                 if (me.$cookies.get('agreeCompliance') != null || me.$cookies.get('agreeCompliance') != undefined) {
                     me.$store.state.showComplianceStatus = false
-                }
-                if (me.$cookies.get('70hokc3hhhn5') != null || me.$cookies.get('70hokc3hhhn5') != undefined) {
-                    me.validateToken()
                 }
                 if (me.$cookies.get('checkBrowser') == null || me.$cookies.get('checkBrowser') == undefined) {
                     me.checkBrowser()
@@ -216,7 +217,6 @@
                     }
                 }
                 me.$store.state.isMobile = me.isMobile
-                me.checkBadges()
                 if (me.$route.query.ca_action) {
                     me.$store.state.loginSignUpStatus = true
                 }
@@ -249,6 +249,7 @@
             const me = this
             me.checkElements()
             me.onResize()
+            me.checkBadges()
             window.__lc = window.__lc || {};
             window.__lc.license = 12052209;
             (function() {
