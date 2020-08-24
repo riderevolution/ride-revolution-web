@@ -157,37 +157,22 @@
                 const me = this
                 me.$store.state.articleAlertStatus = false
                 document.getElementById('header').style.top = `${0}px`
-
-                if (document.querySelector('.login_sign_up')) {
-                    document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').scrollHeight}px`
-                } else if (document.getElementById('complete_profile')) {
-                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
-
-                    document.getElementById('complete_profile').style.top = `${document.getElementById('header').scrollHeight}px`
-
-                } else if (document.getElementById('instructors_nav')) {
-                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('instructors_nav').scrollHeight}px`
-
-                    document.getElementById('instructors_nav').style.top = `${document.getElementById('header').scrollHeight}px`
-
-                } else if (document.getElementById('banner')) {
-                    if (!document.querySelector('.home') && !document.querySelector('.buy_rides.transaction')) {
-                        document.getElementById('banner').style.marginTop = `${document.getElementById('header').scrollHeight}px`
-                    }
-                    if (document.getElementById('breadcrumb')) {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
-                    }
-                } else if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner')) {
-                    if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                if (me.$route.fullPath != '/') {
+                    if (me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
+                        if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
+                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                        }
+                    } else if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
+                        if (document.getElementById('article_alert')) {
+                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                        }
                     } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
-                        document.getElementById('pro_tip').style.top = `${document.getElementById('header').scrollHeight}px`
+                        if (document.getElementById('pro_tip')) {
+                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                        }
                     } else {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                        document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
                     }
-                } else {
-                    document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
                 }
             },
             checkUser () {

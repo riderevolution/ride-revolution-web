@@ -168,8 +168,11 @@
                                         <h3 class="title">{{ (data.scheduled_date.schedule.custom_name != null) ? data.scheduled_date.schedule.custom_name : data.scheduled_date.schedule.class_type.name }}</h3>
                                         <div class="violator" v-if="$moment(data.scheduled_date.date).format('MMMM DD, YYYY') == $moment().format('MMMM DD, YYYY')">Today</div>
                                         <div class="schedule">{{ data.scheduled_date.schedule.start_time }} at {{ data.scheduled_date.schedule.studio.name }}</div>
-                                        <div class="schedule" v-if="data.seat">
+                                        <div class="schedule" v-if="data.seat && !data.scheduled_date.schedule.studio.online_class">
                                             Bikes: <span class="green">{{ data.seat.number }}</span><span v-for="(guest, key) in data.guestBookings" :key="key" v-if="data.guestBookings.length > 0" class="pink"><span class="separator">, </span>{{ guest.seat.number }}</span>
+                                        </div>
+                                        <div class="schedule" v-else>
+                                            Bikes: <span class="green">-</span>
                                         </div>
                                     </div>
                                 </div>

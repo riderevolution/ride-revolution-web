@@ -34,41 +34,18 @@
                         document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
                     }
                 }
-            },
-            checkAdvisory () {
-				const me = this
-				if (me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-					document.getElementById('pro_tip').style.top = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
-				} else if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
-					document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
-				} else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-					document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
-				} else {
-					document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
-				}
-			}
+            }
         },
         mounted () {
             const me = this
             me.$axios.get(`api/pro-tips/random?page=${me.page}`).then((res) => {
                 if (res.data) {
                     me.res = res.data.proTip
-                    me.checkAdvisory()
                     if (me.res === null) {
                         me.$store.state.proTipStatus = false
                     }
                 }
             })
-        },
-		beforeMount () {
-            window.addEventListener('load', this.checkAdvisory)
-            window.addEventListener('scroll', this.checkAdvisory)
-            window.addEventListener('resize', this.checkAdvisory)
-        },
-        beforeDestroy () {
-            window.removeEventListener('load', this.checkAdvisory)
-            window.removeEventListener('scroll', this.checkAdvisory)
-            window.removeEventListener('resize', this.checkAdvisory)
         }
     }
 </script>

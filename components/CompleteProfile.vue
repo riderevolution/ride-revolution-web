@@ -18,29 +18,7 @@
                 const me = this
                 me.$store.state.completeProfileStepsStatus = true
                 document.body.classList.add('no_scroll')
-            },
-            checkAdvisory () {
-				const me = this
-				if (me.$store.state.articleAlertStatus) {
-					document.getElementById('complete_profile').style.top = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
-				} else {
-					document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
-				}
-			}
-        },
-        mounted () {
-            const me = this
-            me.checkAdvisory()
-        },
-        beforeMount () {
-            window.addEventListener('load', this.checkAdvisory)
-            window.addEventListener('resize', this.checkAdvisory)
-            window.addEventListener('scroll', this.checkAdvisory)
-        },
-        beforeDestroy () {
-            window.removeEventListener('load', this.checkAdvisory)
-            window.removeEventListener('resize', this.checkAdvisory)
-            window.removeEventListener('scroll', this.checkAdvisory)
+            }
         }
     }
 </script>
