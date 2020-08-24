@@ -72,7 +72,7 @@
                                     <div class="class" v-if="!$store.state.isMobile">
                                         <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
                                         <div class="info">
-                                            <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
+                                            <h2>{{ data.schedule.instructor_schedules[0].user.instructor_details.nickname }}</h2>
                                             <div class="ride">
                                                 <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
                                                 <div class="info_icon">
@@ -93,7 +93,7 @@
                                     <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" v-if="$store.state.isMobile" />
                                     <div class="info" v-if="$store.state.isMobile">
                                         <div class="time">{{ $moment(data.schedule.start_time, 'h:mm A').format('h:mm A') }}</div>
-                                        <h2>{{ data.schedule.instructor_schedules[0].user.first_name }} {{ data.schedule.instructor_schedules[0].user.last_name }}</h2>
+                                        <h2>{{ data.schedule.instructor_schedules[0].user.instructor_details.nickname }}</h2>
                                         <div class="ride">
                                             <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
                                             <div class="info_icon">

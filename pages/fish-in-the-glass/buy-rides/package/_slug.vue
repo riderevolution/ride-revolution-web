@@ -294,6 +294,7 @@
         mounted () {
             const me = this
             let token = me.$route.query.token
+            me.loader(true)
             me.$axios.get('api/check-token', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -317,6 +318,10 @@
                         setTimeout( () => {
                             me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
                         }, 1000)
+                    }).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
                     })
                     me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                 }

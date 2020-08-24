@@ -53,7 +53,7 @@
                         <div class="info">
                             <img class="main" :src="res.instructor_details.images[0].path" :alt="res.instructor_details.images[0].alt" />
                             <div class="description">
-                                <h2>{{ res.first_name }} {{ res.last_name }}</h2>
+                                <h2>{{ res.instructor_details.nickname }}</h2>
                                 <div class="limit">
                                     <span>{{ data.schedule.class_type.name }}</span>
                                     <div class="info_icon">
@@ -97,7 +97,7 @@
                                 <div class="time">{{ data.schedule.start_time }}</div>
                             </div>
                             <div class="description">
-                                <h2>{{ res.first_name }} {{ res.last_name }}</h2>
+                                <h2>{{ res.instructor_details.nickname }}</h2>
                                 <div class="limit">
                                     <span>{{ data.schedule.class_type.name }}</span>
                                     <div class="info_icon">

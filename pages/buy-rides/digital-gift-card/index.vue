@@ -456,7 +456,7 @@
         mounted () {
             const me = this
             let token = me.$cookies.get('70hokc3hhhn5')
-
+            me.loader(true)
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
                 me.$store.state.loginSignUpStatus = true
                 document.body.classList.add('no_scroll')
@@ -477,6 +477,9 @@
                     if (res.data) {
                         me.user = res.data.user
                         me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
                     }
                 })
                 setTimeout( () => {

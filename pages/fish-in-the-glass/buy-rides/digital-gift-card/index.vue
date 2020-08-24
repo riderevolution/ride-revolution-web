@@ -451,6 +451,7 @@
         },
         mounted () {
             const me = this
+            me.loader(true)
             me.normalizedRadius = 15 - 3 * 2
             me.circumference = me.normalizedRadius * 2 * Math.PI
             me.dashOffset = me.circumference
@@ -472,6 +473,9 @@
                 if (res.data) {
                     me.user = res.data.user
                     me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 }
             })
         },

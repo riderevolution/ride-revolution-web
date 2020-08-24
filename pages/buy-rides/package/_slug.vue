@@ -300,6 +300,7 @@
         },
         mounted () {
             const me = this
+            me.loader(true)
             me.$store.state.proTipStatus = true
             let token = me.$cookies.get('70hokc3hhhn5')
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
@@ -330,6 +331,10 @@
                             setTimeout( () => {
                                 me.$router.push('/buy-rides')
                             }, 1000)
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
                         })
                         me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                     }
