@@ -45,7 +45,7 @@
                     <li itemprop="name">
                         <nuxt-link rel="canonical" to="/instructors" itemprop="url" class="nav_item">Instructors</nuxt-link>
                     </li>
-                    <li itemprop="name" v-if="!$store.state.isAuth">
+                    <li itemprop="name" v-if="token == null || token == undefined">
                         <div class="default_btn" @click="loginUser()">Login / Sign up</div>
                     </li>
                     <li v-else>
@@ -73,11 +73,11 @@
                         </div>
                     </li>
                 </ul>
-                <div class="nav_login" @click="loginUser()" v-if="$store.state.isMobile && !$store.state.isAuth">
+                <div class="nav_login" @click="loginUser()" v-if="$store.state.isMobile && (token == null || token == undefined)">
                     <img src="/icons/login-icon.svg" />
                     <div class="background"></div>
                 </div>
-                <div v-if="$store.state.isMobile && $store.state.isAuth">
+                <div v-if="$store.state.isMobile && (token != null && token != undefined)">
                     <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
                         <img :src="`${(user.customer_details.images[0].path != null) ? user.customer_details.images[0].path : '' }`" v-if="user.customer_details.images[0].path != null" />
                         <div class="overlay" v-else>
@@ -116,6 +116,7 @@
         data () {
             return {
                 height: 0,
+                token: null,
                 showList: false,
                 advisory: null,
                 first_name: '-',
@@ -236,6 +237,7 @@
         mounted () {
             const me = this
             let token = me.$cookies.get('70hokc3hhhn5')
+            me.token = token
             if (token != null && token != undefined) {
                 me.$axios.get('api/check-token', {
                     headers: {

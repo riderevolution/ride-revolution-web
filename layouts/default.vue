@@ -241,6 +241,8 @@
                         } else {
                             document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
                         }
+                    } else {
+                        document.getElementById('main_container').style.paddingTop = 0
                     }
                 }, 500)
             }
