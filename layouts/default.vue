@@ -122,6 +122,7 @@
                 }
                 let token = me.$cookies.get('70hokc3hhhn5')
                 if (token != null || token != undefined) {
+                    me.$store.state.token = token
                     me.validateToken()
                 }
                 me.checkElements()
@@ -220,6 +221,11 @@
                 if (me.$route.query.ca_action) {
                     me.$store.state.loginSignUpStatus = true
                 }
+                let token = me.$cookies.get('70hokc3hhhn5')
+                if (token != null & token != undefined) {
+                    me.$store.state.token = token
+                }
+
                 document.addEventListener('contextmenu', event => event.preventDefault())
             },
             checkElements () {
@@ -249,6 +255,10 @@
         },
         mounted () {
             const me = this
+            let token = me.$cookies.get('70hokc3hhhn5')
+            if (token != null & token != undefined) {
+                me.$store.state.token = token
+            }
             me.checkElements()
             me.onResize()
             me.checkBadges()

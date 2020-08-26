@@ -485,6 +485,32 @@
                             }
                         }
                     }
+
+                    let token = me.$cookies.get('70hokc3hhhn5')
+                    let tempSchedules = []
+
+                    if (token != null & token != undefined) {
+                        me.$axios.get(`api/web/instructors/${me.$route.params.slug}/scheduled-dates`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            res.data.scheduledDates.forEach((schedule, index) => {
+                                schedule.toggled = false
+                                tempSchedules.push(schedule)
+                            })
+                        })
+                    } else {
+                        me.$axios.get(`api/web/instructors/${me.$route.params.slug}/scheduled-dates`).then(res => {
+                            res.data.scheduledDates.forEach((schedule, index) => {
+                                schedule.toggled = false
+                                tempSchedules.push(schedule)
+                            })
+                        })
+                    }
+
+                    me.scheduledDates = tempSchedules
+
                     me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=${me.res.id}`).then(res => {
                         me.feeds = res.data.data
                         me.loader(false)
@@ -500,86 +526,37 @@
             }, 500)
         },
         asyncData ({ $axios, params, error, store }) {
-            let token = store.state.token
-            if (token != null || token != undefined || token != '') {
-                return $axios.get(`api/web/instructors/${params.slug}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+            return $axios.get(`api/web/instructors/${params.slug}`).then(res => {
+                if (res.data) {
+                    let tempRating = 0
+                    let tempOverall = 0
+                    let tempImages = []
+                    res.data.instructor.instructor_details.gallery.forEach((data, index) => {
+                        if (index != 0) {
+                            tempImages.push(data)
+                        }
+                    })
+                    res.data.instructor.reviews.forEach((comment, index) => {
+                        tempRating += comment.rating
+                    })
+                    if (tempRating != 0) {
+                        tempOverall = tempRating / res.data.instructor.reviews.length
+                        tempOverall = tempOverall.toFixed(1)
                     }
-                }).then(res => {
-                    if (res.data) {
-                        let tempRating = 0
-                        let tempOverall = 0
-                        let tempImages = []
-                        let tempSchedules = []
-                        res.data.instructor.instructor_details.gallery.forEach((data, index) => {
-                            if (index != 0) {
-                                tempImages.push(data)
-                            }
-                        })
-                        res.data.instructor.reviews.forEach((comment, index) => {
-                            tempRating += comment.rating
-                        })
-                        if (tempRating != 0) {
-                            tempOverall = tempRating / res.data.instructor.reviews.length
-                            tempOverall = tempOverall.toFixed(1)
-                        }
-                        res.data.scheduledDates.forEach((schedule, index) => {
-                            schedule.toggled = false
-                            tempSchedules.push(schedule)
-                        })
-                        return {
-                            res: res.data.instructor,
-                            mainImage: res.data.instructor.instructor_details.gallery[0].path,
-                            imagesToSend: tempImages,
-                            comments: res.data.instructor.reviews,
-                            scheduledDates: tempSchedules,
-                            overallRating: tempOverall,
-                            rating: tempRating,
-                            loaded: true
-                        }
+                    return {
+                        res: res.data.instructor,
+                        mainImage: res.data.instructor.instructor_details.gallery[0].path,
+                        imagesToSend: tempImages,
+                        comments: res.data.instructor.reviews,
+                        overallRating: tempOverall,
+                        rating: tempRating,
+                        loaded: true
                     }
-                }).catch(err => {
-                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                })
-            } else {
-                return $axios.get(`api/web/instructors/${params.slug}`).then(res => {
-                    if (res.data) {
-                        let tempRating = 0
-                        let tempOverall = 0
-                        let tempImages = []
-                        let tempSchedules = []
-                        res.data.instructor.instructor_details.gallery.forEach((data, index) => {
-                            if (index != 0) {
-                                tempImages.push(data)
-                            }
-                        })
-                        res.data.instructor.reviews.forEach((comment, index) => {
-                            tempRating += comment.rating
-                        })
-                        if (tempRating != 0) {
-                            tempOverall = tempRating / res.data.instructor.reviews.length
-                            tempOverall = tempOverall.toFixed(1)
-                        }
-                        res.data.scheduledDates.forEach((schedule, index) => {
-                            schedule.toggled = false
-                            tempSchedules.push(schedule)
-                        })
-                        return {
-                            res: res.data.instructor,
-                            mainImage: res.data.instructor.instructor_details.gallery[0].path,
-                            imagesToSend: tempImages,
-                            comments: res.data.instructor.reviews,
-                            scheduledDates: tempSchedules,
-                            overallRating: tempOverall,
-                            rating: tempRating,
-                            loaded: true
-                        }
-                    }
-                }).catch(err => {
-                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                })
-            }
+                }
+            }).catch(err => {
+                console.log(err);
+                error({ statusCode: 404, message: 'Page not found' })
+            })
         },
         beforeMount () {
             document.addEventListener('click', this.toggleOverlays)
