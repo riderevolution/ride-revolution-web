@@ -514,10 +514,10 @@
                 for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
                     if (me.current > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
                         me.current = me.current - me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()
-                        me.currentMonth = me.currentMonth + 1
+                        me.currentMonth = parseInt(me.currentMonth) + 1
                         if (me.currentMonth == 13) {
                             me.currentMonth = 1
-                            me.currentYear = me.currentYear + 1
+                            me.currentYear = parseInt(me.currentYear) + 1
                         }
                     }
                     me.populateResults(me.current, 'next')
@@ -538,10 +538,10 @@
                 me.results = []
                 for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
                     if (me.current <= 0) {
-                        me.currentMonth = me.currentMonth - 1
+                        me.currentMonth = parseInt(me.currentMonth) - 1
                         if (me.currentMonth == 0) {
                             me.currentMonth = 12
-                            me.currentYear = me.currentYear - 1
+                            me.currentYear = parseInt(me.currentYear) - 1
                             if (me.current <= 0) {
                                 if (me.last <= 0) {
                                     me.current = me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()
