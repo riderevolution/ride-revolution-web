@@ -138,6 +138,7 @@
             $route (to, from){
                 const me = this
                 let token = me.$cookies.get('70hokc3hhhn5')
+                me.token = token
                 if (token != null && token != undefined) {
                     me.$axios.get('api/check-token', {
                         headers: {
@@ -207,6 +208,11 @@
                 let element = document.querySelector('#header')
                 if (element.classList.contains('front')) {
                     me.height = height
+                }
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.token = token
+                if (token != null & token != undefined) {
+                    me.$store.state.isAuth = true
                 }
                 setTimeout( () => {
                     if (me.advisory != null) {

@@ -322,7 +322,11 @@
                                     me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
                                 } else {
                                     if (res.data.onboarding_code === null) {
-                                        me.$router.push('/my-profile')
+                                        if (me.$route.fullPath == '/my-profile') {
+                                            location.reload()
+                                        } else {
+                                            me.$router.push('/my-profile')
+                                        }
                                     } else {
                                         me.$store.state.newUser = true
                                         me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
@@ -373,7 +377,11 @@
                             me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
                         } else {
                             if (res.data.onboarding_code === null) {
-                                me.$router.push('/my-profile')
+                                if (me.$route.fullPath == '/my-profile') {
+                                    location.reload()
+                                } else {
+                                    me.$router.push('/my-profile')
+                                }
                             } else {
                                 me.$store.state.newUser = true
                                 me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
@@ -588,7 +596,11 @@
                                     me.validateToken()
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
-                                    me.$router.push('/my-profile')
+                                    if (me.$route.fullPath == '/my-profile') {
+                                        location.reload()
+                                    } else {
+                                        me.$router.push('/my-profile')
+                                    }
                                 }
                             }, 500)
                         }).catch(err => {
