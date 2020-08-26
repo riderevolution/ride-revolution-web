@@ -14,8 +14,8 @@
                 </div>
                 <div class="bottom">
                     <div class="faqs_list">
-                        <div :id="`faq_item_${key}`" class="wrapper" v-for="(data, key) in faqs" :key="key" @click="toggleFAQ(key)">
-                            <div class="title">{{ data.name }} <span class="toggler"></span></div>
+                        <div :id="`faq_item_${key}`" class="wrapper" v-for="(data, key) in faqs" :key="key">
+                            <div class="title" @click="toggleFAQ(key)">{{ data.name }} <span class="toggler"></span></div>
                             <div class="description" v-html="data.description"></div>
                         </div>
                      </div>
@@ -58,6 +58,7 @@
         methods: {
             toggleFAQ (key) {
                 const me = this
+                console.log(key);
                 let target = document.getElementById(`faq_item_${key}`)
                 me.faqs.forEach((element, index) => {
                     let elements = document.getElementById(`faq_item_${index}`)
