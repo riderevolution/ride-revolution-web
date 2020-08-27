@@ -27,7 +27,7 @@
                                         <transition name="slide">
                                             <div class="description_overlay" v-if="showInfoBadges">
                                                 <div class="pointer"></div>
-                                                <p>As a reward, we’re giving you a FREE 20-Class Package and a limited edition Ride Revolution bottle when you earn all 10 badges!</p>
+                                                <p>As a reward, we're giving you a FREE 5-Class Package and limited edition Ride Revolution merchandise when you earn all 10 badges!</p>
                                             </div>
                                         </transition>
                                     </div>
