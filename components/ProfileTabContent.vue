@@ -106,7 +106,7 @@
                             </div>
                         </div>
                         <div class="no_results alt pb" v-else>
-                            <p>You Have no Rides yet</p>
+                            <p>You Have no Rides yet.</p>
                         </div>
                     </div>
                     <div :class="`chart ${(rideRevJourney.topInstructors.length <= 0) ? 'margin' : ''}`">
