@@ -20,6 +20,8 @@
                 const me = this
                 if (status) {
                     me.$router.push('/my-profile')
+                } else {
+                    me.$router.push('/book-a-bike')
                 }
                 me.$store.state.onlinePromptStatus = false
                 document.body.classList.remove('no_scroll')
