@@ -250,7 +250,7 @@
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
-                                            <div class="table_menu_overlay">
+                                            <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package && data.class_package.por_allow_transferring_of_package">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
