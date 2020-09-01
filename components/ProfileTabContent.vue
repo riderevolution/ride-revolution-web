@@ -254,9 +254,9 @@
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                        <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.sharedto_user_id == null && !data.sharedby_user">Share Package</li>
-                                                        <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else>Unshare Package</li>
-                                                        <li class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
+                                                        <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
+                                                        <li v-if="data.class_package.por_allow_transferring_of_package" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
                                                     </ul>
                                                 </transition>
                                             </div>

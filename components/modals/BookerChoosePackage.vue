@@ -18,7 +18,7 @@
                                 <div class="info">
                                     <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
                                     <p>Expires on {{ formatDate((data.class_package.computed_expiration_date != null) ? data.class_package.computed_expiration_date : data.class_package.updated_at ) }}</p>
-                                    <p class="full" v-if="!data.valid">{{ ($parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.' }}</p>
+                                    <p class="full" v-if="!data.valid">{{ (!$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -260,15 +260,8 @@
                     let newCtr = 0
                     me.user = res.data.user
                     id = res.data.user.id
-                    if (me.$route.name == 'my-profile-manage-class-slug' || me.$route.name == 'fish-in-the-glass-manage-class-slug') {
-                        url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
-                    } else {
-                        if (me.$parent.schedule.schedule.studio.online_class) {
-                            url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
-                        } else {
-                            url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
-                        }
-                    }
+                    url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
+                    
                     me.$axios.get(`${url}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
