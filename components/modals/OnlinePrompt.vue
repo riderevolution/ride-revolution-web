@@ -1,13 +1,13 @@
 <template>
     <div class="default_modal alt">
-        <div class="background" @click.once="toggleClose()"></div>
+        <div class="background" @click.once="toggleClose(false)"></div>
         <div class="confirmation_wrapper">
-            <div class="form_close" @click="toggleClose()"></div>
+            <div class="form_close" @click="toggleClose(false)"></div>
             <div class="confirmation_text">
                 Great! You've been successfully booked. We'll send you an email as a receipt.
             </div>
             <div class="button_group alt">
-                <nuxt-link to="/my-profile" :event="''" class="flex default_btn_wht" @click.native.once="toggleClose()">Go to My Profile</nuxt-link>
+                <nuxt-link to="/my-profile" :event="''" class="flex default_btn_wht" @click.native.once="toggleClose(true)">Go to My Profile</nuxt-link>
             </div>
         </div>
     </div>
@@ -16,9 +16,13 @@
 <script>
     export default {
         methods: {
-            toggleClose () {
+            toggleClose (status) {
                 const me = this
-                me.$router.push('/my-profile')
+                if (status) {
+                    me.$router.push('/my-profile')
+                } else {
+                    me.$router.push('/book-a-bike')
+                }
                 me.$store.state.onlinePromptStatus = false
                 document.body.classList.remove('no_scroll')
             }

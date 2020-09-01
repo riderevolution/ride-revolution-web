@@ -7,7 +7,7 @@
                 <nuxt-link :to="`${($route.query.token) ? `/fish-in-the-glass/buy-rides?token=${$route.query.token}` : '/buy-rides'}`" class="default_btn">Buy Credits</nuxt-link>
             </div>
         </section>
-        <referral :summary="summary" />
+        <referral :summary="summary" v-if="$route.params.slug != 'failed'" />
     </div>
 </template>
 

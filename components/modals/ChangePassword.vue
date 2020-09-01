@@ -19,7 +19,7 @@
                         </div>
                         <div class="form_group">
                             <label for="verify_password">Verify Password <span>*</span></label>
-                            <input type="password" id="verify_password" name="verify_password" class="input_text" autocomplete="off" placeholder="Please enter your verify password" v-validate="{required: true, min: 8, confirmed: 'new_password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="form.new_password_confirmation">
+                            <input type="password" id="verify_password" name="verify_password" class="input_text" autocomplete="off" placeholder="Please verify your new password" v-validate="{required: true, min: 8, confirmed: 'new_password', regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="form.new_password_confirmation">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('verify_password')">{{ properFormat(errors.first('verify_password')) }}</span></transition>
                         </div>
                         <div class="form_button">
