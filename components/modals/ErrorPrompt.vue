@@ -1,5 +1,5 @@
 <template>
-    <div class="default_modal">
+    <div class="default_modal error">
         <div class="background" @click="toggleClose()"></div>
         <div class="confirmation_wrapper">
             <div class="confirmation_text">
