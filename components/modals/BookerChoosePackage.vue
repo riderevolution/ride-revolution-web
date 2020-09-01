@@ -18,7 +18,7 @@
                                 <div class="info">
                                     <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
                                     <p>Expires on {{ formatDate((data.class_package.computed_expiration_date != null) ? data.class_package.computed_expiration_date : data.class_package.updated_at ) }}</p>
-                                    <p class="full" v-if="!data.valid">You cannot use this package in this class.</p>
+                                    <p class="full" v-if="!data.valid">{{ ($parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.' }}</p>
                                 </div>
                             </div>
                         </div>
