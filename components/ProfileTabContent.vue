@@ -226,8 +226,11 @@
                                                 </div>
                                                 <div class="title">
                                                     {{ data.class_package.name }}
-                                                    <div class="violator shared" v-if="data.sharedto_user_id != null && !data.sharedby_user">Shared to {{ data.sharedto_user.first_name }} {{ data.sharedto_user.last_name }}</div>
-                                                    <div class="violator shared_with_me" v-if="data.sharedto_user_id != null && data.sharedby_user">Shared by {{ data.sharedby_user.first_name }} {{ data.sharedby_user.last_name }}</div>
+                                                    <div class="violator_list">
+                                                        <div class="violator shared" v-if="data.sharedto_user_id != null && !data.sharedby_user">Shared to {{ data.sharedto_user.first_name }} {{ data.sharedto_user.last_name }}</div>
+                                                        <div class="violator shared_with_me" v-if="data.sharedto_user_id != null && data.sharedby_user">Shared by {{ data.sharedby_user.first_name }} {{ data.sharedby_user.last_name }}</div>
+                                                        <div class="violator froze" v-if="data.frozen">Package is Frozen</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -246,7 +249,7 @@
                                         <td data-column="Expiry">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
                                                 <div class="default">{{ (data.class_package.computed_expiration_date == null) ? $moment(data.updated_at).format('MMM D, YYYY') : $moment(data.class_package.computed_expiration_date).format('MMM D, YYYY') }}</div>
-                                                <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
+                                                <div class="label violator" v-if="parseInt($moment(data.class_package.computed_expiration_date).diff($moment(), 'days')) <= 15 && tabCategory == 'active'">{{ $moment(data.class_package.computed_expiration_date).diff($moment(), 'days') }} Days Left</div>
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">

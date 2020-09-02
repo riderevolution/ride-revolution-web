@@ -8451,18 +8451,30 @@ svg
                         brandon_medium(20px, false)
                         color: $black
                         padding-left: 10px
-                        .violator
-                            margin-top: 5px
+                        .violator_list
                             flex: 0 0 100%
-                            brandon_medium(12px, true)
-                            padding: 2px 5px
-                            border-radius: 3px
-                            &.shared
-                                color: $blue
-                                background-color: #C7E6FF
-                            &.shared_with_me
-                                color: #B176A9
-                                background-color: #FAE2F7
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: flex-start
+                            .violator
+                                flex: 0 0 auto
+                                margin-top: 5px
+                                brandon_medium(12px, true)
+                                padding: 2px 5px
+                                border-radius: 3px
+                                margin-right: 5px
+                                &:last-child
+                                    margin-right: 0
+                                &.shared
+                                    color: $blue
+                                    background-color: #C7E6FF
+                                &.froze
+                                    color: $green
+                                    background-color: $green_alt3
+                                &.shared_with_me
+                                    color: #B176A9
+                                    background-color: #FAE2F7
                 .default
                     brandon_regular(16px, false)
                     color: $black

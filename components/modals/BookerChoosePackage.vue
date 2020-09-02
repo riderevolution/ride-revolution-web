@@ -261,15 +261,19 @@
                     me.user = res.data.user
                     id = res.data.user.id
                     url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
-                    
+
                     me.$axios.get(`${url}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {
-                                    if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
-                                        countCtr++
+                                    if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'days')) > 0 || data.class_package.computed_expiration_date == null) {
+                                        if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
+                                            countCtr++
+                                        } else {
+                                            me.ctr++
+                                        }
                                     } else {
-                                        me.ctr++
+                                        countCtr++
                                     }
                                     me.classPackages.push(data)
                                 })
