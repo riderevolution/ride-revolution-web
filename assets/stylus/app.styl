@@ -5720,7 +5720,11 @@ svg
                             padding: 20px 80px 20px 40px
                             margin-bottom: 20px
                             box-shadow: 0px 0 30px transparent
+                            filter: grayscale(0)
                             transition: .3s ease-in-out
+                            &.pst
+                                filter: grayscale(1)
+                                transition: .3s ease-in-out
                             &:last-child
                                 margin-bottom: 0
                             .time
