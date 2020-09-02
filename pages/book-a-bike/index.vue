@@ -68,7 +68,7 @@
                         </div>
                         <div v-if="res.schedules.length > 0">
                             <div :class="`${(!$store.state.isMobile) ? 'content' : 'content_mobile'}`">
-                                <div :class="`schedule${(data.past) ? ' pst' : ''}`" v-for="(data, key) in res.schedules" :key="key">
+                                <div :class="`schedule${(data.past || data.ongoing) ? ' pst' : ''}`" v-for="(data, key) in res.schedules" :key="key">
                                     <div class="time" v-if="!$store.state.isMobile">{{ $moment(data.schedule.start_time, 'hh:mm A').format('h:mm A') }}</div>
                                     <div class="class" v-if="!$store.state.isMobile">
                                         <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
@@ -111,7 +111,7 @@
                                         </div>
                                         <h3>{{ data.schedule.studio.name }}</h3>
                                     </div>
-                                    <div class="action" v-if="!data.past">
+                                    <div class="action" v-if="!data.past && !data.ongoing">
                                         <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Book Now</span>
                                         </nuxt-link>
@@ -128,9 +128,14 @@
                                             <span>Book Now</span>
                                         </div>
                                     </div>
-                                    <div class="action" v-else>
+                                    <div class="action" v-else-if="data.past && !data.ongoing">
                                         <div class="btn default_btn_out disabled">
                                             <span>Class is Over</span>
+                                        </div>
+                                    </div>
+                                    <div class="action" v-else-if="!data.past && data.ongoing">
+                                        <div class="btn default_btn_out disabled">
+                                            <span>Ongoing</span>
                                         </div>
                                     </div>
                                 </div>
