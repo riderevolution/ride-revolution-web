@@ -259,7 +259,7 @@
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
                                                         <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
                                                         <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
-                                                        <li v-if="data.class_package.por_allow_transferring_of_package" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
+                                                        <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && data.sharedto_user_id == null" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
                                                     </ul>
                                                 </transition>
                                             </div>
