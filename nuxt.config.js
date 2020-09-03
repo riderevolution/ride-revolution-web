@@ -93,7 +93,6 @@ export default {
         '/transaction',
         '/thank-you',
         '/fish-in-the-glass',
-        '/book-a-bike/*/*',
         '/book-a-bike/**',
       ],
       Sitemap: 'https://www.riderevolution.ph/sitemap.xml'
