@@ -1,4 +1,5 @@
 import pkg from './package'
+import axios from 'axios'
 
 export default {
   mode: 'universal',
@@ -81,6 +82,51 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    ['@nuxtjs/robots', {
+      UserAgent: '*',
+      Disallow: [
+        '/refer-a-friend_bak',
+        '/ride-rewards_bak',
+        '/reset-password',
+        '/my-profile',
+        '/invite',
+        '/transaction',
+        '/thank-you',
+        '/fish-in-the-glass',
+        '/book-a-bike/**',
+      ],
+      Sitemap: 'https://www.riderevolution.ph/sitemap.xml'
+    }],
+    ['@nuxtjs/sitemap', {
+      hostname: 'https://www.riderevolution.ph',
+      gzip: true,
+      exclude: [
+        '/refer-a-friend_bak',
+        '/book-a-bike/**',
+        '/ride-rewards_bak',
+        '/reset-password',
+        '/reset-password*',
+        '/invite',
+        '/invite*',
+        '/invite/**',
+        '/transaction',
+        '/transaction*',
+        '/transaction/**',
+        '/thank-you',
+        '/thank-you*',
+        '/thank-you/**',
+        '/fish-in-the-glass',
+        '/fish-in-the-glass*',
+        '/fish-in-the-glass/**',
+        '/my-profile',
+        '/my-profile*',
+        '/my-profile/**'
+      ],
+      routes () {
+        return axios.get(`${process.env.API_URL}/api/sitemap`)
+          .then(res => res.data.sitemap)
+      }
+    }],
     ['nuxt-facebook-pixel-module', {
       /* module options */
       track: 'PageView',
@@ -91,12 +137,6 @@ export default {
       directiveOnly: true
     }]
   ],
-
-  robots: {
-    UserAgent: '*',
-    Disallow: ''
-  },
-
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

@@ -461,6 +461,7 @@
                 me.$store.state.loginSignUpStatus = true
                 document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                me.loader(false)
             } else {
                 me.normalizedRadius = 15 - 3 * 2
                 me.circumference = me.normalizedRadius * 2 * Math.PI
@@ -477,10 +478,13 @@
                     if (res.data) {
                         me.user = res.data.user
                         me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
                     }
+                }).catch((err) => {
+                    console.log(err);
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
                 setTimeout( () => {
                     me.classPackages = me.res.classPackages

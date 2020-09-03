@@ -473,11 +473,11 @@
                 if (res.data) {
                     me.user = res.data.user
                     me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
                 }
             })
+            setTimeout( () => {
+                me.loader(false)
+            }, 500)
         },
         async asyncData ({ $axios, params, store, error }) {
             return await $axios.get('api/extras/class-packages-for-gift-cards').then(res => {
