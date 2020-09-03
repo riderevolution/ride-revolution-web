@@ -55,7 +55,7 @@
             const me = this
             let host = process.env.baseUrl
             return {
-                title: `Book a Class | Ride Revolution`,
+                title: `Book a Ride | Ride Revolution`,
                 link: [
                     {
                         rel: 'nofollow',

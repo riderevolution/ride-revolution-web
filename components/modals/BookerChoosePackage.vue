@@ -272,10 +272,10 @@
                                         } else {
                                             me.ctr++
                                         }
+                                        me.classPackages.push(data)
                                     } else {
                                         countCtr++
                                     }
-                                    me.classPackages.push(data)
                                 })
                                 if (me.$parent.tempOriginalSeat == null) {
                                     for (let i = 0; i < me.classPackages.length; i++) {
@@ -323,6 +323,7 @@
                                     }
                                 }
                             }
+                            console.log(countCtr);
                             if (countCtr >= res.data.customer.user_package_counts.length) {
                                 me.$store.state.bookerChoosePackageStatus = false
                                 if (me.$parent.schedule.schedule.studio.online_class) {

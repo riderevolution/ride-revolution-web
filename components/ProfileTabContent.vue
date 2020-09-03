@@ -177,10 +177,10 @@
                                     </div>
                                 </div>
                                 <div class="bottom">
-                                    <img :src="data.instructor.user.instructor_details.images[0].path" />
+                                    <img :src="getInstructorsImageInSchedule(data.scheduled_date)" />
                                     <div class="right">
                                         <div class="label">Instructor</div>
-                                        <h3 class="name">{{ data.instructor.user.first_name }} {{ data.instructor.user.last_name }}</h3>
+                                        <h3 class="name">{{ getInstructorsInSchedule(data.scheduled_date) }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -709,6 +709,46 @@
             }
         },
         methods: {
+            getInstructorsImageInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+                    result = instructor.user.instructor_details.images[0].path
+                }
+
+                return result
+            },
+            getInstructorsInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let ins_ctr = 0
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.substitute == 0) {
+                            ins_ctr += 1
+                        }
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+
+                    if (ins_ctr == 2) {
+                        result = `${instructor.user.instructor_details.nickname} + ${data.schedule.instructor_schedules[1].user.instructor_details.nickname}`
+                    } else {
+                        result = `${instructor.user.fullname}`
+                    }
+
+                }
+
+                return result
+            },
             checkRideCount (count) {
                 const me = this
                 if (count >= 10 && count <= 19) {

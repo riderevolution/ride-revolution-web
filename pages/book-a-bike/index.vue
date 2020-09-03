@@ -71,9 +71,9 @@
                                 <div :class="`schedule${(data.past || data.ongoing) ? ' pst' : ''}`" v-for="(data, key) in res.schedules" :key="key">
                                     <div class="time" v-if="!$store.state.isMobile">{{ $moment(data.schedule.start_time, 'hh:mm A').format('h:mm A') }}</div>
                                     <div class="class" v-if="!$store.state.isMobile">
-                                        <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
+                                        <img class="image" :src="getInstructorsImageInSchedule(data)" />
                                         <div class="info">
-                                            <h2>{{ data.schedule.instructor_schedules[0].user.instructor_details.nickname }}</h2>
+                                            <h2>{{ getInstructorsInSchedule(data) }}</h2>
                                             <div class="ride">
                                                 <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
                                                 <div class="info_icon">
@@ -91,10 +91,10 @@
                                             <h3>{{ data.schedule.studio.name }}</h3>
                                         </div>
                                     </div>
-                                    <img class="image" :src="data.schedule.instructor_schedules[0].user.instructor_details.images[0].path" v-if="$store.state.isMobile" />
+                                    <img class="image" :src="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile" />
                                     <div class="info" v-if="$store.state.isMobile">
                                         <div class="time">{{ $moment(data.schedule.start_time, 'h:mm A').format('h:mm A') }}</div>
-                                        <h2>{{ data.schedule.instructor_schedules[0].user.instructor_details.nickname }}</h2>
+                                        <h2>{{ getInstructorsInSchedule(data) }}</h2>
                                         <div class="ride">
                                             <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
                                             <div class="info_icon">
@@ -245,6 +245,46 @@
             }
         },
         methods: {
+            getInstructorsImageInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+                    result = instructor.user.instructor_details.images[0].path
+                }
+
+                return result
+            },
+            getInstructorsInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let ins_ctr = 0
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.substitute == 0) {
+                            ins_ctr += 1
+                        }
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+
+                    if (ins_ctr == 2) {
+                        result = `${instructor.user.instructor_details.nickname} + ${data.schedule.instructor_schedules[1].user.instructor_details.nickname}`
+                    } else {
+                        result = `${instructor.user.fullname}`
+                    }
+
+                }
+
+                return result
+            },
             /**
              * Toggle info in each schedule */
             toggleScheduleInfo (data) {

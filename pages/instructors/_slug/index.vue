@@ -51,9 +51,9 @@
                             <div class="time">{{ data.schedule.start_time }}</div>
                         </div>
                         <div class="info">
-                            <img class="main" :src="res.instructor_details.images[0].path" :alt="res.instructor_details.images[0].alt" />
+                            <img class="main" :src="getInstructorsImageInSchedule(data)" :alt="res.instructor_details.images[0].alt" />
                             <div class="description">
-                                <h2>{{ res.instructor_details.nickname }}</h2>
+                                <h2>{{ getInstructorsInSchedule(data) }}</h2>
                                 <div class="limit">
                                     <span>{{ data.schedule.class_type.name }}</span>
                                     <div class="info_icon">
@@ -90,14 +90,14 @@
                 </div>
                 <div class="content mobile" v-else>
                     <div class="wrapper" v-for="(data, key) in scheduledDates" :key="key">
-                        <img class="main" :src="res.instructor_details.images[0].path" :alt="res.instructor_details.images[0].alt" />
+                        <img class="main" :src="getInstructorsImageInSchedule(data)" :alt="res.instructor_details.images[0].alt" />
                         <div class="info">
                             <div class="start">
                                 <div class="date">{{ parseDate('date', data.date) }}</div>
                                 <div class="time">{{ data.schedule.start_time }}</div>
                             </div>
                             <div class="description">
-                                <h2>{{ res.instructor_details.nickname }}</h2>
+                                <h2>{{ getInstructorsInSchedule(data) }}</h2>
                                 <div class="limit">
                                     <span>{{ data.schedule.class_type.name }}</span>
                                     <div class="info_icon">
@@ -347,6 +347,46 @@
             }
         },
         methods: {
+            getInstructorsImageInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+                    result = instructor.user.instructor_details.images[0].path
+                }
+
+                return result
+            },
+            getInstructorsInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let ins_ctr = 0
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.substitute == 0) {
+                            ins_ctr += 1
+                        }
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+
+                    if (ins_ctr == 2) {
+                        result = `${instructor.user.instructor_details.nickname} + ${data.schedule.instructor_schedules[1].user.instructor_details.nickname}`
+                    } else {
+                        result = `${instructor.user.fullname}`
+                    }
+
+                }
+
+                return result
+            },
             /**
              * Toggle info in each schedule */
             toggleScheduleInfo (data) {

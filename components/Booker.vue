@@ -14,7 +14,7 @@
                                     <div class="content">
                                         <ul>
                                             <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ (schedule.schedule.custom_name != null) ? schedule.schedule.custom_name : schedule.schedule.class_type.name }}</span></li>
-                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                            <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ getInstructorsInSchedule(schedule) }}</span></li>
                                             <li><span><img class="icon" src="/icons/credit-alt-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
@@ -63,7 +63,7 @@
                                         <div class="content">
                                             <ul>
                                                 <li><span><img class="icon" src="/icons/ride-icon.svg" />{{ (schedule.schedule.custom_name != null) ? schedule.schedule.custom_name : schedule.schedule.class_type.name }}</span></li>
-                                                <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</span></li>
+                                                <li><span><img class="icon" src="/icons/instructor-icon.svg" />{{ getInstructorsInSchedule(schedule) }}</span></li>
                                                 <li><span><img class="icon" src="/icons/credit-alt-icon.svg" />{{ schedule.schedule.class_credits }} {{ (schedule.schedule.class_credits <= 1) ? 'Credit' : 'Credits' }}</span></li>
                                                 <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                             </ul>
@@ -126,7 +126,7 @@
                                     <div class="overlay_header">
                                         <h3>Please choose your bike/s</h3>
                                         <h4>Note: You can book up to 5 bikes.</h4>
-                                        <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
+                                        <img :src="getInstructorsImageInSchedule(schedule)" />
                                     </div>
                                     <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key">
                                         <div @click="signIn(data)" :class="`seat ${addClass(data)}`" v-for="(data, key) in seat.data" :key="key">
@@ -179,8 +179,8 @@
                                 </div>
                                 <div class="seat_wrapper alt" v-else>
                                     <div class="seat_instructor_header">
-                                        <img :src="schedule.schedule.instructor_schedules[0].user.instructor_details.images[0].path" />
-                                        <div class="seat_instructor_name">{{ schedule.schedule.instructor_schedules[0].user.first_name }} {{ schedule.schedule.instructor_schedules[0].user.last_name }}</div>
+                                        <img :src="getInstructorsImageInSchedule(schedule)" />
+                                        <div class="seat_instructor_name">{{ getInstructorsInSchedule(schedule) }}</div>
                                     </div>
                                     <div class="seat_instructor_content">
                                         <div class="body" v-html="(schedule.schedule.description != null) ? schedule.schedule.description : schedule.schedule.class_type.description"></div>
@@ -474,19 +474,63 @@
             getAllSeatNumbers () {
                 const me = this
                 let result = []
-                me.temp.forEach((seat, index) => {
-                    if (seat.bookings.length > 0 && seat.bookings[0].original_booker_id == me.user.id) {
-                        if (seat.bookings[0].is_guest == 0) {
-                            result.unshift(`<b class="green">${seat.number}</b>`)
-                        } else {
-                            result.push(`, <b class="violet">${seat.number}</b>`)
+                if (!me.schedule.schedule.studio.online_class) {
+                    me.temp.forEach((seat, index) => {
+                        if (seat.bookings.length > 0 && seat.bookings[0].original_booker_id == me.user.id) {
+                            if (seat.bookings[0].is_guest == 0) {
+                                result.unshift(`<b class="green">${seat.number}</b>`)
+                            } else {
+                                result.push(`, <b class="violet">${seat.number}</b>`)
+                            }
                         }
-                    }
-                })
+                    })
+                } else {
+                    result = '-'
+                }
                 return result
             },
         },
         methods: {
+            getInstructorsImageInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+                    result = instructor.user.instructor_details.images[0].path
+                }
+
+                return result
+            },
+            getInstructorsInSchedule (data) {
+                const me = this
+                let result = ''
+                if (data != '') {
+                    let ins_ctr = 0
+                    let instructor = []
+                    data.schedule.instructor_schedules.forEach((ins, index) => {
+                        if (ins.substitute == 0) {
+                            ins_ctr += 1
+                        }
+                        if (ins.primary == 1) {
+                            instructor = ins
+                        }
+                    })
+
+                    if (ins_ctr == 2) {
+                        result = `${instructor.user.instructor_details.nickname} + ${data.schedule.instructor_schedules[1].user.instructor_details.nickname}`
+                    } else {
+                        result = `${instructor.user.fullname}`
+                    }
+
+                }
+
+                return result
+            },
             toggleCancel () {
                 const me = this
                 me.$store.state.bookerCancelStatus = true
