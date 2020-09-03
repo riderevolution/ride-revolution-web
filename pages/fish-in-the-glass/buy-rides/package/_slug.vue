@@ -318,15 +318,15 @@
                         setTimeout( () => {
                             me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
                         }, 1000)
-                    }).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
                     })
                     me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                 }
-            }).catch(err => {
-                console.log(err)
+            }).catch((err) => {
+                console.log(err);
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
             })
             me.$store.state.proTipStatus = true
         },

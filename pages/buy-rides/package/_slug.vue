@@ -307,6 +307,7 @@
                 me.$store.state.loginSignUpStatus = true
                 document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                me.loaded(false)
             } else {
                 me.$axios.get('api/check-token', {
                     headers: {
@@ -331,13 +332,15 @@
                             setTimeout( () => {
                                 me.$router.push('/buy-rides')
                             }, 1000)
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
                         })
                         me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                     }
+                }).catch((err) => {
+                    console.log(err);
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             }
         },
