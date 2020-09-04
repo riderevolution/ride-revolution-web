@@ -184,7 +184,7 @@
                                     </div>
                                     <div class="seat_instructor_content">
                                         <div class="body" v-html="(schedule.schedule.description != null) ? schedule.schedule.description : schedule.schedule.class_type.description"></div>
-                                        <div class="default_btn" @click="signIn(onlineData)" v-if="$route.name != 'my-profile-manage-class-slug' || $route.name != 'fish-in-the-glass-manage-class-slug'">Book this class</div>
+                                        <div class="default_btn" @click="signIn(onlineData)" v-if="$route.name != 'my-profile-manage-class-slug' && $route.name != 'fish-in-the-glass-manage-class-slug'">Book this class</div>
                                     </div>
                                 </div>
                                 <div class="footer" v-if="!schedule.schedule.studio.online_class">

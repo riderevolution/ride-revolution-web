@@ -71,7 +71,9 @@
                                 <div :class="`schedule${(data.past || data.ongoing) ? ' pst' : ''}`" v-for="(data, key) in res.schedules" :key="key">
                                     <div class="time" v-if="!$store.state.isMobile">{{ $moment(data.schedule.start_time, 'hh:mm A').format('h:mm A') }}</div>
                                     <div class="class" v-if="!$store.state.isMobile">
-                                        <img class="image" :src="getInstructorsImageInSchedule(data)" />
+                                        <div class="image_wrapper">
+                                            <img class="image" :src="getInstructorsImageInSchedule(data)" />
+                                        </div>
                                         <div class="info">
                                             <h2>{{ getInstructorsInSchedule(data) }}</h2>
                                             <div class="ride">
@@ -91,7 +93,9 @@
                                             <h3>{{ data.schedule.studio.name }}</h3>
                                         </div>
                                     </div>
-                                    <img class="image" :src="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile" />
+                                    <div class="image_wrapper">
+                                        <img class="image" :src="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile" />
+                                    </div>
                                     <div class="info" v-if="$store.state.isMobile">
                                         <div class="time">{{ $moment(data.schedule.start_time, 'h:mm A').format('h:mm A') }}</div>
                                         <h2>{{ getInstructorsInSchedule(data) }}</h2>
@@ -245,7 +249,7 @@
             }
         },
         methods: {
-            getInstructorsImageInSchedule (data) {
+            getInstructorsImageInSchedule (data, type) {
                 const me = this
                 let result = ''
                 if (data != '') {
