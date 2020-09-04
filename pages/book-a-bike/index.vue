@@ -71,9 +71,7 @@
                                 <div :class="`schedule${(data.past || data.ongoing) ? ' pst' : ''}`" v-for="(data, key) in res.schedules" :key="key">
                                     <div class="time" v-if="!$store.state.isMobile">{{ $moment(data.schedule.start_time, 'hh:mm A').format('h:mm A') }}</div>
                                     <div class="class" v-if="!$store.state.isMobile">
-                                        <div class="image_wrapper">
-                                            <img class="image" :src="getInstructorsImageInSchedule(data)" />
-                                        </div>
+                                        <div class="image_wrapper" v-html="getInstructorsImageInSchedule(data)"></div>
                                         <div class="info">
                                             <h2>{{ getInstructorsInSchedule(data) }}</h2>
                                             <div class="ride">
@@ -93,9 +91,7 @@
                                             <h3>{{ data.schedule.studio.name }}</h3>
                                         </div>
                                     </div>
-                                    <div class="image_wrapper">
-                                        <img class="image" :src="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile" />
-                                    </div>
+                                    <div class="image_wrapper" v-html="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile"></div>
                                     <div class="info" v-if="$store.state.isMobile">
                                         <div class="time">{{ $moment(data.schedule.start_time, 'h:mm A').format('h:mm A') }}</div>
                                         <h2>{{ getInstructorsInSchedule(data) }}</h2>
@@ -249,18 +245,32 @@
             }
         },
         methods: {
-            getInstructorsImageInSchedule (data, type) {
+            getInstructorsImageInSchedule (data) {
                 const me = this
                 let result = ''
                 if (data != '') {
+                    let ins_ctr = 0
                     let instructor = []
                     data.schedule.instructor_schedules.forEach((ins, index) => {
+                        // if (ins.substitute == 0) {
+                        //     ins_ctr += 1
+                        // }
                         if (ins.primary == 1) {
                             instructor = ins
                         }
                     })
-                    result = instructor.user.instructor_details.images[0].path
+
+                    if (ins_ctr == 2) {
+                        result = `
+                            <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
+                            <img class="image" src="${data.schedule.instructor_schedules[1].user.instructor_details.images[0].path}" />
+                        `
+                    } else {
+                        result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
+                    }
                 }
+
+                console.log(result);
 
                 return result
             },

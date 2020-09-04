@@ -90,9 +90,7 @@
                                             <h3>{{ data.schedule.studio.name }}</h3>
                                         </div>
                                     </div>
-                                    <div class="image_wrapper">
-                                        <img class="image" :src="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile" />
-                                    </div>
+                                    <div class="image_wrapper" v-html="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile"></div>
                                     <div class="info" v-if="$store.state.isMobile">
                                         <div class="time">{{ $moment(data.schedule.start_time, 'h:mm A').format('h:mm A') }}</div>
                                         <h2>{{ getInstructorsInSchedule(data) }}</h2>
@@ -234,9 +232,9 @@
                     let ins_ctr = 0
                     let instructor = []
                     data.schedule.instructor_schedules.forEach((ins, index) => {
-                        if (ins.substitute == 0) {
-                            ins_ctr += 1
-                        }
+                        // if (ins.substitute == 0) {
+                        //     ins_ctr += 1
+                        // }
                         if (ins.primary == 1) {
                             instructor = ins
                         }
@@ -250,10 +248,9 @@
                     } else {
                         result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
                     }
-
-                    result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
                 }
 
+                console.log(result);
 
                 return result
             },
