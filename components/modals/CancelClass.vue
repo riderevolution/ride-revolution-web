@@ -63,7 +63,11 @@
                                 me.$axios.post('api/schedules/validate', formData).then(res => {
                                     if (res.data) {
                                         me.loader(true)
-                                        me.$axios.delete(`${url}`).then(res => {
+                                        me.$axios.delete(`${url}`, {
+                                            headers: {
+                                                'Authorization': `Bearer ${token}`
+                                            }
+                                        }).then(res => {
                                             if (res.data) {
                                                 me.$store.state.cancelClassStatus = false
                                                 setTimeout( () => {
