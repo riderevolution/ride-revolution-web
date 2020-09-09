@@ -45,6 +45,9 @@
                 me.$parent.status = false
                 me.$store.state.buyRidesPromptStatus = false
                 document.body.classList.remove('no_scroll')
+                if (me.$route.fullPath == '/my-profile/update-profile') {
+                    location.reload()
+                }
             }
         }
     }
