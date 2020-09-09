@@ -36,8 +36,13 @@
             toggleClose (status) {
                 const me = this
                 if (status) {
+                    let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                     me.loader(true)
-                    me.$axios.delete(`api/bookings/${me.seat.bookings[0].id}`).then(res => {
+                    me.$axios.delete(`api/bookings/${me.seat.bookings[0].id}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then(res => {
                         if (res.data) {
                             setTimeout( () => {
                                 me.$store.state.bookerActionsPrompt = false
