@@ -58,12 +58,15 @@
                                 me.loader(true)
                                 let user = res.data
                                 let formData = new FormData()
-                                console.log(me.seat);
                                 formData.append('scheduled_date_id', me.seat.bookings[0].scheduled_date_id)
                                 formData.append('type', 'cancel')
                                 me.$axios.post('api/schedules/validate', formData).then(res => {
                                     if (res.data) {
-                                        me.$axios.delete(`api/bookings/${me.seat.bookings[0].id}`).then(res => {
+                                        me.$axios.delete(`api/bookings/${me.seat.bookings[0].id}`, {
+                                            headers: {
+                                                'Authorization': `Bearer ${token}`
+                                            }
+                                        }).then(res => {
                                             if (res.data) {
                                                 me.$store.state.bookerCancelStatus = false
                                                 setTimeout( () => {

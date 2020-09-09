@@ -17,11 +17,13 @@ export default {
       { 'http-equiv': 'expires', content: '0' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://js.recurly.com/v4/recurly.css' }
     ],
     script: [
       { src: 'https://apis.google.com/js/platform.js', async: true, defer: true },
       { src: 'https://connect.facebook.net/en_US/sdk.js' },
+      { src: 'https://js.recurly.com/v4/recurly.js' },
       { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: true, defer: true },
       { src: `https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID}&disable-funding=credit,card&currency=PHP` },
     ],
