@@ -10,14 +10,17 @@
                 <div class="bottom" v-html="res.subtitle"></div>
             </section>
         </div>
+        <skeleton :page="'default_inner'" :has_col="false" v-else />
     </transition>
 </template>
 
 <script>
     import Breadcrumb from '../components/Breadcrumb'
+    import Skeleton from '../components/Skeleton'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            Skeleton
         },
         data () {
             return {

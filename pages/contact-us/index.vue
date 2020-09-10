@@ -101,16 +101,19 @@
                 <contact-us-prompt v-if="$store.state.contactUsPromptStatus" />
             </transition>
         </div>
+        <skeleton :page="'default_inner'" :has_col="false" v-else />
     </transition>
 </template>
 
 <script>
+    import Skeleton from '../../components/Skeleton'
     import Banner from '../../components/Banner'
     import BookABikeBanner from '../../components/BookABikeBanner'
     import ContactUsPrompt from '../../components/modals/ContactUsPrompt'
     import VueRecaptcha from 'vue-recaptcha'
     export default {
         components: {
+            Skeleton,
             Banner,
             BookABikeBanner,
             ContactUsPrompt,
