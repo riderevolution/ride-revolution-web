@@ -56,13 +56,23 @@
                         }).then(res => {
                             if (res.data) {
                                 me.loader(true)
+                                let booking_id = 0
                                 let user = res.data
                                 let formData = new FormData()
                                 formData.append('scheduled_date_id', me.seat.bookings[0].scheduled_date_id)
                                 formData.append('type', 'cancel')
                                 me.$axios.post('api/schedules/validate', formData).then(res => {
                                     if (res.data) {
-                                        me.$axios.delete(`api/bookings/${me.seat.bookings[0].id}`, {
+                                        if (me.$parent.schedule.schedule.studio.online_class) {
+                                            me.seat.bookings.forEach((booking, key) => {
+                                                if (user.user.id == booking.user_id) {
+                                                    booking_id = booking.id
+                                                }
+                                            })
+                                        } else {
+                                            booking_id = me.seat.bookings[0].id
+                                        }
+                                        me.$axios.delete(`api/bookings/${booking_id}`, {
                                             headers: {
                                                 'Authorization': `Bearer ${token}`
                                             }
