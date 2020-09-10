@@ -283,8 +283,15 @@ Vue.mixin({
             }).then(res => {
                 // wala
             }).catch(err => {
-                this.loader(false)
-                console.log(err)
+                this.$cookies.remove('70hokc3hhhn5')
+                if (this.$store.state.isAuth) {
+                    setTimeout(() => {
+                        this.loader(false)
+                        window.location.assign('/')
+                    }, 500)
+                } else {
+                    this.$store.state.isAuth = false
+                }
             }).then(() => {
                 this.$cookies.remove('70hokc3hhhn5')
                 if (this.$store.state.isAuth) {

@@ -137,16 +137,19 @@
                 <gallery ref="gallery" :images="imagesToSend" v-if="showGallery" />
             </transition>
         </div>
+        <skeleton :page="'default_centered'" v-else />
     </transition>
 </template>
 
 <script>
     import Banner from '../../components/Banner'
     import Gallery from '../../components/modals/Gallery'
+    import Skeleton from '../../components/Skeleton'
     export default {
         components: {
             Banner,
-            Gallery
+            Gallery,
+            Skeleton
         },
         data () {
             return {

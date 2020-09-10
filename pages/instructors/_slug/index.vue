@@ -264,12 +264,14 @@
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
         </div>
+        <skeleton :page="'default_centered_circle'" :has_banner="false" :has-col="false" v-else />
     </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../../components/Breadcrumb'
     import Instagram from '../../../components/Instagram'
+    import Skeleton from '../../../components/Skeleton'
     import Gallery from '../../../components/modals/Gallery'
     import BookerChoosePackage from '../../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../../components/modals/CompleteProfilePrompt'
@@ -278,6 +280,7 @@
         components: {
             Breadcrumb,
             Instagram,
+            Skeleton,
             Gallery,
             BookerChoosePackage,
             CompleteProfilePrompt,
@@ -504,6 +507,7 @@
             async initial () {
                 const me = this
                 setTimeout( () => {
+                    me.loaded = true
                     if (me.comments.length > 0) {
                         for (let i = 1; i <= 5; i++) {
                             let target = document.getElementById(`star_${i}`)
@@ -589,8 +593,7 @@
                         imagesToSend: tempImages,
                         comments: res.data.instructor.reviews,
                         overallRating: tempOverall,
-                        rating: tempRating,
-                        loaded: true
+                        rating: tempRating
                     }
                 }
             }).catch(err => {

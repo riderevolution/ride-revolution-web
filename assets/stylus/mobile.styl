@@ -1268,6 +1268,37 @@
 
 @media (max-width: 1280px) and (min-width: 768px)
 
+    .skeleton
+
+        &.circle
+            .sklt_body
+                .sklt_content
+                    align-items: center
+                    .sklt_content_l,
+                    .sklt_content_r
+                        flex: 1 0 100%
+                    .sklt_body_title
+                        margin: 0 auto
+                        &.sub
+                            margin: 20px auto 0
+                        &.sub_second
+                            margin: 10px auto 0
+                    .sklt_content_r
+                        .sklt_circle
+                            margin: 30px auto
+        .sklt_body
+            .sklt_header
+                .sklt_header_r
+                    display: none
+            .sklt_content
+                .sklt_content_col
+                    &.four
+                        flex: 0 0 calc((100% / 2) - 20px)
+                        margin: 0 10px 20px
+                        height: 400px
+                        &:last-child
+                            margin: 0
+
     .comment
         #content
             max-width: calc(100% - 60px)
@@ -3639,6 +3670,70 @@
                                                 brandon_black(22px, false)
 
 @media (max-width: 767px) and (min-width: 320px)
+
+    .skeleton
+        &.box
+            .sklt_body
+                &.one
+                    .sklt_content
+                        .sklt_content_l
+                            flex: 0 0 100%
+                            padding-right: 0
+                        .sklt_content_r
+                            flex: 0 0 100%
+                            margin-top: 40px
+                            .sklt_body
+                                padding: 0
+                                .sklt_content
+                                    margin: 0
+                                    max-width: 100%
+                &.two
+                    .sklt_content
+                        .sklt_content_l
+                            flex: 0 0 100%
+                            padding-right: 0
+                        .sklt_content_r
+                            flex: 0 0 100%
+                            margin-top: 40px
+        &.inner
+            .sklt_body
+                .sklt_content
+                    align-items: flex-start
+                    .sklt_content_l
+                        flex: 0 0 100%
+                    .sklt_content_r
+                        flex: 0 0 100%
+                        margin-top: 30px
+                        padding-left: 0
+        &.circle
+            .sklt_body
+                .sklt_content
+                    align-items: center
+                    .sklt_content_l,
+                    .sklt_content_r
+                        flex: 1 0 100%
+                    .sklt_body_title
+                        margin: 0 auto
+                        &.sub
+                            margin: 20px auto 0
+                        &.sub_second
+                            margin: 10px auto 0
+                    .sklt_content_r
+                        .sklt_circle
+                            margin: 30px auto
+        .sklt_body
+            .sklt_header
+                .sklt_header_r
+                    display: none
+            .sklt_content
+                .sklt_content_col
+                    &.three,
+                    &.four
+                        flex: 0 0 calc((100% / 1) - 0px)
+                        margin: 0 0 20px
+                        height: 400px
+                        &:last-child
+                            margin: 0
 
     .error_page
         width: 100%

@@ -89,15 +89,18 @@
                 </div>
             </section>
         </div>
+        <skeleton :page="'default_centered'" :col="{ class: 'three', count: 12 }" v-else />
     </transition>
 </template>
 
 <script>
     import Banner from '../../components/Banner'
     import Promo from '../../components/Promo'
+    import Skeleton from '../../components/Skeleton'
     export default {
         components: {
             Banner,
+            Skeleton,
             Promo
         },
         data () {

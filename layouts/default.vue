@@ -258,6 +258,7 @@
             let token = me.$cookies.get('70hokc3hhhn5')
             if (token != null & token != undefined) {
                 me.$store.state.token = token
+                me.validateToken()
             }
             me.checkElements()
             me.onResize()

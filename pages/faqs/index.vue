@@ -23,16 +23,19 @@
             </section>
             <book-a-bike-banner />
         </div>
+        <skeleton :page="'default_centered'" v-else />
     </transition>
 </template>
 
 <script>
     import Banner from '../../components/Banner'
     import BookABikeBanner from '../../components/BookABikeBanner'
+    import Skeleton from '../../components/Skeleton'
     export default {
         components: {
             Banner,
-            BookABikeBanner
+            BookABikeBanner,
+            Skeleton
         },
         data () {
             return {

@@ -63,6 +63,7 @@
                 <share-success v-if="$store.state.shareSuccess" />
             </transition>
         </div>
+        <skeleton :page="'default_inner'" v-else />
     </transition>
 </template>
 
@@ -71,12 +72,14 @@
     import ShareViaEmail from '../../../components/modals/ShareViaEmail'
     import ShareSuccess from '../../../components/modals/ShareSuccess'
     import BookABikeBanner from '../../../components/BookABikeBanner'
+    import Skeleton from '../../../components/Skeleton'
     export default {
         components: {
             Banner,
             ShareViaEmail,
             ShareSuccess,
-            BookABikeBanner
+            BookABikeBanner,
+            Skeleton
         },
         data () {
             return {

@@ -286,9 +286,11 @@
             <booker-actions :seat="dummyData" v-if="$store.state.bookerActionsPrompt" />
         </transition>
     </div>
+    <skeleton :page="'default_box'" :has_col="false" :has_banner="false" :layout="'two'" v-else />
 </template>
 
 <script>
+    import Skeleton from './Skeleton'
     import BookerAssign from './modals/BookerAssign'
     import BookerCancel from './modals/BookerCancel'
     import BookerChoosePackage from './modals/BookerChoosePackage'
@@ -318,6 +320,7 @@
             }
         },
         components: {
+            Skeleton,
             BookerAssign,
             BookerCancel,
             BookerChoosePackage,

@@ -43,6 +43,7 @@
             <instagram-alternate :id="1100" />
             <book-a-bike-banner />
         </div>
+        <skeleton :page="'default_centered'" v-else />
     </transition>
 </template>
 
@@ -50,11 +51,13 @@
     import Banner from '../../components/Banner'
     import InstagramAlternate from '../../components/InstagramAlternate'
     import BookABikeBanner from '../../components/BookABikeBanner'
+    import Skeleton from '../../components/Skeleton'
     export default {
         components: {
             Banner,
             InstagramAlternate,
-            BookABikeBanner
+            BookABikeBanner,
+            Skeleton
         },
         data () {
             return {

@@ -64,14 +64,17 @@
                 </div>
             </section>
         </div>
+        <skeleton :page="'default_centered'" :col="{ class: 'four', count: 12 }" :has_banner="false" v-else />
     </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../components/Breadcrumb'
+    import Skeleton from '../../components/Skeleton'
     export default {
         components: {
-            Breadcrumb
+            Breadcrumb,
+            Skeleton
         },
         data () {
             return {
@@ -270,28 +273,30 @@
             },
             windowScroll() {
                 const me = this
-                let elements = [
-                    '.action.load'
-                ]
+                if (me.loaded) {
+                    let elements = [
+                        '.action.load'
+                    ]
 
-                /**
-                 * Scroll Effect */
-                elements.forEach((element, index) => {
-                    let selector = document.querySelector(`${element}`)
-                    if (selector) {
-                        let bounding = selector.getBoundingClientRect()
-                        if (bounding.bottom > 0 &&
-                            bounding.right > 0 &&
-                            bounding.left < (window.innerWidth || document.documentElement.clientWidth) &&
-                            bounding.top < (window.innerHeight || document.documentElement.clientHeight)) {
-                            if (!me.loadMore && !me.showLoadedInstructors) {
-                                document.body.classList.add('no_scroll')
-                                me.loadMoreInstructors()
-                                me.loadMore = true
+                    /**
+                    * Scroll Effect */
+                    elements.forEach((element, index) => {
+                        let selector = document.querySelector(`${element}`)
+                        if (selector) {
+                            let bounding = selector.getBoundingClientRect()
+                            if (bounding.bottom > 0 &&
+                                bounding.right > 0 &&
+                                bounding.left < (window.innerWidth || document.documentElement.clientWidth) &&
+                                bounding.top < (window.innerHeight || document.documentElement.clientHeight)) {
+                                    if (!me.loadMore && !me.showLoadedInstructors) {
+                                        document.body.classList.add('no_scroll')
+                                        me.loadMoreInstructors()
+                                        me.loadMore = true
+                                    }
+                                }
                             }
-                        }
-                    }
-                })
+                        })
+                }
             }
         },
         async mounted () {

@@ -160,11 +160,13 @@
                 <booker-prompt :message="message" v-if="$store.state.bookerPromptStatus" :status="status" />
             </transition>
         </div>
+        <skeleton :page="'default_box'" :col="{ class: 'one', count: 4 }" :layout="'one'" v-else />
     </transition>
 </template>
 
 <script>
     import Banner from '../../components/Banner'
+    import Skeleton from '../../components/Skeleton'
     import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
     import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
     import BuyPackageFirst from '../../components/modals/BuyPackageFirst'
@@ -172,6 +174,7 @@
     export default {
         components: {
             Banner,
+            Skeleton,
             BookerChoosePackage,
             CompleteProfilePrompt,
             BuyPackageFirst,
@@ -269,8 +272,6 @@
                         result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
                     }
                 }
-
-                console.log(result);
 
                 return result
             },
@@ -484,9 +485,9 @@
                 let id = (me.studioID == 0) ? '' : me.studioID
                 /**
                  * Fetch all instructors */
-                me.$axios.get(`api/instructors?enabled=1`).then(res => {
+                me.$axios.get(`api/web/instructors`).then(res => {
                     if (res.data) {
-                        me.instructors = res.data.instructors.data
+                        me.instructors = res.data.instructors
                     }
                 }).catch(err => {
                     me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
@@ -497,7 +498,7 @@
              * On/Off of custom autocomplete */
             toggleAutoComplete () {
                 const me = this
-                me.toggledAutocomplete ^= true
+                me.toggledAutocomplete = true
             },
             /**
              * Click outside of autocomplete */
@@ -749,9 +750,9 @@
             })
             /**
              * Fetch all instructors */
-            me.$axios.get(`api/instructors?enabled=1`).then(res => {
+            me.$axios.get(`api/web/instructors`).then(res => {
                 if (res.data) {
-                    me.instructors = res.data.instructors.data
+                    me.instructors = res.data.instructors
                 }
             }).catch(err => {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })

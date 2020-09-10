@@ -249,6 +249,7 @@
                 <video-prompt v-if="$store.state.videoPrompt" :data="res" />
             </transition>
         </div>
+        <skeleton :page="'default'" v-else />
     </transition>
 </template>
 
@@ -256,10 +257,12 @@
     import VideoPrompt from '../components/modals/VideoPrompt'
     import Instagram from '../components/Instagram'
     import Promo from '../components/Promo'
+    import Skeleton from '../components/Skeleton'
     export default {
         components: {
             VideoPrompt,
             Instagram,
+            Skeleton,
             Promo
         },
         data () {

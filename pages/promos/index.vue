@@ -18,14 +18,17 @@
                 </div>
             </section>
         </div>
+        <skeleton :page="'default_centered'" :has_col="true" :col="{ class: 'three', count: 3 }" :has_header="false" v-else />
     </transition>
 </template>
 
 <script>
     import Banner from '../../components/Banner'
+    import Skeleton from '../../components/Skeleton'
     export default {
         components: {
-            Banner
+            Banner,
+            Skeleton
         },
         data () {
             return {

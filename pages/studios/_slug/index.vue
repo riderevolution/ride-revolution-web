@@ -71,16 +71,19 @@
                 <gallery ref="gallery" :images="imagesToSend" v-if="showGallery" />
             </transition>
         </div>
+        <skeleton :page="'default_centered'" :col="{ class: 'three', count: 12 }" :has_header="false" v-else />
     </transition>
 </template>
 
 <script>
     import Breadcrumb from '../../../components/Breadcrumb'
     import Gallery from '../../../components/modals/Gallery'
+    import Skeleton from '../../../components/Skeleton'
     export default {
         components: {
             Breadcrumb,
-            Gallery
+            Gallery,
+            Skeleton
         },
         data () {
             return {
@@ -136,6 +139,7 @@
             document.body.classList.add('no_click')
             if (me.$store.state.isLoading) {
                 setTimeout( () => {
+                    me.loaded = true
                     document.body.classList.remove('no_click')
                     me.$store.state.isLoading = false
                     document.querySelector('#teaser .main_right .map iframe').style.height = `${document.querySelector('#teaser .main_left').scrollHeight}px`
@@ -148,8 +152,7 @@
                     store.state.isLoading = true
                     return {
                         res: res.data.studio,
-                        studioImages: res.data.studio.albums,
-                        loaded: true
+                        studioImages: res.data.studio.albums
                     }
                 }).catch(err => {
                     error({ statusCode: 403, message: 'Page not found' })
