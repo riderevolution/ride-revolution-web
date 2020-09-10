@@ -73,15 +73,18 @@
         </section>
         <!-- <referral :summary="summary" /> -->
     </div>
+    <skeleton :page="'default_box'" :has_col="false" :has_banner="false" :layout="'three'" v-else />
 </template>
 
 <script>
+    import Skeleton from '../../components/Skeleton'
     import Breadcrumb from '../../components/Breadcrumb'
     import CompleteProfile from '../../components/CompleteProfile'
     import ProfileTabContent from '../../components/ProfileTabContent'
     import Referral from '../../components/Referral'
     export default {
         components: {
+            Skeleton,
             Breadcrumb,
             CompleteProfile,
             ProfileTabContent,

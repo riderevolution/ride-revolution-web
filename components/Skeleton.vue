@@ -77,8 +77,8 @@
     </div>
     <div class="skeleton box" v-else-if="page == 'default_box'">
         <section class="sklt_banner skeleton_el" v-if="has_banner"></section>
-        <section :class="`sklt_body ${(!has_banner) ? 'pd' : ''} ${layout}`" v-if="layout == 'one'">
-            <div class="sklt_content">
+        <section :class="`sklt_body ${(!has_banner) ? 'pd' : ''} ${layout}`">
+            <div class="sklt_content" v-if="layout == 'one'">
                 <div class="sklt_content_l">
                     <div class="sklt_content_g">
                         <div class="sklt_body_title skeleton_el"></div>
@@ -94,14 +94,30 @@
                     </section>
                 </div>
             </div>
-        </section>
-        <section :class="`sklt_body ${(!has_banner) ? 'pd' : ''} ${layout}`" v-if="layout == 'two'">
-            <div class="sklt_content">
+            <div class="sklt_content" v-else-if="layout == 'two'">
                 <div class="sklt_content_l">
                     <div class="content_box skeleton_el">
                     </div>
                 </div>
                 <div class="sklt_content_r">
+                    <div class="content_box skeleton_el">
+                    </div>
+                </div>
+            </div>
+            <div class="sklt_content" v-else-if="layout == 'three'">
+                <div class="sklt_content_header">
+                    <div class="content_box skeleton_el">
+                    </div>
+                </div>
+                <div class="sklt_content_l">
+                    <div class="content_box skeleton_el">
+                    </div>
+                </div>
+                <div class="sklt_content_r">
+                    <div class="content_box skeleton_el">
+                    </div>
+                </div>
+                <div class="sklt_content_header">
                     <div class="content_box skeleton_el">
                     </div>
                 </div>
