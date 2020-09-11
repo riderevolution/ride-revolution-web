@@ -323,7 +323,6 @@
                                     }
                                 }
                             }
-                            console.log(countCtr);
                             if (countCtr >= res.data.customer.user_package_counts.length) {
                                 me.$store.state.bookerChoosePackageStatus = false
                                 if (me.$parent.schedule.schedule.studio.online_class) {

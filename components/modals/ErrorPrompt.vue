@@ -1,12 +1,12 @@
 <template>
     <div class="default_modal error">
-        <div class="background" @click="toggleClose()"></div>
+        <div class="background" @click.once="toggleClose()"></div>
         <div class="confirmation_wrapper">
             <div class="confirmation_text">
                 <div class="text error" v-for="(error, key) in $store.state.errorList" :key="key">{{ error }}</div>
             </div>
             <div class="button_group alt">
-                <div class="default_btn" @click="toggleClose()">OK</div>
+                <div class="default_btn" @click.once="toggleClose()">OK</div>
             </div>
         </div>
     </div>
