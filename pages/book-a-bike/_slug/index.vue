@@ -49,7 +49,6 @@
                     me.$nuxt.error({ statusCode: 403, message: 'Something went Wrong' })
                 })
             }
-            me.$store.state.proTipStatus = true
         },
         head () {
             const me = this

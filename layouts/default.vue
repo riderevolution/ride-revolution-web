@@ -225,7 +225,7 @@
                 if (token != null & token != undefined) {
                     me.$store.state.token = token
                 }
-
+                me.checkElements()
                 document.addEventListener('contextmenu', event => event.preventDefault())
             },
             checkElements () {

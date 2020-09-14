@@ -880,6 +880,7 @@
                                     }
                                 }
                                 me.loaded = true
+                                me.$store.state.proTipStatus = true
                             }
                         }).catch(err => {
                             me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
