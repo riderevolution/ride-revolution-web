@@ -33,13 +33,28 @@
       <label for="last_name">Last Name</label>
       <input type="text" data-recurly="last_name" id="last_name" name="last-name">
 
+      <p>Billing Information</p>
+      <label for="billing_first_name">First Name</label>
+      <input id="billing_first_name" type="text" data-recurly="first_name" name="billing_first_name">
+      <label for="billing_last_name">Last Name</label>
+      <input id="billing_last_name" type="text" data-recurly="last_name" name="billing_last_name">
+      <label for="billing_address_1">Address 1</label>
+      <input id="billing_address_1" type="text" data-recurly="address1" name="billing_address_1">
+      <label for="billing_address_2">Address 2</label>
+      <input id="billing_address_2" type="text" data-recurly="address2" name="billing_address_2">
+      <label for="billing_city">City</label>
+      <input id="billing_city" type="text" data-recurly="city" name="city">
+      <label for="billing_state">State</label>
+      <input id="billing_state" type="text" data-recurly="state" name="state">
+      <label for="postal_code">Postal Code</label>
+      <input type="text" data-recurly="postal_code" id="postal_code">
+
       <label for="country">Country</label>
       <select id="country" data-recurly="country">
+        <option value="PH">Philippines</option>
         <option value="US">United States</option>
         <option value="GB">Great Britain</option>
       </select>
-      <label for="postal_code">Postal Code</label>
-      <input type="text" data-recurly="postal_code" id="postal_code">
 
       <p id="addons-title">Add-ons</p>
       <p id="addons"></p>
@@ -141,7 +156,7 @@
             placeholder: 'yy'
           }
         }
-            })
+      })
             // When a customer hits their 'enter' key while in a field
       recurly.on('field:submit', function (event) {
         $('form').submit();
