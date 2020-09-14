@@ -40,7 +40,7 @@
                     </no-ssr>
                 </div>
             </section>
-            <instagram-alternate :id="1100" />
+            <instagram-alternate :id="1050" />
             <book-a-bike-banner />
         </div>
         <skeleton :page="'default_centered'" v-else />
