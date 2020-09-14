@@ -51,6 +51,11 @@
                             </label>
                         </div>
                     </div>
+                    <div class="form_group">
+                        <label for="birth_date">Birth Date <span>*</span></label>
+                        <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="completeProfile.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
+                    </div>
                     <div class="form_group select">
                         <label for="shoe_size">Shoe Size (US Sizes) <span>*</span></label>
                         <div class="select">
@@ -296,6 +301,7 @@
                 height: 0,
                 completeProfileStep: 1,
                 completeProfile: {
+                    birth_date: '',
                     gender: '',
                     home_address_line_1: '',
                     home_address_line_2: '',
@@ -317,6 +323,7 @@
                 histories: [],
                 error: false,
                 hasReadTerms: false,
+                user: [],
                 pa_countries: [],
                 pa_states: [],
                 ba_countries: [],
@@ -344,6 +351,10 @@
             }
         },
         methods: {
+            inputDate (event) {
+                const me = this
+                me.completeProfile.birth_date = me.parseInputToDate(event.target.value)
+            },
             getSizes () {
                 const me = this
                 me.sizes = []
@@ -609,6 +620,8 @@
                 }
             }).then(res => {
                 if (res.data) {
+                    me.user = res.data.user
+                    me.completeProfile.birth_date = me.user.customer_details.co_birthdate
                     me.completeProfile.gender = res.data.user.customer_details.co_sex
                     me.getSizes()
 
