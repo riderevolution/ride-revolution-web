@@ -1,14 +1,9 @@
 <template>
 	<div>
 		<form method="post" id="recurly-form" style="padding: 40px 0" @submit.prevent="submit($event)" v-if="user != null">
-			<label for="plan">Plan</label>
-			<select id="plan" data-recurly="plan">
-        		<option value="testplan" selected>Test Plan</option>
-			</select>
-
 			<!-- hidden fields -->
 			<input type="hidden" data-recurly="plan_quantity" id="plan-quantity" value="1">
-			<input type="text" data-recurly="token" name="recurly-token">
+			<input type="hidden" data-recurly="token" name="recurly-token">
 			<!-- end hidden fields -->
 
 			<label for="first_name">First Name</label>
@@ -59,6 +54,7 @@
 		data () {
 			return {
 				user: null,
+				classPackage: {}
 			}
 		},
 		methods: {
@@ -70,7 +66,7 @@
 						let form = {
 							token: token,
 							user_id: this.user.id,
-							plan_code: this.$route.params.slug
+							plan_code: this.classPackage.plan_code
 						}
 						this.$axios.post(`api/recurly/subscribe`, form).then(res => {
 							console.log(res.data)
@@ -118,10 +114,18 @@
 						console.log(err)
 					})
 				}
+			},
+			fetchClassPackage () {
+				this.$axios.get(`api/packages/web/class-packages/${this.$route.params.slug}`).then(res => {
+					this.classPackage = res.data.classPackage
+	            }).catch(err => {
+	            	console.log(err)
+	            })
 			}
 		},
 		mounted () {
 			this.checkToken()
+			this.fetchClassPackage()
 		}
 	}
 </script>
