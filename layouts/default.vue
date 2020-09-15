@@ -97,7 +97,8 @@
         data () {
             return {
                 badges: [],
-                isMobile: false
+                isMobile: false,
+                asd: 'asd1234'
             }
         },
         watch:{
@@ -127,6 +128,7 @@
                 }
                 me.checkElements()
                 me.checkBadges()
+                me.checkVersion()
             }
         },
         methods: {
@@ -226,6 +228,7 @@
                     me.$store.state.token = token
                 }
                 me.checkElements()
+                me.checkVersion()
                 document.addEventListener('contextmenu', event => event.preventDefault())
             },
             checkElements () {
@@ -251,12 +254,26 @@
                         document.getElementById('main_container').style.paddingTop = 0
                     }
                 }, 500)
+            },
+            checkVersion () {
+                const me = this
+                let version = me.$cookies.get('version')
+
+                if (version != null && version != undefined) {
+                    if (version != me.asd) {
+                        me.$cookies.set('version', me.asd)
+                        location.reload(true)
+                    }
+                } else {
+                    me.$cookies.set('version', me.asd)
+                    location.reload(true)
+                }
             }
         },
         mounted () {
             const me = this
             let token = me.$cookies.get('70hokc3hhhn5')
-            if (token != null & token != undefined) {
+            if (token != null && token != undefined) {
                 me.$store.state.token = token
                 me.validateToken()
             }
@@ -270,6 +287,9 @@
                 lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
             })();
+
+            me.checkVersion()
+
             me.$store.state.inApp = false
         },
         beforeMount () {
