@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="main_right">
-                            <div class="header" v-if="!isMobile">
+                            <div class="header">
                                 <div class="header_left">
                                     <nuxt-link to="/book-a-bike" class="back" v-if="!inApp && !manage">Back</nuxt-link>
                                     <nuxt-link :to="`/fish-in-the-glass/book-a-bike?token=${$route.query.token}`" class="back" v-else-if="inApp && !manage">Back</nuxt-link>

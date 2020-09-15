@@ -7,7 +7,7 @@
                 Are you sure you want to cancel this class?
             </div>
             <div class="confirmation_text" v-else>
-                Your booking has been cancelled. A email notification will also be sent to your guests.
+                Your booking has been cancelled. An email notification will also be sent to your guests.
             </div>
             <div :class="`button_group ${(type != 1) ? 'alt' : ''}`">
                 <div class="flex default_btn_red" @click.once="toggleClose(false)" v-if="type == 1"><span>No</span></div>
