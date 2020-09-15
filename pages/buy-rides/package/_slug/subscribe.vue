@@ -70,9 +70,9 @@
 						let form = {
 							token: token,
 							user_id: this.user.id,
-							plan_code: this.$route.query.plan_code
+							plan_code: this.$route.params.slug
 						}
-						this.$axios.post(`api/testing`, form).then(res => {
+						this.$axios.post(`api/recurly/subscribe`, form).then(res => {
 							console.log(res.data)
 						}).catch(err => {
 							console.log(err)

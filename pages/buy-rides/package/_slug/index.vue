@@ -149,10 +149,10 @@
 </template>
 
 <script>
-    import ProTip from '../../../components/ProTip'
-    import Breadcrumb from '../../../components/Breadcrumb'
-    import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
-    import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
+    import ProTip from '../../../../components/ProTip'
+    import Breadcrumb from '../../../../components/Breadcrumb'
+    import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
+    import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
