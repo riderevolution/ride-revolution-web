@@ -98,7 +98,7 @@
             return {
                 badges: [],
                 isMobile: false,
-                asd: 'asd123'
+                asd: 'asd1234'
             }
         },
         watch:{
