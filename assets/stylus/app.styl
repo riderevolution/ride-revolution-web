@@ -3431,9 +3431,10 @@ svg
                                 text-align: right
                                 .default_btn_blue
                                     width: 200px
-                                    margin-bottom: 20px
                                     padding: 8px 45px
                                     border-radius: 4px
+                                #paypal-button-container
+                                    margin-top: 20px
                         .action_mobile
                             display: flex
                             flex: 0 0 100%
@@ -3445,8 +3446,9 @@ svg
                             .right
                                 text-align: right
                                 .default_btn_blue
-                                    margin-bottom: 20px
                                     width: 200px
+                                #paypal-button-container
+                                    margin-top: 20px
                         .paypal_disclaimer
                             margin-top: 10px
                             text-align: right
@@ -7114,6 +7116,10 @@ svg
                             display: flex
                             flex-flow: row wrap
                             padding: 20px 0
+                            .action
+                                flex: 0 0 100%
+                                margin: 15px 30px
+                                text-align: center
                             .class_wrapper
                                 position: relative
                                 background-color: $white
@@ -7128,11 +7134,18 @@ svg
                                 transition: .3s ease-in-out
                                 .overlay
                                     position: absolute
-                                    top: calc(0% + 5px)
-                                    right: calc(0% + 10px)
+                                    top: calc(0% + 15px)
+                                    right: calc(0% + 20px)
                                     .menu_dot
                                         cursor: pointer
-                                        font-size: 12px
+                                        border-left: 10px solid transparent
+                                        border-right: 10px solid transparent
+                                        border-top: 10px solid $green
+                                        transform: rotate(0deg)
+                                        transition: .3s ease-in-out
+                                        &.toggled
+                                            transform: rotate(180deg)
+                                            transition: .3s ease-in-out
                                     .menu_dot_list
                                         list-style: none
                                         padding: 0

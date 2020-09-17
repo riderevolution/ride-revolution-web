@@ -141,7 +141,7 @@
                             </div>
                         </div>
                         <div class="no_schedule" v-else>
-                            <p>NO RESULTS, PLEASE TRY OTHER DATES</p>
+                            <p>SCHEDULES ARE POSTED ON MONDAYS OF EVERY WEEK.</p>
                         </div>
                     </div>
                 </div>

@@ -182,6 +182,7 @@
                                     me.$refs.profileTab.classes = []
                                     res.data.customer.upcomingClasses.forEach((data, index) => {
                                         data.toggled = false
+                                        data.checked = false
                                         me.$refs.profileTab.classes.push(data)
                                     })
                                 }, 10)
