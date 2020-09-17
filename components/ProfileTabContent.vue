@@ -146,7 +146,7 @@
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_classes" v-if="classes.length > 0">
-                            <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
+                            <div class="class_wrapper" v-for="(data, key) in populateClasses" :key="key">
                                 <div class="overlay" v-if="!data.history">
                                     <div :class="`menu_dot${(data.toggled) ? ' toggled' : ''}`" @click="toggleMenuDot(key)"></div>
                                     <transition name="slideAlt">
@@ -183,6 +183,9 @@
                                         <h3 class="name">{{ getInstructorsInSchedule(data.scheduled_date) }}</h3>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="action">
+                                <div v-if="!showLoadedClasses" class="default_btn load" @click="loadMoreClasses()">Load More</div>
                             </div>
                         </div>
                         <div class="no_results" v-else>
@@ -445,6 +448,8 @@
         },
         data () {
             return {
+                toShow: 12,
+                showLoadedClasses: false,
                 promptMessage: '',
                 rideRevJourney: {
                     badges: [],
@@ -675,6 +680,24 @@
             }
         },
         computed: {
+            populateClasses () {
+                const me = this
+                let result = []
+                let count = 0
+                for (let i = 0; i < me.toShow; i++) {
+                    if (me.classes[i]) {
+                        count++
+                        me.classes[i].checked = true
+                        result.push(me.classes[i])
+                    }
+                }
+                if (count == me.classes.length) {
+                    me.showLoadedClasses = true
+                } else {
+                    me.showLoadedClasses = false
+                }
+                return result
+            },
             badgeLeft () {
                 const me = this
                 let badge = []
@@ -709,6 +732,15 @@
             }
         },
         methods: {
+            loadMoreClasses () {
+                const me = this
+                if (!me.showLoadedClasses) {
+                    me.toShow += 12
+                    me.$scrollTo('.load', {
+                        offset: -250
+                    })
+                }
+            },
             getInstructorsImageInSchedule (data) {
                 const me = this
                 let result = ''
@@ -957,18 +989,21 @@
                                         case 'upcoming-classes':
                                             res.data.customer.upcomingClasses.forEach((data, index) => {
                                                 data.toggled = false
+                                                data.checked = false
                                                 me.classes.push(data)
                                             })
                                             break
                                         case 'waitlisted':
                                             res.data.customer.waitlisted.forEach((data, index) => {
                                                 data.toggled = false
+                                                data.checked = false
                                                 me.classes.push(data)
                                             })
                                             break
                                         case 'class-history':
                                             res.data.customer.classHistory.forEach((data, index) => {
                                                 data.toggled = false
+                                                data.checked = false
                                                 data.history = true
                                                 me.classes.push(data)
                                             })
@@ -1084,13 +1119,17 @@
                     me.showInfoGiftCards = false
                 }
                 me.classes.forEach((data, index) => {
-                    if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
-                        data.toggled = false
+                    if (target && (target.parentNode && target.parentNode.previousElementSibling)) {
+                        if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
+                            data.toggled = false
+                        }
                     }
                 })
                 me.packages.forEach((data, index) => {
-                    if (target !== elements_second[index] && target.parentNode.previousElementSibling !== elements_second[index]) {
-                        data.toggled = false
+                    if (target && (target.parentNode && target.parentNode.previousElementSibling)) {
+                        if (target !== elements_second[index] && target.parentNode.previousElementSibling !== elements_second[index]) {
+                            data.toggled = false
+                        }
                     }
                 })
             }
