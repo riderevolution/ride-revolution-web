@@ -308,7 +308,6 @@
                             Authorization: `Bearer ${token}`
                         }
                     }).then(res => {
-                        console.log('ok')
                     }).catch(err => {
                         setTimeout( () => {
                             document.body.classList.add('no_scroll')

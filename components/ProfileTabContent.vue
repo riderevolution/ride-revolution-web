@@ -148,7 +148,7 @@
                         <div class="profile_classes" v-if="classes.length > 0">
                             <div class="class_wrapper" v-for="(data, key) in classes" :key="key">
                                 <div class="overlay" v-if="!data.history">
-                                    <div class="menu_dot" @click="toggleMenuDot(key)">&#9679; &#9679; &#9679;</div>
+                                    <div :class="`menu_dot${(data.toggled) ? ' toggled' : ''}`" @click="toggleMenuDot(key)"></div>
                                     <transition name="slideAlt">
                                         <ul class="menu_dot_list" v-if="data.toggled">
                                             <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)" v-if="!data.waitlistDateTime">{{ (data.status != 'reserved-guest') ? 'Manage' : 'View' }} Class</li>

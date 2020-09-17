@@ -474,6 +474,15 @@
                     me.user = res.data.user
                     me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                 }
+            }).catch((err) => {
+                setTimeout( () => {
+                    document.body.classList.add('no_scroll')
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }, 500)
+                setTimeout( () => {
+                    me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
+                }, 1000)
             })
             setTimeout( () => {
                 me.loader(false)

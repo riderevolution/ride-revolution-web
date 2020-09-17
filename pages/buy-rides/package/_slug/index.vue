@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                         <p>Note: Paypal account not needed</p>
@@ -301,7 +301,6 @@
         mounted () {
             const me = this
             me.loader(true)
-            me.$store.state.proTipStatus = true
             let token = me.$cookies.get('70hokc3hhhn5')
             if ((token == null || token == undefined) && !me.$store.state.isAuth) {
                 me.$store.state.loginSignUpStatus = true
@@ -322,7 +321,7 @@
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
-                            console.log('ok')
+                            me.$store.state.proTipStatus = true
                         }).catch(err => {
                             setTimeout( () => {
                                 document.body.classList.add('no_scroll')
