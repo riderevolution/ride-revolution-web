@@ -326,7 +326,7 @@
         watch: {
             step (newStep, oldStep) {
                 if (newStep == 2) {
-                    this.initiatePaymaya()
+                    // this.initiatePaymaya()
                 }
             }
         },
