@@ -120,6 +120,32 @@ svg
 .hidden
     display: none
 
+.form_group
+    .recurly-element,
+    .recurly-hosted-field
+        width: 100%
+        border: none
+        padding: 0
+        background-color: transparent
+        margin-top: 0
+        height: 1.5em
+    .recurly-element-number,
+    .recurly-element-month,
+    .recurly-element-year,
+    .recurly-element-cvv
+        width: 100%
+        background-color: #f8f8f8
+        border: 1px solid #ccc
+        padding: 10px 15px
+        outline: none
+        resize: vertical
+        transition: 0.3s ease-in-out
+        margin-top: 0
+        &:hover,
+        &:focus
+            border: 1px solid $black
+            transition: .3s ease-in-out
+
 .skeleton_el
     position: relative
     &::after
@@ -9080,6 +9106,9 @@ svg
     align-items: center
     justify-content: space-between
     margin-bottom: 30px
+    &.three
+        .form_group
+            flex: 0 0 31.33%
     &.alt
         justify-content: center
     &.alt_2
