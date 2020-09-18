@@ -1,8 +1,11 @@
 <template>
 	<div class="buy_rides inner" v-if="loaded">
 		<breadcrumb :overlay="false" />
-        <div class="comment" v-if="step != 0">
+        <div class="comment alt" v-if="step != 0">
             <section id="content">
+				<div class="bck">
+					<nuxt-link :to="`/buy-rides/package/${classPackage.slug}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
+				</div>
                 <form id="default_form" @submit.prevent="submit($event)" v-if="user != null" enctype="multipart/form-data">
 					<!-- hidden fields -->
 					<input type="hidden" data-recurly="plan_quantity" id="plan-quantity" value="1">
@@ -109,7 +112,7 @@
                         </div>
 						<div class="form_flex captcha">
                             <vue-recaptcha class="captcha" sitekey="6Ld4_doUAAAAACiRAQf1JQlro_fxvTSZxgxi5jxk"></vue-recaptcha>
-                            <div class="form_button">
+                            <div class="form_button nmt">
                                 <button type="submit" class="default_btn">Submit</button>
                             </div>
                         </div>

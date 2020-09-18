@@ -729,6 +729,9 @@ svg
                 &.right
                     border-right: 3px solid $green
 
+.bck
+    margin-bottom: 30px
+
 .default_btn_blk
     display: inline-block
     text-align: center
@@ -743,13 +746,22 @@ svg
     border: 1px solid $black
     cursor: pointer
     transition: .3s ease-in-out
+    &.alt
+        padding: 10px 20px
     &.mb
         margin-bottom: 15px
+    span
+        padding-left: 10px
+        vertical-align: middle
+    img
+        filter: invert(0)
     &:hover
         color: $white
         background-color: $black
         box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.75)
         transition: .3s ease-in-out
+        img
+            filter: invert(1)
 
 .default_btn_red
     display: inline-block
@@ -8789,6 +8801,11 @@ svg
                             border-bottom: 1px solid #E8E8E8
                             cursor: pointer
                             transition: .3s ease-in-out
+                            &.cancel
+                                &:hover
+                                    color: $red
+                                    background-color: $red_alt
+                                    transition: .3s ease-in-out
                             &:last-child
                                 border-bottom: 1px solid transparent
                             &:hover
@@ -9226,6 +9243,11 @@ svg
 .form_button
     text-align: right
     margin-top: 30px
+    &.bck
+        text-align: left
+        margin-bottom: 30px
+    &.nmt
+        margin-top: 0
     &.alt
         .default_btn
             padding: 12px 45px
