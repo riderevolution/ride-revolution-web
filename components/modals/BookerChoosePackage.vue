@@ -17,7 +17,7 @@
                                 </svg>
                                 <div class="info">
                                     <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
-                                    <p>Expires on {{ formatDate((data.class_package.computed_expiration_date != null) ? data.class_package.computed_expiration_date : data.class_package.updated_at ) }}</p>
+                                    <p>Expires on {{ formatDate((data.computed_expiration_date != null) ? data.computed_expiration_date : data.class_package.updated_at ) }}</p>
                                     <p class="full" v-if="!data.valid">{{ (!$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.' }}</p>
                                 </div>
                             </div>
@@ -266,7 +266,7 @@
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
                                 res.data.customer.user_package_counts.forEach((data, index) => {
-                                    if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'seconds')) > 0 || data.class_package.computed_expiration_date == null) {
+                                    if (parseInt(me.$moment(data.computed_expiration_date).diff(me.$moment(), 'seconds')) > 0 || data.computed_expiration_date == null) {
                                         if (parseInt(data.count) < me.$parent.schedule.schedule.class_credits) {
                                             countCtr++
                                         } else {
