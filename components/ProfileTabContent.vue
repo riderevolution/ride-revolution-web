@@ -823,10 +823,17 @@
                 const me = this
                 me.packageCategory = category
                 me.shareTransferPackage = data
-                if (category == 'unshare') {
-                    me.$store.state.unSharePackageStatus = true
-                } else {
-                    me.$store.state.shareTransferPackageStatus = true
+                switch (category) {
+                    case 'share':
+                    case 'transfer':
+                        me.$store.state.shareTransferPackageStatus = true
+                        break
+                    case 'unshare':
+                        me.$store.state.unSharePackageStatus = true
+                        break
+                    case 'subscribe':
+
+                        break
                 }
                 document.body.classList.add('no_scroll')
             },
