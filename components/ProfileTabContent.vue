@@ -256,13 +256,14 @@
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
-                                            <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package">
+                                            <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package || data.class_package.recurring ">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
                                                         <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
                                                         <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
                                                         <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && data.sharedto_user_id == null" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
+                                                        <li v-if="data.class_package.recurring" class="table_menu_item" @click="togglePackage(data, 'subscribe')">Cancel Subscription</li>
                                                     </ul>
                                                 </transition>
                                             </div>
