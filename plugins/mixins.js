@@ -129,7 +129,7 @@ Vue.mixin({
                 }
             })
         },
-        payment (page, paypal_details, type, paymaya = 0) {
+        payment (page, paypal_details, type, paymaya_token_id = 0) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
             me.validateToken()
@@ -161,12 +161,9 @@ Vue.mixin({
             }
             formData.append('total', page.form.total)
             formData.append('payment_method', page.paymentType)
-            formData.append('paymaya', paymaya)
+            formData.append('paymaya_token_id', paymaya_token_id)
             if (paypal_details != null) {
                 formData.append('paypal_details', JSON.stringify(paypal_details))
-            }
-            if (paymaya == 1) {
-                formData.append('paymaya_details', JSON.stringify(page.summary))
             }
             if (me.$store.state.inApp) {
                 formData.append('in_app', 1)
@@ -179,13 +176,9 @@ Vue.mixin({
             }).then(res => {
                 if (res.data) {
                     setTimeout( () => {
+                        // console.log(res.data)
                         page.step = 0
-                        if (paymaya == 1) {
-                            let redirectUrl = res.data.redirectUrl
-                                window.location.href = redirectUrl
-                        } else {
-                            me.$store.state.buyRidesSuccessStatus = true
-                        }
+                        me.$store.state.buyRidesSuccessStatus = true
                     }, 500)
                 }
             }).catch(err => {
