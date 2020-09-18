@@ -176,9 +176,9 @@ Vue.mixin({
             }).then(res => {
                 if (res.data) {
                     setTimeout( () => {
-                        console.log(res.data)
-                        // page.step = 0
-                        // me.$store.state.buyRidesSuccessStatus = true
+                        // console.log(res.data)
+                        page.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
                     }, 500)
                 }
             }).catch(err => {
