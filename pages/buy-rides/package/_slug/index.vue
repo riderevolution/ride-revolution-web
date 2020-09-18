@@ -135,6 +135,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="paymaya-checkout"></div>
                     </div>
                 </transition>
             </div>
@@ -296,6 +297,25 @@
                         }
                     }).render('#paypal-button-container')
                 }, 500)
+            },
+            initiatePaymaya () {
+                setTimeout(() => {
+                    let targetHTMLElement = document.querySelector('.paymaya-checkout')
+
+                    PayMayaSDK.init('pk-3yJqfuy3fKZLcLSG9ksmpH4rYsPrHVk9fURYWLVGiLq', true)
+                    PayMayaSDK.createCreditCardForm(targetHTMLElement, {
+                        buttonText: 'Submit'
+                    }).addTransactionHandler((paymentTokenId) => {
+                        this.payment(this, null, 'class-package', paymentTokenId)
+                    })
+                }, 1000)
+            }
+        },
+        watch: {
+            step (newStep, oldStep) {
+                if (newStep == 2) {
+                    this.initiatePaymaya()
+                }
             }
         },
         mounted () {

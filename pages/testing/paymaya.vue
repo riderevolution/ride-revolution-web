@@ -18,6 +18,8 @@
 				PayMayaSDK.init('pk-3yJqfuy3fKZLcLSG9ksmpH4rYsPrHVk9fURYWLVGiLq', true)
 				PayMayaSDK.createCreditCardForm(targetHTMLElement, {
 					buttonText: 'Submit'
+				}).addTransactionHandler((paymentTokenId) => {
+					console.log(paymentTokenId)
 				})
 			}
 		},
