@@ -137,6 +137,9 @@
                 </div>
             </section>
             <transition name="fade">
+                <paymaya-form v-if="paymayaStatus" :payment_type="'class-package'" />
+            </transition>
+            <transition name="fade">
                 <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
             </transition>
             <transition name="fade">
@@ -147,11 +150,13 @@
 </template>
 
 <script>
+    import PaymayaForm from '../../../../components/modals/PaymayaForm'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         layout: 'fish',
         components: {
+            PaymayaForm,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -169,6 +174,7 @@
                 storeCredits: 0,
                 step: 1,
                 paypal: false,
+                paymayaStatus: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
@@ -185,7 +191,7 @@
             paymaya () {
                 const me = this
                 me.paymentType = 'paymaya'
-                me.payment(me, null, 'class-package', 1)
+                me.paymayaStatus = true
             },
             paymentSuccess () {
                 const me = this

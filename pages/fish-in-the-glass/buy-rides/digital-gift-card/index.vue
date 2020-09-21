@@ -214,6 +214,9 @@
                 </div>
             </section>
             <transition name="fade">
+                <paymaya-form v-if="paymayaStatus" :payment_type="'digital-gift-card'" />
+            </transition>
+            <transition name="fade">
                 <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
             </transition>
             <transition name="fade">
@@ -224,11 +227,13 @@
 </template>
 
 <script>
+    import PaymayaForm from '../../../../components/modals/PaymayaForm'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         layout: 'fish',
         components: {
+            PaymayaForm,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -250,6 +255,7 @@
                 storeCredits: 55,
                 step: 1,
                 paypal: false,
+                paymayaStatus: false,
                 message: '',
                 promoApplied: false,
                 loaded: false,
@@ -279,7 +285,7 @@
             paymaya () {
                 const me = this
                 me.paymentType = 'paymaya'
-                me.payment(me, null, 'digital-gift-card', 1)
+                me.paymayaStatus = true
             },
             paymentSuccess () {
                 const me = this
