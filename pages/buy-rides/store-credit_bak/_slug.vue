@@ -118,6 +118,9 @@
             </div>
         </section>
         <transition name="fade">
+            <paymaya-form v-if="paymayaStatus" :payment_type="'store-credit'" />
+        </transition>
+        <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
         <transition name="fade">
@@ -129,12 +132,14 @@
 <script>
     import ProTip from '../../../components/ProTip'
     import Breadcrumb from '../../../components/Breadcrumb'
+    import PaymayaForm from '../../../components/modals/PaymayaForm'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
             Breadcrumb,
+            PaymayaForm,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -153,6 +158,7 @@
                 storeCredits: 50,
                 step: 1,
                 paypal: false,
+                paymayaStatus: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
@@ -167,7 +173,7 @@
             paymaya () {
                 const me = this
                 me.paymentType = 'paymaya'
-                me.payment(me, null, 'store-credit', 1)
+                me.paymayaStatus = true
             },
             computeTotal (total) {
                 const me = this
