@@ -1,8 +1,11 @@
 <template>
-	<transition name="fade">
-        <div class="comment" v-if="loaded">
-            <breadcrumb :overlay="false" />
+	<div class="buy_rides inner" v-if="loaded">
+		<breadcrumb :overlay="false" />
+        <div class="comment alt" v-if="step != 0">
             <section id="content">
+				<div class="bck">
+					<nuxt-link :to="`/buy-rides/package/${classPackage.slug}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
+				</div>
                 <form id="default_form" @submit.prevent="submit($event)" v-if="user != null" enctype="multipart/form-data">
 					<!-- hidden fields -->
 					<input type="hidden" data-recurly="plan_quantity" id="plan-quantity" value="1">
@@ -107,46 +110,123 @@
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('postal_code')">{{ properFormat(errors.first('postal_code')) }}</span></transition>
                             </div>
                         </div>
-
-						<div class="form_button">
-                            <button type="submit" class="default_btn">Submit</button>
+						<div class="form_flex captcha">
+                            <vue-recaptcha class="captcha" sitekey="6Ld4_doUAAAAACiRAQf1JQlro_fxvTSZxgxi5jxk"></vue-recaptcha>
+                            <div class="form_button nmt">
+                                <button type="submit" class="default_btn">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </form>
             </section>
         </div>
-    </transition>
+		<transition name="fade">
+            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :summary="summary" />
+        </transition>
+	</div>
 </template>
 
 <script>
 	import Breadcrumb from '../../../../components/Breadcrumb'
+	import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
+	import VueRecaptcha from 'vue-recaptcha'
 	export default {
 		components: {
-			Breadcrumb
+			Breadcrumb,
+			BuyRidesSuccess,
+			VueRecaptcha
 		},
 		data () {
 			return {
+				step: 1,
+				summary: {
+                    res: '',
+                    total: 0,
+                    discount: 0,
+                    quantity: 0,
+                    type: ''
+                },
 				loaded: false,
 				user: null,
-				classPackage: {}
+				classPackage: {
+					name: 'Class Package'
+				}
 			}
 		},
 		methods: {
 			submit (e) {
+				const me = this
+				me.loader(true)
+				me.$store.state.errorList = []
 				recurly.token(e.target, (err, token) => {
 					if (err) {
-						console.log(err)
-					} else {
-						let form = {
-							token: token,
-							user_id: this.user.id,
-							plan_code: this.classPackage.plan_code
-						}
-						this.$axios.post(`api/recurly/subscribe`, form).then(res => {
-							console.log(res.data)
-						}).catch(err => {
-							console.log(err)
+						err.details.forEach((item, ket) => {
+							switch (item.field) {
+								case 'number':
+									item.field = 'Card Number'
+									break
+								case 'month':
+									item.field = 'Month'
+									break
+								case 'year':
+									item.field = 'Year'
+									break
+								case 'cvv':
+									item.field = 'CVV'
+									break
+							}
+							me.$store.state.errorList.push(`${item.field} ${item.messages[0]}`)
 						})
+						me.$store.state.errorPromptStatus = true
+						me.loader(false)
+					} else {
+						me.$validator.validateAll().then(valid => {
+		                    if (valid && grecaptcha.getResponse().length > 0) {
+		                        let captcha = grecaptcha.getResponse()
+		                        me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
+		                            let formData = new FormData(document.getElementById('default_form'))
+		                            if (verify) {
+										let form = {
+											token: token,
+											user_id: me.user.id,
+											plan_code: me.classPackage.plan_code
+										}
+										me.$axios.post(`api/recurly/subscribe`, form).then(res => {
+											setTimeout( () => {
+												me.summary.res = me.classPackage
+    							                me.summary.total = res.data.payment.total
+    							                me.summary.discount = 0
+												me.summary.quantity = 1
+    							                me.summary.type = 'paynow'
+												me.step = 0
+												me.$store.state.buyRidesSuccessStatus = true
+												window.scrollTo({ top: 0, behavior: 'smooth' })
+										    }, 500)
+										}).catch(err => {
+											me.$store.state.errorList = err.response.data.errors
+				                            me.$store.state.errorPromptStatus = true
+										}).then(() => {
+				                            setTimeout( () => {
+				                                me.loader(false)
+				                            }, 500)
+				                        })
+		                            }
+		                        }).catch(err => {
+									me.$store.state.errorList = err.response.data.errors
+ 	                            	me.$store.state.errorPromptStatus = true
+		                        })
+		                    } else {
+								if (grecaptcha.getResponse().length <= 0) {
+									me.$store.state.errorList = ['Please verify that you are not a robot']
+									me.$store.state.errorPromptStatus = true
+								} else {
+									me.$scrollTo('.validation_errors', {
+			                            offset: -250
+			                        })
+								}
+								me.loader(false)
+		                    }
+		                })
 					}
 				})
 			},
@@ -188,17 +268,18 @@
 				})
 			},
 			checkToken () {
-				let token = this.$cookies.get('70hokc3hhhn5')
+				const me = this
+				let token = me.$cookies.get('70hokc3hhhn5')
 				if (token != null || token != undefined) {
-					this.$axios.get('api/check-token', {
+					me.$axios.get('api/check-token', {
 					    headers: {
 					        Authorization: `Bearer ${token}`
 					    }
 					}).then(res => {
-						this.user = res.data.user
-						this.loaded = true
+						me.user = res.data.user
+						me.loaded = true
 						setTimeout(() => {
-							this.initializeRecurly()
+							me.initializeRecurly()
 						}, 500)
 					}).catch(err => {
 						console.log(err)
@@ -206,22 +287,22 @@
 				}
 			},
 			fetchClassPackage () {
-				this.$axios.get(`api/packages/web/class-packages/${this.$route.params.slug}`).then(res => {
-					this.classPackage = res.data.classPackage
-	            }).catch(err => {
-	            	console.log(err)
+				const me = this
+				me.$axios.get(`api/packages/web/class-packages/${me.$route.params.slug}`).then(res => {
+					me.classPackage = res.data.classPackage
 	            })
 			}
 		},
 		mounted () {
-			this.checkToken()
-			this.fetchClassPackage()
+			const me = this
+			me.checkToken()
+			me.fetchClassPackage()
 		},
 		head () {
             const me = this
             let host = process.env.baseUrl
             return {
-                title: `Subscribe | Ride Revolution`,
+                title: `Subscribe to ${me.classPackage.name} | Ride Revolution`,
                 link: [
                     {
                         rel: 'canonical',

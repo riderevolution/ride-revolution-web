@@ -46,18 +46,30 @@
                                         <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile && !res.recurring">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                     <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
-                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
-                                <div class="action_mobile" v-else>
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile && res.recurring">
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && res.recurring">Back</nuxt-link>
+                                    <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
+                                </div>
+                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && !res.recurring">Back</nuxt-link>
+                                <div class="action_mobile" v-if="$store.state.isMobile && !res.recurring">
                                     <div class="m_left">
                                         <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                     </div>
                                     <div class="m_right">
                                         <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                         <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
+                                </div>
+                                <div class="action_mobile" v-if="$store.state.isMobile && res.recurring">
+                                    <div class="m_left">
+                                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    </div>
+                                    <div class="m_right">
+                                        <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +147,8 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="paymaya-checkout"></div>
+                        <iframe src="https://payments-web-sandbox.paymaya.com/authenticate?id=9d3d5465-d515-41b7-bdc4-1628ae511b8e"></iframe>
                     </div>
                 </transition>
             </div>
@@ -296,6 +310,25 @@
                         }
                     }).render('#paypal-button-container')
                 }, 500)
+            },
+            initiatePaymaya () {
+                setTimeout(() => {
+                    let targetHTMLElement = document.querySelector('.paymaya-checkout')
+
+                    PayMayaSDK.init('pk-3yJqfuy3fKZLcLSG9ksmpH4rYsPrHVk9fURYWLVGiLq', true)
+                    PayMayaSDK.createCreditCardForm(targetHTMLElement, {
+                        buttonText: 'Submit'
+                    }).addTransactionHandler((paymentTokenId) => {
+                        this.payment(this, null, 'class-package', paymentTokenId)
+                    })
+                }, 1000)
+            }
+        },
+        watch: {
+            step (newStep, oldStep) {
+                if (newStep == 2) {
+                    this.initiatePaymaya()
+                }
             }
         },
         mounted () {
