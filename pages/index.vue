@@ -25,7 +25,9 @@
                     <img src="/icons/scroll-down.svg" @click="scrollDown()" />
                 </div>
             </section>
+            <!-- Promo Section -->
             <promo />
+            <!-- Packages -->
             <section id="packages">
                 <div class="header">
                     <h2 :class="`image_bg ${($store.state.isMobile) ? 'mobile' : ''}`">packages</h2>
