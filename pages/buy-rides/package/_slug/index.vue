@@ -148,6 +148,7 @@
                             </div>
                         </div>
                         <div class="paymaya-checkout"></div>
+                        <iframe src="https://payments-web-sandbox.paymaya.com/authenticate?id=9d3d5465-d515-41b7-bdc4-1628ae511b8e"></iframe>
                     </div>
                 </transition>
             </div>
@@ -326,7 +327,7 @@
         watch: {
             step (newStep, oldStep) {
                 if (newStep == 2) {
-                    // this.initiatePaymaya()
+                    this.initiatePaymaya()
                 }
             }
         },

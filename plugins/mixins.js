@@ -176,9 +176,12 @@ Vue.mixin({
             }).then(res => {
                 if (res.data) {
                     setTimeout( () => {
-                        // console.log(res.data)
-                        page.step = 0
-                        me.$store.state.buyRidesSuccessStatus = true
+                        if (paymaya_token_id != 0) {
+                            location.href = res.data.verificationUrl
+                        } else {
+                            page.step = 0
+                            me.$store.state.buyRidesSuccessStatus = true
+                        }
                     }, 500)
                 }
             }).catch(err => {
