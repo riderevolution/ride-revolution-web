@@ -36,7 +36,7 @@
                     </div>
                     <div class="form_flex">
                         <div class="form_check">
-                            <input type="checkbox" id="remember_me" name="remember_me" class="input_check" v-model="form.remember">
+                            <input type="checkbox" id="remember_me" name="remember_me" class="input_check" v-model="signUpForm.remember">
                             <label for="remember_me">Remember Me</label>
                         </div>
                         <div class="input_link" @click="toggleForgot()">Forgot Password?</div>
@@ -593,7 +593,7 @@
                                     me.$store.state.oldUserUpdatePrompt = true
                                 } else {
                                     let token = res.data.token
-                                    if (me.form.remember) {
+                                    if (me.signUpForm.remember) {
                                         me.$cookies.set('70hokc3hhhn5', token, '7d')
                                     } else {
                                         me.$cookies.set('70hokc3hhhn5', token, '1d')
