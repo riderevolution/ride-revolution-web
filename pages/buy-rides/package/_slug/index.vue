@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                         <p>Note: Paypal account not needed</p>
@@ -147,12 +147,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="paymaya-checkout"></div>
-                        <iframe src="https://payments-web-sandbox.paymaya.com/authenticate?id=9d3d5465-d515-41b7-bdc4-1628ae511b8e"></iframe>
                     </div>
                 </transition>
             </div>
         </section>
+        <transition name="fade">
+            <paymaya-form v-if="paymayaStatus" :payment_type="'class-package'" />
+        </transition>
         <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
@@ -165,12 +166,14 @@
 <script>
     import ProTip from '../../../../components/ProTip'
     import Breadcrumb from '../../../../components/Breadcrumb'
+    import PaymayaForm from '../../../../components/modals/PaymayaForm'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
             Breadcrumb,
+            PaymayaForm,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -187,6 +190,7 @@
                 paymentType: '',
                 step: 1,
                 paypal: false,
+                paymayaStatus: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
@@ -202,7 +206,7 @@
             paymaya () {
                 const me = this
                 me.paymentType = 'paymaya'
-                me.payment(me, null, 'class-package', 1)
+                me.paymayaStatus = true
             },
             paymentSuccess () {
                 const me = this
@@ -310,25 +314,6 @@
                         }
                     }).render('#paypal-button-container')
                 }, 500)
-            },
-            initiatePaymaya () {
-                setTimeout(() => {
-                    let targetHTMLElement = document.querySelector('.paymaya-checkout')
-
-                    PayMayaSDK.init('pk-3yJqfuy3fKZLcLSG9ksmpH4rYsPrHVk9fURYWLVGiLq', true)
-                    PayMayaSDK.createCreditCardForm(targetHTMLElement, {
-                        buttonText: 'Submit'
-                    }).addTransactionHandler((paymentTokenId) => {
-                        this.payment(this, null, 'class-package', paymentTokenId)
-                    })
-                }, 1000)
-            }
-        },
-        watch: {
-            step (newStep, oldStep) {
-                if (newStep == 2) {
-                    this.initiatePaymaya()
-                }
             }
         },
         mounted () {

@@ -36,70 +36,55 @@
                                     <p>Subtotal</p>
                                     <p>Php {{ computeTotal(res.amount * form.quantity) }}</p>
                                 </div> -->
+                                        <div class="total">
+                                            <p>You Pay</p>
+                                            <p>Php {{ computeTotal(res.amount * form.quantity) }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="breakdown_actions alt" v-if="!$store.state.isMobile">
+                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
+                                    <div class="action_mobile" v-else>
+                                        <div class="m_left">
+                                            <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                        </div>
+                                        <div class="m_right">
+                                            <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+                <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`">
+                    <transition name="slideX">
+                        <div v-if="step == 2" class="preview_payment">
+                            <h2 class="header_title">Let’s make sure we got this right.</h2>
+                            <div class="preview">
+                                <div class="item">
+                                    <h3>{{ res.name }}</h3>
+                                    <p>Php {{ totalCount(res.amount) }}</p>
+                                </div>
+                                <div class="item">
+                                    <h3>Quantity</h3>
+                                    <p>{{ form.quantity }}</p>
+                                </div>
                                 <div class="total">
                                     <p>You Pay</p>
-                                    <p>Php {{ computeTotal(res.amount * form.quantity) }}</p>
+                                    <p>Php {{ totalCount(form.total) }}</p>
                                 </div>
-                            </div>
-                            <div class="breakdown_actions alt" v-if="!$store.state.isMobile">
-                                <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
-                                <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
-                            </div>
-                            <div class="action_mobile" v-else>
-                                <div class="m_left">
-                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                <div class="preview_actions" v-if="!$store.state.isMobile">
+                                    <div class="left">
+                                        <div class="default_btn_blk" @click="stepBack()">Back</div>
+                                    </div>
+                                    <div class="right">
+                                        <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
+                                        <div id="paypal-button-container"></div>
+                                    </div>
                                 </div>
-                                <div class="m_right">
-                                    <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </transition>
-        </div>
-        <div id="step_2" :class="`step ${(step != 2) ? 'overlay' : ''}`">
-            <transition name="slideX">
-                <div v-if="step == 2" class="preview_payment">
-                    <h2 class="header_title">Let’s make sure we got this right.</h2>
-                    <div class="preview">
-                        <div class="item">
-                            <h3>{{ res.name }}</h3>
-                            <p>Php {{ totalCount(res.amount) }}</p>
-                        </div>
-                        <div class="item">
-                            <h3>Quantity</h3>
-                            <p>{{ form.quantity }}</p>
-                        </div>
-                        <div class="total">
-                            <p>You Pay</p>
-                            <p>Php {{ totalCount(form.total) }}</p>
-                        </div>
-                        <div class="preview_actions" v-if="!$store.state.isMobile">
-                            <div class="left">
-                                <div class="default_btn_blk" @click="stepBack()">Back</div>
-                            </div>
-                            <div class="right">
-                                <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
-                                <div id="paypal-button-container"></div>
-                            </div>
-                        </div>
-                        <div class="paypal_disclaimer" v-if="!$store.state.isMobile">
-                            <p>Note: Paypal account not needed</p>
-                            <div class="wrapper">
-                                <img src="/icons/paypal.svg" />
-                                <img src="/icons/visa.svg" />
-                                <img src="/icons/mastercard.svg" />
-                            </div>
-                        </div>
-                        <div class="action_mobile" v-if="$store.state.isMobile">
-                            <div class="left">
-                                <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
-                            </div>
-                            <div class="right">
-                                <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
-                                <div id="paypal-button-container"></div>
-                                <div class="paypal_disclaimer">
+                                <div class="paypal_disclaimer" v-if="!$store.state.isMobile">
                                     <p>Note: Paypal account not needed</p>
                                     <div class="wrapper">
                                         <img src="/icons/paypal.svg" />
@@ -107,29 +92,49 @@
                                         <img src="/icons/mastercard.svg" />
                                     </div>
                                 </div>
+                                <div class="action_mobile" v-if="$store.state.isMobile">
+                                    <div class="left">
+                                        <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
+                                    </div>
+                                    <div class="right">
+                                        <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
+                                        <div id="paypal-button-container"></div>
+                                        <div class="paypal_disclaimer">
+                                            <p>Note: Paypal account not needed</p>
+                                            <div class="wrapper">
+                                                <img src="/icons/paypal.svg" />
+                                                <img src="/icons/visa.svg" />
+                                                <img src="/icons/mastercard.svg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </transition>
                 </div>
+            </section>
+            <transition name="fade">
+                <paymaya-form v-if="paymayaStatus" :payment_type="'store-credit'" />
+            </transition>
+            <transition name="fade">
+                <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
+            </transition>
+            <transition name="fade">
+                <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :summary="summary" />
             </transition>
         </div>
-    </section>
-    <transition name="fade">
-        <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
-    </transition>
-    <transition name="fade">
-        <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :summary="summary" />
-    </transition>
-</div>
     </transition>
 </template>
 
 <script>
+    import PaymayaForm from '../../../../components/modals/PaymayaForm'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         layout: 'fish',
         components: {
+            PaymayaForm,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -149,6 +154,7 @@
                 step: 1,
                 loaded: false,
                 paypal: false,
+                paymayaStatus: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
@@ -163,7 +169,7 @@
             paymaya () {
                 const me = this
                 me.paymentType = 'paymaya'
-                me.payment(me, null, 'store-credit', 1)
+                me.paymayaStatus = true
             },
             computeTotal (total) {
                 const me = this
