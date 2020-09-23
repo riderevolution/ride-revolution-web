@@ -1,4 +1,5 @@
 import pkg from './package'
+import webpack from 'webpack'
 import axios from 'axios'
 
 export default {
@@ -155,11 +156,29 @@ export default {
   ** Build configuration
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
-    }
+      /*
+      ** You can extend webpack config here
+      */
+      extend(config, {isDev, isClient}) {
+        config.module.rules.forEach(rule => {
+          if (String(rule.test) === String(/\.(png|jpe?g|gif|svg|webp)$/)) {
+            // add a second loader when loading images
+            rule.use.push({
+              loader: 'image-webpack-loader',
+              options: {
+                svgo: {
+                  plugins: [
+                    // use these settings for internet explorer for proper scalable SVGs
+                    // https://css-tricks.com/scale-svg/
+                    { removeViewBox: false },
+                    { removeDimensions: true }
+                  ]
+                }
+              }
+            })
+          }
+        })
+      }
   },
   serverMiddleware: [
     (req, res, next) => {

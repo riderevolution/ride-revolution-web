@@ -4,7 +4,7 @@
         <div class="comment alt" v-if="step != 0">
             <section id="content">
 				<div class="bck">
-					<nuxt-link :to="`/buy-rides/package/${classPackage.slug}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
+					<nuxt-link :to="`/fish-in-the-glass/buy-rides/package/${classPackage.slug}?token=${$route.query.token}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
 				</div>
                 <form id="default_form" @submit.prevent="submit($event)" v-if="user != null" enctype="multipart/form-data">
 					<!-- hidden fields -->
@@ -127,8 +127,8 @@
 </template>
 
 <script>
-	import Breadcrumb from '../../../../components/Breadcrumb'
-	import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
+	import Breadcrumb from '~/components/Breadcrumb'
+	import BuyRidesSuccess from '~/components/modals/BuyRidesSuccess'
 	import VueRecaptcha from 'vue-recaptcha'
 	export default {
 		components: {
@@ -256,7 +256,7 @@
 						},
 						year: {
 							placeholder: {
-								content: 'YY'
+								content: 'YYYY'
 							}
 						},
 						cvv: {
@@ -297,19 +297,6 @@
 			const me = this
 			me.checkToken()
 			me.fetchClassPackage()
-		},
-		head () {
-            const me = this
-            let host = process.env.baseUrl
-            return {
-                title: `Subscribe to ${me.classPackage.name} | Ride Revolution`,
-                link: [
-                    {
-                        rel: 'canonical',
-                        href: `${host}${me.$route.fullPath}`
-                    }
-                ]
-            }
-        }
+		}
 	}
 </script>
