@@ -256,7 +256,7 @@
 						},
 						year: {
 							placeholder: {
-								content: 'YYYY'
+								content: 'YY'
 							}
 						},
 						cvv: {
