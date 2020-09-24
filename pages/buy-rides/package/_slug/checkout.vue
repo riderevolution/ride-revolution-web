@@ -30,21 +30,21 @@
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="number">Card Number <span>*</span></label>
-								<div data-recurly="number" id="number" class="recurly-element-number"></div>
+								<input type="text" id="number" class="input_text" placeholder="4111111111111111" value="4012 0010 3714 1112">
 							</div>
 							<div class="form_group">
 								<div class="form_flex three">
 									<div class="form_group">
 										<label for="month">Month <span>*</span></label>
-										<div data-recurly="month" id="month" class="recurly-element-month"></div>
+										<input type="text" id="month" class="input_text" placeholder="03" value="12">
 									</div>
 									<div class="form_group">
 										<label for="year">Year <span>*</span></label>
-										<div data-recurly="year" id="year" class="recurly-element-year"></div>
+										<input type="text" id="year" class="input_text" placeholder="25" value="25">
 									</div>
 									<div class="form_group">
 										<label for="cvv">CVV <span>*</span></label>
-										<div data-recurly="cvv" id="cvv" class="recurly-element-cvv"></div>
+										<input type="text" id="cvv" class="input_text" placeholder="123" value="212">
 									</div>
 								</div>
 							</div>
