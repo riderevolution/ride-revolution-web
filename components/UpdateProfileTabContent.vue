@@ -221,33 +221,12 @@
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_2" class="cards wrapper" v-if="category == 'paymaya-card'">
+            <div id="tab_2" class="card wrapper" v-if="category == 'card'">
                 <div class="cards">
                     <div class="ci_header">
-                        Default Card
+                        Paymaya
                     </div>
-                    <div class="card_item">
-                        <div class="overlay">
-                            <div class="ci_dot"></div>
-                            <transition name="slideAlt">
-                                <ul class="menu_dot_list" v-if="default_card.toggled">
-                                    <li class="menu_dot_item">Set as Default</li>
-                                    <li class="menu_dot_item red">Delete Card</li>
-                                </ul>
-                            </transition>
-                        </div>
-                        <div class="c_type" v-html="cardType(default_card)"></div>
-                        <div class="c_number">
-                            **** **** **** {{ default_card.last_digit }}
-                        </div>
-                        <div class="c_date">Exp. {{ default_card.exp_month }}/{{ $moment(default_card.exp_year, 'YYYY').format('YY') }}</div>
-                    </div>
-                </div>
-                <div class="cards">
-                    <div class="ci_header">
-                        Other Cards
-                    </div>
-                    <div class="card_item" v-for="(data, key) in cards" v-if="!data.default">
+                    <div class="card_item" v-for="(data, key) in cards">
                         <div class="overlay">
                             <div class="ci_dot"></div>
                             <transition name="slideAlt">
@@ -262,6 +241,7 @@
                             **** **** **** {{ data.last_digit }}
                         </div>
                         <div class="c_date">Exp. {{ data.exp_month }}/{{ $moment(data.exp_year, 'YYYY').format('YY') }}</div>
+                        <div class="c_default" v-if="data.default">Default</div>
                     </div>
                 </div>
             </div>

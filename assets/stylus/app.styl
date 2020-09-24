@@ -6621,7 +6621,7 @@ svg
                             margin-right: 0
         .profile_tab_content
             position: relative
-            margin: 30px 0
+            margin: 30px 0 0
             height: 0%
             transition: .3s ease-in-out
             .wrapper
@@ -7399,6 +7399,76 @@ svg
                         top: 0
                         left: 0
                         right: 0
+                        &.card
+                            .cards
+                                display: flex
+                                flex-flow: row wrap
+                                justify-content: flex-start
+                                .ci_header
+                                    flex: 0 0 100%
+                                    display: block
+                                    brandon_regular(22px, false)
+                                    color: $black
+                                    letter-spacing: 0.33px
+                                    margin-bottom: 30px
+                                .card_item
+                                    position: relative
+                                    flex: 0 0 calc(33.33% - 30px)
+                                    margin: 0 15px 30px
+                                    background-color: $white_alt
+                                    padding: 20px
+                                    .overlay
+                                        position: absolute
+                                        top: calc(0% + 15px)
+                                        right: calc(0% + 20px)
+                                        .ci_dot
+                                            cursor: pointer
+                                            border-left: 10px solid transparent
+                                            border-right: 10px solid transparent
+                                            border-top: 10px solid $green
+                                            transform: rotate(0deg)
+                                            transition: .3s ease-in-out
+                                            &.toggled
+                                                transform: rotate(180deg)
+                                                transition: .3s ease-in-out
+                                        .menu_dot_list
+                                            list-style: none
+                                            padding: 0
+                                            margin: 0
+                                            position: absolute
+                                            top: calc(100% + 5px)
+                                            right: 0
+                                            width: 200px
+                                            z-index: 2
+                                            background-color: $white
+                                            border-radius: 3px
+                                            border: 1px solid #D3D3D3
+                                            .menu_dot_item
+                                                padding: 15px 20px
+                                                brandon_bold(18px, false)
+                                                color: $black
+                                                background-color: transparent
+                                                border-bottom: 1px solid #E8E8E8
+                                                cursor: pointer
+                                                transition: .3s ease-in-out
+                                                &.red
+                                                    color: $red
+                                                    transition: .3s ease-in-out
+                                                    &:hover
+                                                        color: $red
+                                                        background-color: $red_alt
+                                                        transition: .3s ease-in-out
+                                                &:last-child
+                                                    border-bottom: 1px solid transparent
+                                                &:hover
+                                                    color: $green
+                                                    background-color: #D6FFF7
+                                                    transition: .3s ease-in-out
+                                    .c_type
+                                        svg
+                                            width: 100%
+                                            max-width: 50px
+                                            height: 40px
                         &.address
                             padding: 40px 0
                             #default_form
