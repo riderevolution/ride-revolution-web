@@ -7341,6 +7341,29 @@ svg
                         align-items: center
                         margin-bottom: 20px
                         cursor: pointer
+                        #side_icon
+                            &.profile
+                                .a,
+                                .b,
+                                .e
+                                    fill: none
+                                .a,
+                                .b
+                                    stroke-miterlimit: 10
+                                .c,
+                                .d
+                                    stroke:none
+                            &.address
+                                .a
+                                    fill: none
+                                    stroke-linecap: round
+                                    stroke-miterlimit: 10
+                            &.account
+                                .a
+                                    fill: none
+                            &.card
+                                .a
+                                    fill: $black
                         .item
                             flex: 1 0 auto
                             padding-left: 20px

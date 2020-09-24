@@ -221,7 +221,53 @@
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_2" class="accounts wrapper" v-if="category == 'account-settings'">
+            <div id="tab_2" class="cards wrapper" v-if="category == 'paymaya-card'">
+                <div class="cards">
+                    <div class="ci_header">
+                        Default Card
+                    </div>
+                    <div class="card_item">
+                        <div class="overlay">
+                            <div class="ci_dot"></div>
+                            <transition name="slideAlt">
+                                <ul class="menu_dot_list" v-if="default_card.toggled">
+                                    <li class="menu_dot_item">Set as Default</li>
+                                    <li class="menu_dot_item red">Delete Card</li>
+                                </ul>
+                            </transition>
+                        </div>
+                        <div class="c_type" v-html="cardType(default_card)"></div>
+                        <div class="c_number">
+                            **** **** **** {{ default_card.last_digit }}
+                        </div>
+                        <div class="c_date">Exp. {{ default_card.exp_month }}/{{ $moment(default_card.exp_year, 'YYYY').format('YY') }}</div>
+                    </div>
+                </div>
+                <div class="cards">
+                    <div class="ci_header">
+                        Other Cards
+                    </div>
+                    <div class="card_item" v-for="(data, key) in cards" v-if="!data.default">
+                        <div class="overlay">
+                            <div class="ci_dot"></div>
+                            <transition name="slideAlt">
+                                <ul class="menu_dot_list" v-if="data.toggled">
+                                    <li class="menu_dot_item">Set as Default</li>
+                                    <li class="menu_dot_item red">Delete Card</li>
+                                </ul>
+                            </transition>
+                        </div>
+                        <div class="c_type" v-html="cardType(data)"></div>
+                        <div class="c_number">
+                            **** **** **** {{ data.last_digit }}
+                        </div>
+                        <div class="c_date">Exp. {{ data.exp_month }}/{{ $moment(data.exp_year, 'YYYY').format('YY') }}</div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div id="tab_3" class="accounts wrapper" v-if="category == 'account-settings'">
                 <form id="default_form">
                     <div class="form_main_group">
                         <div class="form_header">
@@ -280,6 +326,33 @@
                 copied: false,
                 height: 0,
                 unique: 0,
+                default_card: [],
+                cards: [
+                    {
+                        last_digit: '1234',
+                        type: 'master-card',
+                        exp_month: '12',
+                        exp_year: '20',
+                        default: true,
+                        toggled: false
+                    },
+                    {
+                        last_digit: '5646',
+                        type: 'master-card',
+                        exp_month: '12',
+                        exp_year: '20',
+                        default: false,
+                        toggled: false
+                    },
+                    {
+                        last_digit: '0976',
+                        type: 'visa',
+                        exp_month: '12',
+                        exp_year: '20',
+                        default: false,
+                        toggled: false
+                    }
+                ],
                 profileOverview: {
                     first_name: '',
                     last_name: '',
@@ -315,6 +388,21 @@
             }
         },
         methods: {
+            cardType (data) {
+                const me = this
+                let card_type = ''
+
+                switch (data.type) {
+                    case 'visa':
+                        card_type = '<svg xmlns="http://www.w3.org/2000/svg" width="60" height="19" viewBox="0 0 60 19"> <g fill="none" fill-rule="evenodd"> <g fill-rule="nonzero"> <g> <g> <g> <path fill="#3C58BF" d="M21.6 17.462L24.592 0.631 29.268 0.631 26.369 17.462z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#293688" d="M21.6 17.462L25.434 0.631 29.268 0.631 26.369 17.462z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#3C58BF" d="M43.294.818C42.358.444 40.862.07 38.992.07c-4.675 0-8.041 2.338-8.041 5.704 0 2.525 2.337 3.834 4.207 4.675 1.87.842 2.432 1.403 2.432 2.151 0 1.122-1.496 1.683-2.806 1.683-1.87 0-2.898-.28-4.488-.935l-.654-.28-.655 3.833c1.122.468 3.18.935 5.33.935 4.956 0 8.228-2.337 8.228-5.89 0-1.964-1.215-3.46-4.02-4.676-1.683-.841-2.712-1.309-2.712-2.15 0-.749.842-1.497 2.712-1.497 1.59 0 2.711.28 3.553.655l.467.187.749-3.647z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#293688" d="M43.294.818C42.358.444 40.862.07 38.992.07c-4.675 0-7.2 2.338-7.2 5.704 0 2.525 1.496 3.834 3.366 4.675 1.87.842 2.432 1.403 2.432 2.151 0 1.122-1.496 1.683-2.806 1.683-1.87 0-2.898-.28-4.488-.935l-.654-.28-.655 3.833c1.122.468 3.18.935 5.33.935 4.956 0 8.228-2.337 8.228-5.89 0-1.964-1.215-3.46-4.02-4.676-1.683-.841-2.712-1.309-2.712-2.15 0-.749.842-1.497 2.712-1.497 1.59 0 2.711.28 3.553.655l.467.187.749-3.647z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#3C58BF" d="M51.335.631c-1.122 0-1.964.094-2.431 1.216L41.89 17.462h5.05l.934-2.805h5.985l.56 2.805h4.49L54.981.632h-3.647zm-2.15 11.22c.28-.84 1.87-4.955 1.87-4.955s.374-1.028.654-1.683l.28 1.59s.936 4.207 1.123 5.142h-3.928v-.093z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#293688" d="M52.457.631c-1.122 0-1.963.094-2.431 1.216l-8.135 15.615h5.05l.934-2.805h5.985l.56 2.805h4.49L54.981.632h-2.525zm-3.273 11.22c.374-.934 1.87-4.955 1.87-4.955s.375-1.028.655-1.683l.28 1.59s.936 4.207 1.123 5.142h-3.928v-.093z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#3C58BF" d="M12.997 12.413l-.467-2.431c-.842-2.805-3.553-5.891-6.546-7.387l4.208 14.96h5.05L22.816.726h-5.05l-4.769 11.688z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#293688" d="M12.997 12.413l-.467-2.431c-.842-2.805-3.553-5.891-6.546-7.387l4.208 14.96h5.05L22.816.726H18.7l-5.704 11.688z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#FFBC00" d="M0 .631l.842.187C6.826 2.221 10.94 5.774 12.53 9.982l-1.683-7.948C10.567.912 9.725.63 8.697.63H0z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#F7981D" d="M0 .631c5.984 1.403 10.94 5.05 12.53 9.257L10.94 3.25c-.28-1.122-1.215-1.776-2.244-1.776L0 .63z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <path fill="#ED7C00" d="M0 .631c5.984 1.403 10.94 5.05 12.53 9.257l-1.122-3.646c-.28-1.123-.655-2.245-1.964-2.712L0 .63z" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41)"/> <g fill="#051244"> <path d="M11.595 9.397l-3.18-3.179L6.92 9.771l-.374-2.337C5.704 4.629 2.992 1.543 0 .047l4.208 14.96h5.05l2.337-5.61zM20.291 15.008L16.27 10.894 15.522 15.008zM31.044 9.21c.374.374.561.655.468 1.029 0 1.122-1.496 1.683-2.806 1.683-1.87 0-2.898-.28-4.488-.935l-.654-.28-.655 3.833c1.122.468 3.18.935 5.33.935 2.992 0 5.423-.841 6.826-2.337l-4.02-3.928zM36.468 15.008h4.394l.935-2.805h5.985l.56 2.805h4.49l-1.59-6.826-5.61-5.424.28 1.497s.935 4.207 1.122 5.142h-3.928c.375-.935 1.87-4.955 1.87-4.955s.375-1.029.655-1.684" transform="translate(-212 -720) translate(146 300) translate(43 379) translate(23 41) translate(6.078 2.455)"/> </g> </g> </g> </g> </g> </g> </svg>'
+                        break
+                    case 'master-card':
+                        card_type = '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="32" viewBox="0 0 50 32"> <g fill="none" fill-rule="evenodd"> <g fill-rule="nonzero"> <g> <g> <g> <g transform="translate(-212 -511) translate(146 300) translate(43 146) translate(0 33) translate(23 32)"> <circle cx="15.4" cy="16.131" r="15.273" fill="#EE0005"/> <circle cx="34.376" cy="16.131" r="15.273" fill="#F9A000"/> <path fill="#FF6300" d="M19.103 16.13c0 4.85 2.26 9.171 5.785 11.969 3.525-2.798 5.786-7.119 5.786-11.968 0-4.85-2.261-9.171-5.786-11.969-3.524 2.798-5.785 7.12-5.785 11.969z"/> </g> </g> </g> </g> </g> </g> </svg>'
+                        break
+                }
+
+                return card_type
+            },
             getSizes () {
                 const me = this
                 me.sizes = []
@@ -512,70 +600,81 @@
                         })
                     }
                 })
+            },
+            initialization () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.res = res.data.user
+                        me.profileOverview.image_id = (res.data.user.customer_details.images[0].path != null) ? res.data.user.customer_details.images[0].id : 0
+                        me.profileOverview.first_name = res.data.user.first_name
+                        me.profileOverview.last_name = res.data.user.last_name
+                        me.profileOverview.email = res.data.user.email
+                        me.profileOverview.birth_date = res.data.user.customer_details.co_birthdate
+                        me.profileOverview.contact_number = res.data.user.customer_details.co_contact_number
+                        me.profileOverview.sex = res.data.user.customer_details.co_sex
+                        me.getSizes()
+                        me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
+                        me.profileOverview.weight = res.data.user.customer_details.co_weight
+                        me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
+
+                        me.$axios.get('api/world/countries').then(res => {
+                            if (res.data) {
+                                me.pa_countries = res.data.countries
+                                me.ba_countries = res.data.countries
+                                if (me.res.customer_details.pa_country_id != null) {
+                                    me.$axios.get(`api/world/states?country_id=${me.res.customer_details.pa_country_id}`).then(res => {
+                                        me.pa_states = res.data.states
+                                        me.address.home_address_country = me.res.customer_details.pa_country_id
+                                        me.address.home_address_state = me.res.customer_details.pa_state_id
+                                    })
+                                }
+                                if (me.res.customer_details.ba_country_id != null) {
+                                    me.$axios.get(`api/world/states?country_id=${me.res.customer_details.ba_country_id}`).then(res => {
+                                        me.ba_states = res.data.states
+                                        me.address.billing_address_country = me.res.customer_details.ba_country_id
+                                        me.address.billing_address_state = me.res.customer_details.ba_state_id
+                                    })
+                                }
+                            }
+                        })
+
+                        me.address.home_address_line_1 = res.data.user.customer_details.pa_address
+                        me.address.home_address_line_2 = res.data.user.customer_details.pa_address_2
+                        me.address.home_address_city = res.data.user.customer_details.pa_city
+                        me.address.home_address_zip_code = res.data.user.customer_details.pa_zip_code
+                        me.address.billing_address_line_1 = res.data.user.customer_details.ba_address
+                        me.address.billing_address_line_2 = res.data.user.customer_details.ba_address_2
+                        me.address.billing_address_city = res.data.user.customer_details.ba_city
+                        me.address.billing_address_zip_code = res.data.user.customer_details.ba_zip_code
+
+                        me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
+                        me.subscribed = (res.data.user.newsletter_subscription) ? true : false
+
+                        me.cards.forEach((data, key) => {
+                            if (data.default) {
+                                me.default_card = data
+                            }
+                        })
+
+                        setTimeout( () => {
+                            me.loader(false)
+                            me.loaded = true
+                        }, 500)
+                    }
+                })
             }
         },
         mounted () {
             const me = this
             me.getHeight()
-            let token = me.$cookies.get('70hokc3hhhn5')
-            me.loader(true)
-            me.$axios.get('api/check-token', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(res => {
-                if (res.data) {
-                    me.res = res.data.user
-                    me.profileOverview.image_id = (res.data.user.customer_details.images[0].path != null) ? res.data.user.customer_details.images[0].id : 0
-                    me.profileOverview.first_name = res.data.user.first_name
-                    me.profileOverview.last_name = res.data.user.last_name
-                    me.profileOverview.email = res.data.user.email
-                    me.profileOverview.birth_date = res.data.user.customer_details.co_birthdate
-                    me.profileOverview.contact_number = res.data.user.customer_details.co_contact_number
-                    me.profileOverview.sex = res.data.user.customer_details.co_sex
-                    me.getSizes()
-                    me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
-                    me.profileOverview.weight = res.data.user.customer_details.co_weight
-                    me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
-
-                    me.$axios.get('api/world/countries').then(res => {
-                        if (res.data) {
-                            me.pa_countries = res.data.countries
-                            me.ba_countries = res.data.countries
-                            if (me.res.customer_details.pa_country_id != null) {
-                                me.$axios.get(`api/world/states?country_id=${me.res.customer_details.pa_country_id}`).then(res => {
-                                    me.pa_states = res.data.states
-                                    me.address.home_address_country = me.res.customer_details.pa_country_id
-                                    me.address.home_address_state = me.res.customer_details.pa_state_id
-                                })
-                            }
-                            if (me.res.customer_details.ba_country_id != null) {
-                                me.$axios.get(`api/world/states?country_id=${me.res.customer_details.ba_country_id}`).then(res => {
-                                    me.ba_states = res.data.states
-                                    me.address.billing_address_country = me.res.customer_details.ba_country_id
-                                    me.address.billing_address_state = me.res.customer_details.ba_state_id
-                                })
-                            }
-                        }
-                    })
-
-                    me.address.home_address_line_1 = res.data.user.customer_details.pa_address
-                    me.address.home_address_line_2 = res.data.user.customer_details.pa_address_2
-                    me.address.home_address_city = res.data.user.customer_details.pa_city
-                    me.address.home_address_zip_code = res.data.user.customer_details.pa_zip_code
-                    me.address.billing_address_line_1 = res.data.user.customer_details.ba_address
-                    me.address.billing_address_line_2 = res.data.user.customer_details.ba_address_2
-                    me.address.billing_address_city = res.data.user.customer_details.ba_city
-                    me.address.billing_address_zip_code = res.data.user.customer_details.ba_zip_code
-
-                    me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
-                    me.subscribed = (res.data.user.newsletter_subscription) ? true : false
-                    setTimeout( () => {
-                        me.loader(false)
-                        me.loaded = true
-                    }, 500)
-                }
-            })
+            me.initialization()
         },
         beforeMount () {
             window.addEventListener('load', this.getHeight)
