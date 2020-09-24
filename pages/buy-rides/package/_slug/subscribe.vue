@@ -94,7 +94,7 @@
                             </div>
                             <div class="form_group select">
 								<label for="state">State <span>*</span></label>
-                                <input type="text" autocomplete="off" id="state"  class="input_text" data-recurly="state" name="state" v-model="user.customer_details.ba_state" placeholder="Enter your state" v-validate="{required: true}">
+                                <input type="text" autocomplete="off" id="state" class="input_text" data-recurly="state" name="state" v-model="user.customer_details.billing_state" placeholder="Enter your state" v-validate="{required: true}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('state')">{{ properFormat(errors.first('state')) }}</span></transition>
                             </div>
                         </div>
@@ -236,7 +236,7 @@
                 	style: {
 						all: {
 							fontSmoothing: 'auto',
-							fontFamily: 'Roboto',
+							fontFamily: 'Open Sans',
 							fontSize: '18px',
 							fontWeight: 'normal',
 							fontColor: '#171717',
@@ -269,6 +269,7 @@
 			},
 			checkToken () {
 				const me = this
+				me.loader(true)
 				let token = me.$cookies.get('70hokc3hhhn5')
 				if (token != null || token != undefined) {
 					me.$axios.get('api/check-token', {
@@ -284,6 +285,11 @@
 					}).catch(err => {
 						console.log(err)
 					})
+				} else {
+					me.$store.state.loginSignUpStatus = true
+	                document.body.classList.add('no_scroll')
+	                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+	                me.loader(false)
 				}
 			},
 			fetchClassPackage () {
