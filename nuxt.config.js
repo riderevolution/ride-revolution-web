@@ -98,6 +98,9 @@ export default {
         '/thank-you',
         '/fish-in-the-glass',
         '/book-a-bike/**',
+        '/testing',
+        '/testing*',
+        '/testing/**'
       ],
       Sitemap: 'https://www.riderevolution.ph/sitemap.xml'
     }],
@@ -124,7 +127,10 @@ export default {
         '/fish-in-the-glass/**',
         '/my-profile',
         '/my-profile*',
-        '/my-profile/**'
+        '/my-profile/**',
+        '/testing',
+        '/testing*',
+        '/testing/**'
       ],
       routes () {
         return axios.get(`${process.env.API_URL}/api/sitemap`)
