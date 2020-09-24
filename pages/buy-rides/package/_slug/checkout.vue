@@ -94,7 +94,7 @@
                             </div>
                             <div class="form_group select">
 								<label for="state">State <span>*</span></label>
-                                <input type="text" autocomplete="off" id="state"  class="input_text" data-recurly="state" name="state" v-model="user.customer_details.ba_state" placeholder="Enter your state" v-validate="{required: true}">
+                                <input type="text" autocomplete="off" id="state"  class="input_text" data-recurly="state" name="state" v-model="user.customer_details.billing_state" placeholder="Enter your state" v-validate="{required: true}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('state')">{{ properFormat(errors.first('state')) }}</span></transition>
                             </div>
                         </div>
