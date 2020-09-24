@@ -7,10 +7,6 @@
 					<nuxt-link :to="`/buy-rides/package/${classPackage.slug}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
 				</div>
                 <form id="default_form" @submit.prevent="submit($event)" v-if="user != null" enctype="multipart/form-data">
-					<!-- hidden fields -->
-					<input type="hidden" data-recurly="plan_quantity" id="plan-quantity" value="1">
-					<input type="hidden" data-recurly="token" name="recurly-token">
-					<!-- end hidden fields -->
                     <div class="form_main_group">
                         <div class="form_header">
                             <label>Card Information</label>
@@ -18,33 +14,33 @@
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="first_name">First Name <span>*</span></label>
-								<input type="text" data-recurly="first_name" id="first_name" name="first-name" autocomplete="off" class="input_text" placeholder="Enter your first name" v-model="user.first_name" v-validate="{required: true}">
+								<input type="text" data-recurly="first_name" id="first_name" name="first_name" autocomplete="off" class="input_text" placeholder="Enter your first name" v-model="user.first_name" v-validate="{required: true}">
 								<transition name="slide"><span class="validation_errors" v-if="errors.has('first_name')">{{ properFormat(errors.first('first_name')) }}</span></transition>
 							</div>
 							<div class="form_group">
 								<label for="last_name">Last Name <span>*</span></label>
-								<input type="text" data-recurly="last_name" id="last_name" name="last-name" autocomplete="off" class="input_text" placeholder="Enter your last name" v-model="user.last_name" v-validate="{required: true}">
+								<input type="text" data-recurly="last_name" id="last_name" name="last_name" autocomplete="off" class="input_text" placeholder="Enter your last name" v-model="user.last_name" v-validate="{required: true}">
 								<transition name="slide"><span class="validation_errors" v-if="errors.has('last_name')">{{ properFormat(errors.first('last_name')) }}</span></transition>
 							</div>
 						</div>
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="number">Card Number <span>*</span></label>
-								<input type="text" id="number" class="input_text" placeholder="4111111111111111" value="4012 0010 3714 1112">
+								<input type="text" id="number" class="input_text" placeholder="4111111111111111" value="4012 0010 3714 1112" name="card_number">
 							</div>
 							<div class="form_group">
 								<div class="form_flex three">
 									<div class="form_group">
 										<label for="month">Month <span>*</span></label>
-										<input type="text" id="month" class="input_text" placeholder="03" value="12">
+										<input type="text" id="month" class="input_text" placeholder="03" value="12" name="card_month">
 									</div>
 									<div class="form_group">
 										<label for="year">Year <span>*</span></label>
-										<input type="text" id="year" class="input_text" placeholder="25" value="25">
+										<input type="text" id="year" class="input_text" placeholder="2025" value="2025" name="card_year">
 									</div>
 									<div class="form_group">
 										<label for="cvv">CVV <span>*</span></label>
-										<input type="text" id="cvv" class="input_text" placeholder="123" value="212">
+										<input type="text" id="cvv" class="input_text" placeholder="123" value="212" name="card_cvv">
 									</div>
 								</div>
 							</div>
@@ -130,6 +126,10 @@
 	import Breadcrumb from '../../../../components/Breadcrumb'
 	import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
 	import VueRecaptcha from 'vue-recaptcha'
+	import aes from 'crypto-js/aes'
+	import encHex from 'crypto-js/enc-hex'
+	import padZeroPadding from 'crypto-js/pad-zeropadding'
+
 	export default {
 		components: {
 			Breadcrumb,
@@ -156,116 +156,100 @@
 		methods: {
 			submit (e) {
 				const me = this
-				me.loader(true)
-				me.$store.state.errorList = []
-				recurly.token(e.target, (err, token) => {
-					if (err) {
-						err.details.forEach((item, ket) => {
-							switch (item.field) {
-								case 'number':
-									item.field = 'Card Number'
-									break
-								case 'month':
-									item.field = 'Month'
-									break
-								case 'year':
-									item.field = 'Year'
-									break
-								case 'cvv':
-									item.field = 'CVV'
-									break
-							}
-							me.$store.state.errorList.push(`${item.field} ${item.messages[0]}`)
-						})
-						me.$store.state.errorPromptStatus = true
-						me.loader(false)
-					} else {
-						me.$validator.validateAll().then(valid => {
-		                    if (valid && grecaptcha.getResponse().length > 0) {
-		                        let captcha = grecaptcha.getResponse()
-		                        me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
-		                            let formData = new FormData(document.getElementById('default_form'))
-		                            if (verify) {
-										let form = {
-											token: token,
-											user_id: me.user.id,
-											plan_code: me.classPackage.plan_code
-										}
-										me.$axios.post(`api/recurly/subscribe`, form).then(res => {
-											setTimeout( () => {
-												me.summary.res = me.classPackage
-    							                me.summary.total = res.data.payment.total
-    							                me.summary.discount = 0
-												me.summary.quantity = 1
-    							                me.summary.type = 'paynow'
-												me.step = 0
-												me.$store.state.buyRidesSuccessStatus = true
-												window.scrollTo({ top: 0, behavior: 'smooth' })
-										    }, 500)
-										}).catch(err => {
-											me.$store.state.errorList = err.response.data.errors
-				                            me.$store.state.errorPromptStatus = true
-										}).then(() => {
-				                            setTimeout( () => {
-				                                me.loader(false)
-				                            }, 500)
-				                        })
-		                            }
-		                        }).catch(err => {
-									me.$store.state.errorList = err.response.data.errors
- 	                            	me.$store.state.errorPromptStatus = true
-		                        })
-		                    } else {
-								if (grecaptcha.getResponse().length <= 0) {
-									me.$store.state.errorList = ['Please verify that you are not a robot']
-									me.$store.state.errorPromptStatus = true
-								} else {
-									me.$scrollTo('.validation_errors', {
-			                            offset: -250
-			                        })
-								}
-								me.loader(false)
-		                    }
-		                })
-					}
-				})
-			},
-			initializeRecurly () {
-				recurly.configure({
-                	publicKey: 'ewr1-IeGOwa2IupbnSdFc9IRwpc',
-                	style: {
-						all: {
-							fontSmoothing: 'auto',
-							fontFamily: 'Roboto',
-							fontSize: '18px',
-							fontWeight: 'normal',
-							fontColor: '#171717',
-							placeholder: {
-								color: '#A8A8A8'
-							}
-						},
-						number: {
-							placeholder: {
-								content: 'Enter Your Card Number'
-							}
-						},
-						month: {
-							placeholder: {
-								content: 'MM'
-							}
-						},
-						year: {
-							placeholder: {
-								content: 'YY'
-							}
-						},
-						cvv: {
-							placeholder: {
-								content: 'CVV'
-							}
-						}
-					}
-				})
+				// me.loader(true)
+				me.$validator.validateAll().then(valid => {
+					let formData = new FormData(document.querySelector('#default_form'))
+					formData.append('user_id', me.user.id)
+					formData.append('class_package_id', me.classPackage.id)
+
+					/* encrypt form */
+					let object = {}
+					formData.forEach((value, key) => {
+						object[key] = value
+					})
+
+					let key = encHex.parse('43e3b0f3405b2b7707e398f0171a91a2')
+					let iv = encHex.parse('91bc845cbd4076fb9a0fdc2ad37e425d')
+					let textData = JSON.stringify(object)
+
+					let encrypted = aes.encrypt(textData, key, {iv: iv, padding: padZeroPadding}).toString()
+					/* end form encrpytion */
+
+					let token = me.$cookies.get('70hokc3hhhn5')
+					me.$axios.post(`api/paymaya-checkout`, {
+						dt: encrypted
+					}, {
+						headers: {
+					        Authorization: `Bearer ${token}`
+					    }
+					}).then(res => {
+						console.log(res.data)
+						// setTimeout( () => {
+						// 	me.summary.res = me.classPackage
+			   //              me.summary.total = res.data.payment.total
+			   //              me.summary.discount = 0
+						// 	me.summary.quantity = 1
+			   //              me.summary.type = 'paynow'
+						// 	me.step = 0
+						// 	me.$store.state.buyRidesSuccessStatus = true
+						// 	window.scrollTo({ top: 0, behavior: 'smooth' })
+					 //    }, 500)
+					}).catch(err => {
+						me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+					}).then(() => {
+                        setTimeout( () => {
+                            me.loader(false)
+                        }, 500)
+                    })
+
+
+      //               if (valid && grecaptcha.getResponse().length > 0) {
+      //                   let captcha = grecaptcha.getResponse()
+      //                   me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
+      //                       let formData = new FormData(document.getElementById('default_form'))
+      //                       if (verify) {
+						// 		let form = {
+						// 			token: token,
+						// 			user_id: me.user.id,
+						// 			plan_code: me.classPackage.plan_code
+						// 		}
+						// 		me.$axios.post(`api/recurly/subscribe`, form).then(res => {
+						// 			setTimeout( () => {
+						// 				me.summary.res = me.classPackage
+			// 			                me.summary.total = res.data.payment.total
+			// 			                me.summary.discount = 0
+						// 				me.summary.quantity = 1
+			// 			                me.summary.type = 'paynow'
+						// 				me.step = 0
+						// 				me.$store.state.buyRidesSuccessStatus = true
+						// 				window.scrollTo({ top: 0, behavior: 'smooth' })
+						// 		    }, 500)
+						// 		}).catch(err => {
+						// 			me.$store.state.errorList = err.response.data.errors
+		    //                         me.$store.state.errorPromptStatus = true
+						// 		}).then(() => {
+		    //                         setTimeout( () => {
+		    //                             me.loader(false)
+		    //                         }, 500)
+		    //                     })
+      //                       }
+      //                   }).catch(err => {
+						// 	me.$store.state.errorList = err.response.data.errors
+      //                       	me.$store.state.errorPromptStatus = true
+      //                   })
+      //               } else {
+						// if (grecaptcha.getResponse().length <= 0) {
+						// 	me.$store.state.errorList = ['Please verify that you are not a robot']
+						// 	me.$store.state.errorPromptStatus = true
+						// } else {
+						// 	me.$scrollTo('.validation_errors', {
+	     //                        offset: -250
+	     //                    })
+						// }
+						// me.loader(false)
+      //               }
+                })
 			},
 			checkToken () {
 				const me = this
@@ -278,9 +262,6 @@
 					}).then(res => {
 						me.user = res.data.user
 						me.loaded = true
-						setTimeout(() => {
-							me.initializeRecurly()
-						}, 500)
 					}).catch(err => {
 						console.log(err)
 					})
