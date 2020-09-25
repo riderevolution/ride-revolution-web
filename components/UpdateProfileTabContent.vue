@@ -228,10 +228,10 @@
                     </div>
                     <div class="card_item" v-for="(data, key) in cards">
                         <div class="overlay">
-                            <div class="ci_dot"></div>
+                            <div class="ci_dot" :class="{ 'toggled': data.toggled }" @click="toggleDot(data, key)"></div>
                             <transition name="slideAlt">
-                                <ul class="menu_dot_list" v-if="data.toggled">
-                                    <li class="menu_dot_item">Set as Default</li>
+                                <ul class="menu_dot_list" v-if="data.toggled" v-click-outside="closeDot">
+                                    <li class="menu_dot_item" @click="asd()">Set as Default</li>
                                     <li class="menu_dot_item red">Delete Card</li>
                                 </ul>
                             </transition>
@@ -241,7 +241,9 @@
                             **** **** **** {{ data.last_digit }}
                         </div>
                         <div class="c_date">Exp. {{ data.exp_month }}/{{ $moment(data.exp_year, 'YYYY').format('YY') }}</div>
-                        <div class="c_default" v-if="data.default">Default</div>
+                        <div class="c_default">
+                            <div class="d_status" v-if="data.default">Default</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -306,7 +308,7 @@
                 copied: false,
                 height: 0,
                 unique: 0,
-                default_card: [],
+                card_unique: 0,
                 cards: [
                     {
                         last_digit: '1234',
@@ -368,6 +370,30 @@
             }
         },
         methods: {
+            asd () {
+                const me = this
+                let child = window.open('/testing', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
+                let timer = setInterval(() => {
+                        if (child.closed) {
+                            alert("Child window closed");
+                            clearInterval(timer);
+                        }
+                    }, 500)
+            },
+            toggleDot (data, unique = null) {
+                const me = this
+                me.closeDot()
+                if (unique != null) {
+                    me.card_unique = unique
+                }
+                data.toggled = true
+            },
+            closeDot () {
+                const me = this
+                if (me.card_unique != null) {
+                    me.cards[me.card_unique].toggled = false
+                }
+            },
             cardType (data) {
                 const me = this
                 let card_type = ''
