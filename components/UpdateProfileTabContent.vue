@@ -654,12 +654,14 @@
                         me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
                         me.subscribed = (res.data.user.newsletter_subscription) ? true : false
 
-                        me.cards.forEach((data, key) => {
-                            if (data.default) {
-                                me.default_card = data
+                        me.$axios.get('api/paymaya/cards', {
+                            headers: {
+                                Authorization: `Bearer ${token}`
                             }
+                        }).then(res => {
+                            console.log(res.data);
                         })
-
+                        
                         setTimeout( () => {
                             me.loaded = true
                         }, 500)
