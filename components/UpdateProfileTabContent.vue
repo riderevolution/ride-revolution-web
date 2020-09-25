@@ -226,12 +226,12 @@
                     <div class="ci_header">
                         Paymaya
                     </div>
-                    <div class="card_item" v-for="(data, key) in cards">
+                    <div class="card_item" v-for="(data, key) in populateCards" v-if="cards.length > 0">
                         <div class="overlay">
                             <div class="ci_dot" :class="{ 'toggled': data.toggled }" @click="toggleDot(data, key)"></div>
                             <transition name="slideAlt">
                                 <ul class="menu_dot_list" v-if="data.toggled" v-click-outside="closeDot">
-                                    <li class="menu_dot_item" @click="asd()">Set as Default</li>
+                                    <li class="menu_dot_item">Set as Default</li>
                                     <li class="menu_dot_item red">Delete Card</li>
                                 </ul>
                             </transition>
@@ -244,6 +244,10 @@
                         <div class="c_default">
                             <div class="d_status" v-if="data.default">Default</div>
                         </div>
+                    </div>
+                    <div class="no_results" v-if="cards.length == 0">
+                        <div class="text">You don't have any cards.</div>
+                        <div class="default_btn nmt" @click="addPaymayaCard()">Add Paymaya Card</div>
                     </div>
                 </div>
             </div>
@@ -274,6 +278,9 @@
             </div>
         </transition>
         <transition name="fade">
+            <add-card v-if="add_card" />
+        </transition>
+        <transition name="fade">
             <change-password v-if="$store.state.changePasswordStatus" />
         </transition>
         <transition name="fade">
@@ -283,10 +290,12 @@
 </template>
 
 <script>
+    import AddCard from './modals/AddCard'
     import ChangePassword from './modals/ChangePassword'
     import BuyRidesPrompt from './modals/BuyRidesPrompt'
     export default {
         components: {
+            AddCard,
             ChangePassword,
             BuyRidesPrompt
         },
@@ -302,6 +311,7 @@
                 res: [],
                 sizes: [],
                 message: '',
+                add_card: false,
                 loaded: false,
                 previewImage: false,
                 subscribed: true,
@@ -310,30 +320,7 @@
                 unique: 0,
                 card_unique: 0,
                 cards: [
-                    {
-                        last_digit: '1234',
-                        type: 'master-card',
-                        exp_month: '12',
-                        exp_year: '20',
-                        default: true,
-                        toggled: false
-                    },
-                    {
-                        last_digit: '5646',
-                        type: 'master-card',
-                        exp_month: '12',
-                        exp_year: '20',
-                        default: false,
-                        toggled: false
-                    },
-                    {
-                        last_digit: '0976',
-                        type: 'visa',
-                        exp_month: '12',
-                        exp_year: '20',
-                        default: false,
-                        toggled: false
-                    }
+
                 ],
                 profileOverview: {
                     first_name: '',
@@ -369,16 +356,20 @@
                 professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others']
             }
         },
-        methods: {
-            asd () {
+        computed: {
+            populateCards () {
                 const me = this
-                let child = window.open('/testing', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
-                let timer = setInterval(() => {
-                        if (child.closed) {
-                            alert("Child window closed");
-                            clearInterval(timer);
-                        }
-                    }, 500)
+                let result = []
+                for (let i = 0, len = me.cards.length; i < len; i++) {
+                    result.push(me.cards[i])
+                }
+                return result
+            }
+        },
+        methods: {
+            addPaymayaCard () {
+                const me = this
+                me.add_card = true
             },
             toggleDot (data, unique = null) {
                 const me = this
@@ -670,10 +661,17 @@
                         })
 
                         setTimeout( () => {
-                            me.loader(false)
                             me.loaded = true
                         }, 500)
                     }
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
                 })
             }
         },

@@ -402,6 +402,8 @@ svg
         margin-bottom: 30px
     .default_btn
         margin-top: 30px
+        &.nmt
+            margin-top: 0
     &.alt
         text-align: center
         width: 100%
@@ -535,6 +537,8 @@ svg
         color: $gray_alt2
     &.full
         width: 100%
+    &.nmt
+        margin-top: 0
     &:hover
         box-shadow: 0px 0px 20px rgba(38, 164, 139, 0.75)
         transition: .3s ease-in-out
@@ -7404,6 +7408,10 @@ svg
                                 display: flex
                                 flex-flow: row wrap
                                 justify-content: flex-start
+                                .no_results
+                                    display: block
+                                    text-align: center
+                                    width: 100%
                                 .ci_header
                                     flex: 0 0 100%
                                     display: block
@@ -9377,6 +9385,8 @@ svg
 .form_button
     text-align: right
     margin-top: 30px
+    &.cnt
+        text-align: center
     &.bck
         text-align: left
         margin-bottom: 30px
