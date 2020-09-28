@@ -71,6 +71,12 @@
                 }, 10)
             }
         },
+        mounted () {
+            const me = this
+            if (me.$route.hash) {
+                me.category = me.$route.hash.split('#')[1]
+            }
+        },
         async asyncData ({ axios, params, store, error }) {
             let ctr = 0
             setInterval( () => {

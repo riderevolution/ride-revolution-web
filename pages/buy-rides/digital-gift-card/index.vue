@@ -217,7 +217,7 @@
             </div>
         </section>
         <transition name="fade">
-            <paymaya-form v-if="paymayaStatus" :payment_type="'digital-gift-card'" />
+            <card-status v-if="paymayaStatus" :payment_type="'digital-gift-card'" />
         </transition>
         <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
@@ -231,14 +231,14 @@
 <script>
     import ProTip from '../../../components/ProTip'
     import Breadcrumb from '../../../components/Breadcrumb'
-    import PaymayaForm from '../../../components/modals/PaymayaForm'
+    import CardStatus from '../../../components/modals/CardStatus'
     import BuyRidesPrompt from '../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
             Breadcrumb,
-            PaymayaForm,
+            CardStatus,
             BuyRidesPrompt,
             BuyRidesSuccess
         },

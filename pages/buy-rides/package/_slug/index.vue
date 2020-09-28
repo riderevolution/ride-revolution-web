@@ -152,7 +152,7 @@
             </div>
         </section>
         <transition name="fade">
-            <paymaya-form v-if="paymayaStatus" :payment_type="'class-package'" />
+            <card-status v-if="checker" />
         </transition>
         <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
@@ -166,14 +166,14 @@
 <script>
     import ProTip from '../../../../components/ProTip'
     import Breadcrumb from '../../../../components/Breadcrumb'
-    import PaymayaForm from '../../../../components/modals/PaymayaForm'
+    import CardStatus from '../../../../components/modals/CardStatus'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
             ProTip,
             Breadcrumb,
-            PaymayaForm,
+            CardStatus,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -189,8 +189,8 @@
                 type: '',
                 paymentType: '',
                 step: 1,
+                checker: false,
                 paypal: false,
-                paymayaStatus: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
@@ -205,8 +205,27 @@
         methods: {
             paymaya () {
                 const me = this
-                me.paymentType = 'paymaya'
-                me.paymayaStatus = true
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data.cards.length <= 0) {
+                        me.checker = true
+                    } else {
+                        me.paymentType = 'paymaya'
+                    }
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
             },
             paymentSuccess () {
                 const me = this

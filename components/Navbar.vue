@@ -162,18 +162,18 @@
                 if (me.$route.fullPath != '/') {
                     if (me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
                         if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
-                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').offsetHeight + document.getElementById('header').offsetHeight + document.getElementById('pro_tip').offsetHeight}px`
                         }
                     } else if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
                         if (document.getElementById('article_alert')) {
-                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
                         }
                     } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
                         if (document.getElementById('pro_tip')) {
-                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                            document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').offsetHeight + document.getElementById('pro_tip').offsetHeight}px`
                         }
                     } else {
-                        document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                        document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').offsetHeight}px`
                     }
                 }
             },
