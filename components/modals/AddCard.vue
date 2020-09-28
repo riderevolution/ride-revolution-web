@@ -22,7 +22,7 @@
 									</div>
 									<div class="form_group">
 										<label for="year">Year <span>*</span></label>
-										<input type="text" id="year" class="input_text" placeholder="2025" value="2025" name="card_year" v-validate="{ required: true, date_format: 'yyyy' }">
+										<input type="text" id="year" class="input_text" placeholder="2027" value="2027" name="card_year" v-validate="{ required: true, date_format: 'yyyy' }">
                                         <transition name="slide"><span class="validation_errors" v-if="errors.has('card_year')">{{ properFormat(errors.first('card_year')) }}</span></transition>
 									</div>
 									<div class="form_group">
@@ -76,6 +76,7 @@
 					    }
 					}).then(res => {
 						console.log(res.data)
+                        window.open(res.data.verificationUrl, "verificationWindow", "status=1,width=600,height=450")
                         me.toggleClose()
 					}).catch(err => {
                         me.$store.state.errorOverlayPromptStatus = true

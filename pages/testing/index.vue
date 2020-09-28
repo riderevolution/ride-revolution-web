@@ -3,7 +3,7 @@
         <section id="banner">
 
         </section>
-        <button type="button" name="button" @click="ddddd()">asdasdasd</button>
+        <button type="button" name="button" @click="close()">Close</button>
     </div>
 </template>
 
@@ -14,7 +14,7 @@
             }
         },
         methods: {
-            ddddd () {
+            close () {
                 window.close()
             }
         }
