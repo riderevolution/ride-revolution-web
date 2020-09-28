@@ -7414,11 +7414,17 @@ svg
                                     width: 100%
                                 .ci_header
                                     flex: 0 0 100%
-                                    display: block
-                                    brandon_regular(22px, false)
-                                    color: $black
-                                    letter-spacing: 0.33px
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    justify-content: space-between
                                     margin-bottom: 30px
+                                    h2
+                                        brandon_regular(22px, false)
+                                        color: $black
+                                        letter-spacing: 0.33px
+                                    .default_btn
+                                        padding: 15px 30px
                                 .card_item
                                     position: relative
                                     flex: 0 0 calc(33.33% - 30px)

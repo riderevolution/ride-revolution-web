@@ -224,7 +224,8 @@
             <div id="tab_2" class="card wrapper" v-if="category == 'card'">
                 <div class="cards">
                     <div class="ci_header">
-                        Paymaya
+                        <h2>Paymaya</h2>
+                        <div class="default_btn nmt" @click="addPaymayaCard()">Add Paymaya Card</div>
                     </div>
                     <div class="card_item" v-for="(data, key) in populateCards" v-if="cards.length > 0">
                         <div class="overlay">
@@ -247,7 +248,6 @@
                     </div>
                     <div class="no_results" v-if="cards.length == 0">
                         <div class="text">You don't have any cards.</div>
-                        <div class="default_btn nmt" @click="addPaymayaCard()">Add Paymaya Card</div>
                     </div>
                 </div>
             </div>
@@ -661,7 +661,7 @@
                         }).then(res => {
                             console.log(res.data);
                         })
-                        
+
                         setTimeout( () => {
                             me.loaded = true
                         }, 500)
