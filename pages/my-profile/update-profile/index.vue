@@ -65,6 +65,9 @@
                     me.$refs.updateProfileTab.getHeight()
                     me.$refs.updateProfileTab.ctr = 0
                     me.$refs.updateProfileTab.unique = key
+                    if (category == 'card') {
+                        me.$refs.updateProfileTab.getCards()
+                    }
                 }, 10)
             }
         },

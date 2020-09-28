@@ -229,11 +229,11 @@
                     </div>
                     <div class="card_item" v-for="(data, key) in cards" v-if="cards.length > 0">
                         <div class="overlay">
-                            <div class="ci_dot" :class="{ 'toggled': data.toggled }" @click="toggleDot(data, key)"></div>
+                            <div class="ci_dot" :class="{ 'toggled': data.toggled }" @click="toggleDot(data, key)" v-if="cards.length > 1"></div>
                             <transition name="slideAlt">
                                 <ul class="menu_dot_list" v-if="data.toggled" v-click-outside="closeDot">
-                                    <li class="menu_dot_item">Set as Default</li>
-                                    <li class="menu_dot_item red">Delete Card</li>
+                                    <li class="menu_dot_item" @click="cardAction(data, 'default')">Set as Default</li>
+                                    <li class="menu_dot_item red" @click="cardAction(data, 'delete')">Delete Card</li>
                                 </ul>
                             </transition>
                         </div>
@@ -250,6 +250,7 @@
                         <div class="text">You don't have any cards.</div>
                     </div>
                 </div>
+                <button type="button" id="sc" class="hidden" @click="getCards()"></button>
             </div>
         </transition>
         <transition name="fade">
@@ -281,6 +282,12 @@
             <add-card v-if="add_card" />
         </transition>
         <transition name="fade">
+            <action-card v-if="card_action" :type="action_type" :card="card" />
+        </transition>
+        <transition name="fade">
+            <success-card v-if="card_success" :message="card_message" />
+        </transition>
+        <transition name="fade">
             <change-password v-if="$store.state.changePasswordStatus" />
         </transition>
         <transition name="fade">
@@ -291,11 +298,15 @@
 
 <script>
     import AddCard from './modals/AddCard'
+    import ActionCard from './modals/ActionCard'
+    import SuccessCard from './modals/SuccessCard'
     import ChangePassword from './modals/ChangePassword'
     import BuyRidesPrompt from './modals/BuyRidesPrompt'
     export default {
         components: {
             AddCard,
+            ActionCard,
+            SuccessCard,
             ChangePassword,
             BuyRidesPrompt
         },
@@ -311,7 +322,11 @@
                 res: [],
                 sizes: [],
                 message: '',
+                card_message: '',
+                card_success: false,
                 add_card: false,
+                card_action: false,
+                action_type: '',
                 loaded: false,
                 previewImage: false,
                 subscribed: true,
@@ -319,9 +334,8 @@
                 height: 0,
                 unique: 0,
                 card_unique: 0,
-                cards: [
-
-                ],
+                cards: [],
+                card: [],
                 profileOverview: {
                     first_name: '',
                     last_name: '',
@@ -367,6 +381,12 @@
             }
         },
         methods: {
+            cardAction (data, type) {
+                const me = this
+                me.card = data
+                me.action_type = type
+                me.card_action = true
+            },
             addPaymayaCard () {
                 const me = this
                 me.add_card = true
@@ -382,7 +402,9 @@
             closeDot () {
                 const me = this
                 if (me.card_unique != null) {
-                    me.cards[me.card_unique].toggled = false
+                    if (me.cards[me.card_unique]) {
+                        me.cards[me.card_unique].toggled = false
+                    }
                 }
             },
             cardType (data) {
@@ -598,6 +620,29 @@
                     }
                 })
             },
+            getCards () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    for (let i = 0, len = res.data.cards.length; i < len; i++) {
+                        res.data.cards[i].toggled = false
+                    }
+                    me.cards = res.data.cards
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
             initialization () {
                 const me = this
                 let token = me.$cookies.get('70hokc3hhhn5')
@@ -654,14 +699,10 @@
                         me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
                         me.subscribed = (res.data.user.newsletter_subscription) ? true : false
 
-                        me.$axios.get('api/paymaya/cards', {
-                            headers: {
-                                Authorization: `Bearer ${token}`
-                            }
-                        }).then(res => {
-                            me.cards = res.data.cards
-                            console.log(res.data)
-                        })
+                        if (me.category == 'card') {
+                            me.getCards()
+                        }
+
 
                         setTimeout( () => {
                             me.loaded = true
@@ -673,7 +714,9 @@
                     me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                 }).then(() => {
                     setTimeout( () => {
-                        me.loader(false)
+                        if (me.category != 'card') {
+                            me.loader(false)
+                        }
                     }, 500)
                 })
             }

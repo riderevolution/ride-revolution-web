@@ -1,9 +1,7 @@
 <template>
     <div class="buy_rides inner transaction" style="padding-top: 200px;">
         <section id="banner">
-
         </section>
-        <button type="button" name="button" @click="close()">Close</button>
     </div>
 </template>
 
@@ -13,10 +11,11 @@
             return {
             }
         },
-        methods: {
-            close () {
+        mounted () {
+            setTimeout( () => {
+                window.opener.document.getElementById('sc').click()
                 window.close()
-            }
+            }, 500)
         }
     }
 </script>
