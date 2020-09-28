@@ -150,6 +150,13 @@
                     </div>
                 </transition>
             </div>
+            <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
+                <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
+                    <div v-if="step == 3">
+                        <paymaya-checkout />
+                    </div>
+                </transition>
+            </div>
         </section>
         <transition name="fade">
             <card-status v-if="checker" />
@@ -164,6 +171,7 @@
 </template>
 
 <script>
+    import PaymayaCheckout from '../../../../components/PaymayaCheckout'
     import ProTip from '../../../../components/ProTip'
     import Breadcrumb from '../../../../components/Breadcrumb'
     import CardStatus from '../../../../components/modals/CardStatus'
@@ -171,6 +179,7 @@
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
+            PaymayaCheckout,
             ProTip,
             Breadcrumb,
             CardStatus,
@@ -215,7 +224,7 @@
                     if (res.data.cards.length <= 0) {
                         me.checker = true
                     } else {
-                        me.paymentType = 'paymaya'
+                        me.step += 1
                     }
                 }).catch((err) => {
                     me.$store.state.loginSignUpStatus = true

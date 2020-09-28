@@ -1,10 +1,9 @@
 <template>
 	<div class="buy_rides inner" v-if="loaded">
-		<breadcrumb :overlay="false" />
-        <div class="comment alt" v-if="step != 0">
+        <div class="comment alt">
             <section id="content">
 				<div class="bck">
-					<nuxt-link :to="`/buy-rides/package/${classPackage.slug}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
+					<div @click.once="$parent.proceedToPayment('paynow')" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></div>
 				</div>
                 <form id="default_form" @submit.prevent="submit($event)" v-if="user != null" enctype="multipart/form-data">
                     <div class="form_main_group">
@@ -24,10 +23,21 @@
 							</div>
 						</div>
 						<div class="form_flex">
-							<div v-for="(card, key) in cards">
-								<input type="radio" name="payment_token_id" :value="card.cardTokenId" :id="`card_option_${key}`">
-								<label :for="`card_option_${key}`">**** **** **** {{ card.last4 }}</label>
-							</div>
+                            <div class="form_custom_checkbox">
+                                <div :id="`card_${key}`" class="custom_checkbox" :class="{ active: data.default, active: data.toggled }" v-for="(data, key) in cards" :key="key" @click="toggleCard(data, key)">
+                                    <div class="c_type" v-html="cardType(data)"></div>
+                                    <label>**** **** **** {{ data.last4 }}</label>
+                                    <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+                                        <g transform="translate(-804.833 -312)">
+                                            <circle class="circle" cx="14" cy="14" r="14" transform="translate(805.833 313)" />
+                                            <path class="mark" d="M6466.494,185.005l4.85,4.85,9.6-9.6" transform="translate(-5653.091 142.403)" />
+                                        </g>
+                                    </svg>
+                                    <div class="info">
+                                        <p>Exp. {{ data.expiry_month }}/{{ $moment(data.expiry_year, 'YYYY').format('YY') }}</p>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
                     </div>
 					<div class="form_main_group">
@@ -100,41 +110,20 @@
                 </form>
             </section>
         </div>
-		<transition name="fade">
-            <buy-rides-success v-if="$store.state.buyRidesSuccessStatus" :summary="summary" />
-        </transition>
 	</div>
 </template>
 
 <script>
-	import Breadcrumb from '../../../../components/Breadcrumb'
-	import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
 	import VueRecaptcha from 'vue-recaptcha'
-	import aes from 'crypto-js/aes'
-	import encHex from 'crypto-js/enc-hex'
-	import padZeroPadding from 'crypto-js/pad-zeropadding'
-
 	export default {
 		components: {
-			Breadcrumb,
-			BuyRidesSuccess,
 			VueRecaptcha
 		},
 		data () {
 			return {
-				step: 1,
-				summary: {
-                    res: '',
-                    total: 0,
-                    discount: 0,
-                    quantity: 0,
-                    type: ''
-                },
 				loaded: false,
 				user: null,
-				classPackage: {
-					name: 'Class Package'
-				},
+                selected_card: [],
 				cards: []
 			}
 		},
@@ -147,38 +136,14 @@
 					formData.append('user_id', me.user.id)
 					formData.append('class_package_id', me.classPackage.id)
 
-					/* encrypt form */
-					let object = {}
-					formData.forEach((value, key) => {
-						object[key] = value
-					})
-
-					let key = encHex.parse('43e3b0f3405b2b7707e398f0171a91a2')
-					let iv = encHex.parse('91bc845cbd4076fb9a0fdc2ad37e425d')
-					let textData = JSON.stringify(object)
-
-					let encrypted = aes.encrypt(textData, key, {iv: iv, padding: padZeroPadding}).toString()
-					/* end form encrpytion */
 
 					let token = me.$cookies.get('70hokc3hhhn5')
 					me.$axios.post(`api/paymaya-checkout`, {
-						dt: encrypted
-					}, {
 						headers: {
 					        Authorization: `Bearer ${token}`
 					    }
 					}).then(res => {
 						console.log(res.data)
-						// setTimeout( () => {
-						// 	me.summary.res = me.classPackage
-			   //              me.summary.total = res.data.payment.total
-			   //              me.summary.discount = 0
-						// 	me.summary.quantity = 1
-			   //              me.summary.type = 'paynow'
-						// 	me.step = 0
-						// 	me.$store.state.buyRidesSuccessStatus = true
-						// 	window.scrollTo({ top: 0, behavior: 'smooth' })
-					 //    }, 500)
 					}).catch(err => {
 						me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
@@ -187,7 +152,6 @@
                             me.loader(false)
                         }, 500)
                     })
-
 
       //               if (valid && grecaptcha.getResponse().length > 0) {
       //                   let captcha = grecaptcha.getResponse()
@@ -236,6 +200,18 @@
       //               }
                 })
 			},
+            toggleCard (data, unique) {
+                const me = this
+                me.selected_card = data
+                document.getElementById(`card_${unique}`).classList.add('active')
+                for (let i = 0, len = me.cards.length; i < len; i++) {
+                    if (unique != i) {
+                        if (document.getElementById(`card_${i}`)) {
+                            document.getElementById(`card_${i}`).classList.remove('active')
+                        }
+                    }
+                }
+            },
 			checkToken () {
 				const me = this
 				let token = me.$cookies.get('70hokc3hhhn5')
@@ -287,19 +263,6 @@
 			me.checkToken()
 			me.fetchClassPackage()
 			me.getCards()
-		},
-		head () {
-            const me = this
-            let host = process.env.baseUrl
-            return {
-                title: `Subscribe to ${me.classPackage.name} | Ride Revolution`,
-                link: [
-                    {
-                        rel: 'canonical',
-                        href: `${host}${me.$route.fullPath}`
-                    }
-                ]
-            }
-        }
+		}
 	}
 </script>
