@@ -24,6 +24,12 @@
 							</div>
 						</div>
 						<div class="form_flex">
+							<div v-for="(card, key) in cards">
+								<input type="radio" name="payment_token_id" :value="card.cardTokenId" :id="`card_option_${key}`">
+								<label :for="`card_option_${key}`">**** **** **** {{ card.last4 }}</label>
+							</div>
+						</div>
+						<!-- <div class="form_flex">
 							<div class="form_group">
 								<label for="number">Card Number <span>*</span></label>
 								<input type="text" id="number" class="input_text" placeholder="4111111111111111" value="4012 0010 3714 1112" name="card_number">
@@ -44,7 +50,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
                     </div>
 					<div class="form_main_group">
                         <div class="form_header">
@@ -150,7 +156,8 @@
 				user: null,
 				classPackage: {
 					name: 'Class Package'
-				}
+				},
+				cards: []
 			}
 		},
 		methods: {
@@ -272,12 +279,36 @@
 				me.$axios.get(`api/packages/web/class-packages/${me.$route.params.slug}`).then(res => {
 					me.classPackage = res.data.classPackage
 	            })
-			}
+			},
+			getCards () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    for (let i = 0, len = res.data.cards.length; i < len; i++) {
+                        res.data.cards[i].toggled = false
+                    }
+                    me.cards = res.data.cards
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
 		},
 		mounted () {
 			const me = this
 			me.checkToken()
 			me.fetchClassPackage()
+			me.getCards()
 		},
 		head () {
             const me = this
