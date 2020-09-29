@@ -4,7 +4,7 @@
         <div class="confirmation_wrapper">
             <div class="form_close" @click.once="toggleClose(false)"></div>
             <div class="confirmation_text">
-                Please setup first your payment card in order to proceed.
+                Please setup your credit/debit card first in order to proceed.
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn_wht" @click.once="toggleClose(true)">{{ ($route.query.token) ? 'Add Card' : 'Go to My Cards' }}</div>
