@@ -224,8 +224,8 @@
             <div id="tab_2" class="card wrapper" v-if="category == 'card'">
                 <div class="cards">
                     <div class="ci_header">
-                        <h2>Paymaya</h2>
-                        <div class="default_btn nmt" @click="addPaymayaCard()">Add Paymaya Card</div>
+                        <h2>Cards for One-time purchases</h2>
+                        <div class="default_btn nmt" @click="addPaymayaCard()">Add credit/debit Card</div>
                     </div>
                     <div class="card_item" v-for="(data, key) in cards" v-if="cards.length > 0">
                         <div class="overlay">
