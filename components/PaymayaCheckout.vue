@@ -119,7 +119,11 @@
 		components: {
 			VueRecaptcha
 		},
-		props: ['type'],
+		props: {
+			type: {
+				type: String
+			},
+		},
 		data () {
 			return {
 				loaded: false,

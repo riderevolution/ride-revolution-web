@@ -16,7 +16,7 @@
                                     <h2 :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price) }}</h2>
                                     <h2 v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</h2>
                                 </div>
-                                <div class="content" v-html="res.description">
+                                <div class="content" v-htmfl="res.description">
                                 </div>
                             </div>
                             <div class="right">
