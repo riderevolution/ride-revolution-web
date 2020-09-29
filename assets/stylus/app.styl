@@ -402,6 +402,8 @@ svg
         margin-bottom: 30px
     .default_btn
         margin-top: 30px
+        &.nmt
+            margin-top: 0
     &.alt
         text-align: center
         width: 100%
@@ -535,6 +537,8 @@ svg
         color: $gray_alt2
     &.full
         width: 100%
+    &.nmt
+        margin-top: 0
     &:hover
         box-shadow: 0px 0px 20px rgba(38, 164, 139, 0.75)
         transition: .3s ease-in-out
@@ -3363,6 +3367,9 @@ svg
         width: 100%
         max-width: 50%
         margin: 60px auto
+    &.alt
+        #content
+            margin: 0 auto
 
 /**
  * Buy Rides */
@@ -6621,7 +6628,7 @@ svg
                             margin-right: 0
         .profile_tab_content
             position: relative
-            margin: 30px 0
+            margin: 30px 0 0
             height: 0%
             transition: .3s ease-in-out
             .wrapper
@@ -7341,6 +7348,29 @@ svg
                         align-items: center
                         margin-bottom: 20px
                         cursor: pointer
+                        #side_icon
+                            &.profile
+                                .a,
+                                .b,
+                                .e
+                                    fill: none
+                                .a,
+                                .b
+                                    stroke-miterlimit: 10
+                                .c,
+                                .d
+                                    stroke:none
+                            &.address
+                                .a
+                                    fill: none
+                                    stroke-linecap: round
+                                    stroke-miterlimit: 10
+                            &.account
+                                .a
+                                    fill: none
+                            &.card
+                                .a
+                                    fill: $black
                         .item
                             flex: 1 0 auto
                             padding-left: 20px
@@ -7376,6 +7406,111 @@ svg
                         top: 0
                         left: 0
                         right: 0
+                        &.card
+                            .cards
+                                display: flex
+                                flex-flow: row wrap
+                                justify-content: flex-start
+                                .no_results
+                                    display: block
+                                    text-align: center
+                                    width: 100%
+                                .ci_header
+                                    flex: 0 0 100%
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    justify-content: space-between
+                                    margin-bottom: 30px
+                                    h2
+                                        brandon_regular(22px, false)
+                                        color: $black
+                                        letter-spacing: 0.33px
+                                    .default_btn
+                                        padding: 15px 30px
+                                .card_item
+                                    position: relative
+                                    flex: 0 0 calc(33.33% - 30px)
+                                    margin: 0 15px 30px
+                                    background-color: $white_alt
+                                    padding: 20px
+                                    transform: perspective(1px) scale(1)
+                                    box-shadow: 0px 10px 15px transparent
+                                    transition: .3s ease-in-out
+                                    &:hover
+                                        transform: perspective(1px) scale(1.02)
+                                        box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
+                                        transition: .3s ease-in-out
+                                    .overlay
+                                        position: absolute
+                                        top: calc(0% + 15px)
+                                        right: calc(0% + 20px)
+                                        .ci_dot
+                                            cursor: pointer
+                                            border-left: 10px solid transparent
+                                            border-right: 10px solid transparent
+                                            border-top: 10px solid $green
+                                            transform: rotate(0deg)
+                                            transition: .3s ease-in-out
+                                            &.toggled
+                                                transform: rotate(180deg)
+                                                transition: .3s ease-in-out
+                                        .menu_dot_list
+                                            list-style: none
+                                            padding: 0
+                                            margin: 0
+                                            position: absolute
+                                            top: calc(100% + 5px)
+                                            right: 0
+                                            width: 200px
+                                            z-index: 2
+                                            background-color: $white
+                                            border-radius: 3px
+                                            border: 1px solid #D3D3D3
+                                            .menu_dot_item
+                                                padding: 15px 20px
+                                                brandon_bold(18px, false)
+                                                color: $black
+                                                background-color: transparent
+                                                border-bottom: 1px solid #E8E8E8
+                                                cursor: pointer
+                                                transition: .3s ease-in-out
+                                                &.red
+                                                    color: $red
+                                                    transition: .3s ease-in-out
+                                                    &:hover
+                                                        color: $red
+                                                        background-color: $red_alt
+                                                        transition: .3s ease-in-out
+                                                &:last-child
+                                                    border-bottom: 1px solid transparent
+                                                &:hover
+                                                    color: $green
+                                                    background-color: #D6FFF7
+                                                    transition: .3s ease-in-out
+                                    .c_type
+                                        svg
+                                            width: 100%
+                                            max-width: 50px
+                                            height: 40px
+                                    .c_number
+                                        brandon_bold(20px, false)
+                                        color: $pink
+                                        margin: 5px 0
+                                    .c_default
+                                        display: block
+                                        text-align: right
+                                        .d_status
+                                            display: inline-block
+                                            background-color: $green_alt
+                                            color: $green
+                                            brandon_medium(12px, true)
+                                            letter-spacing: 0.25px
+                                            padding: 5px 10px
+                                            border-radius: 4px
+                                    .c_date
+                                        brandon_regular(16px, false)
+                                        color: $black
                         &.address
                             padding: 40px 0
                             #default_form
@@ -9139,6 +9274,15 @@ svg
     align-items: center
     justify-content: space-between
     margin-bottom: 30px
+    .form_custom_checkbox
+        flex: 0 0 100%
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: space-between
+        .custom_checkbox
+            flex: 0 0 48.33%
+            margin-bottom: 0
     &.three
         .form_group
             flex: 0 0 31.33%
@@ -9259,6 +9403,8 @@ svg
 .form_button
     text-align: right
     margin-top: 30px
+    &.cnt
+        text-align: center
     &.bck
         text-align: left
         margin-bottom: 30px
