@@ -177,6 +177,10 @@ Vue.mixin({
             formData.append('total', page.form.total)
             formData.append('payment_method', page.paymentType)
             formData.append('paymaya_token_id', paymaya_token_id)
+
+            if (paymaya_token_id != 0) {
+                formData.append('summary', JSON.stringify(page.summary))
+            }
             if (paypal_details != null) {
                 formData.append('paypal_details', JSON.stringify(paypal_details))
             }

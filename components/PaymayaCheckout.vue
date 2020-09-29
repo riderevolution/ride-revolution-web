@@ -120,18 +120,9 @@
 			VueRecaptcha
 		},
 		props: {
-			summary: {
-				type: Object/Array,
-                default: function () {
-					return {
-	                    res: '',
-	                    total: 0,
-	                    discount: 0,
-	                    quantity: 0,
-	                    type: ''
-	                }
-				}
-			}
+			type: {
+				type: String
+			},
 		},
 		data () {
 			return {
@@ -144,6 +135,9 @@
 		methods: {
 			submit (e) {
 				const me = this
+				me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId)
+				return false
+
 				// me.loader(true)
 				me.$validator.validateAll().then(valid => {
 					let formData = new FormData(document.querySelector('#default_form'))
