@@ -119,6 +119,20 @@
 		components: {
 			VueRecaptcha
 		},
+		props: {
+			summary: {
+				type: Object/Array,
+                default: function () {
+					return {
+	                    res: '',
+	                    total: 0,
+	                    discount: 0,
+	                    quantity: 0,
+	                    type: ''
+	                }
+				}
+			}
+		},
 		data () {
 			return {
 				loaded: false,
