@@ -119,6 +119,7 @@
 		components: {
 			VueRecaptcha
 		},
+		props: ['type'],
 		data () {
 			return {
 				loaded: false,
@@ -130,6 +131,9 @@
 		methods: {
 			submit (e) {
 				const me = this
+				me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId)
+				return false
+
 				// me.loader(true)
 				me.$validator.validateAll().then(valid => {
 					let formData = new FormData(document.querySelector('#default_form'))

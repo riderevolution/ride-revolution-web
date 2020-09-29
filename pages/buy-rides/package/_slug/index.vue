@@ -153,7 +153,7 @@
             <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
                 <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
                     <div v-if="step == 3">
-                        <paymaya-checkout />
+                        <paymaya-checkout :type="`class-package`"/>
                     </div>
                 </transition>
             </div>
