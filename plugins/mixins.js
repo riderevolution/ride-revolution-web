@@ -177,7 +177,10 @@ Vue.mixin({
             formData.append('total', page.form.total)
             formData.append('payment_method', page.paymentType)
             formData.append('paymaya_token_id', paymaya_token_id)
-            formData.append('summary', JSON.stringify(page.summary))
+
+            if (paymaya_token_id != 0) {
+                formData.append('summary', JSON.stringify(page.summary))
+            }
             if (paypal_details != null) {
                 formData.append('paypal_details', JSON.stringify(paypal_details))
             }
@@ -192,13 +195,12 @@ Vue.mixin({
             }).then(res => {
                 if (res.data) {
                     setTimeout( () => {
-                        console.log(res.data)
-                        // if (paymaya_token_id != 0) {
-                        //     location.href = res.data.verificationUrl
-                        // } else {
-                        //     page.step = 0
-                        //     me.$store.state.buyRidesSuccessStatus = true
-                        // }
+                        if (paymaya_token_id != 0) {
+                            location.href = res.data.verificationUrl
+                        } else {
+                            page.step = 0
+                            me.$store.state.buyRidesSuccessStatus = true
+                        }
                     }, 500)
                 }
             }).catch(err => {
