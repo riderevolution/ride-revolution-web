@@ -76,7 +76,9 @@
 					        Authorization: `Bearer ${token}`
 					    }
 					}).then(res => {
-                        location.href = res.data.verificationUrl
+                        setTimeout( () => {
+                            location.href = res.data.verificationUrl
+                        }, 500)
                         // window.open(res.data.verificationUrl, "verificationWindow", "directories=no,titlebar=no,toolbar=no,location=no,menubar=no,scrollbars=no,resizable=no,status=1,width=600,height=450")
                         me.toggleClose()
 					}).catch(err => {
