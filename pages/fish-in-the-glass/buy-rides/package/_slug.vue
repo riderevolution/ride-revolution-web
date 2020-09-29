@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="item">
                                     <h3>Rides</h3>
-                                    <p>{{ res.class_count }}</p>
+                                    <p>{{ (res.class_count_unlimited == 1) ? 'Unlimited' : res.class_count }}</p>
                                 </div>
                                 <div class="item">
                                     <h3>Discount</h3>
@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                        <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                         <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
                                     </div>
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                        <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                         <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                         <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                             <p>Note: Paypal account not needed</p>
@@ -135,9 +135,19 @@
                         </div>
                     </transition>
                 </div>
+                <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
+                    <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
+                        <div v-if="step == 3">
+                            <paymaya-checkout :type="'class-package'"/>
+                        </div>
+                    </transition>
+                </div>
             </section>
             <transition name="fade">
-                <card-status v-if="paymayaStatus" :payment_type="'class-package'" />
+                <add-card v-if="add_card" />
+            </transition>
+            <transition name="fade">
+                <card-status v-if="checker" />
             </transition>
             <transition name="fade">
                 <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
@@ -150,12 +160,16 @@
 </template>
 
 <script>
+    import PaymayaCheckout from '../../../../components/PaymayaCheckout'
+    import AddCard from '../../../../components/modals/AddCard'
     import CardStatus from '../../../../components/modals/CardStatus'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         layout: 'fish',
         components: {
+            PaymayaCheckout,
+            AddCard,
             CardStatus,
             BuyRidesPrompt,
             BuyRidesSuccess
@@ -173,6 +187,8 @@
                 type: '',
                 storeCredits: 0,
                 step: 1,
+                add_card: false,
+                checker: false,
                 paypal: false,
                 paymayaStatus: false,
                 message: '',
@@ -190,8 +206,32 @@
         methods: {
             paymaya () {
                 const me = this
-                me.paymentType = 'paymaya'
-                me.paymayaStatus = true
+                let token = me.$route.query.token
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data.cards.length <= 0) {
+                        me.checker = true
+                    } else {
+                        me.step += 1
+                    }
+                }).catch((err) => {
+                    setTimeout( () => {
+                        document.body.classList.add('no_scroll')
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    }, 500)
+                    setTimeout( () => {
+                        me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
+                    }, 1000)
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
             },
             paymentSuccess () {
                 const me = this

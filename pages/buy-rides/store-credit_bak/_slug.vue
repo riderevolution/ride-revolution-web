@@ -116,9 +116,16 @@
                     </div>
                 </transition>
             </div>
+            <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
+                <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
+                    <div v-if="step == 3">
+                        <paymaya-checkout :type="'store-credit-page'"/>
+                    </div>
+                </transition>
+            </div>
         </section>
         <transition name="fade">
-            <card-status v-if="paymayaStatus" :payment_type="'store-credit'" />
+            <card-status v-if="checker" />
         </transition>
         <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
@@ -130,6 +137,7 @@
 </template>
 
 <script>
+    import PaymayaCheckout from '../../../components/PaymayaCheckout'
     import ProTip from '../../../components/ProTip'
     import Breadcrumb from '../../../components/Breadcrumb'
     import CardStatus from '../../../components/modals/CardStatus'
@@ -137,6 +145,7 @@
     import BuyRidesSuccess from '../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
+            PaymayaCheckout,
             ProTip,
             Breadcrumb,
             CardStatus,
@@ -157,6 +166,7 @@
                 paymentType: '',
                 storeCredits: 50,
                 step: 1,
+                checker: false,
                 paypal: false,
                 paymayaStatus: false,
                 message: '',
@@ -172,8 +182,27 @@
         methods: {
             paymaya () {
                 const me = this
-                me.paymentType = 'paymaya'
-                me.paymayaStatus = true
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data.cards.length <= 0) {
+                        me.checker = true
+                    } else {
+                        me.step += 1
+                    }
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
             },
             computeTotal (total) {
                 const me = this

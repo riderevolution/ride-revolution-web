@@ -54,6 +54,10 @@
                 me.$validator.validateAll().then(valid => {
                     me.loader(true)
 					let formData = new FormData(document.getElementById('default_form'))
+                    if (me.$route.query.token) {
+                        formData.append('in_app', 1)
+                        formData.append('current_route', me.$route.path)
+                    }
 
 					/* encrypt form */
 					let object = {}
@@ -79,7 +83,6 @@
                         setTimeout( () => {
                             location.href = res.data.verificationUrl
                         }, 500)
-                        // window.open(res.data.verificationUrl, "verificationWindow", "directories=no,titlebar=no,toolbar=no,location=no,menubar=no,scrollbars=no,resizable=no,status=1,width=600,height=450")
                         me.toggleClose()
 					}).catch(err => {
                         me.$store.state.errorOverlayPromptStatus = true

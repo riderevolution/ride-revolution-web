@@ -24,7 +24,7 @@
 						</div>
 						<div class="form_flex">
                             <div class="form_custom_checkbox">
-                                <div :id="`card_${key}`" class="custom_checkbox" :class="{ active: data.default, active: data.toggled }" v-for="(data, key) in cards" :key="key" @click="toggleCard(data, key)">
+                                <div :id="`card_${key}`" class="custom_checkbox" :class="{ active: data.toggled }" v-for="(data, key) in cards" :key="key" @click="toggleCard(data, key)">
                                     <div class="c_type" v-html="cardType(data)"></div>
                                     <label>**** **** **** {{ data.last4 }}</label>
                                     <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
@@ -135,78 +135,29 @@
 		methods: {
 			submit (e) {
 				const me = this
-				me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId)
-				return false
-
-				// me.loader(true)
 				me.$validator.validateAll().then(valid => {
-					let formData = new FormData(document.querySelector('#default_form'))
-					formData.append('user_id', me.user.id)
-					formData.append('class_package_id', me.classPackage.id)
-
-
-					let token = me.$cookies.get('70hokc3hhhn5')
-					me.$axios.post(`api/paymaya-checkout`, {
-						headers: {
-					        Authorization: `Bearer ${token}`
-					    }
-					}).then(res => {
-						console.log(res.data)
-					}).catch(err => {
-						me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-					}).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
-                    })
-
-      //               if (valid && grecaptcha.getResponse().length > 0) {
-      //                   let captcha = grecaptcha.getResponse()
-      //                   me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
-      //                       let formData = new FormData(document.getElementById('default_form'))
-      //                       if (verify) {
-						// 		let form = {
-						// 			token: token,
-						// 			user_id: me.user.id,
-						// 			plan_code: me.classPackage.plan_code
-						// 		}
-						// 		me.$axios.post(`api/recurly/subscribe`, form).then(res => {
-						// 			setTimeout( () => {
-						// 				me.summary.res = me.classPackage
-			// 			                me.summary.total = res.data.payment.total
-			// 			                me.summary.discount = 0
-						// 				me.summary.quantity = 1
-			// 			                me.summary.type = 'paynow'
-						// 				me.step = 0
-						// 				me.$store.state.buyRidesSuccessStatus = true
-						// 				window.scrollTo({ top: 0, behavior: 'smooth' })
-						// 		    }, 500)
-						// 		}).catch(err => {
-						// 			me.$store.state.errorList = err.response.data.errors
-		    //                         me.$store.state.errorPromptStatus = true
-						// 		}).then(() => {
-		    //                         setTimeout( () => {
-		    //                             me.loader(false)
-		    //                         }, 500)
-		    //                     })
-      //                       }
-      //                   }).catch(err => {
-						// 	me.$store.state.errorList = err.response.data.errors
-      //                       	me.$store.state.errorPromptStatus = true
-      //                   })
-      //               } else {
-						// if (grecaptcha.getResponse().length <= 0) {
-						// 	me.$store.state.errorList = ['Please verify that you are not a robot']
-						// 	me.$store.state.errorPromptStatus = true
-						// } else {
-						// 	me.$scrollTo('.validation_errors', {
-	     //                        offset: -250
-	     //                    })
-						// }
-						// me.loader(false)
-      //               }
-                })
+					if (valid && grecaptcha.getResponse().length > 0) {
+						let captcha = grecaptcha.getResponse()
+						me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
+							if (verify) {
+								me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId)
+							}
+						}).catch(err => {
+							me.$store.state.errorList = err.response.data.errors
+							me.$store.state.errorPromptStatus = true
+						})
+					} else {
+						if (grecaptcha.getResponse().length <= 0) {
+							me.$store.state.errorList = ['Please verify that you are not a robot']
+							me.$store.state.errorPromptStatus = true
+						} else {
+							me.$scrollTo('.validation_errors', {
+								offset: -250
+							})
+						}
+						me.loader(false)
+					}
+				})
 			},
             toggleCard (data, unique) {
                 const me = this
@@ -236,12 +187,6 @@
 					})
 				}
 			},
-			fetchClassPackage () {
-				const me = this
-				me.$axios.get(`api/packages/web/class-packages/${me.$route.params.slug}`).then(res => {
-					me.classPackage = res.data.classPackage
-	            })
-			},
 			getCards () {
                 const me = this
                 let token = me.$cookies.get('70hokc3hhhn5')
@@ -252,7 +197,12 @@
                     }
                 }).then(res => {
                     for (let i = 0, len = res.data.cards.length; i < len; i++) {
-                        res.data.cards[i].toggled = false
+						if (res.data.cards[i].default) {
+							res.data.cards[i].toggled = true
+							me.selected_card = res.data.cards[i]
+						} else {
+							res.data.cards[i].toggled = false
+						}
                     }
                     me.cards = res.data.cards
                 }).catch((err) => {
@@ -269,7 +219,6 @@
 		mounted () {
 			const me = this
 			me.checkToken()
-			me.fetchClassPackage()
 			me.getCards()
 		}
 	}

@@ -7,7 +7,7 @@
                 Please setup first your payment card in order to proceed.
             </div>
             <div class="button_group alt">
-                <div class="flex default_btn_wht" @click.once="toggleClose(true)">Go to My Cards</div>
+                <div class="flex default_btn_wht" @click.once="toggleClose(true)">{{ ($route.query.token) ? 'Add Card' : 'Go to My Cards' }}</div>
             </div>
         </div>
     </div>
@@ -19,7 +19,11 @@
             toggleClose (status) {
                 const me = this
                 if (status) {
-                    me.$router.push('/my-profile/update-profile#card')
+                    if (me.$route.query.token) {
+                        me.$parent.add_card = true
+                    } else {
+                        me.$router.push('/my-profile/update-profile#card')
+                    }
                 }
                 me.$parent.checker = false
                 document.body.classList.remove('no_scroll')
