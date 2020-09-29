@@ -352,7 +352,7 @@
                 me.$store.state.loginSignUpStatus = true
                 document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                me.loaded(false)
+                me.loader(false)
             } else {
                 me.$axios.get('api/check-token', {
                     headers: {
