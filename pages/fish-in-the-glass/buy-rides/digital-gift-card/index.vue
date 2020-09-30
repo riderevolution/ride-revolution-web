@@ -212,9 +212,19 @@
                         </div>
                     </transition>
                 </div>
+                <div id="step_4" :class="`step ${(step != 4) ? 'overlay' : ''}`">
+                    <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
+                        <div v-if="step == 4">
+                            <paymaya-checkout :type="'digital-gift-card'"/>
+                        </div>
+                    </transition>
+                </div>
             </section>
             <transition name="fade">
-                <card-status v-if="paymayaStatus" :payment_type="'digital-gift-card'" />
+                <add-card v-if="add_card" />
+            </transition>
+            <transition name="fade">
+                <card-status v-if="checker" />
             </transition>
             <transition name="fade">
                 <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
@@ -227,12 +237,16 @@
 </template>
 
 <script>
+    import PaymayaCheckout from '../../../../components/PaymayaCheckout'
+    import AddCard from '../../../../components/modals/AddCard'
     import CardStatus from '../../../../components/modals/CardStatus'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         layout: 'fish',
         components: {
+            PaymayaCheckout,
+            AddCard,
             CardStatus,
             BuyRidesPrompt,
             BuyRidesSuccess
@@ -254,6 +268,8 @@
                 paymentType: '',
                 storeCredits: 55,
                 step: 1,
+                add_card: false,
+                checker: false,
                 paypal: false,
                 paymayaStatus: false,
                 message: '',
@@ -284,8 +300,32 @@
         methods: {
             paymaya () {
                 const me = this
-                me.paymentType = 'paymaya'
-                me.paymayaStatus = true
+                let token = me.$route.query.token
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data.cards.length <= 0) {
+                        me.checker = true
+                    } else {
+                        me.step += 1
+                    }
+                }).catch((err) => {
+                    setTimeout( () => {
+                        document.body.classList.add('no_scroll')
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    }, 500)
+                    setTimeout( () => {
+                        me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
+                    }, 1000)
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
             },
             paymentSuccess () {
                 const me = this

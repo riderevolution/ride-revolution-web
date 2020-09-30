@@ -16,7 +16,7 @@
                                     <h2 :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price) }}</h2>
                                     <h2 v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</h2>
                                 </div>
-                                <div class="content" v-htmfl="res.description">
+                                <div class="content" v-html="res.description">
                                 </div>
                             </div>
                             <div class="right">
@@ -153,7 +153,7 @@
             <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
                 <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
                     <div v-if="step == 3">
-                        <paymaya-checkout :type="`class-package`"/>
+                        <paymaya-checkout :type="'class-package'"/>
                     </div>
                 </transition>
             </div>
