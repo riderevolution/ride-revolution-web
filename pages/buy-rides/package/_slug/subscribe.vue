@@ -284,6 +284,10 @@
 						}, 500)
 					}).catch(err => {
 						console.log(err)
+					}).then(() => {
+						setTimeout( () => {
+							me.loader(false)
+						}, 500)
 					})
 				} else {
 					me.$store.state.loginSignUpStatus = true
