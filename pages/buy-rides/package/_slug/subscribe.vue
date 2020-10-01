@@ -115,6 +115,9 @@
                             <div class="form_button nmt">
                                 <button type="submit" class="default_btn">Submit</button>
                             </div>
+                            <div class="form_button nmt">
+                                <div class="default_btn paypal-checkout" @click="testing()">Try lang</div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -154,6 +157,21 @@
 			}
 		},
 		methods: {
+			testing () {
+				const pypl = recurly.PayPal({
+					display: {
+						displayName: 'Testing lang sirssss'
+					}
+				})
+				pypl.start()
+				pypl.on('error', (err) => {
+					console.log(err)
+				})
+
+				pypl.on('token', (token) => {
+					console.log(token)
+				})
+			},
 			submit (e) {
 				const me = this
 				me.loader(true)
