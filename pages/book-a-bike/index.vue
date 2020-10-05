@@ -360,7 +360,7 @@
                                                     if (res.data) {
                                                         setTimeout( () => {
                                                             res.data.customer.user_package_counts.forEach((data, index) => {
-                                                                if (parseInt(me.$moment(data.class_package.computed_expiration_date).diff(me.$moment(), 'seconds')) > 0) {
+                                                                if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
                                                                     hasPackages = true
                                                                 }
                                                             })
