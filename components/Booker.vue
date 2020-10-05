@@ -441,7 +441,15 @@
                     if (element.bookings.length > 0) {
                         element.bookings[0].user_package_count.same_number = 1
                         if (tempResult.length == 0) {
-                            tempResult.push(element.bookings[0].user_package_count)
+                            if (me.schedule.schedule.studio.online_class == 1) {
+                                element.bookings.forEach((booking, key) => {
+                                    if (booking.original_booker_id == me.user.id) {
+                                        tempResult.push(booking.user_package_count)
+                                    }
+                                })
+                            } else {
+                                tempResult.push(element.bookings[0].user_package_count)
+                            }
                         } else if (tempResult.length > 0) {
                             let tempCtr = 0
                             tempResult.forEach((temp, tIndex) => {
