@@ -243,13 +243,13 @@
                         toggled: false
                     },
                     {
-                        title: '<b>Step 3:</b> Mount your bike and clip your shoes to the pedals',
-                        description: '<p>Press down on the resistance knob to fully stop your pedals from moving. Then properly align the bike clip with your cleats. Once you feel and hear the clipping sound, you are safe and ready to ride.</p>',
+                        title: '<b>Step 3:</b> Get familiar with the handle numbers',
+                        description: '<p>We have four positions - first, second, third and fourth position. The instructor will help guide you in the beginning of the class. </p>',
                         toggled: false
                     },
                     {
-                        title: '<b>Step 4:</b> Get familiar with the handle numbers',
-                        description: '<p>We have four positions - first, second, third and fourth position. The instructor will help guide you in the beginning of the class. </p>',
+                        title: '<b>Step 4:</b> Mount your bike and clip your shoes to the pedals',
+                        description: '<p>Press down on the resistance knob to fully stop your pedals from moving. Then properly align the bike clip with your cleats. Once you feel and hear the clipping sound, you are safe and ready to ride.</p>',
                         toggled: false
                     },
                     {

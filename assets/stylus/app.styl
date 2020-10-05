@@ -1272,6 +1272,7 @@ svg
     /**
      * Navbar */
     #header
+        position: relative
         display: flex
         flex-flow: row wrap
         align-items: center
@@ -1284,6 +1285,43 @@ svg
         box-shadow: 0 3px 6px transparent
         border-bottom: 0.5px solid $border_alt3
         transition: .2s linear
+        .m_user_dropdown_list
+            position: absolute
+            width: 100%
+            top: 100%
+            right: 0
+            background-color: $white
+            border-top: 0.5px solid $border_alt3
+            list-style: none
+            padding: 0
+            margin: 0
+            box-shadow: 0 15px 10px rgba(0, 0, 0, 0.3)
+            .user_dropdown_item
+                margin: 0
+                .item_link
+                    display: block
+                    width: 100%
+                    padding: 15px 20px
+                    background-color: transparent
+                    border-bottom: 1px solid #E8E8E8
+                    cursor: pointer
+                    brandon_regular(16px, false)
+                    color: $black_alt2
+                    transition: .3s ease-in-out
+                    &:hover,
+                    &.nuxt-link-exact-active
+                        color: $green
+                        background-color: $green_alt3
+                        transition: .3s ease-in-out
+                    &.red
+                        color: $red
+                        transition: .3s ease-in-out
+                        &:hover
+                            background-color: $red_alt
+                            transition: .3s ease-in-out
+                &:last-child
+                    .item_link
+                        border-bottom: 1px solid transparent
         &.login
             border-bottom: 0.5px solid transparent
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1)
@@ -1491,6 +1529,10 @@ svg
                 align-items: center
                 padding-right: 20px
                 cursor: pointer
+                &.mobile
+                    padding-right: 0
+                    &::before
+                        content: unset
                 &.toggled
                     &::before
                         transform: translateY(-50%) rotate(180deg)
@@ -1826,7 +1868,7 @@ svg
         align-items: flex-start
         &.mobile
             min-height: 200px
-            overflow-y: scroll
+            overflow-y: auto
             overflow-x: hidden
         &.sticky
             .close_icon
@@ -3368,7 +3410,7 @@ svg
         margin: 60px auto
     &.alt
         #content
-            margin: 0 auto
+            margin: 30px auto
 
 /**
  * Buy Rides */

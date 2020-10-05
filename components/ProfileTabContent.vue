@@ -251,8 +251,8 @@
                                         </td>
                                         <td data-column="Expiry">
                                             <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
-                                                <div class="default">{{ (data.computed_expiration_date == null) ? $moment(data.updated_at).format('MMM D, YYYY') : $moment(data.computed_expiration_date).format('MMM D, YYYY') }}</div>
-                                                <div class="label violator" v-if="parseInt($moment(data.computed_expiration_date).diff($moment(), 'days')) <= 15 && tabCategory == 'active'">{{ ($moment(data.computed_expiration_date).diff($moment(), 'days') == 0) ? `${$moment(data.computed_expiration_date).diff($moment(), 'hours')} Hours` : `${$moment(data.computed_expiration_date).diff($moment(), 'days')} Days` }} Left</div>
+                                                <div class="default">{{ (data.computed_expiration_date == null) ? $moment(data.expiry_date_if_not_activated).format('MMM D, YYYY') : $moment(data.computed_expiration_date).format('MMM D, YYYY') }}</div>
+                                                <div class="label violator" v-if="parseInt($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')) <= 15 && tabCategory == 'active'">{{ ($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days') == 0) ? `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'hours')} Hours` : `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')} Days` }} Left</div>
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
@@ -1051,7 +1051,7 @@
                                 setTimeout( () => {
                                     me.packages = []
                                     res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment(data.computed_expiration_date).diff(me.$moment(), 'seconds')) > 0) {
+                                        if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
                                             data.toggled = false
                                             data.expired = false
                                             me.packages.push(data)
@@ -1075,7 +1075,7 @@
                                 setTimeout( () => {
                                     me.packages = []
                                     res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment(data.computed_expiration_date).diff(me.$moment(), 'seconds')) <= 0 || data.computed_expiration_date == null) {
+                                        if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) <= 0) {
                                             data.expired = true
                                             me.packages.push(data)
                                         }
