@@ -129,6 +129,12 @@
                 me.checkElements()
                 me.checkBadges()
                 me.checkVersion()
+                if (typeof ga === 'function') {
+                    ga('set', 'page', to.fullPath)
+                    ga('send', 'pageview')
+                } else {
+                    ga('create', 'UA-72612132-2', 'auto')
+                }
             }
         },
         methods: {
@@ -288,6 +294,8 @@
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
             })();
 
+            ga('create', 'UA-72612132-2', 'auto')
+
             me.checkVersion()
 
             me.$store.state.inApp = false
@@ -304,7 +312,18 @@
             const me = this
             let host = process.env.baseUrl
             return {
-                title: `Welcome | Ride Revolution`
+                title: `Welcome | Ride Revolution`,
+                script: [
+                    {
+                        innerHTML: `
+                            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                        `
+                    },
+                ],
+                __dangerouslyDisableSanitizers: ['script']
             }
         }
     }
