@@ -619,11 +619,9 @@
                     }
                     me.cards = res.data.cards
                 }).catch((err) => {
-                    console.log(err);
-                    console.log(2);
-                    // me.$store.state.loginSignUpStatus = true
-                    // document.body.classList.add('no_scroll')
-                    // me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                 }).then(() => {
                     setTimeout( () => {
                         me.loader(false)
@@ -694,11 +692,9 @@
                         }, 500)
                     }
                 }).catch((err) => {
-                    console.log(err);
-                    console.log(1);
-                    // me.$store.state.loginSignUpStatus = true
-                    // document.body.classList.add('no_scroll')
-                    // me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                 }).then(() => {
                     setTimeout( () => {
                         if (me.category != 'card') {

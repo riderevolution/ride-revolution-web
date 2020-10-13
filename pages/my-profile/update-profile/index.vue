@@ -70,21 +70,38 @@
         },
         mounted () {
             const me = this
-            if (me.$route.hash) {
-                me.category = me.$route.hash.split('#')[1]
-            }
-        },
-        async asyncData ({ axios, params, store, error }) {
-            let ctr = 0
-            setInterval( () => {
-                if (ctr < 1) {
-                    if (!store.state.isAuth || store.state.user.new_user == 1) {
-                        store.state.loginSignUpStatus = true
-                        error({ statusCode: 403, message: 'Page not found' })
+            let token = me.$cookies.get('70hokc3hhhn5')
+            me.loader(true)
+            if (token == null || token == undefined) {
+                me.$store.state.loginSignUpStatus = true
+                document.body.classList.add('no_scroll')
+                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            } else {
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
-                    ctr++
-                }
-            }, 500)
+                }).then(res => {
+                    if (res.data) {
+                        if (res.data.user.new_user == 1 || res.data.user.new_user.complete_profile == 1) {
+                            me.$store.state.completeProfileStepsStatus = true
+                            document.body.classList.add('no_scroll')
+                        } else {
+                            if (me.$route.hash) {
+                                me.category = me.$route.hash.split('#')[1]
+                            }
+                        }
+                    }
+                }).catch(err => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    me.loader(false)
+                })
+            }
         },
         head () {
             const me = this
