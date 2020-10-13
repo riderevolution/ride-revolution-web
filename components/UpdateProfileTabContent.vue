@@ -687,8 +687,6 @@
                         if (me.category == 'card') {
                             me.getCards()
                         }
-
-
                         setTimeout( () => {
                             me.loaded = true
                         }, 500)
