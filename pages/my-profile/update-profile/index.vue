@@ -1,7 +1,7 @@
 <template>
     <div class="update_profile">
         <breadcrumb :overlay="false" />
-        <section id="content">
+        <section id="content" v-if="loaded">
             <div class="side_menu_tab">
                 <div class="left">
                     <h1>Settings</h1>
@@ -19,19 +19,25 @@
                 </div>
             </div>
         </section>
+        <transition name="fade">
+            <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
+    import CompleteProfilePrompt from '../../../components/modals/CompleteProfilePrompt'
     import Breadcrumb from '../../../components/Breadcrumb'
     import UpdateProfileTabContent from '../../../components/UpdateProfileTabContent'
     export default {
         components: {
+            CompleteProfilePrompt,
             Breadcrumb,
             UpdateProfileTabContent
         },
         data () {
             return {
+                loaded: false,
                 tabs: [
                     {
                         name: 'Profile',
@@ -74,8 +80,7 @@
             me.loader(true)
             if (token == null || token == undefined) {
                 me.$store.state.loginSignUpStatus = true
-                document.body.classList.add('no_scroll')
-                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                 setTimeout( () => {
                     me.loader(false)
                 }, 500)
@@ -87,18 +92,18 @@
                 }).then(res => {
                     if (res.data) {
                         if (res.data.user.new_user == 1 || res.data.user.new_user.complete_profile == 1) {
-                            me.$store.state.completeProfileStepsStatus = true
-                            document.body.classList.add('no_scroll')
+                            me.$store.state.completeProfilePromptStatus = true
                         } else {
                             if (me.$route.hash) {
                                 me.category = me.$route.hash.split('#')[1]
                             }
                         }
+                        me.loaded = true
+                        me.loader(false)
                     }
                 }).catch(err => {
                     me.$store.state.loginSignUpStatus = true
-                    document.body.classList.add('no_scroll')
-                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                     me.loader(false)
                 })
             }
