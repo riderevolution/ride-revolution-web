@@ -3779,6 +3779,12 @@
                     margin-top: 10px
 
     .comment
+        &.alt
+            #content
+                #default_form
+                    .form_main_group
+                        .form_flex
+                            text-align: left
         #content
             max-width: calc(100% - 20px)
             margin: 20px auto
@@ -3792,6 +3798,8 @@
                             & > div
                                 margin: 0 auto
                         .form_button
+                            &.nmt
+                                margin-top: 20px
                             flex: 0 0 100%
 
     #article_alert
@@ -3929,8 +3937,8 @@
                         padding-left: 10px
                 .user_dropdown
                     img
-                        width: 30px
-                        height: 30px
+                        width: 40px
+                        height: 40px
                     .user_dropdown_list
                         width: 175px
                         top: calc(100% + 20px)
@@ -3967,6 +3975,7 @@
                 .left
                     margin-bottom: 30px
                     .expanded_main_list
+                        text-align: center
                         li
                             margin-bottom: 30px
                             &:last-child
@@ -3980,16 +3989,25 @@
                                         right: calc(0% - 40px)
                                 #menu
                                     width: auto
-                                    height: 30px
+                                    height: 32px
                 .right
                     .expanded_nav_list
+                        display: flex
+                        flex-flow: row wrap
+                        align-items: center
+                        justify-content: center
+                        margin: 20px 0 30px
                         li
+                            flex: 0 0 50%
+                            text-align: center
                             margin-bottom: 15px
                             .nav_item
                                 brandon_bold(14px, true)
                     .expanded_nav_description
                         padding-top: 10px
+                        text-align: center
                         .link
+                            justify-content: center
                             margin-bottom: 20px
                             span
                                 brandon_bold(14px, false)
@@ -4000,6 +4018,7 @@
                             a
                                 brandon_bold(14px, false)
                         .social_links
+                            justify-content: center
                             margin-top: 20px
                             h4
                                 brandon_regular(14px, false)

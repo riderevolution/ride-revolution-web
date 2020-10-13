@@ -46,18 +46,30 @@
                                         <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile && !res.recurring">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                     <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
-                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
-                                <div class="action_mobile" v-else>
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile && res.recurring">
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && res.recurring">Back</nuxt-link>
+                                    <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
+                                </div>
+                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && !res.recurring">Back</nuxt-link>
+                                <div class="action_mobile" v-if="$store.state.isMobile && !res.recurring">
                                     <div class="m_left">
                                         <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                     </div>
                                     <div class="m_right">
                                         <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                         <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                    </div>
+                                </div>
+                                <div class="action_mobile" v-if="$store.state.isMobile && res.recurring">
+                                    <div class="m_left">
+                                        <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                    </div>
+                                    <div class="m_right">
+                                        <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +116,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                 </div>
                             </div>
@@ -122,7 +134,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                         <p>Note: Paypal account not needed</p>
@@ -138,7 +150,17 @@
                     </div>
                 </transition>
             </div>
+            <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
+                <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
+                    <div v-if="step == 3">
+                        <paymaya-checkout :type="'class-package'"/>
+                    </div>
+                </transition>
+            </div>
         </section>
+        <transition name="fade">
+            <card-status v-if="checker" />
+        </transition>
         <transition name="fade">
             <buy-rides-prompt :message="message" v-if="$store.state.buyRidesPromptStatus" :status="promoApplied" />
         </transition>
@@ -149,14 +171,18 @@
 </template>
 
 <script>
+    import PaymayaCheckout from '../../../../components/PaymayaCheckout'
     import ProTip from '../../../../components/ProTip'
     import Breadcrumb from '../../../../components/Breadcrumb'
+    import CardStatus from '../../../../components/modals/CardStatus'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
     export default {
         components: {
+            PaymayaCheckout,
             ProTip,
             Breadcrumb,
+            CardStatus,
             BuyRidesPrompt,
             BuyRidesSuccess
         },
@@ -172,6 +198,7 @@
                 type: '',
                 paymentType: '',
                 step: 1,
+                checker: false,
                 paypal: false,
                 message: '',
                 promoApplied: false,
@@ -187,8 +214,27 @@
         methods: {
             paymaya () {
                 const me = this
-                me.paymentType = 'paymaya'
-                me.payment(me, null, 'class-package', 1)
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data.cards.length <= 0) {
+                        me.checker = true
+                    } else {
+                        me.step += 1
+                    }
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
             },
             paymentSuccess () {
                 const me = this
@@ -306,7 +352,7 @@
                 me.$store.state.loginSignUpStatus = true
                 document.body.classList.add('no_scroll')
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                me.loaded(false)
+                me.loader(false)
             } else {
                 me.$axios.get('api/check-token', {
                     headers: {

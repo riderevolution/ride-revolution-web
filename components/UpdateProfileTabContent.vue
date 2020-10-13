@@ -221,7 +221,40 @@
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_2" class="accounts wrapper" v-if="category == 'account-settings'">
+            <div id="tab_2" class="card wrapper" v-if="category == 'card'">
+                <div class="cards">
+                    <div class="ci_header">
+                        <h2>Cards for One-time purchases</h2>
+                        <div class="default_btn nmt" @click="addPaymayaCard()">Add credit/debit Card</div>
+                    </div>
+                    <div class="card_item" v-for="(data, key) in cards" v-if="cards.length > 0">
+                        <div class="overlay">
+                            <div class="ci_dot" :class="{ 'toggled': data.toggled }" @click="toggleDot(data, key)" v-if="cards.length > 1"></div>
+                            <transition name="slideAlt">
+                                <ul class="menu_dot_list" v-if="data.toggled" v-click-outside="closeDot">
+                                    <li class="menu_dot_item" @click="cardAction(data, 'default')">Set as Default</li>
+                                    <li class="menu_dot_item red" @click="cardAction(data, 'delete')">Delete Card</li>
+                                </ul>
+                            </transition>
+                        </div>
+                        <div class="c_type" v-html="cardType(data)"></div>
+                        <div class="c_number">
+                            **** **** **** {{ data.last4 }}
+                        </div>
+                        <div class="c_date">Exp. {{ data.expiry_month }}/{{ $moment(data.expiry_year, 'YYYY').format('YY') }}</div>
+                        <div class="c_default">
+                            <div class="d_status" v-if="data.default">Default</div>
+                        </div>
+                    </div>
+                    <div class="no_results" v-if="cards.length == 0">
+                        <div class="text">You don't have any cards.</div>
+                    </div>
+                </div>
+                <button type="button" id="sc" class="hidden" @click="getCards()"></button>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div id="tab_3" class="accounts wrapper" v-if="category == 'account-settings'">
                 <form id="default_form">
                     <div class="form_main_group">
                         <div class="form_header">
@@ -246,6 +279,15 @@
             </div>
         </transition>
         <transition name="fade">
+            <add-card v-if="add_card" />
+        </transition>
+        <transition name="fade">
+            <action-card v-if="card_action" :type="action_type" :card="card" />
+        </transition>
+        <transition name="fade">
+            <success-card v-if="card_success" :message="card_message" />
+        </transition>
+        <transition name="fade">
             <change-password v-if="$store.state.changePasswordStatus" />
         </transition>
         <transition name="fade">
@@ -255,10 +297,16 @@
 </template>
 
 <script>
+    import AddCard from './modals/AddCard'
+    import ActionCard from './modals/ActionCard'
+    import SuccessCard from './modals/SuccessCard'
     import ChangePassword from './modals/ChangePassword'
     import BuyRidesPrompt from './modals/BuyRidesPrompt'
     export default {
         components: {
+            AddCard,
+            ActionCard,
+            SuccessCard,
             ChangePassword,
             BuyRidesPrompt
         },
@@ -274,12 +322,20 @@
                 res: [],
                 sizes: [],
                 message: '',
+                card_message: '',
+                card_success: false,
+                add_card: false,
+                card_action: false,
+                action_type: '',
                 loaded: false,
                 previewImage: false,
                 subscribed: true,
                 copied: false,
                 height: 0,
                 unique: 0,
+                card_unique: 0,
+                cards: [],
+                card: [],
                 profileOverview: {
                     first_name: '',
                     last_name: '',
@@ -311,10 +367,46 @@
                 pa_states: [],
                 ba_countries: [],
                 ba_states: [],
-                professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others']
+                professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
+            }
+        },
+        computed: {
+            populateCards () {
+                const me = this
+                let result = []
+                for (let i = 0, len = me.cards.length; i < len; i++) {
+                    result.push(me.cards[i])
+                }
+                return result
             }
         },
         methods: {
+            cardAction (data, type) {
+                const me = this
+                me.card = data
+                me.action_type = type
+                me.card_action = true
+            },
+            addPaymayaCard () {
+                const me = this
+                me.add_card = true
+            },
+            toggleDot (data, unique = null) {
+                const me = this
+                me.closeDot()
+                if (unique != null) {
+                    me.card_unique = unique
+                }
+                data.toggled = true
+            },
+            closeDot () {
+                const me = this
+                if (me.card_unique != null) {
+                    if (me.cards[me.card_unique]) {
+                        me.cards[me.card_unique].toggled = false
+                    }
+                }
+            },
             getSizes () {
                 const me = this
                 me.sizes = []
@@ -512,70 +604,112 @@
                         })
                     }
                 })
+            },
+            getCards () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/paymaya/cards', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    for (let i = 0, len = res.data.cards.length; i < len; i++) {
+                        res.data.cards[i].toggled = false
+                    }
+                    me.cards = res.data.cards
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
+            initialization () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        me.res = res.data.user
+                        me.profileOverview.image_id = (res.data.user.customer_details.images[0].path != null) ? res.data.user.customer_details.images[0].id : 0
+                        me.profileOverview.first_name = res.data.user.first_name
+                        me.profileOverview.last_name = res.data.user.last_name
+                        me.profileOverview.email = res.data.user.email
+                        me.profileOverview.birth_date = res.data.user.customer_details.co_birthdate
+                        me.profileOverview.contact_number = res.data.user.customer_details.co_contact_number
+                        me.profileOverview.sex = res.data.user.customer_details.co_sex
+                        me.getSizes()
+                        me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
+                        me.profileOverview.weight = res.data.user.customer_details.co_weight
+                        me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
+
+                        me.$axios.get('api/world/countries').then(res => {
+                            if (res.data) {
+                                me.pa_countries = res.data.countries
+                                me.ba_countries = res.data.countries
+                                if (me.res.customer_details.pa_country_id != null) {
+                                    me.$axios.get(`api/world/states?country_id=${me.res.customer_details.pa_country_id}`).then(res => {
+                                        me.pa_states = res.data.states
+                                        me.address.home_address_country = me.res.customer_details.pa_country_id
+                                        me.address.home_address_state = me.res.customer_details.pa_state_id
+                                    })
+                                }
+                                if (me.res.customer_details.ba_country_id != null) {
+                                    me.$axios.get(`api/world/states?country_id=${me.res.customer_details.ba_country_id}`).then(res => {
+                                        me.ba_states = res.data.states
+                                        me.address.billing_address_country = me.res.customer_details.ba_country_id
+                                        me.address.billing_address_state = me.res.customer_details.ba_state_id
+                                    })
+                                }
+                            }
+                        })
+
+                        me.address.home_address_line_1 = res.data.user.customer_details.pa_address
+                        me.address.home_address_line_2 = res.data.user.customer_details.pa_address_2
+                        me.address.home_address_city = res.data.user.customer_details.pa_city
+                        me.address.home_address_zip_code = res.data.user.customer_details.pa_zip_code
+                        me.address.billing_address_line_1 = res.data.user.customer_details.ba_address
+                        me.address.billing_address_line_2 = res.data.user.customer_details.ba_address_2
+                        me.address.billing_address_city = res.data.user.customer_details.ba_city
+                        me.address.billing_address_zip_code = res.data.user.customer_details.ba_zip_code
+
+                        me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
+                        me.subscribed = (res.data.user.newsletter_subscription) ? true : false
+
+                        if (me.category == 'card') {
+                            me.getCards()
+                        }
+
+
+                        setTimeout( () => {
+                            me.loaded = true
+                        }, 500)
+                    }
+                }).catch((err) => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        if (me.category != 'card') {
+                            me.loader(false)
+                        }
+                    }, 500)
+                })
             }
         },
         mounted () {
             const me = this
             me.getHeight()
-            let token = me.$cookies.get('70hokc3hhhn5')
-            me.loader(true)
-            me.$axios.get('api/check-token', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(res => {
-                if (res.data) {
-                    me.res = res.data.user
-                    me.profileOverview.image_id = (res.data.user.customer_details.images[0].path != null) ? res.data.user.customer_details.images[0].id : 0
-                    me.profileOverview.first_name = res.data.user.first_name
-                    me.profileOverview.last_name = res.data.user.last_name
-                    me.profileOverview.email = res.data.user.email
-                    me.profileOverview.birth_date = res.data.user.customer_details.co_birthdate
-                    me.profileOverview.contact_number = res.data.user.customer_details.co_contact_number
-                    me.profileOverview.sex = res.data.user.customer_details.co_sex
-                    me.getSizes()
-                    me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
-                    me.profileOverview.weight = res.data.user.customer_details.co_weight
-                    me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
-
-                    me.$axios.get('api/world/countries').then(res => {
-                        if (res.data) {
-                            me.pa_countries = res.data.countries
-                            me.ba_countries = res.data.countries
-                            if (me.res.customer_details.pa_country_id != null) {
-                                me.$axios.get(`api/world/states?country_id=${me.res.customer_details.pa_country_id}`).then(res => {
-                                    me.pa_states = res.data.states
-                                    me.address.home_address_country = me.res.customer_details.pa_country_id
-                                    me.address.home_address_state = me.res.customer_details.pa_state_id
-                                })
-                            }
-                            if (me.res.customer_details.ba_country_id != null) {
-                                me.$axios.get(`api/world/states?country_id=${me.res.customer_details.ba_country_id}`).then(res => {
-                                    me.ba_states = res.data.states
-                                    me.address.billing_address_country = me.res.customer_details.ba_country_id
-                                    me.address.billing_address_state = me.res.customer_details.ba_state_id
-                                })
-                            }
-                        }
-                    })
-
-                    me.address.home_address_line_1 = res.data.user.customer_details.pa_address
-                    me.address.home_address_line_2 = res.data.user.customer_details.pa_address_2
-                    me.address.home_address_city = res.data.user.customer_details.pa_city
-                    me.address.home_address_zip_code = res.data.user.customer_details.pa_zip_code
-                    me.address.billing_address_line_1 = res.data.user.customer_details.ba_address
-                    me.address.billing_address_line_2 = res.data.user.customer_details.ba_address_2
-                    me.address.billing_address_city = res.data.user.customer_details.ba_city
-                    me.address.billing_address_zip_code = res.data.user.customer_details.ba_zip_code
-
-                    me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
-                    me.subscribed = (res.data.user.newsletter_subscription) ? true : false
-                    setTimeout( () => {
-                        me.loader(false)
-                        me.loaded = true
-                    }, 500)
-                }
-            })
+            me.initialization()
         },
         beforeMount () {
             window.addEventListener('load', this.getHeight)

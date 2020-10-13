@@ -25,6 +25,9 @@
                 }
                 me.$store.state.errorOverlayPromptStatus = false
             }
+        },
+        mounted () {
+            document.body.classList.add('no_scroll')
         }
     }
 </script>

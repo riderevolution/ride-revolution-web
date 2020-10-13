@@ -36,7 +36,7 @@
                     </div>
                     <div class="form_flex">
                         <div class="form_check">
-                            <input type="checkbox" id="remember_me" name="remember_me" class="input_check">
+                            <input type="checkbox" id="remember_me" name="remember_me" class="input_check" v-model="signUpForm.remember">
                             <label for="remember_me">Remember Me</label>
                         </div>
                         <div class="input_link" @click="toggleForgot()">Forgot Password?</div>
@@ -260,7 +260,8 @@
                     birth_date: '',
                     what_do_you_do: '',
                     sex: '',
-                    iAgree: ''
+                    iAgree: '',
+                    remember: false
                 },
                 professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
                 hasReadTerms: false,
@@ -592,7 +593,11 @@
                                     me.$store.state.oldUserUpdatePrompt = true
                                 } else {
                                     let token = res.data.token
-                                    me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                    if (me.signUpForm.remember) {
+                                        me.$cookies.set('70hokc3hhhn5', token, '7d')
+                                    } else {
+                                        me.$cookies.set('70hokc3hhhn5', token, '1d')
+                                    }
                                     me.validateToken()
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
