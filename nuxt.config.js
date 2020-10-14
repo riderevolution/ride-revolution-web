@@ -71,7 +71,7 @@ export default {
       { src: '~/plugins/vee-validate' },
       { src: '~/plugins/vue-google-oauth', ssr: false },
       { src: '~/plugins/vue-google-maps', ssr: false },
-      { src: '~/plugins/ga', ssr: false },
+      // { src: '~/plugins/ga', ssr: false },
       { src: '~/plugins/mixins'}
   ],
   /*
@@ -107,6 +107,12 @@ export default {
     ['@nuxtjs/sitemap', {
       hostname: 'https://www.riderevolution.ph',
       gzip: true,
+      defaults: {
+        changefreq: 'daily',
+        priority: 1,
+        lastmod: new Date()
+      },
+      xmlNs: 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
       exclude: [
         '/refer-a-friend_bak',
         '/book-a-bike/**',

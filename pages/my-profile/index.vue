@@ -129,7 +129,7 @@
             },
             checkUser () {
                 const me = this
-                if (me.user.new_user == 1) {
+                if (me.user.new_user == 1 || me.user.complete_profile == 1) {
                     me.$store.state.completeProfileStepsStatus = true
                     document.body.classList.add('no_scroll')
                 } else {
@@ -204,7 +204,7 @@
                                 setTimeout( () => {
                                     me.$refs.profileTab.packages = []
                                     res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment(data.computed_expiration_date).diff(me.$moment(), 'seconds')) > 0) {
+                                        if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
                                             data.toggled = false
                                             data.expired = false
                                             me.$refs.profileTab.packages.push(data)
@@ -298,7 +298,7 @@
                         me.storeCredits = (res.data.user.store_credits === null) ? 0 : res.data.user.store_credits.amount
                         me.first_name = res.data.user.first_name.charAt(0)
                         me.last_name = res.data.user.last_name.charAt(0)
-                        if (res.data.user.new_user == 1) {
+                        if (res.data.user.new_user == 1 || res.data.user.complete_profile == 0) {
                             me.$store.state.completeProfileStatus = true
                         }
                         if (me.$store.state.fromManageClass) {

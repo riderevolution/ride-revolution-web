@@ -513,8 +513,6 @@
                         packages: res.data.classPackages,
                         testimonials: res.data.testimonials
                     }
-                }).catch(err => {
-                    error({ statusCode: 403, message: 'Page not found' })
                 })
         },
         head () {

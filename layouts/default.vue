@@ -98,7 +98,7 @@
             return {
                 badges: [],
                 isMobile: false,
-                asd: 'asd1234'
+                asd: 'asd123434'
             }
         },
         watch:{
@@ -129,6 +129,12 @@
                 me.checkElements()
                 me.checkBadges()
                 me.checkVersion()
+                if (typeof ga === 'function') {
+                    ga('set', 'page', to.fullPath)
+                    ga('send', 'pageview')
+                } else {
+                    ga('create', 'UA-72612132-2', 'auto')
+                }
             }
         },
         methods: {
@@ -235,17 +241,45 @@
                 const me = this
                 setTimeout( () => {
                     if (me.$route.fullPath != '/') {
-                        if (me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-                            if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
-                                document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                        if (me.$store.state.articleAlertStatus) {
+                            if (me.$store.state.proTipStatus) {
+                                if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                                }
+                            } else if (me.$store.state.completeProfileStatus) {
+                                if (document.getElementById('complete_profile') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
+
+                                    document.getElementById('complete_profile').style.top = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                                }
+                            } else {
+                                if (document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                                }
                             }
-                        } else if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
-                            if (document.getElementById('article_alert')) {
-                                document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                        } else if (me.$store.state.proTipStatus) {
+                            if (me.$store.state.articleAlertStatus) {
+                                if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                                }
+                            } else {
+                                if (document.getElementById('pro_tip')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                                }
                             }
-                        } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-                            if (document.getElementById('pro_tip')) {
-                                document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                        } else if (me.$store.state.completeProfileStatus) {
+                            if (me.$store.state.articleAlertStatus) {
+                                if (document.getElementById('complete_profile') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
+
+                                    document.getElementById('complete_profile').style.top = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                                }
+                            } else {
+                                if (document.getElementById('complete_profile')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
+
+                                    document.getElementById('complete_profile').style.top = `${document.getElementById('header').scrollHeight}px`
+                                }
                             }
                         } else {
                             document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
@@ -288,6 +322,8 @@
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
             })();
 
+            ga('create', 'UA-72612132-2', 'auto')
+
             me.checkVersion()
 
             me.$store.state.inApp = false
@@ -304,7 +340,18 @@
             const me = this
             let host = process.env.baseUrl
             return {
-                title: `Welcome | Ride Revolution`
+                title: `Welcome | Ride Revolution`,
+                script: [
+                    {
+                        innerHTML: `
+                            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                        `
+                    },
+                ],
+                __dangerouslyDisableSanitizers: ['script']
             }
         }
     }

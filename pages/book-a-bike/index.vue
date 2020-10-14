@@ -81,7 +81,7 @@
                                                     <transition name="slideAltY">
                                                         <div class="info_overlay" v-if="data.toggled">
                                                             <div class="pointer"></div>
-                                                            Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                            Details: <span v-html="(data.schedule.private_class == 1) ? data.schedule.occassion : (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description ">
                                                             </span>
                                                             Credits to Deduct: {{ data.schedule.class_credits }}
                                                         </div>
@@ -102,7 +102,7 @@
                                                 <transition name="slideAltY">
                                                     <div class="info_overlay" v-if="data.toggled">
                                                         <div class="pointer"></div>
-                                                        Details: <span v-html="(data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description">
+                                                        Details: <span v-html="(data.schedule.private_class == 1) ? data.schedule.occassion : (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description ">
                                                         </span>
                                                         Credits to Deduct: {{ data.schedule.class_credits }}
                                                     </div>
@@ -111,7 +111,12 @@
                                         </div>
                                         <h3>{{ data.schedule.studio.name }}</h3>
                                     </div>
-                                    <div class="action" v-if="!data.past && !data.ongoing">
+                                    <div class="action" v-if="data.schedule.private_class == 1">
+                                        <div class="btn default_btn_out disabled">
+                                            <span>Private Class</span>
+                                        </div>
+                                    </div>
+                                    <div class="action" v-else-if="!data.past && !data.ongoing">
                                         <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
                                             <span>Book Now</span>
                                         </nuxt-link>
@@ -360,7 +365,7 @@
                                                     if (res.data) {
                                                         setTimeout( () => {
                                                             res.data.customer.user_package_counts.forEach((data, index) => {
-                                                                if (parseInt(me.$moment(data.computed_expiration_date).diff(me.$moment(), 'seconds')) > 0) {
+                                                                if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
                                                                     hasPackages = true
                                                                 }
                                                             })
