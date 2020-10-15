@@ -52,47 +52,49 @@
             submissionSuccess () {
                 const me = this
                 me.$validator.validateAll().then(valid => {
-                    me.loader(true)
-					let formData = new FormData(document.getElementById('default_form'))
-                    if (me.$route.query.token) {
-                        formData.append('in_app', 1)
-                        formData.append('current_route', me.$route.path)
+                    if (valid) {
+                        me.loader(true)
+                        let formData = new FormData(document.getElementById('default_form'))
+                        if (me.$route.query.token) {
+                            formData.append('in_app', 1)
+                            formData.append('current_route', me.$route.path)
+                        }
+
+                        /* encrypt form */
+                        let object = {}
+                        formData.forEach((value, key) => {
+                            object[key] = value
+                        })
+
+                        let key = encHex.parse('43e3b0f3405b2b7707e398f0171a91a2')
+                        let iv = encHex.parse('91bc845cbd4076fb9a0fdc2ad37e425d')
+                        let textData = JSON.stringify(object)
+
+                        let encrypted = aes.encrypt(textData, key, {iv: iv, padding: padZeroPadding}).toString()
+                        /* end form encrpytion */
+
+                        let token = me.$cookies.get('70hokc3hhhn5')
+                        me.$axios.post('api/paymaya/cards', {
+                            dt: encrypted
+                        }, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                            setTimeout( () => {
+                                location.href = res.data.verificationUrl
+                            }, 500)
+                            me.toggleClose()
+                        }).catch(err => {
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorPromptStatus = true
+                            me.$store.state.errorList = err.response.data.errors
+                        }).then(() => {
+                            setTimeout( () => {
+                                me.loader(false)
+                            }, 500)
+                        })
                     }
-
-					/* encrypt form */
-					let object = {}
-					formData.forEach((value, key) => {
-						object[key] = value
-					})
-
-					let key = encHex.parse('43e3b0f3405b2b7707e398f0171a91a2')
-					let iv = encHex.parse('91bc845cbd4076fb9a0fdc2ad37e425d')
-					let textData = JSON.stringify(object)
-
-					let encrypted = aes.encrypt(textData, key, {iv: iv, padding: padZeroPadding}).toString()
-					/* end form encrpytion */
-
-					let token = me.$cookies.get('70hokc3hhhn5')
-					me.$axios.post('api/paymaya/cards', {
-						dt: encrypted
-					}, {
-						headers: {
-					        Authorization: `Bearer ${token}`
-					    }
-					}).then(res => {
-                        setTimeout( () => {
-                            location.href = res.data.verificationUrl
-                        }, 500)
-                        me.toggleClose()
-					}).catch(err => {
-                        me.$store.state.errorOverlayPromptStatus = true
-                        me.$store.state.errorPromptStatus = true
-						me.$store.state.errorList = err.response.data.errors
-					}).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
-                    })
                 })
             },
             toggleClose () {
