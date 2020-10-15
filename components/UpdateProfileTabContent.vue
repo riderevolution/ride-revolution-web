@@ -684,9 +684,8 @@
                         me.previewImage = (res.data.user.customer_details.images[0].path != null) ? true : false
                         me.subscribed = (res.data.user.newsletter_subscription) ? true : false
 
-                        if (me.category == 'card') {
-                            me.getCards()
-                        }
+                        me.getCards()
+                        
                         setTimeout( () => {
                             me.loaded = true
                         }, 500)
