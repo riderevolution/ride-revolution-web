@@ -235,17 +235,45 @@
                 const me = this
                 setTimeout( () => {
                     if (me.$route.fullPath != '/') {
-                        if (me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-                            if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
-                                document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                        if (me.$store.state.articleAlertStatus) {
+                            if (me.$store.state.proTipStatus) {
+                                if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                                }
+                            } else if (me.$store.state.completeProfileStatus) {
+                                if (document.getElementById('complete_profile') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
+
+                                    document.getElementById('complete_profile').style.top = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                                }
+                            } else {
+                                if (document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                                }
                             }
-                        } else if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
-                            if (document.getElementById('article_alert')) {
-                                document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                        } else if (me.$store.state.proTipStatus) {
+                            if (me.$store.state.articleAlertStatus) {
+                                if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                                }
+                            } else {
+                                if (document.getElementById('pro_tip')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                                }
                             }
-                        } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-                            if (document.getElementById('pro_tip')) {
-                                document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                        } else if (me.$store.state.completeProfileStatus) {
+                            if (me.$store.state.articleAlertStatus) {
+                                if (document.getElementById('complete_profile') && document.getElementById('article_alert')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
+
+                                    document.getElementById('complete_profile').style.top = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                                }
+                            } else {
+                                if (document.getElementById('complete_profile')) {
+                                    document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('complete_profile').scrollHeight}px`
+
+                                    document.getElementById('complete_profile').style.top = `${document.getElementById('header').scrollHeight}px`
+                                }
                             }
                         } else {
                             document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
