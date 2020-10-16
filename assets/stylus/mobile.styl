@@ -1085,6 +1085,14 @@
     /**
      * Global */
     .default_modal
+        #default_form,
+        #health_waiver_form
+            .modal_wrapper
+                .form_title
+                    &.alt
+                        padding: 30px 30px 0
+                .form_subtitle
+                    padding: 0 30px 30px
         &.alt
             .confirmation_wrapper
                 &.alt
@@ -3095,6 +3103,15 @@
                     .update_profile_tab_content
                         .wrapper
                             padding: 20px 30px
+                            &.card
+                                .cards
+                                    .ci_header
+                                        justify-content: space-between
+                                        h2
+                                            flex: 0 0 auto
+                                    .card_item
+                                        flex: 0 0 calc(50% - 20px)
+                                        margin: 0 10px 20px
                             &.address
                                 padding: 0 30px
                                 #default_form
@@ -5870,6 +5887,26 @@
                                         img
                                             width: 100px
                                             height: 100px
+                            &.card
+                                .cards
+                                    .ci_header
+                                        justify-content: center
+                                        h2
+                                            flex: 0 0 100%
+                                            brandon_regular(16px, false)
+                                            text-align: center
+                                            margin-bottom: 10px
+                                        .default_btn
+                                            padding: 12px 15px
+                                    .card_item
+                                        flex: 0 0 100%
+                                        margin: 0 0 20px
+                                        .overlay
+                                            .menu_dot_list
+                                                width: 150px
+                                                .menu_dot_item
+                                                    padding: 10px
+                                                    brandon_bold(14px, false)
                             &.address
                                 padding: 0 20px
                                 #default_form
@@ -7119,3 +7156,18 @@
                                 margin: 15px 0
                                 .label
                                     margin-right: 10px
+    .update_profile
+        #content
+            .side_menu_tab
+                .right
+                    .update_profile_tab_content
+                        .wrapper
+                            &.card
+                                .cards
+                                    .ci_header
+                                        justify-content: space-between
+                                        h2
+                                            flex: 0 0 auto
+                                    .card_item
+                                        flex: 0 0 calc(50% - 20px)
+                                        margin: 0 10px 20px
