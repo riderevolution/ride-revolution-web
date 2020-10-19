@@ -596,7 +596,7 @@
                                     me.validateToken()
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
-                                    if (me.$route.fullPath == '/my-profile') {
+                                    if (me.$route.fullPath == '/my-profile' || me.$route.name == 'buy-rides-package-slug') {
                                         location.reload()
                                     } else {
                                         me.$router.push('/my-profile')
