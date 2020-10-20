@@ -22,7 +22,8 @@
                             <div class="summary">
                                 <div class="summary_header alt">
                                     <h3>Here are the RR badges you’ve earned!</h3>
-                                    <div class="icon">
+                                    <h4>Earn all 10 badges and get a free 5-Class Package plus limited edition merchandise as a reward</h4>
+                                    <!-- <div class="icon">
                                         <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'ride-rev-journey')" />
                                         <transition name="slide">
                                             <div class="description_overlay" v-if="showInfoBadges">
@@ -30,7 +31,7 @@
                                                 <p>As a reward, we're giving you a FREE 5-Class Package and limited edition Ride Revolution merchandise when you earn all 10 badges!</p>
                                             </div>
                                         </transition>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="summary_content">
                                     <div class="left">
@@ -111,7 +112,7 @@
                     </div>
                     <div :class="`chart ${(rideRevJourney.topInstructors.length <= 0) ? 'margin' : ''}`">
                         <div class="tab_content_header alt3">
-                            <h2>HOW MANY TIMES YOU’VE RIDEN WITH RIDE REV</h2>
+                            <h2>HOW MANY TIMES YOU’VE RIDDEN WITH RIDE REV</h2>
                             <ul class="tab_content_header_menu">
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'weekly') ? 'active' : ''}`" @click="toggledChartMenuTab('weekly')">Weekly</li>
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'monthly') ? 'active' : ''}`" @click="toggledChartMenuTab('monthly')">Monthly</li>
