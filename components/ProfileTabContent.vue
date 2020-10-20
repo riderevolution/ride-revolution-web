@@ -784,7 +784,7 @@
             checkRideCount (count) {
                 const me = this
                 if (count >= 10 && count <= 19) {
-                    return 'You’re making great progress. Let’s keep riding on this journey together.'
+                    return 'You’re making great progress. Let’s keep riding together.'
                 } else if (count >= 20 && count <= 49) {
                     return 'Did you ever think a stationary bike could take you so far? Let’s keep working on your Revolution!'
                 } else if (count >= 50 && count <= 99) {
