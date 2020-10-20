@@ -1073,36 +1073,27 @@
             },
             toggledChartMenuTab (category) {
                 const me = this
-                let tempLabels = []
+                let series_data = []
+                let series_labels = []
                 me.tabChartCategory = category
                 me.loader(true)
                 setTimeout( () => {
                     switch (category) {
                         case 'weekly':
-                            me.series[0].data = me.rideRevJourney.weeklyRideCount.series.data
-                            let currentDay = me.$moment().day()
-                            tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
-                            for (let i = 0; i < 13; i++) {
-                                currentDay = currentDay - 1
-                                if (currentDay < 0) {
-                                    currentDay = 6
-                                }
-                                tempLabels.unshift(me.$moment(currentDay, 'd').format('ddd'))
+                            for (let i = 0, len = me.rideRevJourney.weeklyRideCount.series.data.length; i < len; i++) {
+                                series_data.push(me.rideRevJourney.weeklyRideCount.series.data[i].count)
+                                series_labels.push(me.rideRevJourney.weeklyRideCount.series.data[i].date)
                             }
-                            me.chartOptions.xaxis.categories = tempLabels
+                            me.series[0].data = series_data
+                            me.chartOptions.xaxis.categories = series_labels
                             break
                         case 'monthly':
-                            me.series[0].data = me.rideRevJourney.monthlyRideCount.series.data
-                            let currentMonth = me.$moment().month() + 1
-                            tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
-                            for (let i = 0; i < 11; i++) {
-                                currentMonth = currentMonth - 1
-                                if (currentMonth == 0) {
-                                    currentMonth = 12
-                                }
-                                tempLabels.unshift(me.$moment(currentMonth, 'M').format('MMM'))
+                            for (let i = 0, len = me.rideRevJourney.monthlyRideCount.series.data.length; i < len; i++) {
+                                series_data.push(me.rideRevJourney.monthlyRideCount.series.data[i].count)
+                                series_labels.push(me.$moment(me.rideRevJourney.monthlyRideCount.series.data[i].month_year, 'MMM YYYY').format('MMM'))
                             }
-                            me.chartOptions.xaxis.categories = tempLabels
+                            me.series[0].data = series_data
+                            me.chartOptions.xaxis.categories = series_labels
                             break
                     }
                     me.graphKey += 1
