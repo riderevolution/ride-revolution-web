@@ -66,12 +66,12 @@
                                 </div>
                                 <div class="form_group">
                                     <label for="recipient_email">Recipient's Email <span>*</span></label>
-                                    <input type="email" name="recipient_email" class="input_text" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="form.recipientEmail" placeholder="Enter a recipient's email">
+                                    <input type="email" name="recipient_email" class="input_text" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}" v-model="form.recipientEmail" placeholder="Enter email">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('recipient_email')">{{ properFormat(errors.first('recipient_email')) }}</span></transition>
                                 </div>
                                 <div class="form_group">
                                     <label for="recipient_mobile_no">Recipient's Mobile No. <span>*</span></label>
-                                    <input type="text" name="recipient_mobile_no" class="input_text" v-validate="'required|numeric|min:11|max:11'" v-model="form.recipientMobileNo" placeholder="Enter a recipient's mobile no.">
+                                    <input type="text" name="recipient_mobile_no" class="input_text" v-validate="'required|numeric|min:11|max:11'" v-model="form.recipientMobileNo" placeholder="Enter mobile no.">
                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('recipient_mobile_no')">{{ properFormat(errors.first('recipient_mobile_no')) }}</span></transition>
                                 </div>
                             </div>

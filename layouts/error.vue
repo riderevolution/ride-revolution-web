@@ -36,7 +36,7 @@
             const me = this
             let host = process.env.baseUrl
             return {
-                title: `Page Not Found | Ride Revolution`
+                title: `Home | Ride Revolution`
             }
         }
 	}

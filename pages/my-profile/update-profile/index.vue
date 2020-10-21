@@ -1,7 +1,7 @@
 <template>
     <div class="update_profile">
         <breadcrumb :overlay="false" />
-        <section id="content">
+        <section id="content" v-if="loaded">
             <div class="side_menu_tab">
                 <div class="left">
                     <h1>Settings</h1>
@@ -19,19 +19,25 @@
                 </div>
             </div>
         </section>
+        <transition name="fade">
+            <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+        </transition>
     </div>
 </template>
 
 <script>
+    import CompleteProfilePrompt from '../../../components/modals/CompleteProfilePrompt'
     import Breadcrumb from '../../../components/Breadcrumb'
     import UpdateProfileTabContent from '../../../components/UpdateProfileTabContent'
     export default {
         components: {
+            CompleteProfilePrompt,
             Breadcrumb,
             UpdateProfileTabContent
         },
         data () {
             return {
+                loaded: false,
                 tabs: [
                     {
                         name: 'Profile',
@@ -78,16 +84,37 @@
             }
         },
         async asyncData ({ axios, params, store, error }) {
-            let ctr = 0
-            setInterval( () => {
-                if (ctr < 1) {
-                    if (!store.state.isAuth || store.state.user.new_user == 1) {
-                        store.state.loginSignUpStatus = true
-                        error({ statusCode: 403, message: 'Page not found' })
+            let token = me.$cookies.get('70hokc3hhhn5')
+            me.loader(true)
+            if (token == null || token == undefined) {
+                me.$store.state.loginSignUpStatus = true
+                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            } else {
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
-                    ctr++
-                }
-            }, 500)
+                }).then(res => {
+                    if (res.data) {
+                        if (res.data.user.new_user == 1 || res.data.user.new_user.complete_profile == 1) {
+                            me.$store.state.completeProfilePromptStatus = true
+                        } else {
+                            if (me.$route.hash) {
+                                me.category = me.$route.hash.split('#')[1]
+                            }
+                        }
+                        me.loaded = true
+                        me.loader(false)
+                    }
+                }).catch(err => {
+                    me.$store.state.loginSignUpStatus = true
+                    me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+                    me.loader(false)
+                })
+            }
         },
         head () {
             const me = this
