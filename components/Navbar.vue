@@ -214,7 +214,7 @@
                             }
                         }
                     } else {
-                        document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').offsetHeight}px`
+                        document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
                     }
                 }
             },

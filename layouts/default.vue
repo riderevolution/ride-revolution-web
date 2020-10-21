@@ -287,7 +287,7 @@
                     } else {
                         document.getElementById('main_container').style.paddingTop = 0
                     }
-                }, 500)
+                }, 750)
             },
             checkVersion () {
                 const me = this

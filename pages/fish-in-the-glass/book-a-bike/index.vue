@@ -325,7 +325,7 @@
                 }).then(res => {
                     if (res.data) {
                         let user = res.data.user
-                        if (res.data.user.new_user == 0) {
+                        if (res.data.user.complete_profile == 0) {
                             if (data.hasUser && token != null && token != undefined) {
                                 switch (type) {
                                     case 'book':
