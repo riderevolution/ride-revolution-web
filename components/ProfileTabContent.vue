@@ -112,7 +112,7 @@
                     </div>
                     <div :class="`chart ${(rideRevJourney.topInstructors.length <= 0) ? 'margin' : ''}`">
                         <div class="tab_content_header alt3">
-                            <h2>HOW MANY TIMES YOU’VE RIDDEN WITH RIDE REV</h2>
+                            <h2>Class Count</h2>
                             <ul class="tab_content_header_menu">
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'weekly') ? 'active' : ''}`" @click="toggledChartMenuTab('weekly')">Weekly</li>
                                 <li :class="`header_menu_tab_item ${(tabChartCategory == 'monthly') ? 'active' : ''}`" @click="toggledChartMenuTab('monthly')">Monthly</li>

@@ -75,7 +75,7 @@
                 <div class="header">
                     <h2 :class="`image_bg ${($store.state.isMobile) ? 'mobile' : ''}`">reviews</h2>
                     <div class="description">
-                        <p><strong>Here’s what our riders had to say...</strong></p>
+                        <p><strong>Here’s what our riders have to say...</strong></p>
                     </div>
                 </div>
                 <div class="content">
