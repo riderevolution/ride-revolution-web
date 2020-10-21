@@ -8,12 +8,12 @@
                         <img src="/icons/info-booker-icon.svg" @click="togglePopUp($event, 'packages')" v-if="$store.state.isMobile" />
                     </h2>
                     <div class="description" v-if="!$store.state.isMobile">
-                        <p>Get ready to RIDE, MOVE and BREATHE together. Choose the package for you and get your #RevOn!</p>
+                        <p>Get ready to RIDE, MOVE, and BREATHE together. Choose the package for you and get your #RevOn!</p>
                     </div>
                     <transition name="slide">
                         <div class="description_overlay" v-if="$store.state.isMobile && showInfoPackages">
                             <div class="pointer"></div>
-                            <p>Get ready to RIDE, MOVE and BREATHE together. Choose the package for you and get your #RevOn!</p>
+                            <p>Get ready to RIDE, MOVE, and BREATHE together. Choose the package for you and get your #RevOn!</p>
                         </div>
                     </transition>
                 </div>
