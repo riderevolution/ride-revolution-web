@@ -86,7 +86,7 @@
                     centeredSlides: centered,
                     autoplay: {
                         delay: 4000,
-                        disableOnInteraction: false
+                        disableOnInteraction: true
                     },
                     pagination: {
                         el: '.swiper-pagination',

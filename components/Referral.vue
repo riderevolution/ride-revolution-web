@@ -20,7 +20,7 @@
                     </div>
                     <div class="item" v-if="summary.type != 'store-credit-page'">
                         <h3>Rides</h3>
-                        <p>{{ summary.res.class_count }}</p>
+                        <p>{{ (summary.res.class_count == 99999) ? 'Unlimited' : summary.res.class_count }}</p>
                     </div>
                     <div class="item" v-else>
                         <h3>Credits</h3>

@@ -76,6 +76,11 @@
         },
         mounted () {
             const me = this
+            if (me.$route.hash) {
+                me.category = me.$route.hash.split('#')[1]
+            }
+        },
+        async asyncData ({ axios, params, store, error }) {
             let token = me.$cookies.get('70hokc3hhhn5')
             me.loader(true)
             if (token == null || token == undefined) {

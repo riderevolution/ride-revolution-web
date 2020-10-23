@@ -257,13 +257,14 @@
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
-                                            <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package">
+                                            <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package || data.class_package.recurring ">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
                                                         <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
                                                         <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
                                                         <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && data.sharedto_user_id == null" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
+                                                        <li v-if="data.class_package.recurring" class="table_menu_item cancel" @click="togglePackage(data, 'subscribe')">Cancel Subscription</li>
                                                     </ul>
                                                 </transition>
                                             </div>
@@ -406,6 +407,9 @@
             <cancel-class v-if="$store.state.cancelClassStatus" :type="type" />
         </transition>
         <transition name="fade">
+            <cancel-subscription v-if="cancel_subs" :user_package_count="target_package" :type="sub_type" />
+        </transition>
+        <transition name="fade">
             <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" :giftCard="giftCardTemp" />
         </transition>
         <transition name="fade">
@@ -425,6 +429,7 @@
 
 <script>
     import CancelClass from './modals/CancelClass'
+    import CancelSubscription from './modals/CancelSubscription'
     import RedeemGiftCard from './modals/RedeemGiftCard'
     import RedeemGiftCardSuccess from './modals/RedeemGiftCardSuccess'
     import ShareTransferPackage from './modals/ShareTransferPackage'
@@ -434,6 +439,7 @@
     export default {
         components: {
             CancelClass,
+            CancelSubscription,
             RedeemGiftCard,
             RedeemGiftCardSuccess,
             ShareTransferPackage,
@@ -496,6 +502,8 @@
                 },
                 packageCategory: 'transfer',
                 type: 1,
+                sub_type: 1,
+                cancel_subs: false,
                 showInfoBadges: false,
                 showInfoTransactions: false,
                 showInfoGiftCards: false,
@@ -505,6 +513,7 @@
                 tabChartCategory: 'monthly',
                 classes: [],
                 packages: [],
+                target_package: [],
                 transactions: {
                     total: 0,
                     data: []
@@ -823,10 +832,18 @@
                 const me = this
                 me.packageCategory = category
                 me.shareTransferPackage = data
-                if (category == 'unshare') {
-                    me.$store.state.unSharePackageStatus = true
-                } else {
-                    me.$store.state.shareTransferPackageStatus = true
+                switch (category) {
+                    case 'share':
+                    case 'transfer':
+                        me.$store.state.shareTransferPackageStatus = true
+                        break
+                    case 'unshare':
+                        me.$store.state.unSharePackageStatus = true
+                        break
+                    case 'subscribe':
+                        me.target_package = data
+                        me.cancel_subs = true
+                        break
                 }
                 document.body.classList.add('no_scroll')
             },
@@ -884,10 +901,15 @@
                 me.$store.state.cancelClassStatus = true
                 document.body.classList.add('no_scroll')
             },
-            toggleCancelled () {
+            toggleCancelled (type = null) {
                 const me = this
-                me.type = 2
-                me.$store.state.cancelClassStatus = true
+                if (type != null) {
+                    me.sub_type = 2
+                    me.cancel_subs = true
+                } else {
+                    me.type = 2
+                    me.$store.state.cancelClassStatus = true
+                }
             },
             toggleInstructor (type, key) {
                 const me = this

@@ -402,6 +402,8 @@ svg
         margin-bottom: 30px
     .default_btn
         margin-top: 30px
+        &.nmt
+            margin-top: 0
     &.alt
         text-align: center
         width: 100%
@@ -535,6 +537,8 @@ svg
         color: $gray_alt2
     &.full
         width: 100%
+    &.nmt
+        margin-top: 0
     &:hover
         box-shadow: 0px 0px 20px rgba(38, 164, 139, 0.75)
         transition: .3s ease-in-out
@@ -729,6 +733,25 @@ svg
                 &.right
                     border-right: 3px solid $green
 
+.bck
+    margin-bottom: 30px
+
+.paypal-buttons.paypal-buttons-context-iframe
+    & >
+        iframe.component-frame
+            z-index: 2 !important
+
+.paymaya-checkout
+    background-color: $border
+    #paymaya-card-form
+        display: block
+        width: 100%
+        max-width: 460px
+        margin: 0 auto
+        height: 100%
+        min-height: 175px
+        border: none
+
 .default_btn_blk
     display: inline-block
     text-align: center
@@ -743,13 +766,22 @@ svg
     border: 1px solid $black
     cursor: pointer
     transition: .3s ease-in-out
+    &.alt
+        padding: 10px 20px
     &.mb
         margin-bottom: 15px
+    span
+        padding-left: 10px
+        vertical-align: middle
+    img
+        filter: invert(0)
     &:hover
         color: $white
         background-color: $black
         box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.75)
         transition: .3s ease-in-out
+        img
+            filter: invert(1)
 
 .default_btn_red
     display: inline-block
@@ -987,7 +1019,6 @@ svg
                     pointer-events: none
         .buy_rides
             &.inner
-                height: 100vh
                 background-image: url('/dotted-bg.png')
                 #payments
                     padding: 30px 0
@@ -1241,6 +1272,7 @@ svg
     /**
      * Navbar */
     #header
+        position: relative
         display: flex
         flex-flow: row wrap
         align-items: center
@@ -1253,6 +1285,43 @@ svg
         box-shadow: 0 3px 6px transparent
         border-bottom: 0.5px solid $border_alt3
         transition: .2s linear
+        .m_user_dropdown_list
+            position: absolute
+            width: 100%
+            top: 100%
+            right: 0
+            background-color: $white
+            border-top: 0.5px solid $border_alt3
+            list-style: none
+            padding: 0
+            margin: 0
+            box-shadow: 0 15px 10px rgba(0, 0, 0, 0.3)
+            .user_dropdown_item
+                margin: 0
+                .item_link
+                    display: block
+                    width: 100%
+                    padding: 15px 20px
+                    background-color: transparent
+                    border-bottom: 1px solid #E8E8E8
+                    cursor: pointer
+                    brandon_regular(16px, false)
+                    color: $black_alt2
+                    transition: .3s ease-in-out
+                    &:hover,
+                    &.nuxt-link-exact-active
+                        color: $green
+                        background-color: $green_alt3
+                        transition: .3s ease-in-out
+                    &.red
+                        color: $red
+                        transition: .3s ease-in-out
+                        &:hover
+                            background-color: $red_alt
+                            transition: .3s ease-in-out
+                &:last-child
+                    .item_link
+                        border-bottom: 1px solid transparent
         &.login
             border-bottom: 0.5px solid transparent
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1)
@@ -1460,6 +1529,10 @@ svg
                 align-items: center
                 padding-right: 20px
                 cursor: pointer
+                &.mobile
+                    padding-right: 0
+                    &::before
+                        content: unset
                 &.toggled
                     &::before
                         transform: translateY(-50%) rotate(180deg)
@@ -1795,7 +1868,7 @@ svg
         align-items: flex-start
         &.mobile
             min-height: 200px
-            overflow-y: scroll
+            overflow-y: auto
             overflow-x: hidden
         &.sticky
             .close_icon
@@ -2035,7 +2108,7 @@ svg
 .global_prev_container
     width: 100%
     max-width: 65%
-    margin: 0 auto 80px
+    margin: 0 auto
     .item_title
         h2
             brandon_bold(26px, false)
@@ -3335,6 +3408,9 @@ svg
         width: 100%
         max-width: 50%
         margin: 60px auto
+    &.alt
+        #content
+            margin: 30px auto
 
 /**
  * Buy Rides */
@@ -6593,7 +6669,7 @@ svg
                             margin-right: 0
         .profile_tab_content
             position: relative
-            margin: 30px 0
+            margin: 30px 0 0
             height: 0%
             transition: .3s ease-in-out
             .wrapper
@@ -7318,6 +7394,29 @@ svg
                         align-items: center
                         margin-bottom: 20px
                         cursor: pointer
+                        #side_icon
+                            &.profile
+                                .a,
+                                .b,
+                                .e
+                                    fill: none
+                                .a,
+                                .b
+                                    stroke-miterlimit: 10
+                                .c,
+                                .d
+                                    stroke:none
+                            &.address
+                                .a
+                                    fill: none
+                                    stroke-linecap: round
+                                    stroke-miterlimit: 10
+                            &.account
+                                .a
+                                    fill: none
+                            &.card
+                                .a
+                                    fill: $black
                         .item
                             flex: 1 0 auto
                             padding-left: 20px
@@ -7353,6 +7452,111 @@ svg
                         top: 0
                         left: 0
                         right: 0
+                        &.card
+                            .cards
+                                display: flex
+                                flex-flow: row wrap
+                                justify-content: flex-start
+                                .no_results
+                                    display: block
+                                    text-align: center
+                                    width: 100%
+                                .ci_header
+                                    flex: 0 0 100%
+                                    display: flex
+                                    flex-flow: row wrap
+                                    align-items: center
+                                    justify-content: space-between
+                                    margin-bottom: 30px
+                                    h2
+                                        brandon_regular(22px, false)
+                                        color: $black
+                                        letter-spacing: 0.33px
+                                    .default_btn
+                                        padding: 15px 30px
+                                .card_item
+                                    position: relative
+                                    flex: 0 0 calc(33.33% - 30px)
+                                    margin: 0 15px 30px
+                                    background-color: $white_alt
+                                    padding: 20px
+                                    transform: perspective(1px) scale(1)
+                                    box-shadow: 0px 10px 15px transparent
+                                    transition: .3s ease-in-out
+                                    &:hover
+                                        transform: perspective(1px) scale(1.02)
+                                        box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
+                                        transition: .3s ease-in-out
+                                    .overlay
+                                        position: absolute
+                                        top: calc(0% + 15px)
+                                        right: calc(0% + 20px)
+                                        .ci_dot
+                                            cursor: pointer
+                                            border-left: 10px solid transparent
+                                            border-right: 10px solid transparent
+                                            border-top: 10px solid $green
+                                            transform: rotate(0deg)
+                                            transition: .3s ease-in-out
+                                            &.toggled
+                                                transform: rotate(180deg)
+                                                transition: .3s ease-in-out
+                                        .menu_dot_list
+                                            list-style: none
+                                            padding: 0
+                                            margin: 0
+                                            position: absolute
+                                            top: calc(100% + 5px)
+                                            right: 0
+                                            width: 200px
+                                            z-index: 2
+                                            background-color: $white
+                                            border-radius: 3px
+                                            border: 1px solid #D3D3D3
+                                            .menu_dot_item
+                                                padding: 15px 20px
+                                                brandon_bold(18px, false)
+                                                color: $black
+                                                background-color: transparent
+                                                border-bottom: 1px solid #E8E8E8
+                                                cursor: pointer
+                                                transition: .3s ease-in-out
+                                                &.red
+                                                    color: $red
+                                                    transition: .3s ease-in-out
+                                                    &:hover
+                                                        color: $red
+                                                        background-color: $red_alt
+                                                        transition: .3s ease-in-out
+                                                &:last-child
+                                                    border-bottom: 1px solid transparent
+                                                &:hover
+                                                    color: $green
+                                                    background-color: #D6FFF7
+                                                    transition: .3s ease-in-out
+                                    .c_type
+                                        svg
+                                            width: 100%
+                                            max-width: 50px
+                                            height: 40px
+                                    .c_number
+                                        brandon_bold(20px, false)
+                                        color: $pink
+                                        margin: 5px 0
+                                    .c_default
+                                        display: block
+                                        text-align: right
+                                        .d_status
+                                            display: inline-block
+                                            background-color: $green_alt
+                                            color: $green
+                                            brandon_medium(12px, true)
+                                            letter-spacing: 0.25px
+                                            padding: 5px 10px
+                                            border-radius: 4px
+                                    .c_date
+                                        brandon_regular(16px, false)
+                                        color: $black
                         &.address
                             padding: 40px 0
                             #default_form
@@ -8794,6 +8998,11 @@ svg
                             border-bottom: 1px solid #E8E8E8
                             cursor: pointer
                             transition: .3s ease-in-out
+                            &.cancel
+                                &:hover
+                                    color: $red
+                                    background-color: $red_alt
+                                    transition: .3s ease-in-out
                             &:last-child
                                 border-bottom: 1px solid transparent
                             &:hover
@@ -9111,6 +9320,15 @@ svg
     align-items: center
     justify-content: space-between
     margin-bottom: 30px
+    .form_custom_checkbox
+        flex: 0 0 100%
+        display: flex
+        flex-flow: row wrap
+        align-items: center
+        justify-content: space-between
+        .custom_checkbox
+            flex: 0 0 48.33%
+            margin-bottom: 0
     &.three
         .form_group
             flex: 0 0 31.33%
@@ -9231,6 +9449,13 @@ svg
 .form_button
     text-align: right
     margin-top: 30px
+    &.cnt
+        text-align: center
+    &.bck
+        text-align: left
+        margin-bottom: 30px
+    &.nmt
+        margin-top: 0
     &.alt
         .default_btn
             padding: 12px 45px

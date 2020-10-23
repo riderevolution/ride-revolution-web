@@ -344,17 +344,17 @@
                 let token = me.$cookies.get('70hokc3hhhn5')
                 event.preventDefault()
                 me.loader(true)
-                if (me.$store.state.user.new_user == 0) {
-                    if (data.hasUser && token != null && token != undefined) {
-                        switch (type) {
-                            case 'book':
-                                me.$axios.get('api/check-token', {
-                                    headers: {
-                                        Authorization: `Bearer ${token}`
-                                    }
-                                }).then(res => {
-                                    if (res.data) {
-                                        let user = res.data.user
+                me.$axios.get('api/check-token', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.data) {
+                        let user = res.data.user
+                        if (user.complete_profile == 0) {
+                            if (data.hasUser && token != null && token != undefined) {
+                                switch (type) {
+                                    case 'book':
                                         let formData = new FormData()
                                         let hasPackages = false
                                         formData.append('scheduled_date_id', data.id)
@@ -391,26 +391,26 @@
                                             me.$store.state.errorPromptStatus = true
                                             me.loader(false)
                                         })
-                                    }
-                                }).catch(err => {
-                                    console.log(err)
-                                    me.loader(false)
-                                })
-                                break
-                            case 'waitlist':
-                                me.schedule = data
-                                setTimeout( () => {
-                                    me.$store.state.bookerChoosePackageStatus = true
-                                    document.body.classList.add('no_scroll')
-                                    me.loader(false)
-                                }, 500)
-                                break
+                                        break
+                                    case 'waitlist':
+                                        me.schedule = data
+                                        setTimeout( () => {
+                                            me.$store.state.bookerChoosePackageStatus = true
+                                            document.body.classList.add('no_scroll')
+                                            me.loader(false)
+                                        }, 500)
+                                        break
+                                }
+                            }
+                        } else {
+                            me.$store.state.lastRoute = `/book-a-bike/${data.id}`
+                            me.$store.state.completeProfilePromptStatus = true
                         }
                     }
-                } else {
-                    me.$store.state.lastRoute = `/book-a-bike/${data.id}`
-                    me.$store.state.completeProfilePromptStatus = true
-                }
+                }).catch(err => {
+                    console.log(err)
+                    me.loader(false)
+                })
             },
             /**
              * Toggling of instructors custom autocomplete dropdown */

@@ -8,7 +8,7 @@
 					<meta itemprop="position" :content="key + 1" />
 				</nuxt-link>
 				<span class="slash">
-					{{ (crumbs.length == key + 1) ? '' : ' /' }}
+					{{ (crumbs.length == key + 1) ? '' : '&nbsp;/' }}
 				</span>
 			</li>
 		</ul>

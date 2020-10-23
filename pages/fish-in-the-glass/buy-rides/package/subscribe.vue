@@ -4,7 +4,7 @@
         <div class="comment alt" v-if="step != 0">
             <section id="content">
 				<div class="bck">
-					<nuxt-link :to="`/buy-rides/package/${classPackage.slug}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
+					<nuxt-link :to="`/fish-in-the-glass/buy-rides/package/${classPackage.slug}?token=${$route.query.token}`" class="default_btn_blk alt"><img src="/icons/back-arrow-icon.svg" /> <span>Go Back</span></nuxt-link>
 				</div>
                 <form id="default_form" @submit.prevent="submit($event)" v-if="user != null" enctype="multipart/form-data">
 					<!-- hidden fields -->
@@ -94,7 +94,7 @@
                             </div>
                             <div class="form_group select">
 								<label for="state">State <span>*</span></label>
-                                <input type="text" autocomplete="off" id="state" class="input_text" data-recurly="state" name="state" v-model="user.customer_details.billing_state" placeholder="Enter your state" v-validate="{required: true}">
+                                <input type="text" autocomplete="off" id="state"  class="input_text" data-recurly="state" name="state" v-model="user.customer_details.ba_state" placeholder="Enter your state" v-validate="{required: true}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('state')">{{ properFormat(errors.first('state')) }}</span></transition>
                             </div>
                         </div>
@@ -115,9 +115,6 @@
                             <div class="form_button nmt">
                                 <button type="submit" class="default_btn">Submit</button>
                             </div>
-                            <div class="form_button nmt">
-                                <div class="default_btn paypal-checkout" @click="testing()">Try lang</div>
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -130,8 +127,8 @@
 </template>
 
 <script>
-	import Breadcrumb from '../../../../components/Breadcrumb'
-	import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
+	import Breadcrumb from '~/components/Breadcrumb'
+	import BuyRidesSuccess from '~/components/modals/BuyRidesSuccess'
 	import VueRecaptcha from 'vue-recaptcha'
 	export default {
 		components: {
@@ -157,21 +154,6 @@
 			}
 		},
 		methods: {
-			testing () {
-				const pypl = recurly.PayPal({
-					display: {
-						displayName: 'Testing lang sirssss'
-					}
-				})
-				pypl.start()
-				pypl.on('error', (err) => {
-					console.log(err)
-				})
-
-				pypl.on('token', (token) => {
-					console.log(token)
-				})
-			},
 			submit (e) {
 				const me = this
 				me.loader(true)
@@ -254,7 +236,7 @@
                 	style: {
 						all: {
 							fontSmoothing: 'auto',
-							fontFamily: 'Open Sans',
+							fontFamily: 'Roboto',
 							fontSize: '18px',
 							fontWeight: 'normal',
 							fontColor: '#171717',
@@ -274,7 +256,7 @@
 						},
 						year: {
 							placeholder: {
-								content: 'YY'
+								content: 'YYYY'
 							}
 						},
 						cvv: {
@@ -287,7 +269,6 @@
 			},
 			checkToken () {
 				const me = this
-				me.loader(true)
 				let token = me.$cookies.get('70hokc3hhhn5')
 				if (token != null || token != undefined) {
 					me.$axios.get('api/check-token', {
@@ -302,16 +283,7 @@
 						}, 500)
 					}).catch(err => {
 						console.log(err)
-					}).then(() => {
-						setTimeout( () => {
-							me.loader(false)
-						}, 500)
 					})
-				} else {
-					me.$store.state.loginSignUpStatus = true
-	                document.body.classList.add('no_scroll')
-	                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-	                me.loader(false)
 				}
 			},
 			fetchClassPackage () {
@@ -325,19 +297,6 @@
 			const me = this
 			me.checkToken()
 			me.fetchClassPackage()
-		},
-		head () {
-            const me = this
-            let host = process.env.baseUrl
-            return {
-                title: `Subscribe to ${me.classPackage.name} | Ride Revolution`,
-                link: [
-                    {
-                        rel: 'canonical',
-                        href: `${host}${me.$route.fullPath}`
-                    }
-                ]
-            }
-        }
+		}
 	}
 </script>

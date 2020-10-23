@@ -78,14 +78,14 @@
                     <div class="background"></div>
                 </div>
                 <div v-if="$store.state.isMobile && (token != null && token != undefined)">
-                    <div :class="`user_dropdown ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
+                    <div :class="`user_dropdown mobile ${(showList) ? 'toggled' : ''}`" @click="showList ^= true" v-click-outside="toggleList">
                         <img :src="`${(user.customer_details.images[0].path != null) ? user.customer_details.images[0].path : '' }`" v-if="user.customer_details.images[0].path != null" />
                         <div class="overlay" v-else>
                             <div class="letter">
                                 {{ first_name }}{{ last_name }}
                             </div>
                         </div>
-                        <transition name="slideAlt">
+                        <!-- <transition name="slideAlt">
                             <ul class="user_dropdown_list" v-if="showList">
                                 <li class="user_dropdown_item">
                                     <nuxt-link to="/my-profile" class="item_link">View My Profile</nuxt-link>
@@ -97,7 +97,7 @@
                                     <div class="item_link red" @click="logout()">Signout</div>
                                 </li>
                             </ul>
-                        </transition>
+                        </transition> -->
                     </div>
                 </div>
             </div>
@@ -107,6 +107,19 @@
                 <div class="bar bottom_line"></div>
                 <div class="excess_line"></div>
             </div>
+            <transition name="slideAlt">
+                <ul class="m_user_dropdown_list" v-if="$store.state.isMobile && showList">
+                    <li class="user_dropdown_item">
+                        <nuxt-link to="/my-profile" class="item_link">View My Profile</nuxt-link>
+                    </li>
+                    <li class="user_dropdown_item">
+                        <div class="item_link" @click="checkUser()">Account Settings</div>
+                    </li>
+                    <li class="user_dropdown_item">
+                        <div class="item_link red" @click="logout()">Signout</div>
+                    </li>
+                </ul>
+            </transition>
         </div>
     </div>
 </template>

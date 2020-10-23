@@ -120,7 +120,7 @@
                                         <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted && !data.schedule.studio.online_class">
                                             <span>Waitlisted</span>
                                         </div>
-                                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
+                                        <nuxt-link :to="`/fish-in-the-glass/manage-class/${data.id}?token=${$route.query.token}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
                                             <span>Manage Class</span>
                                         </nuxt-link>
                                         <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
@@ -325,7 +325,7 @@
                 }).then(res => {
                     if (res.data) {
                         let user = res.data.user
-                        if (res.data.user.new_user == 0) {
+                        if (res.data.user.complete_profile == 0) {
                             if (data.hasUser && token != null && token != undefined) {
                                 switch (type) {
                                     case 'book':
