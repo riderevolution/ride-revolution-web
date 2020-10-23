@@ -129,12 +129,6 @@
                 me.checkElements()
                 me.checkBadges()
                 me.checkVersion()
-                if (typeof ga === 'function') {
-                    ga('set', 'page', to.fullPath)
-                    ga('send', 'pageview')
-                } else {
-                    ga('create', 'UA-72612132-2', 'auto')
-                }
             }
         },
         methods: {
@@ -321,8 +315,6 @@
                 lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
             })();
-
-            ga('create', 'UA-72612132-2', 'auto')
 
             me.checkVersion()
 
