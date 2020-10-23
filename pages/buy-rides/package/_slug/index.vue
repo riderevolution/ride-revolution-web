@@ -46,16 +46,16 @@
                                         <p>Php {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions" v-if="!$store.state.isMobile && !res.recurring">
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                     <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
-                                <div class="breakdown_actions" v-if="!$store.state.isMobile && res.recurring">
+                                <!-- <div class="breakdown_actions" v-if="!$store.state.isMobile && res.recurring">
                                     <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && res.recurring">Back</nuxt-link>
                                     <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
-                                </div>
-                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && !res.recurring">Back</nuxt-link>
-                                <div class="action_mobile" v-if="$store.state.isMobile && !res.recurring">
+                                </div> -->
+                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
+                                <div class="action_mobile" v-if="$store.state.isMobile">
                                     <div class="m_left">
                                         <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                     </div>
@@ -64,14 +64,14 @@
                                         <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                     </div>
                                 </div>
-                                <div class="action_mobile" v-if="$store.state.isMobile && res.recurring">
+                                <!-- <div class="action_mobile" v-if="$store.state.isMobile && res.recurring">
                                     <div class="m_left">
                                         <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                     </div>
                                     <div class="m_right">
                                         <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                         <p>Note: Paypal account not needed</p>

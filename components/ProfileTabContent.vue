@@ -257,14 +257,13 @@
                                             </div>
                                         </td>
                                         <td data-column="Actions" v-if="!data.expired">
-                                            <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package || data.class_package.recurring ">
+                                            <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
                                                     <ul class="table_menu_dots_list" v-if="data.toggled">
                                                         <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
                                                         <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
                                                         <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && data.sharedto_user_id == null" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
-                                                        <li v-if="data.class_package.recurring" class="table_menu_item cancel" @click="togglePackage(data, 'subscribe')">Cancel Subscription</li>
                                                     </ul>
                                                 </transition>
                                             </div>
@@ -314,7 +313,7 @@
                         </thead>
                         <tbody v-if="transactions.data.length > 0">
                             <tr v-for="(data, key) in transactions.data" :key="key">
-                                <td data-column="Date"><div class="default">{{ $moment(data.created_at).format('MMMM DD, YYYY') }}</div></td>
+                                <td data-column="Date"><div class="default">{{ $moment(data.updated_at).format('MMMM DD, YYYY hh:mm A') }}</div></td>
                                 <td data-column="Products">
                                     <div>
                                         <div class="default" v-for="(child, key) in data.payment_items" :key="key">
@@ -336,7 +335,8 @@
                                     <div class="default bold">Php {{ totalCount(data.total) }}</div>
                                 </td>
                                 <td data-column="Payment Status">
-                                    <div :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</div>
+                                    <span :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</span>
+                                    <span  v-if="data.refund_status != 'none'"class="label violator gray">{{ (data.refund_status == 'fully-refunded') ? 'Fully Refunded' : 'Partially Refunded' }}</span>
                                 </td>
                             </tr>
                         </tbody>
