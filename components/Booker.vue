@@ -899,6 +899,9 @@
                         })
                     }
                 }).catch(err => {
+                    me.$store.state.needLogin = true
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
                     me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                     me.loader(false)
                 })

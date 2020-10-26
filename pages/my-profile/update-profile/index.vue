@@ -101,7 +101,9 @@
                             me.loader(false)
                         }
                     }).catch(err => {
-                        me.$store.state.loginSignUpStatus = true
+                        me.$store.state.needLogin = true
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
                         me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                         me.loader(false)
                     })

@@ -183,7 +183,10 @@
 						me.user = res.data.user
 						me.loaded = true
 					}).catch(err => {
-						console.log(err)
+						me.$store.state.needLogin = true
+		                me.$store.state.errorOverlayPromptStatus = true
+		                me.$store.state.errorList = err.response.data.errors
+		                me.$store.state.errorPromptStatus = true
 					})
 				}
 			},

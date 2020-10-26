@@ -75,6 +75,11 @@
                                     }, 500)
                                 })
                             }
+                        }).catch(err => {
+                            me.$store.state.needLogin = true
+                            me.$store.state.errorOverlayPromptStatus = true
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
                         })
                     } else {
                         me.$parent.cancel_subs = false

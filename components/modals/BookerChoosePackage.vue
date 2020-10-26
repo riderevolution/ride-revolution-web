@@ -101,6 +101,7 @@
                                 })
                             }
                         }).catch(err => {
+                            me.$store.state.needLogin = true
                             me.$store.state.errorOverlayPromptStatus = true
                             me.$store.state.errorList = err.response.data.errors
                             me.$store.state.errorPromptStatus = true
@@ -347,6 +348,7 @@
                     })
                 }
             }).catch(err => {
+                me.$store.state.needLogin = true
                 me.$store.state.errorOverlayPromptStatus = true
                 me.$store.state.errorList = err.response.data.errors
                 me.$store.state.errorPromptStatus = true
