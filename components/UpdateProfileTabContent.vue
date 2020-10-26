@@ -685,14 +685,15 @@
                         me.subscribed = (res.data.user.newsletter_subscription) ? true : false
 
                         me.getCards()
-                        
+
                         setTimeout( () => {
                             me.loaded = true
                         }, 500)
                     }
                 }).catch((err) => {
-                    me.$store.state.loginSignUpStatus = true
-                    document.body.classList.add('no_scroll')
+                    me.$store.state.needLogin = true
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
                     me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                 }).then(() => {
                     setTimeout( () => {

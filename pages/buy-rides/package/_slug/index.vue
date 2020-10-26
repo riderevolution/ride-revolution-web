@@ -381,7 +381,9 @@
                         me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                     }
                 }).catch((err) => {
-                    console.log(err);
+                    me.$store.state.needLogin = true
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
                 }).then(() => {
                     setTimeout( () => {
                         me.loader(false)
