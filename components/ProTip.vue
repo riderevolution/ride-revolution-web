@@ -27,11 +27,11 @@
                 me.$store.state.proTipStatus = false
                 if (document.querySelector('.buy_rides.inner') || document.querySelector('.book_a_bike.inner') || document.querySelector('.comment')) {
                     if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('pro_tip').scrollHeight}px`
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').offsetHeight + document.getElementById('pro_tip').offsetHeight}px`
                     } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight + document.getElementById('article_alert').scrollHeight}px`
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
                     } else {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').scrollHeight}px`
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').offsetHeight}px`
                     }
                 }
             }

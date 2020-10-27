@@ -24,11 +24,11 @@
                 if (me.$store.state.completeProfileStatus) {
                     if (me.$store.state.articleAlertStatus) {
                         if (document.getElementById('complete_profile') && document.getElementById('article_alert')) {
-                            document.getElementById('complete_profile').style.top = `${document.getElementById('article_alert').scrollHeight + document.getElementById('header').scrollHeight}px`
+                            document.getElementById('complete_profile').style.top = `${document.getElementById('article_alert').offsetHeight + document.getElementById('header').offsetHeight}px`
                         }
                     } else {
                         if (document.getElementById('complete_profile')) {
-                            document.getElementById('complete_profile').style.top = `${document.getElementById('header').scrollHeight}px`
+                            document.getElementById('complete_profile').style.top = `${document.getElementById('header').offsetHeight}px`
                         }
                     }
                 }
