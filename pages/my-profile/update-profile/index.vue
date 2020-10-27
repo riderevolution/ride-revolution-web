@@ -90,7 +90,7 @@
                         }
                     }).then(res => {
                         if (res.data) {
-                            if (res.data.user.new_user == 1 || res.data.user.new_user.complete_profile == 1) {
+                            if (res.data.user.new_user.complete_profile == 0) {
                                 me.$store.state.completeProfilePromptStatus = true
                             } else {
                                 if (me.$route.hash) {
