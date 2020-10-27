@@ -522,7 +522,7 @@
                 }
             }).catch((err) => {
                 setTimeout( () => {
-                    document.body.classList.add('no_scroll')
+                    me.$store.state.needLogin = true
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
                 }, 500)
