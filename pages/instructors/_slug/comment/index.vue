@@ -253,8 +253,7 @@
                                         Authorization: `Bearer ${token}`
                                     }
                                 }).then(res => {
-                                    if (res.data.user.new_user == 0) {
-                                    } else {
+                                    if (res.data.user.new_user != 0) {
                                         me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
                                         me.$store.state.completeProfilePromptStatus = true
                                     }
