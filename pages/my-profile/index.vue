@@ -129,7 +129,7 @@
             },
             checkUser () {
                 const me = this
-                if (me.user.complete_profile == 0) {
+                if (me.user.new_user == 1) {
                     me.$store.state.completeProfileStepsStatus = true
                     document.body.classList.add('no_scroll')
                 } else {
@@ -298,7 +298,7 @@
                         me.storeCredits = (res.data.user.store_credits === null) ? 0 : res.data.user.store_credits.amount
                         me.first_name = res.data.user.first_name.charAt(0)
                         me.last_name = res.data.user.last_name.charAt(0)
-                        if (res.data.user.complete_profile == 0) {
+                        if (res.data.user.new_user == 1) {
                             me.$store.state.completeProfileStatus = true
                         }
                         if (me.$store.state.fromManageClass) {
