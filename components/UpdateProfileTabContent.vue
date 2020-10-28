@@ -282,6 +282,9 @@
             <add-card v-if="add_card" />
         </transition>
         <transition name="fade">
+            <prompt-card v-if="prompt_card" />
+        </transition>
+        <transition name="fade">
             <action-card v-if="card_action" :type="action_type" :card="card" />
         </transition>
         <transition name="fade">
@@ -298,6 +301,7 @@
 
 <script>
     import AddCard from './modals/AddCard'
+    import PromptCard from './modals/PromptCard'
     import ActionCard from './modals/ActionCard'
     import SuccessCard from './modals/SuccessCard'
     import ChangePassword from './modals/ChangePassword'
@@ -305,6 +309,7 @@
     export default {
         components: {
             AddCard,
+            PromptCard,
             ActionCard,
             SuccessCard,
             ChangePassword,
@@ -325,6 +330,7 @@
                 card_message: '',
                 card_success: false,
                 add_card: false,
+                prompt_card: false,
                 card_action: false,
                 action_type: '',
                 loaded: false,
@@ -389,7 +395,7 @@
             },
             addPaymayaCard () {
                 const me = this
-                me.add_card = true
+                me.prompt_card = true
             },
             toggleDot (data, unique = null) {
                 const me = this
