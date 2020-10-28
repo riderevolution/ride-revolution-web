@@ -225,7 +225,7 @@
             },
             checkUser () {
                 const me = this
-                if (me.user.complete_profile == 0) {
+                if (me.user.new_user == 1) {
                     me.$store.state.completeProfileStepsStatus = true
                     document.body.classList.add('no_scroll')
                 } else {
