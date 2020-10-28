@@ -83,7 +83,7 @@
                                     <div class="default_btn_blk" @click="stepBack()">Back</div>
                                 </div>
                                 <div class="right">
-                                    <!-- <div class="default_btn_blue" @click="paymaya()">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
                                     <div id="paypal-button-container"></div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                     <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                                 </div>
                                 <div class="right">
-                                    <!-- <div class="default_btn_blue" @click="paymaya()">Paymaya</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()">Paymaya</div>
                                     <div id="paypal-button-container"></div>
                                     <div class="paypal_disclaimer">
                                         <p>Note: Paypal account not needed</p>
