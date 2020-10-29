@@ -28,6 +28,15 @@
                                                 <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(res.id)"><span>Apply</span></button>
                                             </div>
                                         </div>
+                                        <div class="form_flex alt_2">
+                                            <div class="form_group">
+                                                <label>Qty</label>
+                                                <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
+                                                    <input type="text" name="quantity" id="quantity" :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'required|numeric|min_value:1|max_value:99'">
+                                                    <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">{{ properFormat(errors.first('quantity')) }}</span></transition>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="breakdown_list">
                                         <div class="item">
@@ -40,7 +49,7 @@
                                         </div>
                                         <div class="total">
                                             <p>You Pay</p>
-                                            <p>Php {{ computeTotal((promoApplied) ? totalCount(res.final_price) : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }}</p>
+                                            <p>Php {{ computeTotal(((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) * form.quantity) }}</p>
                                         </div>
                                     </div>
                                     <div class="breakdown_actions" v-if="!$store.state.isMobile">
@@ -72,6 +81,10 @@
                                     <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price) }}</p>
                                 </div>
                                 <div class="item">
+                                    <h3>Quantity</h3>
+                                    <p>{{ form.quantity }}</p>
+                                </div>
+                                <div class="item">
                                     <h3>Rides</h3>
                                     <p>{{ (res.class_count_unlimited == 1) ? 'Unlimited' : res.class_count }}</p>
                                 </div>
@@ -93,7 +106,7 @@
                                 </div>
                                 <div class="total">
                                     <p>You Pay</p>
-                                    <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
+                                    <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal(((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) * form.quantity) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
                                 </div>
                                 <div class="preview_actions" v-if="!$store.state.isMobile">
                                     <div class="left">
@@ -101,7 +114,7 @@
                                     </div>
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                        <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
                                         <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     </div>
                                 </div>
@@ -119,7 +132,7 @@
                                     </div>
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div>
+                                        <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Paymaya</div> -->
                                         <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                         <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                             <p>Note: Paypal account not needed</p>
@@ -198,7 +211,8 @@
                 form: {
                     promo: '',
                     discount: 0,
-                    total: 0
+                    total: 0,
+                    quantity: 0
                 },
                 res: []
             }
@@ -249,6 +263,7 @@
                 me.summary.res = me.res
                 me.summary.total = total
                 me.summary.discount = me.form.discount
+                me.summary.quantity = me.form.quantity
                 me.summary.type = me.type
                 return result
             },
@@ -266,18 +281,29 @@
             },
             proceedToPayment (type) {
                 const me = this
-                me.type = type
-                switch (type) {
-                    case 'store-credits':
-                        me.paymentType = type
-                        me.step = 2
-                        break
-                    case 'paynow':
-                        me.step = 2
-                        me.paypal = true
-                        me.renderPaypal()
-                        break
-                }
+                me.$validator.validateAll().then(valid => {
+                    if (valid) {
+                        me.type = type
+                        switch (type) {
+                            case 'store-credits':
+                                me.paymentType = type
+                                me.step = 2
+                                break
+                            case 'paynow':
+                                me.step = 2
+                                me.paypal = true
+                                me.renderPaypal()
+                                break
+                        }
+                        me.$scrollTo('#payments', {
+                            offset: -250
+                        })
+                    } else {
+                        me.$scrollTo('.validation_errors', {
+                            offset: -250
+                        })
+                    }
+                })
             },
             applyPromo (id) {
                 const me = this
