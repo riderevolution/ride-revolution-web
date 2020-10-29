@@ -229,7 +229,7 @@
                     </div>
                     <div class="card_item" v-for="(data, key) in cards" v-if="cards.length > 0">
                         <div class="overlay">
-                            <div class="ci_dot" :class="{ 'toggled': data.toggled }" @click="toggleDot(data, key)" v-if="cards.length > 1"></div>
+                            <div class="ci_dot" :class="{ 'toggled': data.toggled }" @click="toggleDot(data, key)"></div>
                             <transition name="slideAlt">
                                 <ul class="menu_dot_list" v-if="data.toggled" v-click-outside="closeDot">
                                     <li class="menu_dot_item" @click="cardAction(data, 'default')">Set as Default</li>
