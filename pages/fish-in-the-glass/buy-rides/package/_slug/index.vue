@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="item">
                                     <h3>Rides</h3>
-                                    <p>{{ (res.class_count_unlimited == 1) ? 'Unlimited' : res.class_count }}</p>
+                                    <p>{{ (res.class_count_unlimited == 1) ? 'Unlimited' : res.class_count * form.quantity }}</p>
                                 </div>
                                 <div class="item">
                                     <h3>Discount</h3>
