@@ -34,7 +34,7 @@
                                                 <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
                                                     <input type="text" name="quantity" id="quantity" :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'required|numeric|min_value:1|max_value:99'">
                                                     <div class="up" @click="addCount()"></div>
-                                                    <div class="down" @click="subtractCount()"></div
+                                                    <div class="down" @click="subtractCount()"></div>
                                                     <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">{{ properFormat(errors.first('quantity')) }}</span></transition>
                                                 </div>
                                             </div>
