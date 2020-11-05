@@ -36,6 +36,8 @@
                                             <label>Qty</label>
                                             <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
                                                 <input type="text" name="quantity" id="quantity" :class="`input_text ${(promoApplied) ? 'disabled' : ''} number`" maxlength="2" autocomplete="off" v-model="form.quantity" v-validate="'required|numeric|min_value:1|max_value:99'">
+                                                <div class="up" @click="addCount()"></div>
+                                                <div class="down" @click="subtractCount()"></div>
                                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('quantity')">{{ properFormat(errors.first('quantity')) }}</span></transition>
                                             </div>
                                         </div>
@@ -226,6 +228,21 @@
             }
         },
         methods: {
+            addCount () {
+                const me = this
+                let data
+                data = parseInt(me.form.quantity)
+                if (data != 99) {
+                    data != 0 && (me.form.quantity = 0)
+                    me.form.quantity = (data += 1)
+                }
+            },
+            subtractCount () {
+                const me = this
+                let data
+                data = parseInt(me.form.quantity)
+                data > 1 && (me.form.quantity = (data -= 1))
+            },
             paymaya () {
                 const me = this
                 let token = me.$cookies.get('70hokc3hhhn5')
