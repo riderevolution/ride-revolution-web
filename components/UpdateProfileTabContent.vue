@@ -41,21 +41,16 @@
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.last_name')">{{ properFormat(errors.first('profile_overview_form.last_name')) }}</span></transition>
                         </div>
                     </div>
-                    <div class="form_group">
-                        <label for="email">E-mail <span>*</span></label>
-                        <input type="text" id="email" name="email" class="input_text" v-model="profileOverview.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.email')">{{ properFormat(errors.first('profile_overview_form.email')) }}</span></transition>
-                    </div>
                     <div class="form_flex">
+                        <div class="form_group">
+                            <label for="email">E-mail <span>*</span></label>
+                            <input type="text" id="email" name="email" class="input_text" v-model="profileOverview.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true, regex: '^[a-zA-Z0-9_ |\u00f1|\@|\.]*$'}">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.email')">{{ properFormat(errors.first('profile_overview_form.email')) }}</span></transition>
+                        </div>
                         <div class="form_group">
                             <label for="birth_date">Birth Date <span>*</span></label>
                             <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="profileOverview.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
-                        </div>
-                        <div class="form_group">
-                            <label for="contact_number">Contact Number <span>*</span></label>
-                            <input type="text" name="contact_number" autocomplete="off" v-model="profileOverview.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.contact_number')">{{ properFormat(errors.first('profile_overview_form.contact_number')) }}</span></transition>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -71,6 +66,13 @@
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.sex')">{{ properFormat(errors.first('profile_overview_form.sex')) }}</span></transition>
                         </div>
+                        <div class="form_group">
+                            <label for="contact_number">Contact Number <span>*</span></label>
+                            <input type="text" name="contact_number" autocomplete="off" v-model="profileOverview.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.contact_number')">{{ properFormat(errors.first('profile_overview_form.contact_number')) }}</span></transition>
+                        </div>
+                    </div>
+                    <div class="form_flex">
                         <div class="form_group select">
                             <label for="shoe_size">Shoe Size (US Sizes) <span>*</span></label>
                             <div class="select">
@@ -80,6 +82,16 @@
                                 </select>
                             </div>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.shoe_size')">{{ properFormat(errors.first('profile_overview_form.shoe_size')) }}</span></transition>
+                        </div>
+                        <div class="form_group select">
+                            <label for="dumbbells">Dumbbells <span>*</span></label>
+                            <div class="select">
+                                <select class="input_select" name="dumbbells" v-validate="'required'" v-model="profileOverview.dumbbell">
+                                    <option value="" selected disabled>Please select a dumbbell</option>
+                                    <option :value="dumbbell" v-for="(dumbbell, key) in dumbbells" :key="key">{{ dumbbell }}</option>
+                                </select>
+                            </div>
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('profile_overview_form.dumbbells')">{{ properFormat(errors.first('profile_overview_form.dumbbells')) }}</span></transition>
                         </div>
                     </div>
                     <div class="form_flex">
@@ -326,6 +338,7 @@
                 ctr: 0,
                 res: [],
                 sizes: [],
+                dumbbells: ['1LB', '2LBS', '3LBS', '5LBS']
                 message: '',
                 card_message: '',
                 card_success: false,
@@ -350,6 +363,7 @@
                     contact_number: '',
                     sex: '',
                     shoe_size: '',
+                    dumbbell: '',
                     what_do_you_do: '0',
                     weight: '',
                     image_id: 0

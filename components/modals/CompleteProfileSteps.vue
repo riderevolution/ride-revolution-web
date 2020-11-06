@@ -61,10 +61,20 @@
                         <div class="select">
                             <select class="input_select" name="shoe_size" v-validate="'required'">
                                 <option value="" selected disabled>Please select a shoe size</option>
-                                <option :value="size" v-for="(size, index) in sizes">{{ size }}</option>
+                                <option :value="size" v-for="(size, key) in sizes" :key="key">{{ size }}</option>
                             </select>
                         </div>
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.shoe_size')">{{ properFormat(errors.first('complete_profile_form.shoe_size')) }}</span></transition>
+                    </div>
+                    <div class="form_group select">
+                        <label for="dumbbells">Dumbbells <span>*</span></label>
+                        <div class="select">
+                            <select class="input_select" name="dumbbells" v-validate="'required'">
+                                <option value="" selected disabled>Please select a dumbbell</option>
+                                <option :value="dumbbell" v-for="(dumbbell, key) in dumbbells" :key="key">{{ dumbbell }}</option>
+                            </select>
+                        </div>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.dumbbells')">{{ properFormat(errors.first('complete_profile_form.dumbbells')) }}</span></transition>
                     </div>
                     <div class="form_group weight">
                         <label for="weight">Weight <span>*</span></label>
@@ -328,7 +338,8 @@
                 pa_states: [],
                 ba_countries: [],
                 ba_states: [],
-                sizes: []
+                sizes: [],
+                dumbbells: ['1LB', '2LBS', '3LBS', '5LBS']
             }
         },
         computed: {
