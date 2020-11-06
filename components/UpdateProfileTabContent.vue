@@ -338,7 +338,7 @@
                 ctr: 0,
                 res: [],
                 sizes: [],
-                dumbbells: ['1LB', '2LBS', '3LBS', '5LBS']
+                dumbbells: ['1LB', '2LBS', '3LBS', '5LBS'],
                 message: '',
                 card_message: '',
                 card_success: false,
@@ -668,6 +668,7 @@
                         me.profileOverview.sex = res.data.user.customer_details.co_sex
                         me.getSizes()
                         me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
+                        me.profileOverview.dumbbell = res.data.user.customer_details.co_dumbbells
                         me.profileOverview.weight = res.data.user.customer_details.co_weight
                         me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
 
