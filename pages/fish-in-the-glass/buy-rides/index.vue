@@ -18,8 +18,10 @@
                     </transition>
                 </div>
                 <div class="content" id="package">
-                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`, data, 'package')" rel="canonical" :to="`/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`" :class="`package_wrapper ov ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in populatePackages" :key="key">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`, data, 'package')" :to="`/fish-in-the-glass/buy-rides/package/${data.slug}?token=${$route.query.token}`" :class="[ 'package_wrapper', 'ov', checkClass(data) ]" v-for="(data, key) in populatePackages" :key="key">
                         <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
+                        <div class="ribbon" v-else-if="data.is_promo == 0 && data.online">Online</div>
+                        <div class="ribbon" v-else-if="data.is_promo == 0 && !data.online">Studio</div>
                         <div class="package_header">
                             <h2 class="title">{{ data.name }}</h2>
                             <div class="description" v-line-clamp="3" v-html="data.summary"></div>
@@ -160,6 +162,21 @@
             },
         },
         methods: {
+            checkClass (data) {
+                const me = this
+                let result = ''
+                if (data.is_promo == 1) {
+                    result = 'promo'
+                } else {
+                    if (data.online) {
+                        result = 'alt'
+                    } else {
+                        result = 'alt_2'
+                    }
+                }
+
+                return result
+            },
             checkIfLoggedIn (event, slug, data, type) {
                 event.preventDefault()
                 const me = this
