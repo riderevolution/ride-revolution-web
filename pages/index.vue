@@ -37,8 +37,10 @@
                     </div>
                 </div>
                 <div class="content" v-if="!$store.state.isMobile">
-                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`, data, 'package')" :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`" v-for="(data, key) in packages" :key="key">
+                    <nuxt-link :event="''" @click.native="checkIfLoggedIn($event, `/buy-rides/package/${data.slug}`, data, 'package')" :to="`/buy-rides/package/${data.slug}`" :class="[ 'package_wrapper', checkClass(data) ]" v-for="(data, key) in packages" :key="key">
                         <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
+                        <div class="ribbon" v-else-if="data.is_promo == 0 && data.online">Online</div>
+                        <div class="ribbon" v-else-if="data.is_promo == 0 && !data.online">Studio</div>
                         <div class="package_header">
                             <h2 class="title">{{ data.name }}</h2>
                             <div class="description" v-line-clamp="3" v-html="data.summary"></div>
@@ -53,8 +55,10 @@
                     <no-ssr>
                         <swiper :options="mobileOptions" class="default">
                             <swiper-slide class="slider" v-for="(data, key) in packages" :key="key">
-                                <nuxt-link :to="`/buy-rides/package/${data.slug}`" :class="`package_wrapper ${(data.is_promo == 1) ? 'promo' : ''}`">
+                                <nuxt-link :to="`/buy-rides/package/${data.slug}`" :class="[ 'package_wrapper', checkClass(data) ]">
                                     <div class="ribbon" v-if="data.is_promo == 1">Promo</div>
+                                    <div class="ribbon" v-else-if="data.is_promo == 0 && data.online">Online</div>
+                                    <div class="ribbon" v-else-if="data.is_promo == 0 && !data.online">Studio</div>
                                     <div class="package_header">
                                         <h2 class="title">{{ data.name }}</h2>
                                         <div class="description" v-line-clamp="3" v-html="data.summary"></div>
@@ -428,6 +432,21 @@
             }
         },
         methods: {
+            checkClass (data) {
+                const me = this
+                let result = ''
+                if (data.is_promo == 1) {
+                    result = 'promo'
+                } else {
+                    if (data.online) {
+                        result = 'alt'
+                    } else {
+                        result = 'alt_2'
+                    }
+                }
+
+                return result
+            },
             checkIfLoggedIn (event, slug, data, type) {
                 const me = this
                 event.preventDefault()
