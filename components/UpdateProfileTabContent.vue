@@ -668,7 +668,7 @@
                         me.profileOverview.sex = res.data.user.customer_details.co_sex
                         me.getSizes()
                         me.profileOverview.shoe_size = res.data.user.customer_details.co_shoe_size
-                        me.profileOverview.dumbbell = res.data.user.customer_details.co_dumbbells
+                        me.profileOverview.dumbbell = res.data.user.customer_details.dumbbells
                         me.profileOverview.weight = res.data.user.customer_details.co_weight
                         me.profileOverview.what_do_you_do = res.data.user.customer_details.profession
 
