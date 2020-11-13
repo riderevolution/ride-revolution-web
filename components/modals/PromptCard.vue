@@ -6,13 +6,13 @@
                 Read before continuing
             </div>
             <div class="confirmation_text">
-                To verify that your credit card is active, Paymaya will be charging your card Php 10.00.
-                Once verification is done, the Php 10.00 will be immediately reversed. Expectthe reversal
+                To verify that your credit card is active, PayMaya will be charging your card Php 10.00.
+                Once verification is done, the Php 10.00 will be immediately reversed. Expect the reversal
                 within a few minutes.
                 <br />
                 <br />
-                Pamaya will also store a payment token* representing your card details. If you wish to
-                delete this, you may do so through Account Settings.
+                Your credit card details will be saved by PayMaya to make your transactions more seamless.
+                If you wish to delete your details, you may do so through your Account Settings.
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn_wht" @click.once="toggleClose()">OK</div>
