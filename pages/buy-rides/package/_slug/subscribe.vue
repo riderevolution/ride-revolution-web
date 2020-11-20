@@ -30,21 +30,25 @@
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="number">Card Number <span>*</span></label>
-								<div data-recurly="number" id="number" class="recurly-element-number"></div>
+								<input type="text" id="number" class="input_text" placeholder="4111111111111111" name="card_number" v-validate="{ required: true, credit_card: true }">
+                                <transition name="slide"><span class="validation_errors" v-if="errors.has('card_number')">{{ properFormat(errors.first('card_number')) }}</span></transition>
 							</div>
 							<div class="form_group">
 								<div class="form_flex three">
 									<div class="form_group">
 										<label for="month">Month <span>*</span></label>
-										<div data-recurly="month" id="month" class="recurly-element-month"></div>
+										<input type="text" id="month" class="input_text" placeholder="MM" name="card_month" v-validate="{ required: true, date_format: 'MM' }">
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('card_month')">{{ properFormat(errors.first('card_month')) }}</span></transition>
 									</div>
 									<div class="form_group">
 										<label for="year">Year <span>*</span></label>
-										<div data-recurly="year" id="year" class="recurly-element-year"></div>
+										<input type="text" id="year" class="input_text" placeholder="YYYY" name="card_year" v-validate="{ required: true, date_format: 'yyyy' }">
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('card_year')">{{ properFormat(errors.first('card_year')) }}</span></transition>
 									</div>
 									<div class="form_group">
 										<label for="cvv">CVV <span>*</span></label>
-										<div data-recurly="cvv" id="cvv" class="recurly-element-cvv"></div>
+										<input type="text" id="cvv" class="input_text" placeholder="123" name="card_cvv" v-validate="{ required: true, numeric: true, min: 3, max: 3 }">
+                                        <transition name="slide"><span class="validation_errors" v-if="errors.has('card_cvv')">{{ properFormat(errors.first('card_cvv')) }}</span></transition>
 									</div>
 								</div>
 							</div>
@@ -157,115 +161,61 @@
 			submit (e) {
 				const me = this
 				me.loader(true)
-				me.$store.state.errorList = []
-				recurly.token(e.target, (err, token) => {
-					if (err) {
-						err.details.forEach((item, ket) => {
-							switch (item.field) {
-								case 'number':
-									item.field = 'Card Number'
-									break
-								case 'month':
-									item.field = 'Month'
-									break
-								case 'year':
-									item.field = 'Year'
-									break
-								case 'cvv':
-									item.field = 'CVV'
-									break
-							}
-							me.$store.state.errorList.push(`${item.field} ${item.messages[0]}`)
-						})
-						me.$store.state.errorPromptStatus = true
-						me.loader(false)
-					} else {
-						me.$validator.validateAll().then(valid => {
-		                    if (valid && grecaptcha.getResponse().length > 0) {
-		                        let captcha = grecaptcha.getResponse()
-		                        me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
-		                            let formData = new FormData(document.getElementById('default_form'))
-		                            if (verify) {
-										let form = {
-											token: token,
-											user_id: me.user.id,
-											plan_code: me.classPackage.plan_code
-										}
-										me.$axios.post(`api/recurly/subscribe`, form).then(res => {
-											setTimeout( () => {
-												me.summary.res = me.classPackage
-    							                me.summary.total = res.data.payment.total
-    							                me.summary.discount = 0
-												me.summary.quantity = 1
-    							                me.summary.type = 'paynow'
-												me.step = 0
-												me.$store.state.buyRidesSuccessStatus = true
-												window.scrollTo({ top: 0, behavior: 'smooth' })
-										    }, 500)
-										}).catch(err => {
-											me.$store.state.errorList = err.response.data.errors
-				                            me.$store.state.errorPromptStatus = true
-										}).then(() => {
-				                            setTimeout( () => {
-				                                me.loader(false)
-				                            }, 500)
-				                        })
-		                            }
-		                        }).catch(err => {
-									me.$store.state.errorList = err.response.data.errors
- 	                            	me.$store.state.errorPromptStatus = true
-		                        })
-		                    } else {
-								if (grecaptcha.getResponse().length <= 0) {
-									me.$store.state.errorList = ['Please verify that you are not a robot']
-									me.$store.state.errorPromptStatus = true
-								} else {
-									me.$scrollTo('.validation_errors', {
-			                            offset: -250
+				me.$validator.validateAll().then(valid => {
+                    if (valid) {
+						if (grecaptcha.getResponse().length > 0) {
+							let captcha = grecaptcha.getResponse()
+	                        me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
+	                            let formData = new FormData(document.getElementById('default_form'))
+	                            if (verify) {
+									let form = {
+										token: token,
+										user_id: me.user.id,
+										plan_code: me.classPackage.plan_code
+									}
+									me.$axios.post(`api/recurly/subscribe`, form).then(res => {
+										setTimeout( () => {
+											me.summary.res = me.classPackage
+							                me.summary.total = res.data.payment.total
+							                me.summary.discount = 0
+											me.summary.quantity = 1
+							                me.summary.type = 'paynow'
+											me.step = 0
+											me.$store.state.buyRidesSuccessStatus = true
+											window.scrollTo({ top: 0, behavior: 'smooth' })
+									    }, 500)
+									}).catch(err => {
+										me.$store.state.errorList = err.response.data.errors
+			                            me.$store.state.errorPromptStatus = true
+									}).then(() => {
+			                            setTimeout( () => {
+			                                me.loader(false)
+			                            }, 500)
 			                        })
-								}
+	                            }
+	                        }).catch(err => {
+								me.$store.state.errorList = err.response.data.errors
+	                        	me.$store.state.errorPromptStatus = true
 								me.loader(false)
-		                    }
-		                })
-					}
-				})
-			},
-			initializeRecurly () {
-				recurly.configure({
-                	publicKey: 'ewr1-IeGOwa2IupbnSdFc9IRwpc',
-                	style: {
-						all: {
-							fontSmoothing: 'auto',
-							fontFamily: 'Open Sans',
-							fontSize: '18px',
-							fontWeight: 'normal',
-							fontColor: '#171717',
-							placeholder: {
-								color: '#A8A8A8'
-							}
-						},
-						number: {
-							placeholder: {
-								content: 'Enter Your Card Number'
-							}
-						},
-						month: {
-							placeholder: {
-								content: 'MM'
-							}
-						},
-						year: {
-							placeholder: {
-								content: 'YY'
-							}
-						},
-						cvv: {
-							placeholder: {
-								content: 'CVV'
-							}
+	                        })
+						} else {
+							me.$store.state.errorList = ['Please verify that you are not a robot']
+							me.$store.state.errorPromptStatus = true
+							me.loader(false)
 						}
-					}
-				})
+                    } else {
+						me.$scrollTo('.validation_errors', {
+							offset: -250
+						})
+						me.loader(false)
+                    }
+                })
+			},
+			fetchClassPackage () {
+				const me = this
+				me.$axios.get(`api/packages/web/class-packages/${me.$route.params.slug}`).then(res => {
+					me.classPackage = res.data.classPackage
+	            })
 			},
 			checkToken () {
 				const me = this
@@ -280,7 +230,7 @@
 						me.user = res.data.user
 						me.loaded = true
 						setTimeout(() => {
-							me.initializeRecurly()
+							me.fetchClassPackage()
 						}, 500)
 					}).catch(err => {
 						me.$store.state.needLogin = true
@@ -297,18 +247,11 @@
 	                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
 	                me.loader(false)
 				}
-			},
-			fetchClassPackage () {
-				const me = this
-				me.$axios.get(`api/packages/web/class-packages/${me.$route.params.slug}`).then(res => {
-					me.classPackage = res.data.classPackage
-	            })
 			}
 		},
 		mounted () {
 			const me = this
 			me.checkToken()
-			me.fetchClassPackage()
 		},
 		head () {
             const me = this

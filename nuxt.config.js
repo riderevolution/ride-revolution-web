@@ -24,7 +24,6 @@ export default {
     script: [
       { src: 'https://apis.google.com/js/platform.js', async: true, defer: true },
       { src: 'https://connect.facebook.net/en_US/sdk.js' },
-      { src: 'https://js.recurly.com/v4/recurly.js' },
       { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: true, defer: true },
       { src: `https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID}&disable-funding=credit,card&currency=PHP` },
       { src: 'https://unpkg.com/paymaya-js-sdk@2.0.0/dist/bundle.js' }
