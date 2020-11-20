@@ -30,7 +30,7 @@
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="number">Card Number <span>*</span></label>
-								<input type="text" id="number" class="input_text" placeholder="4111111111111111" name="card_number" v-validate="{ required: true, credit_card: true }">
+								<input type="text" id="number" class="input_text" placeholder="4111111111111111" name="card_number" autocomplete="off" v-validate="{ required: true, credit_card: true }">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('card_number')">{{ properFormat(errors.first('card_number')) }}</span></transition>
 							</div>
 							<div class="form_group">
