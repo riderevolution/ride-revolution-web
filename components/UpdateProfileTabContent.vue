@@ -634,10 +634,14 @@
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
+
                     for (let i = 0, len = res.data.cards.length; i < len; i++) {
                         res.data.cards[i].toggled = false
                     }
                     me.cards = res.data.cards
+                    me.cards.sort(function(x, y) {
+                        return (x.default === y.default) ? 0 : (x.default ? -1 : 1)
+                    })
                 }).catch((err) => {
                     me.$store.state.loginSignUpStatus = true
                     document.body.classList.add('no_scroll')
