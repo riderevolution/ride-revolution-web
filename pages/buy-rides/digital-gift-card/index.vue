@@ -440,6 +440,7 @@
                 const me = this
                 if (!me.promoApplied) {
                     let formData = new FormData()
+                    formData.append('quantity', me.form.quantity)
                     formData.append('promo_code', me.form.promo)
                     formData.append('class_package_id', id)
                     me.loader(true)
