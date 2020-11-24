@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="item">
                                         <p>Discount</p>
-                                        <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
+                                        <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                                     </div>
                                     <div class="total">
                                         <p>You Pay</p>
@@ -107,7 +107,7 @@
                             </div>
                             <div class="item">
                                 <h3>Discount</h3>
-                                <p>Php {{ computeDiscount((promoApplied) ? res.package_price - res.final_price : '0.00') }}</p>
+                                <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                             </div>
                             <div class="available" v-if="!paypal">
                                 <div :class="`available_item ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'insufficient' : ''}`">
