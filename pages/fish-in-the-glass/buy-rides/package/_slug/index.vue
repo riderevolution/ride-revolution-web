@@ -340,6 +340,7 @@
                 if (!me.promoApplied) {
                     let formData = new FormData()
                     formData.append('promo_code', me.form.promo)
+                    formData.append('quantity', me.form.quantity)
                     formData.append('class_package_id', id)
                     me.loader(true)
                     me.$axios.post('api/apply-promo', formData).then(res => {
