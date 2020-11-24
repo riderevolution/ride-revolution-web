@@ -61,7 +61,6 @@
         methods: {
             toggleFAQ (key) {
                 const me = this
-                console.log(key);
                 let target = document.getElementById(`faq_item_${key}`)
                 me.faqs.forEach((element, index) => {
                     let elements = document.getElementById(`faq_item_${index}`)

@@ -303,6 +303,7 @@
                     <table class="default_table">
                         <thead>
                             <tr>
+                                <th>Reference Number</th>
                                 <th>Date</th>
                                 <th>Products</th>
                                 <th>Quantity</th>
@@ -313,6 +314,7 @@
                         </thead>
                         <tbody v-if="transactions.data.length > 0">
                             <tr v-for="(data, key) in transactions.data" :key="key">
+                                <td data-column="Refenrence Number"><div class="default">{{ getPaymentCode(data) }}</div></td>
                                 <td data-column="Date"><div class="default">{{ $moment(data.updated_at).format('MMMM DD, YYYY hh:mm A') }}</div></td>
                                 <td data-column="Products">
                                     <div>
@@ -742,6 +744,23 @@
             }
         },
         methods: {
+            getPaymentCode (payment) {
+                const me = this
+                let result = ''
+
+                switch (payment.payment_method.method) {
+                    case 'paypal':
+                        result = payment.payment_method.paypal_transaction_id
+                        break
+                    case 'paymaya':
+                        result = payment.payment_method.paymaya_transaction_id
+                        break
+                    default:
+                        result = payment.payment_code
+                }
+
+                return result
+            },
             loadMoreClasses () {
                 const me = this
                 if (!me.showLoadedClasses) {
