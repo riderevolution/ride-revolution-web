@@ -208,6 +208,9 @@
 						}
                     }
                     me.cards = res.data.cards
+					me.cards.sort(function(x, y) {
+                        return (x.default === y.default) ? 0 : (x.default ? -1 : 1)
+                    })
                 }).catch((err) => {
                     me.$store.state.loginSignUpStatus = true
                     document.body.classList.add('no_scroll')
