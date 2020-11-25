@@ -43,7 +43,7 @@
                                     <div class="breakdown_list">
                                         <div class="item">
                                             <p>Subtotal</p>
-                                            <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price : res.package_price) }}</p>
+                                            <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price * form.quantity : res.package_price * form.quantity) }}</p>
                                         </div>
                                         <div class="item">
                                             <p>Discount</p>
