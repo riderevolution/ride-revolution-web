@@ -19,7 +19,7 @@
                         <p>{{ summary.quantity }}</p>
                     </div>
                     <div class="item" v-if="summary.type != 'store-credit-page'">
-                        <h3>Rides</h3>
+                        <h3>Rides Per Package</h3>
                         <p>{{ (summary.res.class_count == 99999) ? 'Unlimited' : summary.res.class_count }}</p>
                     </div>
                     <div class="item" v-else>
