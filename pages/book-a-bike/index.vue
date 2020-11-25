@@ -710,7 +710,7 @@
                     if (currentDate > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
                         currentDate = 1
                         me.currentMonth = me.currentMonth + 1
-                        if (me.currentMonth == 12) {
+                        if (me.currentMonth > 12) {
                             me.currentMonth = 1
                             me.currentYear = me.currentYear + 1
                         }
