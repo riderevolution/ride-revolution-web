@@ -335,6 +335,7 @@
                 me.form.total = total
                 me.summary.res = me.selectedPackage
                 me.summary.total = total
+                me.summary.quantity = 1
                 me.summary.discount = me.form.discount
                 me.summary.type = me.type
                 return result
