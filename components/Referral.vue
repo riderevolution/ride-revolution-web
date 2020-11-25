@@ -14,7 +14,7 @@
                         <h3>{{ summary.res.name }}</h3>
                         <p>Php {{ totalCount(summary.res.amount) }}</p>
                     </div>
-                    <div class="item" v-if="summary.type == 'store-credit-page'">
+                    <div class="item">
                         <h3>Quantity</h3>
                         <p>{{ summary.quantity }}</p>
                     </div>
