@@ -157,6 +157,7 @@ Vue.mixin({
             formData.append('quantity', page.form.quantity)
             formData.append('discount', page.form.discount)
             formData.append('is_paypal_subscription', 1)
+            formData.append('paymaya_token_id', 0)
 
             formData.append('total', page.form.total)
             formData.append('payment_method', page.paymentType)
