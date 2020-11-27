@@ -133,6 +133,7 @@
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                     <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                    <div id="paypal-subscribe-container" v-if="type == 'paynow'"></div>
                                 </div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
@@ -382,6 +383,38 @@
                             })
                         }
                     }).render('#paypal-button-container')
+
+                    /* subscription */
+                    paypal.Buttons({
+                        style: {
+                            layout: 'vertical',
+                            color: 'blue',
+                            size: 'responsive',
+                            fundingicons: true
+                        },
+                        funding: {
+                            allowed: [ paypal.FUNDING.CARD ]
+                        },
+                        createSubscription: function (data, actions) {
+                            // This function sets up the details of the transaction, including the amount and line item details.
+                            return actions.subscription.create({
+                                'plan_id': 'P-8CH307485M3858741L7AHCGY'
+                            })
+                        },
+                        onApprove: function (data, actions) {
+                            // This function captures the funds from the transaction.
+                            console.log(data)
+
+                            // me.loader(true)
+                            // return actions.order.capture().then(function(details) {
+                            //     me.paymentType = 'paypal'
+                            //     me.payment(me, JSON.stringify(details), 'class-package', 0)
+                            // })
+                        },
+                        onError: function (err) {
+                            console.log(err)
+                        }
+                    }).render('#paypal-subscribe-container')
                 }, 500)
             }
         },
