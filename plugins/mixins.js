@@ -144,6 +144,51 @@ Vue.mixin({
                 }
             })
         },
+        paypalSubscribe (page, type, paypal_details) {
+            const me = this
+            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
+            me.validateToken()
+            let formData = new FormData()
+
+            formData.append('type', 'class-package')
+            formData.append('class_package_id', page.res.id)
+            formData.append('price', (page.res.is_promo == 1) ? page.res.discounted_price : page.res.package_price)
+            formData.append('promo_code', page.form.promo)
+            formData.append('quantity', page.form.quantity)
+            formData.append('discount', page.form.discount)
+            formData.append('is_paypal_subscription', 1)
+            formData.append('paymaya_token_id', 0)
+
+            formData.append('total', page.form.total)
+            formData.append('payment_method', page.paymentType)
+
+            formData.append('paypal_subscription_details', JSON.stringify(paypal_details))
+            
+            if (me.$store.state.inApp) {
+                formData.append('in_app', 1)
+            }
+
+            me.loader(true)
+            me.$axios.post('api/web/pay', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        page.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
+                    }, 500)
+                }
+            }).catch(err => {
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
+        },
         payment (page, paypal_details, type, paymaya_token_id = 0) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
