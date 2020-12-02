@@ -265,6 +265,8 @@
                         // }
                         if (ins.primary == 1) {
                             instructor = ins
+                        } else {
+                            instructor = ins
                         }
                     })
 
@@ -274,7 +276,9 @@
                             <img class="image" src="${data.schedule.instructor_schedules[1].user.instructor_details.images[0].path}" />
                         `
                     } else {
-                        result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
+                        if (instructor != null) {
+                            result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
+                        }
                     }
                 }
 
@@ -285,12 +289,14 @@
                 let result = ''
                 if (data != '') {
                     let ins_ctr = 0
-                    let instructor = []
+                    let instructor = null
                     data.schedule.instructor_schedules.forEach((ins, index) => {
                         if (ins.substitute == 0) {
                             ins_ctr += 1
                         }
                         if (ins.primary == 1) {
+                            instructor = ins
+                        } else {
                             instructor = ins
                         }
                     })
@@ -298,11 +304,12 @@
                     if (ins_ctr == 2) {
                         result = `${instructor.user.instructor_details.nickname} + ${data.schedule.instructor_schedules[1].user.instructor_details.nickname}`
                     } else {
-                        result = `${instructor.user.fullname}`
+                        if (instructor != null) {
+                            result = `${instructor.user.fullname}`
+                        }
                     }
 
                 }
-
                 return result
             },
             /**

@@ -123,7 +123,7 @@
                     res: res.data.pageSettings
                 }
             }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
+                error({ statusCode: 403, message: 'Something Went Wrong' })
             })
         },
         head () {
