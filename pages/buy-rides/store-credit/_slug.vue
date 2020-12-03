@@ -162,7 +162,7 @@
                     type: ''
                 },
                 res: [],
-                type: '',
+                type: 'store-credit',
                 paymentType: '',
                 storeCredits: 50,
                 step: 1,
