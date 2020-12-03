@@ -29,6 +29,9 @@
                     document.body.classList.remove('no_scroll')
                 }
             }
+        },
+        mounted () {
+            document.body.classList.add('no_scroll')
         }
     }
 </script>
