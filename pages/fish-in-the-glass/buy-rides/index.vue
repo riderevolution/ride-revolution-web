@@ -43,7 +43,7 @@
                     </nuxt-link>
                 </div>
             </section>
-            <!-- <section id="packages" class="container alt">
+            <section id="packages" class="container alt">
                 <div class="header">
                     <h2>
                         Buy Store Credits
@@ -79,7 +79,7 @@
                         </div>
                     </nuxt-link>
                 </div>
-            </section> -->
+            </section>
         </div>
     </transition>
 </template>
