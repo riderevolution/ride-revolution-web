@@ -359,8 +359,7 @@
                             layout: 'vertical',
                             color: 'blue',
                             size: 'responsive',
-                            fundingicons: true,
-                            label: 'Paypal Checkout'
+                            fundingicons: true
                         },
                         funding: {
                             allowed: [ paypal.FUNDING.CARD ]
@@ -391,8 +390,7 @@
                             layout: 'vertical',
                             color: 'blue',
                             size: 'responsive',
-                            fundingicons: true,
-                            label: 'Paypal Subscribe'
+                            fundingicons: true
                         },
                         funding: {
                             allowed: [ paypal.FUNDING.CARD ]
