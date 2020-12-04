@@ -203,7 +203,7 @@ Vue.mixin({
                     formData.append('quantity', page.form.quantity)
                     formData.append('discount', page.form.discount)
                     break
-                case 'store-credit':
+                case 'store-credit-page':
                     formData.append('type', 'store-credit')
                     formData.append('store_credit_id', page.res.id)
                     formData.append('price', page.res.amount)
