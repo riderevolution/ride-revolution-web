@@ -101,7 +101,7 @@
                             setTimeout( () => {
                                 me.$refs.updateProfileTab.getHeight()
                                 me.$refs.updateProfileTab.ctr = 0
-                                me.$refs.updateProfileTab.unique = 2
+                                me.$refs.updateProfileTab.unique = (me.category == 'card') ? 2 : 0
                             }, 10)
                             me.loader(false)
                         }
