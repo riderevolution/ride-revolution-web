@@ -98,6 +98,11 @@
                                 }
                             }
                             me.loaded = true
+                            setTimeout( () => {
+                                me.$refs.updateProfileTab.getHeight()
+                                me.$refs.updateProfileTab.ctr = 0
+                                me.$refs.updateProfileTab.unique = 2
+                            }, 10)
                             me.loader(false)
                         }
                     }).catch(err => {
