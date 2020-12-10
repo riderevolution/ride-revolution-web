@@ -1427,6 +1427,9 @@ svg
                     h3
                         color: $black
                         transition: .3s ease-in-out
+                    .user_dropdown_list
+                        top: calc(100% + 23px)
+                        transition: .3s ease-in-out
                     &::before
                         border-top: 7px solid $black
                         transition: .3s ease-in-out
@@ -1567,7 +1570,7 @@ svg
                 .user_dropdown_list
                     position: absolute
                     width: 320px
-                    top: calc(100% + 10px)
+                    top: calc(100% + 30px)
                     right: 0
                     background-color: $white
                     list-style: none
@@ -1575,6 +1578,7 @@ svg
                     margin: 0
                     border-radius: 3px
                     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3)
+                    transition: .3s ease-in-out
                     .user_dropdown_item
                         margin: 0
                         .item_link
