@@ -15,9 +15,11 @@
                                     <h2>{{ res.name }}</h2>
                                     <h2 :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price) }}</h2>
                                     <h2 v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</h2>
+                                    <div class="violator" v-if="res.recurring">
+                                        <span>Recurring</span>
+                                    </div>
                                 </div>
-                                <div class="content" v-html="res.description">
-                                </div>
+                                <div class="content" v-html="res.description"></div>
                             </div>
                             <div class="right">
                                 <form id="default_form">
