@@ -16,7 +16,7 @@
                     <h2 class="title">{{ data.name }}</h2>
                     <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                     <div class="violator" v-if="data.recurring">
-                        Recurring
+                        Subscription
                     </div>
                 </div>
                 <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
@@ -37,7 +37,7 @@
                                 <h2 class="title">{{ data.name }}</h2>
                                 <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                                 <div class="violator" v-if="data.recurring">
-                                    Recurring
+                                    Subscription
                                 </div>
                             </div>
                             <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
