@@ -6,7 +6,11 @@
             <div class="confirmation_text" v-if="type == 1">
                 Are you sure you want to cancel {{ user_package_count.class_package.name }} subscription?
             </div>
-            <div class="confirmation_text" v-else>
+            <div class="form_group mt" v-if="type == 1">
+                <textarea name="reason" autocomplete="off" class="input_text" rows="4" v-model="form.reason" v-validate="{required: true}" placeholder="Enter your reason"></textarea>
+                <transition name="slide"><span class="validation_errors" v-if="errors.has('reason')">{{ properFormat(errors.first('reason')) }}</span></transition>
+            </div>
+            <div class="confirmation_text" v-if="type != 1">
                 Your Subscription has been cancelled.
             </div>
             <div :class="`button_group ${(type != 1) ? 'alt' : ''}`">
@@ -29,6 +33,13 @@
                 default: null
             }
         },
+        data () {
+            return {
+                form: {
+                    reason: ''
+                }
+            }
+        },
         methods: {
             /**
              * [toggleClose toggle action based on the status]
@@ -38,7 +49,7 @@
                 const me = this
                 if (me.type == 2) {
                     me.$parent.sub_type = 1
-                    me.$parent.toggledMenuTab('active')
+                    me.$parent.toggledMenuTab('subscription')
                     me.$parent.cancel_subs = false
                     document.body.classList.remove('no_scroll')
                 } else {
@@ -52,8 +63,9 @@
                             if (res.data) {
                                 me.loader(true)
                                 let formData = new FormData()
-                                formData.append('recurly_subscription_id', me.user_package_count.recurly_subscription_id)
-                                me.$axios.post('api/recurly/cancel', formData, {
+                                formData.append('paypal_subscription_id', me.user_package_count.paypal_subscription_id)
+                                formData.append('reason', me.form.reason)
+                                me.$axios.post('api/paypal/cancel-subscription', formData, {
                                     headers: {
                                         Authorization: `Bearer ${token}`
                                     }
