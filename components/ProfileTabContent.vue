@@ -205,7 +205,7 @@
                 <div id="default_menu">
                     <ul class="menu_tab">
                         <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
-                        <li :class="`menu_tab_item ${(tabCategory == 'subscription') ? 'active' : ''}`" @click="toggledMenuTab('subscription')">Subscription</li>
+                        <li :class="`menu_tab_item ${(tabCategory == 'subscription') ? 'active' : ''}`" @click="toggledMenuTab('subscription')">Subscribed</li>
                         <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
                     </ul>
                     <div class="menu_tab_content">
