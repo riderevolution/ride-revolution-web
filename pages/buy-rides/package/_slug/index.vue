@@ -15,9 +15,11 @@
                                     <h2>{{ res.name }}</h2>
                                     <h2 :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price) }}</h2>
                                     <h2 v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</h2>
+                                    <div class="violator" v-if="res.recurring">
+                                        <span>Subscription</span>
+                                    </div>
                                 </div>
-                                <div class="content" v-html="res.description">
-                                </div>
+                                <div class="content" v-html="res.description"></div>
                             </div>
                             <div class="right">
                                 <form id="default_form">
@@ -57,16 +59,20 @@
                                         <p>Php {{ computeTotal(((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) * form.quantity) }}</p>
                                     </div>
                                 </div>
-                                <div class="breakdown_actions" v-if="!$store.state.isMobile">
+
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile && !res.recurring">
                                     <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                     <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                 </div>
-                              <!--   <div class="breakdown_actions" v-if="!$store.state.isMobile && res.recurring">
-                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && res.recurring">Back</nuxt-link>
-                                    <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
-                                </div> -->
-                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
-                                <div class="action_mobile" v-if="$store.state.isMobile">
+
+                                <div class="breakdown_actions" v-if="!$store.state.isMobile && res.recurring">
+                                    <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
+                                    <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
+                                </div>
+
+                                <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk" v-if="!$store.state.isMobile && !res.recurring">Back</nuxt-link>
+
+                                <div class="action_mobile" v-if="$store.state.isMobile && !res.recurring">
                                     <div class="m_left">
                                         <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                     </div>
@@ -75,14 +81,14 @@
                                         <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                     </div>
                                 </div>
-                                <!-- <div class="action_mobile" v-if="$store.state.isMobile && res.recurring">
+                                <div class="action_mobile" v-if="$store.state.isMobile && res.recurring">
                                     <div class="m_left">
                                         <nuxt-link rel="canonical" to="/buy-rides" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                     </div>
                                     <div class="m_right">
-                                        <nuxt-link class="default_btn_blue" :to="`/buy-rides/package/${res.slug}/subscribe`">Subscribe</nuxt-link>
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -131,9 +137,9 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
-                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
-                                    <!-- <div id="paypal-subscribe-container" v-if="type == 'paynow'"></div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
+                                    <div id="paypal-button-container" v-if="type == 'paynow' && !res.recurring"></div>
+                                    <div id="paypal-subscribe-container" v-if="type == 'paynow' && res.recurring"></div>
                                 </div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
@@ -150,8 +156,9 @@
                                 </div>
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
-                                    <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
+                                    <div id="paypal-button-container" v-if="type == 'paynow' && !res.recurring"></div>
+                                    <div id="paypal-subscribe-container" v-if="type == 'paynow' && res.recurring"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                         <p>Note: Paypal account not needed</p>
                                         <div class="wrapper">
@@ -354,65 +361,70 @@
             renderPaypal () {
                 let me = this
                 setTimeout(() => {
-                    paypal.Buttons({
-                        style: {
-                            layout: 'vertical',
-                            color: 'blue',
-                            size: 'responsive',
-                            fundingicons: true
-                        },
-                        funding: {
-                            allowed: [ paypal.FUNDING.CARD ]
-                        },
-                        createOrder: function(data, actions) {
-                          // This function sets up the details of the transaction, including the amount and line item details.
-                            return actions.order.create({
-                                purchase_units: [{
-                                    amount: {
-                                        value: me.form.total
-                                    }
-                                }]
-                            })
-                        },
-                        onApprove: function(data, actions) {
-                          // This function captures the funds from the transaction.
-                            me.loader(true)
-                            return actions.order.capture().then(function(details) {
-                                me.paymentType = 'paypal'
-                                me.payment(me, JSON.stringify(details), 'class-package', 0)
-                            })
-                        }
-                    }).render('#paypal-button-container')
+                    if (document.getElementById('paypal-button-container')) {
+                        paypal.Buttons({
+                            style: {
+                                layout: 'vertical',
+                                color: 'blue',
+                                size: 'responsive',
+                                fundingicons: true
+                            },
+                            funding: {
+                                allowed: [ paypal.FUNDING.CARD ]
+                            },
+                            createOrder: function(data, actions) {
+                                // This function sets up the details of the transaction, including the amount and line item details.
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: me.form.total
+                                        }
+                                    }]
+                                })
+                            },
+                            onApprove: function(data, actions) {
+                                // This function captures the funds from the transaction.
+                                me.loader(true)
+                                return actions.order.capture().then(function(details) {
+                                    me.paymentType = 'paypal'
+                                    me.payment(me, JSON.stringify(details), 'class-package', 0)
+                                })
+                            }
+                        }).render('#paypal-button-container')
+                    }
 
-                    /* subscription */
-                    paypal.Buttons({
-                        style: {
-                            layout: 'vertical',
-                            color: 'blue',
-                            size: 'responsive',
-                            fundingicons: true
-                        },
-                        funding: {
-                            allowed: [ paypal.FUNDING.CARD ]
-                        },
-                        createSubscription: function (data, actions) {
-                            // This function sets up the details of the transaction, including the amount and line item details.
-                            return actions.subscription.create({
-                                'plan_id': 'P-8CH307485M3858741L7AHCGY'
-                            })
-                        },
-                        onApprove: function (data, actions) {
-                            // This function captures the funds from the transaction.
-                            console.log(data)
+                    if (document.getElementById('paypal-subscribe-container')) {
+                        /* subscription */
+                        paypal.Buttons({
+                            style: {
+                                layout: 'vertical',
+                                color: 'blue',
+                                size: 'responsive',
+                                fundingicons: true
+                            },
+                            funding: {
+                                allowed: [ paypal.FUNDING.CARD ]
+                            },
+                            createSubscription: function (data, actions) {
+                                // This function sets up the details of the transaction, including the amount and line item details.
+                                return actions.subscription.create({
+                                    'plan_id': 'P-8CH307485M3858741L7AHCGY'
+                                })
+                            },
+                            onApprove: function (data, actions) {
+                                // This function captures the funds from the transaction.
+                                console.log(data)
 
-                            me.loader(true)
-                            me.paypalSubscribe(me, 'class-package', JSON.stringify(data))
-                        },
-                        onError: function (err) {
-                            console.log(err)
+                                me.loader(true)
+                                me.paypalSubscribe(me, 'class-package', JSON.stringify(data))
+                            },
+                            onError: function (err) {
+                                console.log(err)
 
-                        }
-                    }).render('#paypal-subscribe-container')
+                            }
+                        }).render('#paypal-subscribe-container')
+                    }
+
                 }, 500)
             }
         },

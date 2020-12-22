@@ -797,6 +797,8 @@ svg
     border: 1px solid $red
     cursor: pointer
     transition: .3s ease-in-out
+    &.alt
+        padding: 10px 20px
     &.mb
         margin-bottom: 15px
     &:hover
@@ -1427,6 +1429,9 @@ svg
                     h3
                         color: $black
                         transition: .3s ease-in-out
+                    .user_dropdown_list
+                        top: calc(100% + 23px)
+                        transition: .3s ease-in-out
                     &::before
                         border-top: 7px solid $black
                         transition: .3s ease-in-out
@@ -1567,7 +1572,7 @@ svg
                 .user_dropdown_list
                     position: absolute
                     width: 320px
-                    top: calc(100% + 10px)
+                    top: calc(100% + 30px)
                     right: 0
                     background-color: $white
                     list-style: none
@@ -1575,6 +1580,7 @@ svg
                     margin: 0
                     border-radius: 3px
                     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3)
+                    transition: .3s ease-in-out
                     .user_dropdown_item
                         margin: 0
                         .item_link
@@ -3586,6 +3592,15 @@ svg
                                 brandon_regular(20px, false)
                                 color: $black
                                 text-transform: capitalize
+                            .violator
+                                flex: 0 0 100%
+                                margin-top: 10px
+                                span
+                                    display: inline-block
+                                    brandon_bold(14px, true)
+                                    padding: 5px 7.5px
+                                    color: $white
+                                    background-color: $green
                             .discount
                                 position: absolute
                                 top: calc(0% - 20px)
@@ -8079,6 +8094,7 @@ svg
                 margin: 0
                 flex: 0 0 100%
             .package_header
+                position: relative
                 display: flex
                 flex-flow: row wrap
                 flex: auto
@@ -8096,6 +8112,15 @@ svg
                     brandon_medium(16px, true)
                     color: $black
                     line-height: 1.75
+                .violator
+                    position: absolute
+                    bottom: 0
+                    left: 50%
+                    padding: 5px 7.5px
+                    text-align: center
+                    brandon_bold(14px, true)
+                    transform: translateX(-50%)
+                    transition: .3s ease-in-out
             .discounted_price
                 flex: 0 0 auto
                 brandon_regular(14px, false)
@@ -8106,6 +8131,7 @@ svg
                 brandon_bold(20px, false)
                 color: $green
                 flex: 0 0 auto
+                margin-top: 2.5px
             .expires
                 brandon_medium(14px, true)
                 color: $gray
@@ -8131,18 +8157,27 @@ svg
                     background-color: $pink
                 .price
                     color: $pink
+                .violator
+                    color: $white
+                    background-color: $pink
             &.alt
                 .ribbon
                     color: $white
                     background-color: $blue
                 .price
                     color: $blue
+                .violator
+                    color: $white
+                    background-color: $blue
             &.alt_2
                 .ribbon
                     color: $white
                     background-color: $green
                 .price
                     color: $green
+                .violator
+                    color: $white
+                    background-color: $green
             &:hover
                 box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
                 transform: perspective(1px) scale(1.02)
@@ -8151,12 +8186,21 @@ svg
                     .ribbon
                         background-color: $pink_alt
                         transition: .3s ease-in-out
+                    .violator
+                        background-color: $pink_alt
+                        transition: .3s ease-in-out
                 &.alt
                     .ribbon
                         background-color: $blue_alt
                         transition: .3s ease-in-out
+                    .violator
+                        background-color: $blue_alt
+                        transition: .3s ease-in-out
                 &.alt_2
                     .ribbon
+                        background-color: $green_alt
+                        transition: .3s ease-in-out
+                    .violator
                         background-color: $green_alt
                         transition: .3s ease-in-out
                 .default_btn_out
@@ -9863,6 +9907,9 @@ svg
 .form_group
     position: relative
     margin-bottom: 30px
+    &.mt
+        margin-top: 30px
+        margin-bottom: 0
     &.weight
         .weight_input
             position: relative
