@@ -323,10 +323,14 @@
                                     me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
                                 } else {
                                     if (res.data.onboarding_code === null) {
-                                        if (me.$route.fullPath == '/my-profile') {
-                                            location.reload()
+                                        if (me.$store.state.lastRoute != '') {
+                                            me.$router.push(me.$store.state.lastRoute)
                                         } else {
-                                            me.$router.push('/my-profile')
+                                            if (me.$route.fullPath == '/my-profile') {
+                                                location.reload()
+                                            } else {
+                                                me.$router.push('/my-profile')
+                                            }
                                         }
                                     } else {
                                         me.$store.state.newUser = true
@@ -378,10 +382,14 @@
                             me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
                         } else {
                             if (res.data.onboarding_code === null) {
-                                if (me.$route.fullPath == '/my-profile') {
-                                    location.reload()
+                                if (me.$store.state.lastRoute != '') {
+                                    me.$router.push(me.$store.state.lastRoute)
                                 } else {
-                                    me.$router.push('/my-profile')
+                                    if (me.$route.fullPath == '/my-profile') {
+                                        location.reload()
+                                    } else {
+                                        me.$router.push('/my-profile')
+                                    }
                                 }
                             } else {
                                 me.$store.state.newUser = true
@@ -601,10 +609,14 @@
                                     me.validateToken()
                                     me.$store.state.loginSignUpStatus = false
                                     document.body.classList.remove('no_scroll')
-                                    if (me.$route.fullPath == '/my-profile' || me.$route.name == 'buy-rides-package-slug') {
-                                        location.reload()
+                                    if (me.$store.state.lastRoute != '') {
+                                        me.$router.push(me.$store.state.lastRoute)
                                     } else {
-                                        me.$router.push('/my-profile')
+                                        if (me.$route.fullPath == '/my-profile' || me.$route.name == 'buy-rides-package-slug') {
+                                            location.reload()
+                                        } else {
+                                            me.$router.push('/my-profile')
+                                        }
                                     }
                                 }
                             }, 500)

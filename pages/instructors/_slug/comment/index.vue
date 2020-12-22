@@ -258,12 +258,14 @@
                                         me.$store.state.completeProfilePromptStatus = true
                                     }
                                 }).catch(err => {
+                                    me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
                                     me.$store.state.loginSignUpStatus = true
                                     document.body.classList.add('no_scroll')
                                     me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                                     me.loader(false)
                                 })
                             } else {
+                                me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
                                 me.$store.state.loginSignUpStatus = true
                                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                                 me.loader(false)
