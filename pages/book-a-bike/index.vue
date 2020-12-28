@@ -724,6 +724,7 @@
                             temp_year = temp_year + 1
                         }
                     }
+                    console.log(temp_year);
                     me.results.push({
                         abbr: (me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('ddd'),
                         month: me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('MMM'),
@@ -740,7 +741,7 @@
                         me.loader(false)
                     }, 500)
                 }
-                me.currentYear = temp_year
+                // me.currentYear = temp_year
             },
             toggleOverlays (e) {
                 const me = this
