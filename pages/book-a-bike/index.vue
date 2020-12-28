@@ -43,7 +43,7 @@
                 </div>
                 <div class="right">
                     <div class="date_navigator">
-                        <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(currentYear, $moment(`${result.month}-${result.day}-${result.year}`, 'MMM-DD-YYYY').format('M'), result.day, key)">
+                        <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(result.year, $moment(`${result.month}-${result.day}-${result.year}`, 'MMM-DD-YYYY').format('M'), result.day, key)">
                             <div class="overlay">
                                 <div class="abbr">{{ result.abbr }}</div>
                                 <div class="month">{{ result.month }}</div>
@@ -714,7 +714,6 @@
                 me.currentMonth = parseInt(me.$moment().format('M'))
                 let temp_year = parseInt(me.$moment().format('YYYY'))
 
-
                 for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
                     if (currentDate > me.$moment(`${temp_year}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
                         currentDate = 1
@@ -724,7 +723,6 @@
                             temp_year = temp_year + 1
                         }
                     }
-                    console.log(temp_year);
                     me.results.push({
                         abbr: (me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('ddd'),
                         month: me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('MMM'),
@@ -741,7 +739,7 @@
                         me.loader(false)
                     }, 500)
                 }
-                // me.currentYear = temp_year
+                me.currentYear = temp_year
             },
             toggleOverlays (e) {
                 const me = this
