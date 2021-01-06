@@ -408,7 +408,7 @@
                             createSubscription: function (data, actions) {
                                 // This function sets up the details of the transaction, including the amount and line item details.
                                 return actions.subscription.create({
-                                    'plan_id': 'P-8CH307485M3858741L7AHCGY'
+                                    'plan_id': me.res.plan_code
                                 })
                             },
                             onApprove: function (data, actions) {
