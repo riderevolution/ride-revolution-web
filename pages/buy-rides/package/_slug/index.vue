@@ -50,7 +50,7 @@
                                         <p>Subtotal</p>
                                         <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price * form.quantity : res.package_price * form.quantity) }}</p>
                                     </div>
-                                    <div class="item">
+                                    <div class="item" v-if="!res.recurring">
                                         <p>Discount</p>
                                         <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                                     </div>
@@ -111,7 +111,7 @@
                                 <h3>Rides</h3>
                                 <p>{{ (res.class_count_unlimited == 1) ? 'Unlimited' : res.class_count * form.quantity }}</p>
                             </div>
-                            <div class="item">
+                            <div class="item" v-if="!res.recurring">
                                 <h3>Discount</h3>
                                 <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                             </div>
