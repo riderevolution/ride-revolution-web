@@ -23,7 +23,7 @@
                             </div>
                             <div class="right">
                                 <form id="default_form">
-                                    <div class="form_flex with_btn">
+                                    <div class="form_flex with_btn" v-if="!res.recurring">
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
                                             <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-validate="{regex: '^[a-zA-Z0-9-|\-|\_]*$'}" v-model="form.promo">
