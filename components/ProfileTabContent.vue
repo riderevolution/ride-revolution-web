@@ -320,7 +320,7 @@
                                             </div>
                                         </td>
                                         <td data-column="Actions">
-                                            <div class="default_btn_red alt" @click="togglePackage(data, 'subscribe')">Cancel</div>
+                                            <div :class="[ 'default_btn_red', 'alt', (data.subscription_status) ? '' : 'disabled' ]" @click="togglePackage(data, 'subscribe')">{{ (data.subscription_status) ? 'Cancel' : 'Cancelled' }}</div>
                                         </td>
                                     </tr>
                                 </tbody>
