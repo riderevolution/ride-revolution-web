@@ -62,6 +62,7 @@
         mounted () {
             const me = this
             me.onResize()
+            document.body.classList.add('fish')
             me.$store.state.inApp = true
         },
         beforeMount () {

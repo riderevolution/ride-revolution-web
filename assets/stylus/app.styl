@@ -59,6 +59,8 @@ html
 body
     position: relative
     overflow-x: hidden
+    &.fish
+        background-image: url('/dotted-bg.png')
     &.no_click
         pointer-events: none
     &.no_scroll
@@ -1025,7 +1027,6 @@ svg
                     pointer-events: none
         .buy_rides
             &.inner
-                background-image: url('/dotted-bg.png')
                 #payments
                     padding: 30px 0
                     &.success
@@ -8116,14 +8117,13 @@ svg
                     brandon_medium(16px, true)
                     color: $black
                     line-height: 1.75
-                .violator
-                    position: absolute
-                    bottom: 0
-                    left: 50%
+            .violator
+                flex: 0 0 auto
+                span
+                    display: inline-block
                     padding: 5px 7.5px
                     text-align: center
                     brandon_bold(14px, true)
-                    transform: translateX(-50%)
                     transition: .3s ease-in-out
             .discounted_price
                 flex: 0 0 auto
@@ -8162,8 +8162,9 @@ svg
                 .price
                     color: $pink
                 .violator
-                    color: $white
-                    background-color: $pink
+                    span
+                        color: $white
+                        background-color: $pink
             &.alt
                 .ribbon
                     color: $white
@@ -8171,8 +8172,9 @@ svg
                 .price
                     color: $blue
                 .violator
-                    color: $white
-                    background-color: $blue
+                    span
+                        color: $white
+                        background-color: $blue
             &.alt_2
                 .ribbon
                     color: $white
@@ -8180,8 +8182,9 @@ svg
                 .price
                     color: $green
                 .violator
-                    color: $white
-                    background-color: $green
+                    span
+                        color: $white
+                        background-color: $green
             &:hover
                 box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
                 transform: perspective(1px) scale(1.02)
@@ -8191,22 +8194,25 @@ svg
                         background-color: $pink_alt
                         transition: .3s ease-in-out
                     .violator
-                        background-color: $pink_alt
-                        transition: .3s ease-in-out
+                        span
+                            background-color: $pink_alt
+                            transition: .3s ease-in-out
                 &.alt
                     .ribbon
                         background-color: $blue_alt
                         transition: .3s ease-in-out
                     .violator
-                        background-color: $blue_alt
-                        transition: .3s ease-in-out
+                        span
+                            background-color: $blue_alt
+                            transition: .3s ease-in-out
                 &.alt_2
                     .ribbon
                         background-color: $green_alt
                         transition: .3s ease-in-out
                     .violator
-                        background-color: $green_alt
-                        transition: .3s ease-in-out
+                        span
+                            background-color: $green_alt
+                            transition: .3s ease-in-out
                 .default_btn_out
                     color: $white
                     border: 1px solid transparent
