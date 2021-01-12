@@ -26,6 +26,9 @@
                             <h2 class="title">{{ data.name }}</h2>
                             <div class="description" v-line-clamp="3" v-html="data.summary"></div>
                         </div>
+                        <div class="violator" v-if="data.recurring">
+                            <span>Subscription</span>
+                        </div>
                         <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
                         <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
                         <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>

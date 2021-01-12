@@ -12,6 +12,9 @@
                                         <h2>{{ res.name }}</h2>
                                         <h2 :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price) }}</h2>
                                         <h2 v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</h2>
+                                        <div class="violator" v-if="res.recurring">
+                                            <span>Subscription</span>
+                                        </div>
                                     </div>
                                     <div class="content" v-html="res.description">
                                     </div>
@@ -58,15 +61,17 @@
                                         <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
                                         <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                     </div>
+
                                     <div class="breakdown_actions" v-if="!$store.state.isMobile && res.recurring">
-                                        <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile && res.recurring">Back</nuxt-link>
-                                        <nuxt-link class="default_btn_blue" :to="`/fish-in-the-glass/buy-rides/package/${res.slug}/subscribe?token=${$route.query.token}`">Subscribe</nuxt-link>
+                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile">Back</nuxt-link>
+                                        <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                     </div>
-                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile && !res.recurring"><span>Back</span></nuxt-link>
+
+                                    <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk" v-if="!$store.state.isMobile && !res.recurring">Back</nuxt-link>
 
                                     <div class="action_mobile" v-if="$store.state.isMobile && !res.recurring">
                                         <div class="m_left">
-                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                            <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                         </div>
                                         <div class="m_right">
                                             <div class="default_btn" @click="proceedToPayment('store-credits')">Use Store Credits</div>
@@ -75,10 +80,10 @@
                                     </div>
                                     <div class="action_mobile" v-if="$store.state.isMobile && res.recurring">
                                         <div class="m_left">
-                                        <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
+                                            <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}`" class="default_btn_blk_alt"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></nuxt-link>
                                         </div>
                                         <div class="m_right">
-                                            <nuxt-link class="default_btn_blue" :to="`/fish-in-the-glass/buy-rides/package/${res.slug}/subscribe?token=${$route.query.token}`">Subscribe</nuxt-link>
+                                            <div class="default_btn_blue" @click="proceedToPayment('paynow')">Pay Now</div>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +118,7 @@
                                         <p class="store_credits">{{ totalItems(storeCredits) }}</p>
                                         <transition name="slide">
                                             <div class="unavailable" v-if="(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)))">
-                                                <nuxt-link rel="canonical" :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}#storecredits`">Buy Credits</nuxt-link>
+                                                <nuxt-link :to="`/fish-in-the-glass/buy-rides?token=${$route.query.token}#storecredits`">Buy Credits</nuxt-link>
                                                 <p>*Your store credits are insufficient.</p>
                                             </div>
                                         </transition>
@@ -129,8 +134,9 @@
                                     </div>
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
-                                        <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
+                                        <div id="paypal-button-container" v-if="type == 'paynow' && !res.recurring"></div>
+                                        <div id="paypal-subscribe-container" v-if="type == 'paynow' && res.recurring"></div>
                                     </div>
                                 </div>
                                 <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
@@ -147,8 +153,9 @@
                                     </div>
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
-                                        <div id="paypal-button-container" v-if="type == 'paynow'"></div>
+                                        <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
+                                        <div id="paypal-button-container" v-if="type == 'paynow' && !res.recurring"></div>
+                                        <div id="paypal-subscribe-container" v-if="type == 'paynow' && res.recurring"></div>
                                         <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                             <p>Note: Paypal account not needed</p>
                                             <div class="wrapper">
@@ -172,9 +179,6 @@
                 </div>
             </section>
             <transition name="fade">
-                <add-card v-if="add_card" />
-            </transition>
-            <transition name="fade">
                 <card-status v-if="checker" />
             </transition>
             <transition name="fade">
@@ -189,7 +193,6 @@
 
 <script>
     import PaymayaCheckout from '~/components/PaymayaCheckout'
-    import AddCard from '~/components/modals/AddCard'
     import CardStatus from '~/components/modals/CardStatus'
     import BuyRidesPrompt from '~/components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '~/components/modals/BuyRidesSuccess'
@@ -197,7 +200,6 @@
         layout: 'fish',
         components: {
             PaymayaCheckout,
-            AddCard,
             CardStatus,
             BuyRidesPrompt,
             BuyRidesSuccess
@@ -211,23 +213,19 @@
                     quantity: 0,
                     type: ''
                 },
-                paymentType: '',
                 type: '',
-                storeCredits: 0,
+                paymentType: '',
                 step: 1,
-                add_card: false,
                 checker: false,
                 paypal: false,
-                paymayaStatus: false,
                 message: '',
                 promoApplied: false,
                 promo: false,
-                loaded: false,
                 form: {
                     promo: '',
                     discount: 0,
-                    total: 0,
-                    quantity: 0
+                    quantity: 1,
+                    total: 0
                 },
                 res: []
             }
@@ -250,7 +248,7 @@
             },
             paymaya () {
                 const me = this
-                let token = me.$route.query.token
+                let token = me.$cookies.get('70hokc3hhhn5')
                 me.loader(true)
                 me.$axios.get('api/paymaya/cards', {
                     headers: {
@@ -263,14 +261,9 @@
                         me.step += 1
                     }
                 }).catch((err) => {
-                    setTimeout( () => {
-                        document.body.classList.add('no_scroll')
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                    }, 500)
-                    setTimeout( () => {
-                        me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
-                    }, 1000)
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
                 }).then(() => {
                     setTimeout( () => {
                         me.loader(false)
@@ -339,8 +332,8 @@
                 const me = this
                 if (!me.promoApplied) {
                     let formData = new FormData()
-                    formData.append('promo_code', me.form.promo)
                     formData.append('quantity', me.form.quantity)
+                    formData.append('promo_code', me.form.promo)
                     formData.append('class_package_id', id)
                     me.loader(true)
                     me.$axios.post('api/apply-promo', formData).then(res => {
@@ -355,6 +348,7 @@
                         setTimeout( () => {
                             me.loader(false)
                             me.$store.state.buyRidesPromptStatus = true
+                            document.body.classList.add('no_scroll')
                         }, 500)
                     })
                 }
@@ -362,35 +356,70 @@
             renderPaypal () {
                 let me = this
                 setTimeout(() => {
-                    paypal.Buttons({
-                        style: {
-                            layout: 'vertical',
-                            color: 'blue',
-                            size: 'responsive',
-                            fundingicons: true
-                        },
-                        funding: {
-                            allowed: [ paypal.FUNDING.CARD ]
-                        },
-                        createOrder: function(data, actions) {
-                          // This function sets up the details of the transaction, including the amount and line item details.
-                            return actions.order.create({
-                                purchase_units: [{
-                                    amount: {
-                                        value: me.form.total
-                                    }
-                                }]
-                            })
-                        },
-                        onApprove: function(data, actions) {
-                          // This function captures the funds from the transaction.
-                            me.loader(true)
-                            return actions.order.capture().then(function(details) {
-                                me.paymentType = 'paypal'
-                                me.payment(me, JSON.stringify(details), 'class-package', 1)
-                            })
-                        }
-                    }).render('#paypal-button-container')
+                    if (document.getElementById('paypal-button-container')) {
+                        paypal.Buttons({
+                            style: {
+                                layout: 'vertical',
+                                color: 'blue',
+                                size: 'responsive',
+                                fundingicons: true
+                            },
+                            funding: {
+                                allowed: [ paypal.FUNDING.CARD ]
+                            },
+                            createOrder: function(data, actions) {
+                                // This function sets up the details of the transaction, including the amount and line item details.
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: me.form.total
+                                        }
+                                    }]
+                                })
+                            },
+                            onApprove: function(data, actions) {
+                                // This function captures the funds from the transaction.
+                                me.loader(true)
+                                return actions.order.capture().then(function(details) {
+                                    me.paymentType = 'paypal'
+                                    me.payment(me, JSON.stringify(details), 'class-package', 0)
+                                })
+                            }
+                        }).render('#paypal-button-container')
+                    }
+
+                    if (document.getElementById('paypal-subscribe-container')) {
+                        /* subscription */
+                        paypal.Buttons({
+                            style: {
+                                layout: 'vertical',
+                                color: 'blue',
+                                size: 'responsive',
+                                fundingicons: true
+                            },
+                            funding: {
+                                allowed: [ paypal.FUNDING.CARD ]
+                            },
+                            createSubscription: function (data, actions) {
+                                // This function sets up the details of the transaction, including the amount and line item details.
+                                return actions.subscription.create({
+                                    'plan_id': me.res.plan_code
+                                })
+                            },
+                            onApprove: function (data, actions) {
+                                // This function captures the funds from the transaction.
+                                console.log(data)
+
+                                me.loader(true)
+                                me.paypalSubscribe(me, 'class-package', JSON.stringify(data))
+                            },
+                            onError: function (err) {
+                                console.log(err)
+
+                            }
+                        }).render('#paypal-subscribe-container')
+                    }
+
                 }, 500)
             }
         },
