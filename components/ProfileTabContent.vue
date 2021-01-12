@@ -368,19 +368,29 @@
                         </thead>
                         <tbody v-if="transactions.data.length > 0">
                             <tr v-for="(data, key) in transactions.data" :key="key">
-                                <td data-column="Refenrence Number"><div class="default">{{ getPaymentCode(data) }}</div></td>
-                                <td data-column="Date"><div class="default">{{ $moment(data.updated_at).format('MMMM DD, YYYY hh:mm A') }}</div></td>
+                                <td data-column="Refenrence Number"><div class="default">{{ getTransactionType(data, 'reference_number') }}</div></td>
+                                <td data-column="Date"><div class="default">{{ getTransactionType(data, 'date') }}</div></td>
                                 <td data-column="Products">
-                                    <div>
+                                    <div v-if="!data.is_recurrence">
                                         <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            <b>{{ (child.type == 'custom-gift-card') ? 'Digital Gift Card - ' : (child.type == 'physical-gift-card' ? 'Physical Gift Card - ' : '') }}</b> {{ (child.product_variant) ? `${child.product_variant.product.name} ${child.product_variant.variant}` : (child.class_package ? child.class_package.name : (child.store_credit ? child.store_credit.name : child.gift_card.card_code )) }}
+                                            <b>{{ getTransactionType(child, 'products') }}</b>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div class="default">
+                                            <b>{{ getTransactionType(data, 'products') }}</b>
                                         </div>
                                     </div>
                                 </td>
                                 <td data-column="Quantity">
-                                    <div>
+                                    <div v-if="!data.is_recurrence">
                                         <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            <b>{{ child.quantity }}</b>
+                                            <b>{{ getTransactionType(child, 'quantity') }}</b>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div class="default">
+                                            <b>{{ getTransactionType(data, 'quantity') }}</b>
                                         </div>
                                     </div>
                                 </td>
@@ -388,11 +398,11 @@
                                     <div class="default">{{ (data.studio) ? data.studio.name : 'Website/App' }}</div>
                                 </td>
                                 <td data-column="Total Price">
-                                    <div class="default bold">Php {{ totalCount(data.total) }}</div>
+                                    <div class="default bold">Php {{ getTransactionType(data, 'price') }}</div>
                                 </td>
                                 <td data-column="Payment Status">
-                                    <span :class="`label ${(data.status == 'paid') ? 'violator paid' : 'violator pending'}`">{{ (data.status == 'paid') ? 'Paid' : 'Pending' }}</span>
-                                    <span  v-if="data.refund_status != 'none'"class="label violator gray">{{ (data.refund_status == 'fully-refunded') ? 'Fully Refunded' : 'Partially Refunded' }}</span>
+                                    <span :class="`label ${(getTransactionType(data, 'status') == 'paid') ? 'violator paid' : 'violator pending'}`">{{ getTransactionType(data, 'status') == 'paid' ? 'Paid' : 'Pending' }}</span>
+                                    <span  v-if="getTransactionType(data, 'refund') != 'none'"class="label violator gray">{{ (getTransactionType(data, 'refund') == 'fully-refunded') ? 'Fully Refunded' : 'Partially Refunded' }}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -798,25 +808,89 @@
             }
         },
         methods: {
-            getPaymentCode (payment) {
+            getTransactionType (data, type) {
                 const me = this
                 let result = ''
 
-                switch (payment.payment_method.method) {
-                    case 'paypal':
-                        if (payment.payment_method.paypal_transaction_id) {
-                            result = payment.payment_method.paypal_transaction_id
-                        } else {
-                            result = payment.payment_code
-                        }
-                        break
-                    case 'paymaya':
-                        result = payment.payment_method.paymaya_transaction_id
-                        break
-                    default:
-                        result = payment.payment_code
+                if (data.is_recurrence) {
+                    switch (type) {
+                        case 'reference_number':
+                            result = data.transaction_id
+                            break
+                        case 'date':
+                            result = me.$moment(data.updated_at).format('MMMM DD, YYYY hh:mm A')
+                            break
+                        case 'products':
+                            result = data.user_package_count.class_package.name
+                            break
+                        case 'quantity':
+                            result = data.payment_item.quantity
+                            break
+                        case 'price':
+                            result = me.totalCount(data.payment_item.payment.total)
+                            break
+                        case 'status':
+                            result = data.payment_item.payment.status
+                            break
+                        case 'refund':
+                            result = data.payment_item.payment.refund_status
+                            break
+                    }
+                } else {
+                    switch (type) {
+                        case 'reference_number':
+                            switch (data.payment_method.method) {
+                                case 'paypal':
+                                    if (data.payment_method.paypal_transaction_id) {
+                                        result = data.payment_method.paypal_transaction_id
+                                    } else {
+                                        result = data.payment_code
+                                    }
+                                    break
+                                case 'paymaya':
+                                    result = data.payment_method.paymaya_transaction_id
+                                    break
+                                default:
+                                    result = data.payment_code
+                            }
+                            break
+                        case 'date':
+                            result = me.$moment(data.updated_at).format('MMMM DD, YYYY hh:mm A')
+                            break
+                        case 'products':
+                            switch (data.type) {
+                                case 'custom-gift-card':
+                                    result = `Digital Gift Card - ${data.gift_card.card_code}`
+                                    break
+                                case 'physical-gift-card':
+                                    result = `Physical Gift Card - ${data.gift_card.card_code}`
+                                    break
+                                case 'product-variant':
+                                    result = `${data.product_variant.product.name} ${data.product_variant.variant}`
+                                    break
+                                case 'class-package':
+                                case 'promo-package':
+                                    result = data.class_package.name
+                                    break
+                                case 'store-credit':
+                                    result = data.store_credit.name
+                                    break
+                            }
+                            break
+                        case 'quantity':
+                            result = data.quantity
+                            break
+                        case 'price':
+                            result = me.totalCount(data.total)
+                            break
+                        case 'status':
+                            result = data.status
+                            break
+                        case 'refund':
+                            result = data.refund_status
+                            break
+                    }
                 }
-
                 return result
             },
             loadMoreClasses () {
