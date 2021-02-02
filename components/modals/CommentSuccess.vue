@@ -7,7 +7,8 @@
                 <img src="/default/meme/yehey-meme.jpg" />
             </div> -->
             <div class="confirmation_text">
-                Sent! We greatly appreciate your feedback.
+                Thank You!
+                <!-- Sent! We greatly appreciate your feedback. -->
             </div>
             <div class="button_group alt">
                 <div class="flex default_btn" @click.once="toggleClose()">Great</div>
