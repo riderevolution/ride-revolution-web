@@ -312,12 +312,12 @@
 </template>
 
 <script>
-    import AddCard from './modals/AddCard'
-    import PromptCard from './modals/PromptCard'
-    import ActionCard from './modals/ActionCard'
-    import SuccessCard from './modals/SuccessCard'
-    import ChangePassword from './modals/ChangePassword'
-    import BuyRidesPrompt from './modals/BuyRidesPrompt'
+    import AddCard from '~/components/modals/AddCard'
+    import PromptCard from '~/components/modals/PromptCard'
+    import ActionCard from '~/components/modals/ActionCard'
+    import SuccessCard from '~/components/modals/SuccessCard'
+    import ChangePassword from '~/components/modals/ChangePassword'
+    import BuyRidesPrompt from '~/components/modals/BuyRidesPrompt'
     export default {
         components: {
             AddCard,

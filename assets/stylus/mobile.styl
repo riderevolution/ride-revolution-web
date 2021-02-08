@@ -3128,6 +3128,17 @@
                             #default_form
                                 .form_button
                                     padding-top: 20px
+    #main_container
+        &.fish
+            .card
+                .cards
+                    .ci_header
+                        justify-content: space-between
+                        h2
+                            flex: 0 0 auto
+                    .card_item
+                        flex: 0 0 calc(50% - 20px)
+                        margin: 0 10px 20px
     .deactivate_account
         #content
             max-width: calc(100% - 60px)
@@ -5932,6 +5943,29 @@
                 .left,
                 .right
                     flex: 0 0 100%
+    #main_container
+        &.fish
+            .card
+                .cards
+                    .ci_header
+                        justify-content: center
+                        h2
+                            flex: 0 0 100%
+                            brandon_regular(16px, false)
+                            text-align: center
+                            margin-bottom: 10px
+                        .default_btn
+                            padding: 12px 15px
+                    .card_item
+                        flex: 0 0 100%
+                        margin: 0 0 20px
+                        .overlay
+                            .menu_dot_list
+                                width: 150px
+                                .menu_dot_item
+                                    padding: 10px
+                                    brandon_bold(14px, false)
+
     .deactivate_account
         #content
             max-width: calc(100% - 30px)
@@ -7181,3 +7215,13 @@
                                     .card_item
                                         flex: 0 0 calc(50% - 20px)
                                         margin: 0 10px 20px
+    #main_container
+        &.fish
+            .cards
+                .ci_header
+                    justify-content: space-between
+                    h2
+                        flex: 0 0 auto
+                .card_item
+                    flex: 0 0 calc(50% - 20px)
+                    margin: 0 10px 20px

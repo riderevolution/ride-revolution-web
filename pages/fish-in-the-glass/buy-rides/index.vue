@@ -320,7 +320,7 @@
                     return { res: res.data }
                 }
             }).catch(err => {
-                error({ statusCode: 403, message: 'Page not found' })
+                error({ statusCode: 404, message: 'Page not found' })
             })
         }
     }

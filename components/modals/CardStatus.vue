@@ -21,6 +21,7 @@
                 if (status) {
                     if (me.$route.query.token) {
                         me.$parent.add_card = true
+                        me.$router.push(`/fish-in-the-glass/cards?token=${me.$route.query.token}`)
                     } else {
                         me.$router.push('/my-profile/update-profile#card')
                     }
