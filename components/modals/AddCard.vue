@@ -73,7 +73,7 @@
                         let encrypted = aes.encrypt(textData, key, {iv: iv, padding: padZeroPadding}).toString()
                         /* end form encrpytion */
 
-                        let token = me.$cookies.get('70hokc3hhhn5')
+                        let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                         me.$axios.post('api/paymaya/cards', {
                             dt: encrypted
                         }, {

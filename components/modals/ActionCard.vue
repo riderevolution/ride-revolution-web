@@ -3,7 +3,7 @@
         <div class="background" @click.once="toggleClose()"></div>
         <div v-if="type == 'default'">
             <div class="confirmation_wrapper">
-                <div class="form_close" @click="toggleClose()"></div>
+                <div class="form_close" @click.once="toggleClose()"></div>
                 <div class="confirmation_text">
                     Are you sure you want to set default this card?
                 </div>
@@ -15,7 +15,7 @@
         </div>
         <div v-else-if="type == 'delete'">
             <div class="confirmation_wrapper">
-                <div class="form_close" @click="toggleClose()"></div>
+                <div class="form_close" @click.once="toggleClose()"></div>
                 <div class="confirmation_text">
                     Are you sure you want to delete this card?
                 </div>
@@ -43,7 +43,7 @@
         methods: {
             toggleAction () {
                 const me = this
-                let token = me.$cookies.get('70hokc3hhhn5')
+                let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
                 let url = ''
                 me.loader(true)
 
@@ -57,7 +57,11 @@
                             me.$parent.card_action = false
                             me.$parent.card_success = true
                             me.$parent.card_message = 'Successfully set this card as default!'
-                            me.$parent.getCards()
+                            if (me.$route.query.token) {
+                                me.$parent.initialization()
+                            } else {
+                                me.$parent.getCards()
+                            }
                         }, 500)
                     }).catch(err => {
                         setTimeout(() => {
@@ -80,7 +84,11 @@
                             me.$parent.card_action = false
                             me.$parent.card_success = true
                             me.$parent.card_message = 'Successfully deleted the card!'
-                            me.$parent.getCards()
+                            if (me.$route.query.token) {
+                                me.$parent.initialization()
+                            } else {
+                                me.$parent.getCards()
+                            }
                         }, 500)
                     }).catch(err => {
                         setTimeout(() => {

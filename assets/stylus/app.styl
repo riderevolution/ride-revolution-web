@@ -992,6 +992,112 @@ svg
     position: relative
     transition: .3s ease-in-out
     &.fish
+        .card
+            padding: 20px
+            .cards
+                display: flex
+                flex-flow: row wrap
+                justify-content: flex-start
+                .no_results
+                    display: block
+                    text-align: center
+                    width: 100%
+                .ci_header
+                    flex: 0 0 100%
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    justify-content: space-between
+                    margin-bottom: 30px
+                    h2
+                        brandon_regular(22px, false)
+                        color: $black
+                        letter-spacing: 0.33px
+                    .default_btn
+                        padding: 15px 30px
+                .card_item
+                    position: relative
+                    flex: 0 0 calc(33.33% - 30px)
+                    margin: 0 15px 30px
+                    background-color: $white_alt
+                    padding: 20px
+                    transform: perspective(1px) scale(1)
+                    box-shadow: 0px 10px 15px transparent
+                    transition: .3s ease-in-out
+                    &:hover
+                        transform: perspective(1px) scale(1.02)
+                        box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
+                        transition: .3s ease-in-out
+                    .overlay
+                        position: absolute
+                        top: calc(0% + 15px)
+                        right: calc(0% + 20px)
+                        .ci_dot
+                            cursor: pointer
+                            border-left: 10px solid transparent
+                            border-right: 10px solid transparent
+                            border-top: 10px solid $green
+                            transform: rotate(0deg)
+                            transition: .3s ease-in-out
+                            &.toggled
+                                transform: rotate(180deg)
+                                transition: .3s ease-in-out
+                        .menu_dot_list
+                            list-style: none
+                            padding: 0
+                            margin: 0
+                            position: absolute
+                            top: calc(100% + 5px)
+                            right: 0
+                            width: 200px
+                            z-index: 2
+                            background-color: $white
+                            border-radius: 3px
+                            border: 1px solid #D3D3D3
+                            .menu_dot_item
+                                padding: 15px 20px
+                                brandon_bold(18px, false)
+                                color: $black
+                                background-color: transparent
+                                border-bottom: 1px solid #E8E8E8
+                                cursor: pointer
+                                transition: .3s ease-in-out
+                                &.red
+                                    color: $red
+                                    transition: .3s ease-in-out
+                                    &:hover
+                                        color: $red
+                                        background-color: $red_alt
+                                        transition: .3s ease-in-out
+                                &:last-child
+                                    border-bottom: 1px solid transparent
+                                &:hover
+                                    color: $green
+                                    background-color: #D6FFF7
+                                    transition: .3s ease-in-out
+                    .c_type
+                        svg
+                            width: 100%
+                            max-width: 50px
+                            height: 40px
+                    .c_number
+                        brandon_bold(20px, false)
+                        color: $pink
+                        margin: 5px 0
+                    .c_default
+                        display: block
+                        text-align: right
+                        .d_status
+                            display: inline-block
+                            background-color: $green_alt
+                            color: $green
+                            brandon_medium(12px, true)
+                            letter-spacing: 0.25px
+                            padding: 5px 10px
+                            border-radius: 4px
+                    .c_date
+                        brandon_regular(16px, false)
+                        color: $black
         .login_sign_up
             margin-top: 0
             #login
