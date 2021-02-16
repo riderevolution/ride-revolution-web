@@ -1204,11 +1204,13 @@
                                 setTimeout( () => {
                                     me.packages = []
                                     res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
-                                            if (!data.paypal_subscription_id) {
-                                                data.toggled = false
-                                                data.expired = false
-                                                me.packages.push(data)
+                                        if (parseInt(data.count) > 0) {
+                                            if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
+                                                if (!data.paypal_subscription_id) {
+                                                    data.toggled = false
+                                                    data.expired = false
+                                                    me.packages.push(data)
+                                                }
                                             }
                                         }
                                     })
