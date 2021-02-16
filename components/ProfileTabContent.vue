@@ -257,7 +257,7 @@
                                                 <div class="label violator" v-if="parseInt($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')) <= 15 && tabCategory == 'active'">{{ ($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days') == 0) ? `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'hours')} Hours` : `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')} Days` }} Left</div>
                                             </div>
                                         </td>
-                                        <td data-column="Actions" v-if="!data.expired">
+                                        <td data-column="Actions" v-if="!data.expired && parseInt(data.count) > 0">
                                             <div class="table_menu_overlay" v-if="data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package">
                                                 <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                 <transition name="slideAlt">
