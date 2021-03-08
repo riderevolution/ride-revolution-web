@@ -407,7 +407,7 @@
                             </tr>
                         </tbody>
                         <tbody class="no_results" v-else>
-                            <td class="text" colspan="6">You don't have any transactions yet.</td>
+                            <td class="text" colspan="7">You don't have any transactions yet.</td>
                         </tbody>
                     </table>
                     <pagination :apiRoute="transactions.path" :current="transactions.current_page" :last="transactions.last_page" v-if="transactions.data.length > 0" />

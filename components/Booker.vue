@@ -19,6 +19,7 @@
                                             <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                         </ul>
                                     </div>
+                                    <div class="description" v-if="!schedule.schedule.studio.online_class" v-html="schedule.schedule.description"></div>
                                     <div class="description" v-if="!schedule.schedule.studio.online_class">
                                         <h3>What else can I do?</h3>
                                         <ul>
@@ -68,6 +69,7 @@
                                                 <li><span><img class="icon" src="/icons/location-icon.svg" />{{ schedule.schedule.studio.name }}</span></li>
                                             </ul>
                                         </div>
+                                        <div class="description" v-if="!schedule.schedule.studio.online_class" v-html="schedule.schedule.description"></div>
                                         <div class="description" v-if="!schedule.schedule.studio.online_class">
                                             <h3>What else can I do?</h3>
                                             <ul>
