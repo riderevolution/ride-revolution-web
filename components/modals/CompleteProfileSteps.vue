@@ -35,7 +35,6 @@
                         <div class="flex_image">
                             <input type="file" class="input_image" id="image" name="image[]" @change="getFile($event)" v-validate="'image|ext:jpeg,jpg,png|size:20000'">
                             <input type="hidden" name="image_id[]" value="0">
-                            <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.image[]')">{{ properFormat(errors.first('complete_profile_form.image[]')) }}</span></transition> -->
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.image[]')">Only .jpg, .jpeg and .png files accepted</span></transition>
                             <label class="input_image_label" for="image">
                                 <div class="label">
@@ -50,6 +49,23 @@
                                 </transition>
                             </label>
                         </div>
+                    </div>
+                    <div class="form_group">
+                        <label for="contact_number">Contact Number <span>*</span></label>
+                        <input type="text" name="contact_number" autocomplete="off" v-model="completeProfile.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('completeProfile.contact_number')">{{ properFormat(errors.first('completeProfile.contact_number')) }}</span></transition>
+                    </div>
+                    <div class="form_flex radio">
+                        <label>Sex <span>*</span></label>
+                        <div class="form_radio">
+                            <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" v-model="completeProfile.sex">
+                            <label for="female">Female</label>
+                        </div>
+                        <div class="form_radio">
+                            <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="completeProfile.sex">
+                            <label for="male">Male</label>
+                        </div>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('completeProfile.sex')">{{ properFormat(errors.first('completeProfile.sex')) }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="birth_date">Birth Date <span>*</span></label>
@@ -312,7 +328,8 @@
                 completeProfileStep: 1,
                 completeProfile: {
                     birth_date: '',
-                    gender: '',
+                    contact_number: '',
+                    sex: '',
                     home_address_line_1: '',
                     home_address_line_2: '',
                     home_address_country: 174,
@@ -369,11 +386,11 @@
             getSizes () {
                 const me = this
                 me.sizes = []
-                let ctr = (me.completeProfile.gender == 'M') ? 6 : 4
-                let cap = (me.completeProfile.gender == 'M') ? 17 : 18
+                let ctr = (me.completeProfile.sex == 'M') ? 6 : 4
+                let cap = (me.completeProfile.sex == 'M') ? 17 : 18
                 for (let i = 0; i < cap; i++) {
                     me.sizes.push(ctr)
-                    if (me.completeProfile.gender == 'M' && i > 11) {
+                    if (me.completeProfile.sex == 'M' && i > 11) {
                         ctr += 1
                     } else {
                         ctr += 0.5
@@ -634,7 +651,7 @@
                 if (res.data) {
                     me.user = res.data.user
                     me.completeProfile.birth_date = me.user.customer_details.co_birthdate
-                    me.completeProfile.gender = res.data.user.customer_details.co_sex
+                    me.completeProfile.sex = res.data.user.customer_details.co_sex
                     me.getSizes()
 
                     setTimeout( () => {
