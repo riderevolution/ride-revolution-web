@@ -189,7 +189,7 @@ Vue.mixin({
                 }, 500)
             })
         },
-        payment (page, paypal_details, type, paymaya_token_id = 0) {
+        payment (page, paypal_details, type, paymaya_token_id = 0, paymaya_extra_user_details = null) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
             me.validateToken()
@@ -223,6 +223,11 @@ Vue.mixin({
             formData.append('total', page.form.total)
             formData.append('payment_method', page.paymentType)
             formData.append('paymaya_token_id', paymaya_token_id)
+
+            if (paymaya_extra_user_details != null) {
+                formData.append('contact_number', paymaya_extra_user_details.contact_number)
+                formData.append('sex', paymaya_extra_user_details.sex)
+            }
 
             if (paymaya_token_id != 0) {
                 formData.append('summary', JSON.stringify(page.summary))
