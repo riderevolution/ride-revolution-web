@@ -10,18 +10,38 @@
                         <div class="form_header">
                             <label>Card Information</label>
                         </div>
+						<div class="form_group_disclaimer">
+	                        <div class="form_disclaimer"><img src="/icons/disclaimer-icon.svg" /> <span>Upon saving, this will also update your information/details.</span></div>
+	                    </div>
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="first_name">First Name <span>*</span></label>
-								<input type="text" data-recurly="first_name" id="first_name" name="first_name" autocomplete="off" class="input_text" placeholder="Enter your first name" v-model="user.first_name" v-validate="{required: true}">
+								<input type="text" id="first_name" name="first_name" autocomplete="off" class="input_text" placeholder="Enter your first name" v-model="user.first_name" v-validate="{required: true}">
 								<transition name="slide"><span class="validation_errors" v-if="errors.has('first_name')">{{ properFormat(errors.first('first_name')) }}</span></transition>
 							</div>
 							<div class="form_group">
 								<label for="last_name">Last Name <span>*</span></label>
-								<input type="text" data-recurly="last_name" id="last_name" name="last_name" autocomplete="off" class="input_text" placeholder="Enter your last name" v-model="user.last_name" v-validate="{required: true}">
+								<input type="text" id="last_name" name="last_name" autocomplete="off" class="input_text" placeholder="Enter your last name" v-model="user.last_name" v-validate="{required: true}">
 								<transition name="slide"><span class="validation_errors" v-if="errors.has('last_name')">{{ properFormat(errors.first('last_name')) }}</span></transition>
 							</div>
 						</div>
+						<div class="form_group">
+	                        <label for="contact_number">Contact Number <span>*</span></label>
+	                        <input type="text" name="contact_number" autocomplete="off" v-model="user.customer_details.co_contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+	                        <transition name="slide"><span class="validation_errors" v-if="errors.has('contact_number')">{{ properFormat(errors.first('contact_number')) }}</span></transition>
+	                    </div>
+						<div class="form_flex radio">
+	                        <label>Sex <span>*</span></label>
+	                        <div class="form_radio">
+	                            <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" v-model="user.customer_details.co_sex">
+	                            <label for="female">Female</label>
+	                        </div>
+	                        <div class="form_radio">
+	                            <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="user.customer_details.co_sex">
+	                            <label for="male">Male</label>
+	                        </div>
+	                        <transition name="slide"><span class="validation_errors" v-if="errors.has('sex')">{{ properFormat(errors.first('sex')) }}</span></transition>
+	                    </div>
 						<div class="form_flex">
                             <div class="form_custom_checkbox">
                                 <div :id="`card_${key}`" class="custom_checkbox" :class="{ active: data.toggled }" v-for="(data, key) in cards" :key="key" @click="toggleCard(data, key)">
@@ -47,34 +67,34 @@
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="billing_first_name">Billing First Name <span>*</span></label>
-								<input type="text" data-recurly="first_name" id="billing_first_name" name="billing_first_name" autocomplete="off" class="input_text" placeholder="Enter your billing first name" v-model="user.first_name" v-validate="{required: true}">
+								<input type="text" id="billing_first_name" name="billing_first_name" autocomplete="off" class="input_text" placeholder="Enter your billing first name" v-model="user.first_name" v-validate="{required: true}">
 								<transition name="slide"><span class="validation_errors" v-if="errors.has('billing_first_name')">{{ properFormat(errors.first('billing_first_name')) }}</span></transition>
 							</div>
 							<div class="form_group">
 								<label for="billing_last_name">Billing Last Name <span>*</span></label>
-								<input type="text" data-recurly="last_name" id="billing_last_name" name="billing_last_name" autocomplete="off" class="input_text" placeholder="Enter your billing last name" v-model="user.last_name" v-validate="{required: true}">
+								<input type="text" id="billing_last_name" name="billing_last_name" autocomplete="off" class="input_text" placeholder="Enter your billing last name" v-model="user.last_name" v-validate="{required: true}">
 								<transition name="slide"><span class="validation_errors" v-if="errors.has('billing_last_name')">{{ properFormat(errors.first('billing_last_name')) }}</span></transition>
 							</div>
 						</div>
 						<div class="form_group">
 							<label for="phone">Phone Number <span>*</span></label>
-							<input type="text" id="phone" data-recurly="phone" name="phone" v-model="user.customer_details.co_contact_number" autocomplete="off" class="input_text" placeholder="Enter your phone number" v-validate="{required: true}">
+							<input type="text" id="phone" name="phone" v-model="user.customer_details.co_contact_number" autocomplete="off" class="input_text" placeholder="Enter your phone number" v-validate="{required: true}">
 							<transition name="slide"><span class="validation_errors" v-if="errors.has('phone')">{{ properFormat(errors.first('phone')) }}</span></transition>
 						</div>
 						<div class="form_group">
                             <label for="billing_address_1">Address Line 1 <span>*</span></label>
-                            <input name="billing_address_1" id="billing_address_1" data-recurly="address1" placeholder="Enter your address line 1" class="input_text" v-validate="{required: true}" v-model="user.customer_details.ba_address"/>
+                            <input name="billing_address_1" id="billing_address_1" placeholder="Enter your address line 1" class="input_text" v-validate="{required: true}" v-model="user.customer_details.ba_address"/>
                             <transition name="slide"><span class="validation_errors" v-if="errors.has('billing_address_1')">{{ properFormat(errors.first('billing_address_1')) }}</span></transition>
                         </div>
 						<div class="form_group">
                             <label for="billing_address_2">Address Line 2</label>
-                            <input name="billing_address_2" id="billing_address_2" data-recurly="address2" placeholder="Enter your address line 2" class="input_text" v-model="user.customer_details.ba_address_2"/>
+                            <input name="billing_address_2" id="billing_address_2" placeholder="Enter your address line 2" class="input_text" v-model="user.customer_details.ba_address_2"/>
                         </div>
 						<div class="form_flex">
                             <div class="form_group select">
                                 <label for="country">Country <span>*</span></label>
                                 <div class="select">
-                                    <select class="input_select" id="country" name="country" data-recurly="country" v-validate="'required'">
+                                    <select class="input_select" id="country" name="country" v-validate="'required'">
 										<option value="PH" :selected="user.customer_details.billing_country == 'Philippines'">Philippines</option>
 										<option value="US">United States</option>
 										<option value="GB">Great Britain</option>
@@ -84,19 +104,19 @@
                             </div>
                             <div class="form_group select">
 								<label for="state">State <span>*</span></label>
-                                <input type="text" autocomplete="off" id="state"  class="input_text" data-recurly="state" name="state" v-model="user.customer_details.billing_state" placeholder="Enter your state" v-validate="{required: true}">
+                                <input type="text" autocomplete="off" id="state"  class="input_text" name="state" v-model="user.customer_details.billing_state" placeholder="Enter your state" v-validate="{required: true}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('state')">{{ properFormat(errors.first('state')) }}</span></transition>
                             </div>
                         </div>
 						<div class="form_flex">
                             <div class="form_group">
                                 <label for="city">City <span>*</span></label>
-                                <input type="text" autocomplete="off" id="city" class="input_text" data-recurly="city" name="city" v-model="user.customer_details.ba_city" placeholder="Enter your city" v-validate="{required: true}">
+                                <input type="text" autocomplete="off" id="city" class="input_text" name="city" v-model="user.customer_details.ba_city" placeholder="Enter your city" v-validate="{required: true}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('city')">{{ properFormat(errors.first('city')) }}</span></transition>
                             </div>
                             <div class="form_group">
                                 <label for="postal_code">Postal Code <span>*</span></label>
-                                <input type="text" data-recurly="postal_code" name="postal_code" id="postal_code" autocomplete="off" class="input_text" v-model="user.customer_details.ba_zip_code" placeholder="Enter your postal code" v-validate="{required: true}">
+                                <input type="text" name="postal_code" id="postal_code" autocomplete="off" class="input_text" v-model="user.customer_details.ba_zip_code" placeholder="Enter your postal code" v-validate="{required: true}">
                                 <transition name="slide"><span class="validation_errors" v-if="errors.has('postal_code')">{{ properFormat(errors.first('postal_code')) }}</span></transition>
                             </div>
                         </div>
@@ -140,7 +160,11 @@
 						let captcha = grecaptcha.getResponse()
 						me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
 							if (verify) {
-								me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId)
+								let paymaya_extra_user_details = {
+									contact_number: me.user.customer_details.co_contact_number,
+									sex: me.user.customer_details.co_sex
+								}
+								me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId, paymaya_extra_user_details)
 							}
 						}).catch(err => {
 							me.$store.state.errorList = err.response.data.errors
