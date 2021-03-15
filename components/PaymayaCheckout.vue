@@ -160,7 +160,11 @@
 						let captcha = grecaptcha.getResponse()
 						me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
 							if (verify) {
-								me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId)
+								let paymaya_extra_user_details = {
+									contact_number: me.user.customer_details.co_contact_number,
+									sex: me.user.customer_details.co_sex
+								}
+								me.payment(me.$parent, null, me.type, me.selected_card.cardTokenId, paymaya_extra_user_details)
 							}
 						}).catch(err => {
 							me.$store.state.errorList = err.response.data.errors
