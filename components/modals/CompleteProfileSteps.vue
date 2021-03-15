@@ -53,7 +53,7 @@
                     <div class="form_group">
                         <label for="contact_number">Contact Number <span>*</span></label>
                         <input type="text" name="contact_number" autocomplete="off" v-model="completeProfile.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('completeProfile.contact_number')">{{ properFormat(errors.first('completeProfile.contact_number')) }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.contact_number')">{{ properFormat(errors.first('complete_profile_form.contact_number')) }}</span></transition>
                     </div>
                     <div class="form_flex radio">
                         <label>Sex <span>*</span></label>
@@ -65,7 +65,7 @@
                             <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="completeProfile.sex">
                             <label for="male">Male</label>
                         </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('completeProfile.sex')">{{ properFormat(errors.first('completeProfile.sex')) }}</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="errors.has('complete_profile_form.sex')">{{ properFormat(errors.first('complete_profile_form.sex')) }}</span></transition>
                     </div>
                     <div class="form_group">
                         <label for="birth_date">Birth Date <span>*</span></label>
