@@ -163,7 +163,7 @@ Vue.mixin({
             formData.append('payment_method', 'paypal')
 
             formData.append('paypal_subscription_details', JSON.stringify(paypal_details))
-            
+
             if (me.$store.state.inApp) {
                 formData.append('in_app', 1)
             }

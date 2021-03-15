@@ -10,6 +10,9 @@
                         <div class="form_header">
                             <label>Card Information</label>
                         </div>
+						<div class="form_group_disclaimer">
+	                        <div class="form_disclaimer"><img src="/icons/disclaimer-icon.svg" /> <span>Upon saving, this will also update your information/details.</span></div>
+	                    </div>
 						<div class="form_flex">
 							<div class="form_group">
 								<label for="first_name">First Name <span>*</span></label>
@@ -22,6 +25,23 @@
 								<transition name="slide"><span class="validation_errors" v-if="errors.has('last_name')">{{ properFormat(errors.first('last_name')) }}</span></transition>
 							</div>
 						</div>
+						<div class="form_group">
+	                        <label for="contact_number">Contact Number <span>*</span></label>
+	                        <input type="text" name="contact_number" autocomplete="off" v-model="user.customer_details.co_contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+	                        <transition name="slide"><span class="validation_errors" v-if="errors.has('contact_number')">{{ properFormat(errors.first('contact_number')) }}</span></transition>
+	                    </div>
+						<div class="form_flex radio">
+	                        <label>Sex <span>*</span></label>
+	                        <div class="form_radio">
+	                            <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" v-model="user.customer_details.co_sex">
+	                            <label for="female">Female</label>
+	                        </div>
+	                        <div class="form_radio">
+	                            <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="user.customer_details.co_sex">
+	                            <label for="male">Male</label>
+	                        </div>
+	                        <transition name="slide"><span class="validation_errors" v-if="errors.has('sex')">{{ properFormat(errors.first('sex')) }}</span></transition>
+	                    </div>
 						<div class="form_flex">
                             <div class="form_custom_checkbox">
                                 <div :id="`card_${key}`" class="custom_checkbox" :class="{ active: data.toggled }" v-for="(data, key) in cards" :key="key" @click="toggleCard(data, key)">
