@@ -311,8 +311,11 @@
 
                 FB.login(res => {
                     if (res.authResponse) {
-                        FB.api('/me?fields=email,name,first_name,last_name', res => {
+                        FB.api('/me?fields=email,name,first_name,last_name,picture.width(500)', res => {
                             let data = res
+                            if (res.picture) {
+                                data.image = res.picture.data.url
+                            }
                             let token = ''
                             me.loader(true)
                             me.$axios.post('api/login/facebook/', data).then(res => {
