@@ -170,7 +170,7 @@
                         <p class="count">{{ overallRating }}</p>
                         <p class="label">out of 5</p>
                     </div>
-                    <div class="overall_right" v-if="loaded">
+                    <div class="overall_right">
                         <div class="star" v-for="n in 5">
                             <div :id="`star_${n}`" class="star_overlay">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32.94" height="31.328" viewBox="0 0 32.94 31.328"><defs><style>.a1{fill:#26a48b;}</style></defs><path class="a1" d="M1163.074,284.065l5.09,10.313,11.38,1.654-8.235,8.027,1.944,11.335-10.18-5.352-10.178,5.352,1.944-11.335-8.235-8.027,11.381-1.654Z" transform="translate(-1146.604 -284.065)"/></svg>
@@ -509,14 +509,13 @@
             async initial () {
                 const me = this
                 setTimeout( () => {
-                    me.loaded = true
                     if (me.comments.length > 0) {
                         for (let i = 1; i <= 5; i++) {
                             let target = document.getElementById(`star_${i}`)
                             if (me.rating != 0) {
                                 if (!me.overallRatingComputed) {
                                     if (me.overallRating < i) {
-                                        target.style.width = `${100 * `0.${parseInt(me.overallRating.split('.')[1])}`}%`
+                                        target.style.width = parseFloat(`${100 * `0.${me.overallRating.split('.')[1]}`}%`)
                                         me.overallRatingComputed = true
                                     }
                                 } else {
@@ -562,14 +561,26 @@
                         me.loader(false)
                     })
                 }, 500)
+            },
+            /**
+             * ready state method
+             * check if DOM is still in the interactive state
+             * @param  {[object]} event [event listener of DOM]
+             */
+            initialization (event) {
+                const me = this
+                if (document.readyState != 'interactive') {
+                    setTimeout( async () => {
+                        me.loaded = true
+                        await me.initial()
+                    }, 1000)
+                }
             }
         },
-        async mounted () {
+        mounted () {
             const me = this
             me.loader(true)
-            await setTimeout( () => {
-                me.initial()
-            }, 500)
+            me.initialization()
         },
         asyncData ({ $axios, params, error, store }) {
             return $axios.get(`api/web/instructors/${params.slug}`).then(res => {
@@ -599,15 +610,16 @@
                     }
                 }
             }).catch(err => {
-                console.log(err);
                 error({ statusCode: 404, message: 'Page not found' })
             })
         },
         beforeMount () {
             document.addEventListener('click', this.toggleOverlays)
+            window.addEventListener('load', this.initialization)
         },
         beforeDestroy () {
             document.removeEventListener('click', this.toggleOverlays)
+            window.removeEventListener('load', this.initialization)
         },
         head () {
             const me = this
