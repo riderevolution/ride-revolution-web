@@ -120,6 +120,22 @@ svg
     font-family: Brandon-Bold
 
 .test
+    .test_form
+        margin: 20px 0
+        input
+            width: 250px
+            background-color: #F8F8F8
+            border: 1px solid #ccc
+            padding: 10px 15px
+            brandon_regular(18px, false)
+            color: $black
+            outline: none
+            resize: vertical
+            transition: .3s ease-in-out
+            &:hover,
+            &:focus
+                border: 1px solid $black
+                transition: .3s ease-in-out
     table
         thead
             tr
