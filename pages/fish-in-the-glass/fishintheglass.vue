@@ -13,7 +13,7 @@
                     <th>Link to Post</th>
                 </tr>
             </thead>
-            <tbody v-if="post_id">
+            <tbody v-if="posts.length > 0">
                 <tr v-for="(post, key) in posts" :key="key">
                     <td>{{ post.id }}</td>
                     <td>{{ post.message }}</td>
@@ -42,20 +42,24 @@
         methods: {
             getPosts () {
                 const me = this
-                me.$axios.get(`https://graph.facebook.com/v8.0/100255384876524_${me.post_id}/comments?fields=permalink_url%2Cmessage%2Ccreated_time%2Cfrom%2Cattachment&limit=1000&access_token=EAAEXNjJYc8gBAPxzQtPtltEPb93aaNDb7sm5HJE2P7usAqIx9DJIz8sbv038CiNhDZAKQEd4t37T99DZBxLNMybZA2vkCUeZAYgM7mAsPqVv1fZCBhruWA4L7ZASHXt8HZBSgtSKrPNkvr0W7uTzZA6VwrSFTIQJls4mlQ3y1CcZCZBAZDZD`).then(res => {
+                if (me.post_id) {
+                    me.$axios.get(`https://graph.facebook.com/v8.0/100255384876524_${me.post_id}/comments?fields=permalink_url%2Cmessage%2Ccreated_time%2Cfrom%2Cattachment&limit=1000&access_token=EAAEXNjJYc8gBAPxzQtPtltEPb93aaNDb7sm5HJE2P7usAqIx9DJIz8sbv038CiNhDZAKQEd4t37T99DZBxLNMybZA2vkCUeZAYgM7mAsPqVv1fZCBhruWA4L7ZASHXt8HZBSgtSKrPNkvr0W7uTzZA6VwrSFTIQJls4mlQ3y1CcZCZBAZDZD`).then(res => {
 
-                    let posts = []
+                        let posts = []
 
-                    res.data.data.forEach((post, index) => {
-                        if (!post.from && !post.attachment) {
-                            post.formatted_time = me.$moment(post.created_time).format('MMM DD, YYYY hh:mm:ss A')
-                            posts.push(post)
-                        }
+                        res.data.data.forEach((post, index) => {
+                            if (!post.from && !post.attachment) {
+                                post.formatted_time = me.$moment(post.created_time).format('MMM DD, YYYY hh:mm:ss A')
+                                posts.push(post)
+                            }
+                        })
+
+                        me.posts = posts.sort((a, b) => new Date(b.formatted_time) - new Date(a.formatted_time))
+
                     })
-
-                    me.posts = posts.sort((a, b) => new Date(b.formatted_time) - new Date(a.formatted_time))
-
-                })
+                } else {
+                    alert('Enter Post ID')
+                }
             }
         }
     }
