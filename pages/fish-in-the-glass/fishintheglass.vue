@@ -1,8 +1,9 @@
 <template>
     <div class="test">
-        <div class="test_form">
-            <input type="text" name="post_id" v-model="post_id" @click="getPosts()">
-        </div>
+        <form class="test_form" @submit.prevent="getPosts()">
+            <input type="text" name="post_id" v-model="post_id" placeholder="Enter post id">
+            <button type="submit" class="button">Submit</button>
+        </form>
         <table>
             <thead>
                 <tr>
@@ -22,7 +23,7 @@
             </tbody>
             <tbody class="no_results">
                 <tr>
-                    <td colspan="4" class="text">Enter Post ID</td>
+                    <td colspan="4" class="text">Enter Post ID first.</td>
                 </tr>
             </tbody>
         </table>
@@ -34,7 +35,7 @@
         layout: 'test',
         data () {
             return {
-                post_id: 276986283870099,
+                post_id: null,
                 posts: []
             }
         },
