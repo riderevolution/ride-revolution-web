@@ -21,7 +21,7 @@
                     <td><a :href="post.permalink_url">{{ post.permalink_url }}</a></td>
                 </tr>
             </tbody>
-            <tbody class="no_results">
+            <tbody class="no_results" v-else>
                 <tr>
                     <td colspan="4" class="text">Enter Post ID first.</td>
                 </tr>
