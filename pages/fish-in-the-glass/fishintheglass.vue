@@ -31,7 +31,7 @@
         },
         mounted () {
             const me = this
-            me.$axios.get('https://graph.facebook.com/v8.0/100255384876524_273034347598626/comments?fields=permalink_url%2Cmessage%2Ccreated_time%2Cfrom%2Cattachment&limit=1000&access_token=EAAEXNjJYc8gBAPxzQtPtltEPb93aaNDb7sm5HJE2P7usAqIx9DJIz8sbv038CiNhDZAKQEd4t37T99DZBxLNMybZA2vkCUeZAYgM7mAsPqVv1fZCBhruWA4L7ZASHXt8HZBSgtSKrPNkvr0W7uTzZA6VwrSFTIQJls4mlQ3y1CcZCZBAZDZD').then(res => {
+            me.$axios.get('https://graph.facebook.com/v8.0/100255384876524_276986283870099/comments?fields=permalink_url%2Cmessage%2Ccreated_time%2Cfrom%2Cattachment&limit=1000&access_token=EAAEXNjJYc8gBAPxzQtPtltEPb93aaNDb7sm5HJE2P7usAqIx9DJIz8sbv038CiNhDZAKQEd4t37T99DZBxLNMybZA2vkCUeZAYgM7mAsPqVv1fZCBhruWA4L7ZASHXt8HZBSgtSKrPNkvr0W7uTzZA6VwrSFTIQJls4mlQ3y1CcZCZBAZDZD').then(res => {
 
                 let posts = []
 
