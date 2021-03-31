@@ -60,7 +60,7 @@
                     <div class="action load"></div>
                 </div>
                 <div class="no_results" v-else>
-                    <p>NO RESULTS, PLEASE TRY AGAIN </p>
+                    <p class="text">NO RESULTS, PLEASE TRY AGAIN </p>
                 </div>
             </section>
         </div>
