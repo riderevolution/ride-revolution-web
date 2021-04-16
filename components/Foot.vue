@@ -34,7 +34,7 @@
             <ul itemscope itemtype="https://schema.org/SiteNavigationElement">
                 <meta itemprop="name" content="Footer Menu Services">
                 <li itemprop="name"><a href="https://shop.riderevolution.ph/" target="_blank" class="footer_item" itemprop="url">Shop</a></li>
-                <li itemprop="name"><a href="https://ondemand.riderevolution.ph/" target="_blank" class="footer_item" itemprop="url">On Demand</a></li>
+                <li itemprop="name"><a href="https://ondemand.riderevolution.ph/" target="_blank" class="footer_item" itemprop="url">On-Demand</a></li>
             </ul>
         </div>
         <div class="footer_link alt">

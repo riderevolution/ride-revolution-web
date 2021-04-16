@@ -49,7 +49,7 @@
                         <a href="https://shop.riderevolution.ph/" class="nav_item" itemprop="url">Shop</a>
                     </li>
                     <li itemprop="name">
-                        <a href="https://ondemand.riderevolution.ph/" class="nav_item" itemprop="url">On Demand</a>
+                        <a href="https://ondemand.riderevolution.ph/" class="nav_item" itemprop="url">On-Demand</a>
                     </li>
                     <li itemprop="name" v-if="token == null || token == undefined">
                         <div class="default_btn" @click="loginUser()">Login / Sign up</div>
