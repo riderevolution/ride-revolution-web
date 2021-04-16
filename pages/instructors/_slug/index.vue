@@ -556,7 +556,7 @@
 
                     me.scheduledDates = tempSchedules
 
-                    me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=${me.res.id}`).then(res => {
+                    me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=${me.res.id}&take=100`).then(res => {
                         me.feeds = res.data.data
                         me.loader(false)
                     })
