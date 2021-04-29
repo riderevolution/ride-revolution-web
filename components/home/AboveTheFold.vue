@@ -1,5 +1,5 @@
 <template lang="html">
-    <section id="banner" :class="[ (above_the_fold.show_overlay) ? 'no_overlay' : '' ]">
+    <section id="banner" :class="[ (!above_the_fold.show_overlay) ? 'no_overlay' : '' ]">
         <h1>Ride Revolution</h1>
         <img class="main_image" :data-src="above_the_fold.banners[0].path" :alt="above_the_fold.banners[0].alt" v-lazy-load />
         <div class="overlay_mobile" v-if="$store.state.isMobile">
