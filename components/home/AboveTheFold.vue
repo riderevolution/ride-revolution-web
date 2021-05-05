@@ -1,7 +1,8 @@
 <template lang="html">
     <section id="banner" :class="[ (!above_the_fold.show_overlay) ? 'no_overlay' : '' ]">
         <h1>Ride Revolution</h1>
-        <img class="main_image" :data-src="above_the_fold.banners[0].path" :alt="above_the_fold.banners[0].alt" v-lazy-load />
+        <img class="main_image" :data-src="above_the_fold.banners[0].path" :alt="above_the_fold.banners[0].alt" v-lazy-load v-if="!$store.state.isMobile" />
+        <img class="main_image" :data-src="above_the_fold.banners[1].path" :alt="above_the_fold.banners[1].alt" v-lazy-load v-else />
         <div class="overlay_mobile" v-if="$store.state.isMobile">
             <!-- <img class="overlay_image" src="default/home/home-banner-mobile.svg" alt="ride-revolution" /> -->
             <template v-if="above_the_fold.show_play_video">
