@@ -37,7 +37,12 @@
             return {
                 lineClamp: 0,
                 showAllPromos: false,
-                promoOptions: {
+                res: []
+            }
+        },
+        computed: {
+            promoOptions () {
+                return {
                     slidesPerView: 1,
                     spaceBetween: 30,
                     loop: true,
@@ -61,8 +66,7 @@
                             autoHeight: true
                         }
                     }
-                },
-                res: []
+                }
             }
         },
         methods: {

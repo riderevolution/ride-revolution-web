@@ -8517,6 +8517,9 @@ svg
 #banner
     position: relative
     overflow: hidden
+    &.no_overlay
+        &::before
+            content: unset
     img
         width: 100%
         {image_default}
