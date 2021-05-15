@@ -43,7 +43,7 @@
             getPosts () {
                 const me = this
                 if (me.post_id) {
-                    me.$axios.get(`https://graph.facebook.com/v8.0/100255384876524_${me.post_id}/comments?fields=permalink_url%2Cmessage%2Ccreated_time%2Cfrom%2Cattachment&limit=1000&access_token=EAAEXNjJYc8gBAPxzQtPtltEPb93aaNDb7sm5HJE2P7usAqIx9DJIz8sbv038CiNhDZAKQEd4t37T99DZBxLNMybZA2vkCUeZAYgM7mAsPqVv1fZCBhruWA4L7ZASHXt8HZBSgtSKrPNkvr0W7uTzZA6VwrSFTIQJls4mlQ3y1CcZCZBAZDZD`).then(res => {
+                    me.$axios.get(`https://graph.facebook.com/v8.0/100255384876524_${me.post_id}/comments?fields=permalink_url%2Cmessage%2Ccreated_time%2Cfrom%2Cattachment&limit=1000&access_token=EAAEXNjJYc8gBAAh52IsZAvbPUsELf9RkaKV294skIZAlZBBsphmRrTh3UqnZAQxJfuD5i47881EudKYRpzJ1fTv58FMfj0ektaIlcxWUCvjxy9L5PtJce0boWxoyTSbVDUeKuWhLXN4ZAoltdEMpD89Te4RpZBceYIZBovHtHHIDgZDZD`).then(res => {
 
                         let posts = []
 
