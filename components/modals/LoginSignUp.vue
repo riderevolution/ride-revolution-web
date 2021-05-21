@@ -174,6 +174,7 @@
                         <label for="birth_date">Birth Date <span>*</span></label>
                         <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="signUpForm.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
                         <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
+                        <transition name="slide"><span class="validation_errors" v-if="!errors.has('register_process_form.birth_date') && !not_under">Only age of 17 and up are valid</span></transition>
                     </div>
                     <div class="form_group select">
                         <label for="what_do_you_do">Profession <span>*</span></label>
@@ -243,6 +244,7 @@
                 terms: [],
                 height: 0,
                 showPassword: false,
+                not_under: true,
                 showConfirmPassword: false,
                 forgotPassword: false,
                 signUp: false,
@@ -279,6 +281,14 @@
             inputDate (event) {
                 const me = this
                 me.signUpForm.birth_date = me.parseInputToDate(event.target.value)
+
+                let age = -(me.$moment(me.signUpForm.birth_date, 'YYYY-MM-DD').diff(me.$moment(), 'years'))
+
+                if (age && me.signUpForm.birth_date) {
+                    me.not_under = (age > 16) ? true : false
+                } else {
+                    me.not_under = true
+                }
             },
             checkValidity (type, event) {
                 const me = this

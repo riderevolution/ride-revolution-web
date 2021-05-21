@@ -27,7 +27,7 @@
                     <!-- <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/refer-a-friend" @click.native="toggleNavbarExpanded()">Refer a Friend</nuxt-link></li> -->
                     <li itemprop="name"><nuxt-link class="nav_item" itemprop="name" to="/contact-us" @click.native="toggleNavbarExpanded()">Contact Us</nuxt-link></li>
                     <li itemprop="name"><a href="https://shop.riderevolution.ph/" target="_blank" class="nav_item" itemprop="name">Shop</a></li>
-                    <li itemprop="name"><a href="https://ondemand.riderevolution.ph/" target="_blank" class="nav_item" itemprop="name">On Demand</a></li>
+                    <li itemprop="name"><a href="https://ondemand.riderevolution.ph/" target="_blank" class="nav_item" itemprop="name">On-Demand</a></li>
                 </ul>
                 <div class="expanded_nav_description">
                     <a class="link" href="https://open.spotify.com/user/riderevolution?si=7P28kqLpS2WnOa3-NOj3ug" target="_blank">

@@ -10,7 +10,7 @@
             </template>
             <p class="nmr" v-html="above_the_fold.subtitle"></p>
             <div class="overlay_flex">
-                <nuxt-link :to="above_the_fold.button_link" rel="canonical" class="default_btn">{{ above_the_fold.button_text }}</nuxt-link>
+                <a :href="above_the_fold.button_link" rel="canonical" class="default_btn">{{ above_the_fold.button_text }}</a>
                 <template v-if="above_the_fold.show_play_video">
                     <div class="default_btn_wht" @click="toggleVideo()">Play Video</div>
                 </template>
@@ -24,7 +24,7 @@
         </div>
         <div class="overlay_bottom" v-if="!$store.state.isMobile">
             <p class="nmr" v-html="above_the_fold.subtitle"></p>
-            <nuxt-link :to="above_the_fold.button_link" rel="canonical" class="default_btn" v-if="!$store.state.isMobile">{{ above_the_fold.button_text }}</nuxt-link>
+            <a :href="above_the_fold.button_link" rel="canonical" class="default_btn" v-if="!$store.state.isMobile">{{ above_the_fold.button_text }}</a>
         </div>
         <div class="scroll_mobile" v-if="$store.state.isMobile">
             <img src="/icons/scroll-down.svg" @click="scrollDown()" />
