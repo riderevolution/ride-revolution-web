@@ -12,6 +12,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'facebook-domain-verification', content: 'pwe1fd2xmzm0s4p67b9qeozui6cvx4' },
       { hid: 'description', name: 'description', content: pkg.description },
       { 'http-equiv': 'pragma', content: 'no-cache' },
       { 'http-equiv': 'cache-control', content: 'no-cache' },
