@@ -183,6 +183,7 @@
                                         <div class="label">Instructor</div>
                                         <h3 class="name">{{ getInstructorsInSchedule(data.scheduled_date) }}</h3>
                                     </div>
+                                    <a :href="data.scheduled_date.zoom_link" class="default_btn full" target="_blank">Zoom Link</a>
                                 </div>
                             </div>
                             <div class="action">
