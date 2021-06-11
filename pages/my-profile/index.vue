@@ -304,7 +304,7 @@
                         if (res.data.user.new_user == 1) {
                             me.$store.state.completeProfileStatus = true
                         }
-                        if (me.$store.state.fromManageClass) {
+                        if (me.$store.state.fromManageClass || me.$route.hash == '#classes') {
                             me.loaded = true
                             setTimeout( () => {
                                 me.componentLoaded = true
