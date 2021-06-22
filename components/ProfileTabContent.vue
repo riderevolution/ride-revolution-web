@@ -183,8 +183,10 @@
                                         <div class="label">Instructor</div>
                                         <h3 class="name">{{ getInstructorsInSchedule(data.scheduled_date) }}</h3>
                                     </div>
-                                    <template v-if="data.scheduled_date.schedule.studio.online_class">
-                                        <a :href="data.scheduled_date.zoom_link" class="default_btn full" target="_blank">Zoom Link</a>
+                                    <template v-if="tabCategory == 'upcoming'">
+                                        <template v-if="data.scheduled_date.schedule.studio.online_class">
+                                            <a :href="data.scheduled_date.zoom_link" class="default_btn full" target="_blank">Zoom Link</a>
+                                        </template>
                                     </template>
                                 </div>
                             </div>
