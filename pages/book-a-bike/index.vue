@@ -255,30 +255,53 @@
         methods: {
             getInstructorsImageInSchedule (data) {
                 const me = this
-                let result = ''
-                if (data != '') {
-                    let ins_ctr = 0
-                    let instructor = []
+                let result= '',
+                    ctr = 0,
+                    instructor = null,
+                    sub_instructor = null,
+                    additional = null
+
+                if (data) {
                     data.schedule.instructor_schedules.forEach((ins, index) => {
-                        // if (ins.substitute == 0) {
-                        //     ins_ctr += 1
-                        // }
-                        if (ins.primary == 1) {
+                        ctr += 1
+                        if (ins.substitute == 1) {
+                            sub_instructor = ins
+                        }
+                        if (ins.substitute == 1 && ins.primary == 1) {
+                            sub_instructor = ins
+                        }
+                        if (ins.primary == 1 && ins.substitute == 0) {
+                            instructor = ins
+                        }
+                        if (index == 0) {
                             instructor = ins
                         } else {
-                            instructor = ins
+                            if (!ins.substitute && !ins.primary) {
+                                additional = ins
+                            }
                         }
                     })
 
-                    if (ins_ctr == 2) {
+                    if (ctr == 2) {
+                        if (sub_instructor) {
+                            result = `
+                                <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
+                                <img class="image" src="${sub_instructor.user.instructor_details.images[0].path}" />
+                            `
+                        } else {
+                            result = `
+                                <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
+                                <img class="image" src="${additional.user.instructor_details.images[0].path}" />
+                            `
+                        }
+                    } else if (ctr == 3) {
                         result = `
                             <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
-                            <img class="image" src="${data.schedule.instructor_schedules[1].user.instructor_details.images[0].path}" />
+                            <img class="image" src="${sub_instructor.user.instructor_details.images[0].path}" />
+                            <img class="image" src="${additional.user.instructor_details.images[0].path}" />
                         `
                     } else {
-                        if (instructor != null) {
-                            result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
-                        }
+                        result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
                     }
                 }
 
