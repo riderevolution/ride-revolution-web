@@ -301,7 +301,7 @@
                         if (ins.substitute == 1 && ins.primary == 1) {
                             sub_instructor = ins
                         }
-                        if (ins.primary == 1) {
+                        if (ins.primary == 1 && ins.substitute == 0) {
                             instructor = ins
                         }
                         if (index == 0) {
