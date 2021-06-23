@@ -286,30 +286,39 @@
             },
             getInstructorsInSchedule (data) {
                 const me = this
-                let result = ''
-                if (data != '') {
-                    let ins_ctr = 0
-                    let instructor = null
+                let result= '',
+                    ctr = 0,
+                    instructor = null,
+                    sub_instructor = null,
+                    additional = null
+
+                if (data) {
                     data.schedule.instructor_schedules.forEach((ins, index) => {
-                        if (ins.substitute == 0) {
-                            ins_ctr += 1
+                        ctr += 1
+                        if (ins.substitute == 1) {
+                            sub_instructor = ins
                         }
                         if (ins.primary == 1) {
                             instructor = ins
-                        } else {
-                            instructor = ins
+                        }
+                        if (!ins.substitute && !ins.primary) {
+                            additional = ins
                         }
                     })
 
-                    if (ins_ctr == 2) {
-                        result = `${instructor.user.instructor_details.nickname} + ${data.schedule.instructor_schedules[1].user.instructor_details.nickname}`
-                    } else {
-                        if (instructor != null) {
-                            result = `${instructor.user.fullname}`
+                    if (ctr == 2) {
+                        if (sub_instructor) {
+                            result = `${instructor.user.instructor_details.nickname} + ${sub_instructor.user.instructor_details.nickname}`
+                        } else {
+                            result = `${instructor.user.instructor_details.nickname} + ${additional.user.instructor_details.nickname}`
                         }
+                    } else if (ctr == 3) {
+                        result = `${instructor.user.instructor_details.nickname} + ${sub_instructor.user.instructor_details.nickname} + ${additional.user.instructor_details.nickname}`
+                    } else {
+                        result = `${instructor.user.fullname}`
                     }
-
                 }
+
                 return result
             },
             /**
