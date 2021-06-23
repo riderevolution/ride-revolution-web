@@ -298,11 +298,18 @@
                         if (ins.substitute == 1) {
                             sub_instructor = ins
                         }
+                        if (ins.substitute == 1 && ins.primary == 1) {
+                            sub_instructor = ins
+                        }
                         if (ins.primary == 1) {
                             instructor = ins
                         }
-                        if (!ins.substitute && !ins.primary) {
-                            additional = ins
+                        if (index == 0) {
+                            instructor = ins
+                        } else {
+                            if (!ins.substitute && !ins.primary) {
+                                additional = ins
+                            }
                         }
                     })
 
