@@ -5864,9 +5864,9 @@ svg
             display: flex
             flex-flow: row wrap
             .left
-                flex: 0 0 25%
+                flex: 0 0 100%
                 background-color: $black
-                padding: 60px 30px 30em
+                padding: 15px 30px
                 .filter_accordion
                     position: relative
                     &.toggled
@@ -5914,6 +5914,10 @@ svg
                             transform: translate(-50%, -50%) rotate(0deg)
                             transition: .3s ease-in-out
                 .filter
+                    display: flex
+                    flex-flow: row wrap
+                    align-items: center
+                    justify-content: space-between
                     &.active
                         overflow-y: inherit
                     .wrapper
@@ -5921,10 +5925,18 @@ svg
                             brandon_regular(18px, true)
                             letter-spacing: 0.21px
                             color: rgba(255, 255, 255, 0.7)
-                            margin-bottom: 30px
-                        &.studio_filter
+                        &.studio_filter,
+                        &.view_filter
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: flex-start
+                            h3
+                                padding-right: 30px
                             .group
-                                margin-bottom: 15px
+                                padding-right: 15px
+                                &:last-child
+                                    padding-right: 0
                                 label
                                     position: relative
                                     brandon_medium(18px, false)
@@ -5936,7 +5948,7 @@ svg
                                     &::before
                                         content: ''
                                         position: absolute
-                                        top: 50%
+                                        top: 45%
                                         left: 0
                                         width: 10px
                                         height: 10px
@@ -5964,10 +5976,16 @@ svg
                                                 background-color: $white
                                                 transition: .3s ease-in-out
                         &.instructor_filter
-                            margin-top: 60px
+                            flex: 0 0 30%
+                            display: flex
+                            flex-flow: row wrap
+                            align-items: center
+                            justify-content: flex-start
                             h3
-                                margin-bottom: 15px
+                                flex: 0 0 auto
+                                padding-right: 30px
                             .autocomplete
+                                flex: 1 0 5%
                                 position: relative
                                 &.toggled
                                     .text
@@ -6069,8 +6087,8 @@ svg
                                     transform: rotate(0deg)
                                     transition: .3s ease-in-out
             .right
-                flex: 0 0 75%
-                padding: 30px 60px
+                flex: 0 0 100%
+                padding: 15px 30px
                 background-color: $white_alt
                 .date_navigator
                     position: relative

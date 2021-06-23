@@ -39,6 +39,17 @@
                                 </transition>
                             </div>
                         </div>
+                        <div class="wrapper view_filter">
+                            <h3>View</h3>
+                            <div class="group">
+                                <input type="radio" class="radio" name="view" id="weekly" checked>
+                                <label for="weekly">Weekly</label>
+                            </div>
+                            <div class="group">
+                                <input type="radio" class="radio" name="view" id="daily">
+                                <label for="daily">Daily</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="right">
