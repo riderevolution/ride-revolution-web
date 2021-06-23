@@ -286,19 +286,19 @@
                         if (sub_instructor) {
                             result = `
                                 <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
-                                <img class="image" src="${sub_instructor.user.instructor_details.images[0].path}" />
+                                <img class="image add" src="${sub_instructor.user.instructor_details.images[0].path}" />
                             `
                         } else {
                             result = `
                                 <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
-                                <img class="image" src="${additional.user.instructor_details.images[0].path}" />
+                                <img class="image add" src="${additional.user.instructor_details.images[0].path}" />
                             `
                         }
                     } else if (ctr == 3) {
                         result = `
                             <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
-                            <img class="image" src="${sub_instructor.user.instructor_details.images[0].path}" />
-                            <img class="image" src="${additional.user.instructor_details.images[0].path}" />
+                            <img class="image add" src="${sub_instructor.user.instructor_details.images[0].path}" />
+                            <img class="image add" src="${additional.user.instructor_details.images[0].path}" />
                         `
                     } else {
                         result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
