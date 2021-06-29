@@ -67,15 +67,13 @@ body
         overflow-y: hidden
 
 ::-webkit-scrollbar
-    width: 20px
+    width: 3px
     background-color: $white
 ::-webkit-scrollbar-track
     box-shadow: none
 ::-webkit-scrollbar-thumb
     background-color: $green
-    border: 6px solid rgba(0, 0, 0, 0)
     background-clip: padding-box
-    border-radius: 50px
 
 ::selection
     color: $white
@@ -6088,23 +6086,94 @@ svg
                                     transition: .3s ease-in-out
             .right
                 flex: 0 0 100%
+                padding: 30px
                 .schedules
                     display: flex
                     flex-flow: row wrap
                     align-items: flex-start
                     justify-content: flex-start
+                    .weekly
+                        position: relative
+                        padding: 0 40px
+                        margin-bottom: 40px
+                        flex: 0 0 100%
+                        .dates
+                            text-align: center
+                            brandon_bold(30px, true)
+                            color: $black_alt2
+                        .prev,
+                        .next
+                            position: absolute
+                            top: 50%
+                            width: 40px
+                            height: 40px
+                            z-index: 3
+                            opacity: 0.75
+                            background-position: center
+                            background-repeat: no-repeat
+                            background-size: contain
+                            transform: translateY(-50%)
+                            transition: .3s ease-in-out
+                            cursor: pointer
+                            &:hover
+                                opacity: 1
+                                transition: .3s ease-in-out
+                        .prev
+                            left: 0
+                            background-image: url('/default/book-a-bike/date-prev.svg')
+                        .next
+                            right: 0
+                            background-image: url('/default/book-a-bike/date-next.svg')
                     .schedule_item
+                        position: relative
+                        z-index: 1
                         text-align: center
                         flex: 0 0 calc(100% / 8)
                         border: 1px solid #8B8B8B33
                         .items
-                            padding: 10px 20px
+                            position: relative
+                            z-index: -2
+                            padding: 10px
                             width: 100%
                             border-top: 1px solid #8B8B8B33
+                            &.pst
+                                filter: grayscale(1)
+                                transition: .3s ease-in-out
                             &:first-child
-                                padding: 30px 20px
+                                padding: 30px 10px
                                 border-top: none
                                 background-color: #F7F7F7
+                            .info
+                                position: absolute
+                                top: 5px
+                                right: 5px
+                                cursor: pointer
+                            .info_overlay
+                                position: absolute
+                                bottom: calc(100% + 5px)
+                                left: 0
+                                right: 0
+                                z-index: 2
+                                brandon_regular(12px, false)
+                                letter-spacing: 0.5px
+                                color: $white
+                                text-align: center
+                                background-color: $dark_green
+                                padding: 10px
+                                *
+                                    brandon_regular(12px, false)
+                                .pointer
+                                    position: absolute
+                                    bottom: -7px
+                                    right: 0
+                                    width: 0
+                                    height: 0
+                                    border-left: 7px solid transparent
+                                    border-right: 7px solid transparent
+                                    border-top: 7px solid $dark_green
+                                    z-index: 1
+                                    transform: translateX(-50%)
+                                    transition: .3s ease-in-out
                             .day
                                 neutra_bold(35px, false)
                                 color: $black_alt2
@@ -6117,6 +6186,29 @@ svg
                                 neutra_bold(45px, false)
                                 line-height: 1
                                 color: $black_alt2
+                            .items_top
+                                margin: 10px 0 20px
+                                .image_wrapper
+                                    margin-bottom: 10px
+                                .image
+                                    width: 65px
+                                    height: 65px
+                                    border-radius: 50%
+                                    background-color: $green
+                                    margin: 0 auto
+                                .time
+                                    brandon_bold(18px, false)
+                                    color: $black_alt2
+                                .name
+                                    brandon_medium(16px, false)
+                                    color: $black_alt2
+                                .class,
+                                .studio
+                                    brandon_regular(14px, false)
+                                    color: $black_alt2
+                            .items_bottom
+                                .btn
+                                    display: block
                 &.back_up
                     flex: 0 0 100%
                     padding: 15px 30px

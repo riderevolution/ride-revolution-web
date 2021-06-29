@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="book_a_bike landing" v-if="loaded">
-            <banner :res="setting" :hasH2="true" />
+            <banner :res="res.pageSetting" :hasH2="true" />
             <section id="content">
                 <div class="left">
                     <div class="filter_accordion" v-if="$store.state.isMobile">
@@ -42,11 +42,11 @@
                         <div class="wrapper view_filter">
                             <h3>View</h3>
                             <div class="group">
-                                <input type="radio" class="radio" name="view" id="weekly" checked>
+                                <input type="radio" class="radio" name="view" id="weekly" value="weekly" v-model="viewing" @change="toggleViewing()">
                                 <label for="weekly">Weekly</label>
                             </div>
                             <div class="group">
-                                <input type="radio" class="radio" name="view" id="daily">
+                                <input type="radio" class="radio" name="view" id="daily" value="daily" v-model="viewing" @change="toggleViewing()">
                                 <label for="daily">Daily</label>
                             </div>
                         </div>
@@ -54,135 +54,91 @@
                 </div>
                 <div class="right">
                     <div class="schedules">
-                        <div class="schedule_item" v-for="(n, key) in 8" :key="key">
-                            <div class="items">
-                                <div class="day">Mon</div>
-                                <div class="month">Jun</div>
-                                <div class="date">{{ n }}</div>
-                            </div>
-                            <div class="items" v-for="(m, key) in 5" :key="key">
-                                <div class="items_top">
-                                    <img src="/icons/info-booker-icon.svg" />
-                                    <div class="time">9:00 AM</div>
-                                    <div class="name">JP Hipolito</div>
-                                    <div class="class">Online Class</div>
+                        <template v-if="viewing == 'weekly'">
+                            <div class="weekly">
+                                <div class="prev" @click="fetchData('prev')"></div>
+                                <div class="dates">
+                                    {{ $moment(first_date).format('DD MMM') }} - {{ $moment(last_date).format('DD MMM') }}
                                 </div>
-                                <div class="items_bottom">
-                                    <div class="btn default_btn_out">
-                                        <span>Book Now</span>
+                                <div class="next" @click="fetchData('next')"></div>
+                            </div>
+                        </template>
+                        <template v-if="res.dates.length > 0">
+                            <div class="schedule_item" v-for="(parent, key) in res.dates" :key="key">
+                                <div class="items">
+                                    <div class="day">{{ parent.dayName }}</div>
+                                    <div class="month">{{ parent.monthName }}</div>
+                                    <div class="date">{{ parent.dayNumber }}</div>
+                                </div>
+                                <div :class="[ 'items', (child.past || child.ongoing) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
+                                    <transition name="fade">
+                                        <div class="info_overlay" v-if="child.schedule.toggle">
+                                            <div class="pointer"></div>
+                                            Details: <span v-html="(child.schedule.private_class == 1) ? child.schedule.occassion : (child.schedule.description != null) ? child.schedule.description : child.schedule.class_type.description"></span><br />
+                                            Credits to Deduct: {{ child.schedule.class_credits }}
+                                        </div>
+                                    </transition>
+                                    <div class="items_top">
+                                        <img class="info" src="/icons/info-booker-icon.svg" :id="`img_${child.schedule.id}`" @click="toggleScheduleInfo(child.schedule)" />
+                                        <div class="image_wrapper" v-html="getInstructorsImageInSchedule(child)"></div>
+                                        <div class="time">{{ child.schedule.start_time }}</div>
+                                        <div class="name">{{ getInstructorsInSchedule(child) }}</div>
+                                        <div class="class">{{ (child.schedule.custom_name != null) ? child.schedule.custom_name : child.schedule.class_type.name }}</div>
+                                        <div class="studio">{{ child.schedule.studio.name }}</div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="date_navigator">
-                        <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(result.year, $moment(`${result.month}-${result.day}-${result.year}`, 'MMM-DD-YYYY').format('M'), result.day, key)">
-                            <div class="overlay">
-                                <div class="abbr">{{ result.abbr }}</div>
-                                <div class="month">{{ result.month }}</div>
-                                <div class="day">{{ result.day }}</div>
-                            </div>
-                        </div>
-                        <div class="date_controls" v-if="!$store.state.isMobile">
-                            <div class="prev" @click="generatePrevClasses()"></div>
-                            <div class="next" @click="generateNextClasses()"></div>
-                        </div>
-                    </div>
-                    <div class="date_controls_mobile" v-if="$store.state.isMobile">
-                        <div class="prev" @click="generatePrevClasses()"></div>
-                        <div class="next" @click="generateNextClasses()"></div>
-                    </div>
-                    <div class="schedule_list">
-                        <div class="header">
-                            <span>Showing rides in </span>
-                            <span :class="`label ${(hasStudioFilter) ? 'active' : ''}`">{{ studioFilter }}<img v-if="hasStudioFilter && studioFilter != 'all studios'" @click="resetFilter('studio')" src="/icons/filter-close.svg" /></span>
-                            <span>with</span>
-                            <span :class="`label ${(hasSearchedInstructor) ? 'active' : ''}`">{{ checkSearchedInstructor }}<img v-if="hasSearchedInstructor" @click="resetFilter('instructor')" src="/icons/filter-close.svg" /></span>
-                        </div>
-                        <div v-if="res.schedules.length > 0">
-                            <div :class="`${(!$store.state.isMobile) ? 'content' : 'content_mobile'}`">
-                                <div :class="`schedule${(data.past || data.ongoing) ? ' pst' : ''}`" v-for="(data, key) in res.schedules" :key="key">
-                                    <div class="time" v-if="!$store.state.isMobile">{{ $moment(data.schedule.start_time, 'hh:mm A').format('h:mm A') }}</div>
-                                    <div class="class" v-if="!$store.state.isMobile">
-                                        <div class="image_wrapper" v-html="getInstructorsImageInSchedule(data)"></div>
-                                        <div class="info">
-                                            <h2>{{ getInstructorsInSchedule(data) }}</h2>
-                                            <div class="ride">
-                                                <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
-                                                <div class="info_icon">
-                                                    <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
-                                                    <transition name="slideAltY">
-                                                        <div class="info_overlay" v-if="data.toggled">
-                                                            <div class="pointer"></div>
-                                                            Details: <span v-html="(data.schedule.private_class == 1) ? data.schedule.occassion : (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description ">
-                                                            </span>
-                                                            Credits to Deduct: {{ data.schedule.class_credits }}
-                                                        </div>
-                                                    </transition>
+                                    <div class="items_bottom">
+                                        <template v-if="child.schedule.private_class == 1">
+                                            <div class="btn default_btn_out disabled">
+                                                <span>Private Class</span>
+                                            </div>
+                                        </template>
+                                        <template v-else-if="child.schedule.private_class == 1">
+                                            <div class="btn default_btn_out disabled">
+                                                <span>Private Class</span>
+                                            </div>
+                                        </template>
+                                        <template v-else-if="!child.past && !child.ongoing">
+                                            <template v-if="child.hasUser && !child.isWaitlisted && !child.isFull && !child.originalHere && !child.guestHere">
+                                                <nuxt-link :to="`/book-a-bike/${child.id}`" :event="''" @click.native="checkIfNew(child, 'book', $event)" class="btn default_btn_out">
+                                                    <span>Book Now</span>
+                                                </nuxt-link>
+                                            </template>
+                                            <template v-else-if="child.hasUser && !child.isWaitlisted && child.isFull && !child.originalHere && !child.guestHere && !child.schedule.studio.online_class">
+                                                <div @click="checkIfNew(child, 'waitlist', $event)" class="btn default_btn_out">
+                                                    <span>Waitlist</span>
                                                 </div>
+                                            </template>
+                                            <template v-else-if="child.hasUser && child.isWaitlisted && !child.schedule.studio.online_class">
+                                                <div class="btn default_btn_out disabled">
+                                                    <span>Waitlisted</span>
+                                                </div>
+                                            </template>
+                                            <template v-else-if="child.hasUser && (child.originalHere || child.guestHere)">
+                                                <nuxt-link :to="`/my-profile/manage-class/${child.id}`" class="btn default_btn_out">
+                                                    <span>Manage Class</span>
+                                                </nuxt-link>
+                                            </template>
+                                            <template v-else-if="!child.hasUser && !$store.state.isAuth">
+                                                <div class="btn default_btn_out" @click="checkIfLoggedIn($event)">
+                                                    <span>Book Now</span>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template v-else-if="child.past && !child.ongoing">
+                                            <div class="btn default_btn_out disabled">
+                                                <span>Class is Over</span>
                                             </div>
-                                            <h3>{{ data.schedule.studio.name }}</h3>
-                                        </div>
-                                    </div>
-                                    <div class="image_wrapper" v-html="getInstructorsImageInSchedule(data)" v-if="$store.state.isMobile"></div>
-                                    <div class="info" v-if="$store.state.isMobile">
-                                        <div class="time">{{ $moment(data.schedule.start_time, 'h:mm A').format('h:mm A') }}</div>
-                                        <h2>{{ getInstructorsInSchedule(data) }}</h2>
-                                        <div class="ride">
-                                            <p>{{ (data.schedule.custom_name != null) ? data.schedule.custom_name : data.schedule.class_type.name }} </p>
-                                            <div class="info_icon">
-                                                <img src="/icons/info-booker-icon.svg" @click="toggleScheduleInfo(data)" />
-                                                <transition name="slideAltY">
-                                                    <div class="info_overlay" v-if="data.toggled">
-                                                        <div class="pointer"></div>
-                                                        Details: <span v-html="(data.schedule.private_class == 1) ? data.schedule.occassion : (data.schedule.description != null) ? data.schedule.description : data.schedule.class_type.description ">
-                                                        </span>
-                                                        Credits to Deduct: {{ data.schedule.class_credits }}
-                                                    </div>
-                                                </transition>
+                                        </template>
+                                        <template v-else-if="!child.past && child.ongoing">
+                                            <div class="btn default_btn_out disabled">
+                                                <span>Ongoing</span>
                                             </div>
-                                        </div>
-                                        <h3>{{ data.schedule.studio.name }}</h3>
-                                    </div>
-                                    <div class="action" v-if="data.schedule.private_class == 1">
-                                        <div class="btn default_btn_out disabled">
-                                            <span>Private Class</span>
-                                        </div>
-                                    </div>
-                                    <div class="action" v-else-if="!data.past && !data.ongoing">
-                                        <nuxt-link :to="`/book-a-bike/${data.id}`" :event="''" @click.native="checkIfNew(data, 'book', $event)" class="btn default_btn_out" v-if="data.hasUser && !data.isWaitlisted && !data.isFull && !data.originalHere && !data.guestHere">
-                                            <span>Book Now</span>
-                                        </nuxt-link>
-                                        <div @click="checkIfNew(data, 'waitlist', $event)" class="btn default_btn_out" v-else-if="data.hasUser && !data.isWaitlisted && data.isFull && !data.originalHere && !data.guestHere && !data.schedule.studio.online_class">
-                                            <span>Waitlist</span>
-                                        </div>
-                                        <div class="btn default_btn_out disabled" v-else-if="data.hasUser && data.isWaitlisted && !data.schedule.studio.online_class">
-                                            <span>Waitlisted</span>
-                                        </div>
-                                        <nuxt-link :to="`/my-profile/manage-class/${data.id}`" class="btn default_btn_out" v-else-if="data.hasUser && (data.originalHere || data.guestHere)">
-                                            <span>Manage Class</span>
-                                        </nuxt-link>
-                                        <div class="btn default_btn_out" @click="checkIfLoggedIn($event)" v-else-if="!data.hasUser && !$store.state.isAuth">
-                                            <span>Book Now</span>
-                                        </div>
-                                    </div>
-                                    <div class="action" v-else-if="data.past && !data.ongoing">
-                                        <div class="btn default_btn_out disabled">
-                                            <span>Class is Over</span>
-                                        </div>
-                                    </div>
-                                    <div class="action" v-else-if="!data.past && data.ongoing">
-                                        <div class="btn default_btn_out disabled">
-                                            <span>Ongoing</span>
-                                        </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="no_schedule" v-else>
-                            <p>SCHEDULES ARE POSTED ON MONDAYS OF EVERY WEEK.</p>
-                        </div>
-                    </div> -->
+                        </template>
+                    </div>
                 </div>
             </section>
             <transition name="fade">
@@ -203,20 +159,14 @@
 </template>
 
 <script>
-    import Banner from '../../components/Banner'
-    import Skeleton from '../../components/Skeleton'
-    import BookerChoosePackage from '../../components/modals/BookerChoosePackage'
-    import CompleteProfilePrompt from '../../components/modals/CompleteProfilePrompt'
-    import BuyPackageFirst from '../../components/modals/BuyPackageFirst'
-    import BuyRidesPrompt from '../../components/modals/BuyRidesPrompt'
     export default {
         components: {
-            Banner,
-            Skeleton,
-            BookerChoosePackage,
-            CompleteProfilePrompt,
-            BuyPackageFirst,
-            BuyRidesPrompt
+            Banner: () => import('~/components/Banner'),
+            Skeleton: () => import('~/components/Skeleton'),
+            BookerChoosePackage: () => import('~/components/modals/BookerChoosePackage'),
+            CompleteProfilePrompt: () => import('~/components/modals/CompleteProfilePrompt'),
+            BuyPackageFirst: () => import('~/components/modals/BuyPackageFirst'),
+            BuyRidesPrompt: () => import('~/components/modals/BuyRidesPrompt')
         },
         data () {
             return {
@@ -238,25 +188,20 @@
                 message: '',
                 status: false,
                 loaded: false,
-                isPrev: false,
                 toggledAutocomplete: false,
-                current: 0,
-                last: 0,
-                currentMonth: '',
-                currentYear: '',
-                currentDay: '',
                 results: [],
-                res: {
-                    schedules: []
-                },
+                res: [],
                 studios: [],
                 instructors: [],
                 studioID: 0,
                 instructorID: 0,
+                viewing: 'daily',
                 studioFilter: 'all studios',
                 hasStudioFilter: false,
                 searchedInstructor: '',
-                hasSearchedInstructor: false
+                hasSearchedInstructor: false,
+                first_date: '',
+                last_date: ''
             }
         },
         computed: {
@@ -273,15 +218,7 @@
                     me.searchedInstructor = ''
                     me.hasSearchedInstructor = false
                     result = 'all instructors '
-                    // me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
                 }
-                setTimeout( () => {
-                    me.$axios.post(`api/instructors/search${(me.searchedInstructor != '') ? `?q=${result}&forWeb=1` : `?forWeb=1`}`).then(res => {
-                        if (res.data) {
-                            me.instructors = res.data.instructors
-                        }
-                    })
-                }, 250)
                 return result
             }
         },
@@ -388,7 +325,7 @@
              * Toggle info in each schedule */
             toggleScheduleInfo (data) {
                 const me = this
-                data.toggled ^= true
+                data.toggle ^= true
             },
             /**
              * Check if user is logged in */
@@ -399,22 +336,6 @@
                     me.$store.state.loginCheckerStatus = true
                     document.body.classList.add('no_scroll')
                 }
-            },
-            /**
-             * Conversion of hours and minutes */
-            parseScheduleRide (data) {
-                const me = this
-                let result = ''
-                let time = data.split('+')[1]
-                let hour = time.split(':')[0]
-                let minutes = time.split(':')[1]
-                if (hour != 0) {
-                    result += `${me.$moment(time, 'h:m').format('h')} ${(hour > 1) ? 'Hours ' : 'Hour '}`
-                    result += me.$moment(time, 'h:m').format('mm') + ' Minutes'
-                } else {
-                    result += me.$moment(time, 'h:m').format('mm') + ' Minutes'
-                }
-                return result
             },
             /**
              * Validation if the user doesn't completed their profile */
@@ -516,39 +437,17 @@
                 }, 500)
             },
             /**
-             * Remove current filter */
-            resetFilter (type) {
-                const me = this
-                let elements = document.querySelectorAll('.studio_filter .group')
-                switch (type) {
-                    case 'studio':
-                        me.studioID = 0
-                        me.hasStudioFilter = false
-                        me.studioFilter = 'all studios'
-                        elements.forEach((element, index) => {
-                            if (element.querySelector('.radio').classList.contains('all')) {
-                                element.querySelector('.radio').checked = true
-                            } else {
-                                element.querySelector('.radio').checked = false
-                            }
-                        })
-                        break
-                    case 'instructor':
-                        me.instructorID = 0
-                        me.hasSearchedInstructor = false
-                        me.searchedInstructor = ''
-                        break
-                }
-                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
-            },
-            /**
              * Select instructor from filter */
             selectIntructor (data) {
                 const me = this
                 me.instructorID = data.id
                 me.searchedInstructor = `${data.first_name} ${data.last_name}`
                 me.toggledAutocomplete = false
-                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
+                me.fetchData()
+            },
+            toggleViewing () {
+                const me = this
+
             },
             /**
              * Select studio from filter */
@@ -568,17 +467,14 @@
                         me.hasStudioFilter = true
                         break
                 }
-                let id = (me.studioID == 0) ? '' : me.studioID
                 /**
                  * Fetch all instructors */
                 me.$axios.get(`api/web/instructors`).then(res => {
                     if (res.data) {
                         me.instructors = res.data.instructors
                     }
-                }).catch(err => {
-                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
                 })
-                me.getAllSchedules(me.currentYear, me.currentMonth, me.currentDay, true)
+                me.fetchData()
             },
             /**
              * On/Off of custom autocomplete */
@@ -590,6 +486,9 @@
              * Click outside of autocomplete */
             toggleAutoCompleteOutside () {
                 const me = this
+                if (me.toggledAutocomplete && me.searchedInstructor == '') {
+                    me.fetchData()
+                }
                 me.toggledAutocomplete = false
             },
             /**
@@ -601,226 +500,51 @@
                     element.classList.remove('active')
                 })
             },
-            /**
-             * Get Schedule of specific date */
-            toggleDate (year, month, day, unique) {
+            fetchData (data=null) {
                 const me = this
+                let form_data = new FormData()
                 me.loader(true)
-                me.currentDay = day
-                let elements = document.querySelectorAll('.date_navigator .date')
-                document.getElementById(`date_${unique}`).classList.add('active')
-                elements.forEach((element, index) => {
-                    if (unique != index) {
-                        element.classList.remove('active')
-                    }
-                })
-                me.currentMonth = month
-                me.currentDay = day
-                me.getAllSchedules(year, month, day, true)
-            },
-            /**
-             * Fetch All Schedules */
-            getAllSchedules (year, month, day, searched) {
-                const me = this
-                let token = me.$cookies.get('70hokc3hhhn5')
-                me.loader(true)
-                if (searched) {
-                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&studio_id=${me.studioID}&instructor_id=${me.instructorID}&forWeb=1`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }).then(res => {
-                        if (res.data) {
-                            me.populateResSchedules(res.data)
-                            if (!me.loaded) {
-                                me.loaded = true
-                                me.setting = res.data.pageSetting
-                            }
-                        }
-                    }).catch(err => {
-                        me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-                        me.loader(false)
-                    }).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
-                    })
-                } else {
-                    me.$axios.get(`api/schedules?year=${year}&day=${day}&month=${month}&forWeb=1`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }).then(res => {
-                        if (res.data) {
-                            me.populateResSchedules(res.data)
-                            if (!me.loaded) {
-                                me.loaded = true
-                                me.setting = res.data.pageSetting
-                            }
-                        }
-                    }).catch(err => {
-                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                        me.loader(false)
-                    }).then(() => {
-                        setTimeout( () => {
-                            me.loader(false)
-                        }, 500)
-                    })
-                }
-            },
-            populateResSchedules (data) {
-                const me = this
-                me.res.schedules = []
-                data.schedules.forEach((element, index) => {
-                    element.toggled = false
-                    me.res.schedules.push(element)
-                })
-            },
-            /**
-             * Generate Next Week of Calendar */
-            generateNextClasses () {
-                const me = this
-                if (me.isPrev) {
-                    me.isPrev = false
-                    me.current = me.current + (!me.$store.state.isMobile ? 8 : 6)
-                }
-                me.results = []
-                for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
-                    if (me.current > me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
-                        me.current = me.current - me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()
-                        me.currentMonth = parseInt(me.currentMonth) + 1
-                        if (me.currentMonth == 13) {
-                            me.currentMonth = 1
-                            me.currentYear = parseInt(me.currentYear) + 1
-                        }
-                    }
-                    me.populateResults(me.current, 'next')
-                    if (i == 0) {
-                        me.last = me.current - 1
-                    }
-                    me.current++
-                }
-            },
-            /**
-             * Generate Prev Week of Calendar */
-            generatePrevClasses () {
-                const me = this
-                if (!me.isPrev) {
-                    me.isPrev = true
-                    me.current = me.current - (!me.$store.state.isMobile ? 8 : 6)
-                }
-                me.results = []
-                for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
-                    if (me.current <= 0) {
-                        me.currentMonth = parseInt(me.currentMonth) - 1
-                        if (me.currentMonth == 0) {
-                            me.currentMonth = 12
-                            me.currentYear = parseInt(me.currentYear) - 1
-                            if (me.current <= 0) {
-                                if (me.last <= 0) {
-                                    me.current = me.$moment(`${me.currentYear}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()
-                                } else {
-                                    if (me.currentMonth == 12) {
-                                        me.current = me.$moment(`${me.currentYear}-${me.currentMonth}-1`, 'YYYY-MM').daysInMonth()
-                                    } else {
-                                        me.current = me.last
-                                    }
-                                }
-                            } else {
-                                me.current = me.$moment(`${me.currentYear}-${me.currentMonth}-${me.last}`, 'YYYY-MM-D').daysInMonth()
-                            }
-                        } else {
-                            if (me.current == 0) {
-                                if (me.last == 0) {
-                                    me.current = me.$moment(`${me.currentYear}-${me.currentMonth}-${1}`, 'YYYY-MM-D').daysInMonth()
-                                } else {
-                                    me.current = me.$moment(`${me.currentYear}-${me.currentMonth}-${me.last}`, 'YYYY-MM-D').daysInMonth()
-                                }
-                            } else {
-                                me.current = me.last
-                            }
-                        }
-                    }
-                    me.populateResults(me.current, 'prev')
-                    me.current--
-                    if (i == (!me.$store.state.isMobile ? 6 : 4)) {
-                        me.last = me.current
-                    }
-                }
-            },
-            /**
-             * Populate Calendar with specific values */
-            populateResults (data, type) {
-                const me = this
-                switch (type) {
-                    case 'next':
-                        me.results.push({
-                            abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('ddd'),
-                            month: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('MMM'),
-                            day: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('D'),
-                            year: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('YYYY'),
-                            value: data
-                        })
-                        break
-                    case 'prev':
-                        me.results.unshift({
-                            abbr: (me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('ddd'),
-                            month: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('MMM'),
-                            day: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('D'),
-                            year: me.$moment(`${me.currentYear}-${me.currentMonth}-${data}`, 'YYYY-MM-D').format('YYYY'),
-                            value: data
-                        })
-                        break
-                }
-                me.removeActive()
-            },
-            /**
-             * Populate Calendar */
-            populateClasses (check) {
-                const me = this
-                me.results = []
-                me.loader(true)
-                let currentDate = parseInt(me.$moment().format('D'))
-                me.current = currentDate
-                me.last = currentDate
-                me.currentMonth = parseInt(me.$moment().format('M'))
-                let temp_year = parseInt(me.$moment().format('YYYY'))
 
-                for (let i = 0; i < (!me.$store.state.isMobile ? 7 : 5); i++) {
-                    if (currentDate > me.$moment(`${temp_year}-${me.currentMonth}`, 'YYYY-MM').daysInMonth()) {
-                        currentDate = 1
-                        me.currentMonth = me.currentMonth + 1
-                        if (me.currentMonth > 12) {
-                            me.currentMonth = 1
-                            temp_year = temp_year + 1
-                        }
+                if (me.instructorID != 0) {
+                    form_data.append('instructor_id', me.instructorID)
+                }
+                if (me.studioID != 0) {
+                    form_data.append('studio_id', me.studioID)
+                }
+
+                if (data) {
+                    if (data == 'prev') {
+                        form_data.append('first_date', me.first_date)
+                    } else {
+                        form_data.append('last_date', me.last_date)
                     }
-                    me.results.push({
-                        abbr: (me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('M-D') == me.$moment().format('M-D')) ? 'Today' : me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('ddd'),
-                        month: me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('MMM'),
-                        day: me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('D'),
-                        year: me.$moment(`${temp_year}-${me.currentMonth}-${currentDate}`, 'YYYY-MM-D').format('YYYY'),
-                        value: currentDate
-                    })
-                    currentDate++
-                    me.current = currentDate
-                    me.isPrev = false
                 }
-                if (check) {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                }
-                me.currentYear = temp_year
+
+                me.$axios.post('api/web/schedules', form_data).then(res => {
+                    me.res = res.data
+                    if (me.res.dates.length > 0) {
+                        me.first_date = me.res.dates[0].date
+                        me.last_date = me.res.dates[me.res.dates.length - 1].date
+                    }
+                    me.loaded = true
+                }).catch(err => {
+                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
+                }).then(() => {
+                    me.loader(false)
+                })
             },
             toggleOverlays (e) {
                 const me = this
+                let ctr = 0
                 let target = e.target
-                let elements_first = document.querySelectorAll('.schedule_list .schedule .ride img')
-                me.res.schedules.forEach((data, index) => {
-                    if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
-                        data.toggled = false
-                    }
+                let elements_first = document.querySelectorAll('.book_a_bike.landing #content .right .schedules .schedule_item .items .info')
+                me.res.dates.forEach((data, index) => {
+                    data.schedules.forEach((child, c_index) => {
+                        if (target.id !== elements_first[ctr].id) {
+                            child.schedule.toggle = false
+                        }
+                        ctr += 1
+                    })
                 })
             }
         },
@@ -846,11 +570,7 @@
             }).catch(err => {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
             })
-            me.currentDay = me.$moment().format('D')
-            me.getAllSchedules(me.$moment().format('YYYY'), me.$moment().format('M'), me.$moment().format('D'), (me.$route.query.i) ? true : false)
-            setTimeout( () => {
-                me.populateClasses(false)
-            }, 10)
+            me.fetchData()
         },
         beforeMount () {
             document.addEventListener('click', this.toggleOverlays)

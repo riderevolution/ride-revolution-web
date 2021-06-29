@@ -438,44 +438,6 @@
                                                 brandon_regular(16px, false)
                             h3
                                 brandon_regular(14px, true)
-                .right
-                    padding: 30px
-                    .date_navigator
-                        .date
-                            .overlay
-                                .abbr
-                                    brandon_bold(18px, false)
-                                    margin-bottom: 15px
-                                .month
-                                    brandon_black(12px, true)
-                                .day
-                                    brandon_black(40px, true)
-                    .schedule_list
-                        .header
-                            span
-                                brandon_regular(18px, false)
-                                &.label
-                                    brandon_regular(18px, false)
-                        .content
-                            .schedule
-                                padding: 20px 40px
-                                .time
-                                    brandon_bold(16px, true)
-                                .class
-                                    .image
-                                        width: 50px
-                                        height: 50px
-                                    .info
-                                        padding-left: 20px
-                                        h2
-                                            brandon_medium(14px, false)
-                                        h3
-                                            brandon_regular(14px, false)
-                                        .ride
-                                            brandon_medium(18px, false)
-                        .no_schedule
-                            p
-                                brandon_black(35px, true)
     /**
      * Instructors */
     .instructors
@@ -1664,106 +1626,6 @@
             #content
                 .left
                     flex: 0 0 100%
-                    padding: 15px 30px
-                    .filter_accordion
-                        label
-                            brandon_bold(14px, true)
-                    .filter
-                        height: 0px
-                        overflow-y: hidden
-                        transition: .3s ease-in-out
-                        .wrapper
-                            &.studio_filter
-                                padding-bottom: 10px
-                                border-bottom: 1px solid #EDEEF0
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
-                                h3
-                                    flex: 0 0 100%
-                                .group
-                                    flex: 0 0 calc(100% / 2)
-                                    label
-                                        display: block
-                                        padding-left: 20px
-                                        brandon_medium(16px, false)
-                            &.instructor_filter
-                                margin-top: 30px
-                                .autocomplete
-                                    .text
-                                        brandon_regular(16px, false)
-                                    .autocomplete_dropdown
-                                        .list
-                                            padding: 7.5px 10px
-                                            img
-                                                width: 35px
-                                                height: 35px
-                                            p
-                                                brandon_regular(16px, false)
-                            h3
-                                margin: 15px 0
-                                brandon_regular(14px, true)
-                .right
-                    flex: 0 0 100%
-                    padding: 0
-                    .date_navigator
-                        background-image: url('/dotted-bg.png')
-                        background-color: #fff
-                        .date
-                            flex: 0 0 calc(100% / 5)
-                            padding: 30px 15px
-                            background-color: #fff
-                            .overlay
-                                .abbr
-                                    brandon_bold(18px, false)
-                                    margin-bottom: 5px
-                                .month
-                                    letter-spacing: 0.14px
-                                    brandon_bold(18px, true)
-                                    margin-bottom: 5px
-                                .day
-                                    brandon_bold(36px, false)
-                            &::before
-                                border-radius: 0px
-                            &.active,
-                            &.hover
-                                transform: scale(1)
-                                border-radius: 0px
-                                transition: .3s ease-in-out
-                    .schedule_list
-                        .header
-                            margin: 15px 30px
-                            text-align: center
-                            span
-                                brandon_regular(18px, false)
-                                &.label
-                                    brandon_regular_italic(18px, false)
-                        .content_mobile
-                            .schedule
-                                padding: 15px 30px
-                                .image
-                                    width: 60px
-                                    height: 60px
-                                    &.add
-                                        width: 25px
-                                        height: 25px
-                                .info
-                                    flex: 1 0 65%
-                                    padding-left: 20px
-                                    .time
-                                        brandon_bold(18px, true)
-                                    h2
-                                        brandon_medium(18px, false)
-                                    .ride
-                                        brandon_medium(16px, false)
-                                        .info_icon
-                                            .info_overlay
-                                                brandon_regular(12px, false)
-                        .no_schedule
-                            max-width: calc(100% - 60px)
-                            margin: 30px auto
-                            p
-                                brandon_black(32px, true)
         &.inner
             #content
                 padding: 0 0 30px
@@ -3485,7 +3347,6 @@
         &.landing
             #content
                 .left
-                    flex: 0 0 25%
                     .filter
                         height: auto
                         overflow-y: unset
@@ -3493,33 +3354,6 @@
                             &.studio_filter
                                 .group
                                     flex: 0 0 100%
-                .right
-                    flex: 1 0 25%
-                    padding: 30px
-                    .date_navigator
-                        .date
-                            flex: 0 0 calc(100% / 7)
-                    .schedule_list
-                        .content
-                            .schedule
-                                padding: 20px
-                                .time
-                                    brandon_bold(16px, true)
-                                .class
-                                    .image
-                                        width: 45px
-                                        height: 45px
-                                        &.add
-                                            width: 20px
-                                            height: 20px
-                                    .info
-                                        padding-left: 20px
-                                        h2
-                                            brandon_medium(16px, false)
-                                        .ride
-                                            brandon_medium(16px, false)
-                                        h3
-                                            brandon_regular(16px, false)
 
     .studios
         #visit
@@ -4514,82 +4348,6 @@
             #content
                 .left
                     flex: 0 0 100%
-                    padding: 15px 10px
-                    .filter
-                        height: 0px
-                        overflow-y: hidden
-                        transition: .3s ease-in-out
-                        .wrapper
-                            &.studio_filter
-                                padding-bottom: 10px
-                                border-bottom: 1px solid #EDEEF0
-                                display: flex
-                                flex-flow: row wrap
-                                align-items: center
-                                h3
-                                    flex: 0 0 100%
-                                .group
-                                    flex: 0 0 calc(100% / 2)
-                                    label
-                                        display: block
-                                        padding-left: 20px
-                                        brandon_medium(14px, false)
-                            &.instructor_filter
-                                margin-top: 30px
-                                .autocomplete
-                                    .text
-                                        brandon_regular(14px, false)
-                                    .autocomplete_dropdown
-                                        .list
-                                            padding: 7.5px 10px
-                                            img
-                                                width: 35px
-                                                height: 35px
-                                            p
-                                                brandon_regular(14px, false)
-                            h3
-                                margin: 15px 0
-                                brandon_regular(14px, true)
-                .right
-                    flex: 0 0 100%
-                    padding: 0
-                    .date_navigator
-                        background-image: url('/dotted-bg.png')
-                        background-color: #fff
-                        .date
-                            flex: 0 0 calc(100% / 5)
-                            padding: 10px 15px
-                            background-color: #fff
-                            .overlay
-                                .abbr
-                                    brandon_bold(14px, false)
-                                    margin-bottom: 0px
-                                .month
-                                    letter-spacing: 0.14px
-                                    brandon_bold(14px, true)
-                                    margin-bottom: 5px
-                                .day
-                                    brandon_bold(28px, false)
-                            &::before
-                                border-radius: 0px
-                            &.active,
-                            &.hover
-                                transform: scale(1)
-                                border-radius: 0px
-                                transition: .3s ease-in-out
-                    .schedule_list
-                        .header
-                            margin: 10px 5px
-                            text-align: center
-                            span
-                                brandon_regular(16px, false)
-                                &.label
-                                    brandon_regular_italic(16px, false)
-                        .no_schedule
-                            max-width: calc(100% - 30px)
-                            margin: 30px auto
-                            p
-                                brandon_black(25px, true)
         &.inner
             #banner
                 margin-top: 30px
