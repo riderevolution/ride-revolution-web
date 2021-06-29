@@ -53,7 +53,29 @@
                     </div>
                 </div>
                 <div class="right">
-                    <div class="date_navigator">
+                    <div class="schedules">
+                        <div class="schedule_item" v-for="(n, key) in 8" :key="key">
+                            <div class="items">
+                                <div class="day">Mon</div>
+                                <div class="month">Jun</div>
+                                <div class="date">{{ n }}</div>
+                            </div>
+                            <div class="items" v-for="(m, key) in 5" :key="key">
+                                <div class="items_top">
+                                    <img src="/icons/info-booker-icon.svg" />
+                                    <div class="time">9:00 AM</div>
+                                    <div class="name">JP Hipolito</div>
+                                    <div class="class">Online Class</div>
+                                </div>
+                                <div class="items_bottom">
+                                    <div class="btn default_btn_out">
+                                        <span>Book Now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="date_navigator">
                         <div :id="`date_${key}`" :class="`date ${($moment().format('MMM-D') == `${result.month}-${result.day}`) ? 'active' : ''}`" v-for="(result, key) in results" :key="key" @click="toggleDate(result.year, $moment(`${result.month}-${result.day}-${result.year}`, 'MMM-DD-YYYY').format('M'), result.day, key)">
                             <div class="overlay">
                                 <div class="abbr">{{ result.abbr }}</div>
@@ -160,7 +182,7 @@
                         <div class="no_schedule" v-else>
                             <p>SCHEDULES ARE POSTED ON MONDAYS OF EVERY WEEK.</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </section>
             <transition name="fade">
