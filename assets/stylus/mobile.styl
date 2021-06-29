@@ -1626,6 +1626,35 @@
             #content
                 .left
                     flex: 0 0 100%
+                    padding: 20px
+                    .filter
+                        height: 0
+                        overflow: hidden
+                        .wrapper
+                            h3
+                                brandon_regular(14px, false)
+                            &.studio_filter,
+                            &.view_filter
+                                flex: 0 0 100%
+                                h3
+                                    brandon_regular(14px, false)
+                                    padding-right: 15px
+                                .group
+                                    label
+                                        brandon_medium(14px, false)
+                            &.instructor_filter
+                                flex: 0 0 100%
+                                padding: 30px 0
+                                margin: 10px 0
+                                border-top: 1px solid rgba(255, 255, 255, 0.5)
+                                border-bottom: 1px solid rgba(255, 255, 255, 0.5)
+                                h3
+                                    padding-right: 15px
+                                .autocomplete
+                                    .text
+                                        brandon_regular(14px, false)
+                .right
+                    padding: 20px
         &.inner
             #content
                 padding: 0 0 30px
@@ -3347,13 +3376,31 @@
         &.landing
             #content
                 .left
+                    flex: 0 0 100%
+                    padding: 20px
                     .filter
                         height: auto
-                        overflow-y: unset
                         .wrapper
-                            &.studio_filter
+                            h3
+                                brandon_regular(14px, false)
+                            &.studio_filter,
+                            &.view_filter
+                                flex: 0 0 auto
+                                h3
+                                    brandon_regular(14px, false)
+                                    padding-right: 15px
                                 .group
-                                    flex: 0 0 100%
+                                    label
+                                        brandon_medium(14px, false)
+                            &.instructor_filter
+                                flex: 0 0 30%
+                                h3
+                                    padding-right: 15px
+                                .autocomplete
+                                    .text
+                                        brandon_regular(14px, false)
+                .right
+                    padding: 20px
 
     .studios
         #visit
@@ -4348,6 +4395,95 @@
             #content
                 .left
                     flex: 0 0 100%
+                    padding: 10px
+                    .filter
+                        height: 0
+                        overflow: hidden
+                        .wrapper
+                            margin-top: 10px
+                            h3
+                                flex: 0 0 100%
+                                brandon_regular(14px, false)
+                            &.studio_filter,
+                            &.view_filter
+                                flex: 0 0 100%
+                                h3
+                                    brandon_regular(14px, false)
+                                    padding-right: 0
+                                    margin-bottom: 10px
+                                .group
+                                    label
+                                        brandon_medium(14px, false)
+                            &.instructor_filter
+                                flex: 0 0 100%
+                                padding: 30px 0
+                                margin: 10px 0
+                                border-top: 1px solid rgba(255, 255, 255, 0.5)
+                                border-bottom: 1px solid rgba(255, 255, 255, 0.5)
+                                h3
+                                    flex: 0 0 100%
+                                    padding-right: 0
+                                    margin-bottom: 10px
+                                .autocomplete
+                                    .text
+                                        brandon_regular(14px, false)
+                .right
+                    padding: 10px
+                    .schedules
+                        .schedule_item
+                            flex: 0 0 100%
+                            .items
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: flex-end
+                                justify-content: flex-start
+                                padding: 15px
+                                &:first-child
+                                    padding: 15px
+                                .month
+                                    brandon_bold(20px, false)
+                                    margin-top: 0
+                                    padding: 0 10px 0 15px
+                                .day
+                                    neutra_bold(24px, false)
+                                    line-height: 1
+                                .date
+                                    brandon_bold(20px, false)
+                                .info_overlay
+                                    font-size: 12px !important
+                                    *
+                                        font-size: 12px !important
+                                .items_top,
+                                .items_middle,
+                                .items_bottom
+                                    align-self: center
+                                .items_top
+                                    flex: 0 0 50px
+                                    .image_wrapper
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
+                                        margin-top: 0
+                                    .image
+                                        width: 50px
+                                        height: 50px
+                                        &.add
+                                            margin: 10px auto 0
+                                .items_middle
+                                    padding-left: 10px
+                                    flex: 1 0 5%
+                                    text-align: left
+                                    margin-bottom: 0
+                                    .time
+                                        brandon_bold(14px, false)
+                                    .name
+                                        brandon_medium(12px, false)
+                                    .class,
+                                    .studio
+                                        brandon_regular(12px, false)
+                                .items_bottom
+                                    .btn
+                                        padding: 5px
         &.inner
             #banner
                 margin-top: 30px

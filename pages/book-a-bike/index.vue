@@ -81,6 +81,9 @@
                                     <div class="items_top">
                                         <img class="info" src="/icons/info-booker-icon.svg" :id="`img_${child.schedule.id}`" @click="toggleScheduleInfo(child.schedule)" />
                                         <div class="image_wrapper" v-html="getInstructorsImageInSchedule(child)"></div>
+
+                                    </div>
+                                    <div class="items_middle">
                                         <div class="time">{{ child.schedule.start_time }}</div>
                                         <div class="name">{{ getInstructorsInSchedule(child) }}</div>
                                         <div class="class">{{ (child.schedule.custom_name != null) ? child.schedule.custom_name : child.schedule.class_type.name }}</div>
