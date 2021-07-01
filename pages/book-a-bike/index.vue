@@ -505,7 +505,8 @@
             },
             fetchData (data=null) {
                 const me = this
-                let form_data = new FormData()
+                let form_data = new FormData(),
+                    token = me.$cookies.get('70hokc3hhhn5')
                 me.loader(true)
 
                 if (me.instructorID != 0) {
@@ -523,7 +524,11 @@
                     }
                 }
 
-                me.$axios.post('api/web/schedules', form_data).then(res => {
+                me.$axios.post('api/web/schedules', form_data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
                     me.res = res.data
                     if (me.res.dates.length > 0) {
                         me.first_date = me.res.dates[0].date
