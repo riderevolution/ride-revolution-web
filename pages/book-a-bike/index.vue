@@ -42,7 +42,7 @@
                         <div class="wrapper view_filter">
                             <h3>Show</h3>
                             <div class="group">
-                                <input type="checkbox" class="radio" name="view" id="class_over" value="hide_past" @change="fetchData()">
+                                <input type="checkbox" class="radio" name="view" id="class_over" value="hide_past" @change="toggleViewing()">
                                 <label for="class_over">Class Over</label>
                             </div>
                         </div>
@@ -197,7 +197,7 @@
                 res: [],
                 studios: [],
                 instructors: [],
-                hide_past: 0,
+                hide_past: 1,
                 studioID: 0,
                 instructorID: 0,
                 viewing: 'weekly',
@@ -452,7 +452,8 @@
             },
             toggleViewing () {
                 const me = this
-
+                me.hide_past ^= true
+                me.fetchData()
             },
             /**
              * Select studio from filter */
