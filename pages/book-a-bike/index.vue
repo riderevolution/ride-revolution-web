@@ -83,10 +83,10 @@
                                         <div class="time">{{ child.schedule.start_time }}</div>
                                         <div class="name">{{ getInstructorsInSchedule(child) }}</div>
                                         <template v-if="child.schedule.custom_name != null">
-                                            <div class="class" v-html="child.schedule.custom_name" v-line-clamp="1"></div>
+                                            <div class="class" v-html="child.schedule.custom_name" v-line-clamp="2"></div>
                                         </template>
                                         <template v-else>
-                                            <div class="class" v-html="child.schedule.class_type.name"></div>
+                                            <div class="class" v-html="child.schedule.class_type.name" v-line-clamp="2"></div>
                                         </template>
                                         <div class="studio">{{ child.schedule.studio.name }}</div>
                                     </div>
