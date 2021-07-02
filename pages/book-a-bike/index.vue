@@ -40,14 +40,10 @@
                             </div>
                         </div>
                         <div class="wrapper view_filter">
-                            <h3>View</h3>
+                            <h3>Show</h3>
                             <div class="group">
-                                <input type="radio" class="radio" name="view" id="weekly" value="weekly" v-model="viewing" @change="toggleViewing()">
-                                <label for="weekly">Weekly</label>
-                            </div>
-                            <div class="group">
-                                <input type="radio" class="radio" name="view" id="daily" value="daily" v-model="viewing" @change="toggleViewing()">
-                                <label for="daily">Daily</label>
+                                <input type="checkbox" class="radio" name="view" id="class_over" value="hide_past" @change="fetchData()">
+                                <label for="class_over">Class Over</label>
                             </div>
                         </div>
                     </div>
@@ -86,7 +82,12 @@
                                     <div class="items_middle">
                                         <div class="time">{{ child.schedule.start_time }}</div>
                                         <div class="name">{{ getInstructorsInSchedule(child) }}</div>
-                                        <div class="class">{{ (child.schedule.custom_name != null) ? child.schedule.custom_name : child.schedule.class_type.name }}</div>
+                                        <template v-if="child.schedule.custom_name != null">
+                                            <div class="class" v-html="child.schedule.custom_name" v-line-clamp="2"></div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="class" v-html="child.schedule.class_type.name"></div>
+                                        </template>
                                         <div class="studio">{{ child.schedule.studio.name }}</div>
                                     </div>
                                     <div class="items_bottom">
@@ -196,9 +197,10 @@
                 res: [],
                 studios: [],
                 instructors: [],
+                hide_past: 0,
                 studioID: 0,
                 instructorID: 0,
-                viewing: 'daily',
+                viewing: 'weekly',
                 studioFilter: 'all studios',
                 hasStudioFilter: false,
                 searchedInstructor: '',
@@ -523,6 +525,8 @@
                         form_data.append('last_date', me.last_date)
                     }
                 }
+
+                form_data.append('hide_past', me.hide_past)
 
                 me.$axios.post('api/web/schedules', form_data, {
                     headers: {
