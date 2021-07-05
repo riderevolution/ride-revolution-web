@@ -531,9 +531,9 @@
 
                 if (me.selected_date) {
                     if (me.selected_date == 'prev') {
-                        form_data.append('first_date', me.first_date)
+                        form_data.append('first_date', me.last_date)
                     } else {
-                        form_data.append('last_date', me.last_date)
+                        form_data.append('last_date', me.first_date)
                     }
                     form_data.append('hide_past', me.hide_past)
                 }
