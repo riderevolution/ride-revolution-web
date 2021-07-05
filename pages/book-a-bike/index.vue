@@ -200,6 +200,7 @@
                 hide_past: 1,
                 studioID: 0,
                 instructorID: 0,
+                selected_date: '',
                 viewing: 'weekly',
                 studioFilter: 'all studios',
                 hasStudioFilter: false,
@@ -525,9 +526,17 @@
                     } else {
                         form_data.append('last_date', me.last_date)
                     }
+                    me.selected_date = data
                 }
 
-                form_data.append('hide_past', me.hide_past)
+                if (me.selected_date) {
+                    if (me.selected_date == 'prev') {
+                        form_data.append('first_date', me.first_date)
+                    } else {
+                        form_data.append('last_date', me.last_date)
+                    }
+                    form_data.append('hide_past', me.hide_past)
+                }
 
                 me.$axios.post('api/web/schedules', form_data, {
                     headers: {
