@@ -6136,6 +6136,20 @@ svg
                             padding: 10px
                             width: 100%
                             border-top: 1px solid #8B8B8B33
+                            .toggler
+                                position: absolute
+                                top: 50%
+                                right: calc(0% + 10px)
+                                border-left: 7px solid transparent
+                                border-right: 7px solid transparent
+                                border-top: 7px solid $green
+                                z-index: 2
+                                cursor: pointer
+                                transform: translateY(-50%) rotate(0deg)
+                                transition: .3s ease-in-out
+                                &.opened
+                                    transform: translateY(-50%) rotate(180deg)
+                                    transition: .3s ease-in-out
                             &.pst
                                 filter: grayscale(1)
                                 transition: .3s ease-in-out

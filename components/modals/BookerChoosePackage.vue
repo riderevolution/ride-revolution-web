@@ -261,7 +261,11 @@
                     let newCtr = 0
                     me.user = res.data.user
                     id = res.data.user.id
-                    url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
+                    if (me.$parent.landing) {
+                        url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$parent.schedule.id}`
+                    } else {
+                        url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
+                    }
 
                     me.$axios.get(`${url}`).then(res => {
                         if (res.data) {
