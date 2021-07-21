@@ -171,6 +171,36 @@ svg
                     border: 1px solid $black
                     padding: 20px
 
+.tooltip_wrapper
+    position: relative
+    .tooltip
+        position: absolute
+        top: calc(100% + 5px)
+        left: 0
+        right: 0
+        background-color: $green
+        color: $white
+        brandon_medium(14px, false)
+        z-index: 2
+        padding: 5px 10px
+        border-radius: 5px
+        user-select: none
+        transform: translateY(15px)
+        opacity: 0
+        transition: .3s ease-in-out
+        &::before
+            content: ""
+            position: absolute
+            left: 50%
+            bottom: calc(100% - 1px)
+            width: 0
+            height: 0
+            border-left: 7px solid transparent
+            border-right: 7px solid transparent
+            border-bottom: 7px solid $green
+            z-index: 1
+            transform: translateX(-50%)
+
 .hidden
     display: none
 
@@ -6222,6 +6252,12 @@ svg
                                 .studio
                                     brandon_regular(14px, false)
                                     color: $black_alt2
+                                .class
+                                    &:hover
+                                        & ~ .tooltip
+                                            opacity: 1
+                                            transform: translateY(0)
+                                            transition: .3s ease-in-out
                             .items_bottom
                                 .btn
                                     display: block

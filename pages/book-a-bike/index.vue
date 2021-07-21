@@ -42,7 +42,7 @@
                         <div class="wrapper view_filter">
                             <h3>Show</h3>
                             <div class="group">
-                                <input type="checkbox" class="radio" name="view" id="class_over" v-model="hide_past" @change="toggleViewing()">
+                                <input type="checkbox" class="radio" name="view" id="class_over" :checked="!hide_past" @change="toggleViewing()">
                                 <label for="class_over">Class Over</label>
                             </div>
                         </div>
@@ -86,10 +86,16 @@
                                             <div class="time">{{ child.schedule.start_time }}</div>
                                             <div class="name">{{ getInstructorsInSchedule(child) }}</div>
                                             <template v-if="child.schedule.custom_name != null">
-                                                <div class="class" v-html="child.schedule.custom_name" v-line-clamp="1"></div>
+                                                <div class="tooltip_wrapper">
+                                                    <div class="class" v-html="child.schedule.custom_name" v-line-clamp:10="1"></div>
+                                                    <span class="tooltip">{{ child.schedule.custom_name }}</span>
+                                                </div>
                                             </template>
                                             <template v-else>
-                                                <div class="class" v-html="child.schedule.class_type.name" v-line-clamp="1"></div>
+                                                <div class="tooltip_wrapper">
+                                                    <div class="class" v-html="child.schedule.class_type.name" v-line-clamp:10="1"></div>
+                                                    <span class="tooltip">{{ child.schedule.class_type.name }}</span>
+                                                </div>
                                             </template>
                                             <div class="studio">{{ child.schedule.studio.name }}</div>
                                         </div>
@@ -161,10 +167,16 @@
                                             <div class="time">{{ child.schedule.start_time }}</div>
                                             <div class="name">{{ getInstructorsInSchedule(child) }}</div>
                                             <template v-if="child.schedule.custom_name != null">
-                                                <div class="class" v-html="child.schedule.custom_name" v-line-clamp="1"></div>
+                                                <div class="tooltip_wrapper">
+                                                    <div class="class" v-html="child.schedule.custom_name" v-line-clamp:10="1"></div>
+                                                    <span class="tooltip">{{ child.schedule.custom_name }}</span>
+                                                </div>
                                             </template>
                                             <template v-else>
-                                                <div class="class" v-html="child.schedule.class_type.name" v-line-clamp="1"></div>
+                                                <div class="tooltip_wrapper">
+                                                    <div class="class" v-html="child.schedule.class_type.name" v-line-clamp:10="1"></div>
+                                                    <span class="tooltip">{{ child.schedule.class_type.name }}</span>
+                                                </div>
                                             </template>
                                             <div class="studio">{{ child.schedule.studio.name }}</div>
                                         </div>
@@ -281,7 +293,7 @@
                 res: [],
                 studios: [],
                 instructors: [],
-                hide_past: true,
+                hide_past: false,
                 studioID: 0,
                 instructorID: 0,
                 viewing: 'weekly',
