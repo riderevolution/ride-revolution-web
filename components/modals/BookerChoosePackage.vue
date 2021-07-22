@@ -116,10 +116,11 @@
                                 me.loader(true)
                                 let formData = new FormData()
                                 formData.append('is_guest', 0)
-                                formData.append('scheduled_date_id', me.$route.params.slug)
                                 if (me.$parent.schedule.schedule.studio.online_class) {
+                                    formData.append('scheduled_date_id', me.$parent.scheduled_date_id)
                                     formData.append('seat_id', 123)
                                 } else {
+                                    formData.append('scheduled_date_id', me.$route.params.slug)
                                     formData.append('seat_id', me.seat.id)
                                 }
                                 formData.append('user_id', me.user.id)

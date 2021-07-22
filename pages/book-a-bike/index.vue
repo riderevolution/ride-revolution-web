@@ -285,6 +285,7 @@
                 landing: true,
                 schedule: [],
                 type: 0,
+                scheduled_date_id: null,
                 message: '',
                 status: false,
                 loaded: false,
@@ -442,6 +443,7 @@
              * Validation if the user doesn't completed their profile */
             checkIfNew (data, type, event) {
                 const me = this
+                me.scheduled_date_id = data.id
                 me.schedule = data.schedule
                 let token = me.$cookies.get('70hokc3hhhn5')
                 event.preventDefault()
