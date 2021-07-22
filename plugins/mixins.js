@@ -224,6 +224,10 @@ Vue.mixin({
             formData.append('payment_method', page.paymentType)
             formData.append('paymaya_token_id', paymaya_token_id)
 
+            if (page.promoApplied) {
+                formData.append('promo_applied', page.promoApplied)
+            }
+
             if (paymaya_extra_user_details != null) {
                 formData.append('contact_number', paymaya_extra_user_details.contact_number)
                 formData.append('sex', paymaya_extra_user_details.sex)
