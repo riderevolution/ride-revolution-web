@@ -251,6 +251,9 @@
             <transition name="fade">
                 <buy-online-package-first v-if="$store.state.buyOnlinePackageFirstStatus" />
             </transition>
+            <transition name="fade">
+                <online-prompt v-if="$store.state.onlinePromptStatus" />
+            </transition>
         </div>
         <skeleton :page="'default_box'" :col="{ class: 'one', count: 4 }" :layout="'one'" v-else />
     </transition>
@@ -265,7 +268,8 @@
             CompleteProfilePrompt: () => import('~/components/modals/CompleteProfilePrompt'),
             BuyPackageFirst: () => import('~/components/modals/BuyPackageFirst'),
             BuyOnlinePackageFirst: () => import('~/components/modals/BuyOnlinePackageFirst'),
-            BuyRidesPrompt: () => import('~/components/modals/BuyRidesPrompt')
+            BuyRidesPrompt: () => import('~/components/modals/BuyRidesPrompt'),
+            OnlinePrompt: () => import('~/components/modals/OnlinePrompt')
         },
         data () {
             return {
