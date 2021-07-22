@@ -496,6 +496,7 @@
                                             })
                                         } else {
                                             me.schedule = data
+                                            me.type = 1
                                             setTimeout( () => {
                                                 me.$store.state.bookerChoosePackageStatus = true
                                                 document.body.classList.add('no_scroll')
@@ -505,6 +506,7 @@
                                         break
                                     case 'waitlist':
                                         me.schedule = data
+                                        me.type = 0
                                         setTimeout( () => {
                                             me.$store.state.bookerChoosePackageStatus = true
                                             document.body.classList.add('no_scroll')
