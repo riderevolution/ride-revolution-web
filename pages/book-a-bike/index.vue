@@ -240,7 +240,7 @@
                 <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
             </transition>
             <transition name="fade">
-                <booker-choose-package v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
+                <booker-choose-package :seat="1" v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
             </transition>
             <transition name="fade">
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
