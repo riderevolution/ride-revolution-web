@@ -7,7 +7,7 @@
                 {{ ($route.query.token) ? "Great! You've been successfully booked. We'll send you an email as a receipt." : "Great! You've been successfully booked. Class links will be in your upcoming classes." }}
             </div>
             <div class="button_group alt">
-                <nuxt-link to="/my-profile" :event="''" class="flex default_btn_wht" @click.native.once="toggleClose(true)">{{ ($route.query.token) ? 'Back to Book a Bike' : 'Go to My Classes' }}</nuxt-link>
+                <nuxt-link to="/my-profile#classes" :event="''" class="flex default_btn_wht" @click.native.once="toggleClose(true)">{{ ($route.query.token) ? 'Back to Book a Bike' : 'Go to My Classes' }}</nuxt-link>
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
                     if (me.$route.query.token) {
                         me.$router.push(`/fish-in-the-glass/book-a-bike?token=${me.$route.query.token}`)
                     } else {
-                        me.$router.push('/book-a-bike')
+                        me.$router.push('/my-profile#classes')
                     }
                 }
                 me.$store.state.onlinePromptStatus = false

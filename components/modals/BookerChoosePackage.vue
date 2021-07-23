@@ -1,7 +1,7 @@
 <template>
     <div class="default_modal">
         <div class="background" @click="toggleClose()"></div>
-            <form id="default_form" class="overlay alt" @submit.prevent="submissionSuccess()">
+            <form id="default_form" class="overlay alt" @submit.once.prevent="submissionSuccess()">
                 <div class="modal_wrapper">
                     <h2 class="form_title">Please choose which package you’d like to use.</h2>
                     <div class="form_close" @click="toggleClose()"></div>
