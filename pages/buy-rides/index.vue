@@ -32,7 +32,7 @@
                         </div>
                         <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
                         <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
-                        <div class="expires">Expires in {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
+                        <div class="expires">Valid For {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
                         <div class="default_btn_out" v-if="!$store.state.isMobile"><span>Buy Now</span></div>
                         <div class="default_btn_wht_alt green" v-else>
                             <div class="text">
