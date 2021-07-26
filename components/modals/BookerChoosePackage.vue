@@ -271,8 +271,6 @@
                         url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
                     }
 
-                    me.loader(true)
-
                     me.$axios.get(`${url}`).then(res => {
                         if (res.data) {
                             if (res.data.customer.user_package_counts.length > 0) {
@@ -341,27 +339,27 @@
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
                     }).then(() => {
-                        setTimeout(() => {
-                            if (countCtr >= res.data.customer.user_package_counts.length) {
-                                me.$store.state.bookerChoosePackageStatus = false
-                                if (me.$parent.schedule.schedule.studio.online_class) {
-                                    me.$store.state.buyOnlinePackageFirstStatus = true
-                                } else {
-                                    me.$store.state.buyPackageFirstStatus = true
-                                }
-                            }
-
-                            if (me.$parent.manage && me.seat.bookings.length > 0) {
-                                if (res.data.customer.user_package_counts.length - countCtr >= 1) {
-                                    if (me.tempSelectedPackage == me.selectedPackage) {
-                                        me.notSelectedPackage = false
-                                    } else {
-                                        me.notSelectedPackage = true
-                                    }
-                                }
+                        if (countCtr >= res.data.customer.user_package_counts.length) {
+                            me.$store.state.bookerChoosePackageStatus = false
+                            if (me.$parent.schedule.schedule.studio.online_class) {
+                                me.$store.state.buyOnlinePackageFirstStatus = true
                             } else {
-                                me.notSelectedPackage = true
+                                me.$store.state.buyPackageFirstStatus = true
                             }
+                        }
+
+                        if (me.$parent.manage && me.seat.bookings.length > 0) {
+                            if (res.data.customer.user_package_counts.length - countCtr >= 1) {
+                                if (me.tempSelectedPackage == me.selectedPackage) {
+                                    me.notSelectedPackage = false
+                                } else {
+                                    me.notSelectedPackage = true
+                                }
+                            }
+                        } else {
+                            me.notSelectedPackage = true
+                        }
+                        setTimeout(() => {
                             me.loader(false)
                         }, 500)
                     })
