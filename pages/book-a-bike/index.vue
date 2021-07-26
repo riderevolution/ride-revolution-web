@@ -66,7 +66,7 @@
                                     <div class="month">{{ parent.monthName }}</div>
                                     <div class="date">{{ parent.dayNumber }}</div>
                                     <template v-if="$store.state.isMobile && parent.schedules.length > 0">
-                                        <span :class="[ 'toggler', (parent.opened) ? 'opened' : '' ]" @click="parent.opened ^= true"></span>
+                                        <span :class="[ 'toggler', (!parent.opened) ? 'opened' : '' ]" @click="parent.opened ^= true"></span>
                                     </template>
                                 </div>
                                 <template v-if="!$store.state.isMobile">
@@ -150,7 +150,7 @@
                                         </div>
                                     </div>
                                 </template>
-                                <template v-else-if="$store.state.isMobile && parent.opened">
+                                <template v-else-if="$store.state.isMobile && !parent.opened">
                                     <div :class="[ 'items', (child.past || child.ongoing) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
@@ -298,7 +298,7 @@
                 res: [],
                 studios: [],
                 instructors: [],
-                hide_past: false,
+                hide_past: true,
                 studioID: 0,
                 instructorID: 0,
                 viewing: 'weekly',
