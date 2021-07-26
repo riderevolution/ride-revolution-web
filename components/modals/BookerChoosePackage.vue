@@ -251,6 +251,9 @@
             const me = this
             let token = (me.$route.query.token != null) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
             let id = 0
+
+            me.loader(true)
+
             me.$axios.get('api/check-token', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -267,6 +270,8 @@
                     } else {
                         url = `api/customers/${id}/packages?forWebBooking=1&scheduled_date_id=${me.$route.params.slug}`
                     }
+
+                    me.loader(true)
 
                     me.$axios.get(`${url}`).then(res => {
                         if (res.data) {
