@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form_button" v-if="notSelectedPackage">
+                        <div class="form_button" v-if="notSelectedPackage && classPackages.length > 0">
                             <button type="submit" class="default_btn">Select</button>
                         </div>
                     </div>
