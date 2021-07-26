@@ -329,6 +329,14 @@
                                     }
                                 }
                             }
+                        }
+                    }).catch(err => {
+                        me.$store.state.needLogin = true
+                        me.$store.state.errorOverlayPromptStatus = true
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                    }).then(() => {
+                        setTimeout(() => {
                             if (countCtr >= res.data.customer.user_package_counts.length) {
                                 me.$store.state.bookerChoosePackageStatus = false
                                 if (me.$parent.schedule.schedule.studio.online_class) {
@@ -349,14 +357,6 @@
                             } else {
                                 me.notSelectedPackage = true
                             }
-                        }
-                    }).catch(err => {
-                        me.$store.state.needLogin = true
-                        me.$store.state.errorOverlayPromptStatus = true
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                    }).then(() => {
-                        setTimeout(() => {
                             me.loader(false)
                         }, 500)
                     })
