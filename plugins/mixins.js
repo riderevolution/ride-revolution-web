@@ -189,7 +189,7 @@ Vue.mixin({
                 }, 500)
             })
         },
-        payment (page, paypal_details, type, paymaya_token_id = 0, paymaya_extra_user_details = null) {
+        payment (page, paypal_details, type, paymaya_token_id = 0, paymaya_extra_user_details = null, isPaymongo = false) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
             me.validateToken()
@@ -224,6 +224,12 @@ Vue.mixin({
             formData.append('payment_method', page.paymentType)
             formData.append('paymaya_token_id', paymaya_token_id)
 
+            if (isPaymongo) {
+                formData.append('paymongo_source_id', page.paymongoData.id)
+                formData.append('paymongo_source_type', page.paymongoData.type)
+                formData.append('save_payment_source', 1)
+            }
+
             if (page.promoApplied) {
                 formData.append('promo_applied', page.promoApplied)
             }
@@ -253,6 +259,10 @@ Vue.mixin({
                         if (paymaya_token_id != 0) {
                             location.href = res.data.verificationUrl
                         } else {
+                            if (isPaymongo) {
+                                location.href = page.paymongoData.attributes.redirect.checkout_url
+                            }
+
                             page.step = 0
                             me.$store.state.buyRidesSuccessStatus = true
                         }

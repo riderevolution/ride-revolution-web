@@ -138,6 +138,8 @@
                                 <div class="right">
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                     <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
+                                    <br><br>
+                                    <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow' && !res.recurring">GCash</div>
                                     <div id="paypal-button-container" v-if="type == 'paynow' && !res.recurring"></div>
                                     <div id="paypal-subscribe-container" v-if="type == 'paynow' && res.recurring"></div>
                                 </div>
@@ -232,7 +234,8 @@
                     quantity: 1,
                     total: 0
                 },
-                res: []
+                res: [],
+                paymongoData: null
             }
         },
         methods: {
@@ -251,6 +254,28 @@
                 data = parseInt(me.form.quantity)
                 data > 1 && (me.form.quantity = (data -= 1))
             },
+            gcash () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.form.url = location.href
+                me.$axios.post(`api/paymongo/sources`, me.form, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    me.paymongoData = res.data.source.data
+                    me.payment(me, null, 'class-package', 0, null, true)
+                }).catch(err => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
             paymaya () {
                 const me = this
                 let token = me.$cookies.get('70hokc3hhhn5')
@@ -265,7 +290,7 @@
                     } else {
                         me.step += 1
                     }
-                }).catch((err) => {
+                }).catch(err => {
                     me.$store.state.loginSignUpStatus = true
                     document.body.classList.add('no_scroll')
                     me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
@@ -464,7 +489,7 @@
                         })
                         me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                     }
-                }).catch((err) => {
+                }).catch(err => {
                     me.$store.state.needLogin = true
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
