@@ -273,7 +273,6 @@
             async initial () {
                 const me = this
                 me.loader(true)
-                console.log(me.packages);
                 setTimeout( () => {
                     me.toShowPackages = (me.$store.state.isMobile) ? 3 : (me.packages.length >= 6 ? 6 : me.packages.length)
                     me.toShowStoreCredits = (me.$store.state.isMobile) ? 3 : (me.credits.length >= 6 ? 6 : me.credits.length)

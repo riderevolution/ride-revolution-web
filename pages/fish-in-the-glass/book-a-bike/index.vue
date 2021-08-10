@@ -250,8 +250,6 @@
                     }
                 }
 
-                console.log(result);
-
                 return result
             },
             getInstructorsInSchedule (data) {

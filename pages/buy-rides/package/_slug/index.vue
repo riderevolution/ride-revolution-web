@@ -450,7 +450,6 @@
                             },
                             onApprove: function (data, actions) {
                                 // This function captures the funds from the transaction.
-                                console.log(data)
 
                                 me.loader(true)
                                 me.paypalSubscribe(me, 'class-package', JSON.stringify(data))

@@ -233,7 +233,6 @@
                         me.$axios.get(`api/customers/${me.user.id}/transactions`).then(res => {
                             if (res.data) {
                                 setTimeout( () => {
-                                    console.log(res.data.customer.payments);
                                     me.$refs.profileTab.transactions = []
                                     me.$refs.profileTab.transactions = res.data.customer.payments
                                     me.$refs.profileTab.totalPendingPayment = res.data.customer.totalPendingPayments
