@@ -183,7 +183,12 @@
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                     <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                     <br><br>
-                                    <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">GCash</div>
+                                    <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
+                                        <span>
+                                            <img src="/gcash-logo.png" />
+                                        </span>
+                                        <span>GCash</span>
+                                    </div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                 </div>
                             </div>
@@ -203,7 +208,12 @@
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                     <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                     <br><br>
-                                    <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">GCash</div>
+                                    <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
+                                        <span>
+                                            <img src="/gcash-logo.png" />
+                                        </span>
+                                        <span>GCash</span>
+                                    </div>
                                     <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                         <p>Note: Paypal account not needed</p>

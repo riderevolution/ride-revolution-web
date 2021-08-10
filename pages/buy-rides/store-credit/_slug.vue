@@ -85,7 +85,12 @@
                                 <div class="right">
                                     <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
                                     <br><br>
-                                    <div class="default_btn_blue" @click="gcash()">GCash</div>
+                                    <div class="default_btn_blue" @click="gcash()">
+                                        <span>
+                                            <img src="/gcash-logo.png" />
+                                        </span>
+                                        <span>GCash</span>
+                                    </div>
                                     <div id="paypal-button-container"></div>
                                 </div>
                             </div>
@@ -104,7 +109,12 @@
                                 <div class="right">
                                     <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
                                     <br><br>
-                                    <div class="default_btn_blue" @click="gcash()">GCash</div>
+                                    <div class="default_btn_blue" @click="gcash()">
+                                        <span>
+                                            <img src="/gcash-logo.png" />
+                                        </span>
+                                        <span>GCash</span>
+                                    </div>
                                     <div id="paypal-button-container"></div>
                                     <div class="paypal_disclaimer">
                                         <p>Note: Paypal account not needed</p>
