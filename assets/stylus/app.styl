@@ -1253,11 +1253,19 @@ svg
                     .left
                         .filter
                             .wrapper
-                                &.studio_filter
+                                &.studio_filter,
+                                &.view_filter
                                     .group
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
                                         label
+                                            padding-left: 7.5px
                                             &::before
                                                 content : unset
+                                        .radio
+                                            position: relative
+                                            appearance: auto
             &.inner
                 background-image: url('/dotted-bg.png')
                 #content
@@ -5947,8 +5955,11 @@ svg
                     flex-flow: row wrap
                     align-items: center
                     justify-content: space-between
+                    transition: .3s ease-in-out
                     &.active
                         overflow-y: inherit
+                        opacity: 1
+                        visibility: visible
                     .wrapper
                         h3
                             brandon_regular(18px, true)
@@ -5985,10 +5996,7 @@ svg
                                         transform: translateY(-50%)
                                         transition: .3s ease-in-out
                                 .radio
-                                    -webkit-appearance: none !important
-                                    -moz-appearance: none !important
-                                    -o-appearance: none !important
-                                    appearance: none !important
+                                    appearance: none
                                     position: absolute
                                     &.all
                                         ~ label

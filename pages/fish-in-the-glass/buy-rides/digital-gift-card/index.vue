@@ -179,6 +179,13 @@
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                         <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
+                                        <br><br>
+                                        <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
+                                            <span>
+                                                <img src="/gcash-logo.png" />
+                                            </span>
+                                            <span>GCash</span>
+                                        </div>
                                         <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                     </div>
                                 </div>
@@ -197,6 +204,13 @@
                                     <div class="right">
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                         <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
+                                        <br><br>
+                                        <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
+                                            <span>
+                                                <img src="/gcash-logo.png" />
+                                            </span>
+                                            <span>GCash</span>
+                                        </div>
                                         <div id="paypal-button-container" v-if="type == 'paynow'"></div>
                                         <div class="paypal_disclaimer" v-if="type == 'paynow'">
                                             <p>Note: Paypal account not needed</p>
@@ -221,9 +235,6 @@
                 </div>
             </section>
             <transition name="fade">
-                <add-card v-if="add_card" />
-            </transition>
-            <transition name="fade">
                 <card-status v-if="checker" />
             </transition>
             <transition name="fade">
@@ -238,7 +249,6 @@
 
 <script>
     import PaymayaCheckout from '../../../../components/PaymayaCheckout'
-    import AddCard from '../../../../components/modals/AddCard'
     import CardStatus from '../../../../components/modals/CardStatus'
     import BuyRidesPrompt from '../../../../components/modals/BuyRidesPrompt'
     import BuyRidesSuccess from '../../../../components/modals/BuyRidesSuccess'
@@ -246,7 +256,6 @@
         layout: 'fish',
         components: {
             PaymayaCheckout,
-            AddCard,
             CardStatus,
             BuyRidesPrompt,
             BuyRidesSuccess
@@ -268,7 +277,6 @@
                 paymentType: '',
                 storeCredits: 55,
                 step: 1,
-                add_card: false,
                 checker: false,
                 paypal: false,
                 paymayaStatus: false,
@@ -278,7 +286,7 @@
                 promo: false,
                 other: false,
                 form: {
-                    classPackage: '0',
+                    classPackage: '',
                     to: '',
                     from: '',
                     title: '',
@@ -294,10 +302,33 @@
                 res: [],
                 classPackages: [],
                 predefinedTitles: [],
-                selectedPackage: null
+                selectedPackage: null,
+                paymongoData: null
             }
         },
         methods: {
+            gcash () {
+                const me = this
+                let token = me.$route.query.token
+                me.loader(true)
+                me.form.url = location.href
+                me.$axios.post(`api/paymongo/sources`, me.form, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    me.paymongoData = res.data.source.data
+                    me.payment(me, null, 'digital-gift-card', 0, null, true)
+                }).catch(err => {
+                    me.$store.state.loginSignUpStatus = true
+                    document.body.classList.add('no_scroll')
+                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                }).then(() => {
+                    setTimeout( () => {
+                        me.loader(false)
+                    }, 500)
+                })
+            },
             paymaya () {
                 const me = this
                 let token = me.$route.query.token

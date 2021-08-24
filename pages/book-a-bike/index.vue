@@ -678,6 +678,7 @@
         },
         mounted () {
             const me = this
+            document.addEventListener('click', me.toggleOverlays)
             me.instructorID = (me.$route.query.i) ? me.$route.query.i : 0
             me.loader(true)
             /**
@@ -700,10 +701,7 @@
             })
             me.fetchData()
         },
-        beforeMount () {
-            document.addEventListener('click', this.toggleOverlays)
-        },
-        beforeDestroy () {
+        destroyed () {
             document.removeEventListener('click', this.toggleOverlays)
         },
         head () {
