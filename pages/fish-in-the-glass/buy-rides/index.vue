@@ -191,22 +191,38 @@
                         me.loader(true)
                         let formData = new FormData()
                         formData.append('class_package_id', data.id)
-                        me.$axios.post('api/extras/check-package-validity', formData, {
+                        me.$axios.get('api/check-token', {
                             headers: {
                                 Authorization: `Bearer ${token}`
                             }
                         }).then(res => {
-                            if (res.data) {
-                                me.$router.push(slug)
+                            let unbuyablePackages = res.data.unbuyablePackages
+                            if (unbuyablePackages.includes(data.id)) {
+                                document.body.classList.add('no_scroll')
+                                me.$store.state.errorList = ['Sorry! You still have the same ongoing package.']
+                                me.$store.state.errorPromptStatus = true
+                                setTimeout( () => {
+                                    me.loader(false)
+                                }, 500)
+                            } else {
+                                me.$axios.post('api/extras/check-package-validity', formData, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }).then(res => {
+                                    if (res.data) {
+                                        me.$router.push(slug)
+                                    }
+                                }).catch(err => {
+                                    document.body.classList.add('no_scroll')
+                                    me.$store.state.errorList = err.response.data.errors
+                                    me.$store.state.errorPromptStatus = true
+                                }).then(() => {
+                                    setTimeout( () => {
+                                        me.loader(false)
+                                    }, 500)
+                                })
                             }
-                        }).catch(err => {
-                            document.body.classList.add('no_scroll')
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
                         })
                     } else {
                         me.$router.push(slug)

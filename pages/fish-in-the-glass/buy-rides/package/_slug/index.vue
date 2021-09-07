@@ -476,21 +476,32 @@
                 if (res.data) {
                     let formData = new FormData()
                     formData.append('class_package_id', me.res.id)
-                    me.$axios.post('api/extras/check-package-validity', formData, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }).then(res => {
-                    }).catch(err => {
+                    let unbuyablePackages = res.data.unbuyablePackages
+                    if (unbuyablePackages.includes(me.res.id)) {
+                        document.body.classList.add('no_scroll')
+                        me.$store.state.errorList = ['Sorry! You still have the same ongoing package.']
+                        me.$store.state.errorPromptStatus = true
+                        me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
                         setTimeout( () => {
-                            document.body.classList.add('no_scroll')
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
+                            me.loader(false)
                         }, 500)
-                        setTimeout( () => {
-                            me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
-                        }, 1000)
-                    })
+                    } else {
+                        me.$axios.post('api/extras/check-package-validity', formData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
+                        }).catch(err => {
+                            setTimeout( () => {
+                                document.body.classList.add('no_scroll')
+                                me.$store.state.errorList = err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            }, 500)
+                            setTimeout( () => {
+                                me.$router.push(`/fish-in-the-glass/buy-rides?token=${token}`)
+                            }, 1000)
+                        })
+                    }
                     me.storeCredits = (res.data.user.store_credits == null) ? 0 : res.data.user.store_credits.amount
                 }
             }).catch((err) => {
