@@ -71,6 +71,9 @@
                 setTimeout( () => {
                     me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=1001&take=100`).then(res => {
                         me.feeds = res.data.data
+                    }).catch(err => {
+                        console.log(err);
+                    }).then(() => {
                         me.loaded = true
                         me.loader(false)
                     })
