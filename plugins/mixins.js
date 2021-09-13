@@ -222,7 +222,7 @@ Vue.mixin({
             }
             formData.append('total', page.form.total)
             formData.append('payment_method', page.paymentType)
-            formData.append('paymaya_token_id', paymaya_token_id)
+            formData.append('paymaya_token_id', 0)
 
             if (page.promoApplied) {
                 formData.append('promo_applied', page.promoApplied)
@@ -239,16 +239,8 @@ Vue.mixin({
             }).then(res => {
                 if (res.data) {
                     setTimeout( () => {
-                        if (paymaya_token_id != 0) {
-                            location.href = res.data.verificationUrl
-                        } else {
-                            if (isPaymongo) {
-                                location.href = page.paymongoData.attributes.redirect.checkout_url
-                            }
-
-                            page.step = 0
-                            me.$store.state.buyRidesSuccessStatus = true
-                        }
+                        page.step = 0
+                        me.$store.state.buyRidesSuccessStatus = true
                     }, 500)
                 }
             }).catch(err => {
