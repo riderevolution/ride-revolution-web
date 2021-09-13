@@ -179,7 +179,10 @@
                                 <div class="left">
                                     <div class="default_btn_blk" @click="stepBack()">Back</div>
                                 </div>
-                                <div class="right">
+                                <div class="right" v-if="form.total < 1">
+                                    <div class="default_btn_blue" @click="payForNc()">Pay Now</div>
+                                </div>
+                                <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                     <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                     <br><br>
@@ -204,7 +207,10 @@
                                 <div class="left">
                                     <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                                 </div>
-                                <div class="right">
+                                <div class="right" v-if="form.total < 1">
+                                    <div class="default_btn_blue" @click="payForNc()">Pay Now</div>
+                                </div>
+                                <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                     <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                     <br><br>
@@ -332,6 +338,13 @@
                         me.loader(false)
                     }, 500)
                 })
+            },
+            payForNc () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.form.url = location.href
+                me.ncPay(this, 'digital-gift-card')
             },
             paymaya () {
                 const me = this
