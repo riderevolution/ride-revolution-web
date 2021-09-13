@@ -189,6 +189,77 @@ Vue.mixin({
                 }, 500)
             })
         },
+        ncPay (page, type) {
+            const me = this
+            let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')
+            me.validateToken()
+            let formData = new FormData()
+            switch (type) {
+                case 'class-package':
+                    formData.append('type', 'class-package')
+                    formData.append('class_package_id', page.res.id)
+                    formData.append('price', (page.res.is_promo == 1) ? page.res.discounted_price : page.res.package_price)
+                    formData.append('promo_code', page.form.promo)
+                    formData.append('quantity', page.form.quantity)
+                    formData.append('discount', page.form.discount)
+                    break
+                case 'store-credit-page':
+                case 'store-credit':
+                    formData.append('type', 'store-credit')
+                    formData.append('store_credit_id', page.res.id)
+                    formData.append('price', page.res.amount)
+                    formData.append('quantity', page.form.quantity)
+                    break
+                case 'digital-gift-card':
+                    formData.append('type', 'digital-gift-card')
+                    formData.append('class_package_id', page.selectedPackage.id)
+                    formData.append('price', (page.selectedPackage.is_promo == 1) ? page.selectedPackage.discounted_price : page.selectedPackage.package_price)
+                    formData.append('digital_gift_card_form', JSON.stringify(page.form))
+                    formData.append('quantity', 1)
+                    formData.append('promo_code', page.form.promo)
+                    formData.append('discount', page.form.discount)
+                    break
+            }
+            formData.append('total', page.form.total)
+            formData.append('payment_method', page.paymentType)
+            formData.append('paymaya_token_id', paymaya_token_id)
+
+            if (page.promoApplied) {
+                formData.append('promo_applied', page.promoApplied)
+            }
+
+            if (me.$store.state.inApp) {
+                formData.append('in_app', 1)
+            }
+            me.loader(true)
+            me.$axios.post('api/web/nc-pay', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res.data) {
+                    setTimeout( () => {
+                        if (paymaya_token_id != 0) {
+                            location.href = res.data.verificationUrl
+                        } else {
+                            if (isPaymongo) {
+                                location.href = page.paymongoData.attributes.redirect.checkout_url
+                            }
+
+                            page.step = 0
+                            me.$store.state.buyRidesSuccessStatus = true
+                        }
+                    }, 500)
+                }
+            }).catch(err => {
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
+            }).then(() => {
+                setTimeout( () => {
+                    me.loader(false)
+                }, 500)
+            })
+        },
         payment (page, paypal_details, type, paymaya_token_id = 0, paymaya_extra_user_details = null, isPaymongo = false) {
             const me = this
             let token = (me.$route.query.token) ? me.$route.query.token : me.$cookies.get('70hokc3hhhn5')

@@ -135,7 +135,10 @@
                                 <div class="left">
                                     <div class="default_btn_blk" @click="stepBack()">Back</div>
                                 </div>
-                                <div class="right">
+                                <div class="right" v-if="form.total < 1">
+                                    <div class="default_btn_blue" @click="payForNc()">Pay Now</div>
+                                </div>
+                                <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                     <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
                                     <template v-if="type == 'paynow' && !res.recurring">
@@ -291,6 +294,13 @@
                         me.loader(false)
                     }, 500)
                 })
+            },
+            payForNc () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.form.url = location.href
+                me.ncPay(this, 'class-package')
             },
             paymaya () {
                 const me = this
