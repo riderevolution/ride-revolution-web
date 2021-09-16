@@ -490,12 +490,17 @@
             applyPromo (id) {
                 const me = this
                 if (!me.promoApplied) {
+                    let token = me.$cookies.get('70hokc3hhhn5')
                     let formData = new FormData()
                     formData.append('quantity', me.form.quantity)
                     formData.append('promo_code', me.form.promo)
                     formData.append('class_package_id', id)
                     me.loader(true)
-                    me.$axios.post('api/apply-promo', formData).then(res => {
+                    me.$axios.post('api/apply-promo', formData, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
                         if (res.data) {
                             me.selectedPackage = res.data.classPackage
                             me.promoApplied = true
