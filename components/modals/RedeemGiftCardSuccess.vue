@@ -8,12 +8,16 @@
             </div>
             <div class="confirmation_image">
                 <img :src="giftCard.images[0].path" />
-                <div class="overlay">
+                <div class="overlay" v-if="giftCard.fromUser != null">
                     <img class="gift_img" :src="giftCard.fromUserImages[0].path" v-if="giftCard.fromUserImages[0].path != null" />
                     <div class="initials" v-else>
                         <div class="name">{{ giftCard.fromUser.first_name.charAt(0) }}{{ giftCard.fromUser.last_name.charAt(0) }}</div>
                     </div>
                     <div class="label">From {{ giftCard.fromUser.first_name }} {{ giftCard.fromUser.last_name }}</div>
+                </div>
+                <div class="overlay" v-else>
+                    <img class="gift_img" src="/footer-logo.svg"/>
+                    <div class="label">From Ride Revolution</div>
                 </div>
             </div>
             <div class="button_group alt">
