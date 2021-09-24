@@ -439,7 +439,7 @@
                 <div class="tab_content_main">
                     <div class="profile_gift_cards" v-if="giftCards.length > 0">
                         <div class="gift_card_wrapper" v-for="(data, key) in giftCards" :key="key">
-                            <div class="top">
+                            <div class="top" v-if="data.fromUser != null">
                                 <img :src="data.images[0].path" :alt="data.images[0].alt" />
                                 <div class="overlay">
                                     <img class="gift_img" :src="data.fromUserImages[0].path" v-if="data.fromUserImages[0].path != null" />
@@ -447,6 +447,13 @@
                                         <div class="name">{{ data.fromUser.first_name.charAt(0) }}{{ data.fromUser.last_name.charAt(0) }}</div>
                                     </div>
                                     <div class="label">From {{ data.fromUser.first_name }} {{ data.fromUser.last_name }}</div>
+                                </div>
+                            </div>
+                            <div class="top" v-else>
+                                <img :src="data.images[0].path" :alt="data.images[0].alt" />
+                                <div class="overlay">
+                                    <img class="gift_img" src="/footer-logo.svg"/>
+                                    <div class="label">From Ride Revolution</div>
                                 </div>
                             </div>
                             <div class="bottom">
