@@ -48,15 +48,18 @@
                                 <div class="breakdown_list">
                                     <div class="item">
                                         <p>Subtotal</p>
-                                        <p>Php {{ totalCount((res.is_promo == 1) ? res.discounted_price * form.quantity : res.package_price * form.quantity) }}</p>
+                                        <p>Php {{ totalCount(res.package_price * form.quantity) }}</p>
                                     </div>
                                     <div class="item" v-if="!res.recurring">
                                         <p>Discount</p>
                                         <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                                     </div>
+                                    <div class="item discount_application" v-if="promoApplicationCount">
+                                        <p>Applied discount to {{ promoApplicationCount }} out of {{ form.quantity }} package(s)</p>
+                                    </div>
                                     <div class="total">
                                         <p>You Pay</p>
-                                        <p>Php {{ computeTotal(((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) * form.quantity) }}</p>
+                                        <p>Php {{ computeTotal() }}</p>
                                     </div>
                                 </div>
 
@@ -129,7 +132,7 @@
                             </div>
                             <div class="total">
                                 <p>You Pay</p>
-                                <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal(((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price)) * form.quantity) }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
+                                <p>{{ (type == 'store-credits') ? '' : 'Php' }} {{ computeTotal() }} {{ (type == 'store-credits') ? 'Credits' : '' }}</p>
                             </div>
                             <div class="preview_actions" v-if="!$store.state.isMobile">
                                 <div class="left">
@@ -260,6 +263,19 @@
                 paymongoData: null
             }
         },
+        computed: {
+            promoApplicationCount () {
+                if (!this.promoApplied) {
+                    return false
+                }
+
+                if (parseInt(this.res.application_limit) > parseInt(this.form.quantity)) {
+                    return this.form.quantity
+                } else {
+                    return this.res.application_limit
+                }
+            }
+        },
         methods: {
             addCount () {
                 const me = this
@@ -333,20 +349,35 @@
                 const me = this
                 me.payment(me, null, 'class-package', 0)
             },
-            computeTotal (total) {
+            computeTotal () {
                 const me = this
+                let total = 0
+
+                if (this.promoApplied) {
+                    total = (this.res.package_price * this.form.quantity) - this.res.discount
+                } else {
+                    if (this.res.is_promo == 1) {
+                        total = this.res.discounted_price * this.form.quantity
+                    } else {
+                        total = this.res.package_price * this.form.quantity
+                    }
+                }
+
                 let result = 0
+
                 if (me.type == 'store-credits') {
                     result = me.totalItems(total)
                 } else {
                     result = me.totalCount(total)
                 }
+                
                 me.form.total = total
                 me.summary.res = me.res
                 me.summary.total = total
                 me.summary.discount = me.form.discount
                 me.summary.quantity = me.form.quantity
                 me.summary.type = me.type
+
                 return result
             },
             computeDiscount (discount) {
@@ -578,3 +609,8 @@
         }
     }
 </script>
+
+<style scoped lang="stylus">
+    .buy_rides.inner #payments .step .wrapper .right .breakdown_list .item.discount_application p
+        color: #39b89f
+</style>
