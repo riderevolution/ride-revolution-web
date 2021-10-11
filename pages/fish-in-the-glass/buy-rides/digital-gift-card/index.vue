@@ -115,6 +115,9 @@
                                             <p>Discount</p>
                                             <p>Php {{ computeDiscount((promoApplied) ? selectedPackage.discount : '0.00') }}</p>
                                         </div>
+                                        <div class="item discount_application" v-if="promoApplicationCount">
+                                            <p>Applied discount to {{ promoApplicationCount }} out of {{ form.quantity }} package(s)</p>
+                                        </div>
                                         <div class="total">
                                             <p>You Pay</p>
                                             <p>Php {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }}</p>
@@ -156,6 +159,9 @@
                                     <h3>Discount</h3>
                                     <p>Php {{ computeDiscount((promoApplied) ? selectedPackage.discount : '0.00') }}</p>
                                 </div>
+                                <div class="item discount_application" v-if="promoApplicationCount">
+                                    <p>Applied discount to {{ promoApplicationCount }} out of {{ form.quantity }} package(s)</p>
+                                </div>
                                 <div class="available" v-if="!paypal">
                                     <div :class="`available_item ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'insufficient' : ''}`">
                                         <h3>Available Store Credits</h3>
@@ -176,7 +182,10 @@
                                     <div class="left">
                                         <div class="default_btn_blk" @click="stepBack()">Back</div>
                                     </div>
-                                    <div class="right">
+                                    <div class="right" v-if="form.total < 1">
+                                        <div class="default_btn_blue" @click="payForNc()">Pay Now</div>
+                                    </div>
+                                    <div class="right" v-else>
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                         <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                         <br><br>
@@ -201,7 +210,10 @@
                                     <div class="left">
                                         <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                                     </div>
-                                    <div class="right">
+                                    <div class="right" v-if="form.total < 1">
+                                        <div class="default_btn_blue" @click="payForNc()">Pay Now</div>
+                                    </div>
+                                    <div class="right" v-else>
                                         <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
                                         <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                         <br><br>
@@ -306,6 +318,19 @@
                 paymongoData: null
             }
         },
+        computed: {
+            promoApplicationCount () {
+                if (!this.promoApplied) {
+                    return false
+                }
+
+                if (parseInt(this.res.application_limit) > parseInt(this.form.quantity)) {
+                    return this.form.quantity
+                } else {
+                    return this.res.application_limit
+                }
+            }
+        },
         methods: {
             gcash () {
                 const me = this
@@ -328,6 +353,13 @@
                         me.loader(false)
                     }, 500)
                 })
+            },
+            payForNc () {
+                const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                me.loader(true)
+                me.form.url = location.href
+                me.ncPay(this, 'digital-gift-card')
             },
             paymaya () {
                 const me = this

@@ -118,6 +118,9 @@
                                         <p>Discount</p>
                                         <p>Php {{ computeDiscount((promoApplied) ? selectedPackage.discount : '0.00') }}</p>
                                     </div>
+                                    <div class="item discount_application" v-if="promoApplicationCount">
+                                        <p>Applied discount to {{ promoApplicationCount }} out of {{ form.quantity }} package(s)</p>
+                                    </div>
                                     <div class="total">
                                         <p>You Pay</p>
                                         <p>Php {{ computeTotal((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price)) }}</p>
@@ -158,6 +161,9 @@
                             <div class="item">
                                 <h3>Discount</h3>
                                 <p>Php {{ computeDiscount((promoApplied) ? selectedPackage.discount : '0.00') }}</p>
+                            </div>
+                            <div class="item discount_application" v-if="promoApplicationCount">
+                                <p>Applied discount to {{ promoApplicationCount }} out of {{ form.quantity }} package(s)</p>
                             </div>
                             <div class="available" v-if="!paypal">
                                 <div :class="`available_item ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'insufficient' : ''}`">
@@ -314,6 +320,19 @@
                 predefinedTitles: [],
                 selectedPackage: null,
                 paymongoData: null
+            }
+        },
+        computed: {
+            promoApplicationCount () {
+                if (!this.promoApplied) {
+                    return false
+                }
+
+                if (parseInt(this.res.application_limit) > parseInt(this.form.quantity)) {
+                    return this.form.quantity
+                } else {
+                    return this.res.application_limit
+                }
             }
         },
         methods: {

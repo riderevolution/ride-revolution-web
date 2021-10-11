@@ -118,6 +118,9 @@
                                 <h3>Discount</h3>
                                 <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                             </div>
+                            <div class="item discount_application" v-if="promoApplicationCount">
+                                <p>Applied discount to {{ promoApplicationCount }} out of {{ form.quantity }} package(s)</p>
+                            </div>
                             <div class="available" v-if="!paypal">
                                 <div :class="`available_item ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'insufficient' : ''}`">
                                     <h3>Available Store Credits</h3>
@@ -370,7 +373,7 @@
                 } else {
                     result = me.totalCount(total)
                 }
-                
+
                 me.form.total = total
                 me.summary.res = me.res
                 me.summary.total = total
