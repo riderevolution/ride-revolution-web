@@ -8569,6 +8569,16 @@ svg
                     span
                         color: $white
                         background-color: $green
+            &.subs
+                .ribbon
+                    color: $white
+                    background-color: #D72530
+                .price
+                    color: #D72530
+                .violator
+                    span
+                        color: $white
+                        background-color: #D72530
             &:hover
                 box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
                 transform: perspective(1px) scale(1.02)
@@ -8596,6 +8606,14 @@ svg
                     .violator
                         span
                             background-color: $green_alt
+                            transition: .3s ease-in-out
+                &.subs
+                    .ribbon
+                        background-color: #ac1e26
+                        transition: .3s ease-in-out
+                    .violator
+                        span
+                            background-color: #ac1e26
                             transition: .3s ease-in-out
                 .default_btn_out
                     color: $white
@@ -9406,7 +9424,7 @@ svg
                                     background-color: #C7E6FF
                                 &.subs
                                     color: $white
-                                    background-color: $dark_green
+                                    background-color: #D72530
                                 &.froze
                                     color: $green
                                     background-color: $green_alt3
