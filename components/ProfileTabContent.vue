@@ -210,12 +210,12 @@
                 <div id="default_menu">
                     <ul class="menu_tab">
                         <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
-                        <li :class="`menu_tab_item ${(tabCategory == 'subscription') ? 'active' : ''}`" @click="toggledMenuTab('subscription')">Subscribed</li>
+                        <!-- <li :class="`menu_tab_item ${(tabCategory == 'subscription') ? 'active' : ''}`" @click="toggledMenuTab('subscription')">Subscribed</li> -->
                         <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_packages">
-                            <table class="default_table" v-if="packages.length > 0 && tabCategory != 'subscription'">
+                            <table class="default_table" v-if="packages.length > 0">
                                 <thead>
                                     <tr>
                                         <th>Packages</th>
@@ -262,22 +262,29 @@
                                                 <div class="label violator" v-if="parseInt($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')) <= 15 && tabCategory == 'active'">{{ ($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days') == 0) ? `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'hours')} Hours` : `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')} Days` }} Left</div>
                                             </div>
                                         </td>
-                                        <td data-column="Actions" v-if="!data.expired && parseInt(data.count) > 0">
-                                            <div class="table_menu_overlay" v-if="(data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package)">
-                                                <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
-                                                <transition name="slideAlt">
-                                                    <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                        <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
-                                                        <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
-                                                        <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && data.sharedto_user_id == null" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
-                                                    </ul>
-                                                </transition>
-                                            </div>
-                                        </td>
+                                        <template v-if="!data.paypal_subscription_id">
+                                            <td data-column="Actions" v-if="!data.expired && parseInt(data.count) > 0">
+                                                <div class="table_menu_overlay" v-if="(data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package)">
+                                                    <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
+                                                    <transition name="slideAlt">
+                                                        <ul class="table_menu_dots_list" v-if="data.toggled">
+                                                            <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
+                                                            <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
+                                                            <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && data.sharedto_user_id == null" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
+                                                        </ul>
+                                                    </transition>
+                                                </div>
+                                            </td>
+                                        </template>
+                                        <template v-else>
+                                            <td data-column=Z"Actions">
+                                                <div :class="[ 'default_btn_red', 'alt', (data.subscription_status) ? '' : 'disabled' ]" @click="togglePackage(data, 'subscribe')">{{ (data.subscription_status) ? 'Cancel' : 'Cancelled' }}</div>
+                                            </td>
+                                        </template>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table class="default_table" v-else-if="packages.length > 0 && tabCategory == 'subscription'">
+                            <!-- <table class="default_table" v-else-if="packages.length > 0 && tabCategory == 'subscription'">
                                 <thead>
                                     <tr>
                                         <th>Packages</th>
@@ -324,12 +331,10 @@
                                                 <div class="label violator" v-if="parseInt($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')) <= 15 && tabCategory == 'active'">{{ ($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days') == 0) ? `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'hours')} Hours` : `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')} Days` }} Left</div>
                                             </div>
                                         </td>
-                                        <td data-column="Actions">
-                                            <div :class="[ 'default_btn_red', 'alt', (data.subscription_status) ? '' : 'disabled' ]" @click="togglePackage(data, 'subscribe')">{{ (data.subscription_status) ? 'Cancel' : 'Cancelled' }}</div>
-                                        </td>
+
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
                             <div class="no_results" v-else>
                                 <div class="text">You don't have any packages.</div>
                                 <div class="logo">
@@ -1217,11 +1222,11 @@
                                     me.packages = []
                                     res.data.customer.user_package_counts.forEach((data, index) => {
                                         if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
-                                            if (!data.paypal_subscription_id) {
+                                            // if (!data.paypal_subscription_id) {
                                                 data.toggled = false
                                                 data.expired = false
                                                 me.packages.push(data)
-                                            }
+                                            // }
                                         }
                                     })
                                 }, 10)
@@ -1235,30 +1240,30 @@
                             }, 500)
                         })
                         break
-                    case 'subscription':
-                        me.loader(true)
-                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages?subscription=1`).then(res => {
-                            if (res.data) {
-                                setTimeout( () => {
-                                    me.packages = []
-                                    res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
-                                            data.toggled = false
-                                            data.expired = false
-                                            me.packages.push(data)
-                                        }
-                                    })
-                                }, 10)
-                            }
-                        }).catch((err) => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
-                        })
-                        break
+                    // case 'subscription':
+                    //     me.loader(true)
+                    //     me.$axios.get(`api/customers/${me.$parent.user.id}/packages?subscription=1`).then(res => {
+                    //         if (res.data) {
+                    //             setTimeout( () => {
+                    //                 me.packages = []
+                    //                 res.data.customer.user_package_counts.forEach((data, index) => {
+                    //                     if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
+                    //                         data.toggled = false
+                    //                         data.expired = false
+                    //                         me.packages.push(data)
+                    //                     }
+                    //                 })
+                    //             }, 10)
+                    //         }
+                    //     }).catch((err) => {
+                    //         me.$store.state.errorList = err.response.data.errors
+                    //         me.$store.state.errorPromptStatus = true
+                    //     }).then(() => {
+                    //         setTimeout( () => {
+                    //             me.loader(false)
+                    //         }, 500)
+                    //     })
+                    //     break
                     case 'expired':
                         me.loader(true)
                         me.$axios.get(`api/customers/${me.$parent.user.id}/packages`).then(res => {
