@@ -277,7 +277,7 @@
                                             </td>
                                         </template>
                                         <template v-else>
-                                            <td data-column=Z"Actions">
+                                            <td data-column="Actions">
                                                 <div :class="[ 'default_btn_red', 'alt', (data.subscription_status) ? '' : 'disabled' ]" @click="togglePackage(data, 'subscribe')">{{ (data.subscription_status) ? 'Cancel' : 'Cancelled' }}</div>
                                             </td>
                                         </template>
