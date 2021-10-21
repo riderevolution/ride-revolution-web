@@ -240,6 +240,7 @@
                                                         <div class="violator shared" v-if="data.sharedto_user_id != null && !data.sharedby_user">Shared to {{ data.sharedto_user.first_name }} {{ data.sharedto_user.last_name }}</div>
                                                         <div class="violator shared_with_me" v-if="data.sharedto_user_id != null && data.sharedby_user">Shared by {{ data.sharedby_user.first_name }} {{ data.sharedby_user.last_name }}</div>
                                                         <div class="violator froze" v-if="data.frozen">Package is Frozen</div>
+                                                        <div class="violator subs" v-if="data.paypal_subscription_id">Subscription Package</div>
                                                     </div>
                                                 </div>
                                             </div>
