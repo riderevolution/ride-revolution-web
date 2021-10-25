@@ -103,7 +103,11 @@
                     result = 'promo'
                 } else {
                     if (data.online) {
-                        result = 'alt'
+                        if (data.recurring) {
+                            result = 'subs'
+                        } else {
+                            result = 'alt'
+                        }
                     } else {
                         result = 'alt_2'
                     }
