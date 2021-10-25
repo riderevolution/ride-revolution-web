@@ -56,6 +56,9 @@
         <transition name="fade">
             <badge-prompt v-if="$store.state.badgePromptStatus" :badges="$store.state.badges" />
         </transition>
+        <transition name="fade">
+            <package-prompt v-if="package_prompt" :payload="payload.package" />
+        </transition>
         <div class="no_font">
             <a href="https://www.livechatinc.com/chat-with/12052209/" rel="nofollow">Chat with us</a>,
             powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
@@ -77,6 +80,7 @@
     import ErrorPrompt from '../components/modals/ErrorPrompt'
     import ImageViewer from '../components/modals/ImageViewer'
     import BadgePrompt from '../components/modals/BadgePrompt'
+    import PackagePrompt from '../components/modals/PackagePrompt'
     export default {
         components: {
             NavbarExpanded,
@@ -92,12 +96,17 @@
             ErrorPrompt,
             ImageViewer,
             BadgePrompt,
-            Loader
+            Loader,
+            PackagePrompt
         },
         data () {
             return {
                 badges: [],
                 isMobile: false,
+                package_prompt: false,
+                payload: {
+                    package: null
+                },
                 asd: 'asd123434'
             }
         },
@@ -285,6 +294,20 @@
             },
             checkVersion () {
                 const me = this
+                let token = me.$cookies.get('70hokc3hhhn5')
+                if (token != null && token != undefined) {
+                    me.$axios.get('api/check-token', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        if (res.data.expiredPackageNotification) {
+                            me.payload.package = res.data.expiredPackageNotification
+                            me.package_prompt = true
+                        }
+                    })
+                }
+
                 let version = me.$cookies.get('version')
 
                 if (version != null && version != undefined) {

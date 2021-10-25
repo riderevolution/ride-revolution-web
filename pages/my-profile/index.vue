@@ -310,6 +310,13 @@
                                 me.category = 'classes'
                                 me.toggleTab(1, 'classes')
                             }, 10)
+                        } else if (me.$route.hash == '#packages') {
+                            me.loaded = true
+                            setTimeout( () => {
+                                me.componentLoaded = true
+                                me.category = 'packages'
+                                me.toggleTab(2, 'packages')
+                            }, 10)
                         } else {
                             me.$axios.get(`api/customers/${me.user.id}/ride-rev-journey`).then(res => {
                                 if (res.data) {
