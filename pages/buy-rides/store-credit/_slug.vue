@@ -83,7 +83,7 @@
                                     <div class="default_btn_blk" @click="stepBack()">Back</div>
                                 </div>
                                 <div class="right">
-                                    <!-- <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
                                     <br><br>
                                     <div class="default_btn_blue" @click="gcash()">
                                         <span>
@@ -107,7 +107,7 @@
                                     <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                                 </div>
                                 <div class="right">
-                                    <!-- <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
                                     <br><br>
                                     <div class="default_btn_blue" @click="gcash()">
                                         <span>

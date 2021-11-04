@@ -25,7 +25,7 @@
                         <div class="ribbon" v-else-if="data.is_promo == 0 && !data.online">Studio</div>
                         <div class="package_header">
                             <h2 class="title">{{ data.name }}</h2>
-                            <div class="description" v-line-clamp="3" v-html="data.summary"></div>
+                            <div class="description" v-line-clamp="4" v-html="data.summary"></div>
                         </div>
                         <div class="violator" v-if="data.recurring">
                             <span>Subscription</span>
@@ -172,7 +172,11 @@
                     result = 'promo'
                 } else {
                     if (data.online) {
-                        result = 'alt'
+                        if (data.recurring) {
+                            result = 'subs'
+                        } else {
+                            result = 'alt'
+                        }
                     } else {
                         result = 'alt_2'
                     }

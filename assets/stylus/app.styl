@@ -8528,17 +8528,14 @@ svg
             .default_btn_out
                 flex: 0 0 auto
                 width: 100%
-            &.promo,
-            &.alt,
-            &.alt_2
-                .ribbon
-                    position: absolute
-                    top: calc(0% + 30px)
-                    left: calc(0% - 60px)
-                    width: 200px
-                    brandon_bold(16px, true)
-                    transform: rotate(-45deg)
-                    transition: .3s ease-in-out
+            .ribbon
+                position: absolute
+                top: calc(0% + 30px)
+                left: calc(0% - 60px)
+                width: 200px
+                brandon_bold(16px, true)
+                transform: rotate(-45deg)
+                transition: .3s ease-in-out
             &.promo
                 .ribbon
                     color: $white
@@ -8569,6 +8566,16 @@ svg
                     span
                         color: $white
                         background-color: $green
+            &.subs
+                .ribbon
+                    color: $white
+                    background-color: #D72530
+                .price
+                    color: #D72530
+                .violator
+                    span
+                        color: $white
+                        background-color: #D72530
             &:hover
                 box-shadow: 0px 10px 15px rgba(226, 226, 226, 1)
                 transform: perspective(1px) scale(1.02)
@@ -8596,6 +8603,14 @@ svg
                     .violator
                         span
                             background-color: $green_alt
+                            transition: .3s ease-in-out
+                &.subs
+                    .ribbon
+                        background-color: #ac1e26
+                        transition: .3s ease-in-out
+                    .violator
+                        span
+                            background-color: #ac1e26
                             transition: .3s ease-in-out
                 .default_btn_out
                     color: $white
@@ -9404,6 +9419,9 @@ svg
                                 &.shared
                                     color: $blue
                                     background-color: #C7E6FF
+                                &.subs
+                                    color: $white
+                                    background-color: #D72530
                                 &.froze
                                     color: $green
                                     background-color: $green_alt3
