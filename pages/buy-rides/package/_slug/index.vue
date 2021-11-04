@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
                                     <template v-if="type == 'paynow' && !res.recurring">
                                         <br><br>
                                         <div class="default_btn_blue" @click="gcash()">
@@ -177,7 +177,7 @@
                                 </div>
                                 <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) < parseInt((promoApplied) ? res.final_price : (res.is_promo == 1 ? res.discounted_price : res.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow' && !res.recurring">Debit/Credit Card</div>
                                     <template v-if="type == 'paynow' && !res.recurring">
                                         <br><br>
                                         <div class="default_btn_blue" @click="gcash()">

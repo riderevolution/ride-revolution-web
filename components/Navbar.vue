@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="topbar">
         <transition name="slide">
             <div id="article_alert" v-if="$store.state.articleAlertStatus && advisory != null">
                 <div class="left" v-if="!$store.state.isMobile">

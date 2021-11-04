@@ -190,7 +190,7 @@
                                 </div>
                                 <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                     <br><br>
                                     <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
                                         <span>
@@ -218,7 +218,7 @@
                                 </div>
                                 <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div> -->
+                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
                                     <br><br>
                                     <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
                                         <span>
