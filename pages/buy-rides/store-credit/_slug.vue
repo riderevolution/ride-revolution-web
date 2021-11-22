@@ -95,7 +95,6 @@
                                 </div>
                             </div>
                             <div class="paypal_disclaimer" v-if="!$store.state.isMobile">
-                                <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
                                     <img src="/icons/visa.svg" />
@@ -117,7 +116,6 @@
                                     </div>
                                     <div id="paypal-button-container"></div>
                                     <div class="paypal_disclaimer">
-                                        <p>Note: Paypal account not needed</p>
                                         <div class="wrapper">
                                             <img src="/icons/paypal.svg" />
                                             <img src="/icons/visa.svg" />
