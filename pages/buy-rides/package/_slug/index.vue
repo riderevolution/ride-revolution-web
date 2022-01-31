@@ -161,7 +161,6 @@
                                 </div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
-                                <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
                                     <img src="/icons/visa.svg" />
@@ -190,7 +189,6 @@
                                     <div id="paypal-button-container" v-if="type == 'paynow' && !res.recurring"></div>
                                     <div id="paypal-subscribe-container" v-if="type == 'paynow' && res.recurring"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
-                                        <p>Note: Paypal account not needed</p>
                                         <div class="wrapper">
                                             <img src="/icons/paypal.svg" />
                                             <img src="/icons/visa.svg" />
