@@ -23,7 +23,7 @@
                             </div>
                             <div class="right">
                                 <form id="default_form">
-                                    <div class="form_flex with_btn" v-if="!res.recurring">
+                                    <div class="form_flex with_btn">
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
                                             <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-validate="{regex: '^[a-zA-Z0-9-|\-|\_]*$'}" v-model="form.promo">
@@ -33,7 +33,7 @@
                                             <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(res.id)"><span>Apply</span></button>
                                         </div>
                                     </div>
-                                    <div class="form_flex alt_2" v-if="!res.recurring">
+                                    <div class="form_flex alt_2">
                                         <div class="form_group">
                                             <label>Qty</label>
                                             <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
@@ -50,7 +50,7 @@
                                         <p>Subtotal</p>
                                         <p>Php {{ totalCount(res.package_price * form.quantity) }}</p>
                                     </div>
-                                    <div class="item" v-if="!res.recurring">
+                                    <div class="item">
                                         <p>Discount</p>
                                         <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                                     </div>
@@ -114,7 +114,7 @@
                                 <h3>Rides</h3>
                                 <p>{{ (res.class_count_unlimited == 1) ? 'Unlimited' : res.class_count * form.quantity }}</p>
                             </div>
-                            <div class="item" v-if="!res.recurring">
+                            <div class="item">
                                 <h3>Discount</h3>
                                 <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                             </div>
