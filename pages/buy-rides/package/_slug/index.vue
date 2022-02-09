@@ -439,7 +439,6 @@
                             me.message = 'Cheers! You’ve entered a valid promo code.'
                         }
                     }).catch(err => {
-						console.log(err.response);
                         me.message = err.response.data.errors[0]
                     }).then(() => {
                         setTimeout( () => {
