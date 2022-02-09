@@ -500,7 +500,7 @@
                                 // This function sets up the details of the transaction, including the amount and line item details.
                                 me.$axios.post('api/update-package-subscription-plan',
 									{
-										id_ me.res.id
+										id: me.res.id
 									}
 								).then(res => {
 									return actions.subscription.create({
