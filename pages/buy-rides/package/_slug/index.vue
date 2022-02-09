@@ -498,9 +498,15 @@
                             },
                             createSubscription: function (data, actions) {
                                 // This function sets up the details of the transaction, including the amount and line item details.
-                                return actions.subscription.create({
-                                    'plan_id': me.res.plan_code
-                                })
+                                me.$axios.post('api/update-package-subscription-plan',
+									{
+										id_ me.res.id
+									}
+								).then(res => {
+									return actions.subscription.create({
+										'plan_id': me.res.plan_code
+									})
+								})
                             },
                             onApprove: function (data, actions) {
                                 // This function captures the funds from the transaction.
