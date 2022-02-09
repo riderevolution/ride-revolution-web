@@ -404,9 +404,29 @@
                                 me.step = 2
                                 break
                             case 'paynow':
-                                me.step = 2
-                                me.paypal = true
-                                me.renderPaypal()
+								if (me.res.recurring) {
+									me.loader(true)
+									me.$axios.post('api/update-package-subscription-plan',
+										{
+											id: me.res.id,
+											total: me.form.total
+										}
+									).then(res => {
+										me.step = 2
+										me.paypal = true
+										me.renderPaypal()
+									}).catch(err => {
+
+									}).then(() => {
+										setTimeout(() => {
+											me.loader(false)
+										}, 500)
+									})
+								} else {
+									me.step = 2
+									me.paypal = true
+									me.renderPaypal()
+								}
                                 break
                         }
                         me.$scrollTo('#payments', {
@@ -484,8 +504,6 @@
                         }).render('#paypal-button-container')
                     }
 
-					console.log(me.res.plan_code);
-
                     if (document.getElementById('paypal-subscribe-container')) {
                         /* subscription */
                         paypal.Buttons({
@@ -499,17 +517,10 @@
                                 allowed: [ paypal.FUNDING.CARD ]
                             },
                             createSubscription: function (data, actions) {
+								// This function sets up the details of the transaction, including the amount and line item details.
 								return actions.subscription.create({
 									'plan_id': me.res.plan_code
 								})
-                                // This function sets up the details of the transaction, including the amount and line item details.
-                                // return me.$axios.post('api/update-package-subscription-plan',
-								// 	{
-								// 		id: me.res.id
-								// 	}
-								// ).then(res => {
-								//
-								// })
                             },
                             onApprove: function (data, actions) {
                                 // This function captures the funds from the transaction.
