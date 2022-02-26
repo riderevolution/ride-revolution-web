@@ -164,9 +164,9 @@ Vue.mixin({
 
             formData.append('paypal_subscription_details', JSON.stringify(paypal_details))
 
-			if (page.promoApplied) {
-				formData.append('promo_applied', page.promoApplied)
-			}
+      			if (page.promoApplied) {
+      				formData.append('promo_applied', page.promoApplied)
+      			}
 
             if (me.$store.state.inApp) {
                 formData.append('in_app', 1)
