@@ -846,9 +846,9 @@
                             break
                         case 'price':
                             if (data.duplicated) {
-                              result = me.totalCount(data.payment_item.payment.total)
-                            } else {
                               result = me.totalCount(data.payment_item.price_per_item * data.payment_item.quantity)
+                            } else {
+                              result = me.totalCount(data.payment_item.payment.total)
                             }
                             break
                         case 'status':
