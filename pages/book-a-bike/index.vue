@@ -97,7 +97,7 @@
                                                     <span class="tooltip">{{ child.schedule.class_type.name }}</span>
                                                 </div>
                                             </template>
-                                            <div class="studio">{{ child.schedule.studio.name }}</div>
+                                            <div class="studio" :style="`color: ${child.schedule.studio.color_code};`">{{ child.schedule.studio.name }}</div>
                                         </div>
                                         <div class="items_bottom">
                                             <template v-if="child.schedule.private_class == 1">
@@ -178,7 +178,7 @@
                                                     <span class="tooltip">{{ child.schedule.class_type.name }}</span>
                                                 </div>
                                             </template>
-                                            <div class="studio">{{ child.schedule.studio.name }}</div>
+                                            <div class="studio" :style="`color: ${child.schedule.studio.color_code};`">{{ child.schedule.studio.name }}</div>
                                         </div>
                                         <div class="items_bottom">
                                             <template v-if="child.schedule.private_class == 1">
