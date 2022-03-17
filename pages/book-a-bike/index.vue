@@ -298,7 +298,7 @@
                 res: [],
                 studios: [],
                 instructors: [],
-                hide_past: true,
+                hide_past: false,
                 studioID: 0,
                 instructorID: 0,
                 viewing: 'weekly',
