@@ -70,7 +70,7 @@
                                     </template>
                                 </div>
                                 <template v-if="!$store.state.isMobile">
-                                    <div :class="[ 'items', (child.past || child.ongoing) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
+                                    <div :class="[ 'items', (child.past || child.ongoing || child.next_week) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
@@ -110,7 +110,7 @@
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && !child.ongoing">
+                                            <template v-else-if="!child.past && !child.ongoing && !child.next_week">
                                                 <template v-if="child.hasUser && !child.isWaitlisted && !child.isFull && !child.originalHere && !child.guestHere">
                                                     <nuxt-link :to="`/book-a-bike/${child.id}`" :event="''" @click.native="checkIfNew(child, 'book', $event)" class="btn default_btn_out">
                                                         <span>Book Now</span>
@@ -140,6 +140,11 @@
                                             <template v-else-if="child.past && !child.ongoing">
                                                 <div class="btn default_btn_out disabled">
                                                     <span>Class is Over</span>
+                                                </div>
+                                            </template>
+                                            <template v-else-if="child.next_week">
+                                                <div class="btn default_btn_out disabled">
+                                                    <span>Next class</span>
                                                 </div>
                                             </template>
                                             <template v-else-if="!child.past && child.ongoing">
@@ -151,7 +156,7 @@
                                     </div>
                                 </template>
                                 <template v-else-if="$store.state.isMobile && !parent.opened">
-                                    <div :class="[ 'items', (child.past || child.ongoing) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
+                                    <div :class="[ 'items', (child.past || child.ongoing || child.next_week) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
@@ -191,7 +196,7 @@
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && !child.ongoing">
+                                            <template v-else-if="!child.past && !child.ongoing && !child.next_week">
                                                 <template v-if="child.hasUser && !child.isWaitlisted && !child.isFull && !child.originalHere && !child.guestHere">
                                                     <nuxt-link :to="`/book-a-bike/${child.id}`" :event="''" @click.native="checkIfNew(child, 'book', $event)" class="btn default_btn_out">
                                                         <span>Book Now</span>
@@ -221,6 +226,11 @@
                                             <template v-else-if="child.past && !child.ongoing">
                                                 <div class="btn default_btn_out disabled">
                                                     <span>Class is Over</span>
+                                                </div>
+                                            </template>
+                                            <template v-else-if="child.next_week">
+                                                <div class="btn default_btn_out disabled">
+                                                    <span>Next class</span>
                                                 </div>
                                             </template>
                                             <template v-else-if="!child.past && child.ongoing">
@@ -307,7 +317,8 @@
                 searchedInstructor: '',
                 hasSearchedInstructor: false,
                 first_date: '',
-                last_date: ''
+                last_date: '',
+                diff_date: ''
             }
         },
         computed: {
@@ -637,7 +648,7 @@
                     if (data == 'prev') {
                         form_data.append('first_date', me.first_date)
                     } else {
-                        form_data.append('last_date', me.last_date)
+                        form_data.append('last_date', me.$moment(me.last_date, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD'))
                     }
                 } else {
                     form_data.append('last_date', me.first_date)
@@ -649,16 +660,31 @@
                         Authorization: `Bearer ${token}`
                     }
                 }).then(res => {
-                    me.res = res.data
-                    if (me.res.dates.length > 0) {
-                        me.first_date = me.res.dates[0].date
-                        me.last_date = me.res.dates[me.res.dates.length - 1].date
+                    if (res.data.dates.length > 0) {
+                        me.first_date = res.data.dates[0].date
+                        me.last_date = res.data.dates[res.data.dates.length - 1].date
+                        if (!me.diff_date) {
+                          me.diff_date = res.data.dates[res.data.dates.length - 1].date
+                        }
+
+                        res.data.dates.forEach((item, key) => {
+                            item.schedules.forEach((schedule, key) => {
+                              let date = me.$moment(schedule.date)
+                              if (me.$moment(me.diff_date).diff(date, 'days') < 0) {
+                                schedule.next_week = 1
+                              }
+                            })
+                        })
+                        me.res = res.data
                     }
-                    me.loaded = true
                 }).catch(err => {
                     me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
                 }).then(() => {
-                    me.loader(false)
+                    me.loaded = true
+                    setTimeout(() => {
+                      document.addEventListener('click', me.toggleOverlays)
+                      me.loader(false)
+                    }, 500)
                 })
             },
             toggleOverlays (e) {
@@ -678,7 +704,6 @@
         },
         mounted () {
             const me = this
-            document.addEventListener('click', me.toggleOverlays)
             me.instructorID = (me.$route.query.i) ? me.$route.query.i : 0
             me.loader(true)
             /**
