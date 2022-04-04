@@ -23,7 +23,7 @@
                             </div>
                             <div class="right">
                                 <form id="default_form">
-                                    <div class="form_flex with_btn" v-if="!res.recurring">
+                                    <div class="form_flex with_btn">
                                         <div class="form_group">
                                             <label for="promo_code">Promo Code</label>
                                             <input type="text" id="promo_code" name="promo_code" :class="`input_text ${(promoApplied) ? 'disabled' : ''}`" autocomplete="off" placeholder="Enter a Promo Code" v-validate="{regex: '^[a-zA-Z0-9-|\-|\_]*$'}" v-model="form.promo">
@@ -50,7 +50,7 @@
                                         <p>Subtotal</p>
                                         <p>Php {{ totalCount(res.package_price * form.quantity) }}</p>
                                     </div>
-                                    <div class="item" v-if="!res.recurring">
+                                    <div class="item">
                                         <p>Discount</p>
                                         <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                                     </div>
@@ -114,7 +114,7 @@
                                 <h3>Rides</h3>
                                 <p>{{ (res.class_count_unlimited == 1) ? 'Unlimited' : res.class_count * form.quantity }}</p>
                             </div>
-                            <div class="item" v-if="!res.recurring">
+                            <div class="item">
                                 <h3>Discount</h3>
                                 <p>Php {{ computeDiscount((promoApplied) ? res.discount : '0.00') }}</p>
                             </div>
@@ -161,7 +161,6 @@
                                 </div>
                             </div>
                             <div class="paypal_disclaimer" v-if="type == 'paynow' && !$store.state.isMobile">
-                                <p>Note: Paypal account not needed</p>
                                 <div class="wrapper">
                                     <img src="/icons/paypal.svg" />
                                     <img src="/icons/visa.svg" />
@@ -190,7 +189,6 @@
                                     <div id="paypal-button-container" v-if="type == 'paynow' && !res.recurring"></div>
                                     <div id="paypal-subscribe-container" v-if="type == 'paynow' && res.recurring"></div>
                                     <div class="paypal_disclaimer" v-if="type == 'paynow'">
-                                        <p>Note: Paypal account not needed</p>
                                         <div class="wrapper">
                                             <img src="/icons/paypal.svg" />
                                             <img src="/icons/visa.svg" />
@@ -406,9 +404,29 @@
                                 me.step = 2
                                 break
                             case 'paynow':
-                                me.step = 2
-                                me.paypal = true
-                                me.renderPaypal()
+								if (me.res.recurring) {
+									me.loader(true)
+									me.$axios.post('api/update-package-subscription-plan',
+										{
+											id: me.res.id,
+											total: me.form.total
+										}
+									).then(res => {
+										me.step = 2
+										me.paypal = true
+										me.renderPaypal()
+									}).catch(err => {
+
+									}).then(() => {
+										setTimeout(() => {
+											me.loader(false)
+										}, 500)
+									})
+								} else {
+									me.step = 2
+									me.paypal = true
+									me.renderPaypal()
+								}
                                 break
                         }
                         me.$scrollTo('#payments', {
@@ -499,10 +517,10 @@
                                 allowed: [ paypal.FUNDING.CARD ]
                             },
                             createSubscription: function (data, actions) {
-                                // This function sets up the details of the transaction, including the amount and line item details.
-                                return actions.subscription.create({
-                                    'plan_id': me.res.plan_code
-                                })
+								// This function sets up the details of the transaction, including the amount and line item details.
+								return actions.subscription.create({
+									'plan_id': me.res.plan_code
+								})
                             },
                             onApprove: function (data, actions) {
                                 // This function captures the funds from the transaction.
