@@ -48,7 +48,8 @@
                                 <div class="breakdown_list">
                                     <div class="item">
                                         <p>Subtotal</p>
-                                        <p>Php {{ totalCount(res.package_price * form.quantity) }}</p>
+                                        <p :class="`${(res.is_promo == 1) ? 'discount' : ''}`" >Php {{ totalCount(res.package_price * form.quantity) }}</p>
+                                        <p v-if="res.is_promo == 1">Php {{ totalCount(res.discounted_price) }}</p>
                                     </div>
                                     <div class="item">
                                         <p>Discount</p>

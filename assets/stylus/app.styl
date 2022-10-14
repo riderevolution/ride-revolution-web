@@ -3836,11 +3836,19 @@ svg
                         border-left: 1px solid #D0D0D0
                         .breakdown_list
                             .item
+                                position: relative
                                 display: flex
                                 flex-flow: row wrap
                                 align-items: center
                                 justify-content: space-between
                                 margin-bottom: 10px
+                                .discount
+                                    position: absolute
+                                    top: calc(0% - 20px)
+                                    right: 0
+                                    color: $red
+                                    text-decoration: line-through
+                                    brandon_regular(14px, false)
                                 p
                                     brandon_regular(16px, false)
                                     color: $gray_alt2
