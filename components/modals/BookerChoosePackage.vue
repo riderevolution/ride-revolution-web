@@ -18,7 +18,7 @@
                                 <div class="info">
                                     <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
                                     <p>{{ (data.class_package.recurring == 1) ? 'Refreshes on' : 'Expires on' }} {{ formatDate((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated ) }}</p>
-                                    <p class="full" v-if="!data.valid">{{ (!$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.' }}</p>
+                                    <p class="full" v-if="!data.valid">{{ getPackageValidator(data) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -59,6 +59,19 @@
             }
         },
         methods: {
+            getPackageValidator (payload) {
+                let result = ''
+
+                if (payload.valid) {
+                    result = (!this.$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.'
+                } else {
+                    if (payload.restricted) {
+                        result = 'THIS PACKAGE IS NOT USABLE FOR THIS CLASS.'
+                    }
+                }
+
+                return result
+            },
             submissionSuccess () {
                 const me = this
                 if (me.selectedPackage) {
