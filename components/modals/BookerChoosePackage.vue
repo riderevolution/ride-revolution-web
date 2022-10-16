@@ -62,12 +62,13 @@
             getPackageValidator (payload) {
                 let result = ''
 
-                if (payload.valid) {
-                    result = (!this.$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.'
-                } else {
-                    if (payload.restricted) {
+                if (!payload.valid) {
+                    if (!payload.restricted) {
+                        result = (!this.$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.'
+                    } else {
                         result = 'THIS PACKAGE IS NOT USABLE FOR THIS CLASS.'
                     }
+                    
                 }
 
                 return result
