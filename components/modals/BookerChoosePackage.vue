@@ -63,12 +63,11 @@
                 let result = ''
 
                 if (!payload.valid) {
-                    if (!payload.restricted) {
-                        result = (!this.$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.'
+                    if (payload.class_package.name == '2-Week Unlimited In-Studio') {
+                        result = 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.'
                     } else {
-                        result = 'THIS PACKAGE IS NOT USABLE FOR THIS CLASS.'
+                        result = (!this.$parent.schedule.schedule.studio.online_class) ? 'THIS PACKAGE IS FOR ONLINE CLASSES ONLY.' : 'THIS PACKAGE IS FOR IN-STUDIO CLASSES ONLY.'
                     }
-                    
                 }
 
                 return result
