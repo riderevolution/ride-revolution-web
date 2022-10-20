@@ -70,7 +70,7 @@
                                     </template>
                                 </div>
                                 <template v-if="!$store.state.isMobile">
-                                    <div :class="[ 'items', (child.past || child.ongoing || child.next_week) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
+                                    <div :class="[ 'items', (child.past || child.ongoing || !child.bookable) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
@@ -110,7 +110,7 @@
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && !child.ongoing && !child.next_week">
+                                            <template v-else-if="!child.past && !child.ongoing && child.bookable">
                                                 <template v-if="child.hasUser && !child.isWaitlisted && !child.isFull && !child.originalHere && !child.guestHere">
                                                     <nuxt-link :to="`/book-a-bike/${child.id}`" :event="''" @click.native="checkIfNew(child, 'book', $event)" class="btn default_btn_out">
                                                         <span>Book Now</span>
@@ -142,7 +142,7 @@
                                                     <span>Class is Over</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="child.next_week">
+                                            <template v-else-if="!child.bookable">
                                                 <div class="btn default_btn_out disabled">
                                                     <span>Next class</span>
                                                 </div>
@@ -156,7 +156,7 @@
                                     </div>
                                 </template>
                                 <template v-else-if="$store.state.isMobile && !parent.opened">
-                                    <div :class="[ 'items', (child.past || child.ongoing || child.next_week) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
+                                    <div :class="[ 'items', (child.past || child.ongoing || !child.bookable) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
@@ -196,7 +196,7 @@
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && !child.ongoing && !child.next_week">
+                                            <template v-else-if="!child.past && !child.ongoing && child.bookable">
                                                 <template v-if="child.hasUser && !child.isWaitlisted && !child.isFull && !child.originalHere && !child.guestHere">
                                                     <nuxt-link :to="`/book-a-bike/${child.id}`" :event="''" @click.native="checkIfNew(child, 'book', $event)" class="btn default_btn_out">
                                                         <span>Book Now</span>
@@ -228,7 +228,7 @@
                                                     <span>Class is Over</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="child.next_week">
+                                            <template v-else-if="!child.bookable">
                                                 <div class="btn default_btn_out disabled">
                                                     <span>Next class</span>
                                                 </div>
@@ -662,19 +662,24 @@
                 }).then(res => {
                     if (res.data.dates.length > 0) {
                         me.first_date = res.data.dates[0].date
-                        me.last_date = res.data.dates[res.data.dates.length - 1].date
+                        me.last_date = res.data.dates[res.data.dates.length - 1].date   
                         if (!me.diff_date) {
                           me.diff_date = res.data.dates[res.data.dates.length - 1].date
                         }
-
-                        res.data.dates.forEach((item, key) => {
-                            item.schedules.forEach((schedule, key) => {
-                              let date = me.$moment(schedule.date)
-                              if (me.$moment(me.diff_date).diff(date, 'days') < 0) {
-                                schedule.next_week = 1
-                              }
-                            })
-                        })
+                        // let now = me.$moment()
+                        // res.data.dates.forEach((item, key) => {
+                        //     item.schedules.forEach((schedule, key) => {
+                        //         let date = me.$moment(schedule.date)
+                        //         if (me.$moment(me.diff_date).diff(date, 'days') < 0) {
+                        //             schedule.next_week = 1
+                        //         }
+                        //         // if (me.$moment(me.diff_date).diff(date, 'days') <= -7 && me.$moment(me.diff_date).diff(date, 'days') < 0) {
+                        //         //     if (now.format('YYYY-MM-DD') != date.format('YYYY-MM-DD')) {
+                        //         //         schedule.next_week = 1
+                        //         //     }
+                        //         // }
+                        //     })
+                        // })
                         me.res = res.data
                     }
                 }).catch(err => {
