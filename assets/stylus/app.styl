@@ -8876,9 +8876,10 @@ svg
             width: auto
     .overlay_mobile
         position: absolute
-        top: 50%
+        bottom: 25%
         left: 0
-        transform: translateY(-50%)
+        right: 0
+        text-align: center
         .overlay_flex
             display: flex
             flex-flow: row wrap
@@ -8886,6 +8887,8 @@ svg
             justify-content: center
             .default_btn
                 margin-right: 20px
+                &:last-child
+                    margin-right: 0
         p
             flex: 0 0 55%
             brandon_regular(20px, false)
@@ -8997,7 +9000,7 @@ svg
         align-items: center
         justify-content: flex-start
         position: absolute
-        bottom: calc(0% + 125px)
+        bottom: 22%
         left: 0
         right: 0
         width: 100%
@@ -9005,6 +9008,8 @@ svg
         margin: 0 auto
         z-index: 1
         animation: slide_from_left 1.5s
+        &.center
+            justify-content: center
         &.end
             justify-content: flex-end
         .overlay_flex
