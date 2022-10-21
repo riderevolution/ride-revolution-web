@@ -69,12 +69,12 @@
                 const me = this
                 me.loader(true)
                 setTimeout( () => {
-                    me.$axios.get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=1001&take=100`).then(res => {
-                        me.feeds = res.data.data
+                    me.$axios.$get(`https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=1001&take=100`).then(({ data }) => {
+                        data.sort((a, b) => parseFloat(b.countLikes) - parseFloat(a.countLikes))
+                        me.feeds = data 
                     }).catch(err => {
                         console.log(err);
                     }).then(() => {
-                        me.loaded = true
                         me.loader(false)
                     })
                 }, 500)
@@ -83,6 +83,7 @@
         async mounted () {
             const me = this
             await setTimeout( () => {
+                me.loaded = true
                 me.initial()
             }, 10)
         },

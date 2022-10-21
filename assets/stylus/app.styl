@@ -2567,7 +2567,7 @@ svg
                         background-color: $white
                         .overlay
                             display: flex
-                            flex-flow: column wrap
+                            flex-flow: row wrap
                             justify-content: space-between
                             position: absolute
                             top: 50%
@@ -2576,6 +2576,7 @@ svg
                             height: 100%
                             transform: translateY(-50%)
                             .content_select
+                                flex: 0 0 100%
                                 .input
                                     display: flex
                                     flex-flow: row wrap
@@ -2607,7 +2608,7 @@ svg
                                         brandon_regular(20px, false)
                                         color: $black
                             .content_flex
-                                flex: 0 0 auto
+                                flex: 0 0 100%
                                 .title
                                     brandon_medium(40px, false)
                                     color: $black
