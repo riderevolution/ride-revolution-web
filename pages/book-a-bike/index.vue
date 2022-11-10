@@ -29,17 +29,17 @@
                         <div class="wrapper instructor_filter">
                             <h3>Instructors</h3>
                             <div :class="`autocomplete ${(toggledAutocomplete) ? 'toggled' : ''}`" v-click-outside="toggleAutoCompleteOutside">
-                                <input type="text" name="instructor" class="text" placeholder="Search for an instructor" v-model="searchedInstructor" @click="toggleAutoComplete()">
+                                <input type="text" name="instructor" class="text" placeholder="Search for an instructor" v-model="searchedInstructor" @click="toggleAutoComplete()" @input="searchInstructor($event)">
                                 <transition name="slideAlt">
                                     <div class="autocomplete_dropdown" v-if="toggledAutocomplete">
-                                        <div :class="`list ${(`${data.first_name} ${data.last_name}` == checkSearchedInstructor) ? 'active' : ''}`" v-for="(data, key) in instructors" :key="key" @click="selectIntructor(data)">
+                                        <div :class="`list ${(data.fullname == checkSearchedInstructor) ? 'active' : ''}`" v-for="(data, key) in populateInstructors" :key="key" @click="selectIntructor(data)" v-if="data.searched">
                                             <img v-if="data.instructor_details.images[0].path != null" :src="data.instructor_details.images[0].path" />
                                             <div class="overlay" v-else>
                                                 <div class="letter">
                                                     {{ data.first_name.charAt(0) }}{{ data.last_name.charAt(0) }}
                                                 </div>
                                             </div>
-                                            <p>{{ data.first_name }} {{ data.last_name }}</p>
+                                            <p>{{ data.fullname }}</p>
                                         </div>
                                     </div>
                                 </transition>
@@ -343,6 +343,9 @@
                     result = 'all instructors '
                 }
                 return result
+            },
+            populateInstructors () {
+                return this.instructors
             }
         },
         methods: {
@@ -581,6 +584,22 @@
                 me.toggledAutocomplete = false
                 me.fetchData()
             },
+            searchInstructor (event) {
+                if (event.target.value.length) {
+                    this.instructors.forEach((item) => {
+                        let searchable = item.fullname.toLowerCase()
+                        if (searchable.includes(event.target.value)) {
+                            item.searched = true
+                        } else {
+                            item.searched = false
+                        }
+                    })
+                } else {
+                    this.instructors.forEach((item) => {
+                        item.searched = true
+                    })
+                }
+            },
             toggleViewing () {
                 const me = this
                 me.hide_past ^= true
@@ -606,11 +625,11 @@
                 // }
                 /**
                  * Fetch all instructors */
-                me.$axios.get(`api/web/instructors`).then(res => {
-                    if (res.data) {
-                        me.instructors = res.data.instructors
-                    }
-                })
+                // me.$axios.get(`api/web/instructors`).then(res => {
+                //     if (res.data) {
+                //         me.instructors = res.data.instructors
+                //     }
+                // })
                 me.fetchData()
             },
             /**
@@ -730,7 +749,12 @@
              * Fetch all instructors */
             me.$axios.get(`api/web/instructors`).then(res => {
                 if (res.data) {
-                    me.instructors = res.data.instructors
+                    me.instructors = [...res.data.instructors.map((item) => {
+                        return {
+                            ...item,
+                            searched: true
+                        }
+                    })]
                 }
             }).catch(err => {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
