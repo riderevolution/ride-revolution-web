@@ -11,14 +11,20 @@
                     <div class="filter">
                         <div class="wrapper studio_filter">
                             <h3>Studios</h3>
-                            <div class="group">
+                            <div class="select">
+                                <select name="studios" v-model="studioID" @change="toggleStudio()">
+                                    <option value="0">All Studios</option>
+                                    <option v-for="(studio, key) in studios" :key="key" :value="studio.id">{{ studio.name }}</option>
+                                </select>
+                            </div>
+                            <!-- <div class="group">
                                 <input type="radio" class="radio all" name="studios" id="studio_0" value="0" checked @change="toggleStudio(null, 'static')">
                                 <label for="studio_0">All Studios</label>
                             </div>
                             <div class="group" v-for="(studio, key) in studios" :key="key">
                                 <input type="radio" class="radio" name="studios" :id="`studio_${key + 1}`" @change="toggleStudio(studio, 'dynamic')">
                                 <label :for="`studio_${key + 1}`">{{ studio.name }}</label>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="wrapper instructor_filter">
                             <h3>Instructors</h3>
@@ -584,20 +590,20 @@
              * Select studio from filter */
             toggleStudio (data, type) {
                 const me = this
-                if (data != null) {
-                    me.studioID = data.id
-                } else {
-                    me.studioID = 0
-                }
-                switch (type) {
-                    case 'static':
-                        me.studioFilter = 'all studios'
-                        break
-                    case 'dynamic':
-                        me.studioFilter = data.name
-                        me.hasStudioFilter = true
-                        break
-                }
+                // if (data != null) {
+                //     me.studioID = data.id
+                // } else {
+                //     me.studioID = 0
+                // }
+                // switch (type) {
+                //     case 'static':
+                //         me.studioFilter = 'all studios'
+                //         break
+                //     case 'dynamic':
+                //         me.studioFilter = data.name
+                //         me.hasStudioFilter = true
+                //         break
+                // }
                 /**
                  * Fetch all instructors */
                 me.$axios.get(`api/web/instructors`).then(res => {

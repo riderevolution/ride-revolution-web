@@ -6023,6 +6023,31 @@ svg
                             neutra_book(18px, true)
                             letter-spacing: 0.21px
                             color: rgba(255, 255, 255, 0.7)
+                        &.studio_filter
+                            .select
+                                flex: 0 0 auto
+                                position: relative
+                                select
+                                    -webkit-appearance: none
+                                    background-color: transparent
+                                    outline: none
+                                    border: none
+                                    border-bottom: 1px solid $white
+                                    padding: 0 20px 0 10px
+                                    neutra_book(20px, false)
+                                    color: $white
+                                    option
+                                        color: $black
+                                &::before
+                                    content: ''
+                                    position: absolute
+                                    top: 50%
+                                    right: calc(0%)
+                                    border-top: 7px solid $white
+                                    border-left: 5px solid transparent
+                                    border-right: 5px solid transparent
+                                    transform: rotate(0deg) translateY(-50%)
+                                    transition: .3s ease-in-out
                         &.studio_filter,
                         &.view_filter
                             display: flex
@@ -6175,7 +6200,7 @@ svg
                                 &::before
                                     content: ''
                                     position: absolute
-                                    top: calc(0% + (52px /  2))
+                                    top: calc(0% + (45px /  2))
                                     right: calc(0% + 20px)
                                     border-left: 5px solid transparent
                                     border-right: 5px solid transparent

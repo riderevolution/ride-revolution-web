@@ -3681,6 +3681,68 @@
                                                 neutra_bold(22px, false)
                                                 font-weight: 800
 
+@media (max-width: 1024px) and (min-width: 320px)
+    .book_a_bike
+        &.landing
+            #content
+                .right
+                    padding: 10px
+                    .schedules
+                        .schedule_item
+                            flex: 0 0 100%
+                            .items
+                                display: flex
+                                flex-flow: row wrap
+                                align-items: flex-end
+                                justify-content: flex-start
+                                padding: 15px
+                                &:first-child
+                                    padding: 15px
+                                .month
+                                    neutra_bold(20px, false)
+                                    margin-top: 0
+                                    padding: 0 10px 0 15px
+                                .day
+                                    neutra_bold(24px, false)
+                                    line-height: 1
+                                .date
+                                    neutra_bold(20px, false)
+                                .info_overlay
+                                    font-size: 12px !important
+                                    *
+                                        font-size: 12px !important
+                                .items_top,
+                                .items_middle,
+                                .items_bottom
+                                    align-self: center
+                                .items_top
+                                    flex: 0 0 50px
+                                    .image_wrapper
+                                        display: flex
+                                        flex-flow: row wrap
+                                        align-items: center
+                                        margin-top: 0
+                                    .image
+                                        width: 50px
+                                        height: 50px
+                                        &.add
+                                            margin: 10px auto 0
+                                .items_middle
+                                    padding-left: 10px
+                                    flex: 1 0 5%
+                                    text-align: left
+                                    margin-bottom: 0
+                                    .time
+                                        neutra_bold(14px, false)
+                                    .name
+                                        neutra_book(12px, false)
+                                        font-weight: 500
+                                    .class,
+                                    .studio
+                                        neutra_book(12px, false)
+                                .items_bottom
+                                    .btn
+                                        padding: 5px
 @media (max-width: 767px) and (min-width: 320px)
 
     #banner
