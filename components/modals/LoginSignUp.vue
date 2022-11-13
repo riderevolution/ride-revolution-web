@@ -216,19 +216,21 @@
                 <form id="default_form" data-vv-scope="register_process_form">
                     <div class="form_group">
                         <div class="form_group_body" v-html="terms.subtitle"></div>
-                        <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition>
+                        <!-- <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition> -->
                     </div>
                     <div class="form_group">
-                        <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`">
+                        <!-- <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`"> -->
+                        <div class="form_check">
                             <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'" v-model="signUpForm.iAgree">
                             <label for="i_agree" class="alt">I agree to the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> and Ride Revolution’s <a target="_blank" href="/privacy-policy">Privacy Policy</a>.</label>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition>
+                            <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition> -->
+                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree')">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition>
                         </div>
                     </div>
                     <div class="form_flex sign_up">
                         <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
                         <div class="form_button">
-                            <button type="button" class="default_btn full" @click="submitRegistration()">Agree and Finish</button>
+                            <button type="button" :class="['default_btn full', (!signUpForm.iAgree) && 'disabled']" @click="submitRegistration()">Agree and Finish</button>
                         </div>
                     </div>
                 </form>
