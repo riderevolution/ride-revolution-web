@@ -45,6 +45,8 @@
                 <a href="https://www.instagram.com/riderevolution" target="_blank" class="ig">ig</a>
             </div>
             <p>Reach out to us at <a href="mailto:hello@riderevolution.ph">hello@riderevolution.ph</a></p>
+            <p><a href="https://riderevolution.activehosted.com/f/7" target="_blank">Subscribe to Newsletter</a></p>
+
             <!-- <p>or call/text us at <a href="tel:02-798-7447">(02) 798-7447</a></p> -->
         </div>
         <div class="back_to_top" @click="backToTop()">
