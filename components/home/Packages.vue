@@ -21,7 +21,12 @@
                 </div>
                 <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
                 <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
-                <div class="expires">Valid For {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
+                <template v-if="data.slug == 'sleigh-ride-package-20-class-pack'">
+                    <div class="expires">Until January 8, 2023</div>
+                </template>
+                <template v-else>
+                    <div class="expires">Valid For {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
+                </template>
                 <div class="default_btn_out"><span>Buy Now</span></div>
             </nuxt-link>
         </div>
@@ -42,7 +47,12 @@
                             </div>
                             <div class="discounted_price" v-if="data.is_promo == 1">Php {{ totalItems(data.package_price) }}</div>
                             <div class="price">Php {{ totalItems((data.is_promo == 1) ? data.discounted_price : data.package_price) }}</div>
-                            <div class="expires">Valid For {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
+                            <template v-if="data.slug == 'sleigh-ride-package-20-class-pack'">
+                                <div class="expires">Until January 8, 2023</div>
+                            </template>
+                            <template v-else>
+                                <div class="expires">Valid For {{ data.expires_in }} {{ data.expiry_type }}{{ (data.expires_in > 1) ? 's' : '' }}</div>
+                            </template>
                             <div class="default_btn_out"><span>Buy Now</span></div>
                         </nuxt-link>
                     </swiper-slide>
