@@ -1766,7 +1766,9 @@
                     margin-left: 0
                     .content
                         padding: 30px 0 10px
-
+                        &#parent_2
+                            .seat_wrapper
+                                height: 550px
                         .seat_wrapper
                             height: 550px
                             max-width: 768px
@@ -1789,6 +1791,8 @@
                                     &.left,
                                     &.right
                                         top: calc(0% + 20px)
+                                    &.bottom_alt
+                                        bottom: calc(0% + 110px)
                                 &.left
                                     justify-content: flex-start
                                     top: calc(0% + 20px)
@@ -4712,17 +4716,17 @@
                         padding: 30px 0 10px
                         &#parent_2
                             .seat_wrapper
-                                height: 275px
+                                height: 375px
                                 .overlay_seat
                                     &.layout_2
                                         &.bottom
-                                            bottom: calc(0% + 70px)
+                                            bottom: calc(0% + 120px)
                                         &.bottom_alt
-                                            bottom: calc(0% + 20px)
+                                            bottom: calc(0% + 60px)
                                             .seat
                                                 left: 0
                                         &.bottom_alt_2
-                                            bottom: calc(0% + 30px)
+                                            bottom: calc(0% + 0)
                         .seat_wrapper
                             height: 350px
                             max-width: 350px
@@ -7192,17 +7196,17 @@
                         .content
                             &#parent_2
                                 .seat_wrapper
-                                    height: 325px
+                                    height: 400px
                                     .overlay_seat
                                         &.layout_2
                                             &.bottom
-                                                bottom: calc(0% + 65px)
+                                                bottom: calc(0% + 120px)
                                             &.bottom_alt
-                                                bottom: calc(0%)
+                                                bottom: calc(0% + 60px)
                                                 .seat
                                                     left: 0
                                             &.bottom_alt_2
-                                                bottom: calc(0% + 30px)
+                                                bottom: calc(0% + 0)
                             .seat_wrapper
                                 max-width: 600px
                                 height: 380px
