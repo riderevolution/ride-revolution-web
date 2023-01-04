@@ -217,15 +217,21 @@
                                 document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').offsetHeight + document.getElementById('complete_profile').offsetHeight}px`
                                 document.getElementById('complete_profile').style.top = `${document.getElementById('header').offsetHeight}px`
                                 document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight}px`
+
+                                document.querySelector('.login_sign_up').style.height = `calc(100vh - ${document.getElementById('header').offsetHeight}px)`
                             } else {
                                 if (document.querySelector('.login_sign_up')) {
                                     document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight}px`
+
+                                    document.querySelector('.login_sign_up').style.height = `calc(100vh - ${document.getElementById('header').offsetHeight}px)`
                                 }
                             }
                         }
                     } else {
                         document.getElementById('main_container').style.paddingTop = `${document.getElementById('header').offsetHeight}px`
                         document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight}px`
+
+                        document.querySelector('.login_sign_up').style.height = `calc(100vh - ${document.getElementById('header').offsetHeight}px)`
                     }
                 }
             },

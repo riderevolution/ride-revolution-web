@@ -585,11 +585,15 @@
 				const me = this
 				setTimeout( () => {
                     if (document.querySelector('.login_sign_up')) {
+                        let margin = '0px'
                         if (me.$store.state.articleAlertStatus) {
+                            margin = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
                             document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
                         } else {
+                            margin = `${document.getElementById('header').offsetHeight}px`
                             document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight}px`
                         }
+                        document.querySelector('.login_sign_up').style.height = `calc(100vh - ${margin})`
                     }
 				}, 100)
 			},
