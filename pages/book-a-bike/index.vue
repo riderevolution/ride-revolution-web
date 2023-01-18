@@ -80,7 +80,7 @@
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
-                                                Details: <div v-html="(child.schedule.private_class == 1) ? child.schedule.occassion : (child.schedule.description != null) ? child.schedule.description : child.schedule.class_type.description"></div><br />
+                                                Details: <div v-html="child.schedule.tooltip"></div><br />
                                                 Credits to Deduct: {{ child.schedule.class_credits }}
                                             </div>
                                         </transition>
@@ -166,7 +166,7 @@
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
-                                                Details: <div v-html="(child.schedule.private_class == 1) ? child.schedule.occassion : (child.schedule.description != null) ? child.schedule.description : child.schedule.class_type.description"></div><br />
+                                                Details: <div v-html="child.schedule.tooltip"></div><br />
                                                 Credits to Deduct: {{ child.schedule.class_credits }}
                                             </div>
                                         </transition>
@@ -705,6 +705,13 @@
                         //         // }
                         //     })
                         // })
+                        res.data.dates.forEach(date => {
+                            date.schedules.forEach(schedule_date => {
+                                let element = document.createElement('textarea')
+                                element.innerHTML = (schedule_date.schedule.private_class == 1) ? schedule_date.schedule.occassion : (schedule_date.schedule.description != null) ? schedule_date.schedule.description : schedule_date.schedule.class_type.description
+                                schedule_date.schedule.tooltip = element.value
+                            })
+                        })
                         me.res = res.data
                     }
                 }).catch(err => {
@@ -749,12 +756,10 @@
              * Fetch all instructors */
             me.$axios.get(`api/web/instructors`).then(res => {
                 if (res.data) {
-                    me.instructors = [...res.data.instructors.map((item) => {
-                        return {
-                            ...item,
-                            searched: true
-                        }
-                    })]
+                    me.instructors = res.data.instructors.map((item) => ({
+                        ...item,
+                        searched: true
+                    }))
                 }
             }).catch(err => {
                 me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
