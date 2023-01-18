@@ -80,7 +80,7 @@
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
-                                                Details: <span v-html="(child.schedule.private_class == 1) ? child.schedule.occassion : (child.schedule.description != null) ? child.schedule.description : child.schedule.class_type.description"></span><br />
+                                                Details: <div v-html="(child.schedule.private_class == 1) ? child.schedule.occassion : (child.schedule.description != null) ? child.schedule.description : child.schedule.class_type.description"></div><br />
                                                 Credits to Deduct: {{ child.schedule.class_credits }}
                                             </div>
                                         </transition>
@@ -166,7 +166,7 @@
                                         <transition name="fade">
                                             <div class="info_overlay" v-if="child.schedule.toggle">
                                                 <div class="pointer"></div>
-                                                Details: <span v-html="(child.schedule.private_class == 1) ? child.schedule.occassion : (child.schedule.description != null) ? child.schedule.description : child.schedule.class_type.description"></span><br />
+                                                Details: <div v-html="(child.schedule.private_class == 1) ? child.schedule.occassion : (child.schedule.description != null) ? child.schedule.description : child.schedule.class_type.description"></div><br />
                                                 Credits to Deduct: {{ child.schedule.class_credits }}
                                             </div>
                                         </transition>
