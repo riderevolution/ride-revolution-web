@@ -33,7 +33,7 @@
                                             <button type="button" :class="`default_btn_out ${(promoApplied) ? 'disabled' : ''}`" @click="applyPromo(res.id)"><span>Apply</span></button>
                                         </div>
                                     </div>
-                                    <div class="form_flex alt_2" v-if="!res.recurring">
+                                    <div class="form_flex alt_2" v-if="!res.recurring && res.allow_multiple_purchase">
                                         <div class="form_group">
                                             <label>Qty</label>
                                             <div :class="`form_qty ${(promoApplied) ? 'disabled' : ''}`">
