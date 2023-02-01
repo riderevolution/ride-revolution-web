@@ -237,8 +237,8 @@
                                                 <div class="title">
                                                     {{ data.class_package.name }}
                                                     <div class="violator_list">
-                                                        <div class="violator shared" v-if="data.sharedto_user_id != null && !data.sharedby_user">Shared to {{ data.sharedto_user.first_name }} {{ data.sharedto_user.last_name }}</div>
-                                                        <div class="violator shared_with_me" v-if="data.sharedto_user_id != null && data.sharedby_user">Shared by {{ data.sharedby_user.first_name }} {{ data.sharedby_user.last_name }}</div>
+                                                        <div class="violator shared" v-if="data.shares_count > 0 && !data.sharedby_user">{{ getSharedUsers(data) }}</div>
+                                                        <div class="violator shared_with_me" v-if="data.shares_count > 0 && data.sharedby_user">Shared by {{ data.sharedby_user.fullname }}</div>
                                                         <div class="violator froze" v-if="data.frozen">Package is Frozen</div>
                                                         <div class="violator subs" v-if="data.paypal_subscription_id">Subscription Package</div>
                                                     </div>
@@ -269,9 +269,9 @@
                                                     <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
                                                     <transition name="slideAlt">
                                                         <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                            <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id == null">Share Package</li>
-                                                            <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-else-if="data.class_package.por_allow_sharing_of_package && data.sharedto_user_id != null">Unshare Package</li>
-                                                            <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && data.sharedto_user_id == null" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
+                                                            <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.shares_count != data.class_package.max_package_sharing">Share Package</li>
+                                                            <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-if="data.class_package.por_allow_sharing_of_package && data.shares_count > 0">Unshare Package</li>
+                                                            <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && !data.shares_count" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
                                                         </ul>
                                                     </transition>
                                                 </div>
@@ -307,8 +307,8 @@
                                                 <div class="title">
                                                     {{ data.class_package.name }}
                                                     <div class="violator_list">
-                                                        <div class="violator shared" v-if="data.sharedto_user_id != null && !data.sharedby_user">Shared to {{ data.sharedto_user.first_name }} {{ data.sharedto_user.last_name }}</div>
-                                                        <div class="violator shared_with_me" v-if="data.sharedto_user_id != null && data.sharedby_user">Shared by {{ data.sharedby_user.first_name }} {{ data.sharedby_user.last_name }}</div>
+                                                        <div class="violator shared" v-if="data.shares_count > 0 && !data.sharedby_user">{{ getSharedUsers(data) }}</div>
+                                                        <div class="violator shared_with_me" v-if="data.shares_count > 0 && data.sharedby_user">Shared by {{ data.sharedby_user.fullname }}</div>
                                                         <div class="violator froze" v-if="data.frozen">Package is Frozen</div>
                                                     </div>
                                                 </div>
@@ -826,6 +826,20 @@
             }
         },
         methods: {
+            getSharedUsers (data) {
+                let result = 'Shared to '
+                data.shares.forEach((share, key) => {
+                    if (key != 0) {
+                        if (key + 1 == data.shares.length) {
+                            result += ' & '
+                        } else {
+                            result += ', '
+                        }
+                    }
+                    result += `${share.user.fullname}`
+                })
+                return result
+            },
             getTransactionType (data, type) {
                 const me = this
                 let result = ''
@@ -1227,6 +1241,9 @@
                                     me.packages = []
                                     res.data.customer.user_package_counts.forEach((data, index) => {
                                         if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
+                                            data.shares.forEach(share => {
+                                                share.active = false
+                                            })
                                             // if (!data.paypal_subscription_id) {
                                                 data.toggled = false
                                                 data.expired = false

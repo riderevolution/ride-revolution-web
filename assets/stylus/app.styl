@@ -9521,6 +9521,7 @@ svg
                             &.infinite
                                 neutra_bold(28px, false)
                     .title
+                        flex: 1 0 5%
                         neutra_book(20px, false)
                         font-weight: 500
                         color: $black
@@ -9531,8 +9532,10 @@ svg
                             flex-flow: row wrap
                             align-items: center
                             justify-content: flex-start
+                            width: 100%
+                            max-width: 350px
                             .violator
-                                flex: 0 0 auto
+                                flex: 0 0 100%
                                 margin-top: 5px
                                 neutra_book(12px, true)
                                 font-weight: 500
@@ -9542,6 +9545,7 @@ svg
                                 &:last-child
                                     margin-right: 0
                                 &.shared
+                                    flex: unset
                                     color: $blue
                                     background-color: #C7E6FF
                                 &.subs
@@ -10837,6 +10841,10 @@ textarea::-webkit-scrollbar-thumb
         transition: .3s ease-in-out
 
 .form_custom_checkbox
+    &.share-scroll
+        overflow-y: overlay
+        height: 100%
+        max-height: 250px
     &.scroll
         overflow-y: scroll
         height: 100%
@@ -10871,6 +10879,7 @@ textarea::-webkit-scrollbar-thumb
                     transition: .3s ease-in-out
         &.active
             background-color: $green
+            border: 1px solid $white
             transition: .3s ease-in-out
             label
                 color: $white
@@ -11544,6 +11553,7 @@ textarea::-webkit-scrollbar-thumb
                 flex: 0 0 47%
             &.alt
                 flex: 0 0 auto
+                flex-flow: row wrap
                 justify-content: center
                 .flex
                     flex: 0 0 auto
