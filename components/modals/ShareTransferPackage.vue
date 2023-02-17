@@ -59,7 +59,11 @@
                                 formData.append('sender_id', res.data.user.id)
                                 formData.append('user_package_count_id', me.data.id)
                                 formData.append('receiver_id', me.form.receiver_id)
-                                me.$axios.post(`api/packages/class-packages/${me.category}?forWeb=1`, formData).then(res => {
+                                me.$axios.post(`api/packages/class-packages/${me.category}?forWeb=1`, formData, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }).then(res => {
                                     if (res.data) {
                                         setTimeout( () => {
                                             me.$store.state.shareTransferPackageStatus = false
