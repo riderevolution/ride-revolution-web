@@ -284,7 +284,7 @@
                         </div>
                         <div class="form_group read">
                             <div class="form_group_body" v-html="terms.subtitle"></div>
-                            <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition>
+                            <!-- <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition> -->
                         </div>
                         <div class="form_group">
                             <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`">
@@ -349,7 +349,7 @@
                 has_yes: false,
                 histories: [],
                 error: false,
-                hasReadTerms: false,
+                hasReadTerms: true,
                 user: [],
                 pa_countries: [],
                 pa_states: [],
@@ -616,16 +616,16 @@
                         })
                     }
                 })
-                setTimeout( () => {
-                    document.querySelector('#step_4_form .read .form_group_body').addEventListener('scroll', function(e) {
-                        if (this.offsetHeight + this.scrollTop >= this.scrollHeight) {
-                            me.hasReadTerms = true
-                        } else {
-                            me.hasReadTerms = false
-                            document.getElementById('i_agree').checked = false
-                        }
-                    })
-                }, 100)
+                // setTimeout( () => {
+                //     document.querySelector('#step_4_form .read .form_group_body').addEventListener('scroll', function(e) {
+                //         if (this.offsetHeight + this.scrollTop >= this.scrollHeight) {
+                //             me.hasReadTerms = true
+                //         } else {
+                //             me.hasReadTerms = false
+                //             document.getElementById('i_agree').checked = false
+                //         }
+                //     })
+                // }, 100)
                 me.checkAdvisory()
             }
         },
