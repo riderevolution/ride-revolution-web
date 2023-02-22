@@ -175,6 +175,15 @@
                                         <div class="schedule" v-else>
                                             Bikes: <span class="green">-</span>
                                         </div>
+                                        <div class="schedule">
+                                            Class Package: <span class="green">{{ data.user_package_count.class_package.name }}</span>
+                                        </div>
+                                        <template v-if="data.shared">
+                                            <div class="violator pink nmb mt">Shared by: {{ data.user_package_count.user.fullname }}</div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="violator blue nmb mt">Owned by: {{ data.user_package_count.user.fullname }}</div>
+                                        </template>
                                     </div>
                                 </div>
                                 <div class="bottom">

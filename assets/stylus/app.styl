@@ -7831,12 +7831,22 @@ svg
                                             display: inline-block
                                             background-color: $red_alt
                                             color: $red
-                                            neutra_book(12px, true)
+                                            neutra_bold(12px, true)
                                             font-weight: 500
                                             letter-spacing: 0.25px
                                             padding: 5px 10px
                                             border-radius: 4px
                                             margin-bottom: 10px
+                                            &.mt
+                                                margin-top: 5px
+                                            &.nmb
+                                                margin-bottom: 0
+                                            &.blue
+                                                color: $blue
+                                                background-color: #C7E6FF
+                                            &.pink
+                                                color: #B176A9
+                                                background-color: #FAE2F7
                                         .schedule
                                             neutra_book(16px, false)
                                             span
@@ -8831,8 +8841,11 @@ svg
         padding: 10px 30px
         margin: 0
         li
+            display: flex
+            flex-flow: row wrap
+            align-items: center
+            flex: 0 0 auto
             vertical-align: middle
-            display: inline-flex
             .front,
             .slash
                 neutra_book(14px, false)
@@ -8848,7 +8861,7 @@ svg
                 color: $gray
                 text-transform: capitalize
             .slash
-                margin-right: 3px
+                margin: 0 3px
 
 /**
  * Default Banner */
@@ -9537,7 +9550,7 @@ svg
                             .violator
                                 flex: 0 0 100%
                                 margin-top: 5px
-                                neutra_book(12px, true)
+                                neutra_bold(12px, true)
                                 font-weight: 500
                                 padding: 2px 5px
                                 border-radius: 3px
@@ -9571,7 +9584,7 @@ svg
                     color: #B5B4B4
                     &.violator
                         display: inline-block
-                        neutra_book(12px, true)
+                        neutra_bold(12px, true)
                         font-weight: 500
                         padding: 2px 5px
                         border-radius: 3px
