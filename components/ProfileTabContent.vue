@@ -178,12 +178,14 @@
                                         <div class="schedule">
                                             Class Package: <span class="green">{{ data.user_package_count.class_package.name }}</span>
                                         </div>
-                                        <template v-if="data.shared">
-                                            <div class="violator pink nmb mt">Shared by: {{ data.user_package_count.user.fullname }}</div>
-                                        </template>
-                                        <template v-else>
-                                            <div class="violator blue nmb mt">Owned by: {{ data.user_package_count.user.fullname }}</div>
-                                        </template>
+                                        <div
+                                            :class="[
+                                                'violator nmb mt',
+                                                (data.shared) ? 'pink' : 'blue'
+                                            ]"
+                                        >
+                                            {{ (data.shared) ? 'Shared By' : 'Owned By' }}: {{ data.user_package_count.user.fullname }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="bottom">
