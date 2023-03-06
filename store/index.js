@@ -4,6 +4,8 @@ const createStore = () => {
     return new Vuex.Store({
         state: () => ({
             needLogin: false,
+            healthWaiver: false,
+            healthWaiverSuccess: false,
             hasUpdateProfile: false,
             newUser: false,
             oldUser: false,
@@ -55,7 +57,6 @@ const createStore = () => {
             bookerAssignStatus: false,
             bookerRemoveBookingStatus: false,
             completeProfilePromptStatus: false,
-            completeProfileHealthStatus: false,
             completeProfileStepsStatus: false,
             completeProfileStatus: false,
             proTipStatus: false,
