@@ -65,14 +65,14 @@
     </transition>
 
     <!-- Health Waiver -->
-    <transition name="fade">
+    <!-- <transition name="fade">
       <health-waiver v-if="$store.state.healthWaiver" />
-    </transition>
+    </transition> -->
 
     <!-- Health Waiver Success -->
-    <transition name="fade">
+    <!-- <transition name="fade">
       <health-waiver-success v-if="$store.state.healthWaiverSuccess" />
-    </transition>
+    </transition> -->
 
     <!-- Complete Profile Success -->
     <transition name="fade">
@@ -146,8 +146,8 @@
   import LoginChecker from '~/components/modals/LoginChecker'
   import CompleteProfileSteps from '~/components/modals/CompleteProfileSteps'
   import CompleteProfileSuccess from '~/components/modals/CompleteProfileSuccess'
-  import HealthWaiver from '~/components/modals/HealthWaiver'
-  import HealthWaiverSuccess from '~/components/modals/HealthWaiverSuccess'
+  // import HealthWaiver from '~/components/modals/HealthWaiver'
+  // import HealthWaiverSuccess from '~/components/modals/HealthWaiverSuccess'
   import ForgotPasswordSuccess from '~/components/modals/ForgotPasswordSuccess'
   import OldUserUpdatePrompt from '~/components/modals/OldUserUpdatePrompt'
   import ResendEmailPrompt from '~/components/modals/ResendEmailPrompt'
@@ -164,8 +164,8 @@
       LoginChecker,
       CompleteProfileSteps,
       CompleteProfileSuccess,
-      HealthWaiver,
-      HealthWaiverSuccess,
+      // HealthWaiver,
+      // HealthWaiverSuccess,
       ForgotPasswordSuccess,
       OldUserUpdatePrompt,
       ResendEmailPrompt,
@@ -191,8 +191,8 @@
         const me = this
         me.validateToken()
         document.body.classList.remove('no_scroll')
-        me.$store.state.healthWaiver = false
-        me.$store.state.healthWaiverSuccess = false
+        // me.$store.state.healthWaiver = false
+        // me.$store.state.healthWaiverSuccess = false
         me.$store.state.completeProfileStepsStatus = false
         me.$store.state.completeProfileStatus = false
         me.$store.state.proTipStatus = false
@@ -468,9 +468,9 @@
               }
             })
             .then(res => {
-              if (!res.data.user.health_waiver) {
-                me.$store.state.healthWaiver = true
-              }
+              // if (!res.data.user.health_waiver) {
+              //   me.$store.state.healthWaiver = true
+              // }
               if (res.data.expiredPackageNotification) {
                 me.payload.package = res.data.expiredPackageNotification
                 me.package_prompt = true
