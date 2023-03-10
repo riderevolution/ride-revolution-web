@@ -90,7 +90,7 @@
               Instructors
             </nuxt-link>
           </li>
-          <li itemprop="name">
+          <!-- <li itemprop="name">
             <a
               href="https://shop.riderevolution.ph/"
               class="nav_item"
@@ -99,7 +99,7 @@
             >
               Shop
             </a>
-          </li>
+          </li> -->
           <li itemprop="name">
             <a
               href="https://ondemand.riderevolution.ph/"
