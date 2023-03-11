@@ -1345,7 +1345,7 @@
                   'medical_history',
                   JSON.stringify(me.completeProfile.medical_history)
                 )
-                formData.append('email_waiver', me.email_waiver ? 1 : 0)
+                formData1.append('email_waiver', me.email_waiver ? 1 : 0)
                 formData1.append('_method', 'PATCH')
 
                 me.$axios
