@@ -13,19 +13,22 @@
         <client-only>
           <swiper
             :options="testimonialsOptions"
+            :key="!$store.state.isMobile ? 1 : 0"
             :class="['default', !$store.state.isMobile && 'alt']"
           >
             <swiper-slide
+              :class="['review_slide', $store.state.isMobile && 'mobile']"
               v-for="(data, key) in testimonials"
               :key="key"
-              :class="['review_slide', $store.state.isMobile && 'mobile']"
             >
               <div class="description" v-html="data.body"></div>
-              <img
-                :src="data.images[0].path_resized"
-                :alt="data.images[0].alt"
-              />
-              <h2 class="title">{{ data.name }}</h2>
+              <div>
+                <img
+                  :src="data.images[0].path_resized"
+                  :alt="data.images[0].alt"
+                />
+                <h2 class="title">{{ data.name }}</h2>
+              </div>
             </swiper-slide>
             <template v-if="!$store.state.isMobile">
               <div class="swiper-button-prev" slot="button-prev"></div>
@@ -50,34 +53,6 @@
         default: null
       }
     },
-    data() {
-      return {
-        mobileTestimonialsOptions: {
-          slidesPerView: 1,
-          slidesPerGroup: 1,
-          spaceBetween: 0,
-          autoHeight: true,
-          loop: true,
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-            dynamicBullets: true
-          },
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          },
-          breakpoints: {
-            1280: {
-              slidesPerView: 1,
-              slidesPerGroup: 1,
-              spaceBetween: 0,
-              autoHeight: true
-            }
-          }
-        }
-      }
-    },
     computed: {
       testimonialsOptions() {
         const me = this
@@ -88,13 +63,9 @@
           loop = true
         }
 
-        let centeredSlides = this.$store.state.isMobile ? false : true
-
         return {
           slidesPerView: 3,
-          spaceBetween: 60,
-          slidesPerGroup: 3,
-          centeredSlides: centeredSlides,
+          spaceBetween: 30,
           loop: loop,
           pagination: {
             el: '.swiper-pagination',
@@ -108,33 +79,28 @@
           breakpoints: {
             1280: {
               slidesPerView: 2,
-              spaceBetween: 30,
-              slidesPerGroup: 2,
-              autoHeight: true
+              spaceBetween: 15,
+              centeredSlides: true
+            },
+            900: {
+              slidesPerView: 2,
+              spaceBetween: 15
             },
             768: {
               slidesPerView: 1,
-              slidesPerGroup: 1,
-              spaceBetween: 0,
-              autoHeight: true
+              spaceBetween: 30
             },
             425: {
               slidesPerView: 1,
-              slidesPerGroup: 1,
-              spaceBetween: 0,
-              autoHeight: true
+              spaceBetween: 0
             },
             375: {
               slidesPerView: 1,
-              slidesPerGroup: 1,
-              spaceBetween: 0,
-              autoHeight: true
+              spaceBetween: 0
             },
             280: {
               slidesPerView: 1,
-              slidesPerGroup: 1,
-              spaceBetween: 0,
-              autoHeight: true
+              spaceBetween: 0
             }
           }
         }

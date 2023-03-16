@@ -493,6 +493,7 @@
     },
     mounted() {
       const me = this
+      me.onResize()
       let token = me.$cookies.get('70hokc3hhhn5')
       if (token != null && token != undefined) {
         me.$store.state.token = token

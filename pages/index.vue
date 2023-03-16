@@ -89,8 +89,10 @@
     },
     async mounted() {
       const me = this
+      me.loader(true)
       await setTimeout(() => {
         me.loaded = true
+        me.loader(false)
         // me.initial()
       }, 500)
     },
