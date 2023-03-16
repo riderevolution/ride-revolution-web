@@ -92,7 +92,7 @@
       await setTimeout(() => {
         me.loaded = true
         // me.initial()
-      }, 10)
+      }, 500)
     },
     asyncData({ $axios, params, error }) {
       return $axios.get('api/web/home').then(res => {
