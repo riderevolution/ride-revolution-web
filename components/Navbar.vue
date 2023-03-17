@@ -90,16 +90,16 @@
               Instructors
             </nuxt-link>
           </li>
-          <!-- <li itemprop="name">
-            <a
-              href="https://shop.riderevolution.ph/"
+          <li itemprop="name">
+            <nuxt-link
+              rel="canonical"
+              to="/riders-guide"
               class="nav_item"
               itemprop="url"
-              target="_blank"
             >
-              Shop
-            </a>
-          </li> -->
+              Rider's Guide
+            </nuxt-link>
+          </li>
           <li itemprop="name">
             <a
               href="https://ondemand.riderevolution.ph/"

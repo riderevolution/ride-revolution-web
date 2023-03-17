@@ -1,729 +1,732 @@
 <template>
-    <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'} ${($store.state.isMobile) ? 'mobile' : ''} ${($store.state.articleAlertStatus) ? 'adjust' : ''}`">
-        <div class="close_icon" v-if="$route.name != 'instructors-slug-comment'" @click="toggleClose()"></div>
-        <transition name="fade">
-            <section id="login" v-if="!signUp">
-                <h2 class="title">Hi, welcome back!</h2>
-                <div class="action">
-                    <div class="default_btn_login" @click="fbLogin()">
-                        <img src="/icons/fb-login.svg" />
-                        <span>Login with Facebook</span>
-                    </div>
-                    <div class="default_btn_login alt" @click="googleLogin()">
-                        <img src="/icons/google-login.svg" />
-                        <span>Login with Google</span>
-                    </div>
-                </div>
-                <div class="divider">
-                    <span>or</span>
-                </div>
-                <form id="default_form" data-vv-scope="login_form" @submit.prevent="submissionLoginSuccess()">
-                    <div class="form_group">
-                        <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="loginForm.email">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.email')">{{ properFormat(errors.first('login_form.email')) }}</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="loginForm.password">
-                        <transition name="fade">
-                            <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
-                        </transition>
-                        <transition name="fade">
-                            <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
-                        </transition>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.password')">{{ properFormat(errors.first('login_form.password')) }}</span></transition>
-                    </div>
-                    <div class="form_flex">
-                        <div class="form_check">
-                            <input type="checkbox" id="remember_me" name="remember_me" class="input_check" v-model="signUpForm.remember">
-                            <label for="remember_me">Remember Me</label>
-                        </div>
-                        <div class="input_link" @click="toggleForgot()">Forgot Password?</div>
-                    </div>
-                    <div class="form_button">
-                        <button type="submit" class="default_btn full">Login</button>
-                    </div>
-                </form>
-                <div class="new_here">
-                    New here? <span @click="toggleNextPrev()">Create an account</span>.
-                </div>
-            </section>
-        </transition>
-        <transition name="fade">
-            <section id="login" v-if="forgotPassword">
-                <h2 class="title">Forgot your password?</h2>
-                <h3 class="subtitle">Don’t worry! Just enter your email address and we’ll send you a recovery email.</h3>
-                <form id="default_form" data-vv-scope="forgot_form" @submit.prevent="submissionForgotSuccess()">
-                    <div class="form_group">
-                        <label for="email">E-mail</label>
-                        <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="forgotPasswordForm.email">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ properFormat(errors.first('forgot_form.email')) }}</span></transition>
-                    </div>
-                    <div class="form_flex sign_up">
-                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('forgot')">Back</div>
-                        <div class="form_button">
-                            <button type="submit" class="default_btn full">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </section>
-        </transition>
-        <transition name="fade">
-            <section id="login" v-if="signUp && signUpStep == 0">
-                <h2 class="title">Ready to start your Revolution? You’ve come to the right place.</h2>
-                <div class="action">
-                    <div class="default_btn_login">
-                        <img src="/icons/fb-login.svg" />
-                        <span>Login with Facebook</span>
-                    </div>
-                    <div class="default_btn_login alt">
-                        <img src="/icons/google-login.svg" />
-                        <span>Login with Google</span>
-                    </div>
-                </div>
-                <div class="divider">
-                    <span>or</span>
-                </div>
-                <form id="default_form" data-vv-scope="register_form">
-                    <div class="form_group">
-                        <label for="email">E-mail</label>
-                        <input type="text" @input="checkValidity('email', $event)" id="email" name="email" class="input_text" v-model="signUpForm.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.email') && !checkEmailValidity">{{ properFormat(errors.first('register_form.email')) }}</span></transition>
-                        <transition name="slide"><span class="validation_errors" v-if="checkEmailValidity">Email address is already taken</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" ref="password" v-model="signUpForm.password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}">
-                        <transition name="fade">
-                            <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
-                        </transition>
-                        <transition name="fade">
-                            <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
-                        </transition>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password')">{{ properFormat(errors.first('register_form.password')) }}</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="password_confirmation">Confirm Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" v-model="signUpForm.password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}">
-                        <transition name="fade">
-                            <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
-                        </transition>
-                        <transition name="fade">
-                            <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="showConfirmPassword"><img src="/icons/show-pw.svg" /></div>
-                        </transition>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password_confirmation')">{{ properFormat(errors.first('register_form.password_confirmation')) }}</span></transition>
-                    </div>
-                    <div class="form_button">
-                        <button type="button" :class="`default_btn full ${(checkEmailValidity) ? 'disabled' : ''}`" @click="submissionRegisterSuccess()">Sign up</button>
-                    </div>
-                </form>
-                <div class="new_here">
-                    Already have an account? <span @click="toggleNextPrev()">Login</span>.
-                </div>
-            </section>
-        </transition>
-        <transition name="fade">
-            <section id="login" v-if="signUpProcess && signUpStep == 1">
-                <div class="sign_up_header">
-                    <h2 class="title">A few more things...</h2>
-                    <div class="counter">2/4</div>
-                </div>
-                <form id="default_form" data-vv-scope="register_process_form">
-                    <div class="form_group disclaimer">
-                        <label for="username">Username <span>*</span></label>
-                        <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="signUpForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.username') && !checkUsernameValidity">{{ properFormat(errors.first('register_process_form.username')) }}</span></transition>
-                        <transition name="slide"><span class="validation_errors" v-if="checkUsernameValidity">Username is already taken</span></transition>
-                    </div>
-                    <div class="form_group_disclaimer">
-                        <div class="form_disclaimer"><img src="/icons/disclaimer-icon.svg" /> <span>Username cannot be changed once saved.</span></div>
-                    </div>
-                    <div class="form_group">
-                        <label for="first_name">First Name <span>*</span></label>
-                        <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="signUpForm.first_name" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.first_name')">{{ properFormat(errors.first('register_process_form.first_name')) }}</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="last_name">Last Name <span>*</span></label>
-                        <input type="text" name="last_name" autocomplete="off" class="input_text" v-model="signUpForm.last_name" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.last_name')">{{ properFormat(errors.first('register_process_form.last_name')) }}</span></transition>
-                    </div>
-                    <div class="form_group">
-                        <label for="contact_number">Contact Number <span>*</span></label>
-                        <input type="text" name="contact_number" autocomplete="off" v-model="signUpForm.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.contact_number')">{{ properFormat(errors.first('register_process_form.contact_number')) }}</span></transition>
-                    </div>
-                    <div class="form_flex sign_up">
-                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
-                        <div class="form_button">
-                            <button type="button" :class="`default_btn full ${(checkUsernameValidity) ? 'disabled' : ''}`" @click="toggleStep('proceed')">Looks Good</button>
-                        </div>
-                    </div>
-                </form>
-            </section>
-        </transition>
-        <transition name="fade">
-            <section id="login" v-if="signUpProcess && signUpStep == 2">
-                <div class="sign_up_header">
-                    <h2 class="title">Almost there, {{ signUpForm.first_name }}!</h2>
-                    <div class="counter">3/4</div>
-                </div>
-                <form id="default_form" data-vv-scope="register_process_form">
-                    <div class="form_group">
-                        <label for="birth_date">Birth Date <span>*</span></label>
-                        <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="signUpForm.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
-                        <transition name="slide"><span class="validation_errors" v-if="!errors.has('register_process_form.birth_date') && !not_under">Only age of 17 and up are valid</span></transition>
-                    </div>
-                    <div class="form_group select">
-                        <label for="what_do_you_do">Profession <span>*</span></label>
-                        <div class="select">
-                            <select class="input_select" name="what_do_you_do" v-model="signUpForm.what_do_you_do" v-validate="'required'">
-                                <option value="" selected disabled>Choose a Profession</option>
-                                <option :value="data" v-for="(data, key) in professions" :key="key">{{ data }}</option>
-                            </select>
-                        </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.what_do_you_do')">{{ properFormat(errors.first('register_process_form.what_do_you_do')) }}</span></transition>
-                    </div>
-                    <div class="form_flex radio">
-                        <label>Sex <span>*</span></label>
-                        <div class="form_radio">
-                            <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
-                            <label for="female">Female</label>
-                        </div>
-                        <div class="form_radio">
-                            <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
-                            <label for="male">Male</label>
-                        </div>
-                        <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.sex')">{{ properFormat(errors.first('register_process_form.sex')) }}</span></transition>
-                    </div>
-                    <div class="form_flex sign_up">
-                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
-                        <div class="form_button">
-                            <button type="button" class="default_btn full" @click="toggleStep('proceed')">One last thing</button>
-                        </div>
-                    </div>
-                </form>
-            </section>
-        </transition>
-        <transition name="fade">
-            <section id="login" v-if="signUpProcess && signUpStep == 3">
-                <div class="sign_up_header">
-                    <h2 class="title">Terms and Conditions &amp; Privacy Policy</h2>
-                    <div class="counter">4/4</div>
-                </div>
-                <form id="default_form" data-vv-scope="register_process_form">
-                    <div class="form_group">
-                        <div class="form_group_body" v-html="terms.subtitle"></div>
-                        <!-- <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition> -->
-                    </div>
-                    <div class="form_group">
-                        <!-- <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`"> -->
-                        <div class="form_check">
-                            <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'" v-model="signUpForm.iAgree">
-                            <label for="i_agree" class="alt">I agree to the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> and Ride Revolution’s <a target="_blank" href="/privacy-policy">Privacy Policy</a>.</label>
-                            <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition> -->
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree')">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition>
-                        </div>
-                    </div>
-                    <div class="form_flex sign_up">
-                        <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
-                        <div class="form_button">
-                            <button type="button" :class="['default_btn full', (!signUpForm.iAgree) && 'disabled']" @click="submitRegistration()">Agree and Finish</button>
-                        </div>
-                    </div>
-                </form>
-            </section>
-        </transition>
+  <div :class="`${(height > 200) ? 'sticky' : ''} login_sign_up ${($route.fullPath == '/') ? 'front' : 'not_front'} ${($store.state.isMobile) ? 'mobile' : ''} ${($store.state.articleAlertStatus) ? 'adjust' : ''}`">
+    <div class="close_icon" v-if="$route.name != 'instructors-slug-comment'" @click="toggleClose()"></div>
+    <transition name="fade">
+      <section id="login" v-if="!signUp">
+        <h2 class="title">Hi, welcome back!</h2>
+        <div class="action">
+          <div class="default_btn_login" @click="fbLogin()">
+            <img src="/icons/fb-login.svg" />
+            <span>Login with Facebook</span>
+          </div>
+          <div class="default_btn_login alt" @click="googleLogin()">
+            <img src="/icons/google-login.svg" />
+            <span>Login with Google</span>
+          </div>
+        </div>
+        <div class="divider">
+          <span>or</span>
+        </div>
+        <form id="default_form" data-vv-scope="login_form" @submit.prevent="submissionLoginSuccess()">
+          <div class="form_group">
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="loginForm.email">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.email')">{{ properFormat(errors.first('login_form.email')) }}</span></transition>
+          </div>
+          <div class="form_group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}" v-model="loginForm.password">
+            <transition name="fade">
+              <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
+            </transition>
+            <transition name="fade">
+              <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
+            </transition>
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('login_form.password')">{{ properFormat(errors.first('login_form.password')) }}</span></transition>
+          </div>
+          <div class="form_flex">
+            <div class="form_check">
+              <input type="checkbox" id="remember_me" name="remember_me" class="input_check" v-model="signUpForm.remember">
+              <label for="remember_me">Remember Me</label>
+            </div>
+            <div class="input_link" @click="toggleForgot()">Forgot Password?</div>
+          </div>
+          <div class="form_button">
+            <button type="submit" class="default_btn full">Login</button>
+          </div>
+        </form>
+        <div class="new_here">
+          New here? <span @click="toggleNextPrev()">Create an account</span>.
+        </div>
+      </section>
+    </transition>
+    <transition name="fade">
+      <section id="login" v-if="forgotPassword">
+        <h2 class="title">Forgot your password?</h2>
+        <h3 class="subtitle">Don’t worry! Just enter your email address and we’ll send you a recovery email.</h3>
+        <form id="default_form" data-vv-scope="forgot_form" @submit.prevent="submissionForgotSuccess()">
+          <div class="form_group">
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" class="input_text" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}" v-model="forgotPasswordForm.email">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('forgot_form.email')">{{ properFormat(errors.first('forgot_form.email')) }}</span></transition>
+          </div>
+          <div class="form_flex sign_up">
+            <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('forgot')">Back</div>
+            <div class="form_button">
+              <button type="submit" class="default_btn full">Send</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </transition>
+    <transition name="fade">
+      <section id="login" v-if="signUp && signUpStep == 0">
+        <h2 class="title">Ready to start your Revolution? You’ve come to the right place.</h2>
+        <div class="action">
+          <div class="default_btn_login">
+            <img src="/icons/fb-login.svg" />
+            <span>Login with Facebook</span>
+          </div>
+          <div class="default_btn_login alt">
+            <img src="/icons/google-login.svg" />
+            <span>Login with Google</span>
+          </div>
+        </div>
+        <div class="divider">
+          <span>or</span>
+        </div>
+        <form id="default_form" data-vv-scope="register_form">
+          <div class="form_group">
+            <label for="email">E-mail</label>
+            <input type="text" @input="checkValidity('email', $event)" id="email" name="email" class="input_text" v-model="signUpForm.email" autocomplete="off" placeholder="Enter your email address" v-validate="{required: true, email: true}">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.email') && !checkEmailValidity">{{ properFormat(errors.first('register_form.email')) }}</span></transition>
+            <transition name="slide"><span class="validation_errors" v-if="checkEmailValidity">Email address is already taken</span></transition>
+          </div>
+          <div class="form_group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" ref="password" v-model="signUpForm.password" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}">
+            <transition name="fade">
+              <div class="pw_icon" @click="togglePassword(showPassword)" v-if="!showPassword"><img src="/icons/hide-pw.svg" /></div>
+            </transition>
+            <transition name="fade">
+              <div class="pw_icon" @click="togglePassword(showPassword)" v-if="showPassword"><img src="/icons/show-pw.svg" /></div>
+            </transition>
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password')">{{ properFormat(errors.first('register_form.password')) }}</span></transition>
+          </div>
+          <div class="form_group">
+            <label for="password_confirmation">Confirm Password</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" v-model="signUpForm.password_confirmation" class="input_text" autocomplete="off" placeholder="Enter your password" v-validate="{required: true, min: 8, confirmed: 'password', regex: '^[a-zA-Z0-9|\u00f1|\@|\.|\#|\!|\$]*$'}">
+            <transition name="fade">
+              <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="!showConfirmPassword"><img src="/icons/hide-pw.svg" /></div>
+            </transition>
+            <transition name="fade">
+              <div class="pw_icon" @click="toggleConfirmPassword(showConfirmPassword)" v-if="showConfirmPassword"><img src="/icons/show-pw.svg" /></div>
+            </transition>
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_form.password_confirmation')">{{ properFormat(errors.first('register_form.password_confirmation')) }}</span></transition>
+          </div>
+          <div class="form_button">
+            <button type="button" :class="`default_btn full ${(checkEmailValidity) ? 'disabled' : ''}`" @click="submissionRegisterSuccess()">Sign up</button>
+          </div>
+        </form>
+        <div class="new_here">
+          Already have an account? <span @click="toggleNextPrev()">Login</span>.
+        </div>
+      </section>
+    </transition>
+    <transition name="fade">
+      <section id="login" v-if="signUpProcess && signUpStep == 1">
+        <div class="sign_up_header">
+          <h2 class="title">A few more things...</h2>
+          <div class="counter">2/4</div>
+        </div>
+        <form id="default_form" data-vv-scope="register_process_form">
+          <div class="form_group disclaimer">
+            <label for="username">Username <span>*</span></label>
+            <input type="text" @input="checkValidity('username', $event)" name="username" autocomplete="off" class="input_text" v-model="signUpForm.username" placeholder="Enter your username" v-validate="{required: true, regex: '^[a-zA-Z0-9|\@|\#|\_|\.]*$', min: 6, max: 100}">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.username') && !checkUsernameValidity">{{ properFormat(errors.first('register_process_form.username')) }}</span></transition>
+            <transition name="slide"><span class="validation_errors" v-if="checkUsernameValidity">Username is already taken</span></transition>
+          </div>
+          <div class="form_group_disclaimer">
+            <div class="form_disclaimer"><img src="/icons/disclaimer-icon.svg" /> <span>Username cannot be changed once saved.</span></div>
+          </div>
+          <div class="form_group">
+            <label for="first_name">First Name <span>*</span></label>
+            <input type="text" name="first_name" autocomplete="off" class="input_text" v-model="signUpForm.first_name" placeholder="Enter your first name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.first_name')">{{ properFormat(errors.first('register_process_form.first_name')) }}</span></transition>
+          </div>
+          <div class="form_group">
+            <label for="last_name">Last Name <span>*</span></label>
+            <input type="text" name="last_name" autocomplete="off" class="input_text" v-model="signUpForm.last_name" placeholder="Enter your last name" v-validate="{required: true, regex: '^[a-zA-Z0-9-._ |\u00f1]*$', max: 100}">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.last_name')">{{ properFormat(errors.first('register_process_form.last_name')) }}</span></transition>
+          </div>
+          <div class="form_group">
+            <label for="contact_number">Contact Number <span>*</span></label>
+            <input type="text" name="contact_number" autocomplete="off" v-model="signUpForm.contact_number" placeholder="Enter your contact number" class="input_text" v-validate="'required|numeric|min:7|max:11'">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.contact_number')">{{ properFormat(errors.first('register_process_form.contact_number')) }}</span></transition>
+          </div>
+          <div class="form_flex sign_up">
+            <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
+            <div class="form_button">
+              <button type="button" :class="`default_btn full ${(checkUsernameValidity) ? 'disabled' : ''}`" @click="toggleStep('proceed')">Looks Good</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </transition>
+    <transition name="fade">
+      <section id="login" v-if="signUpProcess && signUpStep == 2">
+        <div class="sign_up_header">
+          <h2 class="title">Almost there, {{ signUpForm.first_name }}!</h2>
+          <div class="counter">3/4</div>
+        </div>
+        <form id="default_form" data-vv-scope="register_process_form">
+          <div class="form_group">
+            <label for="birth_date">Birth Date <span>*</span></label>
+            <input type="text" name="birth_date" autocomplete="off" maxlength="10" class="input_text" v-model="signUpForm.birth_date" @keyup="inputDate($event)" placeholder="YYYY-MM-DD" v-validate="{required: true, max: 10, date_format: 'yyyy-MM-dd'}">
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.birth_date')">The Birth Date must be in the format YYYY-MM-DD</span></transition>
+            <transition name="slide"><span class="validation_errors" v-if="!errors.has('register_process_form.birth_date') && !not_under">Only age of 17 and up are valid</span></transition>
+          </div>
+          <div class="form_group select">
+            <label for="what_do_you_do">Profession <span>*</span></label>
+            <div class="select">
+              <select class="input_select" name="what_do_you_do" v-model="signUpForm.what_do_you_do" v-validate="'required'">
+                <option value="" selected disabled>Choose a Profession</option>
+                <option :value="data" v-for="(data, key) in professions" :key="key">{{ data }}</option>
+              </select>
+            </div>
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.what_do_you_do')">{{ properFormat(errors.first('register_process_form.what_do_you_do')) }}</span></transition>
+          </div>
+          <div class="form_flex radio">
+            <label>Sex <span>*</span></label>
+            <div class="form_radio">
+              <input type="radio" id="female" value="F" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
+              <label for="female">Female</label>
+            </div>
+            <div class="form_radio">
+              <input type="radio" id="male" value="M" name="sex" class="input_radio" v-validate="'required'" v-model="signUpForm.sex">
+              <label for="male">Male</label>
+            </div>
+            <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.sex')">{{ properFormat(errors.first('register_process_form.sex')) }}</span></transition>
+          </div>
+          <div class="form_flex sign_up">
+            <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
+            <div class="form_button">
+              <button type="button" class="default_btn full" @click="toggleStep('proceed')">One last thing</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </transition>
+    <transition name="fade">
+      <section id="login" v-if="signUpProcess && signUpStep == 3">
+        <div class="sign_up_header">
+          <h2 class="title">Terms and Conditions &amp; Privacy Policy</h2>
+          <div class="counter">4/4</div>
+        </div>
+        <form id="default_form" data-vv-scope="register_process_form">
+          <div class="form_group">
+            <div class="form_group_body" v-html="terms.subtitle"></div>
+            <!-- <transition name="slide"><span class="validation_errors" v-if="!hasReadTerms">Read first before proceeding.</span></transition> -->
+          </div>
+          <div class="form_group">
+            <!-- <div :class="`form_check ${(!hasReadTerms) ? 'disabled' : ''}`"> -->
+              <div class="form_check">
+                <input type="checkbox" id="i_agree" name="i_agree" class="input_check" v-validate="'required'" v-model="signUpForm.iAgree">
+                <label for="i_agree" class="alt">I agree to the <a target="_blank" href="/terms-and-conditions">Terms &amp; Conditions</a> and Ride Revolution’s <a target="_blank" href="/privacy-policy">Privacy Policy</a>.</label>
+                <!-- <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree') && hasReadTerms">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition> -->
+                <transition name="slide"><span class="validation_errors" v-if="errors.has('register_process_form.i_agree')">{{ properFormat(errors.first('register_process_form.i_agree')) }}</span></transition>
+              </div>
+            </div>
+            <div class="form_flex sign_up">
+              <div :class="`${($store.state.isMobile) ? 'default_btn_blk' : 'back'}`" @click="toggleStep('back')">Back</div>
+              <div class="form_button">
+                <button type="button" :class="['default_btn full', (!signUpForm.iAgree) && 'disabled']" @click="submitRegistration()">Agree and Finish</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </transition>
     </div>
-</template>
-
-<script>
-    export default {
-        data () {
-            return {
-                terms: [],
-                height: 0,
-                showPassword: false,
-                not_under: true,
-                showConfirmPassword: false,
-                forgotPassword: false,
-                signUp: false,
-                signUpProcess: false,
-                checkEmailValidity: false,
-                checkUsernameValidity: false,
-                signUpForm: {
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                    username: '',
-                    first_name: '',
-                    last_name: '',
-                    contact_number: '',
-                    birth_date: '',
-                    what_do_you_do: '',
-                    sex: '',
-                    iAgree: '',
-                    remember: false
-                },
-                professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
-                hasReadTerms: false,
-                signUpStep: null,
-                loginForm: {
-                    email: '',
-                    password: '',
-                },
-                forgotPasswordForm: {
-                    email: ''
-                }
-            }
+  </template>
+  
+  <script>
+  export default {
+    data () {
+      return {
+        terms: [],
+        height: 0,
+        showPassword: false,
+        not_under: true,
+        showConfirmPassword: false,
+        forgotPassword: false,
+        signUp: false,
+        signUpProcess: false,
+        checkEmailValidity: false,
+        checkUsernameValidity: false,
+        signUpForm: {
+          email: '',
+          password: '',
+          password_confirmation: '',
+          username: '',
+          first_name: '',
+          last_name: '',
+          contact_number: '',
+          birth_date: '',
+          what_do_you_do: '',
+          sex: '',
+          iAgree: '',
+          remember: false
         },
-        methods: {
-            inputDate (event) {
-                const me = this
-                me.signUpForm.birth_date = me.parseInputToDate(event.target.value)
-
-                let age = -(me.$moment(me.signUpForm.birth_date, 'YYYY-MM-DD').diff(me.$moment(), 'years'))
-
-                if (age && me.signUpForm.birth_date) {
-                    me.not_under = (age > 16) ? true : false
+        professions: ['Accounting/Finance', 'Admin/Human Resources', 'Arts/Media/Communications', 'Building/Construction', 'Information Technology', 'Education/Training', 'Engineering', 'Healthcare', 'Hotel/Restaurant', 'Manufacturing', 'Sales/Marketing', 'Sciences', 'Services', 'Others'],
+        hasReadTerms: false,
+        signUpStep: null,
+        loginForm: {
+          email: '',
+          password: '',
+        },
+        forgotPasswordForm: {
+          email: ''
+        }
+      }
+    },
+    methods: {
+      inputDate (event) {
+        const me = this
+        me.signUpForm.birth_date = me.parseInputToDate(event.target.value)
+        
+        let age = -(me.$moment(me.signUpForm.birth_date, 'YYYY-MM-DD').diff(me.$moment(), 'years'))
+        
+        if (age && me.signUpForm.birth_date) {
+          me.not_under = (age > 16) ? true : false
+        } else {
+          me.not_under = true
+        }
+      },
+      checkValidity (type, event) {
+        const me = this
+        let value = event.target.value
+        let formData = new FormData()
+        formData.append('type', type)
+        formData.append('value', value)
+        me.$axios.post('api/check-data-validity', formData).then(res => {
+          if (res.data) {
+            if (res.data.exists) {
+              if (type == 'email') {
+                me.checkEmailValidity = true
+              } else {
+                me.checkUsernameValidity = true
+              }
+            } else {
+              if (type == 'email') {
+                me.checkEmailValidity = false
+              } else {
+                me.checkUsernameValidity = false
+              }
+            }
+          }
+        })
+      },
+      fbLogin () {
+        let me = this
+        
+        me.initFB()
+        
+        FB.login(res => {
+          if (res.authResponse) {
+            FB.api('/me?fields=email,name,first_name,last_name,picture.width(500)', res => {
+              let data = res
+              if (res.picture) {
+                data.image = res.picture.data.url
+              }
+              let token = ''
+              me.loader(true)
+              me.$axios.post('api/login/facebook/', data).then(res => {
+                token = res.data.token
+                me.$cookies.set('70hokc3hhhn5', token, '7d')
+                if (res.data.user.from_import == 1) {
+                  me.$store.state.oldUser = true
+                  me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
                 } else {
-                    me.not_under = true
-                }
-            },
-            checkValidity (type, event) {
-                const me = this
-                let value = event.target.value
-                let formData = new FormData()
-                formData.append('type', type)
-                formData.append('value', value)
-                me.$axios.post('api/check-data-validity', formData).then(res => {
-                    if (res.data) {
-                        if (res.data.exists) {
-                            if (type == 'email') {
-                                me.checkEmailValidity = true
-                            } else {
-                                me.checkUsernameValidity = true
-                            }
-                        } else {
-                            if (type == 'email') {
-                                me.checkEmailValidity = false
-                            } else {
-                                me.checkUsernameValidity = false
-                            }
-                        }
-                    }
-                })
-            },
-            fbLogin () {
-                let me = this
-
-                me.initFB()
-
-                FB.login(res => {
-                    if (res.authResponse) {
-                        FB.api('/me?fields=email,name,first_name,last_name,picture.width(500)', res => {
-                            let data = res
-                            if (res.picture) {
-                                data.image = res.picture.data.url
-                            }
-                            let token = ''
-                            me.loader(true)
-                            me.$axios.post('api/login/facebook/', data).then(res => {
-                                token = res.data.token
-                                me.$cookies.set('70hokc3hhhn5', token, '7d')
-                                if (res.data.user.from_import == 1) {
-                                    me.$store.state.oldUser = true
-                                    me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
-                                } else {
-                                    if (res.data.onboarding_code === null) {
-                                        if (me.$route.fullPath == '/my-profile') {
-                                            location.reload()
-                                        } else {
-                                            me.$router.push('/my-profile')
-                                        }
-                                    } else {
-                                        me.$store.state.newUser = true
-                                        me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
-                                    }
-                                }
-                                me.validateToken()
-                                me.$store.state.loginSignUpStatus = false
-                                document.body.classList.remove('no_scroll')
-                            }).catch(err => {
-                                me.$store.state.errorOverlayPromptStatus = true
-                                me.$store.state.errorList = err.response.data.errors
-                                me.$store.state.errorPromptStatus = true
-                                me.$cookies.remove('70hokc3hhhn5')
-                            }).then(() => {
-                                setTimeout(() => {
-                                    me.loader(false)
-                                }, 500)
-                                if (token !== null && token !== undefined) {
-                                    me.checkBadges()
-                                }
-                            })
-                        })
+                  if (res.data.onboarding_code === null) {
+                    if (me.$route.fullPath == '/my-profile') {
+                      location.reload()
                     } else {
-                        console.log('User cancelled login or did not fully authorize.')
+                      location.href = '/my-profile'
+                      // me.$router.push('/my-profile')
                     }
-                }, {
-                    scope: 'public_profile,email'
-                })
-            },
-            googleLogin () {
-                let me = this
-                me.$gAuth.signIn().then(res => {
-                    me.loader(true)
-                    // call backend
-                    let profile = res.getBasicProfile()
-                    let data = {
-                        email: profile.getEmail(),
-                        google_id: profile.getId(),
-                        first_name: profile.getGivenName(),
-                        last_name: profile.getFamilyName(),
-                    }
-                    let token
-                    me.$axios.post('api/login/google/', data).then(res => {
-                        token = res.data.token
-                        me.$cookies.set('70hokc3hhhn5', token, '7d')
-                        if (res.data.user.from_import == 1) {
-                            me.$store.state.oldUser = true
-                            me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
-                        } else {
-                            if (res.data.onboarding_code === null) {
-                                if (me.$route.fullPath == '/my-profile') {
-                                    location.reload()
-                                } else {
-                                    me.$router.push('/my-profile')
-                                }
-                            } else {
-                                me.$store.state.newUser = true
-                                me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
-                            }
-                        }
-                        me.validateToken()
-                        me.$store.state.loginSignUpStatus = false
-                        document.body.classList.remove('no_scroll')
-                    }).catch(err => {
-                        me.$store.state.errorOverlayPromptStatus = true
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                        me.$cookies.remove('70hokc3hhhn5')
-                    }).then(() => {
-                        setTimeout(() => {
-                            me.loader(false)
-                        }, 500)
-                        if (token !== null && token !== undefined) {
-                            me.checkBadges()
-                        }
-                    })
-                })
-            },
-            /**
-             * Submission of forgot password */
-            submissionForgotSuccess () {
-                const me = this
-                me.$validator.validateAll('forgot_form').then(valid => {
-                    if (valid) {
-                        me.loader(true)
-                        me.$axios.post('api/forgot-password', me.forgotPasswordForm).then(res => {
-                            setTimeout( () => {
-                                me.$store.state.loginSignUpStatus = false
-                                me.$store.state.forgotPasswordSuccessStatus = true
-                            }, 500)
-                        }).catch(err => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
-                        })
-                    } else {
-                        me.$scrollTo('.validation_errors', {
-                            container: '#default_form',
-                            offset: -250
-                        })
-                    }
-                })
-            },
-            /**
-             * Toggling of forgot password form */
-            toggleForgot () {
-                const me = this
-                me.forgotPassword = true
-                me.signUp = true
-                me.signUpStep = 1
-            },
-            /**
-             * Submission of next steps registration process form */
-            submitRegistration () {
-                const me = this
-                if (!me.checkEmailValidity) {
-                    me.$validator.validateAll('register_process_form').then(valid => {
-                        if (valid) {
-                            me.loader(true)
-                            if (me.$cookies.get('referrer_member_id') != null
-                            || me.$cookies.get('referrer_member_id') != undefined) {
-                                me.signUpForm['referrer_member_id'] = me.$cookies.get('referrer_member_id')
-                            } else {
-                                me.signUpForm['referrer_member_id'] = null
-                            }
-                            me.$axios.post('api/user/register', me.signUpForm).then(res => {
-                                // let token = res.data.token
-                                // me.$cookies.set('70hokc3hhhn5', token, '7d')
-                                // me.validateToken()
-                                me.$store.state.loginSignUpStatus = false
-                                document.body.classList.remove('no_scroll')
-                                me.$cookies.remove('referrer_member_id')
-                                me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
-                            }).catch(err => {
-                                me.$store.state.errorOverlayPromptStatus = true
-                                me.$store.state.errorList = err.response.data.errors
-                                me.$store.state.errorPromptStatus = true
-                            }).then(() => {
-                                setTimeout( () => {
-                                    me.loader(false)
-                                }, 500)
-                            })
-                        } else {
-                            me.$scrollTo('.validation_errors', {
-                                container: '#default_form',
-                                offset: -250
-                            })
-                        }
-                    })
+                  } else {
+                    me.$store.state.newUser = true
+                    me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+                  }
                 }
-            },
-            /**
-             * Toggling of step in registration */
-            toggleStep (status) {
-                const me = this
-                switch (status) {
-                    case 'back':
-                        if (me.signUpStep == 1) {
-                            me.signUp = true
-                            me.signUpProcess = false
-                            me.signUpStep = 0
-                        } else if (me.signUpStep == 2) {
-                            me.signUpStep = 1
-                        } else if (me.signUpStep == 3) {
-                            me.signUpStep = 2
-                        }
-                        break
-                    case 'proceed':
-                        me.$validator.validateAll('register_process_form').then(valid => {
-                            if (valid) {
-                                if (me.signUpStep == 1) {
-                                    me.signUpStep = 2
-                                } else if (me.signUpStep == 2) {
-                                    me.signUpStep = 3
-                                    setTimeout( () => {
-                                        document.querySelector('#default_form .form_group_body').addEventListener('scroll', function(e) {
-                                            if (this.offsetHeight + this.scrollTop >= this.scrollHeight) {
-                                                me.hasReadTerms = true
-                                            } else {
-                                                me.hasReadTerms = false
-                                                me.signUpForm.iAgree = ''
-                                                document.getElementById('i_agree').checked = false
-                                            }
-                                        })
-                                    }, 100)
-                                } else if (me.signUpStep == 3) {
-                                    me.$store.state.loginSignUpStatus = false
-                                    document.body.classList.remove('no_scroll')
-                                }
-                            } else {
-                                me.$scrollTo('.validation_errors', {
-                                    container: '#default_form',
-                                    offset: -250
-                                })
-                            }
-                        })
-                        break
-                    case 'forgot':
-                        me.signUp = false
-                        me.forgotPassword = false
-                        break
-                }
-            },
-            /**
-             * Toggling of Sign Up and Login */
-            toggleNextPrev () {
-                const me = this
-                if (me.signUp) {
-                    me.signUp = false
-                } else {
-                    me.signUp = true
-                    me.signUpStep = 0
-                }
-                me.showPassword = false
-                me.showConfirmPassword = false
-            },
-            /**
-             * Toggling of Show/Hide password */
-            togglePassword (status) {
-                const me = this
-                if (status) {
-                    me.showPassword = false
-                    document.getElementById('password').type = 'password'
-                } else {
-                    me.showPassword = true
-                    document.getElementById('password').type = 'text'
-                }
-            },
-            /**
-             * Toggling of Show/Hide confirm password */
-            toggleConfirmPassword (status) {
-                const me = this
-                if (status) {
-                    me.showConfirmPassword = false
-                    document.getElementById('password_confirmation').type = 'password'
-                } else {
-                    me.showConfirmPassword = true
-                    document.getElementById('password_confirmation').type = 'text'
-                }
-            },
-            /**
-             * Close login/sign up modal */
-            toggleClose () {
-                const me = this
+                me.validateToken()
                 me.$store.state.loginSignUpStatus = false
                 document.body.classList.remove('no_scroll')
-            },
-            /**
-             * Submission of login form */
-            submissionLoginSuccess () {
-                const me = this
-                me.$validator.validateAll('login_form').then(valid => {
-                    if (valid) {
-                        me.loader(true)
-                        me.$axios.post('api/customer-login', me.loginForm).then(res => {
-                            setTimeout( () => {
-                                if (res.data.from_import == 1) {
-                                    me.$store.state.oldUserEmail = me.loginForm.email
-                                    me.$store.state.loginSignUpStatus = false
-                                    me.$store.state.oldUserUpdatePrompt = true
-                                } else {
-                                    let token = res.data.token
-                                    if (me.signUpForm.remember) {
-                                        me.$cookies.set('70hokc3hhhn5', token, '7d')
-                                    } else {
-                                        me.$cookies.set('70hokc3hhhn5', token, '1d')
-                                    }
-                                    me.validateToken()
-                                    me.$store.state.loginSignUpStatus = false
-                                    document.body.classList.remove('no_scroll')
-                                    if (me.$route.fullPath == '/my-profile' || me.$route.name == 'buy-rides-package-slug' || me.$route.name == 'instructors-slug-comment') {
-                                        location.reload()
-                                    } else {
-                                        me.$router.push('/my-profile')
-                                    }
-                                }
-                            }, 500)
-                        }).catch(err => {
-                            me.$store.state.errorOverlayPromptStatus = true
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                            me.$cookies.remove('70hokc3hhhn5')
-                        }).then(() => {
-                            setTimeout(() => {
-                                me.loader(false)
-                            }, 500)
-                            let token = me.$cookies.get('70hokc3hhhn5')
-                            me.loader(true)
-                            if (token !== null && token !== undefined) {
-                                me.checkBadges()
-                            }
-                        })
-                    } else {
-                        me.$scrollTo('.validation_errors', {
-                            container: '#default_form',
-							offset: -250
-						})
-                    }
-                })
-            },
-            /**
-             * Submission of first step registration form */
-            submissionRegisterSuccess () {
-                const me = this
-                me.$validator.validateAll('register_form').then(valid => {
-                    if (valid) {
-                        me.signUpProcess = true
-                        me.signUpStep = 1
-                    } else {
-                        me.$scrollTo('.validation_errors', {
-                            container: '#default_form',
-							offset: -250
-						})
-                    }
-                })
-            },
-            checkAdvisory () {
-				const me = this
-				setTimeout( () => {
-                    if (document.querySelector('.login_sign_up')) {
-                        let margin = '0px'
-                        if (me.$store.state.articleAlertStatus) {
-                            margin = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
-                            document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
-                        } else {
-                            margin = `${document.getElementById('header').offsetHeight}px`
-                            document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight}px`
-                        }
-                        document.querySelector('.login_sign_up').style.height = `calc(100vh - ${margin})`
-                    }
-				}, 100)
-			},
-            /**
-             * Detect height of scroll */
-            windowLoginScroll () {
-                const me = this
-                let height = window.pageYOffset | document.body.scrollTop
-                let element = document.querySelector('.login_sign_up')
-                if (element.classList.contains('front')) {
-                    me.height = height
+              }).catch(err => {
+                me.$store.state.errorOverlayPromptStatus = true
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
+                me.$cookies.remove('70hokc3hhhn5')
+              }).then(() => {
+                setTimeout(() => {
+                  me.loader(false)
+                }, 500)
+                if (token !== null && token !== undefined) {
+                  me.checkBadges()
                 }
-                me.checkAdvisory()
-            }
-        },
-        mounted () {
-            const me = this
-            me.windowLoginScroll()
-            setTimeout(() => {
-                if (me.$route.query.ca_action) {
-                    me.signUpForm.email = me.$route.query.ca_el
-                    me.signUpForm.first_name = me.$route.query.ca_fn
-                    me.signUpForm.last_name = me.$route.query.ca_ln
-                    me.signUp = true
-                    me.signUpStep = 0
-                } else {
-                    if (me.$cookies.get('referrer_member_id') != null || me.$cookies.get('referrer_member_id') != undefined) {
-                        me.signUp = true
-                        me.signUpStep = 0
-                    } else {
-                        me.signUp = false
-                        me.signUpStep = null
-                    }
-                }
-            }, 100)
-            me.$axios.get(`api/web/basic-page?type=terms-and-conditions`).then(res => {
-                me.terms = res.data.pageSetting
+              })
             })
-            document.body.classList.add('no_scroll')
-        },
-        beforeMount () {
-            window.addEventListener('load', this.windowLoginScroll)
-            window.addEventListener('scroll', this.windowLoginScroll)
-            window.addEventListener('resize', this.windowLoginScroll)
-        },
-        beforeDestroy () {
-            window.removeEventListener('load', this.windowLoginScroll)
-            window.removeEventListener('scroll', this.windowLoginScroll)
-            window.removeEventListener('resize', this.windowLoginScroll)
+          } else {
+            console.log('User cancelled login or did not fully authorize.')
+          }
+        }, {
+          scope: 'public_profile,email'
+        })
+      },
+      googleLogin () {
+        let me = this
+        me.$gAuth.signIn().then(res => {
+          me.loader(true)
+          // call backend
+          let profile = res.getBasicProfile()
+          let data = {
+            email: profile.getEmail(),
+            google_id: profile.getId(),
+            first_name: profile.getGivenName(),
+            last_name: profile.getFamilyName(),
+          }
+          let token
+          me.$axios.post('api/login/google/', data).then(res => {
+            token = res.data.token
+            me.$cookies.set('70hokc3hhhn5', token, '7d')
+            if (res.data.user.from_import == 1) {
+              me.$store.state.oldUser = true
+              me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+            } else {
+              if (res.data.onboarding_code === null) {
+                if (me.$route.fullPath == '/my-profile') {
+                  location.reload()
+                } else {
+                  location.href = '/my-profile'
+                  // me.$router.push('/my-profile')
+                }
+              } else {
+                me.$store.state.newUser = true
+                me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+              }
+            }
+            me.validateToken()
+            me.$store.state.loginSignUpStatus = false
+            document.body.classList.remove('no_scroll')
+          }).catch(err => {
+            me.$store.state.errorOverlayPromptStatus = true
+            me.$store.state.errorList = err.response.data.errors
+            me.$store.state.errorPromptStatus = true
+            me.$cookies.remove('70hokc3hhhn5')
+          }).then(() => {
+            setTimeout(() => {
+              me.loader(false)
+            }, 500)
+            if (token !== null && token !== undefined) {
+              me.checkBadges()
+            }
+          })
+        })
+      },
+      /**
+      * Submission of forgot password */
+      submissionForgotSuccess () {
+        const me = this
+        me.$validator.validateAll('forgot_form').then(valid => {
+          if (valid) {
+            me.loader(true)
+            me.$axios.post('api/forgot-password', me.forgotPasswordForm).then(res => {
+              setTimeout( () => {
+                me.$store.state.loginSignUpStatus = false
+                me.$store.state.forgotPasswordSuccessStatus = true
+              }, 500)
+            }).catch(err => {
+              me.$store.state.errorList = err.response.data.errors
+              me.$store.state.errorPromptStatus = true
+            }).then(() => {
+              setTimeout( () => {
+                me.loader(false)
+              }, 500)
+            })
+          } else {
+            me.$scrollTo('.validation_errors', {
+              container: '#default_form',
+              offset: -250
+            })
+          }
+        })
+      },
+      /**
+      * Toggling of forgot password form */
+      toggleForgot () {
+        const me = this
+        me.forgotPassword = true
+        me.signUp = true
+        me.signUpStep = 1
+      },
+      /**
+      * Submission of next steps registration process form */
+      submitRegistration () {
+        const me = this
+        if (!me.checkEmailValidity) {
+          me.$validator.validateAll('register_process_form').then(valid => {
+            if (valid) {
+              me.loader(true)
+              if (me.$cookies.get('referrer_member_id') != null
+              || me.$cookies.get('referrer_member_id') != undefined) {
+                me.signUpForm['referrer_member_id'] = me.$cookies.get('referrer_member_id')
+              } else {
+                me.signUpForm['referrer_member_id'] = null
+              }
+              me.$axios.post('api/user/register', me.signUpForm).then(res => {
+                // let token = res.data.token
+                // me.$cookies.set('70hokc3hhhn5', token, '7d')
+                // me.validateToken()
+                me.$store.state.loginSignUpStatus = false
+                document.body.classList.remove('no_scroll')
+                me.$cookies.remove('referrer_member_id')
+                me.$router.push(`/thank-you?rWD5WfJ2GntpsREKyR4R=${res.data.onboarding_code}`)
+              }).catch(err => {
+                me.$store.state.errorOverlayPromptStatus = true
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
+              }).then(() => {
+                setTimeout( () => {
+                  me.loader(false)
+                }, 500)
+              })
+            } else {
+              me.$scrollTo('.validation_errors', {
+                container: '#default_form',
+                offset: -250
+              })
+            }
+          })
         }
+      },
+      /**
+      * Toggling of step in registration */
+      toggleStep (status) {
+        const me = this
+        switch (status) {
+          case 'back':
+          if (me.signUpStep == 1) {
+            me.signUp = true
+            me.signUpProcess = false
+            me.signUpStep = 0
+          } else if (me.signUpStep == 2) {
+            me.signUpStep = 1
+          } else if (me.signUpStep == 3) {
+            me.signUpStep = 2
+          }
+          break
+          case 'proceed':
+          me.$validator.validateAll('register_process_form').then(valid => {
+            if (valid) {
+              if (me.signUpStep == 1) {
+                me.signUpStep = 2
+              } else if (me.signUpStep == 2) {
+                me.signUpStep = 3
+                setTimeout( () => {
+                  document.querySelector('#default_form .form_group_body').addEventListener('scroll', function(e) {
+                    if (this.offsetHeight + this.scrollTop >= this.scrollHeight) {
+                      me.hasReadTerms = true
+                    } else {
+                      me.hasReadTerms = false
+                      me.signUpForm.iAgree = ''
+                      document.getElementById('i_agree').checked = false
+                    }
+                  })
+                }, 100)
+              } else if (me.signUpStep == 3) {
+                me.$store.state.loginSignUpStatus = false
+                document.body.classList.remove('no_scroll')
+              }
+            } else {
+              me.$scrollTo('.validation_errors', {
+                container: '#default_form',
+                offset: -250
+              })
+            }
+          })
+          break
+          case 'forgot':
+          me.signUp = false
+          me.forgotPassword = false
+          break
+        }
+      },
+      /**
+      * Toggling of Sign Up and Login */
+      toggleNextPrev () {
+        const me = this
+        if (me.signUp) {
+          me.signUp = false
+        } else {
+          me.signUp = true
+          me.signUpStep = 0
+        }
+        me.showPassword = false
+        me.showConfirmPassword = false
+      },
+      /**
+      * Toggling of Show/Hide password */
+      togglePassword (status) {
+        const me = this
+        if (status) {
+          me.showPassword = false
+          document.getElementById('password').type = 'password'
+        } else {
+          me.showPassword = true
+          document.getElementById('password').type = 'text'
+        }
+      },
+      /**
+      * Toggling of Show/Hide confirm password */
+      toggleConfirmPassword (status) {
+        const me = this
+        if (status) {
+          me.showConfirmPassword = false
+          document.getElementById('password_confirmation').type = 'password'
+        } else {
+          me.showConfirmPassword = true
+          document.getElementById('password_confirmation').type = 'text'
+        }
+      },
+      /**
+      * Close login/sign up modal */
+      toggleClose () {
+        const me = this
+        me.$store.state.loginSignUpStatus = false
+        document.body.classList.remove('no_scroll')
+      },
+      /**
+      * Submission of login form */
+      submissionLoginSuccess () {
+        const me = this
+        me.$validator.validateAll('login_form').then(valid => {
+          if (valid) {
+            me.loader(true)
+            me.$axios.post('api/customer-login', me.loginForm).then(res => {
+              setTimeout( () => {
+                if (res.data.from_import == 1) {
+                  me.$store.state.oldUserEmail = me.loginForm.email
+                  me.$store.state.loginSignUpStatus = false
+                  me.$store.state.oldUserUpdatePrompt = true
+                } else {
+                  let token = res.data.token
+                  if (me.signUpForm.remember) {
+                    me.$cookies.set('70hokc3hhhn5', token, '7d')
+                  } else {
+                    me.$cookies.set('70hokc3hhhn5', token, '1d')
+                  }
+                  me.validateToken()
+                  me.$store.state.loginSignUpStatus = false
+                  document.body.classList.remove('no_scroll')
+                  if (me.$route.fullPath == '/my-profile' || me.$route.name == 'buy-rides-package-slug' || me.$route.name == 'instructors-slug-comment') {
+                    location.reload()
+                  } else {
+                    location.href = '/my-profile'
+                    // me.$router.push('/my-profile')
+                  }
+                }
+              }, 500)
+            }).catch(err => {
+              me.$store.state.errorOverlayPromptStatus = true
+              me.$store.state.errorList = err.response.data.errors
+              me.$store.state.errorPromptStatus = true
+              me.$cookies.remove('70hokc3hhhn5')
+            }).then(() => {
+              setTimeout(() => {
+                me.loader(false)
+              }, 500)
+              let token = me.$cookies.get('70hokc3hhhn5')
+              me.loader(true)
+              if (token !== null && token !== undefined) {
+                me.checkBadges()
+              }
+            })
+          } else {
+            me.$scrollTo('.validation_errors', {
+              container: '#default_form',
+              offset: -250
+            })
+          }
+        })
+      },
+      /**
+      * Submission of first step registration form */
+      submissionRegisterSuccess () {
+        const me = this
+        me.$validator.validateAll('register_form').then(valid => {
+          if (valid) {
+            me.signUpProcess = true
+            me.signUpStep = 1
+          } else {
+            me.$scrollTo('.validation_errors', {
+              container: '#default_form',
+              offset: -250
+            })
+          }
+        })
+      },
+      checkAdvisory () {
+        const me = this
+        setTimeout( () => {
+          if (document.querySelector('.login_sign_up')) {
+            let margin = '0px'
+            if (me.$store.state.articleAlertStatus) {
+              margin = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
+              document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
+            } else {
+              margin = `${document.getElementById('header').offsetHeight}px`
+              document.querySelector('.login_sign_up').style.marginTop = `${document.getElementById('header').offsetHeight}px`
+            }
+            document.querySelector('.login_sign_up').style.height = `calc(100vh - ${margin})`
+          }
+        }, 100)
+      },
+      /**
+      * Detect height of scroll */
+      windowLoginScroll () {
+        const me = this
+        let height = window.pageYOffset | document.body.scrollTop
+        let element = document.querySelector('.login_sign_up')
+        if (element.classList.contains('front')) {
+          me.height = height
+        }
+        me.checkAdvisory()
+      }
+    },
+    mounted () {
+      const me = this
+      me.windowLoginScroll()
+      setTimeout(() => {
+        if (me.$route.query.ca_action) {
+          me.signUpForm.email = me.$route.query.ca_el
+          me.signUpForm.first_name = me.$route.query.ca_fn
+          me.signUpForm.last_name = me.$route.query.ca_ln
+          me.signUp = true
+          me.signUpStep = 0
+        } else {
+          if (me.$cookies.get('referrer_member_id') != null || me.$cookies.get('referrer_member_id') != undefined) {
+            me.signUp = true
+            me.signUpStep = 0
+          } else {
+            me.signUp = false
+            me.signUpStep = null
+          }
+        }
+      }, 100)
+      me.$axios.get(`api/web/basic-page?type=terms-and-conditions`).then(res => {
+        me.terms = res.data.pageSetting
+      })
+      document.body.classList.add('no_scroll')
+    },
+    beforeMount () {
+      window.addEventListener('load', this.windowLoginScroll)
+      window.addEventListener('scroll', this.windowLoginScroll)
+      window.addEventListener('resize', this.windowLoginScroll)
+    },
+    beforeDestroy () {
+      window.removeEventListener('load', this.windowLoginScroll)
+      window.removeEventListener('scroll', this.windowLoginScroll)
+      window.removeEventListener('resize', this.windowLoginScroll)
     }
+  }
 </script>

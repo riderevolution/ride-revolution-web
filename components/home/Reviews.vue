@@ -67,6 +67,7 @@
           slidesPerView: 3,
           spaceBetween: 30,
           loop: loop,
+          centeredSlides: true,
           pagination: {
             el: '.swiper-pagination',
             clickable: true,
@@ -84,23 +85,28 @@
             },
             900: {
               slidesPerView: 2,
-              spaceBetween: 15
+              spaceBetween: 15,
+              centeredSlides: false
             },
             768: {
               slidesPerView: 1,
-              spaceBetween: 30
+              spaceBetween: 30,
+              centeredSlides: false
             },
             425: {
               slidesPerView: 1,
-              spaceBetween: 0
+              spaceBetween: 0,
+              centeredSlides: false
             },
             375: {
               slidesPerView: 1,
-              spaceBetween: 0
+              spaceBetween: 0,
+              centeredSlides: false
             },
             280: {
               slidesPerView: 1,
-              spaceBetween: 0
+              spaceBetween: 0,
+              centeredSlides: false
             }
           }
         }
