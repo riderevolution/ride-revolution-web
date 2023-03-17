@@ -127,7 +127,7 @@
                                 <div class="seat_wrapper" v-if="!schedule.schedule.studio.online_class">
                                     <div class="overlay_header">
                                         <h3>Please choose your bike/s</h3>
-                                        <h4>Note: You can book up to 5 bikes.</h4>
+                                        <h4>Note: You can book up to 5 bikes for regular packages.</h4>
                                         <img :src="getInstructorsImageInSchedule(schedule)" />
                                     </div>
                                     <div :class="`overlay_seat ${seat.position} ${seat.layout}`" v-for="(seat, key) in populateSeats" :key="key">
