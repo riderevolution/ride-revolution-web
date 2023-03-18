@@ -462,7 +462,9 @@ Vue.mixin({
                     if (res.data != 0) {
                         this.$store.state.isAuth = true
                         this.$store.state.token = token
-                        this.$store.state.user = res.data.user
+                        if (res.data.user) {
+                            this.$store.state.user = res.data.user
+                        }
                     } else {
                         this.logout()
                     }
