@@ -182,8 +182,7 @@
         package_prompt: false,
         payload: {
           package: null
-        },
-        asd: 'riderevolutionlangsakalam'
+        }
       }
     },
     watch: {
@@ -468,6 +467,17 @@
               }
             })
             .then(res => {
+              let version = me.$cookies.get('version')
+
+              if (version != null && version != undefined) {
+                if (version != res.data.version) {
+                  me.$cookies.set('version', res.data.version)
+                  location.reload(true)
+                }
+              } else {
+                me.$cookies.set('version', res.data.version)
+                location.reload(true)
+              }
               if (!res.data.user.health_waiver) {
                 me.$store.state.healthWaiver = true
               }
@@ -476,18 +486,6 @@
                 me.package_prompt = true
               }
             })
-        }
-
-        let version = me.$cookies.get('version')
-
-        if (version != null && version != undefined) {
-          if (version != me.asd) {
-            me.$cookies.set('version', me.asd)
-            location.reload(true)
-          }
-        } else {
-          me.$cookies.set('version', me.asd)
-          location.reload(true)
         }
       }
     },
