@@ -472,7 +472,8 @@
               if (version != null && version != undefined) {
                 if (version != res.data.version) {
                   me.$cookies.set('version', res.data.version)
-                  location.reload(true)
+                  this.logout()
+                  // location.reload(true)
                 }
               } else {
                 me.$cookies.set('version', res.data.version)
