@@ -1136,11 +1136,8 @@
                       me.$router.push('/my-profile')
                     }
                   }
-                  setTimeout(() => {
-                    me.validateToken()
-                    me.$store.state.loginSignUpStatus = false
-                    document.body.classList.remove('no_scroll')
-                  }, 500)
+                  me.$store.state.loginSignUpStatus = false
+                  document.body.classList.remove('no_scroll')
                 }
               })
               .catch(err => {
