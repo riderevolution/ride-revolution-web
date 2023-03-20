@@ -188,7 +188,6 @@
     watch: {
       $route(to, from) {
         const me = this
-        me.validateToken()
         document.body.classList.remove('no_scroll')
         me.$store.state.healthWaiver = false
         me.$store.state.healthWaiverSuccess = false
@@ -210,11 +209,13 @@
           me.$router.push('/my-profile')
           me.$store.state.fromManageClass = true
         }
-        let token = me.$cookies.get('70hokc3hhhn5')
-        if (token != null || token != undefined) {
-          me.$store.state.token = token
-          me.validateToken()
-        }
+        setTimeout(() => {
+          let token = me.$cookies.get('70hokc3hhhn5')
+          if (token != null || token != undefined) {
+            me.$store.state.token = token
+            me.validateToken()
+          }
+        }, 250)
         me.checkVersion()
       }
     },
