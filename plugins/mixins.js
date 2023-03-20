@@ -422,34 +422,22 @@ Vue.mixin({
             let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('70hokc3hhhn5')
             if (token) {
                 this.loader(true)
+                this.$axios.post('/api/logout', {}, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
+                    this.$cookies.remove('70hokc3hhhn5')
+                    if (this.$store.state.isAuth) {
+                        setTimeout(() => {
+                            this.loader(false)
+                            window.location.assign('/')
+                        }, 500)
+                    } else {
+                        this.$store.state.isAuth = false
+                    }
+                })
             }
-            this.$axios.post('/api/logout', {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(res => {
-                // wala
-            }).catch(err => {
-                this.$cookies.remove('70hokc3hhhn5')
-                if (this.$store.state.isAuth) {
-                    setTimeout(() => {
-                        this.loader(false)
-                        window.location.assign('/')
-                    }, 500)
-                } else {
-                    this.$store.state.isAuth = false
-                }
-            }).then(() => {
-                this.$cookies.remove('70hokc3hhhn5')
-                if (this.$store.state.isAuth) {
-                    setTimeout(() => {
-                        this.loader(false)
-                        window.location.assign('/')
-                    }, 500)
-                } else {
-                    this.$store.state.isAuth = false
-                }
-            })
         },
         validateToken () {
             let token = (this.$route.query.token != null) ? this.$route.query.token : this.$cookies.get('70hokc3hhhn5')

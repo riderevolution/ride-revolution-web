@@ -818,8 +818,7 @@
                           if (me.$route.fullPath == '/my-profile') {
                             location.reload()
                           } else {
-                            window.location.assign('/my-profile')
-                            // me.$router.push('/my-profile')
+                            me.$router.push('/my-profile')
                           }
                         } else {
                           me.$store.state.newUser = true
@@ -885,8 +884,7 @@
                   if (me.$route.fullPath == '/my-profile') {
                     location.reload()
                   } else {
-                    window.location.assign('/my-profile')
-                    // me.$router.push('/my-profile')
+                    me.$router.push('/my-profile')
                   }
                 } else {
                   me.$store.state.newUser = true
@@ -1116,33 +1114,34 @@
             me.$axios
               .post('api/customer-login', me.loginForm)
               .then(res => {
-                if (res.data.from_import == 1) {
-                  me.$store.state.oldUserEmail = me.loginForm.email
-                  me.$store.state.loginSignUpStatus = false
-                  me.$store.state.oldUserUpdatePrompt = true
-                } else {
-                  let token = res.data.token
-                  if (me.signUpForm.remember) {
-                    me.$cookies.set('70hokc3hhhn5', token, '7d')
+                if (res.data) {
+                  if (res.data.from_import == 1) {
+                    me.$store.state.oldUserEmail = me.loginForm.email
+                    me.$store.state.loginSignUpStatus = false
+                    me.$store.state.oldUserUpdatePrompt = true
                   } else {
-                    me.$cookies.set('70hokc3hhhn5', token, '1d')
-                  }
-                  if (
-                    me.$route.fullPath == '/my-profile' ||
-                    me.$route.name == 'buy-rides-package-slug' ||
-                    me.$route.name == 'instructors-slug-comment'
+                    let token = res.data.token
+                    if (me.signUpForm.remember) {
+                      me.$cookies.set('70hokc3hhhn5', token, '7d')
+                    } else {
+                      me.$cookies.set('70hokc3hhhn5', token, '1d')
+                    }
+                    if (
+                      me.$route.fullPath == '/my-profile' ||
+                      me.$route.name == 'buy-rides-package-slug' ||
+                      me.$route.name == 'instructors-slug-comment'
                     ) {
-                    location.reload()
-                  } else {
-                    window.location.assign('/my-profile')
-                    // me.$router.push('/my-profile')
+                      location.reload()
+                    } else {
+                      me.$router.push('/my-profile')
+                    }
                   }
+                  setTimeout(() => {
+                    me.validateToken()
+                    me.$store.state.loginSignUpStatus = false
+                    document.body.classList.remove('no_scroll')
+                  }, 500)
                 }
-                setTimeout(() => {
-                  me.validateToken()
-                  me.$store.state.loginSignUpStatus = false
-                  document.body.classList.remove('no_scroll')
-                }, 500)
               })
               .catch(err => {
                 me.$store.state.errorOverlayPromptStatus = true
