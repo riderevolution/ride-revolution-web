@@ -472,8 +472,7 @@
               if (version != null && version != undefined) {
                 if (version != res.data.version) {
                   me.$cookies.set('version', res.data.version)
-                  this.logout()
-                  // location.reload(true)
+                  location.reload(true)
                 }
               } else {
                 me.$cookies.set('version', res.data.version)
@@ -498,18 +497,18 @@
         me.$store.state.token = token
         me.validateToken()
       }
-      window.__lc = window.__lc || {}
-      window.__lc.license = 12052209
-      ;(function() {
-        var lc = document.createElement('script')
-        lc.type = 'text/javascript'
-        lc.async = true
-        lc.src =
-          ('https:' == document.location.protocol ? 'https://' : 'http://') +
-          'cdn.livechatinc.com/tracking.js'
-        var s = document.getElementsByTagName('script')[0]
-        s.parentNode.insertBefore(lc, s)
-      })()
+      // window.__lc = window.__lc || {}
+      // window.__lc.license = 12052209
+      // ;(function() {
+      //   var lc = document.createElement('script')
+      //   lc.type = 'text/javascript'
+      //   lc.async = true
+      //   lc.src =
+      //     ('https:' == document.location.protocol ? 'https://' : 'http://') +
+      //     'cdn.livechatinc.com/tracking.js'
+      //   var s = document.getElementsByTagName('script')[0]
+      //   s.parentNode.insertBefore(lc, s)
+      // })()
 
       me.$store.state.inApp = false
     },
