@@ -1121,11 +1121,8 @@
                     me.$store.state.oldUserUpdatePrompt = true
                   } else {
                     let token = res.data.token
-                    if (me.signUpForm.remember) {
-                      me.$cookies.set('70hokc3hhhn5', token, '7d')
-                    } else {
-                      me.$cookies.set('70hokc3hhhn5', token, '1d')
-                    }
+                    me.$cookies.set('70hokc3hhhn5', token, '7d')
+
                     if (
                       me.$route.fullPath == '/my-profile' ||
                       me.$route.name == 'buy-rides-package-slug' ||
