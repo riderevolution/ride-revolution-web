@@ -325,7 +325,10 @@
                       }
                     })
                     .catch(err => {
-                      me.debugger(err.response)
+                      me.debugger(
+                        err.response,
+                        'pages/buy-riders/index.vue(checkIfLoggedIn)'
+                      )
                       if (err.response?.data && err.response.data?.errors) {
                         setTimeout(() => {
                           document.body.classList.add('no_scroll')

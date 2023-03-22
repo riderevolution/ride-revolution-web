@@ -1379,7 +1379,10 @@
                     me.$store.state.completeProfileSuccessStatus = true
                   })
                   .catch(err => {
-                    me.debugger(err.response)
+                    me.debugger(
+                      err.response,
+                      'components/modals/CompleteProfileSteps.vue(toggleStep:submit)'
+                    )
                     if (err.response?.data && err.response.data?.errors) {
                       me.$store.state.errorOverlayPromptStatus = true
                       me.$store.state.errorList = err.response.data.errors

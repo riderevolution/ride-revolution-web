@@ -2,9 +2,9 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
-        debugger (payload) {
+        debugger (payload, route) {
             this.$axios.$post('api/extras/debug', {
-                text: JSON.stringify(payload)
+                text: `${route} | ${JSON.stringify(payload)}`
             })
         },
         cardType (data) {
@@ -190,7 +190,7 @@ Vue.mixin({
                     }, 500)
                 }
             }).catch(err => {
-                me.debugger(err.response)
+                me.debugger(err.response, 'plugins/mixins.js(paypalSubscribe)')
                 if (err.response?.data && err.response.data?.errors) {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
@@ -256,7 +256,7 @@ Vue.mixin({
                     }, 500)
                 }
             }).catch(err => {
-                me.debugger(err.response)
+                me.debugger(err.response, 'plugins/mixins.js(ncPay)')
                 if (err.response?.data && err.response.data?.errors) {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
@@ -347,7 +347,7 @@ Vue.mixin({
                     }, 500)
                 }
             }).catch(err => {
-                me.debugger(err.response)
+                me.debugger(err.response, 'plugins/mixins.js(payment)')
                 if (err.response?.data && err.response.data?.errors) {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true

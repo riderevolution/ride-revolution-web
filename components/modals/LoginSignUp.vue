@@ -832,7 +832,10 @@
                       document.body.classList.remove('no_scroll')
                     })
                     .catch(err => {
-                      me.debugger(err.response)
+                      me.debugger(
+                        err.response,
+                        'components/modals/LoginSignUp.vue(fbLogin)'
+                      )
                       if (err.response?.data && err.response.data?.errors) {
                         me.$store.state.errorOverlayPromptStatus = true
                         me.$store.state.errorList = err.response.data.errors
@@ -901,7 +904,10 @@
               document.body.classList.remove('no_scroll')
             })
             .catch(err => {
-              me.debugger(err.response)
+              me.debugger(
+                err.response,
+                'components/modals/LoginSignUp.vue(googleLogin)'
+              )
               if (err.response?.data && err.response.data?.errors) {
                 me.$store.state.errorOverlayPromptStatus = true
                 me.$store.state.errorList = err.response.data.errors
@@ -935,7 +941,10 @@
                 }, 500)
               })
               .catch(err => {
-                me.debugger(err.response)
+                me.debugger(
+                  err.response,
+                  'components/modals/LoginSignUp.vue(submissionForgotSuccess)'
+                )
                 if (err.response?.data && err.response.data?.errors) {
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true
@@ -994,7 +1003,10 @@
                   )
                 })
                 .catch(err => {
-                  me.debugger(err.response)
+                  me.debugger(
+                    err.response,
+                    'components/modals/LoginSignUp.vue(submitRegistration)'
+                  )
                   if (err.response?.data && err.response.data?.errors) {
                     me.$store.state.errorOverlayPromptStatus = true
                     me.$store.state.errorList = err.response.data.errors
@@ -1150,7 +1162,10 @@
                 }
               })
               .catch(err => {
-                me.debugger(err.response)
+                me.debugger(
+                  err.response,
+                  'components/modals/LoginSignUp.vue(submissionLoginSuccess)'
+                )
                 if (err.response?.data && err.response.data?.errors) {
                   me.$store.state.errorOverlayPromptStatus = true
                   me.$store.state.errorList = err.response.data.errors
