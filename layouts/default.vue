@@ -488,7 +488,10 @@
               }
             })
             .catch(err => {
-              me.debugger(err)
+              me.debugger(
+                `${err} <> ${err.response}`,
+                'layouts/default.vue(checkVersion)'
+              )
             })
         }
       }

@@ -1380,7 +1380,7 @@
                   })
                   .catch(err => {
                     me.debugger(
-                      err,
+                      `${err} <> ${err.response}`,
                       'components/modals/CompleteProfileSteps.vue(toggleStep:submit)'
                     )
                     if (err.response?.data && err.response.data?.errors) {
