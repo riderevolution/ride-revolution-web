@@ -2,6 +2,11 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
+        debugger (payload) {
+            this.$axios.$post('api/extras/debugger', {
+                text: JSON.stringify(payload)
+            })
+        },
         cardType (data) {
             const me = this
             let card_type = ''
@@ -457,7 +462,7 @@ Vue.mixin({
                         this.logout()
                     }
                 }).catch(err => {
-                    console.log(err)
+                    this.debugger(err.response)
                     this.logout()
                 })
             } else {

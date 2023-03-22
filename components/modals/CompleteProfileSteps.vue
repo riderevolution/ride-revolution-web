@@ -1330,22 +1330,30 @@
                   JSON.stringify({
                     home_address_line_1: me.completeProfile.home_address_line_1,
                     home_address_line_2: me.completeProfile.home_address_line_2,
-                    home_address_country: me.completeProfile.home_address_country,
+                    home_address_country:
+                      me.completeProfile.home_address_country,
                     home_address_state: me.completeProfile.home_address_state,
                     home_address_city: me.completeProfile.home_address_city,
-                    home_address_zip_code: me.completeProfile.home_address_zip_code,
+                    home_address_zip_code:
+                      me.completeProfile.home_address_zip_code
                   })
                 )
 
                 formData1.append(
                   'step_3',
                   JSON.stringify({
-                    billing_address_line_1: me.completeProfile.billing_address_line_1,
-                    billing_address_line_2: me.completeProfile.billing_address_line_2,
-                    billing_address_country: me.completeProfile.billing_address_country,
-                    billing_address_state: me.completeProfile.billing_address_state,
-                    billing_address_city: me.completeProfile.billing_address_city,
-                    billing_address_zip_code: me.completeProfile.billing_address_zip_code,
+                    billing_address_line_1:
+                      me.completeProfile.billing_address_line_1,
+                    billing_address_line_2:
+                      me.completeProfile.billing_address_line_2,
+                    billing_address_country:
+                      me.completeProfile.billing_address_country,
+                    billing_address_state:
+                      me.completeProfile.billing_address_state,
+                    billing_address_city:
+                      me.completeProfile.billing_address_city,
+                    billing_address_zip_code:
+                      me.completeProfile.billing_address_zip_code
                   })
                 )
 
@@ -1371,9 +1379,12 @@
                     me.$store.state.completeProfileSuccessStatus = true
                   })
                   .catch(err => {
-                    me.$store.state.errorOverlayPromptStatus = true
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
+                    me.debugger(err.response)
+                    if (err.response.data && err.response.data?.errors) {
+                      me.$store.state.errorOverlayPromptStatus = true
+                      me.$store.state.errorList = err.response.data.errors
+                      me.$store.state.errorPromptStatus = true
+                    }
                   })
                   .then(() => {
                     setTimeout(() => {
