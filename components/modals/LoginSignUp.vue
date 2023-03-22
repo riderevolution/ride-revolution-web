@@ -832,10 +832,13 @@
                       document.body.classList.remove('no_scroll')
                     })
                     .catch(err => {
-                      me.$store.state.errorOverlayPromptStatus = true
-                      me.$store.state.errorList = err.response.data.errors
-                      me.$store.state.errorPromptStatus = true
-                      me.$cookies.remove('70hokc3hhhn5')
+                      me.debugger(err.response)
+                      if (err.response.data && err.response.data?.errors) {
+                        me.$store.state.errorOverlayPromptStatus = true
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                        me.$cookies.remove('70hokc3hhhn5')
+                      }
                     })
                     .then(() => {
                       setTimeout(() => {
@@ -898,10 +901,13 @@
               document.body.classList.remove('no_scroll')
             })
             .catch(err => {
-              me.$store.state.errorOverlayPromptStatus = true
-              me.$store.state.errorList = err.response.data.errors
-              me.$store.state.errorPromptStatus = true
-              me.$cookies.remove('70hokc3hhhn5')
+              me.debugger(err.response)
+              if (err.response.data && err.response.data?.errors) {
+                me.$store.state.errorOverlayPromptStatus = true
+                me.$store.state.errorList = err.response.data.errors
+                me.$store.state.errorPromptStatus = true
+                me.$cookies.remove('70hokc3hhhn5')
+              }
             })
             .then(() => {
               setTimeout(() => {
@@ -929,8 +935,11 @@
                 }, 500)
               })
               .catch(err => {
-                me.$store.state.errorList = err.response.data.errors
-                me.$store.state.errorPromptStatus = true
+                me.debugger(err.response)
+                if (err.response.data && err.response.data?.errors) {
+                  me.$store.state.errorList = err.response.data.errors
+                  me.$store.state.errorPromptStatus = true
+                }
               })
               .then(() => {
                 setTimeout(() => {
@@ -985,9 +994,12 @@
                   )
                 })
                 .catch(err => {
-                  me.$store.state.errorOverlayPromptStatus = true
-                  me.$store.state.errorList = err.response.data.errors
-                  me.$store.state.errorPromptStatus = true
+                  me.debugger(err.response)
+                  if (err.response.data && err.response.data?.errors) {
+                    me.$store.state.errorOverlayPromptStatus = true
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                  }
                 })
                 .then(() => {
                   setTimeout(() => {
@@ -1138,10 +1150,13 @@
                 }
               })
               .catch(err => {
-                me.$store.state.errorOverlayPromptStatus = true
-                me.$store.state.errorList = err.response.data.errors
-                me.$store.state.errorPromptStatus = true
-                me.$cookies.remove('70hokc3hhhn5')
+                me.debugger(err.response)
+                if (err.response.data && err.response.data?.errors) {
+                  me.$store.state.errorOverlayPromptStatus = true
+                  me.$store.state.errorList = err.response.data.errors
+                  me.$store.state.errorPromptStatus = true
+                  me.$cookies.remove('70hokc3hhhn5')
+                }
               })
               .then(() => {
                 setTimeout(() => {
