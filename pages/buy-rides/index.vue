@@ -326,7 +326,7 @@
                     })
                     .catch(err => {
                       me.debugger(err.response)
-                      if (err.response.data && err.response.data?.errors) {
+                      if (err.response?.data && err.response.data?.errors) {
                         setTimeout(() => {
                           document.body.classList.add('no_scroll')
                           me.$store.state.errorList = err.response.data.errors

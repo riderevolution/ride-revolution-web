@@ -190,8 +190,11 @@ Vue.mixin({
                     }, 500)
                 }
             }).catch(err => {
-                me.$store.state.errorList = err.response.data.errors
-                me.$store.state.errorPromptStatus = true
+                me.debugger(err.response)
+                if (err.response?.data && err.response.data?.errors) {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }
             }).then(() => {
                 setTimeout( () => {
                     me.loader(false)
@@ -253,8 +256,11 @@ Vue.mixin({
                     }, 500)
                 }
             }).catch(err => {
-                me.$store.state.errorList = err.response.data.errors
-                me.$store.state.errorPromptStatus = true
+                me.debugger(err.response)
+                if (err.response?.data && err.response.data?.errors) {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }
             }).then(() => {
                 setTimeout( () => {
                     me.loader(false)
@@ -341,8 +347,11 @@ Vue.mixin({
                     }, 500)
                 }
             }).catch(err => {
-                me.$store.state.errorList = err.response.data.errors
-                me.$store.state.errorPromptStatus = true
+                me.debugger(err.response)
+                if (err.response?.data && err.response.data?.errors) {
+                    me.$store.state.errorList = err.response.data.errors
+                    me.$store.state.errorPromptStatus = true
+                }
             }).then(() => {
                 setTimeout( () => {
                     me.loader(false)
