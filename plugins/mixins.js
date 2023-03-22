@@ -191,7 +191,7 @@ Vue.mixin({
                 }
             }).catch(err => {
                 me.debugger(`${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`, 'plugins/mixins.js(paypalSubscribe)')
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
                 }
@@ -257,7 +257,7 @@ Vue.mixin({
                 }
             }).catch(err => {
                 me.debugger(`${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`, 'plugins/mixins.js(ncPay)')
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
                 }
@@ -348,7 +348,7 @@ Vue.mixin({
                 }
             }).catch(err => {
                 me.debugger(`${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`, 'plugins/mixins.js(payment)')
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
                 }

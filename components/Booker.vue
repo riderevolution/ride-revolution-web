@@ -994,7 +994,7 @@
               `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'components/Booker.vue(cancelWaitlist)'
             )
-            if (err.response?.data && err.response.data?.errors) {
+            if (err.response.data && err.response.data.errors) {
               me.$store.state.errorList = err.response.data.errors
               me.$store.state.errorPromptStatus = true
             }
@@ -1211,7 +1211,7 @@
               `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'components/Booker.vue(switchSeatData)'
             )
-            if (err.response?.data && err.response.data?.errors) {
+            if (err.response.data && err.response.data.errors) {
               me.$store.state.errorList = err.response.data.errors
               me.$store.state.errorStatus = true
             }
@@ -1381,7 +1381,7 @@
               `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'components/Booker.vue(fetchSeats)'
             )
-            if (err.response?.data && err.response.data?.errors) {
+            if (err.response.data && err.response.data.errors) {
               me.$store.state.needLogin = true
               me.$store.state.errorList = err.response.data.errors
               me.$store.state.errorPromptStatus = true

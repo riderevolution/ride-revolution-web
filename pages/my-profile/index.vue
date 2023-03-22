@@ -296,7 +296,7 @@
                   `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:ride-rev-journey)'
                 )
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true
                 }
@@ -328,7 +328,7 @@
                   `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:classes)'
                 )
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true
                 }
@@ -384,7 +384,7 @@
                   `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:packages)'
                 )
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true
                 }
@@ -420,7 +420,7 @@
                   `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:transactions)'
                 )
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true
                 }
@@ -450,7 +450,7 @@
                   `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:gift-cards)'
                 )
-                if (err.response?.data && err.response.data?.errors) {
+                if (err.response.data && err.response.data.errors) {
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true
                 }
@@ -587,7 +587,7 @@
                       )}`,
                       'pages/my-profile/index.vue(mounted)'
                     )
-                    if (err.response?.data && err.response.data?.errors) {
+                    if (err.response.data && err.response.data.errors) {
                       me.$store.state.errorList = err.response.data.errors
                       me.$store.state.errorPromptStatus = true
                     }
@@ -605,7 +605,7 @@
               `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'pages/my-profile/index.vue(mounted)'
             )
-            if (err.response?.data && err.response.data?.errors) {
+            if (err.response.data && err.response.data.errors) {
               me.$store.state.needLogin = true
               me.$store.state.errorList = err.response.data.errors
               me.$store.state.errorPromptStatus = true
