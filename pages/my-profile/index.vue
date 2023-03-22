@@ -293,7 +293,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  err.response,
+                  err,
                   'pages/my-profile/index.vue(toggleTab:ride-rev-journey)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -325,7 +325,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  err.response,
+                  err,
                   'pages/my-profile/index.vue(toggleTab:classes)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -381,7 +381,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  err.response,
+                  err,
                   'pages/my-profile/index.vue(toggleTab:packages)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -417,7 +417,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  err.response,
+                  err,
                   'pages/my-profile/index.vue(toggleTab:transactions)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -447,7 +447,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  err.response,
+                  err,
                   'pages/my-profile/index.vue(toggleTab:gift-cards)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -491,17 +491,24 @@
           })
           .then(res => {
             if (res.data) {
-              me.user = res.data.user
-              me.badges = res.data.acquiredBadges
-              me.storeCredits =
-                res.data.user.store_credits === null
-                  ? 0
-                  : res.data.user.store_credits.amount
-              me.first_name = res.data.user.first_name.charAt(0)
-              me.last_name = res.data.user.last_name.charAt(0)
-              if (res.data.user.new_user == 1) {
-                me.$store.state.completeProfileStatus = true
+              if (res.data.user) {
+                if (res.data.user.new_user == 1) {
+                  me.$store.state.completeProfileStatus = true
+                }
+
+                me.user = res.data.user
+                me.storeCredits =
+                  res.data.user.store_credits === null
+                    ? 0
+                    : res.data.user.store_credits.amount
+
+                me.first_name = res.data.user.first_name.charAt(0)
+                me.last_name = res.data.user.last_name.charAt(0)
               }
+              if (res.data.acquiredBadges) {
+                me.badges = res.data.acquiredBadges
+              }
+
               if (
                 me.$store.state.fromManageClass ||
                 me.$route.hash == '#classes'
@@ -526,52 +533,55 @@
                     if (res.data) {
                       me.loaded = true
                       setTimeout(() => {
-                        me.componentLoaded = true
-                        res.data.customer.rideRevJourney.topInstructors.forEach(
-                          (instructor, index) => {
-                            instructor.hovered = false
-                          }
-                        )
                         let series_data = []
                         let series_labels = []
-                        for (
-                          let i = 0,
-                            len =
-                              res.data.customer.rideRevJourney.monthlyRideCount
-                                .series.data.length;
-                          i < len;
-                          i++
-                        ) {
-                          series_data.push(
-                            res.data.customer.rideRevJourney.monthlyRideCount
-                              .series.data[i].count
+
+                        me.componentLoaded = true
+
+                        if (res.data.customer) {
+                          res.data.customer.rideRevJourney.topInstructors.forEach(
+                            (instructor, index) => {
+                              instructor.hovered = false
+                            }
                           )
-                          series_labels.push(
-                            me
-                              .$moment(
+
+                          for (
+                            let i = 0,
+                              len =
                                 res.data.customer.rideRevJourney
-                                  .monthlyRideCount.series.data[i].month_year,
-                                'MMM YYYY'
-                              )
-                              .format('MMM')
-                          )
+                                  .monthlyRideCount.series.data.length;
+                            i < len;
+                            i++
+                          ) {
+                            series_data.push(
+                              res.data.customer.rideRevJourney.monthlyRideCount
+                                .series.data[i].count
+                            )
+                            series_labels.push(
+                              me
+                                .$moment(
+                                  res.data.customer.rideRevJourney
+                                    .monthlyRideCount.series.data[i].month_year,
+                                  'MMM YYYY'
+                                )
+                                .format('MMM')
+                            )
+                          }
+
+                          me.$refs.profileTab.rideRevJourney =
+                            res.data.customer.rideRevJourney
+                          me.$refs.profileTab.series[0].data = series_data
+                          me.$refs.profileTab.usertoNow = me
+                            .$moment(res.data.customer.created_at)
+                            .toNow()
+                          me.$refs.profileTab.tabChartCategory = 'monthly'
+                          me.$refs.profileTab.chartOptions.xaxis.categories = series_labels
                         }
-                        me.$refs.profileTab.rideRevJourney =
-                          res.data.customer.rideRevJourney
-                        me.$refs.profileTab.series[0].data = series_data
-                        me.$refs.profileTab.usertoNow = me
-                          .$moment(res.data.customer.created_at)
-                          .toNow()
-                        me.$refs.profileTab.tabChartCategory = 'monthly'
-                        me.$refs.profileTab.chartOptions.xaxis.categories = series_labels
-                      }, 10)
+                      }, 100)
                     }
                   })
                   .catch(err => {
-                    me.debugger(
-                      err.response,
-                      'pages/my-profile/index.vue(mounted)'
-                    )
+                    me.debugger(err, 'pages/my-profile/index.vue(mounted)')
                     if (err.response?.data && err.response.data?.errors) {
                       me.$store.state.errorList = err.response.data.errors
                       me.$store.state.errorPromptStatus = true
@@ -586,10 +596,7 @@
             }
           })
           .catch(err => {
-            me.debugger(
-              err.response,
-              'pages/my-profile/index.vue(mounted)'
-            )
+            me.debugger(err, 'pages/my-profile/index.vue(mounted)')
             if (err.response?.data && err.response.data?.errors) {
               me.$store.state.needLogin = true
               me.$store.state.errorList = err.response.data.errors

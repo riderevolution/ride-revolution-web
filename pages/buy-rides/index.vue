@@ -326,7 +326,7 @@
                     })
                     .catch(err => {
                       me.debugger(
-                        err.response,
+                        err,
                         'pages/buy-riders/index.vue(checkIfLoggedIn)'
                       )
                       if (err.response?.data && err.response.data?.errors) {
