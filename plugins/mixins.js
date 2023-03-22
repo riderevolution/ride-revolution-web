@@ -3,7 +3,7 @@ import Vue from 'vue'
 Vue.mixin({
     methods: {
         debugger (payload) {
-            this.$axios.$post('api/extras/debugger', {
+            this.$axios.$post('api/extras/debug', {
                 text: JSON.stringify(payload)
             })
         },
