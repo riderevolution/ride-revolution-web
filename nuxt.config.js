@@ -86,6 +86,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     ['@nuxtjs/robots', {
       UserAgent: '*',
       Disallow: [
@@ -153,6 +154,15 @@ export default {
       directiveOnly: true
     }]
   ],
+  proxy: {
+    '/api': {
+      target: process.env.API_URL,
+      pathRewrite: {
+        '^/api' : '/'
+        }
+      }
+  },
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
