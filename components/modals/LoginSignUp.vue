@@ -833,7 +833,7 @@
                     })
                     .catch(err => {
                       me.debugger(err.response)
-                      if (err.response.data && err.response.data?.errors) {
+                      if (err.response?.data && err.response.data?.errors) {
                         me.$store.state.errorOverlayPromptStatus = true
                         me.$store.state.errorList = err.response.data.errors
                         me.$store.state.errorPromptStatus = true
@@ -902,7 +902,7 @@
             })
             .catch(err => {
               me.debugger(err.response)
-              if (err.response.data && err.response.data?.errors) {
+              if (err.response?.data && err.response.data?.errors) {
                 me.$store.state.errorOverlayPromptStatus = true
                 me.$store.state.errorList = err.response.data.errors
                 me.$store.state.errorPromptStatus = true
@@ -936,7 +936,7 @@
               })
               .catch(err => {
                 me.debugger(err.response)
-                if (err.response.data && err.response.data?.errors) {
+                if (err.response?.data && err.response.data?.errors) {
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true
                 }
@@ -995,7 +995,7 @@
                 })
                 .catch(err => {
                   me.debugger(err.response)
-                  if (err.response.data && err.response.data?.errors) {
+                  if (err.response?.data && err.response.data?.errors) {
                     me.$store.state.errorOverlayPromptStatus = true
                     me.$store.state.errorList = err.response.data.errors
                     me.$store.state.errorPromptStatus = true
@@ -1151,7 +1151,7 @@
               })
               .catch(err => {
                 me.debugger(err.response)
-                if (err.response.data && err.response.data?.errors) {
+                if (err.response?.data && err.response.data?.errors) {
                   me.$store.state.errorOverlayPromptStatus = true
                   me.$store.state.errorList = err.response.data.errors
                   me.$store.state.errorPromptStatus = true

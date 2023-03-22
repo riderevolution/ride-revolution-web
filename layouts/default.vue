@@ -487,6 +487,9 @@
                 me.package_prompt = true
               }
             })
+            .catch(err => {
+              me.debugger(err.response)
+            })
         }
       }
     },
