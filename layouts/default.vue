@@ -489,7 +489,7 @@
             })
             .catch(err => {
               me.debugger(
-                `${err} <> ${err.response}`,
+                `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                 'layouts/default.vue(checkVersion)'
               )
             })

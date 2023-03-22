@@ -833,7 +833,7 @@
                     })
                     .catch(err => {
                       me.debugger(
-                        `${err} <> ${err.response}`,
+                        `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                         'components/modals/LoginSignUp.vue(fbLogin)'
                       )
                       if (err.response?.data && err.response.data?.errors) {
@@ -905,7 +905,7 @@
             })
             .catch(err => {
               me.debugger(
-                `${err} <> ${err.response}`,
+                `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                 'components/modals/LoginSignUp.vue(googleLogin)'
               )
               if (err.response?.data && err.response.data?.errors) {
@@ -942,7 +942,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  `${err} <> ${err.response}`,
+                  `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'components/modals/LoginSignUp.vue(submissionForgotSuccess)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -1004,7 +1004,7 @@
                 })
                 .catch(err => {
                   me.debugger(
-                    `${err} <> ${err.response}`,
+                    `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                     'components/modals/LoginSignUp.vue(submitRegistration)'
                   )
                   if (err.response?.data && err.response.data?.errors) {
@@ -1163,7 +1163,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  `${err} <> ${err.response}`,
+                  `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'components/modals/LoginSignUp.vue(submissionLoginSuccess)'
                 )
                 if (err.response?.data && err.response.data?.errors) {

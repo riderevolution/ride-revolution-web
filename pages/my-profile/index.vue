@@ -293,7 +293,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  `${err} <> ${err.response}`,
+                  `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:ride-rev-journey)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -325,7 +325,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  `${err} <> ${err.response}`,
+                  `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:classes)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -381,7 +381,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  `${err} <> ${err.response}`,
+                  `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:packages)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -417,7 +417,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  `${err} <> ${err.response}`,
+                  `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:transactions)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -447,7 +447,7 @@
               })
               .catch(err => {
                 me.debugger(
-                  `${err} <> ${err.response}`,
+                  `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                   'pages/my-profile/index.vue(toggleTab:gift-cards)'
                 )
                 if (err.response?.data && err.response.data?.errors) {
@@ -582,7 +582,9 @@
                   })
                   .catch(err => {
                     me.debugger(
-                      `${err} <> ${err.response}`,
+                      `${JSON.stringify(err)} <> ${JSON.stringify(
+                        err.response
+                      )}`,
                       'pages/my-profile/index.vue(mounted)'
                     )
                     if (err.response?.data && err.response.data?.errors) {
@@ -600,7 +602,7 @@
           })
           .catch(err => {
             me.debugger(
-              `${err} <> ${err.response}`,
+              `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'pages/my-profile/index.vue(mounted)'
             )
             if (err.response?.data && err.response.data?.errors) {

@@ -991,7 +991,7 @@
           })
           .catch(err => {
             me.debugger(
-              `${err} <> ${err.response}`,
+              `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'components/Booker.vue(cancelWaitlist)'
             )
             if (err.response?.data && err.response.data?.errors) {
@@ -1208,7 +1208,7 @@
           })
           .catch(err => {
             me.debugger(
-              `${err} <> ${err.response}`,
+              `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'components/Booker.vue(switchSeatData)'
             )
             if (err.response?.data && err.response.data?.errors) {
@@ -1364,7 +1364,7 @@
                 })
                 .catch(err => {
                   me.debugger(
-                    `${err} <> ${err.response}`,
+                    `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
                     'components/Booker.vue(fetchSeats)'
                   )
                   me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
@@ -1378,7 +1378,7 @@
           })
           .catch(err => {
             me.debugger(
-              `${err} <> ${err.response}`,
+              `${JSON.stringify(err)} <> ${JSON.stringify(err.response)}`,
               'components/Booker.vue(fetchSeats)'
             )
             if (err.response?.data && err.response.data?.errors) {
