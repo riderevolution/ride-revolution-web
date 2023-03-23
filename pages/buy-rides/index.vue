@@ -299,7 +299,8 @@
               .get('api/check-token', {
                 headers: {
                   Authorization: `Bearer ${token}`
-                }
+                },
+                data: null
               })
               .then(res => {
                 let unbuyablePackages = res.data.unbuyablePackages

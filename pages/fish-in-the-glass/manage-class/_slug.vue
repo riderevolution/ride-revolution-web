@@ -2,7 +2,9 @@
     <div class="book_a_bike inner">
         <booker ref="booking" :inApp="true" :manage="true" :booker="true" />
         <transition name="fade">
-            <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+            <complete-profile-prompt
+                v-if="$store.state.completeProfilePromptStatus"
+            />
         </transition>
     </div>
 </template>
@@ -16,32 +18,41 @@
             Booker,
             CompleteProfilePrompt
         },
-        mounted () {
+        mounted() {
             const me = this
             let token = me.$route.query.token
             if (token == null && token == undefined) {
                 me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
             } else {
-                me.$axios.get('api/check-token', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        let user = res.data.user
-                        if (user.new_user == 1) {
-                            me.$store.state.completeProfilePromptStatus = true
+                me.$axios
+                    .get('api/check-token', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                        data: null
+                    })
+                    .then(res => {
+                        if (res.data) {
+                            let user = res.data.user
+                            if (user.new_user == 1) {
+                                me.$store.state.completeProfilePromptStatus = true
+                            }
+                            setTimeout(() => {
+                                me.$refs.booking.fetchSeats(
+                                    me.$route.params.slug
+                                )
+                            }, 10)
                         }
-                        setTimeout( () => {
-                            me.$refs.booking.fetchSeats(me.$route.params.slug)
-                        }, 10)
-                    }
-                }).catch(err => {
-                    me.$store.state.needLogin = true
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
-                    me.$nuxt.error({ statusCode: 403, message: 'Something went Wrong' })
-                })
+                    })
+                    .catch(err => {
+                        me.$store.state.needLogin = true
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                        me.$nuxt.error({
+                            statusCode: 403,
+                            message: 'Something went Wrong'
+                        })
+                    })
             }
             me.$store.state.proTipStatus = true
         }

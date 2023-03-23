@@ -1,7 +1,15 @@
 <template>
-    <div class="profile_tab_content" :style="`height: ${height}px`" v-if="$parent.componentLoaded">
+    <div
+        class="profile_tab_content"
+        :style="`height: ${height}px`"
+        v-if="$parent.componentLoaded"
+    >
         <transition name="fade">
-            <div id="tab_0" class="journey wrapper" v-if="category == 'ride-rev-journey'">
+            <div
+                id="tab_0"
+                class="journey wrapper"
+                v-if="category == 'ride-rev-journey'"
+            >
                 <div class="profile_journey">
                     <div class="teaser">
                         <div class="taken">
@@ -11,18 +19,40 @@
                                 </div>
                                 <div class="summary_content">
                                     <div class="class_stat">
-                                        <div class="class_count">{{ rideRevJourney.classesTaken }} Classes</div>
-                                        <div class="class_date">{{ usertoNow }}</div>
+                                        <div class="class_count">
+                                            {{
+                                                rideRevJourney.classesTaken
+                                            }}
+                                            Classes
+                                        </div>
+                                        <div class="class_date">
+                                            {{ usertoNow }}
+                                        </div>
                                     </div>
-                                    <div class="motto" v-if="rideRevJourney.classesTaken >= 10">{{ checkRideCount(rideRevJourney.classesTaken) }}</div>
+                                    <div
+                                        class="motto"
+                                        v-if="rideRevJourney.classesTaken >= 10"
+                                    >
+                                        {{
+                                            checkRideCount(
+                                                rideRevJourney.classesTaken
+                                            )
+                                        }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="badges_earned">
                             <div class="summary">
                                 <div class="summary_header alt">
-                                    <h3>Here are the RR badges you’ve earned!</h3>
-                                    <h4>Earn all 10 badges and get a free 5-Class Package plus limited edition merchandise as a reward</h4>
+                                    <h3>
+                                        Here are the RR badges you’ve earned!
+                                    </h3>
+                                    <h4>
+                                        Earn all 10 badges and get a free
+                                        5-Class Package plus limited edition
+                                        merchandise as a reward
+                                    </h4>
                                     <!-- <div class="icon">
                                         <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'ride-rev-journey')" />
                                         <transition name="slide">
@@ -35,13 +65,35 @@
                                 </div>
                                 <div class="summary_content">
                                     <div class="left">
-                                        <div :class="`badge ${(badge.progress >= badge.target) ? '' : 'disabled'}`" v-for="(badge, key) in badgeLeft" :key="key">
+                                        <div
+                                            :class="
+                                                `badge ${
+                                                    badge.progress >=
+                                                    badge.target
+                                                        ? ''
+                                                        : 'disabled'
+                                                }`
+                                            "
+                                            v-for="(badge, key) in badgeLeft"
+                                            :key="key"
+                                        >
                                             <img :src="badge.badge_image" />
                                             <span>{{ badge.description }}</span>
                                         </div>
                                     </div>
                                     <div class="right">
-                                        <div :class="`badge ${(badge.progress >= badge.target) ? '' : 'disabled'}`" v-for="(badge, key) in badgeRight" :key="key">
+                                        <div
+                                            :class="
+                                                `badge ${
+                                                    badge.progress >=
+                                                    badge.target
+                                                        ? ''
+                                                        : 'disabled'
+                                                }`
+                                            "
+                                            v-for="(badge, key) in badgeRight"
+                                            :key="key"
+                                        >
                                             <img :src="badge.badge_image" />
                                             <span>{{ badge.description }}</span>
                                         </div>
@@ -54,54 +106,158 @@
                         <div class="tab_content_header alt2">
                             <h2>Your Top Booked Instructors</h2>
                         </div>
-                        <div class="tab_content_main" v-if="rideRevJourney.topInstructors.length > 0">
-                            <div class="instructor desktop" v-if="!$store.state.isMobile">
-                                <div :id="`item_${key}`" class="item" v-for="(data, key) in populateTopInstructors" :key="key">
-                                    <div class="cover" @mouseover.self="toggleInstructor('in', key)" @mouseleave.self="toggleInstructor('out', key)"></div>
-                                    <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
-                                    <img class="main" src="/logo.svg" :alt="data.instructor_details.slug" v-else />
+                        <div
+                            class="tab_content_main"
+                            v-if="rideRevJourney.topInstructors.length > 0"
+                        >
+                            <div
+                                class="instructor desktop"
+                                v-if="!$store.state.isMobile"
+                            >
+                                <div
+                                    :id="`item_${key}`"
+                                    class="item"
+                                    v-for="(data,
+                                    key) in populateTopInstructors"
+                                    :key="key"
+                                >
+                                    <div
+                                        class="cover"
+                                        @mouseover.self="
+                                            toggleInstructor('in', key)
+                                        "
+                                        @mouseleave.self="
+                                            toggleInstructor('out', key)
+                                        "
+                                    ></div>
+                                    <img
+                                        class="main"
+                                        :src="
+                                            data.instructor_details.gallery[0]
+                                                .path
+                                        "
+                                        :alt="
+                                            data.instructor_details.images[0]
+                                                .alt
+                                        "
+                                        v-if="
+                                            data.instructor_details.gallery
+                                                .length > 0
+                                        "
+                                    />
+                                    <img
+                                        class="main"
+                                        src="/logo.svg"
+                                        :alt="data.instructor_details.slug"
+                                        v-else
+                                    />
                                     <transition name="fade">
-                                        <div class="num_wrapper" v-if="!data.hovered"><div class="num">{{ key + 1 }}</div></div>
+                                        <div
+                                            class="num_wrapper"
+                                            v-if="!data.hovered"
+                                        >
+                                            <div class="num">{{ key + 1 }}</div>
+                                        </div>
                                     </transition>
                                     <transition name="slide">
-                                        <div class="overlay" v-if="data.hovered">
+                                        <div
+                                            class="overlay"
+                                            v-if="data.hovered"
+                                        >
                                             <div class="info">
                                                 <div class="num_wrapper_alt">
                                                     <div class="num">
                                                         {{ key + 1 }}
                                                     </div>
                                                 </div>
-                                                <div class="name">{{ data.instructor_details.nickname }}</div>
+                                                <div class="name">
+                                                    {{
+                                                        data.instructor_details
+                                                            .nickname
+                                                    }}
+                                                </div>
                                             </div>
-                                            <div class="rides">{{ data.bookCount }} rides</div>
+                                            <div class="rides">
+                                                {{ data.bookCount }} rides
+                                            </div>
                                         </div>
                                     </transition>
                                 </div>
                             </div>
                             <div class="instructor" v-else>
                                 <no-ssr>
-                                    <swiper :options="mobileOptions" class="default">
-                                        <swiper-slide :id="`item_${key}`" v-for="(data, key) in populateTopInstructors" :key="key">
+                                    <swiper
+                                        :options="mobileOptions"
+                                        class="default"
+                                    >
+                                        <swiper-slide
+                                            :id="`item_${key}`"
+                                            v-for="(data,
+                                            key) in populateTopInstructors"
+                                            :key="key"
+                                        >
                                             <div class="item">
                                                 <div class="cover"></div>
-                                                <img class="main" :src="data.instructor_details.gallery[0].path" :alt="data.instructor_details.images[0].alt" v-if="data.instructor_details.gallery.length > 0" />
-                                                <img class="main" src="/logo.svg" :alt="data.instructor_details.slug" v-else />
+                                                <img
+                                                    class="main"
+                                                    :src="
+                                                        data.instructor_details
+                                                            .gallery[0].path
+                                                    "
+                                                    :alt="
+                                                        data.instructor_details
+                                                            .images[0].alt
+                                                    "
+                                                    v-if="
+                                                        data.instructor_details
+                                                            .gallery.length > 0
+                                                    "
+                                                />
+                                                <img
+                                                    class="main"
+                                                    src="/logo.svg"
+                                                    :alt="
+                                                        data.instructor_details
+                                                            .slug
+                                                    "
+                                                    v-else
+                                                />
                                                 <transition name="slide">
                                                     <div class="overlay">
                                                         <div class="info">
-                                                            <div class="num_wrapper_alt">
-                                                                <div class="num">
-                                                                    {{ key + 1 }}
+                                                            <div
+                                                                class="num_wrapper_alt"
+                                                            >
+                                                                <div
+                                                                    class="num"
+                                                                >
+                                                                    {{
+                                                                        key + 1
+                                                                    }}
                                                                 </div>
                                                             </div>
-                                                            <div class="name">{{ data.instructor_details.nickname }}</div>
+                                                            <div class="name">
+                                                                {{
+                                                                    data
+                                                                        .instructor_details
+                                                                        .nickname
+                                                                }}
+                                                            </div>
                                                         </div>
-                                                        <div class="rides">{{ data.bookCount }} rides</div>
+                                                        <div class="rides">
+                                                            {{
+                                                                data.bookCount
+                                                            }}
+                                                            rides
+                                                        </div>
                                                     </div>
                                                 </transition>
                                             </div>
                                         </swiper-slide>
-                                        <div class="swiper-pagination" slot="pagination"></div>
+                                        <div
+                                            class="swiper-pagination"
+                                            slot="pagination"
+                                        ></div>
                                     </swiper>
                                 </no-ssr>
                             </div>
@@ -110,26 +266,74 @@
                             <p>You Have no Rides yet.</p>
                         </div>
                     </div>
-                    <div :class="`chart ${(rideRevJourney.topInstructors.length <= 0) ? 'margin' : ''}`">
+                    <div
+                        :class="
+                            `chart ${
+                                rideRevJourney.topInstructors.length <= 0
+                                    ? 'margin'
+                                    : ''
+                            }`
+                        "
+                    >
                         <div class="tab_content_header alt3">
                             <h2>Class Count</h2>
                             <ul class="tab_content_header_menu">
-                                <li :class="`header_menu_tab_item ${(tabChartCategory == 'weekly') ? 'active' : ''}`" @click="toggledChartMenuTab('weekly')">Weekly</li>
-                                <li :class="`header_menu_tab_item ${(tabChartCategory == 'monthly') ? 'active' : ''}`" @click="toggledChartMenuTab('monthly')">Monthly</li>
+                                <li
+                                    :class="
+                                        `header_menu_tab_item ${
+                                            tabChartCategory == 'weekly'
+                                                ? 'active'
+                                                : ''
+                                        }`
+                                    "
+                                    @click="toggledChartMenuTab('weekly')"
+                                >
+                                    Weekly
+                                </li>
+                                <li
+                                    :class="
+                                        `header_menu_tab_item ${
+                                            tabChartCategory == 'monthly'
+                                                ? 'active'
+                                                : ''
+                                        }`
+                                    "
+                                    @click="toggledChartMenuTab('monthly')"
+                                >
+                                    Monthly
+                                </li>
                             </ul>
                         </div>
                         <div class="ride_chart">
                             <no-ssr>
-                                <apexchart height="600" :key="graphKey" :options="chartOptions" :series="series"></apexchart>
+                                <apexchart
+                                    height="600"
+                                    :key="graphKey"
+                                    :options="chartOptions"
+                                    :series="series"
+                                ></apexchart>
                             </no-ssr>
                         </div>
                         <div class="ride_summary">
                             <div class="left">
-                                <div class="value">{{ rideRevJourney.ridesForThePast30Days }}</div>
-                                <div class="label">Rides in the past 30 days</div>
+                                <div class="value">
+                                    {{ rideRevJourney.ridesForThePast30Days }}
+                                </div>
+                                <div class="label">
+                                    Rides in the past 30 days
+                                </div>
                             </div>
                             <div class="right">
-                                <div class="value">{{ (rideRevJourney.favoriteTimeSlot == null) ? 'N/A' : $moment(rideRevJourney.favoriteTimeSlot, 'hh:mm A').format('h:mm A') }}</div>
+                                <div class="value">
+                                    {{
+                                        rideRevJourney.favoriteTimeSlot == null
+                                            ? 'N/A'
+                                            : $moment(
+                                                  rideRevJourney.favoriteTimeSlot,
+                                                  'hh:mm A'
+                                              ).format('h:mm A')
+                                    }}
+                                </div>
                                 <div class="label">Favorite Timeslot</div>
                             </div>
                         </div>
@@ -141,68 +345,262 @@
             <div id="tab_1" class="class wrapper" v-if="category == 'classes'">
                 <div id="default_menu">
                     <ul class="menu_tab">
-                        <li :class="`menu_tab_item ${(tabCategory == 'upcoming') ? 'active' : ''}`" @click="toggledMenuTab('upcoming')">Upcoming</li>
-                        <li :class="`menu_tab_item ${(tabCategory == 'waitlisted') ? 'active' : ''}`" @click="toggledMenuTab('waitlisted')">Waitlisted</li>
-                        <li :class="`menu_tab_item ${(tabCategory == 'class-history') ? 'active' : ''}`" @click="toggledMenuTab('class-history')">History</li>
+                        <li
+                            :class="
+                                `menu_tab_item ${
+                                    tabCategory == 'upcoming' ? 'active' : ''
+                                }`
+                            "
+                            @click="toggledMenuTab('upcoming')"
+                        >
+                            Upcoming
+                        </li>
+                        <li
+                            :class="
+                                `menu_tab_item ${
+                                    tabCategory == 'waitlisted' ? 'active' : ''
+                                }`
+                            "
+                            @click="toggledMenuTab('waitlisted')"
+                        >
+                            Waitlisted
+                        </li>
+                        <li
+                            :class="
+                                `menu_tab_item ${
+                                    tabCategory == 'class-history'
+                                        ? 'active'
+                                        : ''
+                                }`
+                            "
+                            @click="toggledMenuTab('class-history')"
+                        >
+                            History
+                        </li>
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_classes" v-if="classes.length > 0">
-                            <div class="class_wrapper" v-for="(data, key) in populateClasses" :key="key">
+                            <div
+                                class="class_wrapper"
+                                v-for="(data, key) in populateClasses"
+                                :key="key"
+                            >
                                 <div class="overlay" v-if="!data.history">
-                                    <div :class="`menu_dot${(data.toggled) ? ' toggled' : ''}`" @click="toggleMenuDot(key)"></div>
+                                    <div
+                                        :class="
+                                            `menu_dot${
+                                                data.toggled ? ' toggled' : ''
+                                            }`
+                                        "
+                                        @click="toggleMenuDot(key)"
+                                    ></div>
                                     <transition name="slideAlt">
-                                        <ul class="menu_dot_list" v-if="data.toggled">
-                                            <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)" v-if="!data.waitlistDateTime">{{ (data.status != 'reserved-guest') ? 'Manage' : 'View' }} Class</li>
-                                            <li class="menu_dot_item" @click="manageClass(data.scheduled_date_id)" v-else>View Class</li>
-                                            <li class="menu_dot_item red" @click="toggleCancel(data)" v-if="data.status != 'reserved-guest' || data.waitlistDateTime">Cancel Class</li>
+                                        <ul
+                                            class="menu_dot_list"
+                                            v-if="data.toggled"
+                                        >
+                                            <li
+                                                class="menu_dot_item"
+                                                @click="
+                                                    manageClass(
+                                                        data.scheduled_date_id
+                                                    )
+                                                "
+                                                v-if="!data.waitlistDateTime"
+                                            >
+                                                {{
+                                                    data.status !=
+                                                    'reserved-guest'
+                                                        ? 'Manage'
+                                                        : 'View'
+                                                }}
+                                                Class
+                                            </li>
+                                            <li
+                                                class="menu_dot_item"
+                                                @click="
+                                                    manageClass(
+                                                        data.scheduled_date_id
+                                                    )
+                                                "
+                                                v-else
+                                            >
+                                                View Class
+                                            </li>
+                                            <li
+                                                class="menu_dot_item red"
+                                                @click="toggleCancel(data)"
+                                                v-if="
+                                                    data.status !=
+                                                        'reserved-guest' ||
+                                                        data.waitlistDateTime
+                                                "
+                                            >
+                                                Cancel Class
+                                            </li>
                                         </ul>
                                     </transition>
                                 </div>
                                 <div class="top">
                                     <div class="left">
                                         <div class="date">
-                                            <div class="day">{{ $moment(data.scheduled_date.date).format('DD') }}</div>
-                                            <div class="month">{{ $moment(data.scheduled_date.date).format('MMM') }}</div>
+                                            <div class="day">
+                                                {{
+                                                    $moment(
+                                                        data.scheduled_date.date
+                                                    ).format('DD')
+                                                }}
+                                            </div>
+                                            <div class="month">
+                                                {{
+                                                    $moment(
+                                                        data.scheduled_date.date
+                                                    ).format('MMM')
+                                                }}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="right">
-                                        <h3 class="title">{{ (data.scheduled_date.schedule.custom_name != null) ? data.scheduled_date.schedule.custom_name : data.scheduled_date.schedule.class_type.name }}</h3>
-                                        <div class="violator" v-if="$moment(data.scheduled_date.date).format('MMMM DD, YYYY') == $moment().format('MMMM DD, YYYY')">Today</div>
-                                        <div class="schedule">{{ data.scheduled_date.schedule.start_time }} at {{ data.scheduled_date.schedule.studio.name }}</div>
-                                        <div class="schedule" v-if="data.seat && !data.scheduled_date.schedule.studio.online_class">
-                                            Bikes: <span class="green">{{ data.seat.number }}</span><span v-for="(guest, key) in data.guestBookings" :key="key" v-if="data.guestBookings.length > 0" class="pink"><span class="separator">, </span>{{ guest.seat.number }}</span>
-                                        </div>
-                                        <div class="schedule" v-else>
-                                            Bikes: <span class="green">-</span>
+                                        <h3 class="title">
+                                            {{
+                                                data.scheduled_date.schedule
+                                                    .custom_name != null
+                                                    ? data.scheduled_date
+                                                          .schedule.custom_name
+                                                    : data.scheduled_date
+                                                          .schedule.class_type
+                                                          .name
+                                            }}
+                                        </h3>
+                                        <div
+                                            class="violator"
+                                            v-if="
+                                                $moment(
+                                                    data.scheduled_date.date
+                                                ).format('MMMM DD, YYYY') ==
+                                                    $moment().format(
+                                                        'MMMM DD, YYYY'
+                                                    )
+                                            "
+                                        >
+                                            Today
                                         </div>
                                         <div class="schedule">
-                                            Class Package: <span class="green">{{ data.user_package_count.class_package.name }}</span>
+                                            {{
+                                                data.scheduled_date.schedule
+                                                    .start_time
+                                            }}
+                                            at
+                                            {{
+                                                data.scheduled_date.schedule
+                                                    .studio.name
+                                            }}
+                                        </div>
+                                        <div
+                                            class="schedule"
+                                            v-if="
+                                                data.seat &&
+                                                    !data.scheduled_date
+                                                        .schedule.studio
+                                                        .online_class
+                                            "
+                                        >
+                                            Bikes:
+                                            <span class="green">
+                                                {{ data.seat.number }}
+                                            </span>
+                                            <span
+                                                v-for="(guest,
+                                                key) in data.guestBookings"
+                                                :key="key"
+                                                v-if="
+                                                    data.guestBookings.length >
+                                                        0
+                                                "
+                                                class="pink"
+                                            >
+                                                <span class="separator">,</span>
+                                                {{ guest.seat.number }}
+                                            </span>
+                                        </div>
+                                        <div class="schedule" v-else>
+                                            Bikes:
+                                            <span class="green">-</span>
+                                        </div>
+                                        <div class="schedule">
+                                            Class Package:
+                                            <span class="green">
+                                                {{
+                                                    data.user_package_count
+                                                        .class_package.name
+                                                }}
+                                            </span>
                                         </div>
                                         <div
                                             :class="[
                                                 'violator nmb mt',
-                                                (data.shared) ? 'pink' : 'blue'
+                                                data.shared ? 'pink' : 'blue'
                                             ]"
                                         >
-                                            {{ (data.shared) ? 'Shared By' : 'Owned By' }}: {{ data.user_package_count.user.fullname }}
+                                            {{
+                                                data.shared
+                                                    ? 'Shared By'
+                                                    : 'Owned By'
+                                            }}:
+                                            {{
+                                                data.user_package_count.user
+                                                    .fullname
+                                            }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="bottom">
-                                    <img :src="getInstructorsImageInSchedule(data.scheduled_date)" />
+                                    <img
+                                        :src="
+                                            getInstructorsImageInSchedule(
+                                                data.scheduled_date
+                                            )
+                                        "
+                                    />
                                     <div class="right">
                                         <div class="label">Instructor</div>
-                                        <h3 class="name">{{ getInstructorsInSchedule(data.scheduled_date) }}</h3>
+                                        <h3 class="name">
+                                            {{
+                                                getInstructorsInSchedule(
+                                                    data.scheduled_date
+                                                )
+                                            }}
+                                        </h3>
                                     </div>
                                     <template v-if="tabCategory == 'upcoming'">
-                                        <template v-if="data.scheduled_date.schedule.studio.online_class">
-                                            <a :href="data.scheduled_date.zoom_link" class="default_btn full" target="_blank">Zoom Link</a>
+                                        <template
+                                            v-if="
+                                                data.scheduled_date.schedule
+                                                    .studio.online_class
+                                            "
+                                        >
+                                            <a
+                                                :href="
+                                                    data.scheduled_date
+                                                        .zoom_link
+                                                "
+                                                class="default_btn full"
+                                                target="_blank"
+                                            >
+                                                Zoom Link
+                                            </a>
                                         </template>
                                     </template>
                                 </div>
                             </div>
                             <div class="action">
-                                <div v-if="!showLoadedClasses" class="default_btn load" @click="loadMoreClasses()">Load More</div>
+                                <div
+                                    v-if="!showLoadedClasses"
+                                    class="default_btn load"
+                                    @click="loadMoreClasses()"
+                                >
+                                    Load More
+                                </div>
                             </div>
                         </div>
                         <div class="no_results" v-else>
@@ -210,23 +608,50 @@
                             <div class="logo">
                                 <img src="/footer-logo.svg" />
                             </div>
-                            <nuxt-link to="/book-a-bike" class="default_btn">Book a Class</nuxt-link>
+                            <nuxt-link to="/book-a-bike" class="default_btn">
+                                Book a Class
+                            </nuxt-link>
                         </div>
                     </div>
                 </div>
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_2" class="package wrapper" v-if="category == 'packages'">
+            <div
+                id="tab_2"
+                class="package wrapper"
+                v-if="category == 'packages'"
+            >
                 <div id="default_menu">
                     <ul class="menu_tab">
-                        <li :class="`menu_tab_item ${(tabCategory == 'active') ? 'active' : ''}`" @click="toggledMenuTab('active')">Active</li>
+                        <li
+                            :class="
+                                `menu_tab_item ${
+                                    tabCategory == 'active' ? 'active' : ''
+                                }`
+                            "
+                            @click="toggledMenuTab('active')"
+                        >
+                            Active
+                        </li>
                         <!-- <li :class="`menu_tab_item ${(tabCategory == 'subscription') ? 'active' : ''}`" @click="toggledMenuTab('subscription')">Subscribed</li> -->
-                        <li :class="`menu_tab_item ${(tabCategory == 'expired') ? 'active' : ''}`" @click="toggledMenuTab('expired')">Expired</li>
+                        <li
+                            :class="
+                                `menu_tab_item ${
+                                    tabCategory == 'expired' ? 'active' : ''
+                                }`
+                            "
+                            @click="toggledMenuTab('expired')"
+                        >
+                            Expired
+                        </li>
                     </ul>
                     <div class="menu_tab_content">
                         <div class="profile_packages">
-                            <table class="default_table" v-if="packages.length > 0">
+                            <table
+                                class="default_table"
+                                v-if="packages.length > 0"
+                            >
                                 <thead>
                                     <tr>
                                         <th>Packages</th>
@@ -234,55 +659,339 @@
                                         <th>Available</th>
                                         <th>Purchase</th>
                                         <th>Activation</th>
-                                        <th>Expiry {{ (tabCategory == 'expired') ? '/ Consumed On' : '' }}</th>
-                                        <th v-if="tabCategory != 'expired'">Actions</th>
+                                        <th>
+                                            Expiry
+                                            {{
+                                                tabCategory == 'expired'
+                                                    ? '/ Consumed On'
+                                                    : ''
+                                            }}
+                                        </th>
+                                        <th v-if="tabCategory != 'expired'">
+                                            Actions
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(data, key) in packages" :key="key">
+                                    <tr
+                                        v-for="(data, key) in packages"
+                                        :key="key"
+                                    >
                                         <td data-column="Packages">
                                             <div class="package_info">
                                                 <div class="count">
-                                                    <div :class="`overlay ${(data.class_package.class_count_unlimited == 1) ? 'infinite' : ''}`">{{ (data.class_package.class_count_unlimited == 1) ? '&#8734;' : data.class_package.class_count }}</div>
+                                                    <div
+                                                        :class="
+                                                            `overlay ${
+                                                                data
+                                                                    .class_package
+                                                                    .class_count_unlimited ==
+                                                                1
+                                                                    ? 'infinite'
+                                                                    : ''
+                                                            }`
+                                                        "
+                                                    >
+                                                        {{
+                                                            data.class_package
+                                                                .class_count_unlimited ==
+                                                            1
+                                                                ? '&#8734;'
+                                                                : data
+                                                                      .class_package
+                                                                      .class_count
+                                                        }}
+                                                    </div>
                                                 </div>
                                                 <div class="title">
-                                                    {{ data.class_package.name }}
+                                                    {{
+                                                        data.class_package.name
+                                                    }}
                                                     <div class="violator_list">
-                                                        <div class="violator shared" v-if="data.shares_count > 0 && !data.sharedby_user">{{ getSharedUsers(data) }}</div>
-                                                        <div class="violator shared_with_me" v-if="data.shares_count > 0 && data.sharedby_user">Shared by {{ data.sharedby_user.fullname }}</div>
-                                                        <div class="violator froze" v-if="data.frozen">Package is Frozen</div>
-                                                        <div class="violator subs" v-if="data.paypal_subscription_id">Subscription Package</div>
+                                                        <div
+                                                            class="violator shared"
+                                                            v-if="
+                                                                data.shares_count >
+                                                                    0 &&
+                                                                    !data.sharedby_user
+                                                            "
+                                                        >
+                                                            {{
+                                                                getSharedUsers(
+                                                                    data
+                                                                )
+                                                            }}
+                                                        </div>
+                                                        <div
+                                                            class="violator shared_with_me"
+                                                            v-if="
+                                                                data.shares_count >
+                                                                    0 &&
+                                                                    data.sharedby_user
+                                                            "
+                                                        >
+                                                            Shared by
+                                                            {{
+                                                                data
+                                                                    .sharedby_user
+                                                                    .fullname
+                                                            }}
+                                                        </div>
+                                                        <div
+                                                            class="violator froze"
+                                                            v-if="data.frozen"
+                                                        >
+                                                            Package is Frozen
+                                                        </div>
+                                                        <div
+                                                            class="violator subs"
+                                                            v-if="
+                                                                data.paypal_subscription_id
+                                                            "
+                                                        >
+                                                            Subscription Package
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-column="Used"><div class="default">{{ parseInt(data.original_package_count) - parseInt(data.count) }}</div></td>
-                                        <td data-column="Available"><div class="default">{{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : (parseInt(data.count) == data.original_package_count) ? parseInt(data.original_package_count) : parseInt(data.count) }}</div></td>
+                                        <td data-column="Used">
+                                            <div class="default">
+                                                {{
+                                                    parseInt(
+                                                        data.original_package_count
+                                                    ) - parseInt(data.count)
+                                                }}
+                                            </div>
+                                        </td>
+                                        <td data-column="Available">
+                                            <div class="default">
+                                                {{
+                                                    data.class_package
+                                                        .class_count_unlimited ==
+                                                    1
+                                                        ? 'Unlimited'
+                                                        : parseInt(
+                                                              data.count
+                                                          ) ==
+                                                          data.original_package_count
+                                                        ? parseInt(
+                                                              data.original_package_count
+                                                          )
+                                                        : parseInt(data.count)
+                                                }}
+                                            </div>
+                                        </td>
                                         <td data-column="Purchase">
-                                            <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
-                                                <div class="default">{{ $moment(data.created_at).format('MMM D, YYYY') }}</div>
+                                            <div
+                                                :class="
+                                                    `${
+                                                        !$store.state.isMobile
+                                                            ? ''
+                                                            : 'mobile'
+                                                    }`
+                                                "
+                                            >
+                                                <div class="default">
+                                                    {{
+                                                        $moment(
+                                                            data.created_at
+                                                        ).format('MMM D, YYYY')
+                                                    }}
+                                                </div>
                                             </div>
                                         </td>
                                         <td data-column="Activation">
-                                            <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
-                                                <div class="default">{{ (data.activation_date != 'NA') ? $moment(data.activation_date).format('MMM D, YYYY') : 'N/A' }}</div>
+                                            <div
+                                                :class="
+                                                    `${
+                                                        !$store.state.isMobile
+                                                            ? ''
+                                                            : 'mobile'
+                                                    }`
+                                                "
+                                            >
+                                                <div class="default">
+                                                    {{
+                                                        data.activation_date !=
+                                                        'NA'
+                                                            ? $moment(
+                                                                  data.activation_date
+                                                              ).format(
+                                                                  'MMM D, YYYY'
+                                                              )
+                                                            : 'N/A'
+                                                    }}
+                                                </div>
                                             </div>
                                         </td>
                                         <td data-column="Expiry">
-                                            <div :class="`${(!$store.state.isMobile) ? '' : 'mobile'}`">
-                                                <div class="default">{{ (data.computed_expiration_date == null) ? $moment(data.expiry_date_if_not_activated).format('MMM D, YYYY') : $moment(data.computed_expiration_date).format('MMM D, YYYY') }}</div>
-                                                <div class="label violator" v-if="parseInt($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')) <= 15 && tabCategory == 'active'">{{ ($moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days') == 0) ? `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'hours')} Hours` : `${$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff($moment(), 'days')} Days` }} Left</div>
+                                            <div
+                                                :class="
+                                                    `${
+                                                        !$store.state.isMobile
+                                                            ? ''
+                                                            : 'mobile'
+                                                    }`
+                                                "
+                                            >
+                                                <div class="default">
+                                                    {{
+                                                        data.computed_expiration_date ==
+                                                        null
+                                                            ? $moment(
+                                                                  data.expiry_date_if_not_activated
+                                                              ).format(
+                                                                  'MMM D, YYYY'
+                                                              )
+                                                            : $moment(
+                                                                  data.computed_expiration_date
+                                                              ).format(
+                                                                  'MMM D, YYYY'
+                                                              )
+                                                    }}
+                                                </div>
+                                                <div
+                                                    class="label violator"
+                                                    v-if="
+                                                        parseInt(
+                                                            $moment(
+                                                                data.computed_expiration_date !=
+                                                                    null
+                                                                    ? data.computed_expiration_date
+                                                                    : data.expiry_date_if_not_activated
+                                                            ).diff(
+                                                                $moment(),
+                                                                'days'
+                                                            )
+                                                        ) <= 15 &&
+                                                            tabCategory ==
+                                                                'active'
+                                                    "
+                                                >
+                                                    {{
+                                                        $moment(
+                                                            data.computed_expiration_date !=
+                                                                null
+                                                                ? data.computed_expiration_date
+                                                                : data.expiry_date_if_not_activated
+                                                        ).diff(
+                                                            $moment(),
+                                                            'days'
+                                                        ) == 0
+                                                            ? `${$moment(
+                                                                  data.computed_expiration_date !=
+                                                                      null
+                                                                      ? data.computed_expiration_date
+                                                                      : data.expiry_date_if_not_activated
+                                                              ).diff(
+                                                                  $moment(),
+                                                                  'hours'
+                                                              )} Hours`
+                                                            : `${$moment(
+                                                                  data.computed_expiration_date !=
+                                                                      null
+                                                                      ? data.computed_expiration_date
+                                                                      : data.expiry_date_if_not_activated
+                                                              ).diff(
+                                                                  $moment(),
+                                                                  'days'
+                                                              )} Days`
+                                                    }}
+                                                    Left
+                                                </div>
                                             </div>
                                         </td>
-                                        <template v-if="!data.paypal_subscription_id">
-                                            <td data-column="Actions" v-if="!data.expired && parseInt(data.count) > 0">
-                                                <div class="table_menu_overlay" v-if="(data.class_package.por_allow_sharing_of_package || data.class_package.por_allow_transferring_of_package)">
-                                                    <div class="table_menu_dots" @click="toggleTableMenuDot(key)">&#9679; &#9679; &#9679;</div>
+                                        <template
+                                            v-if="!data.paypal_subscription_id"
+                                        >
+                                            <td
+                                                data-column="Actions"
+                                                v-if="
+                                                    !data.expired &&
+                                                        parseInt(data.count) > 0
+                                                "
+                                            >
+                                                <div
+                                                    class="table_menu_overlay"
+                                                    v-if="
+                                                        data.class_package
+                                                            .por_allow_sharing_of_package ||
+                                                            data.class_package
+                                                                .por_allow_transferring_of_package
+                                                    "
+                                                >
+                                                    <div
+                                                        class="table_menu_dots"
+                                                        @click="
+                                                            toggleTableMenuDot(
+                                                                key
+                                                            )
+                                                        "
+                                                    >
+                                                        &#9679; &#9679; &#9679;
+                                                    </div>
                                                     <transition name="slideAlt">
-                                                        <ul class="table_menu_dots_list" v-if="data.toggled">
-                                                            <li class="table_menu_item" @click="togglePackage(data, 'share')" v-if="data.class_package.por_allow_sharing_of_package && data.shares_count != data.class_package.max_package_sharing">Share Package</li>
-                                                            <li class="table_menu_item" @click="togglePackage(data, 'unshare')" v-if="data.class_package.por_allow_sharing_of_package && data.shares_count > 0">Unshare Package</li>
-                                                            <li v-if="data.class_package.por_allow_transferring_of_package && !data.frozen && !data.shares_count" class="table_menu_item" @click="togglePackage(data, 'transfer')">Transfer Package</li>
+                                                        <ul
+                                                            class="table_menu_dots_list"
+                                                            v-if="data.toggled"
+                                                        >
+                                                            <li
+                                                                class="table_menu_item"
+                                                                @click="
+                                                                    togglePackage(
+                                                                        data,
+                                                                        'share'
+                                                                    )
+                                                                "
+                                                                v-if="
+                                                                    data
+                                                                        .class_package
+                                                                        .por_allow_sharing_of_package &&
+                                                                        data.shares_count !=
+                                                                            data
+                                                                                .class_package
+                                                                                .max_package_sharing
+                                                                "
+                                                            >
+                                                                Share Package
+                                                            </li>
+                                                            <li
+                                                                class="table_menu_item"
+                                                                @click="
+                                                                    togglePackage(
+                                                                        data,
+                                                                        'unshare'
+                                                                    )
+                                                                "
+                                                                v-if="
+                                                                    data
+                                                                        .class_package
+                                                                        .por_allow_sharing_of_package &&
+                                                                        data.shares_count >
+                                                                            0
+                                                                "
+                                                            >
+                                                                Unshare Package
+                                                            </li>
+                                                            <li
+                                                                v-if="
+                                                                    data
+                                                                        .class_package
+                                                                        .por_allow_transferring_of_package &&
+                                                                        !data.frozen &&
+                                                                        !data.shares_count
+                                                                "
+                                                                class="table_menu_item"
+                                                                @click="
+                                                                    togglePackage(
+                                                                        data,
+                                                                        'transfer'
+                                                                    )
+                                                                "
+                                                            >
+                                                                Transfer Package
+                                                            </li>
                                                         </ul>
                                                     </transition>
                                                 </div>
@@ -290,7 +999,27 @@
                                         </template>
                                         <template v-else>
                                             <td data-column="Actions">
-                                                <div :class="[ 'default_btn_red', 'alt', (data.subscription_status) ? '' : 'disabled' ]" @click="togglePackage(data, 'subscribe')">{{ (data.subscription_status) ? 'Cancel' : 'Cancelled' }}</div>
+                                                <div
+                                                    :class="[
+                                                        'default_btn_red',
+                                                        'alt',
+                                                        data.subscription_status
+                                                            ? ''
+                                                            : 'disabled'
+                                                    ]"
+                                                    @click="
+                                                        togglePackage(
+                                                            data,
+                                                            'subscribe'
+                                                        )
+                                                    "
+                                                >
+                                                    {{
+                                                        data.subscription_status
+                                                            ? 'Cancel'
+                                                            : 'Cancelled'
+                                                    }}
+                                                </div>
                                             </td>
                                         </template>
                                     </tr>
@@ -348,11 +1077,15 @@
                                 </tbody>
                             </table> -->
                             <div class="no_results" v-else>
-                                <div class="text">You don't have any packages.</div>
+                                <div class="text">
+                                    You don't have any packages.
+                                </div>
                                 <div class="logo">
                                     <img src="/footer-logo.svg" />
                                 </div>
-                                <nuxt-link to="/buy-rides" class="default_btn">Buy Credits</nuxt-link>
+                                <nuxt-link to="/buy-rides" class="default_btn">
+                                    Buy Credits
+                                </nuxt-link>
                             </div>
                         </div>
                     </div>
@@ -360,18 +1093,37 @@
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_3" class="default wrapper" v-if="category == 'transactions'">
+            <div
+                id="tab_3"
+                class="default wrapper"
+                v-if="category == 'transactions'"
+            >
                 <div class="profile_transactions">
                     <div class="tab_content_header alt">
-                        <h2>My Transactions ({{ totalItems(transactions.total) }})</h2>
+                        <h2>
+                            My Transactions ({{
+                                totalItems(transactions.total)
+                            }})
+                        </h2>
                         <div class="total" v-if="totalPendingPayment > 0">
                             Total Due
-                            <span class="count">Php {{ totalCount(totalPendingPayment) }}</span>
-                            <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'transactions')" />
+                            <span class="count">
+                                Php {{ totalCount(totalPendingPayment) }}
+                            </span>
+                            <img
+                                src="/icons/info-booker-icon.svg"
+                                @click="toggleInfoIcon($event, 'transactions')"
+                            />
                             <transition name="slide">
-                                <div class="description_overlay" v-if="showInfoTransactions">
+                                <div
+                                    class="description_overlay"
+                                    v-if="showInfoTransactions"
+                                >
                                     <div class="pointer"></div>
-                                    <p>Please pay this balance to our studio cashiers. Thank you so much!</p>
+                                    <p>
+                                        Please pay this balance to our studio
+                                        cashiers. Thank you so much!
+                                    </p>
                                 </div>
                             </transition>
                         </div>
@@ -389,88 +1141,249 @@
                             </tr>
                         </thead>
                         <tbody v-if="transactions.data.length > 0">
-                            <tr v-for="(data, key) in transactions.data" :key="key">
-                                <td data-column="Refenrence Number"><div class="default">{{ getTransactionType(data, 'reference_number') }}</div></td>
-                                <td data-column="Date"><div class="default">{{ getTransactionType(data, 'date') }}</div></td>
+                            <tr
+                                v-for="(data, key) in transactions.data"
+                                :key="key"
+                            >
+                                <td data-column="Refenrence Number">
+                                    <div class="default">
+                                        {{
+                                            getTransactionType(
+                                                data,
+                                                'reference_number'
+                                            )
+                                        }}
+                                    </div>
+                                </td>
+                                <td data-column="Date">
+                                    <div class="default">
+                                        {{ getTransactionType(data, 'date') }}
+                                    </div>
+                                </td>
                                 <td data-column="Products">
                                     <div v-if="!data.is_recurrence">
-                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            <b>{{ getTransactionType(child, 'products') }}</b>
+                                        <div
+                                            class="default"
+                                            v-for="(child,
+                                            key) in data.payment_items"
+                                            :key="key"
+                                        >
+                                            <b>
+                                                {{
+                                                    getTransactionType(
+                                                        child,
+                                                        'products'
+                                                    )
+                                                }}
+                                            </b>
                                         </div>
                                     </div>
                                     <div v-else>
                                         <div class="default">
-                                            <b>{{ getTransactionType(data, 'products') }}</b>
+                                            <b>
+                                                {{
+                                                    getTransactionType(
+                                                        data,
+                                                        'products'
+                                                    )
+                                                }}
+                                            </b>
                                         </div>
                                     </div>
                                 </td>
                                 <td data-column="Quantity">
                                     <div v-if="!data.is_recurrence">
-                                        <div class="default" v-for="(child, key) in data.payment_items" :key="key">
-                                            <b>{{ getTransactionType(child, 'quantity') }}</b>
+                                        <div
+                                            class="default"
+                                            v-for="(child,
+                                            key) in data.payment_items"
+                                            :key="key"
+                                        >
+                                            <b>
+                                                {{
+                                                    getTransactionType(
+                                                        child,
+                                                        'quantity'
+                                                    )
+                                                }}
+                                            </b>
                                         </div>
                                     </div>
                                     <div v-else>
                                         <div class="default">
-                                            <b>{{ getTransactionType(data, 'quantity') }}</b>
+                                            <b>
+                                                {{
+                                                    getTransactionType(
+                                                        data,
+                                                        'quantity'
+                                                    )
+                                                }}
+                                            </b>
                                         </div>
                                     </div>
                                 </td>
                                 <td data-column="Origin">
-                                    <div class="default">{{ (data.studio) ? data.studio.name : 'Website/App' }}</div>
+                                    <div class="default">
+                                        {{
+                                            data.studio
+                                                ? data.studio.name
+                                                : 'Website/App'
+                                        }}
+                                    </div>
                                 </td>
                                 <td data-column="Total Price">
-                                    <div class="default bold">Php {{ getTransactionType(data, 'price') }}</div>
+                                    <div class="default bold">
+                                        Php
+                                        {{ getTransactionType(data, 'price') }}
+                                    </div>
                                 </td>
                                 <td data-column="Payment Status">
-                                    <span :class="`label ${(getTransactionType(data, 'status') == 'paid') ? 'violator paid' : 'violator pending'}`">{{ getTransactionType(data, 'status') == 'paid' ? 'Paid' : 'Pending' }}</span>
-                                    <span  v-if="getTransactionType(data, 'refund') != 'none'"class="label violator gray">{{ (getTransactionType(data, 'refund') == 'fully-refunded') ? 'Fully Refunded' : 'Partially Refunded' }}</span>
+                                    <span
+                                        :class="
+                                            `label ${
+                                                getTransactionType(
+                                                    data,
+                                                    'status'
+                                                ) == 'paid'
+                                                    ? 'violator paid'
+                                                    : 'violator pending'
+                                            }`
+                                        "
+                                    >
+                                        {{
+                                            getTransactionType(
+                                                data,
+                                                'status'
+                                            ) == 'paid'
+                                                ? 'Paid'
+                                                : 'Pending'
+                                        }}
+                                    </span>
+                                    <span
+                                        v-if="
+                                            getTransactionType(
+                                                data,
+                                                'refund'
+                                            ) != 'none'
+                                        "
+                                        class="label violator gray"
+                                    >
+                                        {{
+                                            getTransactionType(
+                                                data,
+                                                'refund'
+                                            ) == 'fully-refunded'
+                                                ? 'Fully Refunded'
+                                                : 'Partially Refunded'
+                                        }}
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
                         <tbody class="no_results" v-else>
-                            <td class="text" colspan="7">You don't have any transactions yet.</td>
+                            <td class="text" colspan="7">
+                                You don't have any transactions yet.
+                            </td>
                         </tbody>
                     </table>
-                    <pagination :apiRoute="transactions.path" :current="transactions.current_page" :last="transactions.last_page" v-if="transactions.data.length > 0" />
+                    <pagination
+                        :apiRoute="transactions.path"
+                        :current="transactions.current_page"
+                        :last="transactions.last_page"
+                        v-if="transactions.data.length > 0"
+                    />
                 </div>
             </div>
         </transition>
         <transition name="fade">
-            <div id="tab_4" class="with_allowance wrapper" v-if="category == 'gift-cards'">
+            <div
+                id="tab_4"
+                class="with_allowance wrapper"
+                v-if="category == 'gift-cards'"
+            >
                 <div class="tab_content_header">
                     <div class="with_info flex">
                         <h2>
                             Gift Cards sent to me
-                            <img src="/icons/info-booker-icon.svg" @click="toggleInfoIcon($event, 'gift-cards')" />
+                            <img
+                                src="/icons/info-booker-icon.svg"
+                                @click="toggleInfoIcon($event, 'gift-cards')"
+                            />
                         </h2>
                         <transition name="slide">
-                            <div class="description_overlay" v-if="showInfoGiftCards">
+                            <div
+                                class="description_overlay"
+                                v-if="showInfoGiftCards"
+                            >
                                 <div class="pointer"></div>
-                                <p>You have 30 days to activate your package. Class package expiry will start on the date of activation.</p>
+                                <p>
+                                    You have 30 days to activate your package.
+                                    Class package expiry will start on the date
+                                    of activation.
+                                </p>
                             </div>
                         </transition>
-                        <nuxt-link to="/buy-rides/digital-gift-card" class="default_btn" v-if="!$store.state.isMobile">Buy a Gift Card</nuxt-link>
+                        <nuxt-link
+                            to="/buy-rides/digital-gift-card"
+                            class="default_btn"
+                            v-if="!$store.state.isMobile"
+                        >
+                            Buy a Gift Card
+                        </nuxt-link>
                     </div>
                 </div>
                 <div class="tab_content_main">
                     <div class="profile_gift_cards" v-if="giftCards.length > 0">
-                        <div class="gift_card_wrapper" v-for="(data, key) in giftCards" :key="key">
+                        <div
+                            class="gift_card_wrapper"
+                            v-for="(data, key) in giftCards"
+                            :key="key"
+                        >
                             <div class="top" v-if="data.fromUser != null">
-                                <img :src="data.images[0].path" :alt="data.images[0].alt" />
+                                <img
+                                    :src="data.images[0].path"
+                                    :alt="data.images[0].alt"
+                                />
                                 <div class="overlay">
-                                    <img class="gift_img" :src="data.fromUserImages[0].path" v-if="data.fromUserImages[0].path != null" />
+                                    <img
+                                        class="gift_img"
+                                        :src="data.fromUserImages[0].path"
+                                        v-if="
+                                            data.fromUserImages[0].path != null
+                                        "
+                                    />
                                     <div class="initials" v-else>
-                                        <div class="name">{{ data.fromUser.first_name.charAt(0) }}{{ data.fromUser.last_name.charAt(0) }}</div>
+                                        <div class="name">
+                                            {{
+                                                data.fromUser.first_name.charAt(
+                                                    0
+                                                )
+                                            }}{{
+                                                data.fromUser.last_name.charAt(
+                                                    0
+                                                )
+                                            }}
+                                        </div>
                                     </div>
-                                    <div class="label">From {{ data.fromUser.first_name }} {{ data.fromUser.last_name }}</div>
+                                    <div class="label">
+                                        From {{ data.fromUser.first_name }}
+                                        {{ data.fromUser.last_name }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="top" v-else>
-                                <img :src="data.images[0].path" :alt="data.images[0].alt" />
+                                <img
+                                    :src="data.images[0].path"
+                                    :alt="data.images[0].alt"
+                                />
                                 <div class="overlay">
-                                    <img class="gift_img" src="/footer-logo.svg"/>
-                                    <div class="label">From Ride Revolution</div>
+                                    <img
+                                        class="gift_img"
+                                        src="/footer-logo.svg"
+                                    />
+                                    <div class="label">
+                                        From Ride Revolution
+                                    </div>
                                 </div>
                             </div>
                             <div class="bottom">
@@ -480,10 +1393,22 @@
                                 </div>
                                 <div class="package_info">
                                     <div class="name">
-                                        {{ data.gift_card.class_package.name }}<br />
-                                        <div class="violator" v-html="data.gift_card.class_package.gift_card_description"></div>
+                                        {{ data.gift_card.class_package.name }}
+                                        <br />
+                                        <div
+                                            class="violator"
+                                            v-html="
+                                                data.gift_card.class_package
+                                                    .gift_card_description
+                                            "
+                                        ></div>
                                     </div>
-                                    <div class="default_btn" @click="toggleRedeem(data)">Use Now</div>
+                                    <div
+                                        class="default_btn"
+                                        @click="toggleRedeem(data)"
+                                    >
+                                        Use Now
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -502,22 +1427,43 @@
             <cancel-class v-if="$store.state.cancelClassStatus" :type="type" />
         </transition>
         <transition name="fade">
-            <cancel-subscription v-if="cancel_subs" :user_package_count="target_package" :type="sub_type" />
+            <cancel-subscription
+                v-if="cancel_subs"
+                :user_package_count="target_package"
+                :type="sub_type"
+            />
         </transition>
         <transition name="fade">
-            <redeem-gift-card v-if="$store.state.redeemGiftCardStatus" :type="type" :giftCard="giftCardTemp" />
+            <redeem-gift-card
+                v-if="$store.state.redeemGiftCardStatus"
+                :type="type"
+                :giftCard="giftCardTemp"
+            />
         </transition>
         <transition name="fade">
-            <redeem-gift-card-success v-if="$store.state.redeemGiftCardSuccessStatus" :giftCard="giftCardTemp" />
+            <redeem-gift-card-success
+                v-if="$store.state.redeemGiftCardSuccessStatus"
+                :giftCard="giftCardTemp"
+            />
         </transition>
         <transition name="fade">
-            <share-transfer-package v-if="$store.state.shareTransferPackageStatus" :category="packageCategory" :data="shareTransferPackage" />
+            <share-transfer-package
+                v-if="$store.state.shareTransferPackageStatus"
+                :category="packageCategory"
+                :data="shareTransferPackage"
+            />
         </transition>
         <transition name="fade">
-            <unshare-package-prompt v-if="$store.state.unSharePackageStatus" :data="shareTransferPackage" />
+            <unshare-package-prompt
+                v-if="$store.state.unSharePackageStatus"
+                :data="shareTransferPackage"
+            />
         </transition>
         <transition name="fade">
-            <booker-prompt v-if="$store.state.bookerPromptStatus" :message="promptMessage" />
+            <booker-prompt
+                v-if="$store.state.bookerPromptStatus"
+                :message="promptMessage"
+            />
         </transition>
     </div>
 </template>
@@ -548,7 +1494,7 @@
                 default: 'ride-rev-journey'
             }
         },
-        data () {
+        data() {
             return {
                 toShow: 12,
                 showLoadedClasses: false,
@@ -593,7 +1539,7 @@
                     warning: 0,
                     shared: 0,
                     transferred: 0,
-                    freeze: 0,
+                    freeze: 0
                 },
                 packageCategory: 'transfer',
                 type: 1,
@@ -635,12 +1581,12 @@
                                     }
                                 },
                                 dataLabels: {
-                                    formatter: function (val) {
+                                    formatter: function(val) {
                                         return `${val}`
                                     },
                                     offsetY: -10,
                                     style: {
-                                        colors: ["#171717"],
+                                        colors: ['#171717'],
                                         fontSize: '8px',
                                         fontFamily: 'Brandon-Regular'
                                     }
@@ -652,12 +1598,12 @@
                                             fontSize: '8px',
                                             fontFamily: 'Brandon-Regular'
                                         }
-                                    },
+                                    }
                                 },
                                 yaxis: {
                                     tickAmount: 1,
                                     labels: {
-                                        formatter: function (val) {
+                                        formatter: function(val) {
                                             return val.toFixed(0)
                                         },
                                         style: {
@@ -675,8 +1621,8 @@
                                             cssClass: 'apexchart_uppercase'
                                         }
                                     }
-                                },
-                            },
+                                }
+                            }
                         }
                     ],
                     chart: {
@@ -684,26 +1630,26 @@
                         height: 350,
                         toolbar: {
                             show: false
-                        },
+                        }
                     },
                     colors: ['#9E558B'],
                     plotOptions: {
                         bar: {
                             dataLabels: {
                                 position: 'top'
-                            },
+                            }
                         }
                     },
                     dataLabels: {
                         enabled: true,
-                        formatter: function (val) {
+                        formatter: function(val) {
                             return `${val}`
                         },
                         offsetY: -15,
                         style: {
                             fontFamily: 'Brandon-Bold',
                             fontSize: '14px',
-                            colors: ["#171717"]
+                            colors: ['#171717']
                         }
                     },
                     stroke: {
@@ -716,7 +1662,7 @@
                     },
                     xaxis: {
                         labels: {
-                            formatter: function (val) {
+                            formatter: function(val) {
                                 return `${val}`
                             },
                             show: true,
@@ -726,13 +1672,26 @@
                                 fontFamily: 'Brandon-Regular'
                             }
                         },
-                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                        categories: [
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'May',
+                            'Jun',
+                            'Jul',
+                            'Aug',
+                            'Sep',
+                            'Oct',
+                            'Nov',
+                            'Dec'
+                        ]
                     },
                     yaxis: {
                         tickAmount: 1,
                         labels: {
                             show: true,
-                            formatter: function (val) {
+                            formatter: function(val) {
                                 return val.toFixed(0)
                             },
                             style: {
@@ -753,7 +1712,7 @@
                         }
                     },
                     fill: {
-                        type: "gradient",
+                        type: 'gradient',
                         gradient: {
                             type: 'vertical',
                             shadeIntensity: 1,
@@ -762,12 +1721,12 @@
                             colorStops: [
                                 {
                                     offset: 0,
-                                    color: "#FD649C",
+                                    color: '#FD649C',
                                     opacity: 1
                                 },
                                 {
                                     offset: 100,
-                                    color: "#9E558B",
+                                    color: '#9E558B',
                                     opacity: 1
                                 }
                             ]
@@ -775,7 +1734,7 @@
                     },
                     tooltip: {
                         y: {
-                            formatter: function (val) {
+                            formatter: function(val) {
                                 return val
                             }
                         }
@@ -785,7 +1744,7 @@
             }
         },
         computed: {
-            populateClasses () {
+            populateClasses() {
                 const me = this
                 let result = []
                 let count = 0
@@ -803,7 +1762,7 @@
                 }
                 return result
             },
-            badgeLeft () {
+            badgeLeft() {
                 const me = this
                 let badge = []
                 let ctr = 0
@@ -815,7 +1774,7 @@
                 })
                 return badge
             },
-            badgeRight () {
+            badgeRight() {
                 const me = this
                 let badge = []
                 let ctr = 0
@@ -827,7 +1786,7 @@
                 })
                 return badge
             },
-            populateTopInstructors () {
+            populateTopInstructors() {
                 const me = this
                 let result = []
                 me.rideRevJourney.topInstructors.forEach((data, index) => {
@@ -837,7 +1796,7 @@
             }
         },
         methods: {
-            getSharedUsers (data) {
+            getSharedUsers(data) {
                 let result = 'Shared to '
                 data.shares.forEach((share, key) => {
                     if (key != 0) {
@@ -851,7 +1810,7 @@
                 })
                 return result
             },
-            getTransactionType (data, type) {
+            getTransactionType(data, type) {
                 const me = this
                 let result = ''
 
@@ -861,7 +1820,9 @@
                             result = data.transaction_id
                             break
                         case 'date':
-                            result = me.$moment(data.updated_at).format('MMMM DD, YYYY hh:mm A')
+                            result = me
+                                .$moment(data.updated_at)
+                                .format('MMMM DD, YYYY hh:mm A')
                             break
                         case 'products':
                             result = data.user_package_count.class_package.name
@@ -871,9 +1832,14 @@
                             break
                         case 'price':
                             if (data.duplicated) {
-                              result = me.totalCount(data.payment_item.price_per_item * data.payment_item.quantity)
+                                result = me.totalCount(
+                                    data.payment_item.price_per_item *
+                                        data.payment_item.quantity
+                                )
                             } else {
-                              result = me.totalCount(data.payment_item.payment.total)
+                                result = me.totalCount(
+                                    data.payment_item.payment.total
+                                )
                             }
                             break
                         case 'status':
@@ -888,21 +1854,30 @@
                         case 'reference_number':
                             switch (data.payment_method.method) {
                                 case 'paypal':
-                                    if (data.payment_method.paypal_transaction_id) {
-                                        result = data.payment_method.paypal_transaction_id
+                                    if (
+                                        data.payment_method
+                                            .paypal_transaction_id
+                                    ) {
+                                        result =
+                                            data.payment_method
+                                                .paypal_transaction_id
                                     } else {
                                         result = data.payment_code
                                     }
                                     break
                                 case 'paymaya':
-                                    result = data.payment_method.paymaya_transaction_id
+                                    result =
+                                        data.payment_method
+                                            .paymaya_transaction_id
                                     break
                                 default:
                                     result = data.payment_code
                             }
                             break
                         case 'date':
-                            result = me.$moment(data.updated_at).format('MMMM DD, YYYY hh:mm A')
+                            result = me
+                                .$moment(data.updated_at)
+                                .format('MMMM DD, YYYY hh:mm A')
                             break
                         case 'products':
                             switch (data.type) {
@@ -940,7 +1915,7 @@
                 }
                 return result
             },
-            loadMoreClasses () {
+            loadMoreClasses() {
                 const me = this
                 if (!me.showLoadedClasses) {
                     me.toShow += 12
@@ -949,7 +1924,7 @@
                     })
                 }
             },
-            getInstructorsImageInSchedule (data) {
+            getInstructorsImageInSchedule(data) {
                 const me = this
                 let result = ''
                 if (data != '') {
@@ -964,7 +1939,7 @@
 
                 return result
             },
-            getInstructorsInSchedule (data) {
+            getInstructorsInSchedule(data) {
                 const me = this
                 let result = ''
                 if (data != '') {
@@ -984,12 +1959,11 @@
                     } else {
                         result = `${instructor.user.fullname}`
                     }
-
                 }
 
                 return result
             },
-            checkRideCount (count) {
+            checkRideCount(count) {
                 const me = this
                 if (count >= 10 && count <= 19) {
                     return 'You’re making great progress. Let’s keep riding together.'
@@ -1001,7 +1975,7 @@
                     return 'You made it to 100! We’re proud to have shared 100 rides with you. To a hundred more and beyond!'
                 }
             },
-            countVariantQty (items) {
+            countVariantQty(items) {
                 const me = this
                 let ctr = 0
                 items.forEach((item, index) => {
@@ -1009,7 +1983,7 @@
                 })
                 return ctr
             },
-            toggleDetails () {
+            toggleDetails() {
                 const me = this
                 let target = document.querySelector('#default_menu .toggler')
                 if (target) {
@@ -1022,11 +1996,11 @@
                     }
                 }
             },
-            manageClass (id) {
+            manageClass(id) {
                 const me = this
                 me.$router.push(`/my-profile/manage-class/${id}`)
             },
-            togglePackage (data, category) {
+            togglePackage(data, category) {
                 const me = this
                 me.packageCategory = category
                 me.shareTransferPackage = data
@@ -1045,41 +2019,50 @@
                 }
                 document.body.classList.add('no_scroll')
             },
-            toggleRedeem (data) {
+            toggleRedeem(data) {
                 const me = this
                 me.giftCardTemp = data
                 me.$store.state.redeemGiftCardStatus = true
                 document.body.classList.add('no_scroll')
             },
-            getHeight () {
+            getHeight() {
                 const me = this
                 let interval = ''
                 let token = me.$cookies.get('70hokc3hhhn5')
-                me.$axios.get('api/check-token', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data) {
-                        me.user = res.data.user
-                        interval = setInterval( () => {
-                            if (document.getElementById(`tab_${me.unique}`)) {
-                                me.height = document.getElementById(`tab_${me.unique}`).scrollHeight
-                            }
-                            me.ctr++
+                me.$axios
+                    .get('api/check-token', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                        data: null
+                    })
+                    .then(res => {
+                        if (res.data) {
+                            me.user = res.data.user
+                            interval = setInterval(() => {
+                                if (
+                                    document.getElementById(`tab_${me.unique}`)
+                                ) {
+                                    me.height = document.getElementById(
+                                        `tab_${me.unique}`
+                                    ).scrollHeight
+                                }
+                                me.ctr++
+                            }, 500)
+                        }
+                    })
+                    .catch(err => {
+                        setTimeout(() => {
+                            me.$store.state.needLogin = true
+                            me.$store.state.errorList = err.response.data.errors
+                            me.$store.state.errorPromptStatus = true
                         }, 500)
-                    }
-                }).catch(err => {
-                    setTimeout( () => {
-                        me.$store.state.needLogin = true
-                        me.$store.state.errorList = err.response.data.errors
-                        me.$store.state.errorPromptStatus = true
-                    }, 500)
-                }).then(() => {
-                    if (me.ctr > 0) {
-                        clearInterval(interval)
-                    }
-                })
+                    })
+                    .then(() => {
+                        if (me.ctr > 0) {
+                            clearInterval(interval)
+                        }
+                    })
             },
             // checkWarning (data) {
             //     const me = this
@@ -1094,13 +2077,13 @@
             //     }
             //     return result
             // },
-            toggleCancel (data) {
+            toggleCancel(data) {
                 const me = this
                 me.tempBooking = data
                 me.$store.state.cancelClassStatus = true
                 document.body.classList.add('no_scroll')
             },
-            toggleCancelled (type = null) {
+            toggleCancelled(type = null) {
                 const me = this
                 if (type != null) {
                     me.sub_type = 2
@@ -1110,33 +2093,45 @@
                     me.$store.state.cancelClassStatus = true
                 }
             },
-            toggleInstructor (type, key) {
+            toggleInstructor(type, key) {
                 const me = this
                 switch (type) {
                     case 'in':
-                        me.rideRevJourney.topInstructors.forEach((data, index) => {
-                            if (key == index) {
-                                document.getElementById(`item_${index}`).classList.add('hovered')
-                                data.hovered = true
-                            } else {
-                                document.getElementById(`item_${index}`).classList.add('not_hovered')
-                                data.hovered = false
+                        me.rideRevJourney.topInstructors.forEach(
+                            (data, index) => {
+                                if (key == index) {
+                                    document
+                                        .getElementById(`item_${index}`)
+                                        .classList.add('hovered')
+                                    data.hovered = true
+                                } else {
+                                    document
+                                        .getElementById(`item_${index}`)
+                                        .classList.add('not_hovered')
+                                    data.hovered = false
+                                }
                             }
-                        })
+                        )
                         break
                     case 'out':
-                        me.rideRevJourney.topInstructors.forEach((data, index) => {
-                            if (key == index) {
-                                document.getElementById(`item_${index}`).classList.remove('hovered')
-                                data.hovered = false
-                            } else {
-                                document.getElementById(`item_${index}`).classList.remove('not_hovered')
+                        me.rideRevJourney.topInstructors.forEach(
+                            (data, index) => {
+                                if (key == index) {
+                                    document
+                                        .getElementById(`item_${index}`)
+                                        .classList.remove('hovered')
+                                    data.hovered = false
+                                } else {
+                                    document
+                                        .getElementById(`item_${index}`)
+                                        .classList.remove('not_hovered')
+                                }
                             }
-                        })
+                        )
                         break
                 }
             },
-            toggleInfoIcon (event, category) {
+            toggleInfoIcon(event, category) {
                 const me = this
                 let target = event.target
                 let parentWidth = target.parentNode.scrollWidth
@@ -1151,22 +2146,36 @@
                         me.showInfoBadges ^= true
                         break
                 }
-                setTimeout( () => {
-                    let popUpWidth = target.parentNode.parentNode.querySelector('.description_overlay').scrollWidth
+                setTimeout(() => {
+                    let popUpWidth = target.parentNode.parentNode.querySelector(
+                        '.description_overlay'
+                    ).scrollWidth
                     if (category == 'gift-cards') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$store.state.isMobile) ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)` : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
+                        target.parentNode.parentNode.querySelector(
+                            '.description_overlay .pointer'
+                        ).style.right = me.$store.state.isMobile
+                            ? `calc((${popUpWidth}px - ${parentWidth}px) / 2)`
+                            : `calc((${popUpWidth}px) - (${parentWidth}px) + 20px)`
                     } else if (category == 'transactions') {
                         if (!me.$store.state.isMobile) {
-                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `20px`
+                            target.parentNode.parentNode.querySelector(
+                                '.description_overlay .pointer'
+                            ).style.right = `20px`
                         } else {
-                            target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
+                            target.parentNode.parentNode.querySelector(
+                                '.description_overlay .pointer'
+                            ).style.right = `calc((${popUpWidth}px) - (${parentWidth}px) - 20px)`
                         }
                     } else if (category == 'ride-rev-journey') {
-                        target.parentNode.parentNode.querySelector('.description_overlay .pointer').style.right = (me.$store.state.isMobile) ? `10px` : `20px`
+                        target.parentNode.parentNode.querySelector(
+                            '.description_overlay .pointer'
+                        ).style.right = me.$store.state.isMobile
+                            ? `10px`
+                            : `20px`
                     }
                 }, 100)
             },
-            toggleTableMenuDot (key) {
+            toggleTableMenuDot(key) {
                 const me = this
                 me.packages.forEach((data, index) => {
                     if (key == index) {
@@ -1180,7 +2189,7 @@
                     }
                 })
             },
-            toggleMenuDot (key) {
+            toggleMenuDot(key) {
                 const me = this
                 me.classes.forEach((data, index) => {
                     if (key == index) {
@@ -1194,84 +2203,118 @@
                     }
                 })
             },
-            toggledMenuTab (category) {
+            toggledMenuTab(category) {
                 const me = this
                 me.tabCategory = category
                 switch (category) {
                     case 'upcoming':
                     case 'waitlisted':
                     case 'class-history':
-                        category = (category == 'upcoming') ? 'upcoming-classes' : category
+                        category =
+                            category == 'upcoming'
+                                ? 'upcoming-classes'
+                                : category
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.user.id}/${category}`).then(res => {
-                            if (res.data) {
-                                setTimeout( () => {
-                                    me.classes = []
-                                    switch (category) {
-                                        case 'upcoming-classes':
-                                            res.data.customer.upcomingClasses.forEach((data, index) => {
-                                                data.toggled = false
-                                                data.checked = false
-                                                me.classes.push(data)
-                                            })
-                                            break
-                                        case 'waitlisted':
-                                            res.data.customer.waitlisted.forEach((data, index) => {
-                                                data.toggled = false
-                                                data.checked = false
-                                                me.classes.push(data)
-                                            })
-                                            break
-                                        case 'class-history':
-                                            res.data.customer.classHistory.forEach((data, index) => {
-                                                data.toggled = false
-                                                data.checked = false
-                                                data.history = true
-                                                me.classes.push(data)
-                                            })
-                                            break
-                                    }
-                                }, 10)
-                            }
-                        }).catch((err) => {
-                            setTimeout( () => {
-                                me.$store.state.errorList = err.response.data.errors
-                                me.$store.state.errorPromptStatus = true
-                            }, 500)
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
-                        })
+                        me.$axios
+                            .get(`api/customers/${me.user.id}/${category}`)
+                            .then(res => {
+                                if (res.data) {
+                                    setTimeout(() => {
+                                        me.classes = []
+                                        switch (category) {
+                                            case 'upcoming-classes':
+                                                res.data.customer.upcomingClasses.forEach(
+                                                    (data, index) => {
+                                                        data.toggled = false
+                                                        data.checked = false
+                                                        me.classes.push(data)
+                                                    }
+                                                )
+                                                break
+                                            case 'waitlisted':
+                                                res.data.customer.waitlisted.forEach(
+                                                    (data, index) => {
+                                                        data.toggled = false
+                                                        data.checked = false
+                                                        me.classes.push(data)
+                                                    }
+                                                )
+                                                break
+                                            case 'class-history':
+                                                res.data.customer.classHistory.forEach(
+                                                    (data, index) => {
+                                                        data.toggled = false
+                                                        data.checked = false
+                                                        data.history = true
+                                                        me.classes.push(data)
+                                                    }
+                                                )
+                                                break
+                                        }
+                                    }, 10)
+                                }
+                            })
+                            .catch(err => {
+                                setTimeout(() => {
+                                    me.$store.state.errorList =
+                                        err.response.data.errors
+                                    me.$store.state.errorPromptStatus = true
+                                }, 500)
+                            })
+                            .then(() => {
+                                setTimeout(() => {
+                                    me.loader(false)
+                                }, 500)
+                            })
                         break
                     case 'active':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages`).then(res => {
-                            if (res.data) {
-                                setTimeout( () => {
-                                    me.packages = []
-                                    res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
-                                            data.shares.forEach(share => {
-                                                share.active = false
-                                            })
-                                            // if (!data.paypal_subscription_id) {
-                                                data.toggled = false
-                                                data.expired = false
-                                                me.packages.push(data)
-                                            // }
-                                        }
-                                    })
-                                }, 10)
-                            }
-                        }).catch((err) => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
-                        })
+                        me.$axios
+                            .get(`api/customers/${me.$parent.user.id}/packages`)
+                            .then(res => {
+                                if (res.data) {
+                                    setTimeout(() => {
+                                        me.packages = []
+                                        res.data.customer.user_package_counts.forEach(
+                                            (data, index) => {
+                                                if (
+                                                    parseInt(
+                                                        me
+                                                            .$moment(
+                                                                data.computed_expiration_date !=
+                                                                    null
+                                                                    ? data.computed_expiration_date
+                                                                    : data.expiry_date_if_not_activated
+                                                            )
+                                                            .diff(me.$moment())
+                                                    ) > 0
+                                                ) {
+                                                    data.shares.forEach(
+                                                        share => {
+                                                            share.active = false
+                                                        }
+                                                    )
+                                                    // if (!data.paypal_subscription_id) {
+                                                    data.toggled = false
+                                                    data.expired = false
+                                                    me.packages.push(data)
+                                                    // }
+                                                }
+                                            }
+                                        )
+                                    }, 10)
+                                }
+                            })
+                            .catch(err => {
+                                me.$store.state.errorList =
+                                    err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            })
+                            .then(() => {
+                                setTimeout(() => {
+                                    me.loader(false)
+                                }, 500)
+                            })
                         break
                     // case 'subscription':
                     //     me.loader(true)
@@ -1299,49 +2342,98 @@
                     //     break
                     case 'expired':
                         me.loader(true)
-                        me.$axios.get(`api/customers/${me.$parent.user.id}/packages`).then(res => {
-                            if (res.data) {
-                                setTimeout( () => {
-                                    me.packages = []
-                                    res.data.customer.user_package_counts.forEach((data, index) => {
-                                        if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) <= 0) {
-                                            data.expired = true
-                                            me.packages.push(data)
-                                        }
-                                    })
-                                }, 10)
-                            }
-                        }).catch((err) => {
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        }).then(() => {
-                            setTimeout( () => {
-                                me.loader(false)
-                            }, 500)
-                        })
+                        me.$axios
+                            .get(`api/customers/${me.$parent.user.id}/packages`)
+                            .then(res => {
+                                if (res.data) {
+                                    setTimeout(() => {
+                                        me.packages = []
+                                        res.data.customer.user_package_counts.forEach(
+                                            (data, index) => {
+                                                if (
+                                                    parseInt(
+                                                        me
+                                                            .$moment(
+                                                                data.computed_expiration_date !=
+                                                                    null
+                                                                    ? data.computed_expiration_date
+                                                                    : data.expiry_date_if_not_activated
+                                                            )
+                                                            .diff(me.$moment())
+                                                    ) <= 0
+                                                ) {
+                                                    data.expired = true
+                                                    me.packages.push(data)
+                                                }
+                                            }
+                                        )
+                                    }, 10)
+                                }
+                            })
+                            .catch(err => {
+                                me.$store.state.errorList =
+                                    err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            })
+                            .then(() => {
+                                setTimeout(() => {
+                                    me.loader(false)
+                                }, 500)
+                            })
                         break
                 }
             },
-            toggledChartMenuTab (category) {
+            toggledChartMenuTab(category) {
                 const me = this
                 let series_data = []
                 let series_labels = []
                 me.tabChartCategory = category
                 me.loader(true)
-                setTimeout( () => {
+                setTimeout(() => {
                     switch (category) {
                         case 'weekly':
-                            for (let i = 0, len = me.rideRevJourney.weeklyRideCount.series.data.length; i < len; i++) {
-                                series_data.push(me.rideRevJourney.weeklyRideCount.series.data[i].count)
-                                series_labels.push(me.rideRevJourney.weeklyRideCount.series.data[i].date)
+                            for (
+                                let i = 0,
+                                    len =
+                                        me.rideRevJourney.weeklyRideCount.series
+                                            .data.length;
+                                i < len;
+                                i++
+                            ) {
+                                series_data.push(
+                                    me.rideRevJourney.weeklyRideCount.series
+                                        .data[i].count
+                                )
+                                series_labels.push(
+                                    me.rideRevJourney.weeklyRideCount.series
+                                        .data[i].date
+                                )
                             }
                             me.series[0].data = series_data
                             me.chartOptions.xaxis.categories = series_labels
                             break
                         case 'monthly':
-                            for (let i = 0, len = me.rideRevJourney.monthlyRideCount.series.data.length; i < len; i++) {
-                                series_data.push(me.rideRevJourney.monthlyRideCount.series.data[i].count)
-                                series_labels.push(me.$moment(me.rideRevJourney.monthlyRideCount.series.data[i].month_year, 'MMM YYYY').format('MMM'))
+                            for (
+                                let i = 0,
+                                    len =
+                                        me.rideRevJourney.monthlyRideCount
+                                            .series.data.length;
+                                i < len;
+                                i++
+                            ) {
+                                series_data.push(
+                                    me.rideRevJourney.monthlyRideCount.series
+                                        .data[i].count
+                                )
+                                series_labels.push(
+                                    me
+                                        .$moment(
+                                            me.rideRevJourney.monthlyRideCount
+                                                .series.data[i].month_year,
+                                            'MMM YYYY'
+                                        )
+                                        .format('MMM')
+                                )
                             }
                             me.series[0].data = series_data
                             me.chartOptions.xaxis.categories = series_labels
@@ -1351,41 +2443,61 @@
                     me.loader(false)
                 }, 500)
             },
-            toggleOverlays (e) {
+            toggleOverlays(e) {
                 const me = this
                 let target = e.target
-                let info_overlay = document.querySelector('#tab_4 .with_info img')
+                let info_overlay = document.querySelector(
+                    '#tab_4 .with_info img'
+                )
                 let elements_first = document.querySelectorAll('.menu_dot')
-                let elements_second = document.querySelectorAll('.table_menu_dots')
+                let elements_second = document.querySelectorAll(
+                    '.table_menu_dots'
+                )
                 if (target !== info_overlay) {
                     me.showInfoGiftCards = false
                 }
                 me.classes.forEach((data, index) => {
-                    if (target && (target.parentNode && target.parentNode.previousElementSibling)) {
-                        if (target !== elements_first[index] && target.parentNode.previousElementSibling !== elements_first[index]) {
+                    if (
+                        target &&
+                        target.parentNode &&
+                            target.parentNode.previousElementSibling
+                    ) {
+                        if (
+                            target !== elements_first[index] &&
+                            target.parentNode.previousElementSibling !==
+                                elements_first[index]
+                        ) {
                             data.toggled = false
                         }
                     }
                 })
                 me.packages.forEach((data, index) => {
-                    if (target && (target.parentNode && target.parentNode.previousElementSibling)) {
-                        if (target !== elements_second[index] && target.parentNode.previousElementSibling !== elements_second[index]) {
+                    if (
+                        target &&
+                        target.parentNode &&
+                            target.parentNode.previousElementSibling
+                    ) {
+                        if (
+                            target !== elements_second[index] &&
+                            target.parentNode.previousElementSibling !==
+                                elements_second[index]
+                        ) {
                             data.toggled = false
                         }
                     }
                 })
             }
         },
-        mounted () {
+        mounted() {
             const me = this
             me.getHeight()
         },
-        beforeMount () {
+        beforeMount() {
             window.addEventListener('load', this.getHeight)
             window.addEventListener('resize', this.getHeight)
             document.addEventListener('click', this.toggleOverlays)
         },
-        beforeDestroy () {
+        beforeDestroy() {
             window.removeEventListener('resize', this.getHeight)
             window.removeEventListener('load', this.getHeight)
             document.removeEventListener('click', this.toggleOverlays)

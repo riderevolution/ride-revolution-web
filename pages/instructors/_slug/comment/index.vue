@@ -6,30 +6,112 @@
                 <pro-tip v-if="$store.state.proTipStatus" :page="'review'" />
             </transition>
             <section id="content">
-                <form id="default_form" @submit.prevent="submissionSuccess()" enctype="multipart/form-data">
+                <form
+                    id="default_form"
+                    @submit.prevent="submissionSuccess()"
+                    enctype="multipart/form-data"
+                >
                     <div class="form_main_group">
                         <div class="form_header">
-                            <h1>What do you think of {{ res.first_name }} {{ res.last_name }}?</h1>
+                            <h1>
+                                What do you think of {{ res.first_name }}
+                                {{ res.last_name }}?
+                            </h1>
                         </div>
                         <div class="form_group">
                             <label>Tap a star to Rate</label>
                             <div class="form_star">
-                                <img :class="`${(data.tapped) ? 'fade_in' : 'fade_out'}`" :src="`${(data.tapped) ? '/icons/star-green.svg' : '/icons/star-gray.svg'}`" v-for="(data, key) in stars" :key="key" @click="tapStar(data, key)" />
+                                <img
+                                    :class="
+                                        `${
+                                            data.tapped ? 'fade_in' : 'fade_out'
+                                        }`
+                                    "
+                                    :src="
+                                        `${
+                                            data.tapped
+                                                ? '/icons/star-green.svg'
+                                                : '/icons/star-gray.svg'
+                                        }`
+                                    "
+                                    v-for="(data, key) in stars"
+                                    :key="key"
+                                    @click="tapStar(data, key)"
+                                />
                             </div>
                         </div>
                         <div class="form_group">
-                            <label for="title">Title <span>*</span></label>
-                            <input type="text" name="title" autocomplete="off" class="input_text" placeholder="Enter your title" v-validate="{required: true, max: 100}">
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('title')">{{ properFormat(errors.first('title')) }}</span></transition>
+                            <label for="title">
+                                Title
+                                <span>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="title"
+                                autocomplete="off"
+                                class="input_text"
+                                placeholder="Enter your title"
+                                v-validate="{ required: true, max: 100 }"
+                            />
+                            <transition name="slide">
+                                <span
+                                    class="validation_errors"
+                                    v-if="errors.has('title')"
+                                >
+                                    {{ properFormat(errors.first('title')) }}
+                                </span>
+                            </transition>
                         </div>
                         <div class="form_group">
-                            <label for="your_review">Your Review <span>*</span></label>
-                            <textarea name="your_review" class="input_text" rows="5" maxlength="500" @input="getCount($event)" placeholder="Please type here" v-validate="{required: true, max: 500}"></textarea>
+                            <label for="your_review">
+                                Your Review
+                                <span>*</span>
+                            </label>
+                            <textarea
+                                name="your_review"
+                                class="input_text"
+                                rows="5"
+                                maxlength="500"
+                                @input="getCount($event)"
+                                placeholder="Please type here"
+                                v-validate="{ required: true, max: 500 }"
+                            ></textarea>
                             <div class="limit_wrapper">
-                                <div class="limit"><span class="count">{{ count }}</span> characters left</div>
-                                <svg class="progress" width="30" height="30"> <circle class="inner_ring" :r="normalizedRadius" cx="15" cy="15"/> <circle class="outer_ring" :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="dashOffset" :r="normalizedRadius" cx="15" cy="15"/> </svg>
+                                <div class="limit">
+                                    <span class="count">{{ count }}</span>
+                                    characters left
+                                </div>
+                                <svg class="progress" width="30" height="30">
+                                    <circle
+                                        class="inner_ring"
+                                        :r="normalizedRadius"
+                                        cx="15"
+                                        cy="15"
+                                    />
+                                    <circle
+                                        class="outer_ring"
+                                        :stroke-dasharray="
+                                            `${circumference} ${circumference}`
+                                        "
+                                        :stroke-dashoffset="dashOffset"
+                                        :r="normalizedRadius"
+                                        cx="15"
+                                        cy="15"
+                                    />
+                                </svg>
                             </div>
-                            <transition name="slide"><span class="validation_errors" v-if="errors.has('your_review')">{{ properFormat(errors.first('your_review')) }}</span></transition>
+                            <transition name="slide">
+                                <span
+                                    class="validation_errors"
+                                    v-if="errors.has('your_review')"
+                                >
+                                    {{
+                                        properFormat(
+                                            errors.first('your_review')
+                                        )
+                                    }}
+                                </span>
+                            </transition>
                         </div>
                         <!-- <div class="form_image">
                             <input type="file" class="input_image" id="image" name="image[]" multiple ref="file" @change="getFile($event)" v-validate="'required|size:1000|image|ext:jpeg,jpg,png'" required>
@@ -53,9 +135,13 @@
                             </div>
                         </transition> -->
                         <div class="form_flex">
-                            <vue-recaptcha sitekey="6Ld4_doUAAAAACiRAQf1JQlro_fxvTSZxgxi5jxk"></vue-recaptcha>
+                            <vue-recaptcha
+                                sitekey="6Ld4_doUAAAAACiRAQf1JQlro_fxvTSZxgxi5jxk"
+                            ></vue-recaptcha>
                             <div class="form_button">
-                                <button type="submit" class="default_btn">Submit</button>
+                                <button type="submit" class="default_btn">
+                                    Submit
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -65,7 +151,9 @@
                 <comment-success v-if="$store.state.commentSuccessStatus" />
             </transition>
             <transition name="fade">
-                <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+                <complete-profile-prompt
+                    v-if="$store.state.completeProfilePromptStatus"
+                />
             </transition>
         </div>
     </transition>
@@ -85,7 +173,7 @@
             CompleteProfilePrompt,
             VueRecaptcha
         },
-        data () {
+        data() {
             return {
                 res: [],
                 loaded: false,
@@ -175,7 +263,7 @@
             //         me.$store.state.errorPromptStatus = true
             //     }
             // },
-            tapStar (data, key) {
+            tapStar(data, key) {
                 const me = this
                 me.form.stars = key + 1
                 me.stars.forEach((element, index) => {
@@ -186,46 +274,65 @@
                     }
                 })
             },
-            getCount (event) {
+            getCount(event) {
                 const me = this
                 let target = event.target
                 let total = 500
                 if (target.value.length <= 500) {
-                    me.dashOffset = me.circumference - (target.value.length / 500) * me.circumference
+                    me.dashOffset =
+                        me.circumference -
+                        (target.value.length / 500) * me.circumference
                     me.count = total - target.value.length
                 }
             },
-            submissionSuccess () {
+            submissionSuccess() {
                 const me = this
                 me.$validator.validateAll().then(valid => {
                     if (valid && grecaptcha.getResponse().length) {
                         let captcha = grecaptcha.getResponse()
                         me.loader(true)
-                        me.$axios.post('api/verify-captcha', { captcha: captcha }).then(verify => {
-                            if (verify) {
-                                let formData = new FormData(document.getElementById('default_form'))
-                                let token = me.$cookies.get('70hokc3hhhn5')
-                                formData.append('instructor_id', me.res.id)
-                                formData.append('rating', me.form.stars)
+                        me.$axios
+                            .post('api/verify-captcha', { captcha: captcha })
+                            .then(verify => {
+                                if (verify) {
+                                    let formData = new FormData(
+                                        document.getElementById('default_form')
+                                    )
+                                    let token = me.$cookies.get('70hokc3hhhn5')
+                                    formData.append('instructor_id', me.res.id)
+                                    formData.append('rating', me.form.stars)
 
-                                me.$axios.post('api/reviews', formData, {
-                                    headers: {
-                                        Authorization: `Bearer ${token}`
-                                    }
-                                }).then(res => {
-                                    me.$store.state.commentSuccessStatus = true
-                                    document.body.classList.add('no_scroll')
-                                }).catch(err => {
-                                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
-                                }).then(() => {
-                                    setTimeout( () => {
-                                        me.loader(false)
-                                    }, 500)
+                                    me.$axios
+                                        .post('api/reviews', formData, {
+                                            headers: {
+                                                Authorization: `Bearer ${token}`
+                                            }
+                                        })
+                                        .then(res => {
+                                            me.$store.state.commentSuccessStatus = true
+                                            document.body.classList.add(
+                                                'no_scroll'
+                                            )
+                                        })
+                                        .catch(err => {
+                                            me.$nuxt.error({
+                                                statusCode: 403,
+                                                message: 'Something Went Wrong'
+                                            })
+                                        })
+                                        .then(() => {
+                                            setTimeout(() => {
+                                                me.loader(false)
+                                            }, 500)
+                                        })
+                                }
+                            })
+                            .catch(err => {
+                                me.$nuxt.error({
+                                    statusCode: 403,
+                                    message: 'Something Went Wrong'
                                 })
-                            }
-                        }).catch(err => {
-                            me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
-                        })
+                            })
                     } else {
                         me.$scrollTo('.validation_errors', {
                             offset: -250
@@ -233,59 +340,79 @@
                     }
                 })
             },
-            initial () {
+            initial() {
                 const me = this
                 me.loader(true)
                 let token = me.$cookies.get('70hokc3hhhn5')
-                me.$axios.get(`api/web/instructors/${me.$route.params.slug}`).then(res => {
-                    if (res.data) {
-                        setTimeout( () => {
-                            me.res = res.data.instructor
-                            me.normalizedRadius = 15 - 3 * 2
-                            me.circumference = me.normalizedRadius * 2 * Math.PI
-                            me.dashOffset = me.circumference
-                            me.$store.state.proTipStatus = true
+                me.$axios
+                    .get(`api/web/instructors/${me.$route.params.slug}`)
+                    .then(res => {
+                        if (res.data) {
+                            setTimeout(() => {
+                                me.res = res.data.instructor
+                                me.normalizedRadius = 15 - 3 * 2
+                                me.circumference =
+                                    me.normalizedRadius * 2 * Math.PI
+                                me.dashOffset = me.circumference
+                                me.$store.state.proTipStatus = true
 
-                            me.loaded = true
-                            if (token != null && token != undefined) {
-                                me.$axios.get('api/check-token', {
-                                    headers: {
-                                        Authorization: `Bearer ${token}`
-                                    }
-                                }).then(res => {
-                                    if (res.data.user.new_user != 0) {
-                                        me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
-                                        me.$store.state.completeProfilePromptStatus = true
-                                    }
-                                }).catch(err => {
+                                me.loaded = true
+                                if (token != null && token != undefined) {
+                                    me.$axios
+                                        .get('api/check-token', {
+                                            headers: {
+                                                Authorization: `Bearer ${token}`
+                                            },
+                                            data: null
+                                        })
+                                        .then(res => {
+                                            if (res.data.user.new_user != 0) {
+                                                me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
+                                                me.$store.state.completeProfilePromptStatus = true
+                                            }
+                                        })
+                                        .catch(err => {
+                                            me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
+                                            me.$store.state.loginSignUpStatus = true
+                                            document.body.classList.add(
+                                                'no_scroll'
+                                            )
+                                            me.$nuxt.error({
+                                                statusCode: 403,
+                                                message: 'Something Went Wrong'
+                                            })
+                                            me.loader(false)
+                                        })
+                                } else {
                                     me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
                                     me.$store.state.loginSignUpStatus = true
-                                    document.body.classList.add('no_scroll')
-                                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
+                                    me.$nuxt.error({
+                                        statusCode: 404,
+                                        message: 'Page not found'
+                                    })
                                     me.loader(false)
-                                })
-                            } else {
-                                me.$store.state.lastRoute = `/instructors/${me.$route.params.slug}/comment`
-                                me.$store.state.loginSignUpStatus = true
-                                me.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-                                me.loader(false)
-                            }
+                                }
+                            }, 500)
+                        }
+                    })
+                    .catch(err => {
+                        me.$nuxt.error({
+                            statusCode: 403,
+                            message: 'Something Went Wrong'
+                        })
+                    })
+                    .then(() => {
+                        setTimeout(() => {
+                            me.loader(false)
                         }, 500)
-                    }
-                }).catch(err => {
-                    me.$nuxt.error({ statusCode: 403, message: 'Something Went Wrong' })
-                }).then(() => {
-                    setTimeout( () => {
-                        me.loader(false)
-                    }, 500)
-                })
+                    })
             }
         },
-        mounted () {
+        mounted() {
             const me = this
             me.initial()
         },
-        head () {
+        head() {
             const me = this
             let host = process.env.baseUrl
             return {

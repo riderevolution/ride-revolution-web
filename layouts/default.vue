@@ -465,7 +465,8 @@
             .get('api/check-token', {
               headers: {
                 Authorization: `Bearer ${token}`
-              }
+              },
+              data: null
             })
             .then(res => {
               let version = me.$cookies.get('version')

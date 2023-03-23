@@ -1,34 +1,33 @@
 <template>
     <div class="default_modal">
         <div class="background" @click="toggleClose()"></div>
-            <form id="default_form" class="overlay alt" @submit.once.prevent="submissionSuccess()">
-                <div class="modal_wrapper">
-                    <h2 class="form_title">Please choose which package you’d like to use.</h2>
-                    <div class="form_close" @click="toggleClose()"></div>
-                    <div class="modal_main_group">
-                        <div :class="`form_custom_checkbox ${(ctr > 5) ? 'scroll' : ''}`">
-                            <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.valid ? '' : 'nope') : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="parseInt(data.count) > 0">
-                                <label>{{ data.class_package.name }}</label>
-                                <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-                                    <g transform="translate(-804.833 -312)">
-                                        <circle class="circle" cx="14" cy="14" r="14" transform="translate(805.833 313)" />
-                                        <path class="mark" d="M6466.494,185.005l4.85,4.85,9.6-9.6" transform="translate(-5653.091 142.403)" />
-                                    </g>
-                                </svg>
-                                <div class="info">
-                                    <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
-                                    <p>{{ (data.class_package.recurring == 1) ? 'Refreshes on' : 'Expires on' }} {{ formatDate((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated ) }}</p>
-                                    <p class="full" v-if="!data.valid">{{ getPackageValidator(data) }}</p>
-                                </div>
+        <form id="default_form" class="overlay alt" @submit.once.prevent="submissionSuccess()">
+            <div class="modal_wrapper">
+                <h2 class="form_title">Please choose which package you’d like to use.</h2>
+                <div class="form_close" @click="toggleClose()"></div>
+                <div class="modal_main_group">
+                    <div :class="`form_custom_checkbox ${(ctr > 5) ? 'scroll' : ''}`">
+                        <div :id="`package_${key}`" :class="`custom_checkbox ${(parseInt(data.count) >= $parent.schedule.schedule.class_credits) ? (data.valid ? '' : 'nope') : 'nope'} ${(data.id == selectedPackage) ? 'active' : ''}`" v-for="(data, key) in classPackages" :key="key" @click="togglePackage(data, key)" v-if="parseInt(data.count) > 0">
+                            <label>{{ data.class_package.name }}</label>
+                            <svg id="check" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+                                <g transform="translate(-804.833 -312)">
+                                    <circle class="circle" cx="14" cy="14" r="14" transform="translate(805.833 313)" />
+                                    <path class="mark" d="M6466.494,185.005l4.85,4.85,9.6-9.6" transform="translate(-5653.091 142.403)" />
+                                </g>
+                            </svg>
+                            <div class="info">
+                                <p>Available: {{ (data.class_package.class_count_unlimited == 1) ? 'Unlimited' : data.count }}</p>
+                                <p>{{ (data.class_package.recurring == 1) ? 'Refreshes on' : 'Expires on' }} {{ formatDate((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated ) }}</p>
+                                <p class="full" v-if="!data.valid">{{ getPackageValidator(data) }}</p>
                             </div>
                         </div>
-                        <div class="form_button" v-if="notSelectedPackage && classPackages.length > 0">
-                            <button type="submit" class="default_btn">Select</button>
-                        </div>
+                    </div>
+                    <div class="form_button" v-if="notSelectedPackage && classPackages.length > 0">
+                        <button type="submit" class="default_btn">Select</button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </template>
 
@@ -82,7 +81,8 @@
                         me.$axios.get('api/check-token', {
                             headers: {
                                 Authorization: `Bearer ${token}`
-                            }
+                            },
+                            data: null
                         }).then(res => {
                             if (res.data) {
                                 let formData = new FormData()
@@ -270,7 +270,8 @@
             me.$axios.get('api/check-token', {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
+                data: null
             }).then(res => {
                 if (res.data) {
                     let url = ''
