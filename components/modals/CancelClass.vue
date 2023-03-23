@@ -13,9 +13,20 @@
             <div class="confirmation_text" v-else>
                 Your booking has been cancelled.
             </div>
-            <div :class="`button_group ${(type != 1) ? 'alt' : ''}`">
-                <div class="flex default_btn_red" @click.once="toggleClose(false)" v-if="type == 1"><span>No</span></div>
-                <div class="flex default_btn_wht" @click.once="toggleClose(true)">{{ (type == 1) ? 'Yes' : 'Done' }}</div>
+            <div :class="`button_group ${type != 1 ? 'alt' : ''}`">
+                <div
+                    class="flex default_btn_red"
+                    @click.once="toggleClose(false)"
+                    v-if="type == 1"
+                >
+                    <span>No</span>
+                </div>
+                <div
+                    class="flex default_btn_wht"
+                    @click.once="toggleClose(true)"
+                >
+                    {{ type == 1 ? 'Yes' : 'Done' }}
+                </div>
             </div>
         </div>
     </div>
@@ -34,7 +45,7 @@
              * [toggleClose toggle action based on the status]
              * @param  {[boolean]} status [action status]
              */
-            toggleClose (status) {
+            toggleClose(status) {
                 const me = this
                 if (me.type == 2) {
                     me.$parent.type = 1
@@ -44,61 +55,83 @@
                 } else {
                     if (status) {
                         let token = me.$cookies.get('70hokc3hhhn5')
-                        me.$axios.get('api/check-token', {
-                            headers: {
-                                Authorization: `Bearer ${token}`
-                            }
-                        }).then(res => {
-                            if (res.data) {
-                                let user = res.data
-                                let url = ''
-                                let formData = new FormData()
-                                formData.append('scheduled_date_id', me.$parent.tempBooking.scheduled_date_id)
-                                formData.append('type', 'cancel')
-                                if (me.$parent.tabCategory == 'upcoming') {
-                                    url = `api/bookings/${me.$parent.tempBooking.id}`
-                                } else if (me.$parent.tabCategory == 'waitlisted') {
-                                    url = `api/waitlists/${me.$parent.tempBooking.id}`
-                                }
-                                me.$axios.post('api/schedules/validate', formData).then(res => {
-                                    if (res.data) {
-                                        me.loader(true)
-                                        me.$axios.delete(`${url}`, {
-                                            headers: {
-                                                'Authorization': `Bearer ${token}`
-                                            }
-                                        }).then(res => {
-                                            if (res.data) {
-                                                me.$store.state.cancelClassStatus = false
-                                                setTimeout( () => {
-                                                    me.$parent.toggleCancelled()
-                                                }, 500)
-                                            }
-                                        }).catch(err => {
-                                            setTimeout( () => {
-                                                me.$store.state.errorList = err.response.data.errors
-                                                me.$store.state.errorPromptStatus = true
-                                                me.$store.state.errorOverlayPromptStatus = true
-                                            }, 500)
-                                        }).then(() => {
-                                            setTimeout( () => {
-                                                me.loader(false)
-                                            }, 500)
-                                        })
+                        me.$axios
+                            .get('api/check-token', {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                },
+                                data: null
+                            })
+                            .then(res => {
+                                if (res.data) {
+                                    let user = res.data
+                                    let url = ''
+                                    let formData = new FormData()
+                                    formData.append(
+                                        'scheduled_date_id',
+                                        me.$parent.tempBooking.scheduled_date_id
+                                    )
+                                    formData.append('type', 'cancel')
+                                    if (me.$parent.tabCategory == 'upcoming') {
+                                        url = `api/bookings/${me.$parent.tempBooking.id}`
+                                    } else if (
+                                        me.$parent.tabCategory == 'waitlisted'
+                                    ) {
+                                        url = `api/waitlists/${me.$parent.tempBooking.id}`
                                     }
-                                }).catch(err => {
-                                    me.$store.state.cancelClassStatus = false
-                                    me.$store.state.errorList = err.response.data.errors
-                                    me.$store.state.errorPromptStatus = true
-                                    me.$store.state.errorOverlayPromptStatus = true
-                                })
-                            }
-                        }).catch(err => {
-                            me.$store.state.needLogin = true
-                            me.$store.state.errorOverlayPromptStatus = true
-                            me.$store.state.errorList = err.response.data.errors
-                            me.$store.state.errorPromptStatus = true
-                        })
+                                    me.$axios
+                                        .post(
+                                            'api/schedules/validate',
+                                            formData
+                                        )
+                                        .then(res => {
+                                            if (res.data) {
+                                                me.loader(true)
+                                                me.$axios
+                                                    .delete(`${url}`, {
+                                                        headers: {
+                                                            Authorization: `Bearer ${token}`
+                                                        }
+                                                    })
+                                                    .then(res => {
+                                                        if (res.data) {
+                                                            me.$store.state.cancelClassStatus = false
+                                                            setTimeout(() => {
+                                                                me.$parent.toggleCancelled()
+                                                            }, 500)
+                                                        }
+                                                    })
+                                                    .catch(err => {
+                                                        setTimeout(() => {
+                                                            me.$store.state.errorList =
+                                                                err.response.data.errors
+                                                            me.$store.state.errorPromptStatus = true
+                                                            me.$store.state.errorOverlayPromptStatus = true
+                                                        }, 500)
+                                                    })
+                                                    .then(() => {
+                                                        setTimeout(() => {
+                                                            me.loader(false)
+                                                        }, 500)
+                                                    })
+                                            }
+                                        })
+                                        .catch(err => {
+                                            me.$store.state.cancelClassStatus = false
+                                            me.$store.state.errorList =
+                                                err.response.data.errors
+                                            me.$store.state.errorPromptStatus = true
+                                            me.$store.state.errorOverlayPromptStatus = true
+                                        })
+                                }
+                            })
+                            .catch(err => {
+                                me.$store.state.needLogin = true
+                                me.$store.state.errorOverlayPromptStatus = true
+                                me.$store.state.errorList =
+                                    err.response.data.errors
+                                me.$store.state.errorPromptStatus = true
+                            })
                     } else {
                         me.$store.state.cancelClassStatus = false
                         document.body.classList.remove('no_scroll')

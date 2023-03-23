@@ -225,7 +225,8 @@
 					me.$axios.get('api/check-token', {
 					    headers: {
 					        Authorization: `Bearer ${token}`
-					    }
+					    },
+							data: null
 					}).then(res => {
 						me.user = res.data.user
 						me.loaded = true

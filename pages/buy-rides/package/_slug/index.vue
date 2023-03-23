@@ -552,7 +552,8 @@
                 me.$axios.get('api/check-token', {
                     headers: {
                         Authorization: `Bearer ${token}`
-                    }
+                    },
+                    data: null
                 }).then(res => {
                     if (res.data) {
                         let formData = new FormData()
