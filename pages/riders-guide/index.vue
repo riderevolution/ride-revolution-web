@@ -588,7 +588,7 @@
           },
           {
             title: 'Choose From',
-            info_count: '26',
+            info_count: '20',
             info_text: 'Instructors',
             description:
               'Our awesome instructors will keep you engaged with their positive energy, dynamic choreography, and catchy tunes to push you towards your best self.'
