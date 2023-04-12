@@ -65,14 +65,14 @@
     </transition>
 
     <!-- Health Waiver -->
-    <!-- <transition name="fade">
+    <transition name="fade">
       <health-waiver v-if="$store.state.healthWaiver" />
-    </transition> -->
+    </transition>
 
     <!-- Health Waiver Success -->
-    <!-- <transition name="fade">
+    <transition name="fade">
       <health-waiver-success v-if="$store.state.healthWaiverSuccess" />
-    </transition> -->
+    </transition>
 
     <!-- Complete Profile Success -->
     <transition name="fade">
@@ -480,9 +480,9 @@
                 me.$cookies.set('version', res.data.version)
                 location.reload(true)
               }
-              // if (!res.data.user.health_waiver) {
-              //   me.$store.state.healthWaiver = true
-              // }
+              if (!res.data.user.health_waiver) {
+                me.$store.state.healthWaiver = true
+              }
               if (res.data.expiredPackageNotification) {
                 me.payload.package = res.data.expiredPackageNotification
                 me.package_prompt = true
