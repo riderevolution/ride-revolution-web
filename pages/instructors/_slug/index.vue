@@ -955,18 +955,18 @@
 
                     me.scheduledDates = tempSchedules
 
-                    me.$axios
-                        .$get(
-                            `https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=${me.res.id}&take=100`
-                        )
-                        .then(({ data }) => {
-                            data.sort(
-                                (a, b) =>
-                                    parseFloat(b.countLikes) -
-                                    parseFloat(a.countLikes)
-                            )
-                            me.feeds = data
-                        })
+                    // me.$axios
+                    //     .$get(
+                    //         `https://stamped.io/api/widget/reviews?type=instagram-feed&apiKey=pubkey-b1f9lj3ib12svBob12UI0Z3a7lwNra&storeUrl=www.riderevolution.ph&isdataonly=true&productIds=${me.res.id}&take=100`
+                    //     )
+                    //     .then(({ data }) => {
+                    //         data.sort(
+                    //             (a, b) =>
+                    //                 parseFloat(b.countLikes) -
+                    //                 parseFloat(a.countLikes)
+                    //         )
+                    //         me.feeds = data
+                    //     })
                     me.loader(false)
                 }, 500)
                 me.loader(false)
