@@ -97,7 +97,8 @@
                                 }).then(res => {
                                     if (res.data) {
                                         me.$store.state.bookerChoosePackageStatus = false
-                                        me.$parent.getAllSchedules(me.$parent.currentYear, me.$parent.currentMonth, me.$parent.currentDay, false)
+                                        // me.$parent.getAllSchedules(me.$parent.currentYear, me.$parent.currentMonth, me.$parent.currentDay, false)
+                                        me.$parent.fetchData()
                                         setTimeout( () => {
                                             me.$store.state.bookerPromptStatus = true
                                             me.$parent.message = "You've successfully added as waitlist in this class."
