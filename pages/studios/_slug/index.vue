@@ -155,7 +155,7 @@
                         studioImages: res.data.studio.albums
                     }
                 }).catch(err => {
-                    error({ statusCode: 403, message: 'Page not found' })
+                    error({ statusCode: 404, message: 'Page not found' })
                 })
         },
         head () {
