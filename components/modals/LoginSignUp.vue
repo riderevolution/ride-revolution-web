@@ -1213,24 +1213,19 @@
         const me = this
         setTimeout(() => {
           if (document.querySelector('.login_sign_up')) {
-            let margin = '0px'
+            let margin = 0
             if (me.$store.state.articleAlertStatus) {
-              margin = `${document.getElementById('header').offsetHeight +
-                document.getElementById('article_alert').offsetHeight}px`
-              document.querySelector(
-                '.login_sign_up'
-              ).style.marginTop = `${document.getElementById('header')
-                .offsetHeight +
-                document.getElementById('article_alert').offsetHeight}px`
+              margin = document.getElementById('header').offsetHeight
+              if (document.getElementById('article_alert')) {
+                margin += document.getElementById('article_alert').offsetHeight
+              }
+
+              document.querySelector('.login_sign_up').style.marginTop = `${margin}px`
             } else {
-              margin = `${document.getElementById('header').offsetHeight}px`
-              document.querySelector('.login_sign_up').style.marginTop = `${
-                document.getElementById('header').offsetHeight
-              }px`
+              margin = document.getElementById('header').offsetHeight
+              document.querySelector('.login_sign_up').style.marginTop = `${margin}px`
             }
-            document.querySelector(
-              '.login_sign_up'
-            ).style.height = `calc(100vh - ${margin})`
+            document.querySelector('.login_sign_up').style.height = `calc(100vh - ${margin}px)`
           }
         }, 100)
       },

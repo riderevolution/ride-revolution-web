@@ -29,7 +29,7 @@
                     if (me.$store.state.articleAlertStatus && !me.$store.state.proTipStatus) {
                         document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').offsetHeight + document.getElementById('pro_tip').offsetHeight}px`
                     } else if (!me.$store.state.articleAlertStatus && me.$store.state.proTipStatus) {
-                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').offsetHeight + document.getElementById('article_alert').offsetHeight}px`
+                        document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').offsetHeight + (document.getElementById('article_alert')) ? document.getElementById('article_alert').offsetHeight : 0}px`
                     } else {
                         document.getElementById('breadcrumb').style.paddingTop = `${document.getElementById('header').offsetHeight}px`
                     }

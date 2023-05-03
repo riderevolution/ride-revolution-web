@@ -388,7 +388,7 @@
                     'main_container'
                   ).style.paddingTop = `${document.getElementById('header')
                     .offsetHeight +
-                    document.getElementById('article_alert').offsetHeight}px`
+                    (document.getElementById('article_alert')) ? document.getElementById('article_alert').offsetHeight : 0}px`
                 }
               }
             } else if (me.$store.state.proTipStatus) {

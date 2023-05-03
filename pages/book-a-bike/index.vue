@@ -6,15 +6,28 @@
                 <div class="left">
                     <div class="filter_accordion" v-if="$store.state.isMobile">
                         <label>Filter</label>
-                        <div class="toggler" @click="toggleFilter($event)"></div>
+                        <div
+                            class="toggler"
+                            @click="toggleFilter($event)"
+                        ></div>
                     </div>
                     <div class="filter">
                         <div class="wrapper studio_filter">
                             <h3>Studios</h3>
                             <div class="select">
-                                <select name="studios" v-model="studioID" @change="toggleStudio()">
+                                <select
+                                    name="studios"
+                                    v-model="studioID"
+                                    @change="toggleStudio()"
+                                >
                                     <option value="0">All Studios</option>
-                                    <option v-for="(studio, key) in studios" :key="key" :value="studio.id">{{ studio.name }}</option>
+                                    <option
+                                        v-for="(studio, key) in studios"
+                                        :key="key"
+                                        :value="studio.id"
+                                    >
+                                        {{ studio.name }}
+                                    </option>
                                 </select>
                             </div>
                             <!-- <div class="group">
@@ -28,15 +41,62 @@
                         </div>
                         <div class="wrapper instructor_filter">
                             <h3>Instructors</h3>
-                            <div :class="`autocomplete ${(toggledAutocomplete) ? 'toggled' : ''}`" v-click-outside="toggleAutoCompleteOutside">
-                                <input type="text" name="instructor" class="text" placeholder="Search for an instructor" v-model="searchedInstructor" @click="toggleAutoComplete()" @input="searchInstructor($event)">
+                            <div
+                                :class="
+                                    `autocomplete ${
+                                        toggledAutocomplete ? 'toggled' : ''
+                                    }`
+                                "
+                                v-click-outside="toggleAutoCompleteOutside"
+                            >
+                                <input
+                                    type="text"
+                                    name="instructor"
+                                    class="text"
+                                    placeholder="Search for an instructor"
+                                    v-model="searchedInstructor"
+                                    @click="toggleAutoComplete()"
+                                    @input="searchInstructor($event)"
+                                />
                                 <transition name="slideAlt">
-                                    <div class="autocomplete_dropdown" v-if="toggledAutocomplete">
-                                        <div :class="`list ${(data.fullname == checkSearchedInstructor) ? 'active' : ''}`" v-for="(data, key) in populateInstructors" :key="key" @click="selectIntructor(data)" v-if="data.searched">
-                                            <img v-if="data.instructor_details.images[0].path != null" :src="data.instructor_details.images[0].path" />
+                                    <div
+                                        class="autocomplete_dropdown"
+                                        v-if="toggledAutocomplete"
+                                    >
+                                        <div
+                                            :class="
+                                                `list ${
+                                                    data.fullname ==
+                                                    checkSearchedInstructor
+                                                        ? 'active'
+                                                        : ''
+                                                }`
+                                            "
+                                            v-for="(data,
+                                            key) in populateInstructors"
+                                            :key="key"
+                                            @click="selectIntructor(data)"
+                                            v-if="data.searched"
+                                        >
+                                            <img
+                                                v-if="
+                                                    data.instructor_details
+                                                        .images[0].path != null
+                                                "
+                                                :src="
+                                                    data.instructor_details
+                                                        .images[0].path
+                                                "
+                                            />
                                             <div class="overlay" v-else>
                                                 <div class="letter">
-                                                    {{ data.first_name.charAt(0) }}{{ data.last_name.charAt(0) }}
+                                                    {{
+                                                        data.first_name.charAt(
+                                                            0
+                                                        )
+                                                    }}{{
+                                                        data.last_name.charAt(0)
+                                                    }}
                                                 </div>
                                             </div>
                                             <p>{{ data.fullname }}</p>
@@ -48,7 +108,14 @@
                         <div class="wrapper view_filter">
                             <h3>Show</h3>
                             <div class="group">
-                                <input type="checkbox" class="radio" name="view" id="class_over" :checked="!hide_past" @change="toggleViewing()">
+                                <input
+                                    type="checkbox"
+                                    class="radio"
+                                    name="view"
+                                    id="class_over"
+                                    :checked="!hide_past"
+                                    @change="toggleViewing()"
+                                />
                                 <label for="class_over">Class Over</label>
                             </div>
                         </div>
@@ -58,189 +125,609 @@
                     <div class="schedules">
                         <template v-if="viewing == 'weekly'">
                             <div class="weekly">
-                                <div class="prev" @click="fetchData('prev')"></div>
+                                <div
+                                    class="prev"
+                                    @click="fetchData('prev')"
+                                ></div>
                                 <div class="dates">
-                                    {{ $moment(first_date).format('DD MMM') }} - {{ $moment(last_date).format('DD MMM') }}
+                                    {{ $moment(first_date).format('DD MMM') }} -
+                                    {{ $moment(last_date).format('DD MMM') }}
                                 </div>
-                                <div class="next" @click="fetchData('next')"></div>
+                                <div
+                                    class="next"
+                                    @click="fetchData('next')"
+                                ></div>
                             </div>
                         </template>
                         <template v-if="res.dates.length > 0">
-                            <div class="schedule_item" v-for="(parent, key) in res.dates" :key="key">
+                            <div
+                                class="schedule_item"
+                                v-for="(parent, key) in res.dates"
+                                :key="key"
+                            >
                                 <div class="items">
                                     <div class="day">{{ parent.dayName }}</div>
-                                    <div class="month">{{ parent.monthName }}</div>
-                                    <div class="date">{{ parent.dayNumber }}</div>
-                                    <template v-if="$store.state.isMobile && parent.schedules.length > 0">
-                                        <span :class="[ 'toggler', (!parent.opened) ? 'opened' : '' ]" @click="parent.opened ^= true"></span>
+                                    <div class="month">
+                                        {{ parent.monthName }}
+                                    </div>
+                                    <div class="date">
+                                        {{ parent.dayNumber }}
+                                    </div>
+                                    <template
+                                        v-if="
+                                            $store.state.isMobile &&
+                                                parent.schedules.length > 0
+                                        "
+                                    >
+                                        <span
+                                            :class="[
+                                                'toggler',
+                                                !parent.opened ? 'opened' : ''
+                                            ]"
+                                            @click="parent.opened ^= true"
+                                        ></span>
                                     </template>
                                 </div>
                                 <template v-if="!$store.state.isMobile">
-                                    <div :class="[ 'items', (child.past || child.ongoing || !child.bookable) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
+                                    <div
+                                        :class="[
+                                            'items',
+                                            child.past ||
+                                            child.ongoing ||
+                                            !child.bookable
+                                                ? ' pst'
+                                                : ''
+                                        ]"
+                                        v-for="(child, key) in parent.schedules"
+                                        :key="key"
+                                    >
                                         <transition name="fade">
-                                            <div class="info_overlay" v-if="child.schedule.toggle">
+                                            <div
+                                                class="info_overlay"
+                                                v-if="child.schedule.toggle"
+                                            >
                                                 <div class="pointer"></div>
-                                                Details: <div v-html="child.schedule.tooltip"></div><br />
-                                                Credits to Deduct: {{ child.schedule.class_credits }}
+                                                Details:
+                                                <div
+                                                    v-html="
+                                                        child.schedule.tooltip
+                                                    "
+                                                ></div>
+                                                <br />
+                                                Credits to Deduct:
+                                                {{
+                                                    child.schedule.class_credits
+                                                }}
                                             </div>
                                         </transition>
                                         <div class="items_top">
-                                            <img class="info" src="/icons/info-booker-icon.svg" :id="`img_${child.schedule.id}`" @click="toggleScheduleInfo(child.schedule)" />
-                                            <div class="image_wrapper" v-html="getInstructorsImageInSchedule(child)"></div>
+                                            <img
+                                                class="info"
+                                                src="/icons/info-booker-icon.svg"
+                                                :id="`img_${child.schedule.id}`"
+                                                @click="
+                                                    toggleScheduleInfo(
+                                                        child.schedule
+                                                    )
+                                                "
+                                            />
+                                            <div
+                                                class="image_wrapper"
+                                                v-html="
+                                                    getInstructorsImageInSchedule(
+                                                        child
+                                                    )
+                                                "
+                                            ></div>
                                         </div>
                                         <div class="items_middle">
-                                            <div class="time">{{ child.schedule.start_time }}</div>
-                                            <div class="name">{{ getInstructorsInSchedule(child) }}</div>
-                                            <template v-if="child.schedule.custom_name != null">
+                                            <div class="time">
+                                                {{ child.schedule.start_time }}
+                                            </div>
+                                            <div class="name">
+                                                {{
+                                                    getInstructorsInSchedule(
+                                                        child
+                                                    )
+                                                }}
+                                            </div>
+                                            <template
+                                                v-if="
+                                                    child.schedule
+                                                        .custom_name != null
+                                                "
+                                            >
                                                 <div class="tooltip_wrapper">
-                                                    <div class="class" v-html="child.schedule.custom_name" v-line-clamp:10="1"></div>
-                                                    <span class="tooltip">{{ child.schedule.custom_name }}</span>
+                                                    <div
+                                                        class="class"
+                                                        v-html="
+                                                            child.schedule
+                                                                .custom_name
+                                                        "
+                                                        v-line-clamp:10="1"
+                                                    ></div>
+                                                    <span class="tooltip">
+                                                        {{
+                                                            child.schedule
+                                                                .custom_name
+                                                        }}
+                                                    </span>
                                                 </div>
                                             </template>
                                             <template v-else>
                                                 <div class="tooltip_wrapper">
-                                                    <div class="class" v-html="child.schedule.class_type.name" v-line-clamp:10="1"></div>
-                                                    <span class="tooltip">{{ child.schedule.class_type.name }}</span>
+                                                    <div
+                                                        class="class"
+                                                        v-html="
+                                                            child.schedule
+                                                                .class_type.name
+                                                        "
+                                                        v-line-clamp:10="1"
+                                                    ></div>
+                                                    <span class="tooltip">
+                                                        {{
+                                                            child.schedule
+                                                                .class_type.name
+                                                        }}
+                                                    </span>
                                                 </div>
                                             </template>
-                                            <div class="studio" :style="`color: ${child.schedule.studio.color_code};`">{{ child.schedule.studio.name }}</div>
+                                            <div
+                                                class="studio"
+                                                :style="
+                                                    `color: ${child.schedule.studio.color_code};`
+                                                "
+                                            >
+                                                {{ child.schedule.studio.name }}
+                                            </div>
                                         </div>
                                         <div class="items_bottom">
-                                            <template v-if="child.schedule.private_class == 1">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-if="
+                                                    child.schedule
+                                                        .private_class == 1
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="child.schedule.private_class == 1">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="
+                                                    child.schedule
+                                                        .private_class == 1
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && !child.ongoing && child.bookable">
-                                                <template v-if="child.hasUser && !child.isWaitlisted && !child.isFull && !child.originalHere && !child.guestHere">
-                                                    <nuxt-link :to="`/book-a-bike/${child.id}`" :event="''" @click.native="checkIfNew(child, 'book', $event)" class="btn default_btn_out">
+                                            <template
+                                                v-else-if="
+                                                    !child.past &&
+                                                        !child.ongoing &&
+                                                        child.bookable
+                                                "
+                                            >
+                                                <template
+                                                    v-if="
+                                                        child.hasUser &&
+                                                            !child.isWaitlisted &&
+                                                            !child.isFull &&
+                                                            !child.originalHere &&
+                                                            !child.guestHere
+                                                    "
+                                                >
+                                                    <nuxt-link
+                                                        :to="
+                                                            `/book-a-bike/${child.id}`
+                                                        "
+                                                        :event="''"
+                                                        @click.native="
+                                                            checkIfNew(
+                                                                child,
+                                                                'book',
+                                                                $event
+                                                            )
+                                                        "
+                                                        class="btn default_btn_out"
+                                                    >
                                                         <span>Book Now</span>
                                                     </nuxt-link>
                                                 </template>
-                                                <template v-else-if="child.hasUser && !child.isWaitlisted && child.isFull && !child.originalHere && !child.guestHere && !child.schedule.studio.online_class">
-                                                    <div @click="checkIfNew(child, 'waitlist', $event)" class="btn default_btn_out">
+                                                <template
+                                                    v-else-if="
+                                                        child.hasUser &&
+                                                            !child.isWaitlisted &&
+                                                            child.isFull &&
+                                                            !child.originalHere &&
+                                                            !child.guestHere &&
+                                                            !child.schedule
+                                                                .studio
+                                                                .online_class
+                                                    "
+                                                >
+                                                    <div
+                                                        @click="
+                                                            checkIfNew(
+                                                                child,
+                                                                'waitlist',
+                                                                $event
+                                                            )
+                                                        "
+                                                        class="btn default_btn_out"
+                                                    >
                                                         <span>Waitlist</span>
                                                     </div>
                                                 </template>
-                                                <template v-else-if="child.hasUser && child.isWaitlisted && !child.schedule.studio.online_class">
-                                                    <div class="btn default_btn_out disabled">
+                                                <template
+                                                    v-else-if="
+                                                        child.hasUser &&
+                                                            child.isWaitlisted &&
+                                                            !child.schedule
+                                                                .studio
+                                                                .online_class
+                                                    "
+                                                >
+                                                    <div
+                                                        class="btn default_btn_out disabled"
+                                                    >
                                                         <span>Waitlisted</span>
                                                     </div>
                                                 </template>
-                                                <template v-else-if="child.hasUser && (child.originalHere || child.guestHere)">
-                                                    <nuxt-link :to="`/my-profile/manage-class/${child.id}`" class="btn default_btn_out">
-                                                        <span>Manage Class</span>
+                                                <template
+                                                    v-else-if="
+                                                        child.hasUser &&
+                                                            (child.originalHere ||
+                                                                child.guestHere)
+                                                    "
+                                                >
+                                                    <nuxt-link
+                                                        :to="
+                                                            `/my-profile/manage-class/${child.id}`
+                                                        "
+                                                        class="btn default_btn_out"
+                                                    >
+                                                        <span>
+                                                            Manage Class
+                                                        </span>
                                                     </nuxt-link>
                                                 </template>
-                                                <template v-else-if="!child.hasUser && !$store.state.isAuth">
-                                                    <div class="btn default_btn_out" @click="checkIfLoggedIn($event)">
+                                                <template
+                                                    v-else-if="
+                                                        !child.hasUser &&
+                                                            !$store.state.isAuth
+                                                    "
+                                                >
+                                                    <div
+                                                        class="btn default_btn_out"
+                                                        @click="
+                                                            checkIfLoggedIn(
+                                                                $event
+                                                            )
+                                                        "
+                                                    >
                                                         <span>Book Now</span>
                                                     </div>
                                                 </template>
                                             </template>
-                                            <template v-else-if="child.past && !child.ongoing">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="
+                                                    child.past && !child.ongoing
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Class is Over</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.bookable">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="!child.bookable"
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Next class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && child.ongoing">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="
+                                                    !child.past && child.ongoing
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Ongoing</span>
                                                 </div>
                                             </template>
                                         </div>
                                     </div>
                                 </template>
-                                <template v-else-if="$store.state.isMobile && !parent.opened">
-                                    <div :class="[ 'items', (child.past || child.ongoing || !child.bookable) ? ' pst' : '' ]" v-for="(child, key) in parent.schedules" :key="key">
+                                <template
+                                    v-else-if="
+                                        $store.state.isMobile && !parent.opened
+                                    "
+                                >
+                                    <div
+                                        :class="[
+                                            'items',
+                                            child.past ||
+                                            child.ongoing ||
+                                            !child.bookable
+                                                ? ' pst'
+                                                : ''
+                                        ]"
+                                        v-for="(child, key) in parent.schedules"
+                                        :key="key"
+                                    >
                                         <transition name="fade">
-                                            <div class="info_overlay" v-if="child.schedule.toggle">
+                                            <div
+                                                class="info_overlay"
+                                                v-if="child.schedule.toggle"
+                                            >
                                                 <div class="pointer"></div>
-                                                Details: <div v-html="child.schedule.tooltip"></div><br />
-                                                Credits to Deduct: {{ child.schedule.class_credits }}
+                                                Details:
+                                                <div
+                                                    v-html="
+                                                        child.schedule.tooltip
+                                                    "
+                                                ></div>
+                                                <br />
+                                                Credits to Deduct:
+                                                {{
+                                                    child.schedule.class_credits
+                                                }}
                                             </div>
                                         </transition>
                                         <div class="items_top">
-                                            <img class="info" src="/icons/info-booker-icon.svg" :id="`img_${child.schedule.id}`" @click="toggleScheduleInfo(child.schedule)" />
-                                            <div class="image_wrapper" v-html="getInstructorsImageInSchedule(child)"></div>
+                                            <img
+                                                class="info"
+                                                src="/icons/info-booker-icon.svg"
+                                                :id="`img_${child.schedule.id}`"
+                                                @click="
+                                                    toggleScheduleInfo(
+                                                        child.schedule
+                                                    )
+                                                "
+                                            />
+                                            <div
+                                                class="image_wrapper"
+                                                v-html="
+                                                    getInstructorsImageInSchedule(
+                                                        child
+                                                    )
+                                                "
+                                            ></div>
                                         </div>
                                         <div class="items_middle">
-                                            <div class="time">{{ child.schedule.start_time }}</div>
-                                            <div class="name">{{ getInstructorsInSchedule(child) }}</div>
-                                            <template v-if="child.schedule.custom_name != null">
+                                            <div class="time">
+                                                {{ child.schedule.start_time }}
+                                            </div>
+                                            <div class="name">
+                                                {{
+                                                    getInstructorsInSchedule(
+                                                        child
+                                                    )
+                                                }}
+                                            </div>
+                                            <template
+                                                v-if="
+                                                    child.schedule
+                                                        .custom_name != null
+                                                "
+                                            >
                                                 <div class="tooltip_wrapper">
-                                                    <div class="class" v-html="child.schedule.custom_name" v-line-clamp:10="1"></div>
-                                                    <span class="tooltip">{{ child.schedule.custom_name }}</span>
+                                                    <div
+                                                        class="class"
+                                                        v-html="
+                                                            child.schedule
+                                                                .custom_name
+                                                        "
+                                                        v-line-clamp:10="1"
+                                                    ></div>
+                                                    <span class="tooltip">
+                                                        {{
+                                                            child.schedule
+                                                                .custom_name
+                                                        }}
+                                                    </span>
                                                 </div>
                                             </template>
                                             <template v-else>
                                                 <div class="tooltip_wrapper">
-                                                    <div class="class" v-html="child.schedule.class_type.name" v-line-clamp:10="1"></div>
-                                                    <span class="tooltip">{{ child.schedule.class_type.name }}</span>
+                                                    <div
+                                                        class="class"
+                                                        v-html="
+                                                            child.schedule
+                                                                .class_type.name
+                                                        "
+                                                        v-line-clamp:10="1"
+                                                    ></div>
+                                                    <span class="tooltip">
+                                                        {{
+                                                            child.schedule
+                                                                .class_type.name
+                                                        }}
+                                                    </span>
                                                 </div>
                                             </template>
-                                            <div class="studio" :style="`color: ${child.schedule.studio.color_code};`">{{ child.schedule.studio.name }}</div>
+                                            <div
+                                                class="studio"
+                                                :style="
+                                                    `color: ${child.schedule.studio.color_code};`
+                                                "
+                                            >
+                                                {{ child.schedule.studio.name }}
+                                            </div>
                                         </div>
                                         <div class="items_bottom">
-                                            <template v-if="child.schedule.private_class == 1">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-if="
+                                                    child.schedule
+                                                        .private_class == 1
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="child.schedule.private_class == 1">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="
+                                                    child.schedule
+                                                        .private_class == 1
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Private Class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && !child.ongoing && child.bookable">
-                                                <template v-if="child.hasUser && !child.isWaitlisted && !child.isFull && !child.originalHere && !child.guestHere">
-                                                    <nuxt-link :to="`/book-a-bike/${child.id}`" :event="''" @click.native="checkIfNew(child, 'book', $event)" class="btn default_btn_out">
+                                            <template
+                                                v-else-if="
+                                                    !child.past &&
+                                                        !child.ongoing &&
+                                                        child.bookable
+                                                "
+                                            >
+                                                <template
+                                                    v-if="
+                                                        child.hasUser &&
+                                                            !child.isWaitlisted &&
+                                                            !child.isFull &&
+                                                            !child.originalHere &&
+                                                            !child.guestHere
+                                                    "
+                                                >
+                                                    <nuxt-link
+                                                        :to="
+                                                            `/book-a-bike/${child.id}`
+                                                        "
+                                                        :event="''"
+                                                        @click.native="
+                                                            checkIfNew(
+                                                                child,
+                                                                'book',
+                                                                $event
+                                                            )
+                                                        "
+                                                        class="btn default_btn_out"
+                                                    >
                                                         <span>Book Now</span>
                                                     </nuxt-link>
                                                 </template>
-                                                <template v-else-if="child.hasUser && !child.isWaitlisted && child.isFull && !child.originalHere && !child.guestHere && !child.schedule.studio.online_class">
-                                                    <div @click="checkIfNew(child, 'waitlist', $event)" class="btn default_btn_out">
+                                                <template
+                                                    v-else-if="
+                                                        child.hasUser &&
+                                                            !child.isWaitlisted &&
+                                                            child.isFull &&
+                                                            !child.originalHere &&
+                                                            !child.guestHere &&
+                                                            !child.schedule
+                                                                .studio
+                                                                .online_class
+                                                    "
+                                                >
+                                                    <div
+                                                        @click="
+                                                            checkIfNew(
+                                                                child,
+                                                                'waitlist',
+                                                                $event
+                                                            )
+                                                        "
+                                                        class="btn default_btn_out"
+                                                    >
                                                         <span>Waitlist</span>
                                                     </div>
                                                 </template>
-                                                <template v-else-if="child.hasUser && child.isWaitlisted && !child.schedule.studio.online_class">
-                                                    <div class="btn default_btn_out disabled">
+                                                <template
+                                                    v-else-if="
+                                                        child.hasUser &&
+                                                            child.isWaitlisted &&
+                                                            !child.schedule
+                                                                .studio
+                                                                .online_class
+                                                    "
+                                                >
+                                                    <div
+                                                        class="btn default_btn_out disabled"
+                                                    >
                                                         <span>Waitlisted</span>
                                                     </div>
                                                 </template>
-                                                <template v-else-if="child.hasUser && (child.originalHere || child.guestHere)">
-                                                    <nuxt-link :to="`/my-profile/manage-class/${child.id}`" class="btn default_btn_out">
-                                                        <span>Manage Class</span>
+                                                <template
+                                                    v-else-if="
+                                                        child.hasUser &&
+                                                            (child.originalHere ||
+                                                                child.guestHere)
+                                                    "
+                                                >
+                                                    <nuxt-link
+                                                        :to="
+                                                            `/my-profile/manage-class/${child.id}`
+                                                        "
+                                                        class="btn default_btn_out"
+                                                    >
+                                                        <span>
+                                                            Manage Class
+                                                        </span>
                                                     </nuxt-link>
                                                 </template>
-                                                <template v-else-if="!child.hasUser && !$store.state.isAuth">
-                                                    <div class="btn default_btn_out" @click="checkIfLoggedIn($event)">
+                                                <template
+                                                    v-else-if="
+                                                        !child.hasUser &&
+                                                            !$store.state.isAuth
+                                                    "
+                                                >
+                                                    <div
+                                                        class="btn default_btn_out"
+                                                        @click="
+                                                            checkIfLoggedIn(
+                                                                $event
+                                                            )
+                                                        "
+                                                    >
                                                         <span>Book Now</span>
                                                     </div>
                                                 </template>
                                             </template>
-                                            <template v-else-if="child.past && !child.ongoing">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="
+                                                    child.past && !child.ongoing
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Class is Over</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.bookable">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="!child.bookable"
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Next class</span>
                                                 </div>
                                             </template>
-                                            <template v-else-if="!child.past && child.ongoing">
-                                                <div class="btn default_btn_out disabled">
+                                            <template
+                                                v-else-if="
+                                                    !child.past && child.ongoing
+                                                "
+                                            >
+                                                <div
+                                                    class="btn default_btn_out disabled"
+                                                >
                                                     <span>Ongoing</span>
                                                 </div>
                                             </template>
@@ -253,25 +740,43 @@
                 </div>
             </section>
             <transition name="fade">
-                <complete-profile-prompt v-if="$store.state.completeProfilePromptStatus" />
+                <complete-profile-prompt
+                    v-if="$store.state.completeProfilePromptStatus"
+                />
             </transition>
             <transition name="fade">
-                <booker-choose-package :seat="1" v-if="$store.state.bookerChoosePackageStatus" :category="'landing'" :type="type" />
+                <booker-choose-package
+                    :seat="1"
+                    v-if="$store.state.bookerChoosePackageStatus"
+                    :category="'landing'"
+                    :type="type"
+                />
             </transition>
             <transition name="fade">
                 <buy-package-first v-if="$store.state.buyPackageFirstStatus" />
             </transition>
             <transition name="fade">
-                <booker-prompt :message="message" v-if="$store.state.bookerPromptStatus" :status="status" />
+                <booker-prompt
+                    :message="message"
+                    v-if="$store.state.bookerPromptStatus"
+                    :status="status"
+                />
             </transition>
             <transition name="fade">
-                <buy-online-package-first v-if="$store.state.buyOnlinePackageFirstStatus" />
+                <buy-online-package-first
+                    v-if="$store.state.buyOnlinePackageFirstStatus"
+                />
             </transition>
             <transition name="fade">
                 <online-prompt v-if="$store.state.onlinePromptStatus" />
             </transition>
         </div>
-        <skeleton :page="'default_box'" :col="{ class: 'one', count: 4 }" :layout="'one'" v-else />
+        <skeleton
+            :page="'default_box'"
+            :col="{ class: 'one', count: 4 }"
+            :layout="'one'"
+            v-else
+        />
     </transition>
 </template>
 
@@ -280,14 +785,18 @@
         components: {
             Banner: () => import('~/components/Banner'),
             Skeleton: () => import('~/components/Skeleton'),
-            BookerChoosePackage: () => import('~/components/modals/BookerChoosePackage'),
-            CompleteProfilePrompt: () => import('~/components/modals/CompleteProfilePrompt'),
-            BuyPackageFirst: () => import('~/components/modals/BuyPackageFirst'),
-            BuyOnlinePackageFirst: () => import('~/components/modals/BuyOnlinePackageFirst'),
+            BookerChoosePackage: () =>
+                import('~/components/modals/BookerChoosePackage'),
+            CompleteProfilePrompt: () =>
+                import('~/components/modals/CompleteProfilePrompt'),
+            BuyPackageFirst: () =>
+                import('~/components/modals/BuyPackageFirst'),
+            BuyOnlinePackageFirst: () =>
+                import('~/components/modals/BuyOnlinePackageFirst'),
             BuyRidesPrompt: () => import('~/components/modals/BuyRidesPrompt'),
             OnlinePrompt: () => import('~/components/modals/OnlinePrompt')
         },
-        data () {
+        data() {
             return {
                 setting: {
                     title: 'Book a Class',
@@ -330,28 +839,28 @@
         computed: {
             /**
              * Toggle the filter is not selected a instructor or removed a instructor */
-            checkSearchedInstructor () {
+            checkSearchedInstructor() {
                 const me = this
                 let result = ''
                 if (me.searchedInstructor != '') {
                     result = `${me.searchedInstructor}`
                     me.hasSearchedInstructor = true
                 } else {
-                    me.instructorID = (me.$route.query.i) ? me.$route.query.i : 0
+                    me.instructorID = me.$route.query.i ? me.$route.query.i : 0
                     me.searchedInstructor = ''
                     me.hasSearchedInstructor = false
                     result = 'all instructors '
                 }
                 return result
             },
-            populateInstructors () {
+            populateInstructors() {
                 return this.instructors
             }
         },
         methods: {
-            getInstructorsImageInSchedule (data) {
+            getInstructorsImageInSchedule(data) {
                 const me = this
-                let result= '',
+                let result = '',
                     ctr = 0,
                     instructor = null,
                     sub_instructor = null,
@@ -403,9 +912,9 @@
 
                 return result
             },
-            getInstructorsInSchedule (data) {
+            getInstructorsInSchedule(data) {
                 const me = this
-                let result= '',
+                let result = '',
                     ctr = 0,
                     instructor = null,
                     sub_instructor = null,
@@ -449,13 +958,13 @@
             },
             /**
              * Toggle info in each schedule */
-            toggleScheduleInfo (data) {
+            toggleScheduleInfo(data) {
                 const me = this
                 data.toggle ^= true
             },
             /**
              * Check if user is logged in */
-            checkIfLoggedIn (event) {
+            checkIfLoggedIn(event) {
                 const me = this
                 event.preventDefault()
                 if (!me.$store.state.isAuth) {
@@ -465,98 +974,163 @@
             },
             /**
              * Validation if the user doesn't completed their profile */
-            checkIfNew (data, type, event) {
+            checkIfNew(data, type, event) {
                 const me = this
                 me.scheduled_date_id = data.id
                 me.schedule = data.schedule
                 let token = me.$cookies.get('70hokc3hhhn5')
                 event.preventDefault()
                 me.loader(true)
-                me.$axios.get('api/check-token', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    data: null
-                }).then(res => {
-                    if (res.data) {
-                        let user = res.data.user
-                        if (user.new_user == 0) {
-                            if (data.hasUser && token != null && token != undefined) {
-                                switch (type) {
-                                    case 'book':
-                                        if (!data.schedule.studio.online_class) {
-                                            let formData = new FormData()
-                                            let hasPackages = false
-                                            formData.append('scheduled_date_id', data.id)
-                                            formData.append('type', 'booking')
-                                            me.$axios.post('api/schedules/validate', formData).then(res => {
-                                                if (res.data) {
-                                                    me.$axios.get(`api/customers/${user.id}/packages?forWeb=1`).then(res => {
+                me.$axios
+                    .get('api/check-token', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                        data: null
+                    })
+                    .then(res => {
+                        if (res.data) {
+                            let user = res.data.user
+                            if (user.new_user == 0) {
+                                if (
+                                    data.hasUser &&
+                                    token != null &&
+                                    token != undefined
+                                ) {
+                                    switch (type) {
+                                        case 'book':
+                                            if (
+                                                !data.schedule.studio
+                                                    .online_class
+                                            ) {
+                                                let formData = new FormData()
+                                                let hasPackages = false
+                                                formData.append(
+                                                    'scheduled_date_id',
+                                                    data.id
+                                                )
+                                                formData.append(
+                                                    'type',
+                                                    'booking'
+                                                )
+                                                me.$axios
+                                                    .post(
+                                                        'api/schedules/validate',
+                                                        formData
+                                                    )
+                                                    .then(res => {
                                                         if (res.data) {
-                                                            setTimeout( () => {
-                                                                res.data.customer.user_package_counts.forEach((data, index) => {
-                                                                    if (parseInt(me.$moment((data.computed_expiration_date != null) ? data.computed_expiration_date : data.expiry_date_if_not_activated).diff(me.$moment())) > 0) {
-                                                                        hasPackages = true
-                                                                    }
-                                                                })
-                                                                // if (hasPackages) {
-                                                                    me.$router.push(`/book-a-bike/${data.id}`)
-                                                               /* } else {
+                                                            me.$axios
+                                                                .get(
+                                                                    `api/customers/${user.id}/packages?forWeb=1`
+                                                                )
+                                                                .then(res => {
+                                                                    if (
+                                                                        res.data
+                                                                    ) {
+                                                                        setTimeout(
+                                                                            () => {
+                                                                                res.data.customer.user_package_counts.forEach(
+                                                                                    (
+                                                                                        data,
+                                                                                        index
+                                                                                    ) => {
+                                                                                        if (
+                                                                                            parseInt(
+                                                                                                me
+                                                                                                    .$moment(
+                                                                                                        data.computed_expiration_date !=
+                                                                                                            null
+                                                                                                            ? data.computed_expiration_date
+                                                                                                            : data.expiry_date_if_not_activated
+                                                                                                    )
+                                                                                                    .diff(
+                                                                                                        me.$moment()
+                                                                                                    )
+                                                                                            ) >
+                                                                                            0
+                                                                                        ) {
+                                                                                            hasPackages = true
+                                                                                        }
+                                                                                    }
+                                                                                )
+                                                                                // if (hasPackages) {
+                                                                                me.$router.push(
+                                                                                    `/book-a-bike/${data.id}`
+                                                                                )
+                                                                                /* } else {
                                                                     me.$store.state.buyPackageFirstStatus = false
                                                                     document.body.classList.remove('no_scroll')
                                                                 }*/
-                                                            }, 500)
+                                                                            },
+                                                                            500
+                                                                        )
+                                                                    }
+                                                                })
+                                                                .catch(err => {
+                                                                    me.$store.state.errorList =
+                                                                        err.response.data.errors
+                                                                    me.$store.state.errorPromptStatus = true
+                                                                })
+                                                                .then(() => {
+                                                                    setTimeout(
+                                                                        () => {
+                                                                            me.loader(
+                                                                                false
+                                                                            )
+                                                                        },
+                                                                        500
+                                                                    )
+                                                                })
                                                         }
-                                                    }).catch(err => {
-                                                        me.$store.state.errorList = err.response.data.errors
-                                                        me.$store.state.errorPromptStatus = true
-                                                    }).then(() => {
-                                                        setTimeout( () => {
-                                                            me.loader(false)
-                                                        }, 500)
                                                     })
-                                                }
-                                            }).catch(err => {
-                                                me.$store.state.errorList = err.response.data.errors
-                                                me.$store.state.errorPromptStatus = true
-                                                me.loader(false)
-                                            })
-                                        } else {
+                                                    .catch(err => {
+                                                        me.$store.state.errorList =
+                                                            err.response.data.errors
+                                                        me.$store.state.errorPromptStatus = true
+                                                        me.loader(false)
+                                                    })
+                                            } else {
+                                                me.schedule = data
+                                                me.type = 1
+                                                setTimeout(() => {
+                                                    me.$store.state.bookerChoosePackageStatus = true
+                                                    document.body.classList.add(
+                                                        'no_scroll'
+                                                    )
+                                                    me.loader(false)
+                                                }, 500)
+                                            }
+                                            break
+                                        case 'waitlist':
                                             me.schedule = data
-                                            me.type = 1
-                                            setTimeout( () => {
+                                            me.type = 0
+                                            setTimeout(() => {
                                                 me.$store.state.bookerChoosePackageStatus = true
-                                                document.body.classList.add('no_scroll')
+                                                document.body.classList.add(
+                                                    'no_scroll'
+                                                )
                                                 me.loader(false)
                                             }, 500)
-                                        }
-                                        break
-                                    case 'waitlist':
-                                        me.schedule = data
-                                        me.type = 0
-                                        setTimeout( () => {
-                                            me.$store.state.bookerChoosePackageStatus = true
-                                            document.body.classList.add('no_scroll')
-                                            me.loader(false)
-                                        }, 500)
-                                        break
+                                            break
+                                    }
                                 }
+                            } else {
+                                me.$store.state.lastRoute = `/book-a-bike/${data.id}`
+                                me.$store.state.completeProfilePromptStatus = true
                             }
-                        } else {
-                            me.$store.state.lastRoute = `/book-a-bike/${data.id}`
-                            me.$store.state.completeProfilePromptStatus = true
                         }
-                    }
-                }).catch(err => {
-                    me.$store.state.needLogin = true
-                    me.$store.state.errorList = err.response.data.errors
-                    me.$store.state.errorPromptStatus = true
-                    me.loader(false)
-                })
+                    })
+                    .catch(err => {
+                        me.$store.state.needLogin = true
+                        me.$store.state.errorList = err.response.data.errors
+                        me.$store.state.errorPromptStatus = true
+                        me.loader(false)
+                    })
             },
             /**
              * Toggling of instructors custom autocomplete dropdown */
-            toggleFilter (event) {
+            toggleFilter(event) {
                 const me = this
                 let target = event.target
                 let element = document.querySelector('.filter')
@@ -567,27 +1141,27 @@
                     element.style.height = `0px`
                 } else {
                     target.parentNode.classList.add('toggled')
-                    setTimeout( () => {
+                    setTimeout(() => {
                         element.classList.add('active')
                     }, 250)
                     element.style.height = `${element.scrollHeight + 10}px`
                 }
-                setTimeout( () => {
+                setTimeout(() => {
                     target.parentNode.classList.remove('oops')
                 }, 500)
             },
             /**
              * Select instructor from filter */
-            selectIntructor (data) {
+            selectIntructor(data) {
                 const me = this
                 me.instructorID = data.id
                 me.searchedInstructor = `${data.first_name} ${data.last_name}`
                 me.toggledAutocomplete = false
                 me.fetchData()
             },
-            searchInstructor (event) {
+            searchInstructor(event) {
                 if (event.target.value.length) {
-                    this.instructors.forEach((item) => {
+                    this.instructors.forEach(item => {
                         let searchable = item.fullname.toLowerCase()
                         if (searchable.includes(event.target.value)) {
                             item.searched = true
@@ -596,19 +1170,19 @@
                         }
                     })
                 } else {
-                    this.instructors.forEach((item) => {
+                    this.instructors.forEach(item => {
                         item.searched = true
                     })
                 }
             },
-            toggleViewing () {
+            toggleViewing() {
                 const me = this
                 me.hide_past ^= true
                 me.fetchData()
             },
             /**
              * Select studio from filter */
-            toggleStudio (data, type) {
+            toggleStudio(data, type) {
                 const me = this
                 // if (data != null) {
                 //     me.studioID = data.id
@@ -635,13 +1209,13 @@
             },
             /**
              * On/Off of custom autocomplete */
-            toggleAutoComplete () {
+            toggleAutoComplete() {
                 const me = this
                 me.toggledAutocomplete = true
             },
             /**
              * Click outside of autocomplete */
-            toggleAutoCompleteOutside () {
+            toggleAutoCompleteOutside() {
                 const me = this
                 if (me.toggledAutocomplete && me.searchedInstructor == '') {
                     me.fetchData()
@@ -650,14 +1224,16 @@
             },
             /**
              * Toggle class of calendar element */
-            removeActive () {
+            removeActive() {
                 const me = this
-                let elements = document.querySelectorAll('.date_navigator .date')
+                let elements = document.querySelectorAll(
+                    '.date_navigator .date'
+                )
                 elements.forEach((element, index) => {
                     element.classList.remove('active')
                 })
             },
-            fetchData (data=null) {
+            fetchData(data = null) {
                 const me = this
                 let form_data = new FormData(),
                     token = me.$cookies.get('70hokc3hhhn5')
@@ -674,62 +1250,95 @@
                     if (data == 'prev') {
                         form_data.append('first_date', me.first_date)
                     } else {
-                        form_data.append('last_date', me.$moment(me.last_date, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD'))
+                        form_data.append(
+                            'last_date',
+                            me
+                                .$moment(me.last_date, 'YYYY-MM-DD')
+                                .add(1, 'days')
+                                .format('YYYY-MM-DD')
+                        )
                     }
                 } else {
                     form_data.append('last_date', me.first_date)
                 }
-                form_data.append('hide_past', (me.hide_past) ? 1 : 0)
+                form_data.append('hide_past', me.hide_past ? 1 : 0)
 
-                me.$axios.post('api/web/schedules', form_data, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(res => {
-                    if (res.data.dates.length > 0) {
-                        me.first_date = res.data.dates[0].date
-                        me.last_date = res.data.dates[res.data.dates.length - 1].date   
-                        if (!me.diff_date) {
-                          me.diff_date = res.data.dates[res.data.dates.length - 1].date
+                me.$axios
+                    .post('api/web/schedules', form_data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
                         }
-                        // let now = me.$moment()
-                        // res.data.dates.forEach((item, key) => {
-                        //     item.schedules.forEach((schedule, key) => {
-                        //         let date = me.$moment(schedule.date)
-                        //         if (me.$moment(me.diff_date).diff(date, 'days') < 0) {
-                        //             schedule.next_week = 1
-                        //         }
-                        //         // if (me.$moment(me.diff_date).diff(date, 'days') <= -7 && me.$moment(me.diff_date).diff(date, 'days') < 0) {
-                        //         //     if (now.format('YYYY-MM-DD') != date.format('YYYY-MM-DD')) {
-                        //         //         schedule.next_week = 1
-                        //         //     }
-                        //         // }
-                        //     })
-                        // })
-                        res.data.dates.forEach(date => {
-                            date.schedules.forEach(schedule_date => {
-                                let element = document.createElement('textarea')
-                                element.innerHTML = (schedule_date.schedule.private_class == 1) ? schedule_date.schedule.occassion : (schedule_date.schedule.description != null) ? schedule_date.schedule.description : schedule_date.schedule.class_type.description
-                                schedule_date.schedule.tooltip = element.value
+                    })
+                    .then(res => {
+                        if (res.data.dates.length > 0) {
+                            me.first_date = res.data.dates[0].date
+                            me.last_date =
+                                res.data.dates[res.data.dates.length - 1].date
+                            if (!me.diff_date) {
+                                me.diff_date =
+                                    res.data.dates[
+                                        res.data.dates.length - 1
+                                    ].date
+                            }
+                            // let now = me.$moment()
+                            // res.data.dates.forEach((item, key) => {
+                            //     item.schedules.forEach((schedule, key) => {
+                            //         let date = me.$moment(schedule.date)
+                            //         if (me.$moment(me.diff_date).diff(date, 'days') < 0) {
+                            //             schedule.next_week = 1
+                            //         }
+                            //         // if (me.$moment(me.diff_date).diff(date, 'days') <= -7 && me.$moment(me.diff_date).diff(date, 'days') < 0) {
+                            //         //     if (now.format('YYYY-MM-DD') != date.format('YYYY-MM-DD')) {
+                            //         //         schedule.next_week = 1
+                            //         //     }
+                            //         // }
+                            //     })
+                            // })
+                            res.data.dates.forEach(date => {
+                                date.schedules.forEach(schedule_date => {
+                                    let element = document.createElement(
+                                        'textarea'
+                                    )
+                                    element.innerHTML =
+                                        schedule_date.schedule.private_class ==
+                                        1
+                                            ? schedule_date.schedule.occassion
+                                            : schedule_date.schedule
+                                                  .description != null
+                                            ? schedule_date.schedule.description
+                                            : schedule_date.schedule.class_type
+                                                  .description
+                                    schedule_date.schedule.tooltip =
+                                        element.value
+                                })
                             })
+                            me.res = res.data
+                        }
+                    })
+                    .catch(err => {
+                        me.$nuxt.error({
+                            statusCode: 403,
+                            message: 'Page not found'
                         })
-                        me.res = res.data
-                    }
-                }).catch(err => {
-                    me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-                }).then(() => {
-                    me.loaded = true
-                    setTimeout(() => {
-                      document.addEventListener('click', me.toggleOverlays)
-                      me.loader(false)
-                    }, 500)
-                })
+                    })
+                    .then(() => {
+                        me.loaded = true
+                        setTimeout(() => {
+                            document.addEventListener(
+                                'click',
+                                me.toggleOverlays
+                            )
+                            me.loader(false)
+                        }, 500)
+                    })
             },
-            toggleOverlays (e) {
+            toggleOverlays(e) {
                 const me = this
                 let ctr = 0
                 let target = e.target
-                let elements_first = document.querySelectorAll('.book_a_bike.landing #content .right .schedules .schedule_item .items .info')
+                let elements_first = document.querySelectorAll(
+                    '.book_a_bike.landing #content .right .schedules .schedule_item .items .info'
+                )
                 me.res.dates.forEach((data, index) => {
                     data.schedules.forEach((child, c_index) => {
                         if (target.id !== elements_first[ctr].id) {
@@ -740,37 +1349,49 @@
                 })
             }
         },
-        mounted () {
+        mounted() {
             const me = this
-            me.instructorID = (me.$route.query.i) ? me.$route.query.i : 0
+            me.instructorID = me.$route.query.i ? me.$route.query.i : 0
             me.loader(true)
             /**
              * Fetch all studios */
-            me.$axios.get('api/studios?enabled=1').then(res => {
-                if (res.data) {
-                    me.studios = res.data.studios
-                }
-            }).catch(err => {
-                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-            })
+            me.$axios
+                .get('api/studios?enabled=1')
+                .then(res => {
+                    if (res.data) {
+                        me.studios = res.data.studios
+                    }
+                })
+                .catch(err => {
+                    me.$nuxt.error({
+                        statusCode: 403,
+                        message: 'Page not found'
+                    })
+                })
             /**
              * Fetch all instructors */
-            me.$axios.get(`api/web/instructors`).then(res => {
-                if (res.data) {
-                    me.instructors = res.data.instructors.map((item) => ({
-                        ...item,
-                        searched: true
-                    }))
-                }
-            }).catch(err => {
-                me.$nuxt.error({ statusCode: 403, message: 'Page not found' })
-            })
+            me.$axios
+                .get(`api/web/instructors`)
+                .then(res => {
+                    if (res.data) {
+                        me.instructors = res.data.instructors.map(item => ({
+                            ...item,
+                            searched: true
+                        }))
+                    }
+                })
+                .catch(err => {
+                    me.$nuxt.error({
+                        statusCode: 403,
+                        message: 'Page not found'
+                    })
+                })
             me.fetchData()
         },
-        destroyed () {
+        destroyed() {
             document.removeEventListener('click', this.toggleOverlays)
         },
-        head () {
+        head() {
             const me = this
             let host = process.env.baseUrl
             return {
@@ -782,14 +1403,42 @@
                     }
                 ],
                 meta: [
-                    { hid: 'og:title', property: 'og:title', content: `${me.setting.meta_title}` },
-                    { hid: 'og:description', property: 'og:description', content: `${me.setting.meta_description}` },
-                    { hid: 'og:keywords', property: 'og:keywords', content: `${me.setting.meta_keywords}` },
-                    { hid: 'og:url', property: 'og:url', content: `${host}/${me.$route.fullPath}` },
-                    { hid: 'og:image', property: 'og:image', content: `${me.setting.banners[0].path}` },
-                    { hid: 'og:image:alt', property: 'og:image:alt', content: `${me.setting.banners[0].alt}` },
+                    {
+                        hid: 'og:title',
+                        property: 'og:title',
+                        content: `${me.setting.meta_title}`
+                    },
+                    {
+                        hid: 'og:description',
+                        property: 'og:description',
+                        content: `${me.setting.meta_description}`
+                    },
+                    {
+                        hid: 'og:keywords',
+                        property: 'og:keywords',
+                        content: `${me.setting.meta_keywords}`
+                    },
+                    {
+                        hid: 'og:url',
+                        property: 'og:url',
+                        content: `${host}/${me.$route.fullPath}`
+                    },
+                    {
+                        hid: 'og:image',
+                        property: 'og:image',
+                        content: `${me.setting.banners[0].path}`
+                    },
+                    {
+                        hid: 'og:image:alt',
+                        property: 'og:image:alt',
+                        content: `${me.setting.banners[0].alt}`
+                    },
                     { hid: 'og:type', property: 'og:type', content: 'website' },
-                    { hid: 'og:site_name', property: 'og:site_name', content: 'Ride Revolution' },
+                    {
+                        hid: 'og:site_name',
+                        property: 'og:site_name',
+                        content: 'Ride Revolution'
+                    }
                 ]
             }
         }
