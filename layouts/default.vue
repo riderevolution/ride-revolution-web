@@ -347,21 +347,14 @@
       },
       checkElements() {
         const me = this
+        let padding = 0
         setTimeout(() => {
           if (me.$route.fullPath != '/') {
             if (me.$store.state.articleAlertStatus) {
               if (me.$store.state.proTipStatus) {
-                if (
-                  document.getElementById('pro_tip') &&
-                  document.getElementById('article_alert')
-                ) {
-                  document.getElementById(
-                    'main_container'
-                  ).style.paddingTop = `${document.getElementById(
-                    'article_alert'
-                  ).offsetHeight +
-                    document.getElementById('header').offsetHeight +
-                    document.getElementById('pro_tip').offsetHeight}px`
+                if (document.getElementById('pro_tip') && document.getElementById('article_alert')) {
+                  document.getElementById('main_container').style.paddingTop = `${document.getElementById('article_alert').offsetHeight +
+                    document.getElementById('header').offsetHeight + document.getElementById('pro_tip').offsetHeight}px`
                 }
               } else if (me.$store.state.completeProfileStatus) {
                 if (
@@ -382,6 +375,14 @@
                     .offsetHeight +
                     document.getElementById('header').offsetHeight}px`
                 }
+                if (document.getElementById('complete_profile')) {
+                  padding = document.getElementById('header').offsetHeight
+                  if (document.getElementById('complete_profile')) {
+                    padding += document.getElementById('complete_profile').offsetHeight
+                  }
+
+                  document.getElementById('main_container').style.paddingTop = `${padding}px`
+                }
               } else {
                 if (document.getElementById('article_alert')) {
                   document.getElementById(
@@ -389,10 +390,15 @@
                   ).style.paddingTop = `${document.getElementById('header')
                     .offsetHeight +
                     (document.getElementById('article_alert')) ? document.getElementById('article_alert').offsetHeight : 0}px`
+                } else {
+                  document.getElementById('main_container').style.paddingTop = `${
+                    document.getElementById('header').offsetHeight
+                  }px`
                 }
               }
             } else if (me.$store.state.proTipStatus) {
               if (me.$store.state.articleAlertStatus) {
+                console.log(1);
                 if (
                   document.getElementById('pro_tip') &&
                   document.getElementById('article_alert')
@@ -406,6 +412,7 @@
                     document.getElementById('pro_tip').offsetHeight}px`
                 }
               } else {
+                console.log(1);
                 if (document.getElementById('pro_tip')) {
                   document.getElementById(
                     'main_container'
@@ -416,6 +423,7 @@
               }
             } else if (me.$store.state.completeProfileStatus) {
               if (me.$store.state.articleAlertStatus) {
+                console.log(1);
                 if (
                   document.getElementById('complete_profile') &&
                   document.getElementById('article_alert')
@@ -435,6 +443,7 @@
                     document.getElementById('header').offsetHeight}px`
                 }
               } else {
+                console.log(1);
                 if (document.getElementById('complete_profile')) {
                   document.getElementById(
                     'main_container'
@@ -455,7 +464,7 @@
           } else {
             document.getElementById('main_container').style.paddingTop = 0
           }
-        }, 750)
+        }, 1000)
       },
       checkVersion() {
         const me = this
