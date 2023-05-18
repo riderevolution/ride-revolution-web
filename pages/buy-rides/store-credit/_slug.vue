@@ -83,8 +83,8 @@
                                     <div class="default_btn_blk" @click="stepBack()">Back</div>
                                 </div>
                                 <div class="right">
-                                    <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
-                                    <br><br>
+                                    <!-- <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
+                                    <br><br> -->
                                     <div class="default_btn_blue" @click="gcash()">
                                         <span>
                                             <img src="/gcash-logo.png" />
@@ -106,8 +106,8 @@
                                     <div class="default_btn_blk_alt" @click="stepBack()"><img src="/icons/back-arrow-icon.svg" /> <span>Back</span></div>
                                 </div>
                                 <div class="right">
-                                    <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
-                                    <br><br>
+                                    <!-- <div class="default_btn_blue" @click="paymaya()">Debit/Credit Card</div>
+                                    <br><br> -->
                                     <div class="default_btn_blue" @click="gcash()">
                                         <span>
                                             <img src="/gcash-logo.png" />
@@ -128,13 +128,13 @@
                     </div>
                 </transition>
             </div>
-            <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
+            <!-- <div id="step_3" :class="`step ${(step != 3) ? 'overlay' : ''}`">
                 <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
                     <div v-if="step == 3">
                         <paymaya-checkout :type="'store-credit-page'"/>
                     </div>
                 </transition>
-            </div>
+            </div> -->
         </section>
         <transition name="fade">
             <card-status v-if="checker" />

@@ -534,7 +534,7 @@
                                         >
                                             Pay Now
                                         </div>
-                                        <div
+                                        <!-- <div
                                             class="default_btn_blue"
                                             @click="paymaya()"
                                             v-if="
@@ -543,7 +543,7 @@
                                             "
                                         >
                                             Debit/Credit Card
-                                        </div>
+                                        </div> -->
                                         <template
                                             v-if="
                                                 type == 'paynow' &&
@@ -638,7 +638,7 @@
                                         >
                                             Pay Now
                                         </div>
-                                        <div
+                                        <!-- <div
                                             class="default_btn_blue"
                                             @click="paymaya()"
                                             v-if="
@@ -647,7 +647,7 @@
                                             "
                                         >
                                             Debit/Credit Card
-                                        </div>
+                                        </div> -->
                                         <template
                                             v-if="
                                                 type == 'paynow' &&
@@ -707,13 +707,13 @@
                         </div>
                     </transition>
                 </div>
-                <div id="step_3" :class="`step ${step != 3 ? 'overlay' : ''}`">
+                <!-- <div id="step_3" :class="`step ${step != 3 ? 'overlay' : ''}`">
                     <transition :name="`${step == 0 ? 'fade' : 'slideX'}`">
                         <div v-if="step == 3">
                             <paymaya-checkout :type="'class-package'" />
                         </div>
                     </transition>
-                </div>
+                </div> -->
             </section>
             <transition name="fade">
                 <card-status v-if="checker" />

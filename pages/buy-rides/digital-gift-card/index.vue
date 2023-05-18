@@ -190,8 +190,8 @@
                                 </div>
                                 <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
-                                    <br><br>
+                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
+                                    <br><br> -->
                                     <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
                                         <span>
                                             <img src="/gcash-logo.png" />
@@ -217,8 +217,8 @@
                                 </div>
                                 <div class="right" v-else>
                                     <div :class="`default_btn_blue ${(parseInt(storeCredits) <= parseInt((promoApplied) ? selectedPackage.final_price : (selectedPackage.is_promo == 1 ? selectedPackage.discounted_price : selectedPackage.package_price))) ? 'disabled' : ''}`" v-if="type == 'store-credits'" @click="paymentSuccess()">Pay Now</div>
-                                    <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
-                                    <br><br>
+                                    <!-- <div class="default_btn_blue" @click="paymaya()" v-if="type == 'paynow'">Debit/Credit Card</div>
+                                    <br><br> -->
                                     <div class="default_btn_blue" @click="gcash()" v-if="type == 'paynow'">
                                         <span>
                                             <img src="/gcash-logo.png" />
@@ -239,13 +239,13 @@
                     </div>
                 </transition>
             </div>
-            <div id="step_4" :class="`step ${(step != 4) ? 'overlay' : ''}`">
+            <!-- <div id="step_4" :class="`step ${(step != 4) ? 'overlay' : ''}`">
                 <transition :name="`${(step == 0) ? 'fade' : 'slideX'}`">
                     <div v-if="step == 4">
                         <paymaya-checkout :type="'digital-gift-card'"/>
                     </div>
                 </transition>
-            </div>
+            </div> -->
         </section>
         <transition name="fade">
             <card-status v-if="checker" />
