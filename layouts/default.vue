@@ -385,11 +385,10 @@
                 }
               } else {
                 if (document.getElementById('article_alert')) {
+                  let article_alert = (document.getElementById('article_alert')) ? document.getElementById('article_alert').offsetHeight : 0
                   document.getElementById(
                     'main_container'
-                  ).style.paddingTop = `${document.getElementById('header')
-                    .offsetHeight +
-                    (document.getElementById('article_alert')) ? document.getElementById('article_alert').offsetHeight : 0}px`
+                  ).style.paddingTop = `${document.getElementById('header').offsetHeight + article_alert}px`
                 } else {
                   document.getElementById('main_container').style.paddingTop = `${
                     document.getElementById('header').offsetHeight
