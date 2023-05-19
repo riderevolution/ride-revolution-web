@@ -385,11 +385,10 @@
                 }
               } else {
                 if (document.getElementById('article_alert')) {
+                  let article_alert = (document.getElementById('article_alert')) ? document.getElementById('article_alert').offsetHeight : 0
                   document.getElementById(
                     'main_container'
-                  ).style.paddingTop = `${document.getElementById('header')
-                    .offsetHeight +
-                    (document.getElementById('article_alert')) ? document.getElementById('article_alert').offsetHeight : 0}px`
+                  ).style.paddingTop = `${document.getElementById('header').offsetHeight + article_alert}px`
                 } else {
                   document.getElementById('main_container').style.paddingTop = `${
                     document.getElementById('header').offsetHeight
@@ -398,7 +397,6 @@
               }
             } else if (me.$store.state.proTipStatus) {
               if (me.$store.state.articleAlertStatus) {
-                console.log(1);
                 if (
                   document.getElementById('pro_tip') &&
                   document.getElementById('article_alert')
@@ -412,7 +410,6 @@
                     document.getElementById('pro_tip').offsetHeight}px`
                 }
               } else {
-                console.log(1);
                 if (document.getElementById('pro_tip')) {
                   document.getElementById(
                     'main_container'
@@ -423,7 +420,6 @@
               }
             } else if (me.$store.state.completeProfileStatus) {
               if (me.$store.state.articleAlertStatus) {
-                console.log(1);
                 if (
                   document.getElementById('complete_profile') &&
                   document.getElementById('article_alert')
@@ -443,7 +439,6 @@
                     document.getElementById('header').offsetHeight}px`
                 }
               } else {
-                console.log(1);
                 if (document.getElementById('complete_profile')) {
                   document.getElementById(
                     'main_container'
