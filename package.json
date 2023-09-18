@@ -1,6 +1,6 @@
 {
-  "name": "ride_revolution",
-  "version": "4.2.0 (production)",
+  "name": "web_rr_production",
+  "version": "4.2.0",
   "description": "Ride Revolution",
   "author": "BiLos",
   "private": true,
