@@ -911,21 +911,25 @@
                             }
                         }
                     })
-                    let instructor_fullname = (instructor?.user?.fullname ?? null)?.path
-                    let instructor_nickname = (instructor?.user?.instructor_details?.nickname ?? null)?.path
-                    let sub_instructor_nickname = (sub_instructor?.user?.instructor_details?.nickname ?? null)?.path
-                    let add_instructor_nickname = (additional?.user?.instructor_details?.nickname ?? null)?.path
 
-                    if (ctr == 2) {
-                        if (sub_instructor) {
-                            result = `${instructor_nickname} + ${sub_instructor_nicknamee}`
+                    let instructor_fullname = (instructor?.user ?? null)?.fullname
+                    let instructor_nickname = (instructor?.user?.instructor_details ?? null)?.nickname
+                    let sub_instructor_nickname = (sub_instructor?.user?.instructor_details ?? null)?.nickname
+                    let add_instructor_nickname = (additional?.user?.instructor_details ?? null)?.nickname
+
+                    if(typeof instructor_fullname !== "undefined")
+                    {
+                        if (ctr == 2) {
+                            if (sub_instructor) {
+                                result = `${instructor_nickname} + ${sub_instructor_nickname}`
+                            } else {
+                                result = `${instructor_nickname} + ${add_instructor_nickname}`
+                            }
+                        } else if (ctr == 3) {
+                            result = `${instructor_nickname} + ${sub_instructor_nickname} + ${add_instructor_nickname}`
                         } else {
-                            result = `${instructor_nickname} + ${add_instructor_nickname}`
+                            result = `${instructor_fullname}`
                         }
-                    } else if (ctr == 3) {
-                        result = `${instructor_nickname} + ${sub_instructor_nickname} + ${add_instructor_nickname}`
-                    } else {
-                        result = `${instructor_fullname}`
                     }
                 }
 
