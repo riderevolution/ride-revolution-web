@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'WEB RR (MAINTENANCE)',
+      name: 'WEB(PROD) RIDE REVOLUTION',
       exec_mode: 'cluster',
       instances: '2', 
       max_memory_restart: '200M',
