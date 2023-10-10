@@ -23,7 +23,7 @@ $white = #FFF
 $white_alt = #F7F7F7
 
 $black = #171717
-$black_alt = #4E4E4E
+$black_alt = #717171
 $black_alt2 = #53565C
 
 $gray = #A8A8A8
@@ -1497,10 +1497,13 @@ svg
         left: 0
         z-index: 6
         width: 100%
-        background-color: transparent
         box-shadow: 0 3px 6px transparent
         border-bottom: 0.5px solid $border_alt3
         transition: .2s linear
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1)
+        background: rgba(255, 255, 255, 0.08)
+        backdrop-filter: blur(5px)
+        -webkit-backdrop-filter: blur(5px)
         .m_user_dropdown_list
             position: absolute
             width: 100%
@@ -1684,7 +1687,7 @@ svg
                 .logo_title
                     neutra_bold(22px, true)
                     line-height: 1.25
-                    color: $white
+                    color: $black_alt
                     letter-spacing: 3px
                     padding-left: 20px
                     transition: .3s ease-in-out
@@ -1704,7 +1707,7 @@ svg
                     .nav_item
                         position: relative
                         neutra_bold(16px, true)
-                        color: $white
+                        color: $black_alt
                         letter-spacing: .5px
                         transition: .3s ease-in-out
                         &::before
@@ -1859,7 +1862,7 @@ svg
             cursor: pointer
             .bar
                 width: 100%
-                background-color: $white
+                background-color: $black_alt
                 height: 2px
                 margin-bottom: 5.5px
                 box-shadow: 0px 0px 25px transparent
@@ -1873,7 +1876,7 @@ svg
                 right: 0
                 width: 10px
                 height: 2px
-                background-color: $white
+                background-color: $black_alt
                 box-shadow: 0px 0px 25px transparent
                 transition: .3s ease-in-out
             &:hover

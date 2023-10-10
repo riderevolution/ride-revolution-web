@@ -397,7 +397,6 @@
               }
             } else if (me.$store.state.proTipStatus) {
               if (me.$store.state.articleAlertStatus) {
-                console.log(1);
                 if (
                   document.getElementById('pro_tip') &&
                   document.getElementById('article_alert')
@@ -411,7 +410,6 @@
                     document.getElementById('pro_tip').offsetHeight}px`
                 }
               } else {
-                console.log(1);
                 if (document.getElementById('pro_tip')) {
                   document.getElementById(
                     'main_container'
@@ -422,7 +420,6 @@
               }
             } else if (me.$store.state.completeProfileStatus) {
               if (me.$store.state.articleAlertStatus) {
-                console.log(1);
                 if (
                   document.getElementById('complete_profile') &&
                   document.getElementById('article_alert')
@@ -442,7 +439,6 @@
                     document.getElementById('header').offsetHeight}px`
                 }
               } else {
-                console.log(1);
                 if (document.getElementById('complete_profile')) {
                   document.getElementById(
                     'main_container'

@@ -53,7 +53,7 @@
                                     <img src="/icons/email-icon.svg" />
                                     <a :href="`mailto:${data.email}`" class="email">{{ data.mail }}</a>
                                 </div>
-                                <div class="link">
+                                <div class="link" v-if="data.contact">
                                     <img src="/icons/phone-icon.svg" />
                                     <a :href="`tel:${data.contact}`">{{ data.contact }}</a>
                                 </div>
@@ -129,17 +129,20 @@
                     {
                         title: 'Job Inquiries',
                         mail: 'careers@riderevolution.ph',
-                        contact: '(02) 798-7447'
+                        //contact: '(02) 798-7447'
+                        contact: null
                     },
                     {
                         title: 'Business / Service Inquiries',
                         mail: 'hello@riderevolution.ph',
-                        contact: '(02) 798-7447'
+                        //contact: '(02) 798-7447'
+                        contact: null
                     },
                     {
                         title: 'Partnership / Other Inquiries',
                         mail: 'marketing@riderevolution.ph',
-                        contact: '(02) 798-7447'
+                        //contact: '(02) 798-7447'
+                        contact: null
                     }
                 ],
                 form: {

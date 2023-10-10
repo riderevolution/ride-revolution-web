@@ -1934,7 +1934,8 @@
                             instructor = ins
                         }
                     })
-                    result = instructor.user.instructor_details.images[0].path
+                    //result = instructor.user.instructor_details.images[0].path
+                    result = instructor?.user?.instructor_details?.images?.[0]?.path ?? null
                 }
 
                 return result

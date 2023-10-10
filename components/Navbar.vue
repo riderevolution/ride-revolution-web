@@ -31,7 +31,7 @@
     <div
       id="header"
       :class="
-        `${height > 200 ? 'sticky' : ''} ${
+        `${height > 750 ? 'sticky' : ''} ${
           $route.fullPath == '/'
             ? 'front'
             : $route.fullPath == '/instructors'

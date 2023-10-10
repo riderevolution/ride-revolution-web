@@ -855,26 +855,29 @@
                         }
                     })
 
+                    let instructor_img = (instructor?.user?.instructor_details?.images?.[0] ?? null)?.path
+                    let sub_instructor_img = (sub_instructor?.user?.instructor_details?.images?.[0] ?? null)?.path
+                    let add_instructor_img = (additional?.user?.instructor_details?.images?.[0] ?? null)?.path
                     if (ctr == 2) {
                         if (sub_instructor) {
                             result = `
-                                <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
-                                <img class="image add" src="${sub_instructor.user.instructor_details.images[0].path}" />
+                                <img class="image" src="${instructor_img}" />
+                                <img class="image add" src="${sub_instructor_img}" />
                             `
                         } else {
                             result = `
-                                <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
-                                <img class="image add" src="${additional.user.instructor_details.images[0].path}" />
+                                <img class="image" src="${instructor_img}" />
+                                <img class="image add" src="${add_instructor_img}" />
                             `
                         }
                     } else if (ctr == 3) {
                         result = `
-                            <img class="image" src="${instructor.user.instructor_details.images[0].path}" />
-                            <img class="image add" src="${sub_instructor.user.instructor_details.images[0].path}" />
-                            <img class="image add" src="${additional.user.instructor_details.images[0].path}" />
+                            <img class="image" src="${instructor_img}" />
+                            <img class="image add" src="${sub_instructor_img}" />
+                            <img class="image add" src="${add_instructor_img}" />
                         `
                     } else {
-                        result = `<img class="image" src="${instructor.user.instructor_details.images[0].path}" />`
+                        result = `<img class="image" src="${instructor_img}" />`
                     }
                 }
 
@@ -909,16 +912,24 @@
                         }
                     })
 
-                    if (ctr == 2) {
-                        if (sub_instructor) {
-                            result = `${instructor.user.instructor_details.nickname} + ${sub_instructor.user.instructor_details.nickname}`
+                    let instructor_fullname = (instructor?.user ?? null)?.fullname
+                    let instructor_nickname = (instructor?.user?.instructor_details ?? null)?.nickname
+                    let sub_instructor_nickname = (sub_instructor?.user?.instructor_details ?? null)?.nickname
+                    let add_instructor_nickname = (additional?.user?.instructor_details ?? null)?.nickname
+
+                    if(typeof instructor_fullname !== "undefined")
+                    {
+                        if (ctr == 2) {
+                            if (sub_instructor) {
+                                result = `${instructor_nickname} + ${sub_instructor_nickname}`
+                            } else {
+                                result = `${instructor_nickname} + ${add_instructor_nickname}`
+                            }
+                        } else if (ctr == 3) {
+                            result = `${instructor_nickname} + ${sub_instructor_nickname} + ${add_instructor_nickname}`
                         } else {
-                            result = `${instructor.user.instructor_details.nickname} + ${additional.user.instructor_details.nickname}`
+                            result = `${instructor_fullname}`
                         }
-                    } else if (ctr == 3) {
-                        result = `${instructor.user.instructor_details.nickname} + ${sub_instructor.user.instructor_details.nickname} + ${additional.user.instructor_details.nickname}`
-                    } else {
-                        result = `${instructor.user.fullname}`
                     }
                 }
 
