@@ -31,7 +31,7 @@
     <div
       id="header"
       :class="
-        `${height > 750 ? 'sticky' : ''} ${
+        `${height > bannerHeight ? 'sticky' : ''} ${
           $route.fullPath == '/'
             ? 'front'
             : $route.fullPath == '/instructors'
@@ -231,6 +231,7 @@
     data() {
       return {
         height: 0,
+        bannerHeight: 0,
         token: null,
         showList: false,
         advisory: null,
@@ -448,6 +449,7 @@
         me.height = 0
         let height = window.pageYOffset | document.body.scrollTop
         let element = document.querySelector('#header')
+
         if (element.classList.contains('front')) {
           me.height = height
         }
@@ -508,6 +510,8 @@
       }
       me.windowScroll()
       me.fetchAdvisory()
+      console.log(document.querySelector('#banner'))
+      // me.bannerHeight = document.querySelector('#banner').clientHeight
     },
     beforeMount() {
       window.addEventListener('load', this.windowScroll)
